@@ -87,8 +87,9 @@ The owner's three tiers map onto these as follows. **Tier 1, the text-to-math en
   - `api.encoder` imports `curation.external_sources.gse_closed_class`;
   - `symbolic.lexical_grounding` imports `curation.lexicon_builder.foundation`;
   - `curation` and `frequency_integration` import `curation.lexicon_db`.
-- **Cycles:** `encode` ↔ `symbolic` (the encoder imports modality and tier vocabularies), and `symbolic` ↔ `bridge` (`symbolic` re-exports healer and narrative).
-- **Core imports an app:** `discourse/__init__` imports `discourse.registers`.
+- **A cycle through a package initializer (fixed 2026-11-24).** The symbolic layer imports the trace types from `GSE.api`, and `GSE/api/__init__.py` imported the encoder eagerly, which itself uses the symbolic layer, so every trace-type import ran through the encoder. The encoder using symbolic grounding inside `encode()` is the intended direction; the eager initializer was not. It now loads the encoder and decoder on first use.
+- **The symbolic package re-exports the bridge.** `GSE/symbolic/__init__.py` imports `emit` eagerly, and `symbolic.coherence` holds two bridge functions (`emit_contract_with_coherence` and its variable form) that import `emit` and `variables`. Both move with the interface (task 5.4): fifteen GSE tests and a demo import `emit` through the package, and two of its names (`emit`, `predicates`) collide with submodule names, so a lazy initializer would silently change what they return.
+- **Core imports an app (fixed 2026-11-24):** `discourse/__init__` imported `discourse.registers` eagerly; the register names now load on first use.
 - **The package root advertises the legacy stack:** `GSE/__init__.py` lazily exports `merkle`, `patterns`, `pipeline_v2` and `encoders`.
 - **Consumers import functions GSE does not publish:** `GSE.discourse.document.claim_records` (never existed) and `GSE.nlp.spellcheck.spelling_protection`. SquishOS guards both, which hides the gap.
 
@@ -287,9 +288,9 @@ The archived voice-boundary contract (2026-10-20) had SquishOS's adapter run und
 
 ## Target structure (proposal)
 
-Each subsystem is one directory under `GSE/` whose name states its job. A subsystem imports only those to its left:
+Each subsystem is one directory under `GSE/` whose name states its job. A subsystem imports only those to its left. The order below is measured from the code (2026-11-24), not assumed: the encoder uses symbolic grounding inside `encode()`, and SymbolicSpellCheck's context leg reads sentence-scale evidence (resolution goes up a scale), so neither sits below the symbolic layer.
 
-`substrate` ← `lexicon` ← `heal` ← `parse` ← `encode` ← `symbolic` ← `document` ← {`bridges`, `apps`}
+`substrate` ← `lexicon` ← `front end` (tokens, morphology, word-level spelling) ← `trace types` ← `symbolic` ← `encode` ← `healing with context` ← `document` ← {`bridges`, `apps`}
 
 `build` imports `substrate` and `lexicon` only; nothing at runtime imports `build`. `cli`, `mcp` and `verification` sit on top.
 

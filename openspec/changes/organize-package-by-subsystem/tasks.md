@@ -32,19 +32,25 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
 
 - [x] 2.1 Pass brief per the workflow's §0 (design.md).
 - [ ] 2.2 Setup receipt with remedy codes (READY / MISSING / STALE / CONFLICT / UNVERIFIED), from Prism, SetupAtlas and LintGate, plus the repo-hygiene kit: pip-audit over the lock with all extras and groups, zizmor, a secret scan, sp-repo-review, deptry. Each finding is checked at its source before it is recorded. Done except LintGate's project check, which runs tests against the working tree and waits until the owner's in-progress edits are committed; no secret scanner is installed (recorded as MISSING).
-- [ ] 2.3 Add `[tool.deptry]` exclusions matching the other tools' archive and record exclusions, so its report is readable.
+- [x] 2.3 Add `[tool.deptry]` exclusions matching the other tools' archive and record exclusions, so its report is readable (`1cd6dc8`: 224 reported issues become 25 real findings).
 
 ## 3. Pin what must not change
 
-- [ ] 3.1 The five closed-class provenance labels become named constants with a test that pins their exact bytes.
+- [x] 3.1 The five closed-class provenance labels become named constants with a test that pins their exact bytes (`7a3eec7`; all 213 closed-class records byte-identical).
 - [ ] 3.2 An explicit source registry replaces importing source modules by stored key (`curation.lexicon_builder.evidence`). This touches the owner's lexicon session's files; schedule it with the owner.
 
 ## 4. Make dependencies point one way (no files move)
 
 - [ ] 4.1 The read side of the lexicon lives in the runtime: the definition reader (`runtime_lookup`, `read_entries`, format check), the prime basis and the closed-class catalog. The encoder, lexical evidence, spell checker and lexical grounding stop importing `curation.*`.
-- [ ] 4.2 The vocabularies the encoder needs (modality, clause tiers) move below `symbolic`, removing the `encode` ↔ `symbolic` cycle.
+  - [x] The definition reader and its format identifier moved verbatim to `GSE/lexicon/definitions.py`; `storage.py` re-exports them for the builder. The encoder, lexical evidence, the active-lexicon resolver and the spell checker read it there (`56c81ba`; full suite identical, replay 0 mismatches).
+  - [x] `GSE/curation/__init__.py` no longer loads the flat-lexicon builder when a runtime module under it is imported (`8fc200a`).
+  - [ ] The closed-class catalog, which is assembled from build-side tables (`EXPONENTS`, `TIER0_FORMS`, `ZERO`, `PERIPHRASTIC_MODALS`, `canonical_decomposition`); those tables move with it, under the pinned provenance labels.
+  - [ ] `symbolic.lexical_grounding` (prime basis, catalog, closed-class catalog), once the owner's lexicon session has committed its edits to that file.
+- [x] 4.2 The cycle ran through `GSE/api/__init__.py`, which imported the encoder eagerly; it now loads the encoder and decoder on first use, so the trace types no longer pull in the encoder (`65dcf62`). Measured, the encoder is meant to use the symbolic layer (grounding inside `encode()`), so no vocabulary moves.
 - [ ] 4.3 `symbolic` stops re-exporting bridge modules, and `discourse/__init__.py` stops importing `discourse.registers`.
-- [ ] 4.4 An Import Linter contract in `pyproject.toml` states the dependency direction, and the gate runs it.
+  - [x] The register names in `discourse/__init__.py` load on first use (`65dcf62`).
+  - [ ] The symbolic package's `emit` re-export and coherence's two bridge functions move with the interface (task 5.4); see design.md, *Dependency problems*.
+- [x] 4.4 Five Import Linter contracts in `pyproject.toml` state the dependency direction, and the gate runs them; each remaining violation is a recorded exception naming the task that removes it (11 at first, 7 after the definition reader moved; `3464b35`).
 
 ## 5. The consumer interface (decision 3)
 
@@ -62,6 +68,8 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
 ## 7. Tests by subsystem
 
 - [ ] 7.1 Move tests to `tests/<subsystem>/` by the rule in design.md; document the scoped command and impact selection beside the gate.
+  - [x] Scoped runs without moving files: every test is marked with the GSE areas its file imports, derived at collection (`tests/conftest.py`), so `uv run pytest -m symbolic` runs one area; `pytest-testmon` runs only tests affected by changed code; both documented in the README (`351fce1`).
+  - [ ] Test files move into `tests/<subsystem>/` with their modules (task 6), so they move once.
 - [ ] 7.2 Suite census: durations, overlap, stale and no-op tests, each candidate with its suite candidate record. Remove only what keeps every obligation, with Detective where its function contract applies.
 - [ ] 7.3 Add obligations for the live modules no test executes (design.md, *Test suite*).
 

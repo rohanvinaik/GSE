@@ -58,7 +58,7 @@ The geometric stack remains available through `GSEPipeline` as a separate interf
 
 ## Verification and theory status
 
-Run `scripts/ci_local.sh` for the repository's lint, format, test and advisory type checks. It is the full gate: before a push, and in CI.
+Run `scripts/ci_local.sh` for the repository's lint, format, import-direction, test and advisory type checks. It is the full gate: before a push, and in CI. The import-direction contracts and their recorded exceptions are in `pyproject.toml` (`[tool.importlinter]`).
 
 While working, run only what a change touches:
 
