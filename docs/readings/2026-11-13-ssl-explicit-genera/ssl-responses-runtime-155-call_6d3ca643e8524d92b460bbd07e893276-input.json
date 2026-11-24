@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-nominal-relative-probes -- .venv/bin/python - <<'PY'\nfrom GSE.api import GSEEncoder\nfrom GSE.symbolic import from_trace,resolve,evaluate_tree,emit_contract\nimport json\nwith GSEEncoder() as enc:\n for text in ['The teacher was a person whose occupation is teaching.','The teacher is a person whose occupation is teaching.','The femur is the longest and thickest bone of the human skeleton.','The child who is teaching works.','The person whose child is teaching works.','The person who is king works.','The bone and the skeleton are hard.','The occupation is teaching.','The child is teaching.']:\n  trace=enc.encode(text); print('\\n',text);print('TOKENS',[(t.position,t.token,t.lemma,t.pos) for t in trace.tokens]);print('CLAUSES',trace.clauses)\n  print(json.dumps(emit_contract(evaluate_tree(resolve(from_trace(trace)))),indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -254,17 +254,62 @@ def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
         # phrase return
         return phrase
 
-    # Coordination: a CCONJ ("and"/"or") joining multiple entity heads is a
-    # set-union of entities ("Spot and Rex"), not a single entity. Build a
-    # Coordination over each entity atom rather than dropping all but one.
-    coordinator = next(
-        (a for a in atoms if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS),
+    # Coordinate NPs only when the coordinator actually follows a nominal
+    # head. In "long and thick bone of the skeleton", and joins modifiers,
+    # NOT bone and skeleton across the intervening preposition.
+    split = next(
+        (
+            i
+            for i, a in enumerate(atoms)
+            if a.pos == "CCONJ"
+            and a.lemma in _COORDINATOR_LEMMAS
+            and any(_is_entity_atom(x) for x in atoms[:i])
+            and not any(x.pos == "ADP" for x in atoms[:i])
+            and any(_is_entity_atom(x) for x in atoms[i + 1 :])
+        ),
         None,
     )
+    if split is not None:
+        left = _collapse_phrase_to_entity(Phrase(atoms=atoms[:split]))
+        right = _collapse_phrase_to_entity(Phrase(atoms=atoms[split + 1 :]))
+        members = (left, *right.members) if isinstance(right, Coordination) and right.conjunction == atoms[split].lemma else (left, right)
+        return Coordination(members=members, conjunction=atoms[split].lemma, modifier=modifier)
+
+    # A nominal of-postmodifier stays attached to its noun. Preserve the
+    # actual relation in the existing restriction/event roleframe, rather
+    # than treating its object as another argument, name part, or owner.
+    of_index = next(
+        (
+            i
+            for i, a in enumerate(atoms)
+            if a.pos == "ADP" and a.lemma == "of"
+            and any(_is_entity_atom(x) for x in atoms[:i])
+            and any(_is_entity_atom(x) for x in atoms[i + 1 :])
+        ),
+        None,
+    )
+    if of_index is not None:
+        head = _collapse_phrase_to_entity(Phrase(atoms=atoms[:of_index]))
+        anchor = _collapse_phrase_to_entity(Phrase(atoms=atoms[of_index + 1 :]))
+        bare_head = head
+        while isinstance(bare_head, Op) and bare_head.operation == "REL_RESTRICT":
+            bare_head = bare_head.args[0]
+        relation = Op(primitive="of", operation="EVENT", arity=2, args=[bare_head, anchor])
+        return Op(primitive="REL", operation="REL_RESTRICT", arity=2, args=[head, relation])
+
     entity_atoms = [a for a in atoms if _is_entity_atom(a)]
-    if coordinator is not None and len(entity_atoms) > 1:
-        members = tuple(Entity(head=a, role=a.role) for a in entity_atoms)
-        return Coordination(members=members, conjunction=coordinator.lemma, modifier=modifier)
+    # Coordinated adjective predicates modify ONE head. All conjuncts and
+    # their individual degree survive in existing TYPE_ASSERT/COORD nodes;
+    # Entity.modifier's single-axis compatibility field cannot store them.
+    if len(entity_atoms) == 1:
+        head_index = atoms.index(entity_atoms[0])
+        modifiers = [a for a in atoms[:head_index] if a.pos in {"ADJ", "ADV"}]
+        coordinator = next((a for a in atoms[:head_index] if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS), None)
+        if coordinator is not None and len(modifiers) > 1:
+            head = Entity(head=entity_atoms[0], role=entity_atoms[0].role)
+            kind = Coordination(members=tuple(modifiers), conjunction=coordinator.lemma)
+            restriction = Op(primitive="COPULA", operation="TYPE_ASSERT", arity=2, args=[head, kind])
+            return Op(primitive="REL", operation="REL_RESTRICT", arity=2, args=[head, restriction])
 
     # No possessive — pick the entity head (rightmost entity atom).
     if len(entity_atoms) == 1:
@@ -404,6 +449,8 @@ def _bind_pronouns(expr: Expression) -> Expression:
             return replace(e, args=new_args)
         if isinstance(e, Negation):
             return Negation(operand=_walk(e.operand))
+        if isinstance(e, Coordination):
+            return replace(e, members=tuple(_walk(member) for member in e.members))
         if isinstance(e, Phrase):
             return Phrase(atoms=list(e.atoms))
         return e

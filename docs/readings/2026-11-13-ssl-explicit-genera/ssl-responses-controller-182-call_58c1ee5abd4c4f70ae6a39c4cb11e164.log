@@ -1,0 +1,379 @@
+builder modules ['retention.py', 'publication.py']
+
+### docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py
+"""Read-only checkpoint demand census; never constructs or activates a lexicon."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sqlite3
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+
+from nltk.corpus import brown
+
+from GSE.curation.lexicon_builder.completion import _priority_source
+from GSE.curation.lexicon_builder.epoch import fingerprint
+from scripts.audit_lexicon_runtime import PROBES
+from scripts.audit_lexicon_sentences import _mass
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+
+
+def save(name, value):
+    path = HERE / name
+    if path.exists():
+        raise ValueError(f"FROZEN_RECEIPT_ALREADY_EXISTS {path}")
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def prefix(counts):
+    result, mass = [], 0
+    for word, count in sorted(counts.items(), key=lambda item: (-item[1], item[0])):
+        result.append(word)
+        mass += count
+        if 10 * mass >= 9 * sum(counts.values()):
+            break
+    return result
+
+
+def main():
+    priority, frequency = _priority_source("zipf", None)
+    genres, exclusions = {}, {}
+    for genre in brown.categories():
+        counts, excluded = Counter(), Counter()
+        for word in brown.words(categories=genre):
+            (counts if any(c.isalpha() for c in word) else excluded)[word.casefold()] += 1
+        genres[genre] = dict(counts)
+        exclusions[genre] = dict(excluded)
+    common = set(prefix(frequency))
+    for counts in genres.values():
+        common.update(prefix(counts))
+    archive = Path(brown.root.path).parent / "brown.zip"
+    corpus_digest = fingerprint(archive)
+    demand = {
+        "common_forms": sorted(common),
+        "frequency_source_sha256": priority["sha256"],
+        "corpus_source_sha256": corpus_digest,
+        "frequency_counts": frequency,
+        "corpus_genres": genres,
+        "denominator_rules": {
+            "frequency": "Existing _priority_source SUBTLEX positive counts, exact complete normalized forms; blank/zero rows excluded by the existing source parser.",
+            "corpus": "All Brown tokens containing at least one alphabetic character, casefolded without lemmatization. Punctuation-only and numeric-only tokens excluded and counted. Contractions and hyphenated forms retained.",
+            "cohort": "Union of minimal descending-count, spelling-tiebroken 90%-mass prefixes in frequency and EVERY Brown genre; no semantic result used in selection. All dictionary definitions and tail senses retained.",
+        },
+        "exclusions": {"frequency": priority["excluded_records"], "corpus_by_genre": exclusions},
+    }
+    save("ssl-api-runtime-token-demand.json", demand)
+    save(
+        "ssl-api-runtime-workload-freeze.json",
+        {
+            "format": "GSE.checkpoint-workload-scope-freeze/1",
+            "frozen_at": datetime.now(timezone.utc).isoformat(),
+            "authority": "LEXICON_CONSTRUCTION_DESIGN.md mandatory checkpoint-workload section; direct user checkpoint priority 2026-11-24",
+            "token_demand_sha256": fingerprint(HERE / "ssl-api-runtime-token-demand.json"),
+            "frequency_source": priority,
+            "independent_corpus": {"path": str(archive), "sha256": corpus_digest, "genres": brown.categories()},
+            "cohort_forms": len(common),
+            "coverage": {
+                "frequency": _mass(frequency, common),
+                "genres": {genre: _mass(counts, common) for genre, counts in genres.items()},
+            },
+            "operations": {
+                "lexical": "Exact definition/source/role identity, signed ordinary-bank queries, per-target hierarchy, explicit zero versus unresolved domains, all competing senses retained.",
+                "sentence": "Public GSEEncoder trace -> from_trace -> resolve/evaluate_tree -> emit_contract; event/argument order, ordinary/function ambiguity, he/He, I/YOU, WANT, BE, anatomy, NOT/VERY and duration.",
+                "queries": "entities, predicates, clauses, axis_of_comparison, is_argument_swap_of, is_logically_equal_to, propositions, polarity, commitment and claim_key.",
+                "document": "encode_document_utterance_events -> MultiScaleDoc; cross-sentence reference, speech deixis, paragraph views, read_fold, narrative graph and cassette identity resolve-or-abstain.",
+                "inference": "KnowledgeBase public event/type queries and exact claim admission, source chains, conditional derivation, negation and noncommitted modal/reported content exclusions.",
+                "profile": "text_profile structural/lexical/affect populations with explicit unavailable values; no unknown-to-neutral conversion.",
+                "auxiliary": "GSEDecoder and GSEPipeline public vector APIs retain their existing semantic validation obligations; vector similarity is not an identity resolver or semantic correctness proof.",
+                "orthogonal": "SymbolicSpellCheck spelling resource, SparseWiki world grounding and Regenesis reasoning retain their own resources; lexical checkpoint cannot certify missing world data.",
+            },
+            "runtime_development_cases": [
+                {"id": name, "text": text, "expected_top_operation": op} for name, text, op in PROBES
+            ],
+            "final_holdout_policy": "New source-warranted final lexical labels are frozen separately before evaluation. Existing sentence/runtime cases and tests are development diagnostics. Any inspected final used to tune construction needs replacement, never relabeling.",
+            "acceptance": "No known wrong assertion, missing required component, critical abstention or refusal; >=90% eligible token mass in both sources and genre slices is coverage, NOT semantic accuracy. Full replay, two-sided per-form/source/missing-sign audits, real runtime and repository gates required. Scope is not narrowed after failures.",
+        },
+    )
+    candidate = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db"
+    with sqlite3.connect(candidate.as_uri() + "?mode=ro", uri=True) as conn:
+        by_bank = Counter()
+        scoped_definitions = scoped_forms = 0
+        present = set()
+        cohort = hashlib.sha256()
+        for entry_id, lemma, raw in conn.execute(
+            "SELECT d.entry_id,l.lemma,d.domains FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id ORDER BY d.entry_id"
+        ):
+            cohort.update(json.dumps([entry_id, lemma], separators=(",", ":")).encode() + b"\n")
+            if lemma in common:
+                present.add(lemma)
+                scoped_definitions += 1
+                for bank, values in json.loads(raw).items():
+                    if len(values) > 1:
+                        by_bank[bank] += 1
+        scoped_forms = len(present)
+    save(
+        "ssl-api-runtime-checkpoint-demand.json",
+        {
+            "format": "GSE.runtime-checkpoint-demand/1",
+            "code": "CHECKPOINT_DEMAND_OPEN",
+            "candidate": str(candidate),
+            "definition_identity_digest": cohort.hexdigest(),
+            "workload_freeze_sha256": fingerprint(HERE / "ssl-api-runtime-workload-freeze.json"),
+            "common_forms": len(common),
+            "common_forms_present_as_lemmas": scoped_forms,
+            "common_forms_without_lemma": sorted(common - present),
+            "definitions_for_common_forms": scoped_definitions,
+            "open_definition_bank_cells_by_bank": dict(by_bank),
+            "important_caveat": "Absent lemma is NOT itself failure when morphology/grammar supplies a structural home. These are all-sense demand candidates, not permission to fill all open banks or treat source silence as zero. Exact required-cell/sentence failures are in the separate final benchmark report.",
+            "blocking_obligations": [
+                "Independent final semantic labels and two-sided per-form missing-sign audit across this frozen cohort",
+                "Actual required sense/bank resolutions, not mere token recognition",
+                "Full repertoire composed consumer outcomes",
+                "Full candidate replay and integrated repository gate before activation",
+            ],
+            "writes": {"lexicon": 0, "rules_admitted": 0, "model_calls": 0, "pointer": 0},
+        },
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+
+### docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json
+{
+  "acceptance": "No known wrong assertion, missing required component, critical abstention or refusal; >=90% eligible token mass in both sources and genre slices is coverage, NOT semantic accuracy. Full replay, two-sided per-form/source/missing-sign audits, real runtime and repository gates required. Scope is not narrowed after failures.",
+  "authority": "LEXICON_CONSTRUCTION_DESIGN.md mandatory checkpoint-workload section; direct user checkpoint priority 2026-11-24",
+  "cohort_forms": 16692,
+  "coverage": {
+    "frequency": {
+      "eligible": 43062502,
+      "in_cohort": 42059249,
+      "meets_90_percent": true
+    },
+    "genres": {
+      "adventure": {
+        "eligible": 58372,
+        "in_cohort": 55182,
+        "meets_90_percent": true
+      },
+      "belles_lettres": {
+        "eligible": 151548,
+        "in_cohort": 142139,
+        "meets_90_percent": true
+      },
+      "editorial": {
+        "eligible": 54087,
+        "in_cohort": 51397,
+        "meets_90_percent": true
+      },
+      "fiction": {
+        "eligible": 58296,
+        "in_cohort": 55201,
+        "meets_90_percent": true
+      },
+      "government": {
+        "eligible": 61143,
+        "in_cohort": 58827,
+        "meets_90_percent": true
+      },
+      "hobbies": {
+        "eligible": 71552,
+        "in_cohort": 67539,
+        "meets_90_percent": true
+      },
+      "humor": {
+        "eligible": 18265,
+        "in_cohort": 17395,
+        "meets_90_percent": true
+      },
+      "learned": {
+        "eligible": 159940,
+        "in_cohort": 150574,
+        "meets_90_percent": true
+      },
+      "lore": {
+        "eligible": 96695,
+        "in_cohort": 91129,
+        "meets_90_percent": true
+      },
+      "mystery": {
+        "eligible": 48174,
+        "in_cohort": 46159,
+        "meets_90_percent": true
+      },
+      "news": {
+        "eligible": 87004,
+        "in_cohort": 81789,
+        "meets_90_percent": true
+      },
+      "religion": {
+        "eligible": 34308,
+        "in_cohort": 32855,
+        "meets_90_percent": true
+      },
+      "reviews": {
+        "eligible": 35088,
+        "in_cohort": 33056,
+        "meets_90_percent": true
+      },
+      "romance": {
+        "eligible": 58612,
+        "in_cohort": 55800,
+        "meets_90_percent": true
+      },
+      "science_fiction": {
+        "eligible": 12035,
+        "in_cohort": 11588,
+        "meets_90_percent": true
+      }
+    }
+  },
+  "final_holdout_policy": "New source-warranted final lexical labels are frozen separately before evaluation. Existing sentence/runtime cases and tests are development diagnostics. Any inspected final used to tune construction needs replacement, never relabeling.",
+  "format": "GSE.checkpoint-workload-scope-freeze/1",
+  "frequency_source": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "GSE.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/GSE/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "frozen_at": "2026-11-24T08:16:50.379804+00:00",
+  "independent_corpus": {
+    "genres": [
+      "adventure",
+      "belles_lettres",
+      "editorial",
+      "fiction",
+      "government",
+      "hobbies",
+      "humor",
+      "learned",
+      "lore",
+      "mystery",
+      "news",
+      "religion",
+      "reviews",
+      "romance",
+      "science_fiction"
+    ],
+    "path": "/Users/rohanvinaik/nltk_data/corpora/brown.zip",
+    "sha256": "9b275f9b3b95d7bd66ccfb7cd259f445a13bbe5d1f4107aba09fd3e8364bafa6"
+  },
+  "operations": {
+    "auxiliary": "GSEDecoder and GSEPipeline public vector APIs retain their existing semantic validation obligations; vector similarity is not an identity resolver or semantic correctness proof.",
+    "document": "encode_document_utterance_events -> MultiScaleDoc; cross-sentence reference, speech deixis, paragraph views, read_fold, narrative graph and cassette identity resolve-or-abstain.",
+    "inference": "KnowledgeBase public event/type queries and exact claim admission, source chains, conditional derivation, negation and noncommitted modal/reported content exclusions.",
+    "lexical": "Exact definition/source/role identity, signed ordinary-bank queries, per-target hierarchy, explicit zero versus unresolved domains, all competing senses retained.",
+    "orthogonal": "SymbolicSpellCheck spelling resource, SparseWiki world grounding and Regenesis reasoning retain their own resources; lexical checkpoint cannot certify missing world data.",
+    "profile": "text_profile structural/lexical/affect populations with explicit unavailable values; no unknown-to-neutral conversion.",
+    "queries": "entities, predicates, clauses, axis_of_comparison, is_argument_swap_of, is_logically_equal_to, propositions, polarity, commitment and claim_key.",
+    "sentence": "Public GSEEncoder trace -> from_trace -> resolve/evaluate_tree -> emit_contract; event/argument order, ordinary/function ambiguity, he/He, I/YOU, WANT, BE, anatomy, NOT/VERY and duration."
+  },
+  "runtime_development_cases": [
+    {
+      "expected_top_operation": "EVENT",
+      "id": "event",
+      "text": "Alice helps Bob."
+    },
+    {
+      "expected_top_operation": "CAUSATION",
+      "id": "causal",
+      "text": "Alice helps Bob because Bob helps Carol."
+    },
+    {
+      "expected_top_operation": "CLAUSE_COORD",
+      "id": "coordination",
+      "text": "Alice helps Bob and Carol helps Dave."
+    },
+    {
+      "expected_top_operation": "COMPARISON",
+      "id": "comparison",
+      "text": "The dog is bigger than the cat."
+    },
+    {
+      "expected_top_operation": "SET_RESTRICT",
+      "id": "restriction",
+      "text": "Only the dog runs."
+    },
+    {
+      "expected_top_operation": "CONTROL",
+      "id": "control",
+      "text": "Alice wants to leave."
+    },
+    {
+      "expected_top_operation": "TEMPORAL",
+      "id": "temporal",
+      "text": "When Alice leaves, Bob sleeps."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "demonstrative",
+      "text": "This is a dog."
+    },
+    {
+      "expected_top_operation": "NOT",
+      "id": "negation",
+      "text": "Alice does not help Bob."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "not_very_scope",
+      "text": "The dog is not very good."
+    },
+    {
+      "expected_top_operation": "NOT",
+      "id": "very_not_scope",
+      "text": "The dog is very not good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "single_degree",
+      "text": "The dog is very good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "repeated_degree",
+      "text": "The dog is very very good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "extreme_degree",
+      "text": "The dog is extremely good."
+    }
+  ],
+  "token_demand_sha256": "9c6d9f1e625b6aa5398bf2a60a8e10320783264f30f485b9179e96dc5010cbe4"
+}
+
+
+### AST GSE/curation/lexicon_builder/publication.py
+[('Expr', '', 1, 7), ('ImportFrom', '', 9, 9), ('Import', '', 11, 11), ('Import', '', 12, 12), ('Import', '', 13, 13), ('Import', '', 14, 14), ('Import', '', 15, 15), ('Import', '', 16, 16), ('ImportFrom', '', 17, 17), ('ImportFrom', '', 18, 18), ('ImportFrom', '', 19, 19), ('ImportFrom', '', 21, 21), ('ImportFrom', '', 22, 22), ('ImportFrom', '', 24, 29), ('ImportFrom', '', 30, 30), ('ImportFrom', '', 31, 31), ('ImportFrom', '', 32, 32), ('ImportFrom', '', 33, 33), ('ImportFrom', '', 34, 34), ('ImportFrom', '', 35, 35), ('ImportFrom', '', 36, 36), ('FunctionDef', '_metadata', 39, 41), ('FunctionDef', '_sentence_duration_binding', 44, 74), ('FunctionDef', '_model_scope_audit', 77, 120), ('FunctionDef', 'publication_readiness', 123, 266), ('FunctionDef', 'publish_complete', 269, 273), ('FunctionDef', 'publish_sparse', 276, 294), ('FunctionDef', '_publish', 297, 354), ('FunctionDef', '_activate_snapshot', 357, 373)]
+
+### AST GSE/curation/lexicon_builder/rule_migration.py
+[('Expr', '', 1, 7), ('ImportFrom', '', 9, 9), ('Import', '', 11, 11), ('Import', '', 12, 12), ('Import', '', 13, 13), ('Import', '', 14, 14), ('ImportFrom', '', 15, 15), ('ImportFrom', '', 16, 16), ('ImportFrom', '', 17, 17), ('ImportFrom', '', 18, 18), ('ImportFrom', '', 20, 20), ('ImportFrom', '', 22, 22), ('ImportFrom', '', 23, 23), ('ImportFrom', '', 24, 24), ('ImportFrom', '', 25, 25), ('ImportFrom', '', 26, 26), ('ImportFrom', '', 27, 27), ('ImportFrom', '', 28, 34), ('ImportFrom', '', 35, 35), ('ImportFrom', '', 36, 47), ('FunctionDef', '_put_version', 50, 55), ('FunctionDef', '_refresh_catalog', 58, 81), ('FunctionDef', '_exception_keys', 84, 91), ('FunctionDef', '_apply_copy', 94, 313), ('FunctionDef', 'migrate_rule', 316, 322), ('FunctionDef', 'migrate_revision', 325, 328), ('FunctionDef', '_migrate', 331, 353), ('FunctionDef', '_migrate_snapshot', 356, 386)]
+
+### AST docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py
+[('Expr', '', 1, 8), ('ImportFrom', '', 10, 10), ('Import', '', 12, 12), ('Import', '', 13, 13), ('Import', '', 14, 14), ('ImportFrom', '', 15, 15), ('ImportFrom', '', 16, 16), ('ImportFrom', '', 17, 17), ('ImportFrom', '', 18, 18), ('ImportFrom', '', 20, 20), ('ImportFrom', '', 21, 33), ('ImportFrom', '', 34, 34), ('ImportFrom', '', 35, 35), ('ImportFrom', '', 36, 36), ('ImportFrom', '', 37, 37), ('ImportFrom', '', 38, 38), ('ImportFrom', '', 39, 39), ('ImportFrom', '', 40, 40), ('ImportFrom', '', 41, 41), ('ImportFrom', '', 42, 42), ('ImportFrom', '', 43, 43), ('ImportFrom', '', 44, 44), ('ImportFrom', '', 45, 45), ('ImportFrom', '', 46, 46), ('Assign', '', 48, 48), ('Assign', '', 49, 49), ('Assign', '', 50, 50), ('Assign', '', 51, 51), ('Assign', '', 52, 52), ('Assign', '', 53, 53), ('Assign', '', 54, 54), ('Assign', '', 55, 55), ('Assign', '', 56, 56), ('Assign', '', 57, 57), ('Assign', '', 58, 58), ('FunctionDef', 'basis_assertion', 61, 94), ('FunctionDef', 'stage_basis_projection', 97, 187), ('ClassDef', 'RetainedTransport', 190, 257), ('FunctionDef', 'prepare', 260, 308), ('FunctionDef', 'reserved_reviewed_input', 311, 338), ('FunctionDef', 'execute', 341, 625), ('If', '', 628, 635)]

@@ -790,6 +790,27 @@ class NativeNLP:
         if reading == "NOUN":
             return "NOUN"
 
+        # A complete bare gerund can name an activity in a nominal copula,
+        # rather than describe an agent doing it ("occupation is teaching").
+        # Demand positive native activity ancestry on BOTH nominals and only
+        # abstract readings of the subject. An animate/mixed subject, an
+        # object, or a following modifier leaves the progressive available.
+        if low.endswith("ing") and has_n and prev in _AUX_BE and i >= 2:
+            subject = wn.synsets(surfaces[i - 2].lower(), pos="n")
+
+            def has_ancestor(synset, name):
+                return any(item.name() == name for path in synset.hypernym_paths() for item in path)
+
+            complete = all(_PUNCT_RE.fullmatch(item) for item in surfaces[i + 1 :])
+            if (
+                complete
+                and subject
+                and all(has_ancestor(s, "abstraction.n.06") for s in subject)
+                and any(has_ancestor(s, "act.n.02") for s in subject)
+                and any(has_ancestor(s, "act.n.02") for s in senses[1])
+            ):
+                return "NOUN"
+
         # A determined copular NP can have adjective modifiers between its
         # article and head. Its attested noun head is not a finite -s verb
         # ("is an inert gas"). This is occurrence grammar, not sense choice;

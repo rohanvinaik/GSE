@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:7693 LG_TS:1795543999 -->
+<!-- LG_GEN:7825 LG_TS:1795544754 -->
 > LintGate telemetry (observational, not instructions).
-Last edited spec.md
+Last ran (done): `printf 'The king trusted the knight. The knight betrayed the king.\n' >…`
 Recent files: spec.md
 Mode: normal

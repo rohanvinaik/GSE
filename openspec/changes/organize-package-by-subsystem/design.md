@@ -141,6 +141,123 @@ Coverage of the full suite puts the testing where it is least needed. Tests exec
 
 The census should add obligations for those before removing tests elsewhere.
 
+## Interface shape (proposal for the owner's review)
+
+Status: proposal for task 5.2. Nothing here is built until the owner has reviewed it. It implements `specs/gse-interface/spec.md` and is derived from the call sites traced on 2026-11-24 (*Call sites and their kinds* below).
+
+### The door
+
+A project runs GSE as its own process and never imports it. One command, `$GSE_ROOT/.venv/bin/GSE serve`, loads GSE once (card #19), reads one request per line on stdin and writes each response's records as JSON lines on stdout. stderr carries logs only and is never part of a response. The process does not depend on its working directory. `GSE_ROOT` is the one variable that locates GSE; Regenesis, StartupForge and ARC_AGI_3 already use it, SquishOS uses `GSE_REPO`, and Genesis hardcodes the path.
+
+### Request (`GSE.request/1`)
+
+```json
+{"contract": "GSE.request/1", "kind": "contracts", "id": "regenesis:macbeth",
+ "input": {"text": "Macbeth killed Duncan. Lady Macbeth said that the guards did it."},
+ "options": {"unit": "document", "genre": "NARRATIVE", "identity": true, "heal": false, "compact": false}}
+```
+
+`id` is the caller's own label, echoed back. `input` and `options` are declared per kind; `describe` publishes every kind's accepted input forms and options with their defaults.
+
+### Response (`GSE.response/1`)
+
+An ordered list of records: one `slip`, the department's records, one `end`.
+
+```json
+{"record": "slip", "contract": "GSE.response/1", "slip": "sha256:<canonical request>", "request_id": "regenesis:macbeth",
+ "kind": "contracts", "department": "reading",
+ "input": {"form": "text", "sha256": "...", "characters": 66},
+ "options": {"unit": "document", "genre": "NARRATIVE", "identity": true, "heal": false, "compact": false, "obliques": false},
+ "normalized": [],
+ "gse": {"version": "2.0.0", "commit": "...", "dirty": false},
+ "resources": {"lexicon": {"state": "read", "sha256": "..."}, "genealogy": {"state": "read", "sha256": "..."}}}
+{"record": "contract", "unit": "s0", "span": [0, 22], "outcome": "emitted", "contract": {"contract_version": "v2", "predicate": {"op": "EVENT", "...": "..."}}}
+{"record": "contract", "unit": "s1", "span": [23, 66], "outcome": "emitted", "contract": {"...": "..."}}
+{"record": "end", "outcome": "answered", "refusal": null, "counts": {"units": 2, "emitted": 2, "abstained": 0, "failed": 0}}
+```
+
+The slip records the options as applied, with every default filled in, so the response says exactly what was done. The same request against the same GSE identity produces byte-identical records; timing is never part of a record. That is what makes recorded responses stand in for GSE (the "homunculus" scenario) and what lets a project cache by slip.
+
+A refusal is the same envelope with the reason named:
+
+```json
+{"record": "slip", "contract": "GSE.response/1", "slip": "sha256:...", "kind": "contracts", "department": "reading", "...": "..."}
+{"record": "end", "outcome": "refused", "refusal": {"code": "RESOURCE_UNAVAILABLE", "resource": "genealogy", "state": "missing", "path": "data/genealogy.db", "fix": "python scripts/build_genealogy_db.py"}, "counts": {"units": 0}}
+```
+
+### Named refusals at the desk
+
+| Code | When | Fields |
+|---|---|---|
+| `MALFORMED_REQUEST` | The line is not a JSON object, or a required field is missing or mistyped | `field`, `problem` |
+| `UNSUPPORTED_CONTRACT_VERSION` | `contract` names a version GSE does not answer | `received`, `supported` |
+| `UNKNOWN_REQUEST_KIND` | No department owns `kind` | `received`, `offered` |
+| `UNSUPPORTED_OPTION` | An option the kind does not declare, or a value outside its range | `kind`, `option`, `accepted` |
+| `INVALID_INPUT` | The input cannot be read as declared, such as invalid UTF-8 | `field`, `problem`, `position` |
+| `RESOURCE_UNAVAILABLE` | A resource the department needs is missing or unreadable | `resource`, `state`, `path`, `fix` |
+| `DEPARTMENT_FAILURE` | A department raised on part of the work; the part is located, never a bare traceback | `department`, `unit`, `error` |
+
+Within an answered or partial response, each unit carries its department's own named outcome from the existing capability specs: reading states (`read`, `partial`, `unread`, `empty`), lexical states (`primes`, `no_primes`, `no_row`, `unread`), healing decisions (`applied`, `offered`, `kept`, `refused`), contract units (`emitted`, `abstained` with a reason, `failed` with a reason). A deadline turns the remaining units into `unread` with reason `deadline`, and the response is `partial`.
+
+### Kinds
+
+| Kind | Department | Answers under | What comes back (from the fields consumers read today) |
+|---|---|---|---|
+| `read` | reading | `reading-evidence`, `compositional-reading`; `GSE.intake/1`, `GSE.signs/1`, `GSE.claim/1` | Sentence records with source words; the manifest; one record per utterance with tokens, signs, structure and claims (id, kind, commitment, polarity, claim key, scopes, derivation); the document record (mentions, nodes, edges, flags, fold); `end` with complete or deadline. These are SquishOS's `probe.py` records, including the four surfaces it guards today |
+| `contracts` | reading | `compositional-reading`; the Genesis contract (`emit_contract` v1/v2) | One record per sentence, document unit or rule clause, with its contract or named outcome; options `unit` (sentence, document, rule), `genre`, `identity` (the cassette deck), `heal` (statement healer), `compact` (narrative compression), `obliques`, `variables`. Document options add a cheat-sheet record and a compaction report. This is the single entry card #16 asks for; `describe` publishes the operations, arities and feature keys (card #102) |
+| `words` | lexicon | `lexical-evidence`; `GSE.lexical-evidence/1`, `GSE.frequency-evidence/1` | Per word: lexical state, primitives, composition operation, general and local frequency, raw V/A/D, concreteness, structural E/P/A, dictionary membership |
+| `tokens` | lexicon | `lexical-evidence` | Per token: surface, lemma, POS, alphabetic flag, span |
+| `heal` | healing | `text-healing`; `GSE.heal/1` | Healed text and the located ledger, with each token's candidates and decision |
+| `learn` | healing | `text-healing`; `GSE.protected-dictionary/1` | Per entry: stored, or a named malformed-entry refusal |
+| `dictionary` | healing | `lexical-evidence`, `text-healing`; `GSE.protected-dictionary/1` | Dictionary identity; membership and multiword spans in a text; each word's protection state |
+| `profile` | profile | `GSE.profile/2` | Genre, register and domain, and the text-profile measures |
+| `vectors` | encoding | the encoder's basis | Per text, its vector (dimension, sparse indices and values) and basis identity. GSE returns vectors; it never decides meaning by cosine (AGENTS.md), so similarity is the requesting project's computation |
+| `describe` | desk | this interface | Supported contract versions, kinds with their inputs and options, record formats, and the published vocabularies: primitive banks and hierarchy markers, syntactic roles and tense/aspect/mood primitives, contract operations, arities and feature keys, claim-key version |
+| `doctor` | desk | this interface | Every resource GSE needs (lexicon, WordNet, genealogy, frequency, V/A/D, concreteness), its named state and the command that fixes it (card #25) |
+
+### Call sites and their kinds
+
+| Project | Purpose today | Kind |
+|---|---|---|
+| Genesis | Sentence to contract (server tag `E`, per-call and batch scripts; also `scripts/framegen`, `scripts/story_bakeoff`) | `contracts`, unit sentence |
+| Genesis | Rule clause with `${name:type}` to contract with variables (tag `R`) | `contracts`, unit rule |
+| Genesis | Word to signed valence through the private `_lookup_lexeme` (tag `V`) | `words` (card #54 decides whether GSE also publishes the valence number) |
+| Genesis | Story to genre (tag `G`) | `profile` |
+| Regenesis | Story or text to per-sentence contracts with genre and the cassette deck (`understand`, the puller, the asker) | `contracts`, unit document, `identity` |
+| Regenesis | Narrative spine through the Genesis driver copy (oracle and certify scripts) | `contracts`, unit document, `heal`, `compact` |
+| Regenesis | One contract per sentence plus oblique roles (`gse_access.py`) | `contracts`, unit sentence, `obliques` |
+| Regenesis | Token spell correction (`grounding.spell_clean`) | `heal` |
+| StoryClaude | Heal, resolve and compact a transcript slice, with signal-to-noise and repair counts | `contracts`, unit document, `heal`, `compact` |
+| SquishOS | Read a prose file into voice readings | `read` |
+| SquishOS | Word facts per source word; tokens for the loop proxies | `words`, `tokens` |
+| SquishOS | Heal; learn; membership, spans and protection | `heal`, `learn`, `dictionary` |
+| SquishOS | Registries, claim-key version, provenance | `describe` |
+| SquishOS | `resolve_gse` verdicts (`gse_unset`, `gse_not_found`, `gse_no_python`, `gse_no_lexicon`) | `doctor` |
+| ShortcutForge | Text to intent vector | `vectors` |
+| StartupForge | Concept similarity over definitions | `vectors` |
+| StartupForge, CareerForge | Verbs that survive the parse (through the Genesis driver) | `contracts`, unit document |
+| ARC_AGI_3, Regenesis | Preflight doctor | `doctor` |
+
+### Silent failures today, and the named outcome each becomes
+
+| Today | Under the interface |
+|---|---|
+| Genesis's server and batch scripts write a blank line on any exception; Java pads missing lines with `""` and skips them | That unit's record has outcome `failed` with its reason |
+| Genesis's valence defaults to 0 for a missing word | `no_row` or `unread`, never a number |
+| Regenesis's driver swallows an encode failure and exits 0 with no contracts; Regenesis then reports `abstained` | `DEPARTMENT_FAILURE` naming the unit, or `failed` units in a partial response |
+| StartupForge's and CareerForge's verb harvests return `[]` when the driver fails (today: missing `data/genealogy.db`) | `RESOURCE_UNAVAILABLE` naming `genealogy` |
+| SquishOS's guarded imports leave claims, protection, multiword spans and document composition silently unread | Part of `read` and `dictionary`; a channel GSE does not offer is refused by name through `describe` |
+
+### Not GSE's work
+
+- World lookups: Regenesis's `puller/genre.py` and `corpus.py`, and Genesis's `mcp/corpus.py`, read `genealogy.db` directly. That is Sparse Wiki's interface (GSE-02).
+- `scripts/rohan_voice.py`, which SquishOS loads for `recognize`, is SquishOS code living in GSE (card #148).
+- Verb-class and verb-thread enrichment and world E/P/A, computed inside the narrative driver today (`GENESIS_UNIVERSE` selects a Genesis `.index` file whose trigger verbs define the classes): a post-step in Genesis and Regenesis over `contracts`, using `vectors` and Sparse Wiki (card #16).
+- The two copies of the narrative driver (Regenesis's, and the one in Genesis's `gsebridge/`) are replaced by `contracts`.
+- ARC's import of the archived `GSE.primitives` has no caller in ARC.
+
+The archived voice-boundary contract (2026-10-20) had SquishOS's adapter run under GSE's interpreter. The door replaces that arrangement; its payload and state algebra remain the content contract for `read`.
+
 ## Target structure (proposal)
 
 Each subsystem is one directory under `GSE/` whose name states its job. A subsystem imports only those to its left:

@@ -1,0 +1,406 @@
+
+=== docs/program/LEXICON_CONSTRUCTION_DESIGN.md whole section===
+#### Checkpoint workload and acceptance
+
+Before teaching against a checkpoint target, freeze an acceptance manifest containing:
+
+1. The fixed ordinary-bank basis and hierarchy convention, full definition/word cohort, source/rule versions, and the already pinned frequency bytes.
+2. The common-form cohort meeting the existing GSE-01 **90% eligible token-mass requirement in both the frequency source and an independent real-text corpus**, with genre slices and all denominator/exclusion rules. Retain every sense and every out-of-cohort definition; spelling frequency is not sense-use frequency.
+3. The actual NLP operations the checkpoint promises: exact lexical/sense selection, required bank queries, grammar/reference binding and composed sentence outputs. Inventory which cells and structures those operations require. Homing or recognizing 90% of tokens is not a 90% semantic-accuracy acceptance rule.
+4. Source-warranted positive and MUST-NOT cases for those operations, including ordinary/function-word ambiguity, he/He, first-/second-person boundaries, WANT polarity, BE own-state content, constitutive anatomy, negation, VERY scope and unspecified/long duration. Gold and expected answers stay outside construction requests and rule-warrant evidence.
+5. Separate development and final evaluation cases. Earlier sentence benchmarks used to choose teaching or refine rules are development diagnostics, not untouched final holdouts. Freeze a separate final audit with lineage-separated senses/families and corpus/genre coverage. A subsequently inspected holdout becomes development evidence and needs a replacement final slice.
+6. Explicit pass/abstention/partial/unavailable outcomes per class. Every promised acceptance-critical answer needs its warranted expected result; a critical abstention or resource refusal blocks that promise. No known wrong assertion, missing required component or failed negative witness is accepted. Unclaimed/unlabelled banks remain declared unknown or unverified rather than acquiring credit from the tested subset.
+7. Full-cohort solver/provenance/catalogue replay, changed-cell and reopened-cell accounting, real runtime tests and applicable repository checks. Sparse publication's finite label/runtime checks are necessary mechanics, not sufficient evidence of this usable-checkpoint milestone.
+
+The checkpoint is complete **for that declared and passed workload**, with its sparse limitations published. It is not a complete 56-bank assignment for every dictionary definition. Do not narrow a workload or remove a failing sense after seeing the result to manufacture a pass. A material scope change is a new version with the old failure retained. No new percentage or task waiver is authorized by this engineering section.
+
+
+=== whole workload helper ===
+"""Read-only checkpoint demand census; never constructs or activates a lexicon."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import sqlite3
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+
+from nltk.corpus import brown
+
+from GSE.curation.lexicon_builder.completion import _priority_source
+from GSE.curation.lexicon_builder.epoch import fingerprint
+from scripts.audit_lexicon_runtime import PROBES
+from scripts.audit_lexicon_sentences import _mass
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+
+
+def save(name, value):
+    path = HERE / name
+    if path.exists():
+        raise ValueError(f"FROZEN_RECEIPT_ALREADY_EXISTS {path}")
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def prefix(counts):
+    result, mass = [], 0
+    for word, count in sorted(counts.items(), key=lambda item: (-item[1], item[0])):
+        result.append(word)
+        mass += count
+        if 10 * mass >= 9 * sum(counts.values()):
+            break
+    return result
+
+
+def main():
+    priority, frequency = _priority_source("zipf", None)
+    genres, exclusions = {}, {}
+    for genre in brown.categories():
+        counts, excluded = Counter(), Counter()
+        for word in brown.words(categories=genre):
+            (counts if any(c.isalpha() for c in word) else excluded)[word.casefold()] += 1
+        genres[genre] = dict(counts)
+        exclusions[genre] = dict(excluded)
+    common = set(prefix(frequency))
+    for counts in genres.values():
+        common.update(prefix(counts))
+    archive = Path(brown.root.path).parent / "brown.zip"
+    corpus_digest = fingerprint(archive)
+    demand = {
+        "common_forms": sorted(common),
+        "frequency_source_sha256": priority["sha256"],
+        "corpus_source_sha256": corpus_digest,
+        "frequency_counts": frequency,
+        "corpus_genres": genres,
+        "denominator_rules": {
+            "frequency": "Existing _priority_source SUBTLEX positive counts, exact complete normalized forms; blank/zero rows excluded by the existing source parser.",
+            "corpus": "All Brown tokens containing at least one alphabetic character, casefolded without lemmatization. Punctuation-only and numeric-only tokens excluded and counted. Contractions and hyphenated forms retained.",
+            "cohort": "Union of minimal descending-count, spelling-tiebroken 90%-mass prefixes in frequency and EVERY Brown genre; no semantic result used in selection. All dictionary definitions and tail senses retained.",
+        },
+        "exclusions": {"frequency": priority["excluded_records"], "corpus_by_genre": exclusions},
+    }
+    save("ssl-api-runtime-token-demand.json", demand)
+    save(
+        "ssl-api-runtime-workload-freeze.json",
+        {
+            "format": "GSE.checkpoint-workload-scope-freeze/1",
+            "frozen_at": datetime.now(timezone.utc).isoformat(),
+            "authority": "LEXICON_CONSTRUCTION_DESIGN.md mandatory checkpoint-workload section; direct user checkpoint priority 2026-11-24",
+            "token_demand_sha256": fingerprint(HERE / "ssl-api-runtime-token-demand.json"),
+            "frequency_source": priority,
+            "independent_corpus": {"path": str(archive), "sha256": corpus_digest, "genres": brown.categories()},
+            "cohort_forms": len(common),
+            "coverage": {
+                "frequency": _mass(frequency, common),
+                "genres": {genre: _mass(counts, common) for genre, counts in genres.items()},
+            },
+            "operations": {
+                "lexical": "Exact definition/source/role identity, signed ordinary-bank queries, per-target hierarchy, explicit zero versus unresolved domains, all competing senses retained.",
+                "sentence": "Public GSEEncoder trace -> from_trace -> resolve/evaluate_tree -> emit_contract; event/argument order, ordinary/function ambiguity, he/He, I/YOU, WANT, BE, anatomy, NOT/VERY and duration.",
+                "queries": "entities, predicates, clauses, axis_of_comparison, is_argument_swap_of, is_logically_equal_to, propositions, polarity, commitment and claim_key.",
+                "document": "encode_document_utterance_events -> MultiScaleDoc; cross-sentence reference, speech deixis, paragraph views, read_fold, narrative graph and cassette identity resolve-or-abstain.",
+                "inference": "KnowledgeBase public event/type queries and exact claim admission, source chains, conditional derivation, negation and noncommitted modal/reported content exclusions.",
+                "profile": "text_profile structural/lexical/affect populations with explicit unavailable values; no unknown-to-neutral conversion.",
+                "auxiliary": "GSEDecoder and GSEPipeline public vector APIs retain their existing semantic validation obligations; vector similarity is not an identity resolver or semantic correctness proof.",
+                "orthogonal": "SymbolicSpellCheck spelling resource, SparseWiki world grounding and Regenesis reasoning retain their own resources; lexical checkpoint cannot certify missing world data.",
+            },
+            "runtime_development_cases": [
+                {"id": name, "text": text, "expected_top_operation": op} for name, text, op in PROBES
+            ],
+            "final_holdout_policy": "New source-warranted final lexical labels are frozen separately before evaluation. Existing sentence/runtime cases and tests are development diagnostics. Any inspected final used to tune construction needs replacement, never relabeling.",
+            "acceptance": "No known wrong assertion, missing required component, critical abstention or refusal; >=90% eligible token mass in both sources and genre slices is coverage, NOT semantic accuracy. Full replay, two-sided per-form/source/missing-sign audits, real runtime and repository gates required. Scope is not narrowed after failures.",
+        },
+    )
+    candidate = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db"
+    with sqlite3.connect(candidate.as_uri() + "?mode=ro", uri=True) as conn:
+        by_bank = Counter()
+        scoped_definitions = scoped_forms = 0
+        present = set()
+        cohort = hashlib.sha256()
+        for entry_id, lemma, raw in conn.execute(
+            "SELECT d.entry_id,l.lemma,d.domains FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id ORDER BY d.entry_id"
+        ):
+            cohort.update(json.dumps([entry_id, lemma], separators=(",", ":")).encode() + b"\n")
+            if lemma in common:
+                present.add(lemma)
+                scoped_definitions += 1
+                for bank, values in json.loads(raw).items():
+                    if len(values) > 1:
+                        by_bank[bank] += 1
+        scoped_forms = len(present)
+    save(
+        "ssl-api-runtime-checkpoint-demand.json",
+        {
+            "format": "GSE.runtime-checkpoint-demand/1",
+            "code": "CHECKPOINT_DEMAND_OPEN",
+            "candidate": str(candidate),
+            "definition_identity_digest": cohort.hexdigest(),
+            "workload_freeze_sha256": fingerprint(HERE / "ssl-api-runtime-workload-freeze.json"),
+            "common_forms": len(common),
+            "common_forms_present_as_lemmas": scoped_forms,
+            "common_forms_without_lemma": sorted(common - present),
+            "definitions_for_common_forms": scoped_definitions,
+            "open_definition_bank_cells_by_bank": dict(by_bank),
+            "important_caveat": "Absent lemma is NOT itself failure when morphology/grammar supplies a structural home. These are all-sense demand candidates, not permission to fill all open banks or treat source silence as zero. Exact required-cell/sentence failures are in the separate final benchmark report.",
+            "blocking_obligations": [
+                "Independent final semantic labels and two-sided per-form missing-sign audit across this frozen cohort",
+                "Actual required sense/bank resolutions, not mere token recognition",
+                "Full repertoire composed consumer outcomes",
+                "Full candidate replay and integrated repository gate before activation",
+            ],
+            "writes": {"lexicon": 0, "rules_admitted": 0, "model_calls": 0, "pointer": 0},
+        },
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+
+=== acceptance function inventory ===
+def _mass(counts, forms):
+    """Token mass is a workload denominator, never semantic accuracy."""
+    if (
+        not isinstance(counts, dict)
+        or not counts
+        or any(
+            not isinstance(word, str) or word != word.casefold() or type(n) is not int or n <= 0
+            for word, n in counts.items()
+        )
+    ):
+        raise ValueError("INVALID_CHECKPOINT_TOKEN_COUNTS")
+    total = sum(counts.values())
+    covered = sum(n for word, n in counts.items() if word in forms)
+    return {"eligible": total, "in_cohort": covered, "meets_90_percent": 10 * covered >= 9 * total}
+def checkpoint_result(report, runtime=None, workload=None):
+    """Compute the formal checkpoint verdict, separately from nonregression.
+
+    This consumes measured sentence/runtime results and a byte-pinned workload
+    receipt. Missing evidence blocks acceptance; no singleton, homing count or
+    sparse runtime success substitutes for the declared independent workload.
+    The workload receipt records predeclared token denominators, operations,
+    critical cases, lineage separation and full replay/repository receipts.
+    It is evaluation-only and supplies no construction authority.
+    """
+    blockers, outcomes = [], defaultdict(Counter)
+    good_banks = {"CORRECT", "OPEN_AS_EXPECTED"}
+    rows = {row["id"]: row for row in report["cases"]}
+    for row in rows.values():
+        sense = row["sense_outcome"]
+        cells = [cell["runtime"] for cell in row["banks"].values()]
+        wrong = sense == "WRONG" or any(
+            cell[field]
+            in {"WRONG", "UNSUPPORTED_ASSIGNMENT", "UNSUPPORTED_EMISSION", "WRONG_EMISSION", "INVALID_DOMAIN"}
+            for cell in row["banks"].values()
+            for field in ("runtime", "exact_sense")
+        )
+        outcome = (
+            "WRONG"
+            if wrong
+            else "ABSTAINED"
+            if sense in {"ABSTAINED", "ABSTAINED_AS_EXPECTED"}
+            else "IDENTIFIED"
+            if sense == "CORRECT" and all(c in good_banks for c in cells)
+            else "PARTIAL"
+            if sense == "CORRECT"
+            else "UNAVAILABLE"
+        )
+        outcomes[row["class"]][outcome] += 1
+        if wrong:
+            blockers.append({"code": "KNOWN_WRONG_ASSERTION", "case": row["id"]})
+    if runtime is None or runtime.get("code") != "SPARSE_RUNTIME_VALIDATED":
+        blockers.append({"code": "RUNTIME_NOT_VALIDATED"})
+    elif runtime.get("lexicon_sha256") != report["lexicon_sha256"]:
+        blockers.append({"code": "RUNTIME_RESOURCE_MISMATCH"})
+    coverage = {}
+    if workload is None:
+        blockers.append({"code": "WORKLOAD_MANIFEST_NOT_FROZEN"})
+    else:
+        if current_id(workload.get("format")) != "GSE.checkpoint-workload/1":
+            raise ValueError("INVALID_CHECKPOINT_WORKLOAD")
+        expected_pins = {
+            "lexicon_sha256": report["lexicon_sha256"],
+            "benchmark_sha256": report["benchmark_sha256"],
+            **report["snapshot_pins"],
+        }
+        if workload.get("pins") != expected_pins:
+            blockers.append({"code": "WORKLOAD_PINS_MISMATCH"})
+        split = workload.get("evaluation", {})
+        if split.get("split") != "FINAL_UNEXPOSED":
+            blockers.append({"code": "FINAL_HOLDOUT_NOT_UNEXPOSED"})
+        for scale in ("senses", "families"):
+            development, final = split.get(f"development_{scale}"), split.get(f"final_{scale}")
+            if not isinstance(development, list) or not isinstance(final, list) or not final:
+                blockers.append({"code": "HOLDOUT_LINEAGE_UNAVAILABLE", "scale": scale})
+            elif set(development) & set(final):
+                blockers.append({"code": "HOLDOUT_LINEAGE_OVERLAP", "scale": scale})
+        if set(split.get("final_senses", [])) != {r["sense"] for r in rows.values() if r["sense"] is not None}:
+            blockers.append({"code": "FINAL_SENSE_INVENTORY_MISMATCH"})
+        critical = workload.get("critical_case_ids", [])
+        if not critical or not set(critical) <= rows.keys():
+            blockers.append({"code": "CRITICAL_CASE_INVENTORY_MISSING"})
+        for case_id in critical:
+            row = rows.get(case_id)
+            if row is not None and (
+                row["sense_outcome"] not in {"CORRECT", "ABSTAINED_AS_EXPECTED"}
+                or any(c["runtime"] not in good_banks for c in row["banks"].values())
+            ):
+                blockers.append({"code": "CRITICAL_ANSWER_NOT_ESTABLISHED", "case": case_id})
+        operations = workload.get("operations", [])
+        claimed = set()
+        if not operations:
+            blockers.append({"code": "PROMISED_OPERATIONS_NOT_DECLARED"})
+        runtime_classes = {row["class"]: row["outcome"] for row in (runtime or {}).get("records", [])}
+        for operation in operations:
+            cases = operation.get("case_ids", [])
+            structures = operation.get("runtime_classes", [])
+            claimed.update(cases)
+            if not cases and not structures:
+                blockers.append({"code": "OPERATION_WITHOUT_WITNESSES", "operation": operation.get("id")})
+            if not set(cases) <= set(critical) or any(runtime_classes.get(c) != "IDENTIFIED" for c in structures):
+                blockers.append({"code": "PROMISED_OPERATION_NOT_ESTABLISHED", "operation": operation.get("id")})
+            for case_id, banks in operation.get("required_banks", {}).items():
+                if case_id not in cases or not set(banks) <= rows.get(case_id, {}).get("banks", {}).keys():
+                    blockers.append({"code": "REQUIRED_BANK_NOT_TESTED", "case": case_id})
+        if not set(critical) <= claimed:
+            blockers.append({"code": "CRITICAL_CASE_WITHOUT_OPERATION"})
+        demand = workload.get("token_demand", {})
+        forms = demand.get("common_forms", [])
+        if (
+            not forms
+            or len(set(forms)) != len(forms)
+            or any(not isinstance(f, str) or f != f.casefold() for f in forms)
+        ):
+            blockers.append({"code": "COMMON_FORM_COHORT_NOT_PINNED"})
+        for key in ("frequency_source_sha256", "corpus_source_sha256", "denominator_rules", "exclusions"):
+            if key not in demand or (key != "exclusions" and not demand[key]):
+                blockers.append({"code": "TOKEN_DEMAND_PROVENANCE_MISSING", "field": key})
+        if demand.get("frequency_source_sha256") == demand.get("corpus_source_sha256"):
+            blockers.append({"code": "INDEPENDENT_CORPUS_REQUIRED"})
+        try:
+            coverage["frequency"] = _mass(demand.get("frequency_counts"), set(forms))
+            genres = demand.get("corpus_genres", {})
+            if not genres:
+                raise ValueError("CORPUS_GENRES_MISSING")
+            combined = Counter()
+            coverage["genres"] = {}
+            for genre, counts in genres.items():
+                coverage["genres"][genre] = _mass(counts, set(forms))
+                combined.update(counts)
+            coverage["independent_corpus"] = _mass(dict(combined), set(forms))
+            # The formal threshold applies to the two aggregate sources.
+            # Genre slices remain reported, including below-threshold slices;
+            # there is no independently authorized per-genre percentage gate.
+            if not all(row["meets_90_percent"] for row in [coverage["frequency"], coverage["independent_corpus"]]):
+                blockers.append({"code": "ELIGIBLE_TOKEN_MASS_BELOW_90_PERCENT"})
+        except ValueError as error:
+            blockers.append({"code": "TOKEN_DEMAND_UNAVAILABLE", "reason": str(error)})
+        for name in ("full_replay", "repository_gate", "two_sided_semantic_audit"):
+            gate = workload.get("gates", {}).get(name, {})
+            if (
+                gate.get("code") != "PASSED"
+                or gate.get("lexicon_sha256") != report["lexicon_sha256"]
+                or not gate.get("receipt_sha256")
+            ):
+                blockers.append({"code": "REQUIRED_GATE_NOT_ESTABLISHED", "gate": name})
+    return {
+        "format": "GSE.checkpoint-acceptance/1",
+        "code": "CHECKPOINT_BLOCKED" if blockers else "CHECKPOINT_ACCEPTED_FOR_DECLARED_WORKLOAD",
+        "lexicon_sha256": report["lexicon_sha256"],
+        "benchmark_sha256": report["benchmark_sha256"],
+        "workload_sha256": _digest(workload) if workload is not None else None,
+        "by_class": {key: dict(value) for key, value in sorted(outcomes.items())},
+        "token_mass": coverage,
+        "blockers": blockers,
+        "scope": "DECLARED_WORKLOAD_ONLY_NOT_FULL_LEXICON_COMPLETION",
+    }
+def load_workload(path):
+    """Verify original resource/receipt bytes before consuming their claims.
+
+    Relative paths are relative to the manifest. Every source and gate digest
+    consumed by checkpoint_result must have a retained artifact, including the
+    denominator/exclusion computation receipt. Merely declaring a hash is not
+    a resource pin. This does not independently certify supplied semantic gold.
+    """
+    workload = read(path)
+    artifacts = workload.get("artifacts", [])
+    verified = set()
+    paths = {}
+    for artifact in artifacts:
+        target = (Path(path).parent / artifact["path"]).resolve(strict=True)
+        actual = fingerprint(target)
+        if actual != artifact["sha256"]:
+            raise ValueError("CHECKPOINT_ARTIFACT_CHANGED")
+        verified.add(actual)
+        paths[actual] = target
+    demand = workload.get("token_demand", {})
+    needed = {
+        demand.get("frequency_source_sha256"),
+        demand.get("corpus_source_sha256"),
+        demand.get("counts_receipt_sha256"),
+        workload.get("scope_freeze_sha256"),
+    }
+    needed.update(g.get("receipt_sha256") for g in workload.get("gates", {}).values())
+    if None in needed or not needed <= verified:
+        raise ValueError("CHECKPOINT_ARTIFACT_UNPINNED")
+    counts = read(paths[demand["counts_receipt_sha256"]])
+    fields = {
+        "common_forms",
+        "frequency_source_sha256",
+        "corpus_source_sha256",
+        "frequency_counts",
+        "corpus_genres",
+        "denominator_rules",
+        "exclusions",
+    }
+    if counts != {key: demand.get(key) for key in fields}:
+        raise ValueError("CHECKPOINT_COUNTS_RECEIPT_MISMATCH")
+    scope = read(paths[workload["scope_freeze_sha256"]])
+    if (
+        current_id(scope.get("format")) != "GSE.checkpoint-workload-scope-freeze/1"
+        or scope.get("token_demand_sha256") != demand["counts_receipt_sha256"]
+        or not scope.get("operations")
+        or {operation.get("id") for operation in workload.get("operations", [])} != set(scope["operations"])
+        or len(workload["operations"]) != len(scope["operations"])
+    ):
+        raise ValueError("CHECKPOINT_FROZEN_SCOPE_CHANGED")
+    for name, gate in workload.get("gates", {}).items():
+        receipt = read(paths[gate["receipt_sha256"]])
+        if any(receipt.get(key) != gate.get(key) for key in ("code", "lexicon_sha256")):
+            raise ValueError("CHECKPOINT_GATE_RECEIPT_MISMATCH")
+        if not receipt.get("command") or receipt.get("exit_code") != 0:
+            raise ValueError("CHECKPOINT_GATE_EXECUTION_UNAVAILABLE")
+        if name == "full_replay" and (
+            receipt.get("definition_cohort_sha256") != workload["pins"]["definition_cohort_sha256"]
+            or receipt.get("checked_definitions") != workload["pins"]["definitions"]
+            or receipt.get("mismatches") != 0
+            or receipt.get("solver_limits") != 0
+        ):
+            raise ValueError("CHECKPOINT_FULL_REPLAY_INCOMPLETE")
+        # Semantic gold is a declared finite two-sided audit across the
+        # promised operations/genres/tail, not a label for every spelling in
+        # the token-mass cohort. These are separate kinds of evidence.
+        if name == "two_sided_semantic_audit" and (
+            not receipt.get("audited_forms")
+            or not all(isinstance(form, str) and form for form in receipt["audited_forms"])
+            or receipt.get("known_wrong") != 0
+            or receipt.get("missing_required") != 0
+            or any(
+                receipt.get("checks", {}).get(key) != "PASSED"
+                for key in (
+                    "positive",
+                    "must_not",
+                    "missing_sign",
+                    "source_warrants",
+                    "morphology",
+                    "pos_roles",
+                    "tail_strata",
+                    "genre_strata",
+                )
+            )
+        ):
+            raise ValueError("CHECKPOINT_TWO_SIDED_AUDIT_INCOMPLETE")
+    return workload

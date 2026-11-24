@@ -20,6 +20,7 @@ from dataclasses import replace
 from typing import Callable, Dict
 
 from GSE.symbolic.expression import Negation, Op, Operand
+from GSE.symbolic.resolution import Coordination
 from GSE.symbolic.predicates import (
     BoundaryCase,
     Causation,
@@ -343,4 +344,6 @@ def evaluate_tree(expr: Operand):
         # Predicates, silently losing clausal negation; emit_contract already
         # turns a Negation(Predicate) into {"op": "NOT", ...}.
         return Negation(operand=evaluate_tree(expr.operand))
+    if isinstance(expr, Coordination):
+        return replace(expr, members=tuple(evaluate_tree(member) for member in expr.members))
     return expr

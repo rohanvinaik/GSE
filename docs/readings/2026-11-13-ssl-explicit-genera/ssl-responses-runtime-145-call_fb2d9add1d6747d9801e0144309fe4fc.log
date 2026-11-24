@@ -1,0 +1,487 @@
+
+FILE GSE/symbolic/resolution.py
+def _collapse_phrase_to_entity(phrase: Phrase) -> Expression:
+    """Turn a Phrase of atoms into the best-fitting structured Expression.
+
+    Strategy:
+
+    * Filter out function-word atoms.
+    * Scan for possessive pattern: PROPN/NOUN + possessive PART + ... + NOUN.
+      The trailing NOUN becomes the head; the leading entity is the
+      possessor.
+    * If exactly one entity atom remains, return ``Entity(head=...)``,
+      attaching any ADJ/ADV in the phrase as ``modifier`` (the
+      comparison axis).
+    * If no entity atoms remain but there are content atoms (e.g., a
+      Phrase of only predicates), return the Phrase unchanged.
+    * If multiple distinct entities remain without possessive structure,
+      pick the rightmost as the head; B5 v1 doesn't model compound
+      entities.
+    """
+    # Bound degree words are grammatical operations. Their ordinal result is
+    # retained on the operand Atom; their source positions remain in the trace.
+    atoms = [atom for atom in phrase.atoms if not atom.degree_modifier]
+    if not atoms:
+        return phrase
+
+    # The phrase's modifier (ADJ/ADV) is the comparison axis — preserve it
+    # so axis_of_comparison can recover it post-resolution.
+    modifier = _first_adj_or_adv(atoms)
+
+    # Find any possessive marker positions
+    possessive_indices = [i for i, a in enumerate(atoms) if _is_possessive_marker(a)]
+    if possessive_indices:
+        # Take the first possessive split: everything left is the
+        # possessor span; everything right (after dropping the 's) is
+        # the head span.
+        split_idx = possessive_indices[0]
+        left = atoms[:split_idx]
+        right = atoms[split_idx + 1 :]
+        possessor_entity = _collapse_phrase_to_entity(Phrase(atoms=left))
+        head_entity = _collapse_phrase_to_entity(Phrase(atoms=right))
+        if isinstance(head_entity, Entity) and isinstance(possessor_entity, Entity):
+            return Entity(
+                head=head_entity.head,
+                possessor=possessor_entity,
+                modifier=modifier or head_entity.modifier,
+            )
+        if isinstance(head_entity, Entity):
+            return head_entity  # possessor couldn't be resolved; drop it
+        # Head couldn't be resolved either — fall through to default
+        # phrase return
+        return phrase
+
+    # Coordination: a CCONJ ("and"/"or") joining multiple entity heads is a
+    # set-union of entities ("Spot and Rex"), not a single entity. Build a
+    # Coordination over each entity atom rather than dropping all but one.
+    coordinator = next(
+        (a for a in atoms if a.pos == "CCONJ" and a.lemma in _COORDINATOR_LEMMAS),
+        None,
+    )
+    entity_atoms = [a for a in atoms if _is_entity_atom(a)]
+    if coordinator is not None and len(entity_atoms) > 1:
+        members = tuple(Entity(head=a, role=a.role) for a in entity_atoms)
+        return Coordination(members=members, conjunction=coordinator.lemma, modifier=modifier)
+
+    # No possessive — pick the entity head (rightmost entity atom).
+    if len(entity_atoms) == 1:
+        return Entity(
+            head=entity_atoms[0],
+            role=entity_atoms[0].role,
+            modifier=modifier,
+        )
+    if len(entity_atoms) > 1:
+        # First ask whether this is really SEVERAL noun phrases the role-blind argument
+        # window swept into one slot (a ditransitive's recipient+theme, an object+adjunct,
+        # an object+complement). If NP boundaries split it into >= 2 segments, return an
+        # ArgSplit (the caller flattens it into separate predicate arguments) — true
+        # role-split. A genuine multi-token NAME ("Lady Macbeth": consecutive PROPN, no
+        # determiner boundary) does NOT split and falls through to the demi-word below.
+        segments = _split_into_np_segments(atoms)
+        if segments:
+            members = tuple(_collapse_phrase_to_entity(Phrase(atoms=seg)) for seg in segments)
+            members = tuple(m for m in members if isinstance(m, (Entity, Coordination)))
+            if len(members) >= 2:
+                return ArgSplit(members=members)
+
+        # Multiple contiguous undifferentiated nominals with no coordinator, no possessive,
+        # and no NP boundary — a **demi-word** ("Lady Macbeth"). The structure (one slot, no
+        # coordination) says it is one unit; keep the whole span as the referent's identity
+        # (rightmost as the syntactic head), so it no longer collapses to its head token and
+        # unify with a bare "Macbeth".
+        return Entity(
+            head=entity_atoms[-1],
+            role=entity_atoms[-1].role,
+            modifier=modifier,
+            span=tuple(a.lemma for a in entity_atoms),
+        )
+
+    # No entity atoms at all — return atoms without function words,
+    # preserving the Phrase shape.
+    content_atoms = [a for a in atoms if a.pos not in _FUNCTION_POS]
+    if not content_atoms:
+        return phrase
+    if len(content_atoms) == 1:
+        return content_atoms[0]
+    return Phrase(atoms=content_atoms)
+
+FILE GSE/symbolic/expression.py
+def _try_copula_type_assertion(tokens: Sequence[TokenTrace], signs: Optional[Signs] = None) -> Optional[Expression]:
+    """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" / "X is ADJ" clause.
+
+    The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED), and the
+    predicate complement (SYN_COMPL) but emits no COMP_* operator for "is", so no
+    predicate would otherwise be produced. When the full pattern is present with a
+    nominal OR adjective complement (:data:`_COMPLEMENT_POS`), build
+    ``Op("TYPE_ASSERT", args=[subject_span, complement_span])``; resolve() collapses
+    each span into an Entity. Only reached when the clause has NO operator (so
+    "X is taller than Y" stays a Comparison via COMP_THAN). A predicate adjective is
+    the same binding as a predicate nominal — the entity takes on the complement's
+    decomposition. Returns ``None`` when the pattern does not hold.
+    """
+    copula = next(
+        (t for t in tokens if _COPULA_PREDICATE in t.sent_primitives and t.lemma == _COPULA_LEMMA),
+        None,
+    )
+    if copula is None:
+        return None
+    # SYN_SUBJ marks the subject in a main clause. In a subordinate clause
+    # ("…because Doran is loyal to Maeve") the encoder may tag that subject
+    # SYN_OBJ instead, so also accept any entity token before the copula — the
+    # same positional subject the spans below already build from. Without this
+    # the subordinate copula bails here and collapses to a demi-word nominal.
+    has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens) or any(
+        t.position < copula.position and t.pos in _PP_OBJECT_POS for t in tokens
+    )
+    has_complement = any(_COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS for t in tokens)
+    if not (has_subject and has_complement):
+        return None
+
+    # PASSIVE / progressive "be": a content VERB after the copula ("was taken",
+    # "are decaying", "was viewed as …") is an EVENT — the surface subject is a
+    # participant in an action — NOT a type assertion "X IS take". Without this bail
+    # the participle is swept into the TYPE_ASSERT complement (line ~290) and the whole
+    # event is destroyed (a major source of the "destroyed structure" residual: every
+    # passive collapsed to a non-event). Bail so _try_event recovers the event. True
+    # copulas ("X is a king", "X is callous", "loyal to Y") have no post-copula VERB
+    # and are untouched. (GSE-native structural fix, 2026-06-24.)
+    if any(
+        t.position > copula.position
+        and t.pos == "VERB"
+        and t.lemma != _COPULA_LEMMA
+        and not getattr(t, "is_operator", False)
+        for t in tokens
+    ):
+        return None
+
+    # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation — when the sign lands on this
+    # assertion's own content, not on an intensifier ("not very good" stays GOOD, one step down) or on another verb.
+    negated = _takes_sign(tokens, _sign_owners(tokens) if signs is None else signs)
+    subject_atoms = [
+        _atom_from_token(t) for t in tokens if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
+    ]
+    if not subject_atoms:
+        return None
+
+    # Relational predicate adjective — "X is ADJ ADP Y" ("loyal to Y", "angry
+    # at Y"). The PP complement makes this a RELATION between X and the PP's
+    # object, not the bare property attribution decision A handles: folding
+    # "loyal to Corwin" into one kind nominal drops both the preposition and Y,
+    # and (as a `because` cause clause) silently defeats rule learning. Build an
+    # EVENT keyed on the adjective so ADJ(X, Y) survives with both arguments.
+    after = [t for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"]
+    # A native spatial PP is a relation, not a kind nominal. Reuse the
+    # existing relation/event roleframe so resolution, queries, claim identity
+    # and emission all retain the actual preposition and its two arguments.
+    if after and after[0].pos == "ADP":
+        encoding = get_preposition_encoding(after[0].lemma) or {}
+        anchor = after[1:]
+        if encoding.get("spatial_type") and anchor and any(t.pos in _PP_OBJECT_POS for t in anchor):
+            relation = Op(
+                primitive=after[0].lemma,
+                operation="EVENT",
+                arity=2,
+                args=[Phrase(atoms=subject_atoms), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+            )
+            return Negation(operand=relation) if negated else relation
+    adj_i = next((i for i, t in enumerate(after) if t.pos == "ADJ"), None)
+    if adj_i is not None:
+        rest = after[adj_i + 1 :]
+        if rest and rest[0].pos == "ADP":
+            pp_object = [t for t in rest[1:] if t.pos in _PP_OBJECT_POS]
+            if pp_object:
+                event = Op(
+                    primitive=after[adj_i].lemma,
+                    operation="EVENT",
+                    arity=2,
+                    args=[
+                        Phrase(atoms=subject_atoms),
+                        Phrase(atoms=[_atom_from_token(t) for t in pp_object]),
+                    ],
+                )
+                return Negation(operand=event) if negated else event
+
+    complement_atoms = [
+        _atom_from_token(t) for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
+    ]
+    if not complement_atoms:
+        return None
+    assertion = Op(
+        primitive="COPULA",
+        operation="TYPE_ASSERT",
+        arity=2,
+        args=[Phrase(atoms=subject_atoms), Phrase(atoms=complement_atoms)],
+    )
+    return Negation(operand=assertion) if negated else assertion
+def _clause_core(tokens, shared_subject, signs):
+    """Build the recoverable clause before a qualifying operator is attached."""
+    content, duration = split_duration(tokens)
+    if duration is not None and split_duration(content)[1] is None:
+        qualified = _clause_core(content, shared_subject, signs)
+        core, negations = _unwrap_negations(qualified)
+        if isinstance(core, Op) and core.operation in {"EVENT", "TYPE_ASSERT"}:
+            return _rewrap_negations(replace(core, duration=duration), negations)
+    temporal = _nominal_temporal_attachment(tokens)
+    if temporal is not None:
+        content, linker, anchor, operation = temporal
+        return Op(
+            primitive=linker.lemma.upper() if operation == "TEMPORAL" else linker.lemma,
+            operation=operation,
+            arity=2,
+            args=[_clause_core(content, shared_subject, signs), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+        )
+    copula = _try_copula_type_assertion(tokens, signs)
+    if copula is not None:
+        return _with_clause_modal(copula, tokens)
+    event = _try_event(tokens, shared_subject=shared_subject, signs=signs)
+    if event is not None:
+        return event
+    atoms = [_atom_from_token(t) for t in tokens if t.lemma not in _NEGATION_LEMMAS or t.pos in {"NOUN", "PRON"}]
+    core = atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
+    return Negation(operand=core) if _takes_sign(tokens, signs) else core
+def _build_relative_restriction(
+    emb: ClauseSpan,
+    tokens: Sequence[TokenTrace],
+    operators: Sequence[OperatorTrace],
+    operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
+) -> Expression:
+    """Build a relative clause's restriction with the antecedent bound into the
+    relativizer's gap (``emb.gap_role``, from the encoder).
+
+    "Macbeth who trusted the witches" → EVENT(trust; Macbeth, witches) [subject
+    gap]; "the king whom Macbeth murdered" → EVENT(murder; Macbeth, king) [object
+    gap]. Falls back to the plain build when the gap role is unknown or the clause
+    has no content verb (e.g. the copular relative "who was the king", already
+    handled correctly by the default path). The relative's own negation negates
+    its event ("the cells that never changed"), never the matrix.
+    """
+    signs = _sign_owners(tokens) if signs is None else signs
+    inner_tokens = [t for t in tokens if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)]
+    verb = next(
+        (t for t in inner_tokens if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
+        None,
+    )
+    if verb is None or emb.gap_role not in ("subject", "object") or emb.attaches_to_token is None:
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
+
+    inner_tokens, duration = split_duration(inner_tokens)
+    antecedent = _atom_from_token(tokens[emb.attaches_to_token])
+    # A negation is the event's sign, never one of its participants.
+    participants = [t for t in inner_tokens if t.lemma not in _NEGATION_LEMMAS]
+    before = [_atom_from_token(t) for t in participants if t.position < verb.position]
+    after = [_atom_from_token(t) for t in participants if t.position > verb.position]
+    if emb.gap_role == "object":
+        agent_atoms, patient_atoms = before, [antecedent]
+    else:  # subject gap — antecedent is the agent
+        agent_atoms, patient_atoms = [antecedent], after
+
+    if not agent_atoms:
+        return _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
+    args: List[Operand] = [Phrase(atoms=agent_atoms)]
+    if patient_atoms:
+        args.append(Phrase(atoms=patient_atoms))
+    modal = modal_primes([t.word_primitives for t in inner_tokens if t.position < verb.position and t.pos == "AUX"])
+    event = Op(primitive=verb.lemma, operation="EVENT", arity=len(args), args=args, modal=modal, duration=duration)
+    return Negation(operand=event) if _takes_sign(inner_tokens, signs, verb.position) else event
+def _from_trace_segmented(
+    trace: OperationTrace,
+    tokens: Sequence[TokenTrace],
+    operator_positions: Sequence[int],
+    signs: Optional[Signs] = None,
+) -> Expression:
+    """Tier-aware build for a segmented (multi-clause) trace.
+
+    Each clause span is resolved independently; clause-linking operators (those
+    not owned by any clause span) are folded over the clause results in surface
+    order. ``trace.operators`` is indexed positionally to match the indices
+    stored in each ``ClauseSpan.operator_indices``. A linking operator a negation
+    lands on is negated whole ("He left not because he was angry").
+    """
+    signs = _sign_owners(tokens) if signs is None else signs
+    negated_ops = _negated_operators(signs)
+    operators = trace.operators
+    all_clauses = sorted(trace.clauses, key=lambda c: c.clause_id)
+    sequential = [c for c in all_clauses if c.kind == "sequential"]
+    embedded = [c for c in all_clauses if c.kind != "sequential"]
+
+    # Tokens owned by embedded clauses are excluded from their parent's build.
+    embedded_tokens = set()
+    for emb in embedded:
+        embedded_tokens.update(range(emb.token_start, emb.token_end))
+    owned = {i for c in all_clauses for i in c.operator_indices}
+    linking_ops = sorted(
+        (op for i, op in enumerate(operators) if i not in owned),
+        key=lambda o: o.position,
+    )
+    visible = [t for t in tokens if t.position not in embedded_tokens]
+    offsets = {}
+    for op in linking_ops:
+        if op.operation == "TEMPORAL":
+            offset, positions = temporal_offset(visible, op.position)
+            if offset is not None:
+                offsets[op.position] = offset
+                embedded_tokens.update(positions)
+
+    # Build sequential clauses in surface order, carrying the subject forward: a
+    # subject-less coordinated clause ("…and murdered him") inherits the prior conjunct's
+    # subject (VP-coordination), so its event survives instead of collapsing to its object.
+    clause_exprs = []
+    shared_subject = None
+    for c in sequential:
+        cx = _build_clause_expr(
+            c,
+            tokens,
+            operators,
+            operator_positions,
+            excluded=embedded_tokens,
+            shared_subject=shared_subject,
+            signs=signs,
+        )
+        clause_exprs.append(cx)
+        subj = _event_subject_atoms(cx)
+        if subj:
+            shared_subject = subj
+
+    # Fold clause-linking operators over the sequential clause expressions in
+    # surface order: c0 [op0] c1 [op1] c2 …
+    expr: Expression = clause_exprs[0]
+    for k, op in enumerate(linking_ops):
+        right: Operand = clause_exprs[k + 1] if k + 1 < len(clause_exprs) else Phrase(atoms=[])
+        expr = Op(
+            primitive=_operator_primitive(op, tokens),
+            operation=op.operation,
+            arity=op.arity,
+            args=[expr, right],
+            duration=offsets.get(op.position),
+        )
+        if op.position in negated_ops:
+            expr = Negation(operand=expr)
+
+    # Attach each embedded clause to its antecedent / controller in-place.
+    for emb in embedded:
+        if emb.attaches_to_token is None:
+            continue
+        if emb.kind == "relative":
+            inner = _build_relative_restriction(emb, tokens, operators, operator_positions, signs)
+            expr, _ = _wrap_antecedent(expr, emb.attaches_to_token, inner)
+        elif emb.kind == "control":
+            expr = _build_control(expr, emb, tokens, operators, operator_positions, signs)
+        elif emb.kind == "complement":
+            expr = _build_complement(expr, emb, tokens, operators, operator_positions, signs)
+
+    return expr
+
+FILE GSE/api/encoder.py
+def _detect_embedded_clauses(
+        self,
+        doc,
+        promote_to_verb: Optional[set] = None,
+    ) -> List[Tuple[int, int, str, int, Optional[str]]]:
+        """Find embedded clauses that nest inside a parent span — WS1 arc-free.
+
+        Unlike because/so (which split the stream sequentially), relative,
+        control, and complement clauses hang off a token *inside* a parent
+        clause. Their boundaries are derived from the lexically-known connective
+        inventory (relativizers who/whom/which/that, the infinitival ``to``, the
+        complementizer ``that``) + the verb-inventory (predicate positions,
+        copula included) + linear position — NO spaCy ``dep_``/``subtree``/
+        ``children``/``head``. Returns ``(token_start, token_end, kind,
+        attaches_to_token, gap_role)`` per embedded clause.
+
+        This is intentionally cleaner than the arc version: spaCy mis-reads a
+        coordination / so-consequence as a ``ccomp`` and the encoder then filters
+        those spurious complements (see ``encode`` §3); here the clause-linkers
+        own them, so they are never emitted. See docs/COMPLEX_SENTENCE_DESIGN.md §M2.
+        """
+        toks = list(doc)
+        n = len(toks)
+        promote = promote_to_verb or set()
+
+        def is_pred(k: int) -> bool:
+            t = toks[k]
+            return k in promote or t.pos_ == "VERB" or (t.pos_ == "AUX" and t.lemma_.lower() == "be")
+
+        def is_nominal(k: int) -> bool:
+            return toks[k].pos_ in _NOMINAL_POS_ENC
+
+        def next_pred(after: int) -> Optional[int]:
+            return next((k for k in range(after + 1, n) if is_pred(k)), None)
+
+        def clause_end(after: int) -> int:
+            """First clause-linker / sentence-final punct at or after ``after`` —
+            the right boundary of a non-bracketed embedded clause."""
+            for k in range(after, n):
+                if toks[k].lemma_.lower() in _CLAUSE_LINKER_LEMMAS:
+                    return k
+                if toks[k].pos_ == "PUNCT" and toks[k].text in _SENT_END_PUNCT:
+                    return k
+            return n
+
+        def complement_role(k: int) -> str:
+            """A word's role for ``thatless_complement``: a finite predicate, a nominal, an NP opener or other."""
+            if is_pred(k) and not (k > 0 and toks[k - 1].lemma_.lower() == "to"):
+                return "PREDICATE"
+            if is_nominal(k):
+                return "NOMINAL"
+            return "OPENER" if toks[k].pos_ in ("DET", "ADJ", "NUM") else "OTHER"
+
+        embedded: List[Tuple[int, int, str, int, Optional[str]]] = []
+        for i, tok in enumerate(toks):
+            lemma = tok.lemma_.lower()
+
+            # --- complement without "that": an attitude or epistemic predicate, then a full clause (#114) ---
+            if is_pred(i) and i + 1 < n:
+                end = clause_end(i + 1)
+                roles = [complement_role(k) for k in range(i + 1, end)]
+                if thatless_complement(lemma, toks[i + 1].lemma_.lower(), roles) == "COMPLEMENT":
+                    embedded.append((i + 1, end, "complement", i, None))
+                    continue
+
+            # --- control: infinitival "to" + verb -------------------------------
+            if lemma == "to" and i + 1 < n and (toks[i + 1].pos_ == "VERB" or (i + 1) in promote):
+                mverb = next((k for k in range(i - 1, -1, -1) if is_pred(k)), None)
+                if mverb is None:
+                    continue
+                # object control (a nominal between matrix verb and "to") else subject.
+                controller = next((k for k in range(mverb + 1, i) if is_nominal(k)), None)
+                if controller is None:
+                    controller = next((k for k in range(mverb - 1, -1, -1) if is_nominal(k)), None)
+                if controller is not None:
+                    embedded.append((i, clause_end(i + 1), "control", controller, None))
+                continue
+
+            # --- relative / complement: a relativizer or complementizer ---------
+            if lemma in _RELATIVIZERS:
+                p = i - 1
+                while p >= 0 and toks[p].text == ",":
+                    p -= 1
+                if p < 0:
+                    continue
+                # complementizer "that" after a reporting predicate.
+                if lemma == "that" and is_pred(p):
+                    embedded.append((i, clause_end(i + 1), "complement", p, None))
+                    continue
+                # relative clause: relativizer after a nominal antecedent.
+                if is_nominal(p):
+                    p1 = next_pred(i)
+                    if p1 is None:
+                        continue
+                    if i - 1 >= 0 and toks[i - 1].text == ",":  # non-restrictive
+                        end = next((k for k in range(p1 + 1, n) if toks[k].text == ","), n)
+                    else:  # restrictive
+                        p2 = next_pred(p1)
+                        end = p2 if p2 is not None else n
+                    if lemma == "whom":
+                        gap_role: Optional[str] = "object"
+                    else:
+                        has_subj = any(is_nominal(k) for k in range(i + 1, p1))
+                        gap_role = "object" if has_subj else "subject"
+                    embedded.append((i, end, "relative", p, gap_role))
+                continue
+
+        return embedded
+
+RELEVANT FILES
+GSE/symbolic/resolution.py [('Entity', 73, 110), ('Coordination', 114, 129), ('ArgSplit', 133, 146), ('_is_entity_atom', 154, 155), ('_is_possessive_marker', 158, 159), ('_first_adj_or_adv', 162, 167), ('_is_np_starter', 170, 176), ('_split_into_np_segments', 179, 203), ('_collapse_phrase_to_entity', 206, 309), ('_is_pronoun_atom', 317, 318), ('_bind_pronouns', 321, 411), ('resolve', 419, 434), ('resolve_with_sources', 437, 449), ('_refine', 452, 482)]
+GSE/symbolic/predicates.py [('Comparison', 25, 34), ('Equality', 38, 46), ('TypeQuery', 50, 53), ('DegreeQuery', 57, 66), ('MinimalSufficiency', 70, 78), ('SetRestriction', 82, 90), ('BoundaryCase', 94, 110), ('Contrast', 114, 123), ('ClauseCoordination', 127, 139), ('Conditional', 143, 155), ('Causation', 159, 176), ('Temporal', 180, 194), ('TypeAssertion', 198, 218), ('RelativeRestriction', 222, 239), ('Control', 243, 268), ('Event', 272, 303)]

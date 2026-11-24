@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-resume-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name in ['AGENTS.md','docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json']:\n p=Path(name)\n if p.exists(): print('\\n###',p,'\\n',p.read_text())\np=Path('GSE/nlp/native.py'); t=ast.parse(p.read_text()); lines=p.read_text().splitlines()\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and (n.name=='NativeNLP' or n.name.startswith('copula')):\n  print('\\n###',n.name,'\\n','\\n'.join(lines[n.lineno-1:n.end_lineno]))\nprint('\\nSYMBOLIC FILES', [str(p) for p in Path('GSE/symbolic').glob('*.py')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

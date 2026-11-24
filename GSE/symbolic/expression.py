@@ -1402,6 +1402,29 @@ def _build_relative_restriction(
     """
     signs = _sign_owners(tokens) if signs is None else signs
     inner_tokens = [t for t in tokens if emb.token_start <= t.position < emb.token_end and not _is_relativizer(t)]
+    if emb.gap_role == "possessor" and emb.attaches_to_token is not None:
+        # "whose N ...": the antecedent fills N's genitive, NOT the
+        # clause's object gap. Use the existing possessive Phrase grammar so
+        # ownership survives resolution and ordinary copular/event building.
+        inner = _build_clause_expr(emb, tokens, operators, operator_positions, drop_relativizers=True, signs=signs)
+        owned = next((t for t in inner_tokens if t.pos in _PP_OBJECT_POS), None)
+        if owned is None:
+            return inner
+        antecedent = _atom_from_token(tokens[emb.attaches_to_token])
+        marker = Atom(lemma="'s", word_primitives={}, pos="PART", position=emb.token_start)
+
+        def bind_possessor(node):
+            if isinstance(node, Phrase) and any(a.position == owned.position for a in node.atoms):
+                return Phrase(atoms=[antecedent, marker, *node.atoms])
+            if isinstance(node, Atom) and node.position == owned.position:
+                return Phrase(atoms=[antecedent, marker, node])
+            if isinstance(node, Op):
+                return replace(node, args=[bind_possessor(arg) for arg in node.args])
+            if isinstance(node, Negation):
+                return Negation(operand=bind_possessor(node.operand))
+            return node
+
+        return bind_possessor(inner)
     verb = next(
         (t for t in inner_tokens if t.pos == "VERB" and t.lemma != _COPULA_LEMMA and not t.is_operator),
         None,

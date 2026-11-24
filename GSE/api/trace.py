@@ -148,7 +148,7 @@ class ClauseSpan:
     kind: str = "sequential"
     parent_id: Optional[int] = None
     attaches_to_token: Optional[int] = None
-    # For a relative clause: which gap the relativizer fills ("subject"/"object"),
+    # For a relative clause: which gap the relativizer fills ("subject"/"object"/"possessor"),
     # read from the relativizer's dep — lets the restriction bind the antecedent
     # into the gap. None for non-relative spans or an unresolved relativizer.
     gap_role: Optional[str] = None

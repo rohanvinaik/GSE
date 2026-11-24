@@ -49,7 +49,7 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
 ## 5. The consumer interface (decision 3)
 
 - [x] 5.1 Principles agreed with the owner (2026-11-24) and written as `specs/gse-interface/spec.md`.
-- [ ] 5.2 Propose the concrete request and response shape (slip fields, request kinds, departments, outcome and refusal names, contract versioning) for the owner's review. No code before that review.
+- [ ] 5.2 Propose the concrete request and response shape (slip fields, request kinds, departments, outcome and refusal names, contract versioning) for the owner's review. No code before that review. Proposal written in design.md, *Interface shape* (2026-11-24); awaiting review.
 - [ ] 5.3 Build the intake, routing and written responses; departments answer under the existing capability specs.
 - [ ] 5.4 Move each consumer's calling code to the interface, one consumer per commit, in the consumer's own repository (design.md, *Consumers today*), including the three imports of modules that do not exist.
 - [ ] 5.5 GSE's own calls to Sparse Wiki go through Sparse Wiki's interface (with GSE-02).

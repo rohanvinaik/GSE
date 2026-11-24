@@ -50,7 +50,7 @@ def child_family(raw):
 def require_audits(report):
     """An abstention is pending scope review, never an opposing sign or zero."""
     [candidate] = report["candidates"]
-    if any(row["code"] != "MODEL_AGREEMENT" for row in candidate["audits"]):
+    if len(candidate["audits"]) != 3 or any(row["code"] != "MODEL_AGREEMENT" for row in candidate["audits"]):
         raise ValueError("CHECKPOINT_HAPPENING_INDEPENDENT_AUDIT_PENDING")
     return candidate
 
@@ -151,6 +151,7 @@ def main():
     if migration["postflight"]["code"] != "REPLAY_VALIDATED" or not migration["postflight"]["complete_search"]:
         raise ValueError("CHECKPOINT_HAPPENING_FULL_REPLAY_FAILED")
     count, changes = exact_delta(source, output)
+
     def by_cell(records):
         return {(row["entry_id"], row["bank"]): row for row in records}
 

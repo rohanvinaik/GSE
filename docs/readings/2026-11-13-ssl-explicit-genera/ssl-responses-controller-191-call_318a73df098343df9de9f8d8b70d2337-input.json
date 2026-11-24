@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label checkpoint-notebook-and-queue-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json,datetime\nnotes=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('Notebook candidates:',[str(p) for p in notes.glob('*.md') if not p.name.startswith('ssl-responses')])\nfor p in Path('openspec').glob('changes/*/tasks.md'):\n text=p.read_text()\n if 'CP-07' in text or 'CP-08' in text: print('\\n===',p,'===\\n'+text)\nfor name in ['ssl-api-controller-blockers.json','ssl-api-controller-happening-phase.json','ssl-api-controller-joint-job.log','ssl-api-controller-continuation-job.log','ssl-api-controller-happening-job.log']:\n p=notes/name;print('\\n===',name,'===\\n'+(p.read_text() if p.exists() else 'ABSENT'))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-publication-replay-contract -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,datetime,subprocess\nfor n,names in [('GSE/curation/lexicon_builder/rule_migration.py',{'_apply_copy','_migrate_snapshot'}),('GSE/curation/lexicon_builder/publication.py',None)]:\n f=Path(n);s=f.read_text();print('\\n###',n)\n if names is None: print(s)\n else:\n  for x in ast.parse(s).body:\n   if isinstance(x,(ast.FunctionDef,ast.ClassDef)) and x.name in names:print(ast.get_source_segment(s,x))\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor d in sorted(w.glob('.gse-migration-*')):\n for f in d.iterdir():print('working',f.name,f.stat().st_size,datetime.datetime.fromtimestamp(f.stat().st_mtime,datetime.timezone.utc).isoformat())\nprint(subprocess.run(['ps','-p','75256','-o','pid=,ppid=,etime=,%cpu=,rss='],capture_output=True,text=True).stdout)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

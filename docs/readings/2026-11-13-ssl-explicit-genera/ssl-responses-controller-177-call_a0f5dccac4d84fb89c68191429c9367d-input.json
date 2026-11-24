@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-happening-orchestration-tests -- sh -c 'uvx --offline ruff@0.16.10 format docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_happening.py tests/test_lexicon_checkpoint_happening.py && uvx --offline ruff@0.16.10 check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_happening.py tests/test_lexicon_checkpoint_happening.py && .venv/bin/python -m pytest tests/test_lexicon_checkpoint_happening.py tests/test_lexicon_checkpoint_packets.py tests/test_lexicon_builder_delayed_questions.py tests/test_lexicon_builder_rule_reservations.py -q --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-orchestration-tests.xml'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 90
+}

@@ -1,0 +1,118 @@
+ M .claude/rules/lg_focus.md
+ M .claude/rules/lg_session.md
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-blockers.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-job.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-job.log
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-blockers.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-checkpoint-demand.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-result.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-result.md
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-steering.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-last-message.md
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-redirect.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_happening.py
+ M tests/test_lexicon_checkpoint_happening.py
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-answers.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-audit.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-exit.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-job.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-job.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-orchestration-tests.xml
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-phase.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff-1804.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-refreeze-composed-observations.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-176-call_7da5a18b8af64a75a7ab685ad655a264-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-176-call_7da5a18b8af64a75a7ab685ad655a264-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-176-call_7da5a18b8af64a75a7ab685ad655a264.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-176-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-177-call_a0f5dccac4d84fb89c68191429c9367d-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-177-call_a0f5dccac4d84fb89c68191429c9367d-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-177-call_a0f5dccac4d84fb89c68191429c9367d.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-177-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-178-call_4fa620c1c71f4b80a8f195b0cfcdb8eb-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-178-call_4fa620c1c71f4b80a8f195b0cfcdb8eb-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-178-call_4fa620c1c71f4b80a8f195b0cfcdb8eb.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-178-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-179-call_850e2ed12bd64940ab28e13325548d22-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-179-call_850e2ed12bd64940ab28e13325548d22-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-179-call_850e2ed12bd64940ab28e13325548d22.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-179-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-180-call_621ad04237f8409f9e560067dd5f349a-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-180-call_621ad04237f8409f9e560067dd5f349a-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-180-call_621ad04237f8409f9e560067dd5f349a.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-180-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-181-call_efc71e3e5caf40519444cb61cc99a8be-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-181-call_efc71e3e5caf40519444cb61cc99a8be-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-181-call_efc71e3e5caf40519444cb61cc99a8be.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-181-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-182-call_58c1ee5abd4c4f70ae6a39c4cb11e164-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-182-call_58c1ee5abd4c4f70ae6a39c4cb11e164-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-182-call_58c1ee5abd4c4f70ae6a39c4cb11e164.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-182-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-183-call_56f3f21e56c149c4be406776e4d55290-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-183-call_56f3f21e56c149c4be406776e4d55290-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-183-call_56f3f21e56c149c4be406776e4d55290.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-183-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-184-call_b2356992e0e7482eb24a10ce9b3a7dfb-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-184-call_b2356992e0e7482eb24a10ce9b3a7dfb-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-184-call_b2356992e0e7482eb24a10ce9b3a7dfb.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-184-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-185-call_010894361ac34d3f86a1b789e66e1cd1-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-185-call_010894361ac34d3f86a1b789e66e1cd1-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-185-call_010894361ac34d3f86a1b789e66e1cd1.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-185-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-186-call_d866dfd6ae784043a4098ecf953c7e64-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-186-call_d866dfd6ae784043a4098ecf953c7e64-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-186-call_d866dfd6ae784043a4098ecf953c7e64.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-186-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-187-call_5949253d3e8648358b338d1e8df445f5-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-187-call_5949253d3e8648358b338d1e8df445f5-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-187-call_5949253d3e8648358b338d1e8df445f5.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-187-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-188-call_07770a7553b84f3d81b4b1b880969502-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-188-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-140-call_da536ddfe9e4472c93780de96fc7df76-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-140-call_da536ddfe9e4472c93780de96fc7df76-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-140-call_da536ddfe9e4472c93780de96fc7df76.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-140-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-141-call_bdeeb3bd457547c8b112bc489820314e-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-141-call_bdeeb3bd457547c8b112bc489820314e-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-141-call_bdeeb3bd457547c8b112bc489820314e.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-141-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-142-call_5fcdc71e360c492c8d4eacc31f6e1205-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-142-call_5fcdc71e360c492c8d4eacc31f6e1205-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-142-call_5fcdc71e360c492c8d4eacc31f6e1205.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-142-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-143-call_4a2f012c26534473ae06a3868b09b136-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-143-call_4a2f012c26534473ae06a3868b09b136-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-143-call_4a2f012c26534473ae06a3868b09b136.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-143-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-144-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-145-call_fb2d9add1d6747d9801e0144309fe4fc-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-145-call_fb2d9add1d6747d9801e0144309fe4fc-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-145-call_fb2d9add1d6747d9801e0144309fe4fc.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-145-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-146-call_5a3063e5e00c465a8428974337405c42-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-146-call_5a3063e5e00c465a8428974337405c42-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-146-call_5a3063e5e00c465a8428974337405c42.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-146-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-147-call_4e356c7bf59d44e3a1904ebb9e4dd214-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-147-call_4e356c7bf59d44e3a1904ebb9e4dd214-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-147-call_4e356c7bf59d44e3a1904ebb9e4dd214.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-147-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-148-call_770787135d6446969f1525df340bc79a-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-148-call_770787135d6446969f1525df340bc79a-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-148-call_770787135d6446969f1525df340bc79a.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-148-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-149-call_709f84127bb84a0bbe38d3a44b41bd5a-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-149-call_709f84127bb84a0bbe38d3a44b41bd5a-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-149-call_709f84127bb84a0bbe38d3a44b41bd5a.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-149-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-150-call_46bcfde6266e4bb98e04c55a43bc1bbd-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-150-call_46bcfde6266e4bb98e04c55a43bc1bbd-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-150-call_46bcfde6266e4bb98e04c55a43bc1bbd.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-150-response.json

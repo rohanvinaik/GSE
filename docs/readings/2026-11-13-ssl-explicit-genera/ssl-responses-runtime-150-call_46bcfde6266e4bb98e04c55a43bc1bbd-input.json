@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-gerund-source-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor file,names in [('GSE/api/encoder.py',{'_detect_embedded_clauses'}),('GSE/symbolic/lexical_grounding.py',{'_native_synsets','_native_type_names'}),('GSE/symbolic/operators.py',{'clause_coord'})]:\n p=Path(file);s=p.read_text();l=s.splitlines();t=ast.parse(s)\n for n in ast.walk(t):\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print('\\n###',file,n.name,'\\n','\\n'.join(l[n.lineno-1:n.end_lineno]))\nfrom nltk.corpus import wordnet as wn\nfor word in ['occupation','child','teaching','work','profession','hobby','activity']:\n print('\\nWORDNET',word)\n for ss in wn.synsets(word):\n  print(ss.name(),ss.lexname(),ss.definition(), ss.frame_strings() if ss.pos()=='v' else [x.name() for x in ss.hypernyms()])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

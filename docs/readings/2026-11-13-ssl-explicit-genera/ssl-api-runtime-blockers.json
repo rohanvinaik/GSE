@@ -1,8 +1,8 @@
 {
   "format": "GSE.runtime-blockers/1",
   "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
-  "status": "SOURCE_EDITING_UNFROZEN",
-  "updated_utc": "2026-11-24T17:52:03.482435+00:00",
+  "status": "SOURCE_EDITING_UNFROZEN_SECOND",
+  "updated_utc": "2026-11-24T18:16:01.800234+00:00",
   "identity_regression": {
     "status": "REPAIRED_VERIFIED_REAL_ENCODER",
     "evidence": "ssl-api-runtime-code-freeze-tests.xml",
@@ -12,15 +12,6 @@
   "token_demand": "ssl-api-runtime-token-demand.json",
   "checkpoint_demand": "ssl-api-runtime-checkpoint-demand.json",
   "current_failures": [
-    {
-      "code": "CRITICAL_IDENTITY_ABSTENTIONS",
-      "cases": [
-        "final-femur-anatomy",
-        "final-teacher-person",
-        "control-he-chemical"
-      ],
-      "required_action": "Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification."
-    },
     {
       "code": "REQUIRED_BANKS_OPEN",
       "cases": [
@@ -58,9 +49,29 @@
       "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
       "scope_freeze": "ssl-api-runtime-workload-freeze.json",
       "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
+    },
+    {
+      "text": "The teacher is a person whose occupation is teaching.",
+      "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
+      "code": "RELATIVE_COPULA_COMPOSITION_WRONG",
+      "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+      "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+      "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+    },
+    {
+      "text": "The femur is the longest and thickest bone of the human skeleton.",
+      "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
+      "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
+      "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+      "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+      "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+    },
+    {
+      "code": "FRESH_FINAL_AUDIT_REQUIRED",
+      "required_action": "Original immutable benchmark retained with first-pass lineage; inspected and repair-driving cases are development now. Establish fresh lineage-separated final cases after source freeze. Do not relabel native source example matches as untouched held-out success."
     }
   ],
-  "ongoing_runtime_repair": "Three original composed defects fixed with real public-path tests; adversarial anchor alternatives and chemical native alias identity repaired. Broad regression checking and re-freeze underway.",
+  "ongoing_runtime_repair": "FINISHED: source edits stopped at this receipt. Further runtime repair requires coordinated unfreeze; CP-07 acceptance remains OPEN.",
   "controller_source_demands": [
     "Stored lexical bank holes leap.n.01 HAPPEN and whisper.n.01 SAY under existing source/competence contracts. Evaluation gold is not a rule warrant.",
     "good/bad/big/small/have/here source/role lexical demand requires warranted projections; above/before must be checked at composed relation scale, not automatically missing from raw bank emission.",
@@ -141,5 +152,33 @@
       }
     ],
     "note": "Development findings, not final holdout. Known wrong full-sentence cases cannot be hidden by token identity success; no checkpoint PASS."
-  }
+  },
+  "repaired_development_findings": {
+    "original_three_composed_failures": "All repaired: distinct above/below spatial relation, before-dawn temporal setting rather than patient, inert-gas nominal type assertion.",
+    "critical_exact_identities": [
+      "wordnet:femur:femur.n.01",
+      "wordnet:teacher:teacher.n.01",
+      "wordnet:he:helium.n.01"
+    ],
+    "adversarial_controls": [
+      "Broad generic types preserve pronoun",
+      "Unrelated helium mention preserves pronoun",
+      "Insufficient contradictory source/context abstains with named provenance",
+      "Spring/period retain unresolved temporal/spatial role alternatives",
+      "Degree-modified copular nominal head preserved",
+      "Main verb, progressive and passive controls preserved"
+    ],
+    "evidence": [
+      "ssl-api-runtime-refreeze-tests-v5.xml",
+      "ssl-api-runtime-refreeze-composed-observations.json",
+      "ssl-api-runtime-active-checkpoint-v4.json",
+      "ssl-api-runtime-foundation-checkpoint-v4.json"
+    ]
+  },
+  "freeze_lineage": [
+    {
+      "status": "CODE_FREEZE_READY_CHECKPOINT_BLOCKED",
+      "source_edits_finished": true
+    }
+  ]
 }

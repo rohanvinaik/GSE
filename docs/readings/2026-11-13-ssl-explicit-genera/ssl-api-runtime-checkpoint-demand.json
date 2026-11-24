@@ -4836,21 +4836,70 @@
     "rules_admitted": 0
   },
   "runtime_phase_update": {
-    "measured_at_utc": "2026-11-24T09:07:17.601514+00:00",
+    "updated_utc": "2026-11-24T18:16:01.800234+00:00",
+    "status": "CODE_FREEZE_READY_CHECKPOINT_BLOCKED",
     "source_freeze_receipt": "ssl-api-runtime-result.json",
-    "note": "Original full-cohort/common-form census is preserved above. These compact actual observed failures do not narrow the frozen workload or request all unknown cells be filled.",
-    "active_report": "ssl-api-runtime-active-checkpoint-v2.json",
-    "foundation_report": "ssl-api-runtime-foundation-checkpoint-v2.json",
-    "actionable_populations": [
+    "runtime_safety": "Both immutable DBs SPARSE_RUNTIME_VALIDATED; 26 structural/anchor records and 20 sparse controls each. Not workload semantic accuracy.",
+    "exact_identity_repairs": [
+      "femur.n.01",
+      "teacher.n.01",
+      "He/helium.n.01"
+    ],
+    "actionable_open_bank_populations": [
       {
-        "code": "CRITICAL_IDENTITY_ABSTENTIONS",
-        "cases": [
-          "final-femur-anatomy",
-          "final-teacher-person",
-          "control-he-chemical"
+        "entry_id": "wordnet:leap:leap.n.01",
+        "bank": "HAPPEN",
+        "domain": [
+          -1,
+          0,
+          1
         ],
-        "required_action": "Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification."
+        "required": 1
       },
+      {
+        "entry_id": "wordnet:whisper:whisper.n.01",
+        "bank": "SAY",
+        "domain": [
+          -1,
+          0,
+          1
+        ],
+        "required": 1
+      }
+    ],
+    "active_only_open_reference_banks": [
+      "gse_closed_class:pronoun:i / I",
+      "gse_closed_class:pronoun:you / YOU"
+    ],
+    "foundation_reference_banks": "I/YOU +1 already stored and runtime emitted on the read-only foundation, not an admission by runtime worker.",
+    "known_wrong_composed_codes": [
+      "RELATIVE_COPULA_COMPOSITION_WRONG",
+      "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG"
+    ],
+    "corpus_demand_inventory_preserved": true,
+    "contract_correction": {
+      "authority": "Existing LEXICON_CONSTRUCTION_DESIGN.md / Checkpoint workload and acceptance; explicit root whole-unit trace in runtime steering.",
+      "cohort_unchanged": true,
+      "common_form_count": 16692,
+      "before": [
+        "Required manually authored two-sided labels for every common spelling.",
+        "Applied independent >=90% threshold to every genre slice."
+      ],
+      "after": [
+        "Retain entire common-form cohort/all senses; require finite representative source-warranted positive/MUST-NOT audit across genre/tail and exact required operations, not labels for every spelling.",
+        "Require >=90% eligible token mass in BOTH frequency aggregate and independent real-text aggregate; report every frozen genre slice without invented per-genre threshold."
+      ],
+      "requirements_preserved": [
+        "Known-wrong count must be zero",
+        "Required-sign presence and MUST-NOT absence are independent checks",
+        "Eight full-repertoire operations",
+        "Exact artifact/digest/command outcome verification",
+        "No cohort narrowing after failure",
+        "Full replay and runtime/semantic/publication gates"
+      ],
+      "actual_workload_pass": false
+    },
+    "blockers": [
       {
         "code": "REQUIRED_BANKS_OPEN",
         "cases": [
@@ -4887,24 +4936,44 @@
       {
         "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
         "scope_freeze": "ssl-api-runtime-workload-freeze.json",
-        "required_action": "Full eight-operation inventory, all critical positive/MUST-NOT outcomes, common-form two-sided semantic audit, required-bank operation witnesses, >=90% eligible token mass in frequency and independent aggregate plus every genre, exact artifact/source/cohort pins, full replay and integrated repository gate receipts."
+        "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
+      },
+      {
+        "text": "The teacher is a person whose occupation is teaching.",
+        "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
+        "code": "RELATIVE_COPULA_COMPOSITION_WRONG",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+        "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+      },
+      {
+        "text": "The femur is the longest and thickest bone of the human skeleton.",
+        "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
+        "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "evidence": "ssl-api-runtime-refreeze-composed-observations.json",
+        "required_action": "Existing production construction/resolution repair with fresh composed controls; token-level exact identity is already correct. Not repaired or waived by this receipt."
+      },
+      {
+        "code": "FRESH_FINAL_AUDIT_REQUIRED",
+        "required_action": "Original immutable benchmark retained with first-pass lineage; inspected and repair-driving cases are development now. Establish fresh lineage-separated final cases after source freeze. Do not relabel native source example matches as untouched held-out success."
       }
     ],
-    "source_only_prime_demand": {
-      "ordinary_same_spelling_not_automatically_eligible": [
-        "good",
-        "bad",
-        "big",
-        "small",
-        "have",
-        "here"
-      ],
-      "composed_relation_before_missing_lexical_claim": [
-        "above",
-        "before"
-      ],
-      "owner_boundary": "Preserve auxiliaries vs main verb, degree/negation scope and source identities. Canonical prime projection authority does not transfer to ordinary same-spelling senses."
-    }
+    "reports": [
+      {
+        "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-checkpoint-v4.json",
+        "sha256": "bc792e43068d9bea9d7a90e0a12b9556bb262e54e97bbaec888ff31d711b13f9"
+      },
+      {
+        "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-checkpoint-v4.json",
+        "sha256": "bf0ea3a17ced0cc4b4e355ad22fc99dc555e034b6886d009ea37462b577dff46"
+      },
+      {
+        "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-refreeze-composed-observations.json",
+        "sha256": "1d19f4b00c410d5e42fc015ea2a57c84b9b8752f863bcaf40250eeb5d02a4d82"
+      }
+    ],
+    "no_new_model_questions": true
   },
   "postfreeze_readonly_findings": {
     "format": "GSE.runtime-postfreeze-readonly-findings/1",

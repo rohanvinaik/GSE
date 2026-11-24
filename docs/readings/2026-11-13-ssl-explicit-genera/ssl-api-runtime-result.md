@@ -1,45 +1,37 @@
-# Runtime code freeze — CP-07
+# Runtime implementation completion receipt
 
-**CODE_FREEZE_READY** — 2026-11-24T09:07:17.601514+00:00
+**Role:** B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE.
+**Source state:** CODE_FREEZE_READY at 2026-11-24T18:16:01.800234+00:00; edits FINISHED. This is the controller source-pin synchronization boundary, **not usable-checkpoint acceptance**. No commit or activation by B.
 
-Scope: **ASSIGNMENT B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE**. Owned source/test edits are FINISHED; controller may pin them. No commits; subsequent work read-only unless explicitly unfrozen.
-
-## Implemented files
-
-- `GSE/api/encoder.py`
-- `GSE/symbolic/lexical_grounding.py`
-- `GSE/symbolic/grounding.py`
-- `scripts/audit_lexicon_runtime.py`
-- `scripts/audit_lexicon_sentences.py`
-- `tests/test_runtime_native_identity_controls.py`
-- `tests/test_lexicon_builder_grammatical_definitions.py`
-- `tests/test_audit_lexicon_sentences.py`
-- `docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py`
-
-Exact SHA256 pins and full commands are retained in `ssl-api-runtime-result.json`.
+## Implemented and verified
+- Exact native definition/source/role eligibility reaches production identity selection before frequency/similarity. Broad generic types and unrelated helium mentions preserve pronoun; original chemical-symbol and inert/noble-gas contexts select exact `wordnet:he:helium.n.01`. Missing evidence still abstains with provenance.
+- Complete positive native definition clauses resolve femur/teacher without first-sense selection; unknown banks remain unknown. Verb/ADJ/ADV source-attested identities remain reachable; native examples are not independent final holdouts.
+- Actual composed above/below relations remain distinct through query and emission. Before-dawn retains its temporal anchor rather than making dawn a patient. Spring/period alternatives are not forced temporal. Determined copular heads, including degree modifiers, remain nominal; genuine main/progressive/passive verbs remain events.
+- Corrected two unapproved acceptance overconstraints: no mandatory manual two-sign gold for every one of 16,692 forms, and no invented 90% threshold for each genre. Entire frozen cohort/senses retained; both aggregate 90% requirements, genre reporting, finite representative two-sided semantic audit, required operations, missing-sign/MUST-NOT/known-wrong checks and full source/replay/runtime gates remain. No production workload pass manufactured.
 
 ## Verification
+- Final focused suite: **630 passed in 75.23s**; `ssl-api-runtime-refreeze-tests-v5.xml`. Exact 21-test-file command in result JSON and `ssl-responses-runtime-136-call_ba1479475ccf4062b091163ca3bf6a3d.log`.
+- Pinned Ruff 0.16.10 format/check: **14 owned files passed**.
+- Focused ty: **1 existing advisory**, `grounding.py:1211:44` (`genealogy.candidates` object not callable); not certified type-clean.
+- Public runtime CLI on active021 and foundation: **SPARSE_RUNTIME_VALIDATED**, exit 0; 26 structural/anchor records and 20 sparse controls each.
+- Public sentence checkpoint CLI on both: **CHECKPOINT_BLOCKED**, exit 2. No complete artifact-verified workload acceptance manifest supplied. Full exact commands, durations and input before/after digests: `ssl-api-runtime-refreeze-cli-receipt-v4.json`.
 
-- Pinned Ruff 0.16.10 formatting/check: passed.
-- Focused intent/runtime/grammar/claim/document suite: **316 passed in 50.69s**; JUnit `ssl-api-runtime-code-freeze-tests.xml`.
-- Public active sparse runtime audit CLI: **SPARSE_RUNTIME_VALIDATED**, exit 0. This is a safety gate, not semantic workload acceptance.
-- Focused ty: one pre-existing `grounding.py:1211:44` object-not-callable advisory, exit 1; not certified type-clean.
-- Actual public sentence/checkpoint CLI on active sparse021 and foundation: both **CHECKPOINT_BLOCKED**, exit 2. Reports preserve exact DB/cohort/representation/benchmark pins.
+| Token sense/required-bank cases (13 total) | Identified | Expected abstention | Partial | Wrong |
+|---|---:|---:|---:|---:|
+| active021 | 7 | 2 | 4 | 0 |
+| foundation | 9 | 2 | 2 | 0 |
 
-## Real workload results, not a completion claim
+Per-class outcomes and exact snapshot/benchmark/cohort/rule/representation pins are retained in the two `*-checkpoint-v4.json` files. These token results **do not certify composed sentences**. Original benchmark bytes preserved; inspected/repair-driving cases are development now, not untouched final holdouts.
 
-Both snapshots identify neatness/BE, kidney/BODY, pronoun he/SOMEONE, and native-attested WANT correctly; both preserve ambiguous leap/whisper as requested. Femur and teacher still abstain despite correct stored BODY/SOMEONE signs. Chemical-symbol He safely conflicts/abstains rather than misidentifying a pronoun, but still fails required exact identification. Leap/HAPPEN and whisper/SAY remain open [-1,0,1] despite correct identity. Foundation I/YOU anchors identify correctly; active anchors have open required banks. No WRONG outcome in this 13-case benchmark is not a claim of zero errors in the lexicon.
+## Actual release blockers
+1. **RELATIVE_COPULA_COMPOSITION_WRONG:** “The teacher was a person whose occupation is teaching.” identifies teacher correctly but composes `EVENT teach(REL_RESTRICT(teacher,occupation))`, losing the matrix type assertion. Present-tense variant also wrong.
+2. **COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG:** exact femur definition identifies BODY correctly but composes `TYPE_ASSERT(femur,COORD(bone,skeleton))`; adjective coordination becomes noun coordination and attachment is lost. These are actual known-wrong composed cases, not waived. Fresh observations/contracts: `ssl-api-runtime-refreeze-composed-observations.json`.
+3. Both immutable DBs still have open HAPPEN on `wordnet:leap:leap.n.01` and SAY on `wordnet:whisper:whisper.n.01`, each domain `[-1,0,1]`. Active021 also lacks I/YOU reference signs present in foundation. Controller owns warranted admission/migration/replay; evaluation gold is not a warrant.
+4. Full eight-operation, common-form eligible-token workload semantic/runtime evidence and fresh independent final cases remain unestablished. Broader source/role identity uncertainty remains for underspecified clauses. Full integrated/replay/publication gates are controller-owned.
 
-Broad entity/thing/organism/animal pronoun regressions are repaired on the real encoder; inert-gas He now consumes exact independently contextualized helium identity. Signed ordinary predicates reach native source example eligibility without forcing underspecified alternatives. This limited source-attested construction access is not a full common-word accuracy proof.
+## Data and handoff
+Zero corpus writes, cells changed, admitted rules or model calls by B. No full H or bucket H remeasurement; no semantic gain claimed. The 50,526 I/YOU forecast is not claimed committed. Both audited DB SHA256 values and active pointer were unchanged before/after all final CLIs. Pointer still names `sparse-release-021.db`. No activation.
 
-Full workload scope and frequency/Brown token denominators were frozen before scoring. A **complete passing acceptance manifest is NOT established**: critical sense/bank gaps, full eight-operation witnesses, common-form two-sided semantic review, independent held-out acceptance, full replay and integrated repository gates remain. >=90% token mass is coverage, not an allowed error percentage. Above/before must be checked at composed sentence scale, not failed merely for absent raw word signs.
+**Remaining CP IDs:** CP-07 OPEN for blockers above; CP-08 integrated publication/activation; CP-03/04/05/06 controller/A obligations not certified here.
 
-## Corpus / publication
-
-Zero corpus writes, admitted rules, changed lexical cells, model calls, or publication by this worker. No new H or bucket gain measured; staged I/YOU forecast is not claimed committed. Active pointer unchanged (sparse-release-021). CP-07 remains OPEN for actual workload acceptance; CP-08 and controller-owned source/admission/replay obligations remain. See `ssl-api-runtime-blockers.json` and `ssl-api-runtime-checkpoint-demand.json` for actionable cases.
-
-## Post-freeze read-only composed-tool findings
-
-Source pins remain unchanged. `ssl-api-runtime-postfreeze-findings.json` and full `ssl-api-runtime-composed-tools-readonly.json` expose three **known-wrong composed operations that block checkpoint acceptance**: above/below collapse to identical TYPE_ASSERT(bird,tree); before dawn becomes an event patient with no temporal relation; and independently selected helium in “He is an inert gas” is followed by a wrong EVENT gas construction. These are not raw lexical emission requirements. Further source repair requires explicit coordinated unfreeze.
-
-Clausal before/after, NOT/VERY scope, duration long/short, comparison queries, conditional source-chain inference and modal/negated MUST-NOT controls execute with the expected observed distinctions. Real document reference/paragraph/fold/graph runs read with explicit NullGenealogy, which does not certify external world resources; quoted speaker I resolves to Bob. Profile affect remains unavailable rather than false neutrality. These smoke diagnostics are not untouched final holdouts or a complete semantic audit.
+All 14 owned source/test/helper paths and SHA256 pins, complete exact commands, preserved failed-attempt history, acceptance drift correction and production signal-to-consumer trace are in `ssl-api-runtime-result.json`. No MCP/Serena was available/claimed; full coherent-unit AST/reference tracing used.

@@ -1389,8 +1389,23 @@ class GSEEncoder:
                         end = next((k for k in range(p1 + 1, n) if toks[k].text == ","), n)
                     else:  # restrictive
                         p2 = next_pred(p1)
+                        # An auxiliary and its participle belong to ONE
+                        # predicate, not two clauses. Otherwise "who is
+                        # teaching works" leaks teaching into the matrix.
+                        # A nominal between predicates ("who is king works")
+                        # ends that auxiliary chain instead.
+                        group_end = p1
+                        while (
+                            p2 is not None
+                            and toks[group_end].pos_ == "AUX"
+                            and all(toks[k].pos_ in {"AUX", "ADV", "PART"} for k in range(group_end + 1, p2))
+                        ):
+                            group_end = p2
+                            p2 = next_pred(group_end)
                         end = p2 if p2 is not None else n
-                    if lemma == "whom":
+                    if lemma == "whose":
+                        gap_role: Optional[str] = "possessor"
+                    elif lemma == "whom":
                         gap_role: Optional[str] = "object"
                     else:
                         has_subj = any(is_nominal(k) for k in range(i + 1, p1))

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-checkpoint-gates-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/curation/lexicon_builder')\nprint('builder modules', [f.name for f in p.glob('*.py') if any(x in f.name for x in ['publish','publication','retention','semantic','audit'])])\nfor n in ['docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json']:\n print('\\n###',n);print(Path(n).read_text())\nfor n in ['GSE/curation/lexicon_builder/publication.py','GSE/curation/lexicon_builder/rule_migration.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py']:\n f=Path(n)\n if f.exists():\n  print('\\n### AST',n)\n  t=ast.parse(f.read_text());print([(type(x).__name__,getattr(x,'name',''),x.lineno,getattr(x,'end_lineno',0)) for x in t.body])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}
