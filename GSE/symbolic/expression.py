@@ -1410,13 +1410,14 @@ def _build_relative_restriction(
         owned = next((t for t in inner_tokens if t.pos in _PP_OBJECT_POS), None)
         if owned is None:
             return inner
+        owned_position = owned.position
         antecedent = _atom_from_token(tokens[emb.attaches_to_token])
         marker = Atom(lemma="'s", word_primitives={}, pos="PART", position=emb.token_start)
 
         def bind_possessor(node):
-            if isinstance(node, Phrase) and any(a.position == owned.position for a in node.atoms):
+            if isinstance(node, Phrase) and any(a.position == owned_position for a in node.atoms):
                 return Phrase(atoms=[antecedent, marker, *node.atoms])
-            if isinstance(node, Atom) and node.position == owned.position:
+            if isinstance(node, Atom) and node.position == owned_position:
                 return Phrase(atoms=[antecedent, marker, node])
             if isinstance(node, Op):
                 return replace(node, args=[bind_possessor(arg) for arg in node.args])

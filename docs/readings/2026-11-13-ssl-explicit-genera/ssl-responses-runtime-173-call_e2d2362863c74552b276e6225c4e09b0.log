@@ -1,0 +1,113 @@
+
+### GSE/symbolic/expression.py
+from __future__ import annotations
+from dataclasses import dataclass, field, replace
+from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
+from GSE.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+from GSE.lexicon.function_words import get_preposition_encoding
+from GSE.primitives_v2 import get_hierarchy_encoding
+from GSE.symbolic.duration import Duration, split_duration, temporal_offset
+from GSE.symbolic.modality import modal_primes
+if TYPE_CHECKING:
+    from GSE.symbolic.predicates import Predicate
+class Op:
+    """A compositional operator from the trace, lifted into the AST.
+
+    Args:
+        primitive: the COMP_* name (e.g., ``COMP_THAN``).
+        operation: the operation label from COMP_METADATA (e.g.,
+            ``SET_DIFF``). This is what B2 dispatches on.
+        arity: 1 or 2 — number of arguments the operator consumes.
+        args: the lifted argument expressions.
+        modal: an EVENT's modal primes, from its clause's auxiliaries ("might" → ``("MAYBE",)``); empty otherwise
+            (#66). Every rebuild of an Op carries it.
+    """
+
+    primitive: str
+    operation: str
+    arity: int
+    args: List["Operand"]
+    modal: tuple = ()
+    duration: Duration | None = None
+Expression = Union[Atom, Phrase, Negation, Op]
+Operand = Union[Atom, Phrase, Negation, "Op", "Predicate"]
+_NEGATION_LEMMAS = frozenset({"not", "no", "never", "neither", "nor", "nothing"})
+_UPTAKE_PASS_POS = frozenset({"DET"})
+_UPTAKE_QUOTATION_MARKS = frozenset({'"', "“", "”", "'", "‘", "’", "``", "''"})
+_UPTAKE_GAP_POS = frozenset({"AUX", "PART", "ADP", "SCONJ", "CCONJ", "ADV"})
+_COMPARATIVE_RUN_POS = frozenset({"ADJ", "ADV", "NOUN", "NUM", "DET"})
+_HIER_MARKS = frozenset({"HIER_PLUS", "HIER_MINUS"})
+Signs = Dict[int, Tuple[str, int, str]]
+_CORRELATIVE_NEGATIONS = frozenset({"neither", "nor"})
+_COPULA_SUBJECT = "SYN_SUBJ"
+_COPULA_PREDICATE = "SYN_PRED"
+_COPULA_COMPLEMENT = "SYN_COMPL"
+_COPULA_LEMMA = "be"
+_COMPLEMENT_POS = frozenset({"NOUN", "PROPN", "ADJ"})
+_PP_OBJECT_POS = frozenset({"NOUN", "PROPN", "PRON"})
+_SUBJECT_POS = {"PROPN", "NOUN", "PRON"}
+_RELATIVIZER_LEMMAS = frozenset({"that", "who", "whom", "which", "whose"})
+
+### GSE/symbolic/lexical_grounding.py
+from __future__ import annotations
+import json
+import re
+from dataclasses import dataclass
+from functools import lru_cache
+from nltk.corpus import wordnet as wn
+from nltk.corpus.reader.wordnet import WordNetError
+from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
+from GSE.lexicon.numerals import get_numeral_encoding, is_numeral
+from GSE.nlp.native import NativeNLP
+from .expression import Atom
+from .grounding import _COHERENCE_MARGIN, _jaccard, _select_by_coherence, _signature
+from .resolution import Entity
+_GENERIC = {"entity.n.01", "physical_entity.n.01", "abstraction.n.06", "object.n.01", "thing.n.12"}
+_SENTENCE_BOUNDARIES = {".", "!", "?", ";", ":"}
+_CONTENT_POS = {"NOUN", "VERB", "ADJ", "ADV"}
+_GENERIC_TERMS = {"act", "event", "something", "someone", "thing", "one", "be", "have", "do", "get", "make"}
+_EXPLANATORY_LINKERS = {"when", "as", "because"}
+_PARTICIPANT_ROOT = "person.n.01"
+_PERSON_OR_COLLECTION = {_PARTICIPANT_ROOT, "group.n.01"}
+_EVENT_ROOT = "event.n.01"
+_MATTER_STATE_ROOT = "state_of_matter.n.01"
+_TIME_MEASURE_ROOT = "time_unit.n.01"
+class NativeSense:
+    synset: str
+    nodes: frozenset[str]
+    gloss: str
+    anchors: frozenset[str]
+    names: frozenset[str]
+    examples: tuple[str, ...] = ()
+
+### primary source names
+data/external/references/goddard-2012-primes-molecules-templates.txt
+data/external/references/nsm-primes-chart-v20-2022.txt
+data/external/references/levisen-fernandez-hein-2022-nordic-guide-to-nsm.txt
+data/external/references/notes/2026-10-25-nsm-research-index.json
+data/external/references/notes/2026-10-25-nsm-research-notes.md
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-cc26c477b424adb39407265f5b6894c7a7572831ef20522f7a4182ec2dce975d.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-9d93a681c918f74086e15adf2d0291123b5ac916e5e3ab4a18d2aefc890a31bc.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-9d93a681c918f74086e15adf2d0291123b5ac916e5e3ab4a18d2aefc890a31bc.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-cc26c477b424adb39407265f5b6894c7a7572831ef20522f7a4182ec2dce975d.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-1da4cf1cc20468bb64ff1b6c03c7a4cb057a2e09eef472e013ea718a58778d00.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-d713521784c62cf943d387ec5e7ee033bbc6567624ec38d52f1434af6bf6c87f.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-8aa4ee03cb3eee47198ad7684d4bedffc1b27e6e1986adb05b24103a71d46857.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-d713521784c62cf943d387ec5e7ee033bbc6567624ec38d52f1434af6bf6c87f.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-1da4cf1cc20468bb64ff1b6c03c7a4cb057a2e09eef472e013ea718a58778d00.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-8aa4ee03cb3eee47198ad7684d4bedffc1b27e6e1986adb05b24103a71d46857.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-51f44aad7b3e000e507271c334424ff9cf1c797dadc4bb13fa703d42913218db.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d.intent.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d.result.json
+data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-51f44aad7b3e000e507271c334424ff9cf1c797dadc4bb13fa703d42913218db.intent.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-canonical-prime-projection-review.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-unchanged-prime-links.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-transport.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-answers.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-demand-probes.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-audit.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl_root_prime_audit.py
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-questions.json

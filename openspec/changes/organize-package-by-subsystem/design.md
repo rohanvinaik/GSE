@@ -106,6 +106,7 @@ An AST pass over each consumer repository's Python files, at their current commi
 | StartupForge, CareerForge | Subprocesses into GSE's own Python | Text-structure (genre) encoding |
 | ARC | Import | `GSE.primitives`, which exists only in `GSE/_archive/` |
 | ARC_AGI_3, cell_tracking | `GSE_ROOT` and `GSE_REPO` respectively | Location only |
+| personal-wiki (MentalAtlas) | Imports, lowercase `gse` until 2026-11-24 (the rename sweep missed this repository; fixed in place, untracked); `GSE_REPO` | The spellcheck server's `spell_suggest` at capture; encoder, symbolic spine, document resolution, healer and narrative in its semantic layer |
 
 GSE itself reaches Sparse Wiki by ingesting its world data into local tables (`scripts/build_genealogy_db.py`; DATED_REPORT, `docs/program/BUILD_GAPS.md`, world-ownership row), not through an interface. That is GSE-02's work.
 
@@ -145,52 +146,73 @@ The census should add obligations for those before removing tests elsewhere.
 
 Status: proposal for task 5.2. Nothing here is built until the owner has reviewed it. It implements `specs/gse-interface/spec.md` and is derived from the call sites traced on 2026-11-24 (*Call sites and their kinds* below).
 
-### What GSE is asked to read
+### How every project uses GSE (measured 2026-11-24)
 
-GSE's work arrives in three sizes, and the interface is built for the largest, because that is where today's arrangement breaks.
+| Project | How its work runs | The text it sends | What it needs back | GSE state it changes |
+|---|---|---|---|---|
+| Genesis (Java) | A conversation: while it reasons it asks for one sentence, rule clause, word list or genre at a time and waits (a resident co-process today); also whole stories | Sentences it has split itself; rule clauses with typed slots (`${name:type}`); words; stories | Predicate contracts and their vocabulary; signed valence per word; genre | None |
+| Regenesis | Interactive (MCP tools, the question parser) and corpora (`understand_batch`, with its own staging and resume) | Story files; articles pulled from Wikipedia into memory; prose from MCP callers; single clauses; tokens to spell-clean | Document-resolved contracts; narrative spine; oblique roles; spelling decisions | None |
+| SquishOS | One document at a time under a deadline; comparisons of two drafts; an optimization loop that asks for tokens repeatedly | Markdown and prose files it reduces itself, with a source map; its own sentence and paragraph segmentation | The full typed reading joined back to its own units; the heal ledger; word facts; vocabularies. It fingerprints GSE's code and resources and treats a change during a run as a defect | `learn` writes GSE's protected dictionary |
+| personal-wiki (MentalAtlas) | Capture (heal what is captured) and a semantic layer over notes | Markdown notes; captured snippets | Healed text; document readings | Not traced |
+| StoryClaude | An analysis script | A Claude session transcript (dialogue turns), split with its own regex | Contracts, narrative compression, signal-to-noise | None |
+| ShortcutForge | Interactive routing per user prompt, plus bulk encoding of shortcut descriptions with its own disk cache | Short texts | Vectors | None |
+| StartupForge, CareerForge | Corpora: a list of short definitions; 1,000+ narratives (through Regenesis); verb harvests | Short texts; documents | Vectors; contracts | None |
+| ARC_AGI_3 | Setup and readiness checks | None | Resource states | None |
+| MCP clients | Interactive, through GSE's own spellcheck server | Snippets | Healed text | `learn` |
 
-- **Corpora:** many documents in one run. CareerForge sends over 1,000 startup narratives through Regenesis's `understand_batch`; Regenesis tests read whole books and Wikipedia articles. Today each document becomes a temporary file and a fresh GSE process (about 2.7 s of loading before a word is read, card #19), the file is deleted afterwards, and Regenesis keeps its own content-keyed staging file so that a killed run can resume.
-- **Documents:** one book, article or prose file. GSE reads a document as a whole. Its context is composed once over the whole text (`reading-evidence`), cassettes work over the ±2-line neighbourhood and the document fold, and offsets are code points over the exact original bytes, whose hash is kept (`text-healing`; voice-boundary contract §7). A document can therefore be neither split across requests nor merged with its neighbours.
-- **Snippets:** a sentence, a rule clause or a word list, asked interactively (Genesis's sentence and rule bridge, word lookups).
+### What that means for the interface
+
+1. **Three ways of working, one door.** A conversation of small requests, a single document under a deadline, and a corpus are all common. One resident process per calling project serves all three. Every response line carries its request's id, so a caller never matches answers by order, and a caller can keep several requests open.
+2. **Text arrives in forms, and intake owns them.** Each document declares its form: `prose`, `markdown`, `dialogue` (turns with speakers), `sentences` (already split), `rules` (clauses with typed slots). Intake reduces each form to prose with one splitter (paragraphs, hard wraps, abbreviations; card #13) and records a source map, so every span in a response points into the original file. A project that has its own segmentation can supply it, and the slip records that the segmentation came from the caller. Short texts come many to a file: a corpus file holds one `{"id", "text"}` per line, so a list of definitions or pulled articles is one file, kept as the record.
+3. **One state-changing kind.** `learn` changes GSE's protected dictionary for every project. The dictionary's identity is part of GSE's identity in every slip, so a response says which dictionary it was read under, and a kept response whose dictionary has since changed is stale and is read again (`lexical-evidence`: changing a resource invalidates dependent readings).
+4. **The slip names what actually answered.** A resident process keeps the code and resources it loaded even if the checkout changes beneath it. Its slips record the loaded identity, and at each docket it compares that with the checkout; on a difference it refuses by name (`GSE_CHANGED_SINCE_LOAD`, with both identities) rather than answer under a label that is no longer true.
+5. **Complete, but only for the work asked.** An interactive caller wants one sentence's reading quickly; a corpus caller wants documents read through every scale. A request names the steps to run (healing; word, sentence, paragraph and document scales; cassettes; narrative compression). The response is GSE's complete account of the steps it ran, never a subset tailored to one project, and the slip lists the steps that ran.
+6. **One reading, several published forms.** The typed reading (the GSE-06 export), the predicate contract that Genesis and Regenesis walk, and vectors are forms of the same reading. GSE defines and versions each form and lists them through `describe`; a project asks for the forms it consumes.
+7. **Plain data only, language-neutral.** JSON lines in and out of a process. Genesis is Java; nothing that crosses depends on Python.
+8. **Kept responses are the fixtures.** Regenesis already captures contract fixtures and SquishOS validates events. Written responses are what each project tests against, without GSE.
 
 ### The door
 
-A project runs GSE as its own process and never imports it. `$GSE_ROOT/.venv/bin/GSE serve` loads GSE once (card #19) and stays resident. The project writes one docket per line on stdin and reads the docket ledger's lines on stdout; stderr carries logs only. The process does not depend on its working directory: paths in a docket are absolute or relative to the docket's manifest. `GSE_ROOT` is the one variable that locates GSE; Regenesis, StartupForge and ARC_AGI_3 already use it, SquishOS uses `GSE_REPO`, and Genesis hardcodes the path.
+A project runs GSE as its own process and never imports it. `$GSE_ROOT/.venv/bin/GSE serve` loads GSE once (card #19) and stays resident. The project writes requests as lines on stdin and reads response lines on stdout; stderr carries logs only. The process does not depend on its working directory: paths are absolute or relative to the file that names them. `GSE_ROOT` is the one variable that locates GSE; Regenesis, StartupForge and ARC_AGI_3 already use it, SquishOS and personal-wiki use `GSE_REPO`, and Genesis hardcodes the path.
 
-### The docket (`GSE.request/1`)
+### Requests (`GSE.request/1`)
 
-A request is a docket: a request for one kind of work over a list of documents. Documents are referenced, never pasted in. GSE opens each one itself, so it reads the original bytes, records their hash, and refuses an unreadable document by name (`INVALID_INPUT`, with the byte position of invalid UTF-8).
+A request is a docket of documents or a snippet.
 
 ```json
-{"contract": "GSE.request/1", "kind": "contracts", "id": "careerforge:yc-batch-7",
- "documents": {"manifest": "runs/yc-batch-7/documents.jsonl"},
- "options": {"unit": "document", "genre": "NARRATIVE", "identity": true},
- "destination": "runs/yc-batch-7/gse"}
+{"contract": "GSE.request/1", "kind": "read", "id": "run-7",
+ "documents": {"manifest": "runs/run-7/documents.jsonl"},
+ "options": {"steps": ["heal", "word", "sentence", "paragraph", "document", "cassettes"], "forms": ["reading", "contract"]},
+ "destination": "runs/run-7/gse"}
 ```
 
-- `documents` is a manifest file with one `{"id", "path"}` line per document, for a corpus of any size, or an inline list of the same objects for a few documents. A document may carry its own unit segmentation as a sidecar file: SquishOS supplies its sentence and paragraph IDs so it can join the reading back to its source.
-- `destination` is a directory in the requesting project. GSE writes the responses there: the formal written response, kept in the project's own repository.
-- Snippets are the one exception. `{"input": {"sentences": [...]}}`, `{"input": {"rules": [...]}}` or `{"input": {"words": [...]}}` is sent inline and answered inline, because an interactive sentence or a word list has no document to keep.
+- **Documents** are listed in a manifest, one line each: `{"id", "path", "form"}` for a file, or `{"id", "corpus": "<file>", "form"}` for a corpus file of `{"id", "text"}` lines. GSE opens every file itself, reads the original bytes, records their hash, and refuses an unreadable one by name (`INVALID_INPUT`, with the byte position).
+- **Snippets** are inline and answered inline, for interactive use: `{"input": {"sentences": [...]}}`, `{"input": {"rules": [...], "variables": {...}}}`, `{"input": {"words": [...]}}` or `{"input": {"texts": [...]}}`.
+- **`destination`** is a directory in the requesting project. GSE writes each document's response there: the formal written response, kept in the project's own repository.
 
 ### The written response (`GSE.response/1`)
 
-For each document, GSE writes one response file in `destination`, named by the document's content hash: the document's slip, the department's records, and its `end`. The slip records the document's identity (path, byte hash, size), the options as applied with every default filled in, any normalizations, and GSE's identity (version, commit, lexicon and other resources used).
+Each document's response, written to `destination` and named by the document's content hash, holds its slip, the department's records and its `end`. A snippet's response is the same three parts, returned inline. The slip records:
+- the input's identity: path and form, byte hash, size, the source map, and whether segmentation came from the caller;
+- the steps that ran and the options as applied, with every default filled in;
+- any normalizations;
+- the identity of what answered: GSE version and commit as loaded, and the lexicon, dictionary and other resources used.
 
-Beside the responses GSE keeps the docket ledger, `docket.jsonl`. It opens with a manifest line listing every document before any work starts (the `GSE.intake/1` discipline at corpus scale), then has exactly one outcome line per document as each finishes (its id, hash, outcome and the path of its response), then the docket's own `end`. The resident process streams those same ledger lines on stdout, so the requesting project sees progress as it happens; book-sized readings never pass through a pipe.
+A docket also keeps a ledger, `docket.jsonl`, streamed as progress on stdout. It opens with a manifest of every document before any work starts (the `GSE.intake/1` discipline at corpus scale), then has exactly one outcome line per document as each finishes, then the docket's `end`. Book-sized readings never pass through the pipe.
 
 ```json
-{"record": "manifest", "docket": "sha256:...", "kind": "contracts", "documents": 1043}
-{"record": "document", "id": "yc-0001", "sha256": "...", "outcome": "answered", "response": "runs/yc-batch-7/gse/3f9a….jsonl"}
-{"record": "document", "id": "yc-0412", "sha256": "...", "outcome": "refused", "refusal": {"code": "INVALID_INPUT", "field": "path", "problem": "invalid UTF-8", "position": 18211}}
-{"record": "end", "outcome": "partial", "counts": {"documents": 1043, "answered": 1041, "partial": 1, "refused": 1}}
+{"record": "manifest", "request": "run-7", "docket": "sha256:...", "kind": "read", "documents": 1043}
+{"record": "document", "request": "run-7", "id": "doc-0001", "sha256": "...", "outcome": "answered", "response": "runs/run-7/gse/3f9a….jsonl"}
+{"record": "document", "request": "run-7", "id": "doc-0412", "sha256": "...", "outcome": "refused", "refusal": {"code": "INVALID_INPUT", "field": "path", "problem": "invalid UTF-8", "position": 18211}}
+{"record": "end", "request": "run-7", "outcome": "partial", "counts": {"documents": 1043, "answered": 1041, "partial": 1, "refused": 1}}
 ```
 
-- **One document's failure never sinks the docket.** It is named in its own outcome line.
-- **Content-addressed and resumable.** A response is identified by the document's byte hash, the kind, the options as applied and GSE's identity. Re-submitting a docket to the same destination keeps every response that still matches and reads only what is missing or stale, so an interrupted corpus costs only what was left. This is the lexicon builder's journaled `--retry` and Regenesis's staging, done once, by the desk.
-- **Deterministic.** The same document under the same options and GSE identity gives byte-identical records; timing is never part of a record. A project's tests therefore run on its kept responses without GSE (the "homunculus" scenario).
-- **One process, one load.** The resident door works through the whole docket and schedules its documents within a memory bound: the job Regenesis's `run_batch` does for itself today.
+- **One document's failure never sinks the docket;** it is named in its own outcome line.
+- **Content-addressed and resumable.** A response is identified by the document's byte hash, its form, the steps and options as applied, and the identity of what answered. Re-submitting a docket keeps every response that still matches and reads only what is missing or stale. This is the lexicon builder's journaled `--retry` and Regenesis's staging, done once, by the desk.
+- **Deterministic.** The same input under the same options and identity gives byte-identical records; timing is never part of a record.
+- **Scheduled by GSE.** The door works through a docket within a memory bound, the job Regenesis's `run_batch` does for itself today.
 
-A docket refused before any work starts (for example `UNSUPPORTED_CONTRACT_VERSION`) writes the manifest line and the docket's `end` with the named refusal, and nothing else. A document refused for its own reason (for example `RESOURCE_UNAVAILABLE` naming `genealogy`, with the fix `python scripts/build_genealogy_db.py`) is one outcome line.
+A request refused before any work (for example `UNSUPPORTED_CONTRACT_VERSION`) gets a single `end` carrying the named refusal.
 
 ### Named refusals at the desk
 
@@ -199,51 +221,49 @@ A docket refused before any work starts (for example `UNSUPPORTED_CONTRACT_VERSI
 | `MALFORMED_REQUEST` | The line is not a JSON object, or a required field is missing or mistyped | `field`, `problem` |
 | `UNSUPPORTED_CONTRACT_VERSION` | `contract` names a version GSE does not answer | `received`, `supported` |
 | `UNKNOWN_REQUEST_KIND` | No department owns `kind` | `received`, `offered` |
-| `UNSUPPORTED_OPTION` | An option the kind does not declare, or a value outside its range | `kind`, `option`, `accepted` |
-| `INVALID_INPUT` | The input cannot be read as declared, such as invalid UTF-8 | `field`, `problem`, `position` |
-| `RESOURCE_UNAVAILABLE` | A resource the department needs is missing or unreadable | `resource`, `state`, `path`, `fix` |
+| `UNSUPPORTED_OPTION` | An option, step, form or document form the kind does not declare | `kind`, `option`, `accepted` |
+| `INVALID_INPUT` | An input cannot be read as declared, such as invalid UTF-8 | `field`, `problem`, `position` |
+| `RESOURCE_UNAVAILABLE` | A resource a step needs is missing or unreadable | `resource`, `state`, `path`, `fix` |
+| `GSE_CHANGED_SINCE_LOAD` | The checkout's code or resources differ from what the resident process loaded | `loaded`, `current` |
 | `DEPARTMENT_FAILURE` | A department raised on part of the work; the part is located, never a bare traceback | `department`, `unit`, `error` |
 
-Within an answered or partial response, each unit carries its department's own named outcome from the existing capability specs: reading states (`read`, `partial`, `unread`, `empty`), lexical states (`primes`, `no_primes`, `no_row`, `unread`), healing decisions (`applied`, `offered`, `kept`, `refused`), contract units (`emitted`, `abstained` with a reason, `failed` with a reason). A deadline turns the remaining units into `unread` with reason `deadline`, and the response is `partial`.
+Within an answered or partial response, each unit carries the named outcome its capability spec defines: reading states (`read`, `partial`, `unread`, `empty`), lexical states (`primes`, `no_primes`, `no_row`, `unread`), healing decisions (`applied`, `offered`, `kept`, `refused`), and per-unit contract outcomes (`emitted`; `abstained` or `failed`, each with a reason). A deadline turns the remaining units into `unread` with reason `deadline`, and the response is `partial`.
 
-### Kinds
+### Kinds: GSE's services
 
-| Kind | Department | Answers under | What comes back (from the fields consumers read today) |
+A kind is a kind of work GSE does. Its response is GSE's complete account of that work, defined by GSE's own capability specs and program packages, not by what any project reads today. The call sites below are a coverage check: every current use must be expressible, and nothing a project needs may be missing.
+
+| Kind | Department | The work | The response is defined by |
 |---|---|---|---|
-| `read` | reading | `reading-evidence`, `compositional-reading`; `GSE.intake/1`, `GSE.signs/1`, `GSE.claim/1` | Sentence records with source words; the manifest; one record per utterance with tokens, signs, structure and claims (id, kind, commitment, polarity, claim key, scopes, derivation); the document record (mentions, nodes, edges, flags, fold); `end` with complete or deadline. These are SquishOS's `probe.py` records, including the four surfaces it guards today |
-| `contracts` | reading | `compositional-reading`; the Genesis contract (`emit_contract` v1/v2) | One record per sentence, document unit or rule clause, with its contract or named outcome; options `unit` (sentence, document, rule), `genre`, `identity` (the cassette deck), `heal` (statement healer), `compact` (narrative compression), `obliques`, `variables`. Document options add a cheat-sheet record and a compaction report. This is the single entry card #16 asks for; `describe` publishes the operations, arities and feature keys (card #102) |
-| `words` | lexicon | `lexical-evidence`; `GSE.lexical-evidence/1`, `GSE.frequency-evidence/1` | Per word: lexical state, primitives, composition operation, general and local frequency, raw V/A/D, concreteness, structural E/P/A, dictionary membership |
-| `tokens` | lexicon | `lexical-evidence` | Per token: surface, lemma, POS, alphabetic flag, span |
-| `heal` | healing | `text-healing`; `GSE.heal/1` | Healed text and the located ledger, with each token's candidates and decision |
-| `learn` | healing | `text-healing`; `GSE.protected-dictionary/1` | Per entry: stored, or a named malformed-entry refusal |
-| `dictionary` | healing | `lexical-evidence`, `text-healing`; `GSE.protected-dictionary/1` | Dictionary identity; membership and multiword spans in a text; each word's protection state |
-| `profile` | profile | `GSE.profile/2` | Genre, register and domain, and the text-profile measures |
-| `vectors` | encoding | the encoder's basis | Per text, its vector (dimension, sparse indices and values) and basis identity. GSE returns vectors; it never decides meaning by cosine (AGENTS.md), so similarity is the requesting project's computation |
-| `describe` | desk | this interface | Supported contract versions, kinds with their inputs and options, record formats, and the published vocabularies: primitive banks and hierarchy markers, syntactic roles and tense/aspect/mood primitives, contract operations, arities and feature keys, claim-key version |
-| `doctor` | desk | this interface | Every resource GSE needs (lexicon, WordNet, genealogy, frequency, V/A/D, concreteness), its named state and the command that fixes it (card #25) |
+| `read` | reading | Read documents or snippets through the requested steps: healing, then the word, sentence, paragraph and document scales, cassettes, and narrative compression | The computable-language record of GSE-06 (structure, prime-basis version, vectors and signs, roles, operators, modality and negation, repair ledger, profile observations, world candidate references, spans, confidence basis, named partial and abstention codes), under `compositional-reading`, `reading-evidence`, `text-healing`, GSE-04 and GSE-05. Published forms: `reading` (the full record), `contract` (the predicate form Genesis and Regenesis walk; its operations, arities and feature keys are published, card #102), `vectors` |
+| `words` | lexicon | Look up words without a text | `lexical-evidence`: per word, lexical state, primitives, definition identity and alternatives, frequency, V/A/D, concreteness, structural E/P/A, dictionary membership |
+| `heal` | healing | Heal a text without reading it | `text-healing`: healed text and the located ledger, with candidates and decisions |
+| `learn` | healing | Add protected terms and names (the one state-changing kind) | `text-healing`: per entry, stored or a named malformed-entry refusal |
+| `describe` | desk | Say what GSE offers | Supported contract versions; kinds with their steps, options, document forms and published forms with defaults; record formats; vocabularies (primitive banks and hierarchy markers, syntactic roles and tense/aspect/mood primitives, contract operations and arities, claim-key version) |
+| `doctor` | desk | Check what GSE needs | Every resource (lexicon, WordNet, genealogy, frequency, V/A/D, concreteness, dictionary), its named state and the command that fixes it, and whether the loaded process matches the checkout (card #25) |
 
 ### Call sites and their kinds
 
-| Project | Purpose today | Kind |
+| Project | Purpose today | Request |
 |---|---|---|
-| Genesis | Sentence to contract (server tag `E`, per-call and batch scripts; also `scripts/framegen`, `scripts/story_bakeoff`) | `contracts`, unit sentence |
-| Genesis | Rule clause with `${name:type}` to contract with variables (tag `R`) | `contracts`, unit rule |
-| Genesis | Word to signed valence through the private `_lookup_lexeme` (tag `V`) | `words` (card #54 decides whether GSE also publishes the valence number) |
-| Genesis | Story to genre (tag `G`) | `profile` |
-| Regenesis | Story or text to per-sentence contracts with genre and the cassette deck (`understand`, the puller, the asker) | `contracts`, unit document, `identity` |
-| Regenesis | Narrative spine through the Genesis driver copy (oracle and certify scripts) | `contracts`, unit document, `heal`, `compact` |
-| Regenesis | One contract per sentence plus oblique roles (`gse_access.py`) | `contracts`, unit sentence, `obliques` |
-| Regenesis | Token spell correction (`grounding.spell_clean`) | `heal` |
-| StoryClaude | Heal, resolve and compact a transcript slice, with signal-to-noise and repair counts | `contracts`, unit document, `heal`, `compact` |
-| SquishOS | Read a prose file into voice readings | `read` |
-| SquishOS | Word facts per source word; tokens for the loop proxies | `words`, `tokens` |
-| SquishOS | Heal; learn; membership, spans and protection | `heal`, `learn`, `dictionary` |
-| SquishOS | Registries, claim-key version, provenance | `describe` |
-| SquishOS | `resolve_gse` verdicts (`gse_unset`, `gse_not_found`, `gse_no_python`, `gse_no_lexicon`) | `doctor` |
-| ShortcutForge | Text to intent vector | `vectors` |
-| StartupForge | Concept similarity over definitions | `vectors` |
-| StartupForge, CareerForge | Verbs that survive the parse (through the Genesis driver) | `contracts`, unit document |
-| ARC_AGI_3, Regenesis | Preflight doctor | `doctor` |
+| Genesis | Sentence to contract (tag `E`; per-call and batch scripts; `scripts/framegen`, `scripts/story_bakeoff`) | `read`, snippet sentences, steps `word`+`sentence`, form `contract` |
+| Genesis | Rule clause with typed slots to contract (tag `R`) | `read`, snippet rules with `variables`, form `contract` |
+| Genesis | Word to signed valence (tag `V`, through the private `_lookup_lexeme`) | `words` (card #54 decides whether GSE also publishes the valence number) |
+| Genesis | Story to genre (tag `G`) | `read`, through the `document` step; genre is among the profile observations |
+| Regenesis | Story, file, pulled article or MCP prose to document-resolved contracts | `read`, document (pulled articles in a corpus file), steps through `document`+`cassettes`, form `contract` |
+| Regenesis | Narrative spine (oracle and certify scripts) | `read`, document, steps including `heal` and narrative compression, form `contract` |
+| Regenesis | Contract per sentence plus oblique roles | `read`, form `contract`; oblique roles are part of the reading's roles |
+| Regenesis | Token spell-cleaning | `heal` |
+| StoryClaude | A session transcript, healed, resolved and compressed | `read`, document form `dialogue`, steps including narrative compression |
+| SquishOS | Voice readings of prose and markdown, under a deadline | `read`, document form `markdown` or `prose` with its own segmentation, form `reading` |
+| SquishOS | Word facts; tokens for the scoring loop | `words`; `read` snippet texts with step `word` |
+| SquishOS | Heal; learn; membership, spans and protection | `heal` (protected spans are part of its ledger); `learn`; `words` (membership) |
+| SquishOS | Vocabularies, claim-key version, provenance; the `resolve_gse` verdicts | `describe`; `doctor` |
+| personal-wiki | Heal captured text; read notes | `heal`; `read`, document form `markdown` |
+| ShortcutForge | Prompt to vector; bulk descriptions | `read` snippet texts, form `vectors`; a corpus file for the bulk |
+| StartupForge | Concept similarity over definitions | `read`, corpus file of definitions, form `vectors` |
+| StartupForge, CareerForge | Verbs that survive the parse | `read`, documents, form `contract` |
+| ARC_AGI_3, Regenesis | Preflight checks | `doctor` |
 
 ### Silent failures today, and the named outcome each becomes
 

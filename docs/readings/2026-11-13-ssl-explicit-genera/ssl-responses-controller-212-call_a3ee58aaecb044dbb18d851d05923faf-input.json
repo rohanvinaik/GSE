@@ -1,0 +1,5 @@
+{
+  "command": "pwd && git status --short && .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json, os\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-joint-exit.json','ssl-api-controller-continuation-exit.json','ssl-api-controller-prime-child-writer.json','ssl-api-controller-happening-phase.json','ssl-api-controller-happening-exit.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-responses-controller-steering.json']:\n p=n/name\n print('\\n###',p)\n if p.exists(): print(p.read_text())\n else: print('ABSENT')\nfor pid in [80478,84036]:\n try: os.kill(pid,0); print('OWNED_PID_ALIVE',pid)\n except ProcessLookupError: print('OWNED_PID_EXITED',pid)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

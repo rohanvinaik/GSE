@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-source-frame-records -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport sqlite3,json,ast\np='data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/teaching.db'\nc=sqlite3.connect('file:'+p+'?mode=ro',uri=True);c.row_factory=sqlite3.Row\nfor id in ['nsm_chart:v20:good','nsm_chart:v20:think','wordnet:want:desire.v.01','wordnet:hear:hear.v.01']:\n print('RECORD',id)\n for r in c.execute('SELECT * FROM source_observations WHERE entry_id=?',(id,)):\n  d=dict(r)\n  if d['source'] in {'nsm_chart','nsm_primes_chart','nsm_chart_v20','wordnet_hierarchy'}:print(json.dumps(d))\n print('SOURCES',[(r[0],r[1]) for r in c.execute('SELECT source,record_id FROM source_observations WHERE entry_id=?',(id,))])\nc.close()\ns=Path('GSE/curation/lexicon_builder/catalog.py').read_text()\nfor n in ast.parse(s).body:\n if isinstance(n,(ast.Assign,ast.AnnAssign)) and ast.get_source_segment(s,n).startswith(('_CHART_BOXES','SOURCE')):print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}
