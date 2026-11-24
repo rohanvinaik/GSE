@@ -36,12 +36,23 @@ def packet(tmp_path, source_kind):
             identity = "wiktionary:reserved-fixture"
             definition = Definition(identity, lemma, "noun", gloss)
             features = {
-                "identity_scheme": "GSE.wiktionary-native-leaf/1", "entry_id": identity, "lemma": lemma,
-                "word": lemma, "pos": "noun", "native_id": "reserved-fixture", "definition": gloss,
+                "identity_scheme": "GSE.wiktionary-native-leaf/1",
+                "entry_id": identity,
+                "lemma": lemma,
+                "word": lemma,
+                "pos": "noun",
+                "native_id": "reserved-fixture",
+                "definition": gloss,
                 "native_sense": {"glosses": [gloss]},
             }
             observation = Observation(
-                identity, "wiktionary", _record_id("wiktionary", lemma, features), "wiktionary", features, "lexical", (identity,)
+                identity,
+                "wiktionary",
+                _record_id("wiktionary", lemma, features),
+                "wiktionary",
+                features,
+                "lexical",
+                (identity,),
             )
         pairs.append((definition, observation))
     definitions, observations = zip(*pairs)
@@ -52,19 +63,35 @@ def packet(tmp_path, source_kind):
     with sqlite3.connect(source) as conn:
         receipt = read_model_receipts(conn)[seed][0]
     selection = {
-        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": [seed],
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": [seed],
         "audit_entry_ids": [audit_id, reserved],
-        "reviews": [{"request_id": receipt["request_id"], "review": {
-            **REVIEW, "code": "ACCEPTED", "receipt_sha256": _request_id(receipt),
-        }}],
-        "guarded_candidates": [{
-            "antecedent": None, "consequent": ["BE", 1],
-            "guards": [["pos", "noun"], ["native_noun_frame:stative_being", "true"]], "absent_evidence": [],
-            "warrant": {
-                "warrant_id": "synthetic:stative", "kind": "DEFINITIONAL_DERIVATION", "source_refs": ["synthetic:test"],
-                "statement": "Synthetic rule tests data flow only.", "review_id": "synthetic:rule", "reviewer": "fixture",
-            },
-        }],
+        "reviews": [
+            {
+                "request_id": receipt["request_id"],
+                "review": {
+                    **REVIEW,
+                    "code": "ACCEPTED",
+                    "receipt_sha256": _request_id(receipt),
+                },
+            }
+        ],
+        "guarded_candidates": [
+            {
+                "antecedent": None,
+                "consequent": ["BE", 1],
+                "guards": [["pos", "noun"], ["native_noun_frame:stative_being", "true"]],
+                "absent_evidence": [],
+                "warrant": {
+                    "warrant_id": "synthetic:stative",
+                    "kind": "DEFINITIONAL_DERIVATION",
+                    "source_refs": ["synthetic:test"],
+                    "statement": "Synthetic rule tests data flow only.",
+                    "review_id": "synthetic:rule",
+                    "reviewer": "fixture",
+                },
+            }
+        ],
     }
     raw = export_reviewed_input(source, selection)["input"]
 
@@ -79,24 +106,43 @@ def packet(tmp_path, source_kind):
     child = deepcopy(raw)
     child["audit_entry_ids"] = [audit_id]
     child["guarded_candidates"][0]["warrant"]["required_reservation_ids"] = [reserved]
-    child = export_reviewed_input(source, {
-        **selection, "audit_entry_ids": [audit_id], "guarded_candidates": child["guarded_candidates"],
-    })["input"]
+    child = export_reviewed_input(
+        source,
+        {
+            **selection,
+            "audit_entry_ids": [audit_id],
+            "guarded_candidates": child["guarded_candidates"],
+        },
+    )["input"]
     tested = run_workflow_input(child, Transport(), max_calls=1)
     [candidate] = tested["candidates"]
-    admission = admit_records(child, tested, {
-        **REVIEW, "decision": "APPROVE_DEFINITIONAL_RULE", "rule_id": candidate["relation"]["rule_id"],
-        "warrant_sha256": candidate["warrant_sha256"],
-    })
+    admission = admit_records(
+        child,
+        tested,
+        {
+            **REVIEW,
+            "decision": "APPROVE_DEFINITIONAL_RULE",
+            "rule_id": candidate["relation"]["rule_id"],
+            "warrant_sha256": candidate["warrant_sha256"],
+        },
+    )
     with sqlite3.connect(source) as conn:
         witness = digest(reservation_source(conn, reserved))
     reservation = {
-        **REVIEW, "rule_id": candidate["relation"]["rule_id"], "entry_id": reserved,
-        "source_sha256": witness, "bank": "BE", "audit": abstention,
+        **REVIEW,
+        "rule_id": candidate["relation"]["rule_id"],
+        "entry_id": reserved,
+        "source_sha256": witness,
+        "bank": "BE",
+        "audit": abstention,
     }
     revision = {
-        "format": RESERVATION_FORMAT, "baseline_version": admission["baseline_version"],
-        "admissions": [admission], "retirements": [], "exceptions": [], "reservations": [reservation],
+        "format": RESERVATION_FORMAT,
+        "baseline_version": admission["baseline_version"],
+        "admissions": [admission],
+        "retirements": [],
+        "exceptions": [],
+        "reservations": [reservation],
     }
     return source, revision, seed, audit_id, reserved
 
@@ -119,7 +165,9 @@ def test_reserved_unknown_survives_propagation_and_later_independent_teaching(tm
     assert validate_build(output)["code"] == "REPLAY_VALIDATED"
 
 
-@pytest.mark.parametrize("defect", ["signed", "wrong_request", "wrong_source", "missing", "schema", "known", "duplicate", "malformed"])
+@pytest.mark.parametrize(
+    "defect", ["signed", "wrong_request", "wrong_source", "missing", "schema", "known", "duplicate", "malformed"]
+)
 def test_reservation_cannot_turn_an_invalid_or_signed_audit_into_uncertainty(tmp_path, defect):
     source, revision, _, _, _ = packet(tmp_path, "wiktionary")
     review = revision["reservations"][0]
@@ -149,4 +197,6 @@ def test_reservation_cannot_turn_an_invalid_or_signed_audit_into_uncertainty(tmp
 @pytest.mark.parametrize("value", [None, [], {}, True])
 def test_revision_version_boundary_refuses_malformed_format(value):
     with pytest.raises(ValueError, match="INVALID_RULE_REVISION"):
-        validate_revision_shape({"format": value, "baseline_version": "", "admissions": [], "retirements": [], "exceptions": []})
+        validate_revision_shape(
+            {"format": value, "baseline_version": "", "admissions": [], "retirements": [], "exceptions": []}
+        )

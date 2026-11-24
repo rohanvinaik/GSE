@@ -233,12 +233,15 @@ def to_dict(node: Node) -> Dict[str, Any]:
             "conjunction": node.conjunction,
         }
     if isinstance(node, Temporal):
-        return _with_duration({
-            "_kind": "Temporal",
-            "setting": to_dict(node.setting),
-            "event": to_dict(node.event),
-            "conjunction": node.conjunction,
-        }, node.duration)
+        return _with_duration(
+            {
+                "_kind": "Temporal",
+                "setting": to_dict(node.setting),
+                "event": to_dict(node.event),
+                "conjunction": node.conjunction,
+            },
+            node.duration,
+        )
     if isinstance(node, TypeAssertion):
         d = {
             "_kind": "TypeAssertion",

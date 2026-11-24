@@ -127,8 +127,12 @@ def parse_args():
     parser.add_argument("--candidate", required=True, type=Path)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--reports-dir", type=Path, default=Path(__file__).resolve().parent)
-    parser.add_argument("--gold", type=Path, help="Optional existing semantic labels for readiness only; never activation")
-    parser.add_argument("--retry", action="store_true", help="Explicitly retry unchanged prior failed request identities")
+    parser.add_argument(
+        "--gold", type=Path, help="Optional existing semantic labels for readiness only; never activation"
+    )
+    parser.add_argument(
+        "--retry", action="store_true", help="Explicitly retry unchanged prior failed request identities"
+    )
     modes = parser.add_subparsers(dest="mode", required=True)
     modes.add_parser("quantity-discovery", help="Exactly the three fixed QUANTITY discovery questions")
     selected = modes.add_parser("selected", help="One bank across at most eight explicit definitions")
@@ -189,14 +193,23 @@ def main():
         "bank_priority": "evidence",
         "retry": args.retry,
     }
-    save("plan", {
-        "candidate": str(candidate), "mode": args.mode, "max_model_calls": args.max_model_calls,
-        "options": options, "model": MODEL, "expected_model_digest": MODEL_DIGEST,
-        "model_options": MODEL_OPTIONS, "started_utc": datetime.now(timezone.utc).isoformat(),
-        "worker_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        "active_pointer_sha256": hashlib.sha256(pointer).hexdigest() if pointer is not None else None,
-        "automatic_activation": False, "semantic_rule_approval": False,
-    })
+    save(
+        "plan",
+        {
+            "candidate": str(candidate),
+            "mode": args.mode,
+            "max_model_calls": args.max_model_calls,
+            "options": options,
+            "model": MODEL,
+            "expected_model_digest": MODEL_DIGEST,
+            "model_options": MODEL_OPTIONS,
+            "started_utc": datetime.now(timezone.utc).isoformat(),
+            "worker_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "active_pointer_sha256": hashlib.sha256(pointer).hexdigest() if pointer is not None else None,
+            "automatic_activation": False,
+            "semantic_rule_approval": False,
+        },
+    )
     failed = False
     try:
         before, prior_ids, _ = snapshot(candidate, args.bank)
@@ -213,6 +226,7 @@ def main():
         save("execution", {"model_pin": pin, "transport_identity": transport.identity, "options": options})
         try:
             with (directory / "progress.jsonl").open("x", encoding="utf-8") as progress_file:
+
                 def progress(event):
                     line = json.dumps(event, sort_keys=True, allow_nan=False)
                     progress_file.write(line + "\n")
@@ -248,14 +262,20 @@ def main():
         failed = failed or bool(assignment["violations"]) or replay["code"] != "REPLAY_VALIDATED"
         failed = failed or not replay.get("complete_search", False) or pointer != pointer_bytes()
         failed = failed or publication["code"] not in {"PUBLICATION_BLOCKED", "READY_FOR_PUBLICATION"}
-        save("verification", {
-            "code": "CHECKPOINT_FAILED" if failed else "CHECKPOINT_VERIFIED",
-            "new_receipts": len(receipts), "changed_cells": len(assignment["changes"]),
-            "replay": replay["code"], "publication": publication["code"],
-            "active_pointer_unchanged": pointer == pointer_bytes(),
-            "candidate_complete": publication["code"] == "READY_FOR_PUBLICATION",
-            "activation_performed": False, "semantic_reviews_created": 0,
-        })
+        save(
+            "verification",
+            {
+                "code": "CHECKPOINT_FAILED" if failed else "CHECKPOINT_VERIFIED",
+                "new_receipts": len(receipts),
+                "changed_cells": len(assignment["changes"]),
+                "replay": replay["code"],
+                "publication": publication["code"],
+                "active_pointer_unchanged": pointer == pointer_bytes(),
+                "candidate_complete": publication["code"] == "READY_FOR_PUBLICATION",
+                "activation_performed": False,
+                "semantic_reviews_created": 0,
+            },
+        )
     except BaseException as error:
         failed = True
         save("worker-error", {"error_type": type(error).__name__, "reason": str(error)})
@@ -264,9 +284,18 @@ def main():
     finally:
         progress_path = directory / "progress.jsonl"
         if progress_path.exists():
-            outputs.append({"file": progress_path.name, "sha256": hashlib.sha256(progress_path.read_bytes()).hexdigest()})
-        save("manifest", {"format": "GSE.bounded-worker-artifacts/1", "artifacts": list(outputs),
-                          "hash_scope": "FILE_BYTES_EXCLUDING_THIS_MANIFEST", "worker_failed": failed})
+            outputs.append(
+                {"file": progress_path.name, "sha256": hashlib.sha256(progress_path.read_bytes()).hexdigest()}
+            )
+        save(
+            "manifest",
+            {
+                "format": "GSE.bounded-worker-artifacts/1",
+                "artifacts": list(outputs),
+                "hash_scope": "FILE_BYTES_EXCLUDING_THIS_MANIFEST",
+                "worker_failed": failed,
+            },
+        )
     print(json.dumps({"reports": str(directory), "worker_failed": failed, "activation_performed": False}), flush=True)
     return int(failed)
 

@@ -21,8 +21,11 @@ TARGETS = {
     "epoch-02-teaching": WORK / "zipf/epoch-02/teaching.db",
 }
 DERIVED_OR_VERIFIED = {
-    "definition_states", "primitive_values", "sentence_primitive_values",
-    "source_observations", "sqlite_sequence",
+    "definition_states",
+    "primitive_values",
+    "sentence_primitive_values",
+    "source_observations",
+    "sqlite_sequence",
 }
 STREAMS = {
     "native_observations": "SELECT record_id,entry_id,source,family,scope,payload FROM source_observations ORDER BY record_id",
@@ -70,7 +73,9 @@ def prepare(label):
             checks[name] = {"code": "EXACT_STREAM_HASH_EQUAL", **observed}
             print("CHECKPOINT_SOURCE_VERIFIED", label, name, observed["rows"], flush=True)
         connection.execute("ATTACH DATABASE ? AS retained", (f"file:{witness}?mode=ro",))
-        names = [row[0] for row in connection.execute("SELECT name FROM main.sqlite_master WHERE type='table' ORDER BY name")]
+        names = [
+            row[0] for row in connection.execute("SELECT name FROM main.sqlite_master WHERE type='table' ORDER BY name")
+        ]
         for name in names:
             if name in DERIVED_OR_VERIFIED:
                 continue
@@ -85,19 +90,32 @@ def prepare(label):
             if rows:
                 tables[name] = {"columns": columns, "rows": rows}
     document = {
-        "format": "GSE.checkpoint-audit-delta/1", "source": str(source), "source_sha256": digest,
-        "witness": str(witness), "witness_sha256": lineage["witness_sha256"],
+        "format": "GSE.checkpoint-audit-delta/1",
+        "source": str(source),
+        "source_sha256": digest,
+        "witness": str(witness),
+        "witness_sha256": lineage["witness_sha256"],
         "scope": "All source and definition identity streams match retained 019; archive every unique row outside reproducible bank projections.",
-        "source_data_checks": checks, "derived_or_verified_tables": sorted(DERIVED_OR_VERIFIED), "tables": tables,
+        "source_data_checks": checks,
+        "derived_or_verified_tables": sorted(DERIVED_OR_VERIFIED),
+        "tables": tables,
     }
     archive = witness.parent / "ssl-explicit-genera/retired-audit" / ("020-" + label + "-audit-delta.json.gz")
     archive.write_bytes(gzip.compress(json.dumps(document, ensure_ascii=False, sort_keys=True).encode(), mtime=0))
-    if json.loads(gzip.decompress(archive.read_bytes())) != json.loads(json.dumps(document)) or identity(source) != before:
+    if (
+        json.loads(gzip.decompress(archive.read_bytes())) != json.loads(json.dumps(document))
+        or identity(source) != before
+    ):
         raise ValueError("CHECKPOINT_ARCHIVE_ROUNDTRIP_OR_SOURCE_CHANGED")
     result = {
-        "format": "GSE.retirement-preparation/1", "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
-        "path": str(source), "sha256": digest, **before, "witness": str(witness),
-        "witness_sha256": lineage["witness_sha256"], "audit_delta": str(archive),
+        "format": "GSE.retirement-preparation/1",
+        "code": "WORK_AUDITS_PRESERVED_NO_CHECKPOINT_REMOVED",
+        "path": str(source),
+        "sha256": digest,
+        **before,
+        "witness": str(witness),
+        "witness_sha256": lineage["witness_sha256"],
+        "audit_delta": str(archive),
         "audit_delta_sha256": sha256(archive.read_bytes()).hexdigest(),
         "retired_only_row_counts": {table: len(data["rows"]) for table, data in tables.items()},
         "source_data_checks": checks,

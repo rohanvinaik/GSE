@@ -434,8 +434,14 @@ def _wordnet_definitions(parser: object | None, words: tuple[str, ...]):
                     witness = wordnet_identity_observation(identity, definitions[record_id])
                     observations[witness.record_id] = witness
                 else:
-                    unresolved.append({"code": "WORDNET_IDENTITY_CONTEXT_UNAVAILABLE", "record_id": record_id,
-                                       "source": "wordnet_hierarchy", "identity": identity})
+                    unresolved.append(
+                        {
+                            "code": "WORDNET_IDENTITY_CONTEXT_UNAVAILABLE",
+                            "record_id": record_id,
+                            "source": "wordnet_hierarchy",
+                            "identity": identity,
+                        }
+                    )
             project = getattr(parser, "to_primitives_for_definition", None)
             if callable(project):
                 assertions.extend(_taxonomy_assertions(record_id, project(synset_name)))
@@ -633,8 +639,16 @@ def _native_reference_observation_fields(packet: dict) -> dict:
     from GSE.curation.external_sources.wiktionary import _lookup_form, _native_reference_links
 
     required = {
-        "format", "code", "source_entry", "relation", "link", "target_word", "target_lookup",
-        "target_entries", "other_pos_entries", "source_sha256",
+        "format",
+        "code",
+        "source_entry",
+        "relation",
+        "link",
+        "target_word",
+        "target_lookup",
+        "target_entries",
+        "other_pos_entries",
+        "source_sha256",
     }
     if not isinstance(packet, dict) or set(packet) != required:
         raise ValueError("INVALID_NATIVE_REFERENCE_PACKET_FIELDS")
@@ -670,12 +684,18 @@ def _native_reference_observation_fields(packet: dict) -> dict:
             if (target.pos == original.pos) != (key == "target_entries"):
                 raise ValueError("NATIVE_REFERENCE_TARGET_POS_MISMATCH")
             result.append(target)
-        if records != sorted(records, key=lambda record: (record["entry_id"], record["source_line"], record["sense_index"])):
+        if records != sorted(
+            records, key=lambda record: (record["entry_id"], record["source_line"], record["sense_index"])
+        ):
             raise ValueError("NONDETERMINISTIC_NATIVE_REFERENCE_TARGET_ORDER")
     if len({target.entry_id for target in matching}) > 1:
         code = "AMBIGUOUS_TARGET_SENSES"
     elif matching:
-        code = "TARGET_IS_REFERENCE" if any(_native_reference_links(target) for target in matching) else "TARGET_DEFINITIONS_AVAILABLE"
+        code = (
+            "TARGET_IS_REFERENCE"
+            if any(_native_reference_links(target) for target in matching)
+            else "TARGET_DEFINITIONS_AVAILABLE"
+        )
     else:
         code = "TARGET_HAS_ONLY_OTHER_POS" if other else "TARGET_NOT_FOUND"
     if packet["code"] != code:

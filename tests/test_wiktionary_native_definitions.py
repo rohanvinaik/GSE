@@ -124,8 +124,12 @@ def test_anatomy_genus_projects_own_body_content_and_replays_exact_witness(tmp_p
     build_dictionary(bundle, path)
     assert validate_build(path)["code"] == "REPLAY_VALIDATED"
 
-    supported = next(definition for definition in bundle.definitions if definition.definition == "A small bone in the wrist.")
-    excluded = next(definition for definition in bundle.definitions if definition.definition == "An involuntary muscle twitch.")
+    supported = next(
+        definition for definition in bundle.definitions if definition.definition == "A small bone in the wrist."
+    )
+    excluded = next(
+        definition for definition in bundle.definitions if definition.definition == "An involuntary muscle twitch."
+    )
     with closing(sqlite3.connect(path)) as conn, conn:
         [entry] = read_entries(conn, entry_id=supported.entry_id)
         assert entry["assignments"] == {"BODY": 1, "GOOD": 0, "SOMETHING": 1}

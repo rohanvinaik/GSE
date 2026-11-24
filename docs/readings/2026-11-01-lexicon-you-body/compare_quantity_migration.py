@@ -67,7 +67,9 @@ def observe(path):
     last = path.stat()
     fields = ("st_dev", "st_ino", "st_size", "st_mtime_ns")
     return {
-        "path": str(path), "exists": True, "sha256": hasher.hexdigest(),
+        "path": str(path),
+        "exists": True,
+        "sha256": hasher.hexdigest(),
         "stat": {key: getattr(last, key) for key in fields},
         "stable_during_hash": all(getattr(first, key) == getattr(last, key) for key in fields),
     }
@@ -84,8 +86,11 @@ class Findings:
             self.details.append({"code": code, **detail})
 
     def report(self):
-        return {"counts": dict(self.counts), "details": self.details,
-                "omitted_details": sum(self.counts.values()) - len(self.details)}
+        return {
+            "counts": dict(self.counts),
+            "details": self.details,
+            "omitted_details": sum(self.counts.values()) - len(self.details),
+        }
 
 
 def native_member(definition, source):
@@ -93,10 +98,10 @@ def native_member(definition, source):
         return False, False
     names = source["features"].get("lemma_names")
     eligible = (
-        isinstance(names, (list, tuple)) and bool(names)
+        isinstance(names, (list, tuple))
+        and bool(names)
         and all(isinstance(name, str) and name.strip() for name in names)
-        and definition["lemma"].casefold().replace("_", " ")
-        in {name.casefold().replace("_", " ") for name in names}
+        and definition["lemma"].casefold().replace("_", " ") in {name.casefold().replace("_", " ") for name in names}
     )
     return True, bool(eligible)
 
@@ -154,8 +159,7 @@ def inspect_sources(connection, side, population, eligible, findings):
         WHERE s.source='wordnet_hierarchy' AND s.scope='lexical'
     """)
     for row in rows:
-        definition = {"entry_id": row["entry_id"], "lemma": row["lemma"],
-                      "pos": row["pos"], "definition": row["gloss"]}
+        definition = {"entry_id": row["entry_id"], "lemma": row["lemma"], "pos": row["pos"], "definition": row["gloss"]}
         source = strict_json(row["payload"])
         if not isinstance(source, dict):
             raise ValueError("SOURCE_PAYLOAD_NOT_OBJECT")
@@ -179,15 +183,20 @@ def inspect_sources(connection, side, population, eligible, findings):
         ("NATIVE_SPELLING_POPULATION_MISMATCH", native_spellings, eligible),
     ):
         if actual != expected:
-            findings.add(code, side=side, missing=sorted(expected-actual), extra=sorted(actual-expected))
+            findings.add(code, side=side, missing=sorted(expected - actual), extra=sorted(actual - expected))
 
 
 def state_rows(connection, side, findings):
-    primitives = iter(itertools.groupby(connection.execute("""
+    primitives = iter(
+        itertools.groupby(
+            connection.execute("""
         SELECT d.entry_id,p.primitive,p.value FROM primitive_values p
         LEFT JOIN definition_states d ON d.lexeme_id=p.lexeme_id
         ORDER BY d.entry_id,p.primitive
-    """), key=lambda row: row["entry_id"]))
+    """),
+            key=lambda row: row["entry_id"],
+        )
+    )
     current = next(primitives, None)
     if current is not None and current[0] is None:
         findings.add("ORPHAN_PRIMITIVE_ROWS", side=side, count=sum(1 for _ in current[1]))
@@ -209,9 +218,13 @@ def state_rows(connection, side, findings):
         domains = strict_json(row["domains"])
         valid = isinstance(domains, dict) and set(domains) == set(BANKS)
         if valid:
-            valid = all(isinstance(domain, list) and bool(domain)
-                        and all(type(sign) is int and sign in {-1, 0, 1} for sign in domain)
-                        and domain == sorted(set(domain)) for domain in domains.values())
+            valid = all(
+                isinstance(domain, list)
+                and bool(domain)
+                and all(type(sign) is int and sign in {-1, 0, 1} for sign in domain)
+                and domain == sorted(set(domain))
+                for domain in domains.values()
+            )
         if not valid:
             findings.add("MALFORMED_DOMAINS", side=side, entry_id=key)
         else:
@@ -220,9 +233,12 @@ def state_rows(connection, side, findings):
                 findings.add("PRIMITIVE_DOMAIN_MISMATCH", side=side, entry_id=key, expected=known, actual=values)
             expected_code = "RESOLVED" if len(known) == len(BANKS) else "PARTIAL"
             if row["code"] != expected_code:
-                findings.add("RESOLUTION_CODE_MISMATCH", side=side, entry_id=key,
-                             expected=expected_code, actual=row["code"])
-        identity = {name: row[name] for name in ("entry_id", "lexeme_id", "lemma", "pos", "sense_id", "gloss", "source")}
+                findings.add(
+                    "RESOLUTION_CODE_MISMATCH", side=side, entry_id=key, expected=expected_code, actual=row["code"]
+                )
+        identity = {
+            name: row[name] for name in ("entry_id", "lexeme_id", "lemma", "pos", "sense_id", "gloss", "source")
+        }
         if row["sense_id"] != key:
             findings.add("DEFINITION_IDENTITY_MAPPING_INVALID", side=side, entry_id=key)
         yield key, identity, domains, values, valid
@@ -279,25 +295,45 @@ def compare_states(before, after, eligible, findings):
             for bank in set(a[3]) | set(b[3]):
                 if a[3].get(bank) == b[3].get(bank) and (bank in a[3]) == (bank in b[3]):
                     continue
-                if not (key in eligible and bank == "QUANTITY" and bank not in a[3]
-                        and b[3].get(bank) == 1 and len(a[2][bank]) > 1 and 1 in a[2][bank]):
-                    findings.add("UNAUTHORIZED_PRIMITIVE_CHANGE", entry_id=key, bank=bank,
-                                 before=a[3].get(bank), after=b[3].get(bank))
+                if not (
+                    key in eligible
+                    and bank == "QUANTITY"
+                    and bank not in a[3]
+                    and b[3].get(bank) == 1
+                    and len(a[2][bank]) > 1
+                    and 1 in a[2][bank]
+                ):
+                    findings.add(
+                        "UNAUTHORIZED_PRIMITIVE_CHANGE",
+                        entry_id=key,
+                        bank=bank,
+                        before=a[3].get(bank),
+                        after=b[3].get(bank),
+                    )
         a, b = next(left, None), next(right, None)
     if targeted_after != eligible:
-        findings.add("TARGET_DEFINITIONS_NOT_COMPARED", missing=sorted(eligible-targeted_after))
+        findings.add("TARGET_DEFINITIONS_NOT_COMPARED", missing=sorted(eligible - targeted_after))
     if changed_ids != expected_ids:
-        findings.add("EXPECTED_CHANGED_IDS_MISMATCH", missing=sorted(expected_ids-changed_ids), extra=sorted(changed_ids-expected_ids))
-    return {"counts": dict(counts), "changes": changes,
-            "omitted_change_details": counts["changed_cells"]-len(changes),
-            "changed_entry_ids": sorted(changed_ids), "expected_changed_entry_ids": sorted(expected_ids)}
+        findings.add(
+            "EXPECTED_CHANGED_IDS_MISMATCH",
+            missing=sorted(expected_ids - changed_ids),
+            extra=sorted(changed_ids - expected_ids),
+        )
+    return {
+        "counts": dict(counts),
+        "changes": changes,
+        "omitted_change_details": counts["changed_cells"] - len(changes),
+        "changed_entry_ids": sorted(changed_ids),
+        "expected_changed_entry_ids": sorted(expected_ids),
+    }
 
 
 def new_report(path, report):
     temporary = None
     try:
-        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
-                                         prefix=".quantity-comparison-", delete=False) as stream:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=path.parent, prefix=".quantity-comparison-", delete=False
+        ) as stream:
             temporary = Path(stream.name)
             json.dump(report, stream, ensure_ascii=False, allow_nan=False, indent=2)
             stream.write("\n")
@@ -325,17 +361,30 @@ def main():
         parser.error("--report must have an existing parent and cannot alias an input")
     if before.samefile(after):
         parser.error("--before and --after must be distinct snapshots")
-    if args.expected_before_sha256 and (len(args.expected_before_sha256) != 64
-            or any(char not in "0123456789abcdef" for char in args.expected_before_sha256)):
+    if args.expected_before_sha256 and (
+        len(args.expected_before_sha256) != 64
+        or any(char not in "0123456789abcdef" for char in args.expected_before_sha256)
+    ):
         parser.error("--expected-before-sha256 must be 64 lowercase hexadecimal characters")
     findings = Findings()
-    paths = {"before": before, "after": after, "before_wal": Path(str(before)+"-wal"),
-             "after_wal": Path(str(after)+"-wal"), "active_pointer": ACTIVE_POINTER}
+    paths = {
+        "before": before,
+        "after": after,
+        "before_wal": Path(str(before) + "-wal"),
+        "after_wal": Path(str(after) + "-wal"),
+        "active_pointer": ACTIVE_POINTER,
+    }
     start = {name: observe(path) for name, path in paths.items()}
-    report = {"format": "GSE.quantity-migration-isolation/1", "authority": "FACTUAL_ISOLATION_NOT_SEMANTIC_ADMISSION",
-              "database_writes": 0, "model_calls": 0, "activation_performed": False,
-              "hash_scope": "Filesystem observations of immutable, WAL-free snapshots; nonempty WAL refused; start/end hashes detect input changes.",
-              "expected_before_sha256": args.expected_before_sha256, "start_observations": start}
+    report = {
+        "format": "GSE.quantity-migration-isolation/1",
+        "authority": "FACTUAL_ISOLATION_NOT_SEMANTIC_ADMISSION",
+        "database_writes": 0,
+        "model_calls": 0,
+        "activation_performed": False,
+        "hash_scope": "Filesystem observations of immutable, WAL-free snapshots; nonempty WAL refused; start/end hashes detect input changes.",
+        "expected_before_sha256": args.expected_before_sha256,
+        "start_observations": start,
+    }
     report["implementation_observations"] = {
         "comparison_script": observe(Path(__file__).resolve()),
         "native_witness_validator": observe(ROOT / "GSE/curation/lexicon_builder/foundation.py"),
@@ -349,17 +398,23 @@ def main():
             raise ValueError("EXPECTED_BEFORE_SHA256_MISMATCH")
         inventory_observation, population, eligible = inventory_scope(findings)
         report["inventory"] = inventory_observation
-        report["scope"] = {"native_linear_unit_entries": len(population), "eligible_native_spellings": len(eligible),
-                           "eligible_entry_ids": sorted(eligible), "excluded_count": len(population)-len(eligible),
-                           "excluded_entry_ids": sorted(set(population)-eligible)}
+        report["scope"] = {
+            "native_linear_unit_entries": len(population),
+            "eligible_native_spellings": len(eligible),
+            "eligible_entry_ids": sorted(eligible),
+            "excluded_count": len(population) - len(eligible),
+            "excluded_entry_ids": sorted(set(population) - eligible),
+        }
         with ExitStack() as stack:
             first = snapshot(before)
             stack.callback(first.close)
             second = snapshot(after)
             stack.callback(second.close)
             connections = {"before": first, "after": second}
-            versions = {side: connection.execute("PRAGMA data_version").fetchone()[0]
-                        for side, connection in connections.items()}
+            versions = {
+                side: connection.execute("PRAGMA data_version").fetchone()[0]
+                for side, connection in connections.items()
+            }
             for side, connection in connections.items():
                 inspect_sources(connection, side, population, eligible, findings)
             report["comparison"] = compare_states(first, second, eligible, findings)

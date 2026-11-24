@@ -10,7 +10,9 @@ driver = import_module("docs.readings.2026-11-13-ssl-explicit-genera.coherence_0
 def test_live_round_command_preserves_native_model_identity_and_context(monkeypatch):
     model = {"name": "fixture:verified-model", "digest": "f" * 64}
     calls = []
-    monkeypatch.setattr(driver, "read", lambda path: {"source_sha256": {}} if "verification" in path.name else {"model": model})
+    monkeypatch.setattr(
+        driver, "read", lambda path: {"source_sha256": {}} if "verification" in path.name else {"model": model}
+    )
     monkeypatch.setattr(driver.subprocess, "run", lambda command, **kwargs: calls.append((command, kwargs)))
     driver.invoke("run")
     [command] = [c for c, _ in calls]

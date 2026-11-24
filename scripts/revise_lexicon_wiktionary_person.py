@@ -20,7 +20,10 @@ FORMAT = "GSE.wiktionary-person-projection-revision/1"
 
 
 def _audit_support(scope, audit):
-    if current_id(audit.get("format")) != "GSE.wiktionary-person-source-audit/1" or audit.get("candidate_writes") is not False:
+    if (
+        current_id(audit.get("format")) != "GSE.wiktionary-person-source-audit/1"
+        or audit.get("candidate_writes") is not False
+    ):
         raise ValueError("INVALID_WIKTIONARY_PERSON_AUDIT")
     supporting = []
     for case in audit["results"]:

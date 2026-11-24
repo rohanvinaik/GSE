@@ -1023,8 +1023,14 @@ def _build_clause_expr(
             )
             args = [
                 _build_clause_expr(
-                    before, tokens, operators, operator_positions, operand_exclusions, drop_relativizers,
-                    shared_subject, signs
+                    before,
+                    tokens,
+                    operators,
+                    operator_positions,
+                    operand_exclusions,
+                    drop_relativizers,
+                    shared_subject,
+                    signs,
                 ),
                 _build_clause_expr(
                     after, tokens, operators, operator_positions, excluded, drop_relativizers, shared_subject, signs

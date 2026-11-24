@@ -40,7 +40,9 @@ def run():
     directory.mkdir(exist_ok=True)
     native = OllamaTransport("qwen3.8:27b-q4_K_M", context_tokens=65536, timeout=420, thinking=False, output_tokens=256)
     native.pin()
-    if not native.identity.startswith("qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@"):
+    if not native.identity.startswith(
+        "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@"
+    ):
         raise ValueError("VERTEBRATE_DIAGNOSTIC_MODEL_CHANGED")
     transport = JournaledTransport(native, directory, "audit", 4, WORK / "model.lock")
     with closing(connect(baseline)) as connection:
@@ -52,19 +54,40 @@ def run():
             definition, assertions, restrictions, _ = _entry(connection, identity)
             context = lexical_context(definition, observations[identity], rules)
             banks = tuple(sorted(evidence[identity]))
-            state = resolve_dictionary(BANKS, assertions, rules, context, evidence_banks=banks, domain_restrictions=restrictions)
-            request = build_request(identity, "BODY", state, tuple(observations[identity]), definition=definition, relations=rules, context=context)
+            state = resolve_dictionary(
+                BANKS, assertions, rules, context, evidence_banks=banks, domain_restrictions=restrictions
+            )
+            request = build_request(
+                identity,
+                "BODY",
+                state,
+                tuple(observations[identity]),
+                definition=definition,
+                relations=rules,
+                context=context,
+            )
             if sorted(state.domains["BODY"]) != [-1, 0, 1]:
                 raise ValueError("RESERVED_BODY_TARGET_NOT_OPEN:" + identity)
             prepared.append((request, assertions, restrictions, context, banks))
     audits = []
     for request, assertions, restrictions, context, evidence_banks in prepared:
         captured = _CapturedTransport(transport)
-        completion = complete_bank(request, BANKS, assertions, rules, captured, context, evidence_banks=evidence_banks, domain_restrictions=restrictions)
+        completion = complete_bank(
+            request,
+            BANKS,
+            assertions,
+            rules,
+            captured,
+            context,
+            evidence_banks=evidence_banks,
+            domain_restrictions=restrictions,
+        )
         value = completion.assertion.value if completion.assertion is not None else None
         outcome = (
-            "MODEL_AGREEMENT" if value == 1 else "MODEL_COUNTEREXAMPLE"
-        ) if completion.code == "ASSIGNED" else completion.code
+            ("MODEL_AGREEMENT" if value == 1 else "MODEL_COUNTEREXAMPLE")
+            if completion.code == "ASSIGNED"
+            else completion.code
+        )
         result = {
             "entry_id": request.entry_id,
             "bank": "BODY",

@@ -73,7 +73,9 @@ def joint_replay(candidate):
         if ratio != 1 or changes:
             row = expected.get(identity)
             if row is None or (old_count, new_count, changes) != (
-                row["support_before"], row["support_after"], row["domain_changes"]
+                row["support_before"],
+                row["support_after"],
+                row["domain_changes"],
             ):
                 raise ValueError("COHERENCE_020_SUPPORT_DIFFERS_FROM_STAGE:" + identity)
             observed.append(row)
@@ -111,11 +113,11 @@ def verify():
         raise ValueError("COHERENCE_020_CANDIDATE_CHANGED")
     stage = read(NOTES / "020-joint-support-stage.json")
     expected = {
-        (row["entry_id"], bank): change
-        for row in stage["records"]
-        for bank, change in row["domain_changes"].items()
+        (row["entry_id"], bank): change for row in stage["records"] for bank, change in row["domain_changes"].items()
     }
-    actual = {(row["entry_id"], row["bank"]): {"before": row["before"], "after": row["after"]} for row in result["changes"]}
+    actual = {
+        (row["entry_id"], row["bank"]): {"before": row["before"], "after": row["after"]} for row in result["changes"]
+    }
     if actual != expected:
         raise ValueError("COHERENCE_020_FULL_DELTA_DIFFERS_FROM_STAGE")
     with GSEEncoder(candidate) as encoder:
@@ -146,20 +148,25 @@ def verify():
     previous = read(NOTES / "019-candidate-state-corpus.json")
     old = {(row["entry_id"], row["style"]): row for row in previous["results"]}
     regressions = [
-        row for row in corpus["results"]
-        if old[(row["entry_id"], row["style"])]["code"] == "IDENTIFIED_CORRECT"
-        and row["code"] != "IDENTIFIED_CORRECT"
+        row
+        for row in corpus["results"]
+        if old[(row["entry_id"], row["style"])]["code"] == "IDENTIFIED_CORRECT" and row["code"] != "IDENTIFIED_CORRECT"
     ]
     if corpus["code"] != "STATE_CORPUS_GROUNDING_VALIDATED" or regressions:
         raise ValueError("COHERENCE_020_STATE_CORPUS_REGRESSION")
     record(NOTES / "020-candidate-state-corpus.json", {**corpus, "regressions": regressions})
-    record(NOTES / "020-verification.json", {
-        "code": "COHERENCE_020_CANDIDATE_VALIDATED", "result": result,
-        "baseline_sha256": parent["sha256"], "benchmark_comparisons": comparisons,
-        "state_corpus_outcomes": dict(Counter(row["code"] for row in corpus["results"])),
-        "joint_support_reduction_bits": joint["log2_support_ratio"],
-        "marginal_potential_reduction_bits": joint["marginal_potential_reduction_bits"],
-    })
+    record(
+        NOTES / "020-verification.json",
+        {
+            "code": "COHERENCE_020_CANDIDATE_VALIDATED",
+            "result": result,
+            "baseline_sha256": parent["sha256"],
+            "benchmark_comparisons": comparisons,
+            "state_corpus_outcomes": dict(Counter(row["code"] for row in corpus["results"])),
+            "joint_support_reduction_bits": joint["log2_support_ratio"],
+            "marginal_potential_reduction_bits": joint["marginal_potential_reduction_bits"],
+        },
+    )
     print("COHERENCE_020_CANDIDATE_VALIDATED", result["new_cells"], flush=True)
 
 
@@ -196,12 +203,20 @@ def publish():
                     raise ValueError("COHERENCE_020_CONSUMER_DOMAIN_MISMATCH:" + entry)
                 encoder.encode_definition(entry)
                 checks.append({"entry_id": entry, "bank": bank, "domain": domain, "compiled": True})
-    record(NOTES / "sparse-release-020-activation.json", {
-        "code": "ACTIVE_COHERENCE_020_VERIFIED", "path": str(destination), "previous_path": str(BASE),
-        "sha256": release["sha256"], "pointer_sha256": fingerprint(ACTIVE_POINTER),
-        "cells": release["cells"], "replay": release["replay"],
-        "semantic_outcomes": release["semantic_audit"]["outcomes"], "fresh_default_consumer": checks,
-    })
+    record(
+        NOTES / "sparse-release-020-activation.json",
+        {
+            "code": "ACTIVE_COHERENCE_020_VERIFIED",
+            "path": str(destination),
+            "previous_path": str(BASE),
+            "sha256": release["sha256"],
+            "pointer_sha256": fingerprint(ACTIVE_POINTER),
+            "cells": release["cells"],
+            "replay": release["replay"],
+            "semantic_outcomes": release["semantic_audit"]["outcomes"],
+            "fresh_default_consumer": checks,
+        },
+    )
     print("ACTIVE_COHERENCE_020_VERIFIED", release["cells"], flush=True)
 
 

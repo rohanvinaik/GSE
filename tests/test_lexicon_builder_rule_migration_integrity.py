@@ -135,8 +135,11 @@ def test_legacy_binding_table_upgrade_preserves_rows_and_refuses_duplicate_recei
         )
         install_history(conn)
         conn.execute("INSERT INTO model_rule_versions VALUES ('question','entry','new','receipt-b')")
-        assert conn.execute("SELECT version,receipt_sha256 FROM model_rule_versions ORDER BY receipt_sha256").fetchall() == [
-            ("old", "receipt-a"), ("new", "receipt-b"),
+        assert conn.execute(
+            "SELECT version,receipt_sha256 FROM model_rule_versions ORDER BY receipt_sha256"
+        ).fetchall() == [
+            ("old", "receipt-a"),
+            ("new", "receipt-b"),
         ]
         with pytest.raises(sqlite3.IntegrityError, match="RULE_HISTORY_APPEND_ONLY"):
             conn.execute("INSERT OR REPLACE INTO model_rule_versions VALUES ('question','entry','new','receipt-a')")

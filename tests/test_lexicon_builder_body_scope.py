@@ -170,7 +170,11 @@ def test_body_contract_has_scoped_interpretation_authority_and_protocol_pin():
     wire = model_input(original)
     assert wire["format"] == "GSE.lexical-component-entailment/14"
     assert [example["output"] for example in coordinate["examples"]] == [
-        {"BODY": 1}, {"BODY": 0}, {"BODY": None}, {"BODY": 1}, {"BODY": 1}
+        {"BODY": 1},
+        {"BODY": 0},
+        {"BODY": None},
+        {"BODY": 1},
+        {"BODY": 1},
     ]
     assert wire["coordinate"] == coordinate
     assert coordinate["negative_pole"] == {"code": "NOT_DECLARED"}

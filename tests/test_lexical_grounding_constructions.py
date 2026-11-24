@@ -16,8 +16,19 @@ from GSE.symbolic.lexical_grounding import LexicalGrounding, _unique_native_witn
 def encoder(tmp_path_factory):
     path = tmp_path_factory.mktemp("grounding-constructions") / "native.db"
     lexemes = (
-        "cut", "buying", "sunrise", "horizon", "sun", "shot", "arrest", "incident", "accident",
-        "sleeping", "anger", "nonbeing", "nonexistence",
+        "cut",
+        "buying",
+        "sunrise",
+        "horizon",
+        "sun",
+        "shot",
+        "arrest",
+        "incident",
+        "accident",
+        "sleeping",
+        "anger",
+        "nonbeing",
+        "nonexistence",
     )
     conn = open_build(path)
     try:

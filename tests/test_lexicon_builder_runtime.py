@@ -95,12 +95,33 @@ def test_contextual_grounding_binds_exact_native_senses_and_preserves_open_domai
                 Assertion("GOOD", 0, "fixture", entry_id, "test"),
             )
             store_entry(conn, definition, propagate(("GOOD", "SOMETHING", "WANT"), assignments, ()), assignments)
-            store_observations(conn, (Observation(entry_id, "wordnet_hierarchy", entry_id, "wordnet", {
-                "lemma": lemma, "pos": "noun", "definition": gloss, "synset_name": synset,
-                "lemma_names": [lemma], "hypernym_paths": [[
-                    "entity.n.01", *(["person.n.01"] if synset in {"electrician.n.01", "light.n.08"} else []), synset
-                ]], "examples": examples,
-            }, "lexical"),))
+            store_observations(
+                conn,
+                (
+                    Observation(
+                        entry_id,
+                        "wordnet_hierarchy",
+                        entry_id,
+                        "wordnet",
+                        {
+                            "lemma": lemma,
+                            "pos": "noun",
+                            "definition": gloss,
+                            "synset_name": synset,
+                            "lemma_names": [lemma],
+                            "hypernym_paths": [
+                                [
+                                    "entity.n.01",
+                                    *(["person.n.01"] if synset in {"electrician.n.01", "light.n.08"} else []),
+                                    synset,
+                                ]
+                            ],
+                            "examples": examples,
+                        },
+                        "lexical",
+                    ),
+                ),
+            )
         conn.commit()
     finally:
         conn.close()
@@ -122,7 +143,9 @@ def test_contextual_grounding_binds_exact_native_senses_and_preserves_open_domai
                 assert evidence["domains"]["GOOD"] == [0]
                 assert evidence["domains"]["WANT"] == [-1, 0, 1]
                 assert token.word_primitives == {"SOMETHING": 1}
-        light = next(token for token in enc.encode("An electrician repaired the light.").tokens if token.lemma == "light")
+        light = next(
+            token for token in enc.encode("An electrician repaired the light.").tokens if token.lemma == "light"
+        )
         assert light.lexical_evidence["selection_status"] == "AMBIGUOUS"
         assert light.lexical_evidence["contextual_grounding"]["code"] == "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS"
         assert light.word_primitives == {}

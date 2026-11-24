@@ -47,22 +47,39 @@ def main():
     active = Path("data/lexicon_active.json")
     pointer = active.read_bytes()
     before, prior_receipts = snapshot(candidate)
-    base = OllamaTransport("qwen3.8:27b-q4_K_M", timeout=300, context_tokens=65536,
-                           thinking=False, output_tokens=1024)
+    base = OllamaTransport("qwen3.8:27b-q4_K_M", timeout=300, context_tokens=65536, thinking=False, output_tokens=1024)
     transport = OllamaBatchTransport(base, max_items=4)
     pin = transport.pin()
     if base.model_digest != "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e":
         raise ValueError("CALIBRATED_MODEL_CHANGED")
-    options = dict(banks=("BODY",), max_calls_per_entry=1, max_entries_per_pass=8,
-                   continue_cohorts=True, batch_size=4, priority="zipf",
-                   cohort_policy="spelling", bank_priority="evidence")
-    save("-execution", {"candidate": str(candidate), "model_pin": pin,
-         "started_utc": datetime.now(timezone.utc).isoformat(), "max_model_calls": 16,
-         "options": options, "context_tokens": 65536, "output_tokens": 1024,
-         "thinking": False, "timeout": 300,
-         "active_pointer_sha256": hashlib.sha256(pointer).hexdigest()})
-    result = complete_dictionary(candidate, transport, 16, **options,
-                                 progress=lambda event: print(json.dumps(event), flush=True))
+    options = dict(
+        banks=("BODY",),
+        max_calls_per_entry=1,
+        max_entries_per_pass=8,
+        continue_cohorts=True,
+        batch_size=4,
+        priority="zipf",
+        cohort_policy="spelling",
+        bank_priority="evidence",
+    )
+    save(
+        "-execution",
+        {
+            "candidate": str(candidate),
+            "model_pin": pin,
+            "started_utc": datetime.now(timezone.utc).isoformat(),
+            "max_model_calls": 16,
+            "options": options,
+            "context_tokens": 65536,
+            "output_tokens": 1024,
+            "thinking": False,
+            "timeout": 300,
+            "active_pointer_sha256": hashlib.sha256(pointer).hexdigest(),
+        },
+    )
+    result = complete_dictionary(
+        candidate, transport, 16, **options, progress=lambda event: print(json.dumps(event), flush=True)
+    )
     save("", result)
     after, _ = snapshot(candidate)
     changes, violations = [], []
@@ -78,20 +95,34 @@ def main():
             if len(old) == 1 or not set(new) <= set(old):
                 violations.append({"entry_id": entry, "code": "PRIOR_DOMAIN_NOT_PRESERVED"})
     with sqlite3.connect(candidate) as conn:
-        receipts = [r for rows in read_model_receipts(conn).values() for r in rows
-                    if r["request_id"] not in prior_receipts]
+        receipts = [
+            r for rows in read_model_receipts(conn).values() for r in rows if r["request_id"] not in prior_receipts
+        ]
     save("-receipts", {"receipts": receipts, "authority": "UNREVIEWED_MODEL_RULINGS"})
-    assignment = {"code": "ASSIGNMENTS_VERIFIED" if not violations else "ASSIGNMENT_AUDIT_FAILED",
-                  "changes": changes, "violations": violations,
-                  "active_pointer_unchanged": pointer == active.read_bytes()}
+    assignment = {
+        "code": "ASSIGNMENTS_VERIFIED" if not violations else "ASSIGNMENT_AUDIT_FAILED",
+        "changes": changes,
+        "violations": violations,
+        "active_pointer_unchanged": pointer == active.read_bytes(),
+    }
     save("-assignment-audit", assignment)
     replay = validate_build(candidate)
     save("-replay", replay)
     publication = publication_readiness(candidate)
     save("-publication", publication)
-    print(json.dumps({"outcomes": result["outcomes"], "changes": len(changes),
-                      "violations": violations, "replay": replay["code"],
-                      "publication": publication["code"], "cells": publication["cells"]}), flush=True)
+    print(
+        json.dumps(
+            {
+                "outcomes": result["outcomes"],
+                "changes": len(changes),
+                "violations": violations,
+                "replay": replay["code"],
+                "publication": publication["code"],
+                "cells": publication["cells"],
+            }
+        ),
+        flush=True,
+    )
     if violations or replay["code"] != "REPLAY_VALIDATED" or pointer != active.read_bytes():
         raise SystemExit(1)
 

@@ -113,9 +113,11 @@ def validate_revision_shape(revision):
     if (
         type(revision) is not dict
         or set(revision) != required
-        or type(revision["format"]) is not str or current_id(revision["format"]) not in {FORMAT, RESERVATION_FORMAT}
+        or type(revision["format"]) is not str
+        or current_id(revision["format"]) not in {FORMAT, RESERVATION_FORMAT}
         or any(type(revision[key]) is not list for key in ("admissions", "retirements", "exceptions"))
-        or "reservations" in revision and type(revision["reservations"]) is not list
+        or "reservations" in revision
+        and type(revision["reservations"]) is not list
     ):
         raise ValueError("INVALID_RULE_REVISION")
     if any(type(record) is not dict or "input" not in record for record in revision["admissions"]):

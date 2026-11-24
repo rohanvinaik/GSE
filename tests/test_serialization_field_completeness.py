@@ -70,8 +70,7 @@ def _predicate(cls):
     for f in dataclasses.fields(cls):
         if f.name not in kwargs:
             kwargs[f.name] = (
-                Duration("long", "after") if cls.__name__ == "Temporal" and f.name == "duration"
-                else _FEATURES[f.name]
+                Duration("long", "after") if cls.__name__ == "Temporal" and f.name == "duration" else _FEATURES[f.name]
             )
     return cls(**kwargs)
 

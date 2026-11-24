@@ -17,7 +17,11 @@ FORMAT = "GSE.lexicon-sentence-benchmark/1"
 
 def load_benchmark(path):
     benchmark = read(path)
-    if not isinstance(benchmark, dict) or set(benchmark) != {"format", "cases"} or current_id(benchmark["format"]) != FORMAT:
+    if (
+        not isinstance(benchmark, dict)
+        or set(benchmark) != {"format", "cases"}
+        or current_id(benchmark["format"]) != FORMAT
+    ):
         raise ValueError("INVALID_SENTENCE_BENCHMARK")
     cases = benchmark["cases"]
     if not isinstance(cases, list) or not cases:

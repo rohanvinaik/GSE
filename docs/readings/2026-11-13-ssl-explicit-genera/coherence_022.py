@@ -29,43 +29,62 @@ def prepare():
     holdouts = {
         "literal-temporal-extent": (
             "wordnet:shift:shift.n.03",
-            next(d["entry_id"] for d in inventory["literal-temporal-extent"]["definitions"]
-                 if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "eon"),
-            next(d["entry_id"] for d in inventory["literal-temporal-extent"]["definitions"]
-                 if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "lapse"),
+            next(
+                d["entry_id"]
+                for d in inventory["literal-temporal-extent"]["definitions"]
+                if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "eon"
+            ),
+            next(
+                d["entry_id"]
+                for d in inventory["literal-temporal-extent"]["definitions"]
+                if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "lapse"
+            ),
         ),
         "literal-human-collective": (
-            "wordnet:dead:dead.n.01", "wordnet:assembly:assembly.n.04",
-            next(d["entry_id"] for d in inventory["literal-human-collective"]["definitions"]
-                 if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "population"),
+            "wordnet:dead:dead.n.01",
+            "wordnet:assembly:assembly.n.04",
+            next(
+                d["entry_id"]
+                for d in inventory["literal-human-collective"]["definitions"]
+                if d["entry_id"].startswith("wiktionary:") and d["lemma"] == "population"
+            ),
         ),
     }
     families = []
     for key, rows in inventory.items():
         bank, frame = rows["target_bank"], rows["frame"]
         warrant = {
-            "kind": "DEFINITIONAL_DERIVATION", "warrant_id": "022:" + key,
+            "kind": "DEFINITIONAL_DERIVATION",
+            "warrant_id": "022:" + key,
             "review_id": "022:complete-own-genus-source-review:" + key,
             "reviewer": "Exact native-source and approved-coordinate review",
-            "source_refs": [str(NOTES / "022-source-review.md"),
-                            str(ROOT / "data/external/references/nsm-primes-chart-v20-2022.txt"),
-                            str(ROOT / "GSE/primitives_v2.py"),
-                            str(ROOT / "docs/program/LEXICON_CONSTRUCTION_DESIGN.md")],
+            "source_refs": [
+                str(NOTES / "022-source-review.md"),
+                str(ROOT / "data/external/references/nsm-primes-chart-v20-2022.txt"),
+                str(ROOT / "GSE/primitives_v2.py"),
+                str(ROOT / "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"),
+            ],
             "statement": (
                 "An exact native noun definition whose own genus explicitly denotes a period, interval, span or duration "
                 "of time has temporal WHEN content. Sentence binding, quantitative magnitude and other banks remain "
                 "separate. Alternative genera, unrelated heads, missing witnesses and unverified identities are excluded."
-                if bank == "WHEN" else
-                "An exact native noun definition whose own genus denotes people collectively or an explicitly human "
+                if bank == "WHEN"
+                else "An exact native noun definition whose own genus denotes people collectively or an explicitly human "
                 "group has PEOPLE content. A single person, objects used by people, mixed genera and unverified "
                 "identities are outside scope. This gives no life-status, body, desire or person-deixis sign."
             ),
         }
-        families.append(Family(key, None, (bank, 1), (("pos", "noun"), ("native_noun_frame:" + frame, "true")),
-                               holdouts[key], warrant))
+        families.append(
+            Family(
+                key, None, (bank, 1), (("pos", "noun"), ("native_noun_frame:" + frame, "true")), holdouts[key], warrant
+            )
+        )
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": fingerprint(BASE),
-        "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "epochs": 2, "audits_per_epoch": 3,
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(BASE),
+        "active_pointer_sha256": fingerprint(ACTIVE_POINTER),
+        "epochs": 2,
+        "audits_per_epoch": 3,
         "families": [{"id": f.id, **f.proposal(), "holdouts": list(f.holdouts)} for f in families],
     }
     for item in plan["families"]:
@@ -76,8 +95,11 @@ def prepare():
     invoke("init")
     frozen = read(WORK / "inventory.json")
     rules, rows = scope_rows(BASE, {r["entry_id"]: r for group in frozen.values() for r in group}.values())
-    stage: dict = {"baseline_sha256": plan["baseline_sha256"], "scope_definitions": len(rows),
-             **forecast(rows, rules, tuple(f.relation() for f in families))}
+    stage: dict = {
+        "baseline_sha256": plan["baseline_sha256"],
+        "scope_definitions": len(rows),
+        **forecast(rows, rules, tuple(f.relation() for f in families)),
+    }
     if stage["contradictions"] or any(len(r["before"]) == 1 for r in stage["changes"]):
         raise ValueError("LITERAL_GENUS_STAGE_REQUIRES_REVIEW")
     record(NOTES / "022-population-stage.json", stage)
@@ -89,13 +111,33 @@ def invoke(phase):
     for name, expected in pins["source_sha256"].items():
         if fingerprint(ROOT / name) != expected:
             raise ValueError("LITERAL_GENUS_FROZEN_SOURCE_CHANGED:" + name)
-    command = [sys.executable, "-u", "-m", "scripts.run_lexicon_epochs", phase,
-               "--plan", str(NOTES / "022-coherence-plan.json"), "--baseline", str(BASE),
-               "--directory", str(WORK)]
+    command = [
+        sys.executable,
+        "-u",
+        "-m",
+        "scripts.run_lexicon_epochs",
+        phase,
+        "--plan",
+        str(NOTES / "022-coherence-plan.json"),
+        "--baseline",
+        str(BASE),
+        "--directory",
+        str(WORK),
+    ]
     if phase == "run":
         model = read(NOTES / "021-approved-live-model-runtime.json")["model"]
-        command.extend(["--policy", "zipf", "--model", model["name"], "--model-digest", model["digest"],
-                        "--model-context-tokens", "81920"])
+        command.extend(
+            [
+                "--policy",
+                "zipf",
+                "--model",
+                model["name"],
+                "--model-digest",
+                model["digest"],
+                "--model-context-tokens",
+                "81920",
+            ]
+        )
     subprocess.run(command, cwd=ROOT, check=True)
 
 
@@ -104,11 +146,17 @@ def run():
         prepare()
     invoke("run")
     result = read(WORK / "zipf/arm-result.json")
-    record(NOTES / "022-round-status.json", {
-        "code": "CANDIDATE_REPLAY_FINISHED_NOT_PUBLISHED", "activation_performed": False,
-        "candidate": result["candidate"], "new_cells": result["new_cells"],
-        "typed_questions_used": result["typed_questions_used"], "replay": result["replay"],
-    })
+    record(
+        NOTES / "022-round-status.json",
+        {
+            "code": "CANDIDATE_REPLAY_FINISHED_NOT_PUBLISHED",
+            "activation_performed": False,
+            "candidate": result["candidate"],
+            "new_cells": result["new_cells"],
+            "typed_questions_used": result["typed_questions_used"],
+            "replay": result["replay"],
+        },
+    )
 
 
 if __name__ == "__main__":

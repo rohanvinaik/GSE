@@ -23,17 +23,23 @@ def _convention_authority(record, candidate):
         raise ValueError("INVALID_CONVENTION_APPROVAL")
     approval = record["approval"]
     if (
-        type(record["convention_id"]) is not str or not record["convention_id"].strip()
-        or type(approval) is not dict or set(approval) != {"actor", "code", "question", "answer", "date"}
-        or approval["actor"] != "Rohan" or approval["code"] != "APPROVED"
+        type(record["convention_id"]) is not str
+        or not record["convention_id"].strip()
+        or type(approval) is not dict
+        or set(approval) != {"actor", "code", "question", "answer", "date"}
+        or approval["actor"] != "Rohan"
+        or approval["code"] != "APPROVED"
         or any(type(approval[k]) is not str or not approval[k].strip() for k in ("question", "answer", "date"))
     ):
         raise ValueError("EXPLICIT_FOUNDER_CONVENTION_APPROVAL_REQUIRED")
     left = candidate.get("premises") or ([candidate["antecedent"]] if candidate["antecedent"] else [])
     for pair in [record["consequent"], *(record["premises"] if type(record["premises"]) is list else [None])]:
         if (
-            type(pair) is not list or len(pair) != 2 or type(pair[0]) is not str
-            or type(pair[1]) is not int or pair[1] not in (-1, 0, 1)
+            type(pair) is not list
+            or len(pair) != 2
+            or type(pair[0]) is not str
+            or type(pair[1]) is not int
+            or pair[1] not in (-1, 0, 1)
         ):
             raise ValueError("INVALID_CONVENTION_COORDINATES")
     if (
@@ -105,7 +111,8 @@ def admit_records(raw, saved, review):
         not candidate["audits"]
         or any(
             r["code"] not in {"MODEL_AGREEMENT", "MODEL_COUNTEREXAMPLE", "MODEL_ABSTAINED"}
-            if convention else r["code"] != "MODEL_AGREEMENT"
+            if convention
+            else r["code"] != "MODEL_AGREEMENT"
             for r in candidate["audits"]
         )
         or any(r["code"] != "STAGED_ONLY" for r in candidate["staging"])
@@ -113,13 +120,18 @@ def admit_records(raw, saved, review):
         raise ValueError("RULE_ADMISSION_AUDIT_INCOMPLETE")
     authority = (
         _convention_authority(review["convention"], candidate)
-        if convention else "SOURCE_BACKED_EXPLICIT_REVIEW_NOT_MODEL_GOLD"
+        if convention
+        else "SOURCE_BACKED_EXPLICIT_REVIEW_NOT_MODEL_GOLD"
     )
     relation = replace(_relation(json.loads(json.dumps(candidate["relation"]))), approved=True)
     if convention:
         relation = replace(
-            relation, authority="foundational",
-            provenance=(*relation.provenance, f"convention:{review['convention']['convention_id']}:{digest(review['convention'])}"),
+            relation,
+            authority="foundational",
+            provenance=(
+                *relation.provenance,
+                f"convention:{review['convention']['convention_id']}:{digest(review['convention'])}",
+            ),
         )
     baseline = tuple(_relation(r) for r in raw["relations"])
     if relation.rule_id in {r.rule_id for r in baseline}:

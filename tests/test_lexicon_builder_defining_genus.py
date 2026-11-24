@@ -112,8 +112,23 @@ def test_real_enrichment_cli_rechecks_native_genus_and_preserves_all_cells(nativ
     inputs, report = tmp_path / "input.json", tmp_path / "report.json"
     build_dictionary(bundle, source)
     packet = wordnet_defining_context(parser, "man", synset)
-    inputs.write_text(json.dumps({"format": FORMAT, "observations": [asdict(wordnet_identity_observation(packet, definition))]}))
-    monkeypatch.setattr("sys.argv", ["enrich", "--candidate", str(source), "--output", str(output), "--input", str(inputs), "--report", str(report)])
+    inputs.write_text(
+        json.dumps({"format": FORMAT, "observations": [asdict(wordnet_identity_observation(packet, definition))]})
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "enrich",
+            "--candidate",
+            str(source),
+            "--output",
+            str(output),
+            "--input",
+            str(inputs),
+            "--report",
+            str(report),
+        ],
+    )
     assert enrich_lexicon_sources.main() == 0
     result = json.loads(report.read_text())
     assert result["bank_changes"] == 0 and result["preexisting_state_unchanged"] is True
@@ -122,9 +137,24 @@ def test_real_enrichment_cli_rechecks_native_genus_and_preserves_all_cells(nativ
     # This is structurally valid and has a freshly computed observation digest.
     # The real native-source verifier must still refuse its fabricated meaning.
     packet["defining_ancestry"]["synsets"]["vertebrate.n.01"]["definition"] = "fabricated defining genus"
-    inputs.write_text(json.dumps({"format": FORMAT, "observations": [asdict(wordnet_identity_observation(packet, definition))]}))
+    inputs.write_text(
+        json.dumps({"format": FORMAT, "observations": [asdict(wordnet_identity_observation(packet, definition))]})
+    )
     forged = tmp_path / "forged.db"
-    monkeypatch.setattr("sys.argv", ["enrich", "--candidate", str(source), "--output", str(forged), "--input", str(inputs), "--report", str(tmp_path / "forged.json")])
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "enrich",
+            "--candidate",
+            str(source),
+            "--output",
+            str(forged),
+            "--input",
+            str(inputs),
+            "--report",
+            str(tmp_path / "forged.json"),
+        ],
+    )
     with pytest.raises(ValueError, match="SOURCE_IDENTITY_MISMATCH"):
         enrich_lexicon_sources.main()
     assert not forged.exists()

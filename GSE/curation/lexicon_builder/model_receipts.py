@@ -161,7 +161,8 @@ def _restored_receipt(conn, record, version):
     if (
         not isinstance(envelope, dict)
         or set(envelope) != {"format", "inline", "contexts", "scaffold"}
-        or current_id(envelope["format"]) != (LEGACY_REQUEST_STORAGE if current_id(version) == CONTEXT_VERSION else REQUEST_STORAGE)
+        or current_id(envelope["format"])
+        != (LEGACY_REQUEST_STORAGE if current_id(version) == CONTEXT_VERSION else REQUEST_STORAGE)
         or not isinstance(envelope["inline"], dict)
         or not isinstance(envelope["contexts"], dict)
         or set(envelope["contexts"]) - {"observations", "definition"}

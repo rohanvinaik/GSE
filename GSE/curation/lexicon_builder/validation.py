@@ -443,7 +443,8 @@ def _provenance(
                 if (
                     request.request_id != receipt["request_id"]
                     or _canonical(identity_form(request.payload())) != _canonical(identity_form(payload))
-                    or _canonical(identity_form(request.output_schema())) != _canonical(identity_form(receipt["schema"]))
+                    or _canonical(identity_form(request.output_schema()))
+                    != _canonical(identity_form(receipt["schema"]))
                     or assertion.value not in request.allowed_values
                 ):
                     raise ValueError("MODEL_REQUEST_MISMATCH")
@@ -529,7 +530,9 @@ def _unresolved_integrity(conn, mismatch):
             mismatch(None, "MALFORMED_SOURCE_DIAGNOSTIC", ordinal=row["ordinal"], reason=str(error))
         total += 1
     expected = {"table": "unresolved_sources", "records": total, "outcomes": dict(counts)}
-    if _canonical(identity_form(_optional_metadata(conn, "unresolved_sources", None))) != _canonical(identity_form(expected)):
+    if _canonical(identity_form(_optional_metadata(conn, "unresolved_sources", None))) != _canonical(
+        identity_form(expected)
+    ):
         mismatch(None, "SOURCE_DIAGNOSTIC_METADATA_MISMATCH")
 
 
@@ -701,9 +704,9 @@ def _candidate_receipt(record, category, summary, native, assertions_for):
             raise ValueError("CROSS_SOURCE_CANDIDATE_INCOMPLETE_EVIDENCE")
     (left, a), (right, b) = summary["antecedent"], summary["consequent"]
     left_values, right_values = values[left], values[right]
-    if _canonical(identity_form(record["antecedent_values"])) != _canonical(identity_form(sorted(left_values))) or _canonical(
-        identity_form(record["consequent_values"])
-    ) != _canonical(identity_form(sorted(right_values))):
+    if _canonical(identity_form(record["antecedent_values"])) != _canonical(
+        identity_form(sorted(left_values))
+    ) or _canonical(identity_form(record["consequent_values"])) != _canonical(identity_form(sorted(right_values))):
         raise ValueError("CANDIDATE_DOMAIN_RECEIPT_MISMATCH")
     if len(left_values) > 1:
         expected = ("conflicting", "ANTECEDENT_CONFLICT")
@@ -945,7 +948,8 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
         expected_contract = representation_contract()
         if (
             identity_form(convention) != identity_form(expected_contract["version"])
-            or identity_form(_optional_metadata(conn, "representation_contract", None)) != identity_form(expected_contract)
+            or identity_form(_optional_metadata(conn, "representation_contract", None))
+            != identity_form(expected_contract)
             or identity_form(_optional_metadata(conn, "want_polarity", None))
             != identity_form(expected_contract["want_polarity"])
         ):

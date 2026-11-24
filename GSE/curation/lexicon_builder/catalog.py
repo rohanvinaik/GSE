@@ -729,7 +729,9 @@ def proposal_template() -> dict:
                 "bank_values": {bank: None for bank in BANKS},
                 "undefined_decisions": [
                     {"code": code, "question": question, "status": "UNDECIDED", "answer": None, "provenance": []}
-                    for code, question in (common[1:] if approved_claims else common if construction else (*common, extra))
+                    for code, question in (
+                        common[1:] if approved_claims else common if construction else (*common, extra)
+                    )
                 ],
                 "acknowledged_decisions": [
                     {
@@ -741,13 +743,16 @@ def proposal_template() -> dict:
                     for claim in approved_claims
                 ]
                 + (
-                    [{
-                        "code": "SENTENCE_CONSTRUCTION",
-                        "status": "APPROVED",
-                        "answer": construction,
-                        "provenance": [construction["source"]],
-                    }]
-                    if construction else []
+                    [
+                        {
+                            "code": "SENTENCE_CONSTRUCTION",
+                            "status": "APPROVED",
+                            "answer": construction,
+                            "provenance": [construction["source"]],
+                        }
+                    ]
+                    if construction
+                    else []
                 ),
                 "approved": False,
             }

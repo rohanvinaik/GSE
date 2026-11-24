@@ -50,12 +50,19 @@ CLAIM_EXPECTATIONS = {
 def lexical_record(evidence):
     """Retain decisions and source IDs; replay reads definitions from the pinned DB."""
     contextual = evidence.get("contextual_grounding")
-    return {**{key: evidence.get(key) for key in (
-                "state", "reason", "selection_status", "sense_resolved", "candidate_entry_ids")},
-            "selected_record": evidence.get("selected_record"),
-            "domains": evidence.get("domains"),
-            "contextual_grounding": ({k: v for k, v in contextual.items() if k != "considered_entry_ids"}
-                                     if isinstance(contextual, dict) else contextual)}
+    return {
+        **{
+            key: evidence.get(key)
+            for key in ("state", "reason", "selection_status", "sense_resolved", "candidate_entry_ids")
+        },
+        "selected_record": evidence.get("selected_record"),
+        "domains": evidence.get("domains"),
+        "contextual_grounding": (
+            {k: v for k, v in contextual.items() if k != "considered_entry_ids"}
+            if isinstance(contextual, dict)
+            else contextual
+        ),
+    }
 
 
 def module_hashes():
@@ -96,24 +103,48 @@ def sentence(enc, case):
         trace = enc.encode(text)
         tree = evaluate_tree(resolve(from_trace(trace)))
         serialized = to_dict(tree)
-        events = [(v["verb"], head(v.get("agent")), head(v.get("patient")))
-                  for v in walk(serialized) if v.get("_kind") == "Event"]
-        record.update(tree=serialized, events=events,
-                      structural_expectation=("IDENTIFIED" if serialized["_kind"] == root
-                                              and all(v in events for v in required) else "WRONG"),
-                      structural_loss=structural_loss_evidence(trace, tree),
-                      claims=[{"kind": type(p.node).__name__, "verb": getattr(p.node, "verb", None),
-                               "commitment": commitment(p), "polarity": dataclasses.asdict(polarity(p)),
-                               "scopes": [s.mode for s in p.scopes]}
-                              for p in propositions(tree, source_text=text)],
-                      tokens=[{"token": t.token, "lemma": t.lemma, "pos": t.pos,
-                               "word_primitives": t.word_primitives, "lexicon_status": t.lexicon_status,
-                               "lexical_evidence": lexical_record(t.lexical_evidence)} for t in trace.tokens])
-        observed_claims = {(getattr(p.node, "verb", None), commitment(p), polarity(p).sign)
-                           for p in propositions(tree, source_text=text)}
+        events = [
+            (v["verb"], head(v.get("agent")), head(v.get("patient")))
+            for v in walk(serialized)
+            if v.get("_kind") == "Event"
+        ]
+        record.update(
+            tree=serialized,
+            events=events,
+            structural_expectation=(
+                "IDENTIFIED" if serialized["_kind"] == root and all(v in events for v in required) else "WRONG"
+            ),
+            structural_loss=structural_loss_evidence(trace, tree),
+            claims=[
+                {
+                    "kind": type(p.node).__name__,
+                    "verb": getattr(p.node, "verb", None),
+                    "commitment": commitment(p),
+                    "polarity": dataclasses.asdict(polarity(p)),
+                    "scopes": [s.mode for s in p.scopes],
+                }
+                for p in propositions(tree, source_text=text)
+            ],
+            tokens=[
+                {
+                    "token": t.token,
+                    "lemma": t.lemma,
+                    "pos": t.pos,
+                    "word_primitives": t.word_primitives,
+                    "lexicon_status": t.lexicon_status,
+                    "lexical_evidence": lexical_record(t.lexical_evidence),
+                }
+                for t in trace.tokens
+            ],
+        )
+        observed_claims = {
+            (getattr(p.node, "verb", None), commitment(p), polarity(p).sign)
+            for p in propositions(tree, source_text=text)
+        }
         record["claim_expectations"] = [
             {"expected": expected, "outcome": "IDENTIFIED" if expected in observed_claims else "WRONG"}
-            for expected in CLAIM_EXPECTATIONS.get(name, ())]
+            for expected in CLAIM_EXPECTATIONS.get(name, ())
+        ]
     except Exception as exc:
         record.update(structural_expectation="ABSTAINED", error_type=type(exc).__name__, error=str(exc))
     return record
@@ -122,20 +153,26 @@ def sentence(enc, case):
 def document(enc, text):
     try:
         doc = MultiScaleDoc(text, encoder=enc)
-        return {"text": text, "phases": doc.phases, "sentence_states": doc.sentence_states,
-                "trees": [to_dict(t) for t in doc.resolved],
-                "losses": [e["structural_loss"] for e in doc.utterance_outcomes],
-                "failures": [{k: e[k] for k in ("source_sentence_id", "error")} for e in doc.failures]}
+        return {
+            "text": text,
+            "phases": doc.phases,
+            "sentence_states": doc.sentence_states,
+            "trees": [to_dict(t) for t in doc.resolved],
+            "losses": [e["structural_loss"] for e in doc.utterance_outcomes],
+            "failures": [{k: e[k] for k in ("source_sentence_id", "error")} for e in doc.failures],
+        }
     except Exception as exc:
         return {"text": text, "error_type": type(exc).__name__, "error": str(exc)}
 
 
 def boundaries(enc):
     out = []
-    for name, records in (("empty", []), ("null", None),
-                          ("duplicate_id", [{"id": "x", "text": "The dog runs."},
-                                            {"id": "x", "text": "The cat sleeps."}]),
-                          ("empty_text", [{"id": "empty", "text": ""}])):
+    for name, records in (
+        ("empty", []),
+        ("null", None),
+        ("duplicate_id", [{"id": "x", "text": "The dog runs."}, {"id": "x", "text": "The cat sleeps."}]),
+        ("empty_text", [{"id": "empty", "text": ""}]),
+    ):
         try:
             events = list(encode_document_utterance_events(enc, records))
             out.append({"id": name, "outcome": "RETURNED", "events": events})
@@ -150,26 +187,46 @@ def main():
         enc = GSEEncoder(db_path=path)
         try:
             rows = [sentence(enc, c) for c in CASES]
-            results.append({"resource": label, "path": str(enc.db_path), "sentences": rows,
-                            "structural_counts": dict(Counter(r["structural_expectation"] for r in rows)),
-                            "documents": [document(enc, t) for t in (
-                                "The woman owns a dog. She feeds it.",
-                                "Alice owns a dog. She feeds it.",
-                                "The doctor treated the patient. The patient thanked the doctor.")],
-                            "boundaries": boundaries(enc)})
+            results.append(
+                {
+                    "resource": label,
+                    "path": str(enc.db_path),
+                    "sentences": rows,
+                    "structural_counts": dict(Counter(r["structural_expectation"] for r in rows)),
+                    "documents": [
+                        document(enc, t)
+                        for t in (
+                            "The woman owns a dog. She feeds it.",
+                            "Alice owns a dog. She feeds it.",
+                            "The doctor treated the patient. The patient thanked the doctor.",
+                        )
+                    ],
+                    "boundaries": boundaries(enc),
+                }
+            )
         finally:
             enc.close()
-    report = {"format": "GSE.checkpoint-public-api-probe/1", "observed_at_utc": datetime.now(timezone.utc).isoformat(),
-              "active_pointer": json.loads((ROOT / "data/lexicon_active.json").read_text()),
-              "legacy_sha256": hashlib.file_digest((ROOT / "data/lexicon_clean.db").open("rb"), "sha256").hexdigest(),
-              "expectation_scope": "DECLARED_STRUCTURAL_SUBSET_NOT_GENERAL_SEMANTIC_ACCURACY",
-              "code_sha256": module_hashes(),
-              "probe_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-              "results": results}
+    report = {
+        "format": "GSE.checkpoint-public-api-probe/1",
+        "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+        "active_pointer": json.loads((ROOT / "data/lexicon_active.json").read_text()),
+        "legacy_sha256": hashlib.file_digest((ROOT / "data/lexicon_clean.db").open("rb"), "sha256").hexdigest(),
+        "expectation_scope": "DECLARED_STRUCTURAL_SUBSET_NOT_GENERAL_SEMANTIC_ACCURACY",
+        "code_sha256": module_hashes(),
+        "probe_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "results": results,
+    }
     destination = HERE / "checkpoint-public-api-probe.json"
     destination.write_text(json.dumps(report, indent=2, default=str) + "\n")
-    print(json.dumps({"report": str(destination), "results": [
-        {"resource": r["resource"], "structural_counts": r["structural_counts"]} for r in results]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "report": str(destination),
+                "results": [{"resource": r["resource"], "structural_counts": r["structural_counts"]} for r in results],
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

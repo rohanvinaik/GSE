@@ -7,21 +7,27 @@ import pytest
 from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
 from GSE.curation.lexicon_builder.grounded_rules import implication_rows
 
-support_count = import_module(
-    "docs.readings.2026-11-13-ssl-explicit-genera.coherence_020"
-).support_count
+support_count = import_module("docs.readings.2026-11-13-ssl-explicit-genera.coherence_020").support_count
 
 BANKS = ("CAUSE", "DO", "HAPPEN", "MOVE", "SAY")
 EVENTS = tuple(
     Relation(
-        "event:" + bank, (bank, "HAPPEN"),
-        implication_rows(((bank, 1),), ("HAPPEN", 1)), ("fixture:event",), "conditional", True,
+        "event:" + bank,
+        (bank, "HAPPEN"),
+        implication_rows(((bank, 1),), ("HAPPEN", 1)),
+        ("fixture:event",),
+        "conditional",
+        True,
     )
     for bank in ("CAUSE", "DO", "MOVE")
 )
 EXPRESSION = Relation(
-    "expression", ("SAY", "DO"), implication_rows((("SAY", 1),), ("DO", 1)),
-    ("fixture:expression",), "conditional", True,
+    "expression",
+    ("SAY", "DO"),
+    implication_rows((("SAY", 1),), ("DO", 1)),
+    ("fixture:expression",),
+    "conditional",
+    True,
 )
 
 
@@ -56,8 +62,13 @@ def test_explicit_speech_zero_preserves_event_freedom():
 
 def test_unknown_scope_does_not_activate_expression_prior():
     guarded = Relation(
-        "guarded-expression", EXPRESSION.banks, EXPRESSION.allowed_rows,
-        ("fixture:guarded-expression",), "conditional", True, (("scope", "witnessed"),),
+        "guarded-expression",
+        EXPRESSION.banks,
+        EXPRESSION.allowed_rows,
+        ("fixture:guarded-expression",),
+        "conditional",
+        True,
+        (("scope", "witnessed"),),
     )
     state = propagate(BANKS, (), (*EVENTS, guarded), {})
     assert support_count(state) == 129

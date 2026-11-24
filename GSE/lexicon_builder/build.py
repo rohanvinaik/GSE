@@ -101,7 +101,9 @@ def source_matches(native: dict, rulebook: dict) -> list[dict]:
     multiplicity = Counter((m["pos"], m["tag"], m["rule"]["family"]) for m in unique.values())
     for identity, match in unique.items():
         if multiplicity[match["pos"], match["tag"], match["rule"]["family"]] > 1:
-            match["reading_suffix"] = ":source-" + hashlib.sha256(json.dumps(identity_form(identity)).encode()).hexdigest()[:16]
+            match["reading_suffix"] = (
+                ":source-" + hashlib.sha256(json.dumps(identity_form(identity)).encode()).hexdigest()[:16]
+            )
     return list(unique.values())
 
 

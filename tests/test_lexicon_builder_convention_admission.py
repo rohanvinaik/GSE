@@ -19,14 +19,24 @@ def convention_packet(tmp_path, value=0):
     audited = run_workflow_input(raw, Transport(value), max_calls=1)
     [candidate] = audited["candidates"]
     convention = {
-        "format": "GSE.approved-convention/1", "convention_id": "synthetic:convention-contract-test",
-        "approval": {"actor": "Rohan", "code": "APPROVED", "question": "Synthetic fixture approval?",
-                     "answer": "Synthetic fixture, not an actual semantic convention.", "date": "2026-11-18"},
-        "premises": [], "consequent": ["WANT", 1], "guards": [["pos", "verb"]],
+        "format": "GSE.approved-convention/1",
+        "convention_id": "synthetic:convention-contract-test",
+        "approval": {
+            "actor": "Rohan",
+            "code": "APPROVED",
+            "question": "Synthetic fixture approval?",
+            "answer": "Synthetic fixture, not an actual semantic convention.",
+            "date": "2026-11-18",
+        },
+        "premises": [],
+        "consequent": ["WANT", 1],
+        "guards": [["pos", "verb"]],
     }
     review.update(
-        rule_id=candidate["relation"]["rule_id"], warrant_sha256=candidate["warrant_sha256"],
-        decision="APPROVE_REPRESENTATIONAL_CONVENTION", convention=convention,
+        rule_id=candidate["relation"]["rule_id"],
+        warrant_sha256=candidate["warrant_sha256"],
+        decision="APPROVE_REPRESENTATIONAL_CONVENTION",
+        convention=convention,
     )
     input_path.write_text(json.dumps(raw))
     audit_path.write_text(json.dumps(audited))
@@ -48,17 +58,43 @@ def test_real_cli_convention_migration_keeps_the_diagnostic_reply_and_history(tm
     verify_admission(admission)
     review_path, output, report = (tmp_path / name for name in ("review.json", "convention.db", "migration.json"))
     review_path.write_text(json.dumps(review))
-    monkeypatch.setattr("sys.argv", [
-        "migrate", "--candidate", str(source), "--output", str(output), "--input", str(inputs),
-        "--audit", str(audit_path), "--review", str(review_path), "--report", str(report),
-    ])
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "migrate",
+            "--candidate",
+            str(source),
+            "--output",
+            str(output),
+            "--input",
+            str(inputs),
+            "--audit",
+            str(audit_path),
+            "--review",
+            str(review_path),
+            "--report",
+            str(report),
+        ],
+    )
     assert main() == 0
     assert validate_build(output)["code"] == "REPLAY_VALIDATED"
 
 
-@pytest.mark.parametrize("defect", [
-    "missing", "unapproved", "actor", "answer", "consequent", "guards", "premises", "kind", "boolean", "audit",
-])
+@pytest.mark.parametrize(
+    "defect",
+    [
+        "missing",
+        "unapproved",
+        "actor",
+        "answer",
+        "consequent",
+        "guards",
+        "premises",
+        "kind",
+        "boolean",
+        "audit",
+    ],
+)
 def test_convention_approval_is_explicit_scope_bound_and_cannot_rewrite_the_audit(tmp_path, defect):
     _, _, _, raw, audited, review = convention_packet(tmp_path)
     if defect == "missing":

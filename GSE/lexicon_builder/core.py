@@ -372,7 +372,10 @@ def law_application_id(law: Law) -> str:
         "tier": law.tier,
     }
     return (
-        "RELATION:" + hashlib.sha256(json.dumps(identity_form(contract), sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        "RELATION:"
+        + hashlib.sha256(
+            json.dumps(identity_form(contract), sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
     )
 
 

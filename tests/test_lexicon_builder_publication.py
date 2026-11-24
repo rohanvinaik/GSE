@@ -153,7 +153,8 @@ def test_sentence_duration_replays_as_a_construction_and_is_outside_lexical_comp
         assert all(domain == [-1, 0, 1] for domain in domains.values())
         domains["LONG_TIME"] = [0]
         conn.execute(
-            "UPDATE definition_states SET domains=? WHERE entry_id=?", (json.dumps(domains), SENTENCE_DURATION_SOURCE_RECORD)
+            "UPDATE definition_states SET domains=? WHERE entry_id=?",
+            (json.dumps(domains), SENTENCE_DURATION_SOURCE_RECORD),
         )
     blocked = publication_readiness(path, gold)
     assert blocked["code"] == "PUBLICATION_BLOCKED"

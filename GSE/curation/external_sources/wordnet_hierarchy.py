@@ -303,9 +303,7 @@ class WordNetHierarchyParser(BaseExternalParser):
         primitives: Dict[str, int] = {}
         ancestors = {ancestor.name() for path in synset.hypernym_paths() for ancestor in path}
         excluded = (
-            reviewed_say_exclusion(synset_name, synset.definition())
-            if synset_name in REVIEWED_SAY_EXCLUSIONS
-            else None
+            reviewed_say_exclusion(synset_name, synset.definition()) if synset_name in REVIEWED_SAY_EXCLUSIONS else None
         )
         for name in sorted(ancestors):
             for primitive in sorted(_WARRANTED_ROOT_PRIMITIVES.get(name, ())):

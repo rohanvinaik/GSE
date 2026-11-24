@@ -98,16 +98,35 @@ def test_retire_closes_its_own_connections_before_checking_handles(retirement, m
 def test_release_gate_rejects_a_domain_change_outside_the_stage(tmp_path, monkeypatch):
     candidate = tmp_path / "candidate.db"
     candidate.write_bytes(b"candidate")
-    (tmp_path / "021-approved-population-stage.json").write_text(json.dumps({"changes": [
-        {"entry_id": "in-scope", "bank": "BODY", "before": [-1, 0, 1], "after": [1]},
-    ]}))
+    (tmp_path / "021-approved-population-stage.json").write_text(
+        json.dumps(
+            {
+                "changes": [
+                    {"entry_id": "in-scope", "bank": "BODY", "before": [-1, 0, 1], "after": [1]},
+                ]
+            }
+        )
+    )
     monkeypatch.setattr(finish, "NOTES", tmp_path)
     monkeypatch.setattr(finish.round_, "verify_sources", lambda: None)
-    monkeypatch.setattr(finish, "exact_delta", lambda *_: (401596, [
-        {"entry_id": "out-of-scope", "bank": "BODY", "before": [-1, 0, 1], "after": [1]},
-    ]))
-    result = {"epochs": [{"code": "RULE_ADMITTED", "audit_outcomes": {"MODEL_AGREEMENT": 4}}],
-              "typed_questions_used": 5, "reopened_cells": 0, "replay": {"code": "REPLAY_VALIDATED", "complete_search": True},
-              "candidate": str(candidate), "candidate_sha256": finish.fingerprint(candidate), "new_cells": 1}
+    monkeypatch.setattr(
+        finish,
+        "exact_delta",
+        lambda *_: (
+            401596,
+            [
+                {"entry_id": "out-of-scope", "bank": "BODY", "before": [-1, 0, 1], "after": [1]},
+            ],
+        ),
+    )
+    result = {
+        "epochs": [{"code": "RULE_ADMITTED", "audit_outcomes": {"MODEL_AGREEMENT": 4}}],
+        "typed_questions_used": 5,
+        "reopened_cells": 0,
+        "replay": {"code": "REPLAY_VALIDATED", "complete_search": True},
+        "candidate": str(candidate),
+        "candidate_sha256": finish.fingerprint(candidate),
+        "new_cells": 1,
+    }
     with pytest.raises(ValueError, match="DELTA_DIFFERS_FROM_FULL_STAGE"):
         finish.verify_candidate(result)

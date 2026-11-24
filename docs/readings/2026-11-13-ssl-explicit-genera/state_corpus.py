@@ -27,8 +27,12 @@ def audit(lexicon):
             ):
                 text = subject + " is " + row["gloss"].removesuffix(".") + "."
                 result = {
-                    "entry_id": row["entry_id"], "lemma": row["lemma"], "gloss": row["gloss"],
-                    "style": style, "text": text, "stored_BE_domain": domain,
+                    "entry_id": row["entry_id"],
+                    "lemma": row["lemma"],
+                    "gloss": row["gloss"],
+                    "style": style,
+                    "text": text,
+                    "stored_BE_domain": domain,
                 }
                 try:
                     trace = encoder.encode(text)
@@ -49,7 +53,9 @@ def audit(lexicon):
                         if chosen is None and value is not None:
                             code = "UNSUPPORTED_SENSE_EMISSION"
                         result.update(
-                            code=code, observed_entry_id=chosen, emitted_BE=value,
+                            code=code,
+                            observed_entry_id=chosen,
+                            emitted_BE=value,
                             grounding=token.lexical_evidence.get("contextual_grounding"),
                         )
                 results.append(result)
@@ -64,9 +70,13 @@ def audit(lexicon):
     return {
         "format": "GSE.state-corpus-grounding/1",
         "code": "STATE_CORPUS_GROUNDING_VALIDATED" if not wrong else "STATE_CORPUS_GROUNDING_REVIEW_REQUIRED",
-        "lexicon_sha256": before, "scope_snapshot_sha256": source["baseline_sha256"],
-        "definitions": len(definitions), "cases": len(results), "by_class": dict(counts),
-        "wrong": wrong, "results": results,
+        "lexicon_sha256": before,
+        "scope_snapshot_sha256": source["baseline_sha256"],
+        "definitions": len(definitions),
+        "cases": len(results),
+        "by_class": dict(counts),
+        "wrong": wrong,
+        "results": results,
         "scope": "All native WordNet records in the frozen explicit-stative parent scope with their full "
         "definitions supplied as predicate context. This checks identity routing and storage-to-emission fidelity.",
     }

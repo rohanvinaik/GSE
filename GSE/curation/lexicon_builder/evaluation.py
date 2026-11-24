@@ -26,7 +26,11 @@ OUTCOMES = ("IDENTIFIED_CORRECT", "ABSTAINED", "CONFLICT", "WRONG", "NOT_FOUND")
 
 def _load_gold(path: Path) -> tuple[list[dict], bool]:
     raw = read_json(path)
-    if not isinstance(raw, dict) or set(raw) != {"format", "records"} or current_id(raw["format"]) != "GSE.lexicon-gold/1":
+    if (
+        not isinstance(raw, dict)
+        or set(raw) != {"format", "records"}
+        or current_id(raw["format"]) != "GSE.lexicon-gold/1"
+    ):
         raise ValueError("INVALID_GOLD_FORMAT")
     records = raw["records"]
     if not isinstance(records, list) or not records:

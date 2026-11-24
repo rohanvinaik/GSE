@@ -212,9 +212,15 @@ def _verify_wordnet(observations, definitions):
         definition = definitions[record.entry_id]
         packet = record.features["definition_identity"]
         synset = wordnet.synset(packet["native_synset"]["name"])
-        constructor = wordnet_defining_context if current_id(packet["format"]) == DEFINING_CONTEXT_FORMAT else wordnet_identity_evidence
+        constructor = (
+            wordnet_defining_context
+            if current_id(packet["format"]) == DEFINING_CONTEXT_FORMAT
+            else wordnet_identity_evidence
+        )
         fresh = constructor(parser, definition["lemma"], synset, pos=definition["pos"])
-        if _json(identity_form(asdict(wordnet_identity_observation(fresh, definition)))) != _json(identity_form(asdict(record))):
+        if _json(identity_form(asdict(wordnet_identity_observation(fresh, definition)))) != _json(
+            identity_form(asdict(record))
+        ):
             raise ValueError("ENRICHMENT_WORDNET_SOURCE_IDENTITY_MISMATCH")
 
 

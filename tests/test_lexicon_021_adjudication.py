@@ -14,12 +14,35 @@ adjudication = importlib.import_module("docs.readings.2026-11-13-ssl-explicit-ge
 def fixture():
     payloads = [{"entry_id": f"word:{i}", "bank": "BODY"} for i in range(5)]
     schema = {"type": "object", "properties": {"BODY": {"enum": [-1, 0, 1, None]}}, "required": ["BODY"]}
-    native = [{"entry_id": p["entry_id"], "request_id": _request_id(p), "schema": schema,
-               "raw_output": json.dumps({"BODY": 0 if i == 1 else 1}), "transport": "native", "sign": 0 if i == 1 else 1}
-              for i, p in enumerate(payloads)]
-    correction = {native[1]["request_id"]: {"entry_id": native[1]["entry_id"], "raw_output": '{"BODY":1}', "transport": "typed-cli"}}
-    return payloads, schema, {"format": "GSE.source-adjudicated-bank-rulings/1", "native_questions": native,
-                             "corrections": correction, "unique_bank_questions": 5, "actual_bank_questions": 6}
+    native = [
+        {
+            "entry_id": p["entry_id"],
+            "request_id": _request_id(p),
+            "schema": schema,
+            "raw_output": json.dumps({"BODY": 0 if i == 1 else 1}),
+            "transport": "native",
+            "sign": 0 if i == 1 else 1,
+        }
+        for i, p in enumerate(payloads)
+    ]
+    correction = {
+        native[1]["request_id"]: {
+            "entry_id": native[1]["entry_id"],
+            "raw_output": '{"BODY":1}',
+            "transport": "typed-cli",
+        }
+    }
+    return (
+        payloads,
+        schema,
+        {
+            "format": "GSE.source-adjudicated-bank-rulings/1",
+            "native_questions": native,
+            "corrections": correction,
+            "unique_bank_questions": 5,
+            "actual_bank_questions": 6,
+        },
+    )
 
 
 def test_replay_uses_exact_ruling_and_preserves_original_disagreement():

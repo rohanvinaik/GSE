@@ -13,7 +13,10 @@ from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]
-PAPER = Path.home() / "Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md"
+PAPER = (
+    Path.home()
+    / "Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md"
+)
 WORK = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-021"
 HEADING = "#### Vertebrate body-template learning cycle\n"
 BOUNDARY = "### 6. Linguistic and sociological implications\n"
@@ -22,7 +25,7 @@ BOUNDARY = "### 6. Linguistic and sociological implications\n"
 def available(path):
     try:
         return read(path)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except FileNotFoundError, json.JSONDecodeError:
         return None
 
 
@@ -50,20 +53,20 @@ def install_section(section):
 
 def render_result(result):
     signs = Counter(
-        (row["bank"], row["after"][0])
-        for row in result["changes"]
-        if len(row["before"]) > 1 and len(row["after"]) == 1
+        (row["bank"], row["after"][0]) for row in result["changes"] if len(row["before"]) > 1 and len(row["after"]) == 1
     )
     delta = ", ".join(f"{bank}={sign:+d}: {count:,}" for (bank, sign), count in sorted(signs.items())) or "none"
     audits = Counter()
     for epoch in result["epochs"]:
         audits.update(epoch.get("audit_outcomes", {}))
-    audit_text = ", ".join(f"{key}: {count}" for key, count in sorted(audits.items())) or "no held-out audit outcome recorded"
+    audit_text = (
+        ", ".join(f"{key}: {count}" for key, count in sorted(audits.items())) or "no held-out audit outcome recorded"
+    )
     outcomes = ", ".join(epoch["code"] for epoch in result["epochs"])
     return f"""{HEADING}
-The continuation rebased the source-reviewed vertebrate proposal on validated active 020 and ran the existing Zipf epoch controller. Its bounded construction used {result['typed_questions_used']} model questions. The epoch outcome was {outcomes}; held-out audit outcomes were {audit_text}. There were {len(result['admitted'])} admitted candidate rules. Audits record separate signed answers or abstentions; audit answers themselves write no lexical cells. [Frozen plan](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-coherence-plan.json) · [Source warrant and reserved taxa](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json)
+The continuation rebased the source-reviewed vertebrate proposal on validated active 020 and ran the existing Zipf epoch controller. Its bounded construction used {result["typed_questions_used"]} model questions. The epoch outcome was {outcomes}; held-out audit outcomes were {audit_text}. There were {len(result["admitted"])} admitted candidate rules. Audits record separate signed answers or abstentions; audit answers themselves write no lexical cells. [Frozen plan](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-coherence-plan.json) · [Source warrant and reserved taxa](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json)
 
-The replay-validated candidate has {result['new_cells']:,} new singleton assignments ({delta}) and {result['reopened_cells']:,} reopenings. Full replay checked {result['replay']['entries_checked']:,} records with complete search and {result['replay']['entries_mismatched']:,} mismatches. These are candidate results: this continuation performs no activation, and its gains are excluded from published release totals. Unknown domains remain explicit. Independent runtime and cumulative semantic checks, full publication replay and rolling retention are still required for a successor release. This round establishes no joint-support count or cross-epoch contraction rate. [Candidate result](../../../../gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-021/zipf/arm-result.json) · [Round status](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-round-status.json)
+The replay-validated candidate has {result["new_cells"]:,} new singleton assignments ({delta}) and {result["reopened_cells"]:,} reopenings. Full replay checked {result["replay"]["entries_checked"]:,} records with complete search and {result["replay"]["entries_mismatched"]:,} mismatches. These are candidate results: this continuation performs no activation, and its gains are excluded from published release totals. Unknown domains remain explicit. Independent runtime and cumulative semantic checks, full publication replay and rolling retention are still required for a successor release. This round establishes no joint-support count or cross-epoch contraction rate. [Candidate result](../../../../gse/data/lexicon_builder/2026-11-12/ssl-explicit-genera/coherence-021/zipf/arm-result.json) · [Round status](../../../../gse/docs/readings/2026-11-13-ssl-explicit-genera/021-round-status.json)
 
 """
 
@@ -104,14 +107,17 @@ def watch(producer):
             raise ValueError("CONTINUATION_ENDED_WITHOUT_RESULT_RECORD") from None
         time.sleep(10)
     install_section(section)
-    record(NOTES / "021-notebook-update.json", {
-        "format": "GSE.experiment-notebook-update/1",
-        "code": "CANDIDATE_OUTCOME_RECORDED_SEPARATELY_FROM_PUBLISHED_TOTALS",
-        "updated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "notebook": str(PAPER),
-        "notebook_sha256": fingerprint(PAPER),
-        "activation_performed": False,
-    })
+    record(
+        NOTES / "021-notebook-update.json",
+        {
+            "format": "GSE.experiment-notebook-update/1",
+            "code": "CANDIDATE_OUTCOME_RECORDED_SEPARATELY_FROM_PUBLISHED_TOTALS",
+            "updated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "notebook": str(PAPER),
+            "notebook_sha256": fingerprint(PAPER),
+            "activation_performed": False,
+        },
+    )
     print("COHERENCE_021_NOTEBOOK_UPDATED", flush=True)
 
 

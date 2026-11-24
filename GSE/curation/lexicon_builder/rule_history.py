@@ -114,9 +114,8 @@ def read_history(conn, current):
         before = versions[event["from_version"]]
         if current_id(event["format"]) == "GSE.rule-migration-event/1":
             verify_admission(event["admission"])
-            if (
-                event["admission"]["warrant"].get("required_exception_ids")
-                or event["admission"]["warrant"].get("required_reservation_ids")
+            if event["admission"]["warrant"].get("required_exception_ids") or event["admission"]["warrant"].get(
+                "required_reservation_ids"
             ):
                 raise ValueError("RULE_REQUIRES_JOINT_EXCEPTION_REVIEW")
             if event["admission"]["baseline_version"] != event["from_version"]:

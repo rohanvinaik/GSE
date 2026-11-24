@@ -30,7 +30,9 @@ REPORT_FORMAT = "GSE.lexicon-contrast-audit/1"
 
 def digest(value):
     return hashlib.sha256(
-        json.dumps(identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+        json.dumps(
+            identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+        ).encode()
     ).hexdigest()
 
 
@@ -54,7 +56,10 @@ def prepare_contrast(payload, *, production_scaffold=True):
             definition=Definition(**payload["definition"]),
             scaffold=payload["scaffold"],
         )
-        if identity_form(request.payload()) != identity_form(payload) or request.entry_id != request.definition.entry_id:
+        if (
+            identity_form(request.payload()) != identity_form(payload)
+            or request.entry_id != request.definition.entry_id
+        ):
             raise ValueError("ARCHIVED_CONTRAST_REQUEST_MISMATCH")
         model_input(request.payload())
     except (KeyError, TypeError) as exc:
@@ -64,7 +69,11 @@ def prepare_contrast(payload, *, production_scaffold=True):
 
 def validate_cases(fixture):
     """Reject ambiguous labels and direct target leakage before any dispatch."""
-    if type(fixture) is not dict or set(fixture) != {"format", "cases"} or current_id(fixture["format"]) != INPUT_FORMAT:
+    if (
+        type(fixture) is not dict
+        or set(fixture) != {"format", "cases"}
+        or current_id(fixture["format"]) != INPUT_FORMAT
+    ):
         raise ValueError("INVALID_CONTRAST_FIXTURE")
     cases = fixture["cases"]
     if type(cases) is not list or not 2 <= len(cases) <= 64:

@@ -228,13 +228,23 @@ def _apply_copy(conn, admission=None, *, revision=None):
         for review in reservation_reviews.get(entry_id, ()):
             bank = review["bank"]
             expected = review["audit"]["request"]["allowed_values"]
-            if before[bank] != expected or sorted(baseline.domains[bank]) != expected or after_domains[bank] != expected:
+            if (
+                before[bank] != expected
+                or sorted(baseline.domains[bank]) != expected
+                or after_domains[bank] != expected
+            ):
                 raise ValueError("REVISION_RESERVATION_NOT_HONORED:" + entry_id)
-            reservation_checks.append({
-                "code": "REVIEWED_UNRESOLVED_RESERVATION", "entry_id": entry_id, "rule_id": review["rule_id"],
-                "bank": bank, "baseline_domain": expected, "after_domain": after_domains[bank],
-                "audit_request_id": review["audit"]["request_id"],
-            })
+            reservation_checks.append(
+                {
+                    "code": "REVIEWED_UNRESOLVED_RESERVATION",
+                    "entry_id": entry_id,
+                    "rule_id": review["rule_id"],
+                    "bank": bank,
+                    "baseline_domain": expected,
+                    "after_domain": after_domains[bank],
+                    "audit_request_id": review["audit"]["request_id"],
+                }
+            )
         store_entry(conn, definition, after, assertions, hierarchy, domain_restrictions=restrictions)
     event = {
         "format": "GSE.rule-migration-event/1",

@@ -97,7 +97,9 @@ class WiktionaryDefinitionReference(_PendingNativeReference):
 
 def _native_digest(value: dict) -> str:
     return hashlib.sha256(
-        json.dumps(identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+        json.dumps(
+            identity_form(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+        ).encode()
     ).hexdigest()
 
 
@@ -138,8 +140,11 @@ def _native_reference_record(entry: WiktionaryDefinition, source_sha256: str) ->
         raise ValueError("WIKTIONARY_REFERENCE_SOURCE_MISMATCH")
     try:
         record = json.loads(json.dumps(asdict(entry), ensure_ascii=False, allow_nan=False))
-        expected_id = "wiktionary:" + entry.native_id + ":" + _native_digest(
-            {"record_context": entry.record_context, "native_sense": entry.native_sense}
+        expected_id = (
+            "wiktionary:"
+            + entry.native_id
+            + ":"
+            + _native_digest({"record_context": entry.record_context, "native_sense": entry.native_sense})
         )
         valid = (
             entry.entry_id == expected_id
@@ -290,7 +295,9 @@ def native_person_genus(definition: str, pos: str, native_sense: dict) -> bool:
     return len(tokens) > 3 and not boundary.intersection(tokens)
 
 
-ANATOMICAL_GENERA = frozenset({"artery", "bone", "cartilage", "gland", "ligament", "muscle", "nerve", "organ", "tendon", "vein"})
+ANATOMICAL_GENERA = frozenset(
+    {"artery", "bone", "cartilage", "gland", "ligament", "muscle", "nerve", "organ", "tendon", "vein"}
+)
 _ANATOMY_COMPOUNDS = {("nerve", "tissue"), ("nerve", "ending"), ("muscle", "fibre"), ("muscle", "fiber")}
 _COORDINATORS = {"and", "or", "nor"}
 
@@ -327,17 +334,25 @@ def _anatomy_disjunction(head, tokens) -> bool:
     alternative = _anatomy_head(tokens, start)
     if alternative:
         _, boundary, _ = alternative
-    elif parenthetical and head == "bone" and [t.text.casefold() for t in tokens[start : start + 2]] == [
-        "bony", "structure",
-    ]:
+    elif (
+        parenthetical
+        and head == "bone"
+        and [t.text.casefold() for t in tokens[start : start + 2]]
+        == [
+            "bony",
+            "structure",
+        ]
+    ):
         boundary = start + 2
     else:
         return False
     tail = tokens[boundary:]
     if parenthetical:
         return bool(tail and tail[0].text == ")" and _anatomy_boundary(tail[1:]))
-    return not tail or (len(tail) == 1 and tail[0].text == ".") or (
-        len(tail) > 1 and tail[0].text == "," and tail[1].text.casefold() in {"especially", "specifically"}
+    return (
+        not tail
+        or (len(tail) == 1 and tail[0].text == ".")
+        or (len(tail) > 1 and tail[0].text == "," and tail[1].text.casefold() in {"especially", "specifically"})
     )
 
 
@@ -393,7 +408,8 @@ def native_anatomy_witness(definition: str, pos: str, native_sense: dict) -> tup
     if _anatomy_disjunction(head, following):
         return head, "disjunction"
     if (
-        len(following) > 1 and following[0].pos_ == "VERB"
+        len(following) > 1
+        and following[0].pos_ == "VERB"
         and following[0].text.casefold() in {"having", "forming"}
         and following[1].pos_ in {"DET", "NOUN", "ADJ", "NUM"}
     ):
@@ -824,7 +840,9 @@ class WiktionaryParser(BaseExternalParser):
             if len(identities) > 1:
                 code = "AMBIGUOUS_TARGET_SENSES"
             elif matching:
-                reference = any(record["native_sense"].get(kind) for record in matching for kind in ("alt_of", "form_of"))
+                reference = any(
+                    record["native_sense"].get(kind) for record in matching for kind in ("alt_of", "form_of")
+                )
                 code = "TARGET_IS_REFERENCE" if reference else "TARGET_DEFINITIONS_AVAILABLE"
             else:
                 code = "TARGET_HAS_ONLY_OTHER_POS" if other else "TARGET_NOT_FOUND"

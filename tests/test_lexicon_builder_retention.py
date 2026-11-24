@@ -24,11 +24,18 @@ def snapshots(tmp_path, monkeypatch):
         c.execute("INSERT INTO receipts VALUES ('unique','original audit')")
     previous.write_bytes(b"rollback")
     monkeypatch.setattr(retention, "resolve_lexicon_path", lambda: active)
-    return source, active, previous, {
-        "expected_sha256": retention._fingerprint(active), "archive_path": tmp_path / "audit.json.gz",
-        "previous_sha256": retention._fingerprint(previous),
-        "receipt_path": tmp_path / "retirement.json", "handle_check": lambda path: {"code": "NO_OPEN_LOCAL_FILE_MATCHES"},
-    }
+    return (
+        source,
+        active,
+        previous,
+        {
+            "expected_sha256": retention._fingerprint(active),
+            "archive_path": tmp_path / "audit.json.gz",
+            "previous_sha256": retention._fingerprint(previous),
+            "receipt_path": tmp_path / "retirement.json",
+            "handle_check": lambda path: {"code": "NO_OPEN_LOCAL_FILE_MATCHES"},
+        },
+    )
 
 
 def test_retirement_preserves_audits_and_replays_its_receipt(snapshots):

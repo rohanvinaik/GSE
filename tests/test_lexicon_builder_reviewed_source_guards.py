@@ -54,7 +54,11 @@ def native_entry(lemma, *, unit=True):
 
 
 def source_input():
-    discovery, heldout, nonexample = native_entry("discovery"), native_entry("heldout"), native_entry("heldout", unit=False)
+    discovery, heldout, nonexample = (
+        native_entry("discovery"),
+        native_entry("heldout"),
+        native_entry("heldout", unit=False),
+    )
     candidate = warranted(guards=[["pos", "noun"], [ANCESTOR, "true"]])
     candidate["consequent"] = ["WANT", 0]
     return {
@@ -196,7 +200,10 @@ def historical_source_input():
     raw["rule_history"] = {
         "format": "GSE.reviewed-pattern-history/1",
         "current_version": current,
-        "versions": [{"version": previous, "relations": []}, {"version": current, "relations": deepcopy(raw["relations"])}],
+        "versions": [
+            {"version": previous, "relations": []},
+            {"version": current, "relations": deepcopy(raw["relations"])},
+        ],
         "bindings": [
             {
                 "request_id": first["receipt"]["request_id"],
@@ -236,17 +243,20 @@ def test_symbolic_conclusion_seeds_discovery_but_never_answers_open_audit(value)
     raw = source_input()
     raw["rulings"] = []
     discovery = raw["entries"][0]
-    discovery["anchors"] = [{
-        "bank": "SOMETHING", "value": 1, "source": "synthetic:anchor", "record_id": "seed", "family": "anchor"
-    }]
+    discovery["anchors"] = [
+        {"bank": "SOMETHING", "value": 1, "source": "synthetic:anchor", "record_id": "seed", "family": "anchor"}
+    ]
     prior = Relation(
-        "synthetic:prior-law", ("SOMETHING", "WANT"),
+        "synthetic:prior-law",
+        ("SOMETHING", "WANT"),
         tuple((left, right) for left in (-1, 0, 1) for right in (-1, 0, 1) if left != 1 or right == value),
-        ("synthetic:source",), approved=True, guards=(("pos", "noun"),),
+        ("synthetic:source",),
+        approved=True,
+        guards=(("pos", "noun"),),
     )
     raw["relations"] = relation_records((prior,))
     raw["guarded_candidates"][0]["consequent"] = ["WANT", value]
-    transport = FakeTransport(['{"WANT":' + str(value) + '}'])
+    transport = FakeTransport(['{"WANT":' + str(value) + "}"])
     report = run_workflow_input(raw, transport, max_calls=1)
     candidate = report["candidates"][0]
     assert candidate["discovery_outcomes"] == {"OBSERVED_AGREEMENT": 1}
@@ -260,7 +270,9 @@ def test_symbolic_conclusion_seeds_discovery_but_never_answers_open_audit(value)
     assert report["model_calls"] == 1
 
 
-@pytest.mark.parametrize("values,expected", [([], "CONSEQUENT_UNKNOWN"), ([1], "OBSERVED_COUNTEREXAMPLE"), ([-1, 1], "BASELINE_CONFLICT")])
+@pytest.mark.parametrize(
+    "values,expected", [([], "CONSEQUENT_UNKNOWN"), ([1], "OBSERVED_COUNTEREXAMPLE"), ([-1, 1], "BASELINE_CONFLICT")]
+)
 def test_symbolic_seed_unknown_disagreement_and_conflict_remain_distinct(values, expected):
     raw = source_input()
     raw["rulings"] = []
@@ -286,9 +298,13 @@ def test_symbolic_seed_does_not_bypass_audit_abstention_or_admission():
     assert candidate["discovery_outcomes"] == {"OBSERVED_AGREEMENT": 1}
     assert candidate["audit_outcomes"] == {"MODEL_ABSTAINED": 1, "GUARD_NOT_MET": 1}
     review = {
-        "rule_id": candidate["relation"]["rule_id"], "warrant_sha256": candidate["warrant_sha256"],
-        "review_id": "synthetic:review", "reviewer": "synthetic:reviewer", "decision": "APPROVE_DEFINITIONAL_RULE",
-        "source_refs": ["synthetic:test-source"], "rationale": "Synthetic contract test only.",
+        "rule_id": candidate["relation"]["rule_id"],
+        "warrant_sha256": candidate["warrant_sha256"],
+        "review_id": "synthetic:review",
+        "reviewer": "synthetic:reviewer",
+        "decision": "APPROVE_DEFINITIONAL_RULE",
+        "source_refs": ["synthetic:test-source"],
+        "rationale": "Synthetic contract test only.",
     }
     with pytest.raises(ValueError, match="RULE_ADMISSION_AUDIT_INCOMPLETE"):
         admit_records(raw, report, review)
@@ -343,9 +359,13 @@ def test_symbolically_seeded_rule_admission_replays_the_independent_audit():
     report = run_workflow_input(raw, FakeTransport(['{"WANT":0}']), max_calls=1)
     [candidate] = report["candidates"]
     review = {
-        "rule_id": candidate["relation"]["rule_id"], "warrant_sha256": candidate["warrant_sha256"],
-        "review_id": "synthetic:review", "reviewer": "synthetic:reviewer", "decision": "APPROVE_DEFINITIONAL_RULE",
-        "source_refs": ["synthetic:test-source"], "rationale": "Synthetic contract test only.",
+        "rule_id": candidate["relation"]["rule_id"],
+        "warrant_sha256": candidate["warrant_sha256"],
+        "review_id": "synthetic:review",
+        "reviewer": "synthetic:reviewer",
+        "decision": "APPROVE_DEFINITIONAL_RULE",
+        "source_refs": ["synthetic:test-source"],
+        "rationale": "Synthetic contract test only.",
     }
     admission = admit_records(raw, report, review)
     assert admission["code"] == "EXPLICIT_REVIEWED_RULE"

@@ -23,8 +23,7 @@ def test_known_target_does_not_activate_rule_with_unknown_premise():
 
 def test_forward_set_can_activate_a_second_rule_after_closure():
     def solve(rules):
-        return resolve_dictionary(("SAY", "DO", "HAPPEN"),
-                                  (Assertion("SAY", 1, "fixture", "known", "fixture"),), rules)
+        return resolve_dictionary(("SAY", "DO", "HAPPEN"), (Assertion("SAY", 1, "fixture", "known", "fixture"),), rules)
 
     action = proposal("action", ("SAY", 1), ("DO", 1))
     occurrence = proposal("occurrence", ("DO", 1), ("HAPPEN", 1))
@@ -44,5 +43,7 @@ def test_joint_disagreement_has_named_proof_and_preserves_unknown():
     result, fired, issues = _forward(prior, (action, neutral), solve)
     assert fired == ["action", "neutral"]
     assert result.domains["DO"] == TERNARY
-    assert any(issue["reason"] == "CONDITIONAL_COMPONENT_CONFLICT" and
-               issue["rule_ids"] == ("action", "neutral") for issue in issues)
+    assert any(
+        issue["reason"] == "CONDITIONAL_COMPONENT_CONFLICT" and issue["rule_ids"] == ("action", "neutral")
+        for issue in issues
+    )

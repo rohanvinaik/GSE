@@ -66,8 +66,10 @@ RESERVED = (
 def family_record():
     preview = read(PREVIEW)
     boredom = [
-        row["entry_id"] for row in preview["definitions"]
-        if row["lemma"] == "boredom" and row["gloss"].casefold() == "the state of being bored."
+        row["entry_id"]
+        for row in preview["definitions"]
+        if row["lemma"] == "boredom"
+        and row["gloss"].casefold() == "the state of being bored."
         and row["entry_id"].startswith("wiktionary:")
     ]
     if len(boredom) != 1:
@@ -100,7 +102,8 @@ def family_record():
 def freeze():
     parent = read(NOTES / "sparse-release-018-activation.json")
     if (
-        resolve_lexicon_path() != BASE or fingerprint(BASE) != parent["sha256"]
+        resolve_lexicon_path() != BASE
+        or fingerprint(BASE) != parent["sha256"]
         or fingerprint(ACTIVE_POINTER) != parent["pointer_sha256"]
     ):
         raise ValueError("STATIVE_TRANSFER_BASELINE_CHANGED")
@@ -119,9 +122,12 @@ def prepare():
     ):
         evaluated.extend(load_benchmark(path))
     plan = {
-        "format": "GSE.lexicon-epoch-plan/1", "baseline_sha256": parent["sha256"],
-        "active_pointer_sha256": parent["pointer_sha256"], "epochs": 1,
-        "audits_per_epoch": len(family["holdouts"]), "families": [family],
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": parent["sha256"],
+        "active_pointer_sha256": parent["pointer_sha256"],
+        "epochs": 1,
+        "audits_per_epoch": len(family["holdouts"]),
+        "families": [family],
         "evaluation_holdout": {
             "lemmas": sorted({case["lemma"] for case in evaluated}),
             "entries": sorted({*GOLD, *(case["sense"] for case in evaluated if case["sense"] is not None)}),
@@ -142,8 +148,10 @@ def prepare():
     ):
         raise ValueError("STATIVE_TRANSFER_UNSAFE_STAGE")
     expected = read(PREVIEW)["changes"]
+
     def order(row):
         return row["entry_id"], row["bank"]
+
     if sorted(staged["changes"], key=order) != sorted(expected, key=order):
         raise ValueError("STATIVE_TRANSFER_SCOPE_CHANGED_SINCE_REVIEW")
     priority, frequencies = _priority_source("zipf", None)
@@ -152,18 +160,31 @@ def prepare():
         raise ValueError("STATIVE_TRANSFER_NO_TEACHING_QUESTION")
     record(WORK / "plan.json", plan)
     record(WORK / "inventory.json", inventory)
-    record(NOTES / "019-population-stage.json", {
-        **staged, "inventory": inventory, "selected": selected, "frequency_source": priority,
-        "baseline_sha256": parent["sha256"], "active_pointer_sha256": parent["pointer_sha256"],
-    })
+    record(
+        NOTES / "019-population-stage.json",
+        {
+            **staged,
+            "inventory": inventory,
+            "selected": selected,
+            "frequency_source": priority,
+            "baseline_sha256": parent["sha256"],
+            "active_pointer_sha256": parent["pointer_sha256"],
+        },
+    )
     print("STATIVE_TRANSFER_PREPARED", len(staged["changes"]), selected["entry_id"], selected["subtlex"], flush=True)
 
 
 def run():
     freeze()
     result = run_arm(
-        read(WORK / "plan.json"), BASE, ACTIVE_POINTER, WORK / "zipf", read(WORK / "inventory.json"),
-        "zipf", previous.anatomy.previous.prior.previous.model(), WORK / "model.lock",
+        read(WORK / "plan.json"),
+        BASE,
+        ACTIVE_POINTER,
+        WORK / "zipf",
+        read(WORK / "inventory.json"),
+        "zipf",
+        previous.anatomy.previous.prior.previous.model(),
+        WORK / "model.lock",
     )
     if len(result["epochs"]) != 1 or result["epochs"][0]["code"] != "RULE_ADMITTED":
         record(NOTES / "019-rule-withheld.json", result)
@@ -180,9 +201,11 @@ def seed():
     teaching_path = WORK / "zipf/epoch-01/teaching.json"
     teaching = read(teaching_path)
     if (
-        prior_attempt["candidate"] != str(BASE) or prior_attempt["changes"]
+        prior_attempt["candidate"] != str(BASE)
+        or prior_attempt["changes"]
         or prior_attempt["typed_questions_used"] != 1
-        or teaching["code"] != "TEACHING_ABSTAINED" or teaching["answer"] != {"BE": None}
+        or teaching["code"] != "TEACHING_ABSTAINED"
+        or teaching["answer"] != {"BE": None}
     ):
         raise ValueError("STATIVE_TRANSFER_PRIOR_ATTEMPT_CHANGED")
     inventory = read(WORK / "inventory.json")[family.id]
@@ -191,8 +214,10 @@ def seed():
     excluded_lemmas = set(plan["evaluation_holdout"]["lemmas"])
     _, frequencies = _priority_source("zipf", None)
     eligible = [
-        item for item in inventory
-        if rows[item["entry_id"]][-1]["BE"] == [1] and item["entry_id"] not in excluded
+        item
+        for item in inventory
+        if rows[item["entry_id"]][-1]["BE"] == [1]
+        and item["entry_id"] not in excluded
         and item["lemma"].casefold() not in excluded_lemmas
     ]
     seeds, groups = [], set()
@@ -208,16 +233,25 @@ def seed():
     phase.mkdir(exist_ok=True)
     transport = previous.anatomy.previous.prior.previous.model()
     manifest = {
-        "format": "GSE.seeded-rule-round/1", "baseline_sha256": fingerprint(BASE),
-        "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "original_plan_sha256": digest(plan),
-        "discovery_entry_ids": seeds, "audit_entry_ids": list(family.holdouts),
-        "prior_teaching": teaching, "prior_teaching_sha256": fingerprint(teaching_path),
-        "typed_question_budget": 7, "new_audit_budget": 6, "transport": transport.identity,
+        "format": "GSE.seeded-rule-round/1",
+        "baseline_sha256": fingerprint(BASE),
+        "active_pointer_sha256": fingerprint(ACTIVE_POINTER),
+        "original_plan_sha256": digest(plan),
+        "discovery_entry_ids": seeds,
+        "audit_entry_ids": list(family.holdouts),
+        "prior_teaching": teaching,
+        "prior_teaching_sha256": fingerprint(teaching_path),
+        "typed_question_budget": 7,
+        "new_audit_budget": 6,
+        "transport": transport.identity,
     }
     record(phase / "plan.json", manifest)
     selection = {
-        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": seeds,
-        "audit_entry_ids": list(family.holdouts), "reviews": [], "guarded_candidates": [family.proposal()],
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": seeds,
+        "audit_entry_ids": list(family.holdouts),
+        "reviews": [],
+        "guarded_candidates": [family.proposal()],
     }
     exported = export_reviewed_input(BASE, selection)
     raw = exported["input"]
@@ -225,8 +259,10 @@ def seed():
     record(phase / "reviewed-input.json", raw)
     staged = forecast(rows, rules, (family.relation(),))
     record(phase / "staged.json", staged)
+
     def order(row):
         return row["entry_id"], row["bank"]
+
     if staged["contradictions"] or sorted(staged["changes"], key=order) != sorted(read(PREVIEW)["changes"], key=order):
         raise ValueError("STATIVE_TRANSFER_SEEDED_SCOPE_CHANGED")
     auditing = JournaledTransport(transport, phase, "audit", 6, WORK / "model.lock")
@@ -248,15 +284,23 @@ def seed():
     if fingerprint(teaching_path) != manifest["prior_teaching_sha256"]:
         raise ValueError("STATIVE_TRANSFER_ABSTENTION_CHANGED")
     result = {
-        "format": "GSE.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds",
-        "candidate": str(output), "candidate_sha256": fingerprint(output),
-        "plan_sha256": digest(manifest), "active_pointer_sha256": manifest["active_pointer_sha256"],
-        "definitions_compared": migration["definitions_replayed"], "changes": staged["changes"],
-        "new_cells": migration["symbolic_new_cells"], "reopened_cells": 0,
-        "typed_question_budget": 7, "typed_questions_used": 1 + auditing.count(),
-        "discovery_seed_count": len(seeds), "prior_teaching": teaching,
+        "format": "GSE.lexicon-seeded-round/1",
+        "policy": "zipf-grounded-seeds",
+        "candidate": str(output),
+        "candidate_sha256": fingerprint(output),
+        "plan_sha256": digest(manifest),
+        "active_pointer_sha256": manifest["active_pointer_sha256"],
+        "definitions_compared": migration["definitions_replayed"],
+        "changes": staged["changes"],
+        "new_cells": migration["symbolic_new_cells"],
+        "reopened_cells": 0,
+        "typed_question_budget": 7,
+        "typed_questions_used": 1 + auditing.count(),
+        "discovery_seed_count": len(seeds),
+        "prior_teaching": teaching,
         "admitted": [{"family": family.id, "rule_id": migration["rule_id"]}],
-        "replay": migration["replay"], "activation_performed": False,
+        "replay": migration["replay"],
+        "activation_performed": False,
     }
     record(phase / "result.json", result)
     verify_result(result)
@@ -275,7 +319,9 @@ def refine_prepare():
     seed_plan = read(WORK / "seeded/plan.json")
     inventory = read(WORK / "inventory.json")[parent_family.id]
     rules, rows = scope_rows(BASE, inventory)
-    excluded = set(seed_plan["discovery_entry_ids"] + seed_plan["audit_entry_ids"] + plan["evaluation_holdout"]["entries"])
+    excluded = set(
+        seed_plan["discovery_entry_ids"] + seed_plan["audit_entry_ids"] + plan["evaluation_holdout"]["entries"]
+    )
     care = read(WORK / "zipf/epoch-01/selection.json")["entry_id"]
     excluded.add(care)
     excluded_groups = {item["sense_group"] for item in inventory if item["entry_id"] in excluded}
@@ -286,54 +332,87 @@ def refine_prepare():
     holdouts = []
     for source in ("wordnet", "wiktionary"):
         eligible = [
-            item for item in inventory if item["entry_id"].startswith(source + ":")
+            item
+            for item in inventory
+            if item["entry_id"].startswith(source + ":")
             and rows[item["entry_id"]][-1]["BE"] == [-1, 0, 1]
-            and item["sense_group"] not in excluded_groups and item["lemma"].casefold() not in excluded_lemmas
+            and item["sense_group"] not in excluded_groups
+            and item["lemma"].casefold() not in excluded_lemmas
         ]
         if not eligible:
             raise ValueError("STATIVE_TRANSFER_NO_FRESH_SOURCE_AUDIT:" + source)
         chosen = min(eligible, key=lambda item: (-frequencies.get(item["lemma"].casefold(), 0), item["entry_id"]))
         holdouts.append(chosen["entry_id"])
-    family = replace(parent_family, holdouts=tuple(holdouts), warrant={
-        **parent_family.warrant,
-        "warrant_id": parent_family.warrant["warrant_id"] + ":reserved-audits",
-        "review_id": "qualified-stative-unresolved-audit-reservations",
-        "required_reservation_ids": reserved,
-        "statement": parent_family.warrant["statement"] + " Exact definitions with unresolved parent audits "
-        "are withheld through explicit reservations. Those null rulings establish no contrary sign and no "
-        "general exception condition. The residual cases remain open for further learning.",
-    })
-    staging_rule = replace(family.relation(), guards=tuple(sorted((
-        *family.guards, *((EXCEPTION_GUARD_PREFIX + entry, "true") for entry in reserved),
-    ))))
+    family = replace(
+        parent_family,
+        holdouts=tuple(holdouts),
+        warrant={
+            **parent_family.warrant,
+            "warrant_id": parent_family.warrant["warrant_id"] + ":reserved-audits",
+            "review_id": "qualified-stative-unresolved-audit-reservations",
+            "required_reservation_ids": reserved,
+            "statement": parent_family.warrant["statement"] + " Exact definitions with unresolved parent audits "
+            "are withheld through explicit reservations. Those null rulings establish no contrary sign and no "
+            "general exception condition. The residual cases remain open for further learning.",
+        },
+    )
+    staging_rule = replace(
+        family.relation(),
+        guards=tuple(
+            sorted(
+                (
+                    *family.guards,
+                    *((EXCEPTION_GUARD_PREFIX + entry, "true") for entry in reserved),
+                )
+            )
+        ),
+    )
     staged = forecast(rows, rules, (staging_rule,))
     if staged["contradictions"] or any(
         r["bank"] != "BE" or r["before"] != [-1, 0, 1] or r["after"] != [1] for r in staged["changes"]
     ):
         raise ValueError("STATIVE_TRANSFER_REFINED_STAGE_UNSAFE")
     selection = {
-        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": seed_plan["discovery_entry_ids"],
-        "audit_entry_ids": holdouts, "reviews": [], "guarded_candidates": [family.proposal()],
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": seed_plan["discovery_entry_ids"],
+        "audit_entry_ids": holdouts,
+        "reviews": [],
+        "guarded_candidates": [family.proposal()],
     }
     raw = export_reviewed_input(BASE, selection)["input"]
     phase = WORK / "refined"
     phase.mkdir(exist_ok=True)
     record(phase / "selection.json", selection)
     record(phase / "reviewed-input.json", raw)
-    record(phase / "plan.json", {
-        "format": "GSE.seeded-rule-refinement/1", "baseline_sha256": fingerprint(BASE),
-        "active_pointer_sha256": fingerprint(ACTIVE_POINTER), "parent_audit_sha256": digest(parent),
-        "prior_teaching_sha256": seed_plan["prior_teaching_sha256"],
-        "reserved_entry_ids": reserved, "audit_entry_ids": holdouts, "new_audit_budget": 2,
-        "prior_questions": 1 + parent["model_calls"], "typed_question_budget": 3 + parent["model_calls"],
-    })
+    record(
+        phase / "plan.json",
+        {
+            "format": "GSE.seeded-rule-refinement/1",
+            "baseline_sha256": fingerprint(BASE),
+            "active_pointer_sha256": fingerprint(ACTIVE_POINTER),
+            "parent_audit_sha256": digest(parent),
+            "prior_teaching_sha256": seed_plan["prior_teaching_sha256"],
+            "reserved_entry_ids": reserved,
+            "audit_entry_ids": holdouts,
+            "new_audit_budget": 2,
+            "prior_questions": 1 + parent["model_calls"],
+            "typed_question_budget": 3 + parent["model_calls"],
+        },
+    )
     record(phase / "staged.json", staged)
-    record(NOTES / "019-refined-stage.json", {
-        **staged, "reserved_entry_ids": reserved, "audit_definitions": [
-            {"entry_id": entry, "definition": rows[entry][0].definition, "lemma": rows[entry][0].lemma}
-            for entry in holdouts
-        ], "parent_audit_outcomes": tested["audit_outcomes"], "independent_audit_budget": 2,
-    })
+    record(
+        NOTES / "019-refined-stage.json",
+        {
+            **staged,
+            "reserved_entry_ids": reserved,
+            "audit_definitions": [
+                {"entry_id": entry, "definition": rows[entry][0].definition, "lemma": rows[entry][0].lemma}
+                for entry in holdouts
+            ],
+            "parent_audit_outcomes": tested["audit_outcomes"],
+            "independent_audit_budget": 2,
+        },
+    )
     print("STATIVE_TRANSFER_REFINEMENT_PREPARED", len(staged["changes"]), reserved, holdouts, flush=True)
 
 
@@ -354,26 +433,45 @@ def refine():
         record(NOTES / "019-refined-rule-withheld.json", audited)
         raise ValueError("STATIVE_TRANSFER_REFINED_AUDIT_WITHHELD")
     warrant = candidate["warrant"]
-    admission = admit_records(raw, audited, {
-        "rule_id": candidate["relation"]["rule_id"], "warrant_sha256": candidate["warrant_sha256"],
-        "review_id": "qualified-stative-refined-admission", "reviewer": warrant["reviewer"],
-        "decision": "APPROVE_DEFINITIONAL_RULE", "source_refs": warrant["source_refs"], "rationale": warrant["statement"],
-    })
+    admission = admit_records(
+        raw,
+        audited,
+        {
+            "rule_id": candidate["relation"]["rule_id"],
+            "warrant_sha256": candidate["warrant_sha256"],
+            "review_id": "qualified-stative-refined-admission",
+            "reviewer": warrant["reviewer"],
+            "decision": "APPROVE_DEFINITIONAL_RULE",
+            "source_refs": warrant["source_refs"],
+            "rationale": warrant["statement"],
+        },
+    )
     reservations = []
     with closing(connect(BASE)) as conn:
         for audit_row in parent["candidates"][0]["audits"]:
             if audit_row["code"] != "MODEL_ABSTAINED":
                 continue
-            reservations.append({
-                "rule_id": admission["relation"]["rule_id"], "entry_id": audit_row["entry_id"], "bank": "BE",
-                "source_sha256": digest(reservation_source(conn, audit_row["entry_id"])), "audit": audit_row,
-                "review_id": "reserved-audit:" + audit_row["request_id"], "reviewer": warrant["reviewer"],
-                "source_refs": warrant["source_refs"], "rationale": "The parent audit abstained. Preserve its "
-                "open domain while withholding this exact identity from the population prior; assign no sign.",
-            })
+            reservations.append(
+                {
+                    "rule_id": admission["relation"]["rule_id"],
+                    "entry_id": audit_row["entry_id"],
+                    "bank": "BE",
+                    "source_sha256": digest(reservation_source(conn, audit_row["entry_id"])),
+                    "audit": audit_row,
+                    "review_id": "reserved-audit:" + audit_row["request_id"],
+                    "reviewer": warrant["reviewer"],
+                    "source_refs": warrant["source_refs"],
+                    "rationale": "The parent audit abstained. Preserve its "
+                    "open domain while withholding this exact identity from the population prior; assign no sign.",
+                }
+            )
     revision = {
-        "format": RESERVATION_FORMAT, "baseline_version": admission["baseline_version"],
-        "admissions": [admission], "retirements": [], "exceptions": [], "reservations": reservations,
+        "format": RESERVATION_FORMAT,
+        "baseline_version": admission["baseline_version"],
+        "admissions": [admission],
+        "retirements": [],
+        "exceptions": [],
+        "reservations": reservations,
     }
     record(phase / "revision.json", revision)
     print("STATIVE_TRANSFER_REFINED_AUDITS_PASSED", auditing.count(), "STARTING_FULL_REPLAY", flush=True)
@@ -389,10 +487,13 @@ def refine():
         import json
 
         expected = {
-            **admission["relation"], "guards": sorted([
-                *admission["relation"]["guards"],
-                *([EXCEPTION_GUARD_PREFIX + review["entry_id"], "true"] for review in reservations),
-            ]),
+            **admission["relation"],
+            "guards": sorted(
+                [
+                    *admission["relation"]["guards"],
+                    *([EXCEPTION_GUARD_PREFIX + review["entry_id"], "true"] for review in reservations),
+                ]
+            ),
         }
         if digest(expected) not in {digest(rule) for rule in json.loads(payload)}:
             raise ValueError("STATIVE_TRANSFER_RECOVERED_RULE_MISSING")
@@ -401,23 +502,34 @@ def refine():
     if migration["postflight"]["code"] != "REPLAY_VALIDATED" or not migration["postflight"]["complete_search"]:
         raise ValueError("STATIVE_TRANSFER_REFINED_REPLAY_FAILED")
     definitions, changes = exact_delta(BASE, output)
+
     def by_cell(rows):
         return {(row["entry_id"], row["bank"]): row for row in rows}
+
     if by_cell(changes) != by_cell(read(phase / "staged.json")["changes"]):
         raise ValueError("STATIVE_TRANSFER_REFINED_DELTA_DIFFERS_FROM_STAGE")
     teaching_path = WORK / "zipf/epoch-01/teaching.json"
     if fingerprint(teaching_path) != plan["prior_teaching_sha256"]:
         raise ValueError("STATIVE_TRANSFER_ABSTENTION_CHANGED")
     result = {
-        "format": "GSE.lexicon-seeded-round/1", "policy": "zipf-grounded-seeds-with-reservations",
-        "candidate": str(output), "candidate_sha256": fingerprint(output), "plan_sha256": digest(plan),
-        "active_pointer_sha256": plan["active_pointer_sha256"], "definitions_compared": definitions,
-        "changes": changes, "new_cells": len(changes), "reopened_cells": 0, "discovery_seed_count": 5,
+        "format": "GSE.lexicon-seeded-round/1",
+        "policy": "zipf-grounded-seeds-with-reservations",
+        "candidate": str(output),
+        "candidate_sha256": fingerprint(output),
+        "plan_sha256": digest(plan),
+        "active_pointer_sha256": plan["active_pointer_sha256"],
+        "definitions_compared": definitions,
+        "changes": changes,
+        "new_cells": len(changes),
+        "reopened_cells": 0,
+        "discovery_seed_count": 5,
         "typed_question_budget": plan["typed_question_budget"],
         "typed_questions_used": plan["prior_questions"] + auditing.count(),
-        "prior_teaching": read(teaching_path), "reserved_entry_ids": plan["reserved_entry_ids"],
+        "prior_teaching": read(teaching_path),
+        "reserved_entry_ids": plan["reserved_entry_ids"],
         "admitted": [{"family": "native-stative-being", "rule_id": admission["relation"]["rule_id"]}],
-        "replay": migration["postflight"], "activation_performed": False,
+        "replay": migration["postflight"],
+        "activation_performed": False,
     }
     record(phase / "result.json", result)
     verify_result(result)
@@ -428,10 +540,14 @@ def calibrate():
     freeze()
     prior = read(WORK / "seeded/reviewed-input.json")
     proof = read(WORK / "seeded/audit.json")["candidates"][0]["discovery"]
-    removed = sorted({
-        step["rule_id"] for row in proof for step in row["consequent_witness"]["proof_trace"]
-        if step.get("bank") == "BE" and step["kind"] == "RELATION"
-    })
+    removed = sorted(
+        {
+            step["rule_id"]
+            for row in proof
+            for step in row["consequent_witness"]["proof_trace"]
+            if step.get("bank") == "BE" and step["kind"] == "RELATION"
+        }
+    )
     if len(removed) != 1:
         raise ValueError("STATIVE_CALIBRATION_UNEXPECTED_PROOF_ROOTS")
     from GSE.curation.lexicon_builder.validation import _relations
@@ -442,8 +558,13 @@ def calibrate():
     for entry in entries:
         entry["context"] = lexical_context(entry["definition"], entry["observations"], _relations(relations))
     raw = {
-        "format": prior["format"], "relations": relations, "rulings": [], "entries": entries,
-        "discovery_entry_ids": [], "audit_entry_ids": seeds, "guarded_candidates": prior["guarded_candidates"],
+        "format": prior["format"],
+        "relations": relations,
+        "rulings": [],
+        "entries": entries,
+        "discovery_entry_ids": [],
+        "audit_entry_ids": seeds,
+        "guarded_candidates": prior["guarded_candidates"],
     }
     checked = run_workflow_input(raw)
     if checked["candidates"][0]["audit_outcomes"] != {"AUDIT_CALL_BUDGET_EXHAUSTED": 5}:
@@ -451,12 +572,19 @@ def calibrate():
     phase = WORK / "calibration"
     phase.mkdir(exist_ok=True)
     transport = previous.anatomy.previous.prior.previous.model()
-    record(phase / "plan.json", {
-        "format": "GSE.bank-auditor-calibration/1", "seed_entry_ids": seeds,
-        "withheld_rule_ids": removed, "baseline_sha256": fingerprint(BASE),
-        "questions": 5, "transport": transport.identity, "lexicon_writes": False,
-        "authority": "COMPARISON_WITH_RELEASE_018_ADMITTED_RULE_NOT_INDEPENDENT_SEMANTIC_GOLD",
-    })
+    record(
+        phase / "plan.json",
+        {
+            "format": "GSE.bank-auditor-calibration/1",
+            "seed_entry_ids": seeds,
+            "withheld_rule_ids": removed,
+            "baseline_sha256": fingerprint(BASE),
+            "questions": 5,
+            "transport": transport.identity,
+            "lexicon_writes": False,
+            "authority": "COMPARISON_WITH_RELEASE_018_ADMITTED_RULE_NOT_INDEPENDENT_SEMANTIC_GOLD",
+        },
+    )
     record(phase / "input.json", raw)
     journal = JournaledTransport(transport, phase, "calibration", 5, WORK / "model.lock")
     report = run_workflow_input(raw, journal, max_calls=5)
@@ -474,7 +602,8 @@ def convention():
     parent = read(WORK / "seeded/plan.json")
     family = family_record()
     family["warrant"].update(
-        kind="APPROVED_GSE_CONVENTION", warrant_id=approval["convention_id"],
+        kind="APPROVED_GSE_CONVENTION",
+        warrant_id=approval["convention_id"],
         review_id="founder-own-state-denotation-be",
         statement="Rohan approved: own noun-state denotation is sufficient for BE=+1, including relational "
         "and resultative conditions. An exact complete native noun definition headed by a/the state of "
@@ -484,7 +613,8 @@ def convention():
     )
     family["warrant"]["source_refs"].append(str(NOTES / "019-approved-be-convention.json"))
     records = [
-        a for path in (WORK / "seeded/audit.json", WORK / "refined/audit.json")
+        a
+        for path in (WORK / "seeded/audit.json", WORK / "refined/audit.json")
         for a in read(path)["candidates"][0]["audits"]
     ]
     audit_ids = [a["entry_id"] for a in records]
@@ -492,27 +622,40 @@ def convention():
         raise ValueError("STATIVE_CONVENTION_DIAGNOSTIC_IDENTITIES_CHANGED")
     family["holdouts"] = audit_ids
     selection = {
-        "format": "GSE.reviewed-pattern-selection/1", "discovery_entry_ids": parent["discovery_entry_ids"],
-        "audit_entry_ids": audit_ids, "reviews": [],
-        "guarded_candidates": [{
-            "antecedent": None, "consequent": family["consequent"], "guards": family["guards"],
-            "absent_evidence": [], "warrant": family["warrant"],
-        }],
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": parent["discovery_entry_ids"],
+        "audit_entry_ids": audit_ids,
+        "reviews": [],
+        "guarded_candidates": [
+            {
+                "antecedent": None,
+                "consequent": family["consequent"],
+                "guards": family["guards"],
+                "absent_evidence": [],
+                "warrant": family["warrant"],
+            }
+        ],
     }
     raw = export_reviewed_input(BASE, selection)["input"]
     by_entry = {a["entry_id"]: a for a in records}
     replay_transport = _AuditReplay([by_entry[entry] for entry in raw["audit_entry_ids"]])
     audited = run_workflow_input(raw, replay_transport, max_calls=8)
     if replay_transport.index != 8 or audited["candidates"][0]["audit_outcomes"] != {
-        "MODEL_AGREEMENT": 4, "MODEL_ABSTAINED": 3, "MODEL_COUNTEREXAMPLE": 1,
+        "MODEL_AGREEMENT": 4,
+        "MODEL_ABSTAINED": 3,
+        "MODEL_COUNTEREXAMPLE": 1,
     }:
         raise ValueError("STATIVE_CONVENTION_DIAGNOSTIC_REPLAY_CHANGED")
     [candidate] = audited["candidates"]
     review = {
-        "rule_id": candidate["relation"]["rule_id"], "warrant_sha256": candidate["warrant_sha256"],
-        "review_id": "founder-stative-convention-admission", "reviewer": "Rohan (representation); Codex (source scope)",
-        "decision": "APPROVE_REPRESENTATIONAL_CONVENTION", "convention": approval,
-        "source_refs": family["warrant"]["source_refs"], "rationale": family["warrant"]["statement"],
+        "rule_id": candidate["relation"]["rule_id"],
+        "warrant_sha256": candidate["warrant_sha256"],
+        "review_id": "founder-stative-convention-admission",
+        "reviewer": "Rohan (representation); Codex (source scope)",
+        "decision": "APPROVE_REPRESENTATIONAL_CONVENTION",
+        "convention": approval,
+        "source_refs": family["warrant"]["source_refs"],
+        "rationale": family["warrant"]["statement"],
     }
     admission = admit_records(raw, audited, review)
     from GSE.curation.lexicon_builder.validation import _relations
@@ -521,23 +664,39 @@ def convention():
     rules, rows = scope_rows(BASE, inventory)
     [new_rule] = _relations(json.loads(json.dumps([admission["relation"]])))
     staged = forecast(rows, rules, (new_rule,))
+
     def by_cell(changes):
         return {(row["entry_id"], row["bank"]): row for row in changes}
+
     if staged["contradictions"] or by_cell(staged["changes"]) != by_cell(read(PREVIEW)["changes"]):
         raise ValueError("STATIVE_CONVENTION_SCOPE_CHANGED")
     revision = {
-        "format": "GSE.rule-revision/1", "baseline_version": admission["baseline_version"],
-        "admissions": [admission], "retirements": [], "exceptions": [],
+        "format": "GSE.rule-revision/1",
+        "baseline_version": admission["baseline_version"],
+        "admissions": [admission],
+        "retirements": [],
+        "exceptions": [],
     }
     for name, payload in (
-        ("selection", selection), ("reviewed-input", raw), ("audit", audited), ("review", review),
-        ("admission", admission), ("staged", staged), ("revision", revision),
+        ("selection", selection),
+        ("reviewed-input", raw),
+        ("audit", audited),
+        ("review", review),
+        ("admission", admission),
+        ("staged", staged),
+        ("revision", revision),
     ):
         record(phase / (name + ".json"), payload)
-    record(NOTES / "019-convention-stage.json", {
-        **staged, "semantic_authority": admission["semantic_authority"], "convention": approval,
-        "diagnostic_outcomes": candidate["audit_outcomes"], "new_model_questions": 0,
-    })
+    record(
+        NOTES / "019-convention-stage.json",
+        {
+            **staged,
+            "semantic_authority": admission["semantic_authority"],
+            "convention": approval,
+            "diagnostic_outcomes": candidate["audit_outcomes"],
+            "new_model_questions": 0,
+        },
+    )
     print("STATIVE_CONVENTION_STAGED", len(staged["changes"]), "STARTING_FULL_REPLAY", flush=True)
     output, migration_path = phase / "candidate.db", phase / "migration.json"
     if not output.exists():
@@ -551,20 +710,32 @@ def convention():
     if by_cell(changes) != by_cell(staged["changes"]):
         raise ValueError("STATIVE_CONVENTION_DELTA_DIFFERS_FROM_STAGE")
     care = read(WORK / "zipf/epoch-01/selection.json")["entry_id"]
-    controls = [care, *read(WORK / "refined/plan.json")["reserved_entry_ids"], *[
-        a["entry_id"] for a in records if a["code"] == "MODEL_COUNTEREXAMPLE"
-    ]]
+    controls = [
+        care,
+        *read(WORK / "refined/plan.json")["reserved_entry_ids"],
+        *[a["entry_id"] for a in records if a["code"] == "MODEL_COUNTEREXAMPLE"],
+    ]
     if fingerprint(WORK / "zipf/epoch-01/teaching.json") != parent["prior_teaching_sha256"]:
         raise ValueError("STATIVE_CONVENTION_ORIGINAL_ABSTENTION_CHANGED")
     result = {
-        "format": "GSE.lexicon-convention-round/1", "policy": "founder-approved-scoped-convention",
-        "candidate": str(output), "candidate_sha256": fingerprint(output), "plan_sha256": digest(revision),
-        "active_pointer_sha256": parent["active_pointer_sha256"], "definitions_compared": definitions,
-        "changes": changes, "new_cells": len(changes), "reopened_cells": 0,
-        "typed_question_budget": 9, "typed_questions_used": 9,
-        "calibration_questions_used": 5, "new_model_questions": 0, "convention_controls": sorted(controls),
+        "format": "GSE.lexicon-convention-round/1",
+        "policy": "founder-approved-scoped-convention",
+        "candidate": str(output),
+        "candidate_sha256": fingerprint(output),
+        "plan_sha256": digest(revision),
+        "active_pointer_sha256": parent["active_pointer_sha256"],
+        "definitions_compared": definitions,
+        "changes": changes,
+        "new_cells": len(changes),
+        "reopened_cells": 0,
+        "typed_question_budget": 9,
+        "typed_questions_used": 9,
+        "calibration_questions_used": 5,
+        "new_model_questions": 0,
+        "convention_controls": sorted(controls),
         "admitted": [{"family": family["id"], "rule_id": new_rule.rule_id}],
-        "replay": migration["postflight"], "activation_performed": False,
+        "replay": migration["postflight"],
+        "activation_performed": False,
         "semantic_authority": admission["semantic_authority"],
     }
     record(phase / "result.json", result)
@@ -593,11 +764,16 @@ def verify_result(result):
         if comparison["failures"]:
             raise ValueError("STATIVE_TRANSFER_RUNTIME_REGRESSION:" + name)
         comparisons[name] = comparison
-    record(NOTES / "019-verification.json", {
-        "code": "VALIDATED_CROSS_SOURCE_STATIVE_EPOCH", "result": result, "comparisons": comparisons,
-        "bits_removed": sum(log2(len(r["before"]) / len(r["after"])) for r in result["changes"]),
-        "changes_by_source": dict(Counter(r["entry_id"].split(":", 1)[0] for r in result["changes"])),
-    })
+    record(
+        NOTES / "019-verification.json",
+        {
+            "code": "VALIDATED_CROSS_SOURCE_STATIVE_EPOCH",
+            "result": result,
+            "comparisons": comparisons,
+            "bits_removed": sum(log2(len(r["before"]) / len(r["after"])) for r in result["changes"]),
+            "changes_by_source": dict(Counter(r["entry_id"].split(":", 1)[0] for r in result["changes"])),
+        },
+    )
     print("STATIVE_TRANSFER_VALIDATED", result["new_cells"], result["typed_questions_used"], flush=True)
 
 
@@ -637,23 +813,41 @@ def publish():
     if release["code"] != "PUBLISHED_SPARSE_LEXICON":
         raise ValueError("STATIVE_TRANSFER_PUBLICATION_BLOCKED")
     if (
-        resolve_lexicon_path() != destination or Path(release["previous_path"]) != BASE
+        resolve_lexicon_path() != destination
+        or Path(release["previous_path"]) != BASE
         or release["cells"]["explicit_zero"] != parent["cells"]["explicit_zero"]
         or release["cells"]["assigned"] != parent["cells"]["assigned"] + result["new_cells"]
     ):
         raise ValueError("STATIVE_TRANSFER_ACTIVE_RELEASE_MISMATCH")
-    record(NOTES / "sparse-release-019-activation.json", {
-        "code": "ACTIVE_CROSS_SOURCE_STATIVE_EPOCH_VERIFIED", "path": str(destination),
-        "previous_path": str(BASE), "sha256": release["sha256"], "pointer_sha256": fingerprint(ACTIVE_POINTER),
-        "cells": release["cells"], "replay": release["replay"],
-        "semantic_outcomes": release["semantic_audit"]["outcomes"],
-    })
+    record(
+        NOTES / "sparse-release-019-activation.json",
+        {
+            "code": "ACTIVE_CROSS_SOURCE_STATIVE_EPOCH_VERIFIED",
+            "path": str(destination),
+            "previous_path": str(BASE),
+            "sha256": release["sha256"],
+            "pointer_sha256": fingerprint(ACTIVE_POINTER),
+            "cells": release["cells"],
+            "replay": release["replay"],
+            "semantic_outcomes": release["semantic_audit"]["outcomes"],
+        },
+    )
     print("ACTIVE_CROSS_SOURCE_STATIVE_EPOCH_VERIFIED", release["cells"], flush=True)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("prepare", "run", "seed", "refine-prepare", "refine", "calibrate", "convention", "publish"))
+    parser.add_argument(
+        "phase", choices=("prepare", "run", "seed", "refine-prepare", "refine", "calibrate", "convention", "publish")
+    )
     phase = parser.parse_args().phase
-    {"prepare": prepare, "run": run, "seed": seed, "refine-prepare": refine_prepare, "refine": refine,
-     "calibrate": calibrate, "convention": convention, "publish": publish}[phase]()
+    {
+        "prepare": prepare,
+        "run": run,
+        "seed": seed,
+        "refine-prepare": refine_prepare,
+        "refine": refine,
+        "calibrate": calibrate,
+        "convention": convention,
+        "publish": publish,
+    }[phase]()

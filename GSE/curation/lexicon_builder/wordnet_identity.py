@@ -302,7 +302,9 @@ def _validate_defining_ancestry(ancestry, native_synset):
             or set(witness) != {"name", "pos", "definition", "lemma_names", "lexname"}
             or witness["name"] != name
             or witness["pos"] != "n"
-            or any(type(witness[key]) is not str or not witness[key].strip() for key in ("name", "definition", "lexname"))
+            or any(
+                type(witness[key]) is not str or not witness[key].strip() for key in ("name", "definition", "lexname")
+            )
         ):
             raise ValueError("INVALID_DEFINING_ANCESTOR_WITNESS")
         _strings(witness["lemma_names"], "INVALID_DEFINING_ANCESTOR_LEMMAS")
@@ -493,7 +495,9 @@ def wordnet_identity_observation_fields(packet, definition):
     root = _definition_record(definition)
     checked = validate_wordnet_identity(packet, root)
     bound = {"definition": root, "definition_identity": checked}
-    serialized = json.dumps(identity_form(bound), ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    serialized = json.dumps(
+        identity_form(bound), ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
+    )
     record_id = "wordnet_identity:" + hashlib.sha256(serialized.encode()).hexdigest()
     return {
         "entry_id": root["entry_id"],

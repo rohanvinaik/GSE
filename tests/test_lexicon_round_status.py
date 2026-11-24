@@ -8,9 +8,7 @@ import pytest
 
 from GSE.curation.lexicon_builder.epoch import record
 
-status_module = import_module(
-    "docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020"
-)
+status_module = import_module("docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020")
 record_status = status_module.record_status
 
 
@@ -62,7 +60,8 @@ def test_status_symlink_refuses_without_changing_target(tmp_path):
 def smb_warning(identity, device):
     return (
         "lsof: WARNING: can't stat() smbfs file system /Volumes/.timemachine/SquishNAS.local/"
-        + identity + "/TimeMachine\n      Output information may be incomplete.\n"
+        + identity
+        + "/TimeMachine\n      Output information may be incomplete.\n"
         + f'      assuming "dev={device:x}" from mount table\n'
     )
 
@@ -72,7 +71,9 @@ def test_current_unrelated_mount_warning_allows_only_empty_local_selection(tmp_p
     path.touch()
     for identity in ["30635E43-5F0D-43CF-AFE6-5D8D783ADE5B", "F9347808-F1D2-4199-93FD-B54A62297E9D"]:
         warning = smb_warning(identity, path.stat().st_dev + 1)
-        monkeypatch.setattr(status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning))
+        monkeypatch.setattr(
+            status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning)
+        )
         result = status_module.no_open_handles(path)
         assert result["code"] == "NO_OPEN_LOCAL_FILE_MATCHES"
         assert identity in result["unrelated_mount"]["path"]
@@ -82,7 +83,11 @@ def test_actual_open_handle_blocks_even_with_unrelated_mount_warning(tmp_path, m
     path = tmp_path / "candidate.db"
     path.touch()
     warning = smb_warning("current", path.stat().st_dev + 1)
-    monkeypatch.setattr(status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 0, "p123\nncandidate.db\n", warning))
+    monkeypatch.setattr(
+        status_module.subprocess,
+        "run",
+        lambda *_args, **_kw: subprocess.CompletedProcess([], 0, "p123\nncandidate.db\n", warning),
+    )
     with pytest.raises(ValueError, match="CHECKPOINT_OPEN_HANDLE_CHECK_FAILED"):
         status_module.no_open_handles(path)
 
@@ -91,7 +96,9 @@ def test_uninspected_target_device_blocks_retirement(tmp_path, monkeypatch):
     path = tmp_path / "candidate.db"
     path.touch()
     warning = smb_warning("current", path.stat().st_dev)
-    monkeypatch.setattr(status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning))
+    monkeypatch.setattr(
+        status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning)
+    )
     with pytest.raises(ValueError, match="CHECKPOINT_ON_UNINSPECTED_NETWORK_FILESYSTEM"):
         status_module.no_open_handles(path)
 
@@ -100,6 +107,8 @@ def test_unknown_or_additional_lsof_diagnostic_blocks_retirement(tmp_path, monke
     path = tmp_path / "candidate.db"
     path.touch()
     for warning in ["lsof: permission denied\n", smb_warning("current", path.stat().st_dev + 1) + "unexpected\n"]:
-        monkeypatch.setattr(status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning))
+        monkeypatch.setattr(
+            status_module.subprocess, "run", lambda *_args, **_kw: subprocess.CompletedProcess([], 1, "", warning)
+        )
         with pytest.raises(ValueError, match="CHECKPOINT_OPEN_HANDLE_CHECK_FAILED"):
             status_module.no_open_handles(path)

@@ -13,16 +13,25 @@ def verification(tmp_path, monkeypatch):
     candidate = tmp_path / "candidate.db"
     candidate.write_bytes(b"candidate")
     (tmp_path / "022-coherence-plan.json").write_text(json.dumps({"epochs": 2}))
-    (tmp_path / "022-population-stage.json").write_text(json.dumps({"changes": [
-        {"entry_id": "in-scope", "bank": "WHEN", "before": [-1, 0, 1], "after": [1]},
-    ]}))
+    (tmp_path / "022-population-stage.json").write_text(
+        json.dumps(
+            {
+                "changes": [
+                    {"entry_id": "in-scope", "bank": "WHEN", "before": [-1, 0, 1], "after": [1]},
+                ]
+            }
+        )
+    )
     monkeypatch.setattr(finish, "NOTES", tmp_path)
     monkeypatch.setattr(finish, "verify_sources", lambda: None)
     result = {
         "epochs": [{"code": "RULE_ADMITTED", "audit_outcomes": {"MODEL_AGREEMENT": 3}} for _ in range(2)],
-        "typed_questions_used": 8, "reopened_cells": 0,
+        "typed_questions_used": 8,
+        "reopened_cells": 0,
         "replay": {"code": "REPLAY_VALIDATED", "complete_search": True},
-        "candidate": str(candidate), "candidate_sha256": finish.fingerprint(candidate), "new_cells": 1,
+        "candidate": str(candidate),
+        "candidate_sha256": finish.fingerprint(candidate),
+        "new_cells": 1,
     }
     return tmp_path, result
 
@@ -46,9 +55,16 @@ def test_incomplete_or_disputed_round_cannot_reach_release_verification(verifica
 
 def test_full_delta_must_equal_the_frozen_scope(verification, monkeypatch):
     _, result = verification
-    monkeypatch.setattr(finish, "exact_delta", lambda *_: (401596, [
-        {"entry_id": "outside", "bank": "WHEN", "before": [-1, 0, 1], "after": [1]},
-    ]))
+    monkeypatch.setattr(
+        finish,
+        "exact_delta",
+        lambda *_: (
+            401596,
+            [
+                {"entry_id": "outside", "bank": "WHEN", "before": [-1, 0, 1], "after": [1]},
+            ],
+        ),
+    )
     with pytest.raises(ValueError, match="LITERAL_GENUS_DELTA_DIFFERS_FROM_FULL_STAGE"):
         finish.verify_candidate(result)
 
@@ -70,7 +86,8 @@ def test_active_successor_recovers_without_deleted_work_or_republishing(tmp_path
     verified = {"candidate_sha256": digest}
     release = {"path": str(active), "sha256": digest}
     for name, document in (
-        ("022-verification.json", verified), ("022-publication.json", release),
+        ("022-verification.json", verified),
+        ("022-publication.json", release),
         ("022-coherence-plan.json", {"baseline_sha256": finish.fingerprint(base)}),
     ):
         (tmp_path / name).write_text(json.dumps(document))
@@ -87,7 +104,9 @@ def test_retention_routes_old_and_working_snapshots_with_protected_rollback(tmp_
     base, active = tmp_path / "sparse-release-021.db", tmp_path / "sparse-release-022.db"
     notes, work = tmp_path / "notes", tmp_path / "work"
     notes.mkdir()
-    (notes / "021-approved-source-context.json").write_text(json.dumps({"observations": [{"record_id": "new-context"}]}))
+    (notes / "021-approved-source-context.json").write_text(
+        json.dumps({"observations": [{"record_id": "new-context"}]})
+    )
     (notes / "022-coherence-plan.json").write_text(json.dumps({"baseline_sha256": "b" * 64}))
     monkeypatch.setattr(finish, "NOTES", notes)
     monkeypatch.setattr(finish, "BASE", base)

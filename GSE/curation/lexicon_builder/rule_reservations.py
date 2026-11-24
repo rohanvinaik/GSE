@@ -15,7 +15,8 @@ def reservation_source(conn, entry_id):
         "SELECT l.lemma,l.pos,l.gloss,o.payload FROM definition_states d "
         "JOIN lexemes l ON l.id=d.lexeme_id JOIN source_observations o ON o.entry_id=d.entry_id "
         "WHERE d.entry_id=? AND o.scope='lexical' AND o.source IN ('wordnet_hierarchy','wiktionary') "
-        "ORDER BY o.record_id", (entry_id,),
+        "ORDER BY o.record_id",
+        (entry_id,),
     )
     witnesses = []
     for lemma, pos, gloss, payload in rows:
@@ -35,8 +36,12 @@ def reserve_relation(conn, rule, review, baseline):
 
     identity, bank, audit = review["entry_id"], review["bank"], review["audit"]
     if (
-        type(identity) is not str or not identity or type(bank) is not str or bank not in rule.banks
-        or rule.authority != "conditional" or not rule.approved
+        type(identity) is not str
+        or not identity
+        or type(bank) is not str
+        or bank not in rule.banks
+        or rule.authority != "conditional"
+        or not rule.approved
     ):
         raise ValueError("INVALID_REVISION_RESERVATION_TARGET")
     guard = (EXCEPTION_GUARD_PREFIX + identity, "true")
@@ -50,10 +55,15 @@ def reserve_relation(conn, rule, review, baseline):
     if not touches_scope((scope,), context):
         raise ValueError("REVISION_RESERVATION_OUTSIDE_SCOPE")
     if (
-        type(audit) is not dict or audit.get("code") != "MODEL_ABSTAINED"
-        or type(audit.get("model_calls")) is not int or audit["model_calls"] != 1
-        or audit.get("entry_id") != identity or audit.get("bank") != bank or audit.get("writes") is not False
-        or type(audit.get("transport_identity")) is not str or not audit["transport_identity"]
+        type(audit) is not dict
+        or audit.get("code") != "MODEL_ABSTAINED"
+        or type(audit.get("model_calls")) is not int
+        or audit["model_calls"] != 1
+        or audit.get("entry_id") != identity
+        or audit.get("bank") != bank
+        or audit.get("writes") is not False
+        or type(audit.get("transport_identity")) is not str
+        or not audit["transport_identity"]
         or type(audit.get("raw_output")) is not str
     ):
         raise ValueError("REVISION_RESERVATION_REQUIRES_ABSTAINING_AUDIT")
@@ -61,20 +71,27 @@ def reserve_relation(conn, rule, review, baseline):
         raise ValueError("REVISION_RESERVATION_NOT_NULL")
     request = audit.get("request")
     if (
-        type(request) is not dict or audit.get("request_id") != _request_id(request)
-        or request.get("entry_id") != identity or request.get("bank") != bank
-        or request.get("definition") != source["definition"] or request.get("fill") != {bank: None}
+        type(request) is not dict
+        or audit.get("request_id") != _request_id(request)
+        or request.get("entry_id") != identity
+        or request.get("bank") != bank
+        or request.get("definition") != source["definition"]
+        or request.get("fill") != {bank: None}
         or type(request.get("observations")) is not list
         or digest(source["observation"]) not in {digest(item) for item in request["observations"]}
     ):
         raise ValueError("REVISION_RESERVATION_REQUEST_MISMATCH")
     values, known, scaffold = request.get("allowed_values"), request.get("known"), request.get("scaffold")
     if (
-        type(values) is not list or len(values) not in (2, 3)
+        type(values) is not list
+        or len(values) not in (2, 3)
         or any(type(value) is not int or value not in (-1, 0, 1) for value in values)
         or len(set(values)) != len(values)
-        or type(known) is not dict or bank in known or type(scaffold) is not dict
-        or type(scaffold.get("domains")) is not dict or scaffold["domains"].get(bank) != values
+        or type(known) is not dict
+        or bank in known
+        or type(scaffold) is not dict
+        or type(scaffold.get("domains")) is not dict
+        or scaffold["domains"].get(bank) != values
     ):
         raise ValueError("REVISION_RESERVATION_BASELINE_MISMATCH")
     records = scaffold.get("approved_relations")
@@ -88,8 +105,10 @@ def reserve_relation(conn, rule, review, baseline):
     if digest(tables) != digest(expected):
         raise ValueError("REVISION_RESERVATION_BASELINE_MISMATCH")
     expected_schema = {
-        "type": "object", "properties": {bank: {"type": ["integer", "null"], "enum": [*values, None]}},
-        "required": [bank], "additionalProperties": False,
+        "type": "object",
+        "properties": {bank: {"type": ["integer", "null"], "enum": [*values, None]}},
+        "required": [bank],
+        "additionalProperties": False,
     }
     if audit.get("schema") != expected_schema:
         raise ValueError("REVISION_RESERVATION_SCHEMA_MISMATCH")

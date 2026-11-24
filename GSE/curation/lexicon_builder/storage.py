@@ -64,7 +64,10 @@ def open_build(path: str | Path) -> sqlite3.Connection:
             restriction_format = conn.execute(
                 "SELECT value FROM builder_metadata WHERE key='domain_restrictions_format'"
             ).fetchone()
-            if restriction_format is not None and current_id(json.loads(restriction_format[0])) != DOMAIN_RESTRICTIONS_VERSION:
+            if (
+                restriction_format is not None
+                and current_id(json.loads(restriction_format[0])) != DOMAIN_RESTRICTIONS_VERSION
+            ):
                 raise ValueError("UNSUPPORTED_DOMAIN_RESTRICTIONS_FORMAT")
         conn.execute("PRAGMA foreign_keys=ON")
         conn.executescript(SCHEMA + EXTRA_SCHEMA)

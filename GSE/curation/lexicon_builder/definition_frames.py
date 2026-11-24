@@ -7,19 +7,34 @@ NATIVE_FRAME_PREFIX = "native_noun_frame:"
 WIKTIONARY_ANATOMY_FRAME_PREFIX = "wiktionary_anatomy_frame:"
 WIKTIONARY_ANATOMY_FRAMES = {
     "organ_gland": frozenset({"organ", "gland"}),
-    "physical_structure": frozenset({"artery", "bone", "cartilage", "ligament", "muscle", "nerve", "skin", "tendon", "vein"}),
+    "physical_structure": frozenset(
+        {"artery", "bone", "cartilage", "ligament", "muscle", "nerve", "skin", "tendon", "vein"}
+    ),
 }
 _MENTAL_ANATOMY_ATTACHMENT = re.compile(
     r"\b(?:desires?|desired|desiring|wants?|wanted|wanting|wills?|volition(?:al)?|intentions?|intentionally|"
     r"wishes?|wishing|emotions?|emotional|affections?|appetites?|urges?|motivation|aversion)\b",
     re.IGNORECASE,
 )
-NATIVE_NOUN_FRAMES = frozenset({
-    "part_of", "word_unit", "coordinated_person", "person_own_capacity",
-    "explicit_person", "explicit_place", "explicit_time", "explicit_stative", "stative_being",
-    "explicit_occurrence", "agentive_intervention",
-    "agentive_acquisition", "qualified_occurrence", "temporal_extent", "human_collective",
-})
+NATIVE_NOUN_FRAMES = frozenset(
+    {
+        "part_of",
+        "word_unit",
+        "coordinated_person",
+        "person_own_capacity",
+        "explicit_person",
+        "explicit_place",
+        "explicit_time",
+        "explicit_stative",
+        "stative_being",
+        "explicit_occurrence",
+        "agentive_intervention",
+        "agentive_acquisition",
+        "qualified_occurrence",
+        "temporal_extent",
+        "human_collective",
+    }
+)
 _BOUNDARY = re.compile(r"[,;:!?/\[\]()\n\r]|\bor\b")
 _PART = re.compile(r"^(?:(?:a|the) )?part of \S")
 _WORD = re.compile(r"^(?:a|the) word (?:that|which|used|for|meaning) \S")
@@ -33,7 +48,8 @@ _EXTENT_QUALIFIER = (
     r"recurring|initial|final|whole|measured|given|intervening|distinct|prolonged|normal) )*"
 )
 _TEMPORAL_EXTENT = re.compile(
-    r"^(?:an?|the) " + _EXTENT_QUALIFIER
+    r"^(?:an?|the) "
+    + _EXTENT_QUALIFIER
     + r"(?:(?:period|interval|span|duration) of time|time (?:period|interval|span))(?:$| )"
 )
 _HUMAN_COLLECTIVE = re.compile(
@@ -106,8 +122,11 @@ def native_noun_frames(gloss: str) -> frozenset[str]:
         frames.add("agentive_acquisition")
     genus = _EVENT_QUALIFIER.sub("", text)
     if (
-        "\n" not in lowered and "\r" not in lowered and "." not in genus
-        and not _QUALIFIED_EVENT_BOUNDARY.search(genus) and not _EVENT_UNCERTAINTY.search(genus)
+        "\n" not in lowered
+        and "\r" not in lowered
+        and "." not in genus
+        and not _QUALIFIED_EVENT_BOUNDARY.search(genus)
+        and not _EVENT_UNCERTAINTY.search(genus)
         and _EVENT_GENUS.match(genus)
     ):
         frames.add("qualified_occurrence")
@@ -150,10 +169,7 @@ def _qualified_stative_condition(condition: str) -> bool:
     """Require a lexical predicate after being, not a dangling function word."""
     from GSE.nlp.native import NativeNLP
 
-    return any(
-        token.pos_ in {"NOUN", "PROPN", "PRON", "ADJ", "ADV", "VERB", "NUM"}
-        for token in NativeNLP()(condition)
-    )
+    return any(token.pos_ in {"NOUN", "PROPN", "PRON", "ADJ", "ADV", "VERB", "NUM"} for token in NativeNLP()(condition))
 
 
 def _active_capacity_verb(text: str, capacity: re.Match[str]) -> bool:

@@ -18,9 +18,7 @@ from GSE.curation.lexicon_builder.epoch import (
 )
 from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
 
-record_status = import_module(
-    "docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020"
-).record_status
+record_status = import_module("docs.readings.2026-11-13-ssl-explicit-genera.finish_coherence_020").record_status
 
 NOTES = Path(__file__).resolve().parent
 ROOT = NOTES.parents[2]
@@ -33,7 +31,7 @@ MODEL_DIGEST = "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e
 def available(path):
     try:
         return read(path)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except FileNotFoundError, json.JSONDecodeError:
         return None
 
 
@@ -66,12 +64,14 @@ def run():
         **read(NOTES / "020-status-writer-verification.json")["source_sha256"],
         **read(NOTES / "020-retention-check-verification.json")["source_sha256"],
     }
-    pins.update({
-        str(REVIEW.relative_to(ROOT)): fingerprint(REVIEW),
-        str(Path(__file__).relative_to(ROOT)): fingerprint(Path(__file__)),
-        reviewed["primary_source"]["pdf"]: reviewed["primary_source"]["pdf_sha256"],
-        reviewed["primary_source"]["text"]: reviewed["primary_source"]["text_sha256"],
-    })
+    pins.update(
+        {
+            str(REVIEW.relative_to(ROOT)): fingerprint(REVIEW),
+            str(Path(__file__).relative_to(ROOT)): fingerprint(Path(__file__)),
+            reviewed["primary_source"]["pdf"]: reviewed["primary_source"]["pdf_sha256"],
+            reviewed["primary_source"]["text"]: reviewed["primary_source"]["text_sha256"],
+        }
+    )
     verify_pins(pins)
     print("COHERENCE_021_WAITING_FOR_VALIDATED_020_AND_ROLLING_RETENTION", flush=True)
     while True:
@@ -94,19 +94,30 @@ def run():
     ):
         raise ValueError("COHERENCE_021_REQUIRES_EXACT_VALIDATED_ACTIVE_020")
     plan_path, plan = freeze_plan(baseline, reviewed)
-    record_status(NOTES / "021-round-status.json", {
-        "format": "GSE.lexicon-learning-round-status/1",
-        "code": "INITIALIZING_FROM_VALIDATED_020",
-        "observed_at_utc": datetime.now(timezone.utc).isoformat(),
-        "baseline": str(baseline),
-        "baseline_sha256": plan["baseline_sha256"],
-        "construction_question_budget": reviewed["construction_question_budget"],
-        "unknown_is_not_zero": True,
-        "activation_performed": False,
-    })
+    record_status(
+        NOTES / "021-round-status.json",
+        {
+            "format": "GSE.lexicon-learning-round-status/1",
+            "code": "INITIALIZING_FROM_VALIDATED_020",
+            "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+            "baseline": str(baseline),
+            "baseline_sha256": plan["baseline_sha256"],
+            "construction_question_budget": reviewed["construction_question_budget"],
+            "unknown_is_not_zero": True,
+            "activation_performed": False,
+        },
+    )
     common = [
-        sys.executable, "-u", "-m", "scripts.run_lexicon_epochs",
-        "--plan", str(plan_path), "--baseline", str(baseline), "--directory", str(WORK),
+        sys.executable,
+        "-u",
+        "-m",
+        "scripts.run_lexicon_epochs",
+        "--plan",
+        str(plan_path),
+        "--baseline",
+        str(baseline),
+        "--directory",
+        str(WORK),
     ]
     subprocess.run([*common, "init"], cwd=ROOT, check=True)
     inventory = read(WORK / "inventory.json")
@@ -114,19 +125,33 @@ def run():
     family = families[reviewed["family"]["id"]]
     rules, rows = scope_rows(baseline, inventory[family.id])
     staged = forecast(rows, rules, (family.relation(),))
-    record(NOTES / "021-rebased-population-stage.json", {
-        "baseline_sha256": plan["baseline_sha256"],
-        "scope_definitions": len(rows),
-        "authority": "UNADMITTED_READ_ONLY_STAGE",
-        **staged,
-    })
+    record(
+        NOTES / "021-rebased-population-stage.json",
+        {
+            "baseline_sha256": plan["baseline_sha256"],
+            "scope_definitions": len(rows),
+            "authority": "UNADMITTED_READ_ONLY_STAGE",
+            **staged,
+        },
+    )
     if staged["contradictions"]:
         raise ValueError("COHERENCE_021_REBASED_STAGE_HAS_CONTRADICTIONS")
     verify_pins(pins)
     print("COHERENCE_021_STARTING_ZIPF_TEACHING_AND_FOUR_DISJOINT_AUDITS", flush=True)
-    subprocess.run([
-        *common, "run", "--policy", "zipf", "--model", MODEL, "--model-digest", MODEL_DIGEST,
-    ], cwd=ROOT, check=True)
+    subprocess.run(
+        [
+            *common,
+            "run",
+            "--policy",
+            "zipf",
+            "--model",
+            MODEL,
+            "--model-digest",
+            MODEL_DIGEST,
+        ],
+        cwd=ROOT,
+        check=True,
+    )
     verify_pins(pins)
     result = read(WORK / "zipf/arm-result.json")
     if (
@@ -139,7 +164,8 @@ def run():
     report = {
         "format": "GSE.lexicon-learning-round-status/1",
         "code": "CANDIDATE_REPLAY_VALIDATED_PENDING_PUBLICATION_REVIEW"
-        if result["admitted"] else "RULE_WITHHELD_CANDIDATE_REPLAY_VALIDATED",
+        if result["admitted"]
+        else "RULE_WITHHELD_CANDIDATE_REPLAY_VALIDATED",
         "observed_at_utc": datetime.now(timezone.utc).isoformat(),
         "baseline": str(baseline),
         "candidate": result["candidate"],
@@ -160,10 +186,13 @@ if __name__ == "__main__":
     try:
         run()
     except BaseException as error:
-        record_status(NOTES / "021-continuation-failure.json", {
-            "code": "CONTINUATION_STOPPED",
-            "reason": repr(error),
-            "active_path": str(resolve_lexicon_path()),
-            "observed_at_utc": datetime.now(timezone.utc).isoformat(),
-        })
+        record_status(
+            NOTES / "021-continuation-failure.json",
+            {
+                "code": "CONTINUATION_STOPPED",
+                "reason": repr(error),
+                "active_path": str(resolve_lexicon_path()),
+                "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+            },
+        )
         raise

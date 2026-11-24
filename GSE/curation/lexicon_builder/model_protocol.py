@@ -142,6 +142,7 @@ EXAMPLES = (
     },
 )
 
+
 def protocol_contract() -> dict:
     """Return independent protocol data, including the pinned polarity map."""
     import copy
@@ -188,7 +189,9 @@ def compact_scaffold(scaffold: dict, bank: str) -> dict:
     import json
 
     def digest(value):
-        encoded = json.dumps(identity_form(value), sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+        encoded = json.dumps(
+            identity_form(value), sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+        )
         return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
     connected = {bank}

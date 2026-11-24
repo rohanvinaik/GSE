@@ -26,7 +26,10 @@ prior = import_module("docs.readings.2026-11-13-ssl-explicit-genera.coherence_02
 archive = import_module("docs.readings.2026-11-13-ssl-explicit-genera.checkpoint_audit_020")
 NOTES, BASE, WORK, ROOT = round_.NOTES, round_.BASE, round_.WORK, round_.ROOT
 DESTINATION = BASE.with_name("sparse-release-021.db")
-PAPER = Path.home() / "Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md"
+PAPER = (
+    Path.home()
+    / "Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md"
+)
 
 
 def verify_candidate(result):
@@ -39,9 +42,12 @@ def verify_candidate(result):
         if result["unique_bank_questions"] != manifest["unique_bank_questions"]:
             raise ValueError("APPROVED_BODY_ADJUDICATED_QUESTION_ACCOUNTING_MISMATCH")
     if (
-        len(result["epochs"]) != 1 or result["epochs"][0]["code"] != "RULE_ADMITTED"
-        or result["typed_questions_used"] != expected_questions or result["reopened_cells"]
-        or result["replay"]["code"] != "REPLAY_VALIDATED" or not result["replay"]["complete_search"]
+        len(result["epochs"]) != 1
+        or result["epochs"][0]["code"] != "RULE_ADMITTED"
+        or result["typed_questions_used"] != expected_questions
+        or result["reopened_cells"]
+        or result["replay"]["code"] != "REPLAY_VALIDATED"
+        or not result["replay"]["complete_search"]
         or result["epochs"][0]["audit_outcomes"] != {"MODEL_AGREEMENT": 4}
     ):
         raise ValueError("APPROVED_BODY_COMPLETE_TEACHING_AND_AUDIT_REQUIRED")
@@ -77,12 +83,17 @@ def verify_candidate(result):
         ratio = Fraction(before, after)
         factor *= ratio
         if ratio != 1:
-            records.append({"entry_id": identity, "support_before": before, "support_after": after, "ratio": str(ratio)})
+            records.append(
+                {"entry_id": identity, "support_before": before, "support_after": after, "ratio": str(ratio)}
+            )
     joint = {
-        "code": "COMPLETE_SCOPED_JOINT_SUPPORT_REPLAY_VALIDATED", "scope_definitions": len(rows),
-        "records": records, "ratio_frequency": dict(Counter(r["ratio"] for r in records)),
+        "code": "COMPLETE_SCOPED_JOINT_SUPPORT_REPLAY_VALIDATED",
+        "scope_definitions": len(rows),
+        "records": records,
+        "ratio_frequency": dict(Counter(r["ratio"] for r in records)),
         "reduction_bits": log2(factor.numerator) - log2(factor.denominator),
-        "ratio_numerator": factor.numerator, "ratio_denominator": factor.denominator,
+        "ratio_numerator": factor.numerator,
+        "ratio_denominator": factor.denominator,
     }
     record(NOTES / "021-approved-joint-support.json", joint)
     stative = import_module("docs.readings.2026-11-13-ssl-explicit-genera.stative_transfer")
@@ -100,19 +111,29 @@ def verify_candidate(result):
         comparisons[name] = comparison
     corpus = import_module("docs.readings.2026-11-13-ssl-explicit-genera.state_corpus").audit(candidate)
     old = {(r["entry_id"], r["style"]): r for r in read(NOTES / "020-candidate-state-corpus.json")["results"]}
-    regressions = [r for r in corpus["results"] if old[(r["entry_id"], r["style"])]["code"] == "IDENTIFIED_CORRECT" and r["code"] != "IDENTIFIED_CORRECT"]
+    regressions = [
+        r
+        for r in corpus["results"]
+        if old[(r["entry_id"], r["style"])]["code"] == "IDENTIFIED_CORRECT" and r["code"] != "IDENTIFIED_CORRECT"
+    ]
     if corpus["code"] != "STATE_CORPUS_GROUNDING_VALIDATED" or regressions:
         raise ValueError("APPROVED_BODY_STATE_CORPUS_REGRESSION")
     record(NOTES / "021-approved-candidate-state-corpus.json", corpus)
     gold = read(NOTES / "sparse-release-020-gold.json")
-    gold["records"].extend({"entry_id": identity, "bank": "BODY", "expected": 1} for identity in (teacher, *round_.HOLDOUTS))
+    gold["records"].extend(
+        {"entry_id": identity, "bank": "BODY", "expected": 1} for identity in (teacher, *round_.HOLDOUTS)
+    )
     record(NOTES / "sparse-release-021-gold.json", gold)
     verified = {
-        "code": "APPROVED_BODY_CANDIDATE_VALIDATED", "candidate": str(candidate),
-        "candidate_sha256": result["candidate_sha256"], "new_cells": result["new_cells"],
-        "baseline": str(BASE), "benchmark_comparisons": comparisons,
+        "code": "APPROVED_BODY_CANDIDATE_VALIDATED",
+        "candidate": str(candidate),
+        "candidate_sha256": result["candidate_sha256"],
+        "new_cells": result["new_cells"],
+        "baseline": str(BASE),
+        "benchmark_comparisons": comparisons,
         "state_corpus_outcomes": dict(Counter(r["code"] for r in corpus["results"])),
-        "joint_support_reduction_bits": joint["reduction_bits"], "semantic_controls": len(gold["records"]),
+        "joint_support_reduction_bits": joint["reduction_bits"],
+        "semantic_controls": len(gold["records"]),
     }
     record(NOTES / "021-approved-verification.json", verified)
     return verified
@@ -124,7 +145,11 @@ def retire(source, release):
         raise ValueError("APPROVED_BODY_RETIREMENT_PROTECTS_ACTIVE_AND_ROLLBACK")
     if fingerprint(DESTINATION) != release["sha256"]:
         raise ValueError("APPROVED_BODY_RETIREMENT_WITNESS_CHANGED")
-    receipt = NOTES / ("021-retirement-" + ("019" if source.name == "sparse-release-019.db" else source.parent.name + "-" + source.stem) + ".json")
+    receipt = NOTES / (
+        "021-retirement-"
+        + ("019" if source.name == "sparse-release-019.db" else source.parent.name + "-" + source.stem)
+        + ".json"
+    )
     if receipt.exists():
         if source.exists():
             raise ValueError("RETIRED_SNAPSHOT_REAPPEARED")
@@ -132,15 +157,24 @@ def retire(source, release):
     before, source_hash = archive.identity(source), fingerprint(source)
     new_ids = [r["record_id"] for r in read(NOTES / "021-approved-source-context.json")["observations"]]
     tables, checks = {}, {}
-    with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as c, closing(sqlite3.connect(DESTINATION.as_uri() + "?mode=ro", uri=True)) as witness:
+    with (
+        closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as c,
+        closing(sqlite3.connect(DESTINATION.as_uri() + "?mode=ro", uri=True)) as witness,
+    ):
         c.execute("PRAGMA query_only=ON")
         witness.execute("PRAGMA query_only=ON")
-        missing = [identity for identity in new_ids if not c.execute("SELECT 1 FROM source_observations WHERE record_id=?", (identity,)).fetchone()]
+        missing = [
+            identity
+            for identity in new_ids
+            if not c.execute("SELECT 1 FROM source_observations WHERE record_id=?", (identity,)).fetchone()
+        ]
         for name, query in archive.STREAMS.items():
             target_query = query
             if name == "native_observations" and missing:
                 quoted = ",".join("'" + identity.replace("'", "''") + "'" for identity in missing)
-                target_query = query.replace(" ORDER BY record_id", " WHERE record_id NOT IN (" + quoted + ") ORDER BY record_id")
+                target_query = query.replace(
+                    " ORDER BY record_id", " WHERE record_id NOT IN (" + quoted + ") ORDER BY record_id"
+                )
             observed = archive.stream_fingerprint(c, query)
             expected = archive.stream_fingerprint(witness, target_query)
             if observed != expected:
@@ -155,13 +189,21 @@ def retire(source, release):
             if columns != [r[1] for r in c.execute("PRAGMA retained.table_info(" + quoted + ")")]:
                 raise ValueError("APPROVED_BODY_RETIREMENT_SCHEMA_MISMATCH:" + name)
             fields = ",".join('"' + column.replace('"', '""') + '"' for column in columns)
-            rows = c.execute("SELECT " + fields + " FROM main." + quoted + " EXCEPT SELECT " + fields + " FROM retained." + quoted).fetchall()
+            rows = c.execute(
+                "SELECT " + fields + " FROM main." + quoted + " EXCEPT SELECT " + fields + " FROM retained." + quoted
+            ).fetchall()
             if rows:
                 tables[name] = {"columns": columns, "rows": rows}
-    document = {"source": str(source), "source_sha256": source_hash, "witness": str(DESTINATION),
-                "witness_sha256": release["sha256"], "source_data_checks": checks,
-                "excluded_new_context_ids_from_witness_only": missing, "tables": tables,
-                "derived_or_verified_tables": sorted(archive.DERIVED_OR_VERIFIED)}
+    document = {
+        "source": str(source),
+        "source_sha256": source_hash,
+        "witness": str(DESTINATION),
+        "witness_sha256": release["sha256"],
+        "source_data_checks": checks,
+        "excluded_new_context_ids_from_witness_only": missing,
+        "tables": tables,
+        "derived_or_verified_tables": sorted(archive.DERIVED_OR_VERIFIED),
+    }
     target = BASE.parent / "ssl-explicit-genera/retired-audit" / (receipt.stem + ".json.gz")
     target.write_bytes(gzip.compress(json.dumps(document, sort_keys=True, ensure_ascii=False).encode(), mtime=0))
     if json.loads(gzip.decompress(target.read_bytes())) != json.loads(json.dumps(document)):
@@ -172,9 +214,15 @@ def retire(source, release):
     if any(Path(str(source) + suffix).exists() for suffix in ("-wal", "-shm", "-journal")):
         raise ValueError("APPROVED_BODY_RETIREMENT_HAS_SIDECAR")
     source.unlink()
-    result = {"code": "SOURCE_AND_UNIQUE_AUDITS_PRESERVED_SNAPSHOT_RETIRED", "path": str(source),
-              "sha256": source_hash, "identity": before, "audit_archive": str(target),
-              "archive_sha256": fingerprint(target), "unique_audit_rows": {name: len(value["rows"]) for name, value in tables.items()}}
+    result = {
+        "code": "SOURCE_AND_UNIQUE_AUDITS_PRESERVED_SNAPSHOT_RETIRED",
+        "path": str(source),
+        "sha256": source_hash,
+        "identity": before,
+        "audit_archive": str(target),
+        "archive_sha256": fingerprint(target),
+        "unique_audit_rows": {name: len(value["rows"]) for name, value in tables.items()},
+    }
     record(receipt, result)
     return result
 
@@ -188,7 +236,10 @@ def notebook(result, release=None, verified=None):
         raise ValueError("APPROVED_BODY_NOTEBOOK_BOUNDARY_MISSING")
     if heading in prefix:
         prefix = prefix.partition(heading)[0]
-    section = heading + "\nRohan approved constitutive anatomy, including verified defining-genus content, as sufficient for BODY=+1. Protocol 14 exposes that convention to both writers. The existing WordNet context-enrichment path now preserves complete verified ancestry definitions without selecting a sense or assigning a bank. Version 1 identity packets and the five pre-approval raw replies remain unchanged. Fresh audits reserve cat, duck, shark and salamander; the earlier diagnostic senses are not counted as held-out confirmations. The local model context bound is 81,920, below its declared 262,144 capacity; all five complete source contexts fit without truncation.\n\n"
+    section = (
+        heading
+        + "\nRohan approved constitutive anatomy, including verified defining-genus content, as sufficient for BODY=+1. Protocol 14 exposes that convention to both writers. The existing WordNet context-enrichment path now preserves complete verified ancestry definitions without selecting a sense or assigning a bank. Version 1 identity packets and the five pre-approval raw replies remain unchanged. Fresh audits reserve cat, duck, shark and salamander; the earlier diagnostic senses are not counted as held-out confirmations. The local model context bound is 81,920, below its declared 262,144 capacity; all five complete source contexts fit without truncation.\n\n"
+    )
     section += f"The new epoch outcome is {result['epochs'][0]['code']}, using {result['typed_questions_used']} new bounded bank questions ({5 + result['typed_questions_used']} including the earlier diagnostic round). It admits {len(result['admitted'])} rules and adds {result['new_cells']:,} singleton cells, with {result['reopened_cells']} reopenings. Full replay checks {result['replay']['entries_checked']:,} records with {result['replay']['entries_mismatched']} mismatches and {result['replay']['inference_counts']['components_solver_limited']} solver-limited components. Unknowns remain distinct from zero.\n\n"
     if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1":
         manifest = read(Path(result["adjudication_manifest"]))
@@ -214,13 +265,27 @@ def notebook(result, release=None, verified=None):
         os.replace(temporary, PAPER)
     finally:
         temporary.unlink(missing_ok=True)
-    receipt = "021-approved-adjudicated-notebook-update.json" if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1" else "021-approved-notebook-update.json"
-    record(NOTES / receipt, {"code": "APPROVED_BODY_FINAL_RESULTS_RECORDED", "notebook": str(PAPER), "sha256": fingerprint(PAPER), "activation_performed": bool(release)})
+    receipt = (
+        "021-approved-adjudicated-notebook-update.json"
+        if current_id(result.get("format")) == "GSE.lexicon-adjudicated-round/1"
+        else "021-approved-notebook-update.json"
+    )
+    record(
+        NOTES / receipt,
+        {
+            "code": "APPROVED_BODY_FINAL_RESULTS_RECORDED",
+            "notebook": str(PAPER),
+            "sha256": fingerprint(PAPER),
+            "activation_performed": bool(release),
+        },
+    )
 
 
 def verify_release_sources():
     checks = read(NOTES / "021-approved-release-verification-v2.json")
-    if not checks["source_sha256"] or any(fingerprint(ROOT / name) != digest for name, digest in checks["source_sha256"].items()):
+    if not checks["source_sha256"] or any(
+        fingerprint(ROOT / name) != digest for name, digest in checks["source_sha256"].items()
+    ):
         raise ValueError("APPROVED_BODY_RELEASE_IMPLEMENTATION_CHANGED")
 
 
@@ -244,10 +309,17 @@ def run(result_path=None):
     publication.mkdir(exist_ok=True)
     release = publish_round(result, publication, DESTINATION, NOTES / "sparse-release-021-gold.json")
     record(NOTES / "021-approved-publication.json", release)
-    if release["code"] != "PUBLISHED_SPARSE_LEXICON" or resolve_lexicon_path() != DESTINATION or Path(release["previous_path"]) != BASE:
+    if (
+        release["code"] != "PUBLISHED_SPARSE_LEXICON"
+        or resolve_lexicon_path() != DESTINATION
+        or Path(release["previous_path"]) != BASE
+    ):
         raise ValueError("APPROVED_BODY_PUBLICATION_NOT_VERIFIED")
     parent = read(NOTES / "sparse-release-020-activation.json")
-    if release["cells"]["assigned"] != parent["cells"]["assigned"] + result["new_cells"] or release["cells"]["explicit_zero"] != parent["cells"]["explicit_zero"]:
+    if (
+        release["cells"]["assigned"] != parent["cells"]["assigned"] + result["new_cells"]
+        or release["cells"]["explicit_zero"] != parent["cells"]["explicit_zero"]
+    ):
         raise ValueError("APPROVED_BODY_PUBLICATION_COUNTS_MISMATCH")
     checks = []
     with GSEEncoder() as encoder:
@@ -259,13 +331,43 @@ def run(result_path=None):
                 raise ValueError("APPROVED_BODY_FRESH_CONSUMER_MISMATCH")
             encoder.encode_definition(identity)
             checks.append({"entry_id": identity, "BODY": domain, "compiled": True})
-    record(NOTES / "sparse-release-021-activation.json", {"code": "ACTIVE_APPROVED_BODY_021_VERIFIED", "path": str(DESTINATION), "previous_path": str(BASE), "sha256": release["sha256"], "pointer_sha256": fingerprint(ACTIVE_POINTER), "cells": release["cells"], "replay": release["replay"], "semantic_outcomes": release["semantic_audit"]["outcomes"], "fresh_default_consumer": checks})
-    retired = [retire(path, release) for path in (BASE.with_name("sparse-release-019.db"), WORK / "enriched.db", WORK / "zipf/epoch-01/teaching.db", Path(result["candidate"]))]
-    record(NOTES / "021-approved-retention.json", {"code": "ACTIVE_021_ROLLBACK_020_AND_AUDIT_RECORDS_RETAINED", "retired": retired})
+    record(
+        NOTES / "sparse-release-021-activation.json",
+        {
+            "code": "ACTIVE_APPROVED_BODY_021_VERIFIED",
+            "path": str(DESTINATION),
+            "previous_path": str(BASE),
+            "sha256": release["sha256"],
+            "pointer_sha256": fingerprint(ACTIVE_POINTER),
+            "cells": release["cells"],
+            "replay": release["replay"],
+            "semantic_outcomes": release["semantic_audit"]["outcomes"],
+            "fresh_default_consumer": checks,
+        },
+    )
+    retired = [
+        retire(path, release)
+        for path in (
+            BASE.with_name("sparse-release-019.db"),
+            WORK / "enriched.db",
+            WORK / "zipf/epoch-01/teaching.db",
+            Path(result["candidate"]),
+        )
+    ]
+    record(
+        NOTES / "021-approved-retention.json",
+        {"code": "ACTIVE_021_ROLLBACK_020_AND_AUDIT_RECORDS_RETAINED", "retired": retired},
+    )
     notebook(result, release, verified)
-    round_.status("PUBLISHED_AND_ROLLING_RETENTION_VERIFIED", activation_performed=True,
-                  active_path=str(DESTINATION), previous_path=str(BASE), new_cells=result["new_cells"],
-                  typed_questions_used=result["typed_questions_used"], joint_support_reduction_bits=verified["joint_support_reduction_bits"])
+    round_.status(
+        "PUBLISHED_AND_ROLLING_RETENTION_VERIFIED",
+        activation_performed=True,
+        active_path=str(DESTINATION),
+        previous_path=str(BASE),
+        new_cells=result["new_cells"],
+        typed_questions_used=result["typed_questions_used"],
+        joint_support_reduction_bits=verified["joint_support_reduction_bits"],
+    )
 
 
 if __name__ == "__main__":
@@ -274,5 +376,9 @@ if __name__ == "__main__":
         parser.add_argument("--result", type=Path)
         run(parser.parse_args().result)
     except BaseException as error:
-        round_.status("APPROVED_BODY_FINALIZATION_STOPPED", reason=repr(error), activation_performed=resolve_lexicon_path() == DESTINATION)
+        round_.status(
+            "APPROVED_BODY_FINALIZATION_STOPPED",
+            reason=repr(error),
+            activation_performed=resolve_lexicon_path() == DESTINATION,
+        )
         raise
