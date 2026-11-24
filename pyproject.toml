@@ -92,6 +92,15 @@ ignore = [
 # Same scope as [tool.ruff] exclude: archives and vendored third-party code are not checked.
 exclude = ["**/archive", "**/_archive", "data/external", "daemon"]
 
+[tool.deptry]
+# Advisory (docs/program/ASSURANCE.md): run as `uv run --with deptry deptry .`. Same scope as ruff and
+# ty, so archives, dated records and data are not reported; what remains are real findings.
+extend_exclude = [".*_archive/", "archive/", "docs/", "daemon/", "data/"]
+known_first_party = ["GSE"]
+
+[tool.deptry.per_rule_ignores]
+DEP002 = ["en-core-web-sm"]  # a spaCy model loaded by name, never imported
+
 [tool.pytest.ini_options]
 minversion = "9.0"
 pythonpath = ["."]
