@@ -12,6 +12,9 @@ design). Infrastructure-first: the quality of these signals sets the router's
 ceiling, so this is where the investment goes.
 """
 
+from importlib import import_module
+from typing import TYPE_CHECKING
+
 from GSE.discourse.intake import SourceSentence, document_sentences, split_paragraphs
 from GSE.discourse.profile import (
     PROFILE_FIELDS,
@@ -19,14 +22,43 @@ from GSE.discourse.profile import (
     split_sentences,
     text_profile,
 )
-from GSE.discourse.registers import (
-    ALL_GENRES,
-    GENRE_TO_CLASS,
-    REGISTER_TAXONOMY,
-    SUPER_REGISTER_OF,
-    register_class_of,
-    super_register_of,
-)
+
+if TYPE_CHECKING:
+    from GSE.discourse.registers import (
+        ALL_GENRES,
+        GENRE_TO_CLASS,
+        REGISTER_TAXONOMY,
+        SUPER_REGISTER_OF,
+        register_class_of,
+        super_register_of,
+    )
+
+# The register taxonomy belongs to the genre application; it loads on first use
+# (PEP 562) so that reading a document does not import an application.
+_LAZY = {
+    name: "GSE.discourse.registers"
+    for name in (
+        "ALL_GENRES",
+        "GENRE_TO_CLASS",
+        "REGISTER_TAXONOMY",
+        "SUPER_REGISTER_OF",
+        "register_class_of",
+        "super_register_of",
+    )
+}
+
+
+def __getattr__(name: str):
+    if name not in _LAZY:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(import_module(_LAZY[name]), name)
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(_LAZY))
+
 
 __all__ = [
     "PROFILE_FIELDS",

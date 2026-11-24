@@ -26,8 +26,9 @@ Usage:
         print(f"Unknown word: {e.word}")
 """
 
-from GSE.api.decoder import GSEDecoder
-from GSE.api.encoder import GSEEncoder
+from importlib import import_module
+from typing import TYPE_CHECKING
+
 from GSE.api.errors import (
     DecodingError,
     EncodingError,
@@ -46,6 +47,28 @@ from GSE.api.trace import (
     SimilarityResult,
     TokenTrace,
 )
+
+if TYPE_CHECKING:
+    from GSE.api.decoder import GSEDecoder
+    from GSE.api.encoder import GSEEncoder
+
+# The encoder and decoder load on first use (PEP 562). The symbolic layer imports
+# the trace types from this package, and the encoder uses the symbolic layer, so
+# importing them here eagerly made every trace-type import a cycle through the encoder.
+_LAZY = {"GSEDecoder": "GSE.api.decoder", "GSEEncoder": "GSE.api.encoder"}
+
+
+def __getattr__(name: str):
+    if name not in _LAZY:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(import_module(_LAZY[name]), name)
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(_LAZY))
+
 
 __all__ = [
     # Core classes
