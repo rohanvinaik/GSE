@@ -1,0 +1,73 @@
+def _priority_source(priority, frequency_path):
+    """Pin scheduling evidence; frequency never supplies a semantic coordinate.
+
+    The local Brysbaert table preserves SUBTLEX counts. Descending positive
+    counts have the same order as a monotonic Zipf transform, but do not supply
+    calibrated absolute Zipf scores. Zero counts and absent words are unranked.
+    The bytes parsed here are the bytes hashed, independent of later file edits.
+    Blank words are excluded with their count, physical CSV line, and one-based
+    data-record number (excluding the header); no missing spelling is invented.
+    """
+    if priority not in ("constraint", "zipf"):
+        raise ValueError("INVALID_COMPLETION_PRIORITY")
+    if priority == "constraint":
+        if frequency_path is not None:
+            raise ValueError("FREQUENCY_PATH_REQUIRES_ZIPF_PRIORITY")
+        return {"mode": "constraint", "policy": "GSE.completion-priority/constraint/1"}, None
+    if frequency_path is not None and not isinstance(frequency_path, (str, Path)):
+        raise ValueError("INVALID_COMPLETION_FREQUENCY_PATH")
+    path = (
+        Path(frequency_path).expanduser().resolve()
+        if frequency_path is not None
+        else Path(__file__).resolve().parents[3] / "data" / "external" / "concreteness.csv"
+    )
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ValueError("COMPLETION_FREQUENCY_UNAVAILABLE") from exc
+    frequencies, seen, excluded = {}, set(), []
+    records = 0
+    try:
+        reader = csv.DictReader(io.StringIO(raw.decode("utf-8-sig")))
+        fields = reader.fieldnames
+        if not fields or len(set(fields)) != len(fields) or not {"Word", "SUBTLEX"} <= set(fields):
+            raise ValueError("schema")
+        for records, row in enumerate(reader, start=1):
+            word, count = row["Word"], row["SUBTLEX"]
+            if None in row or word is None or count is None or not count.isdecimal():
+                raise ValueError("record")
+            value = int(count)
+            if not word.strip():
+                excluded.append(
+                    {"code": "MISSING_WORD", "record_number": records, "csv_line": reader.line_num, "count": value}
+                )
+                continue
+            word = word.strip().casefold()
+            if word in seen:
+                raise ValueError("duplicate_word")
+            seen.add(word)
+            if value > 0:
+                frequencies[word] = value
+        if not frequencies:
+            raise ValueError("no_ranked_words")
+    except (UnicodeError, csv.Error, ValueError) as exc:
+        raise ValueError("INVALID_COMPLETION_FREQUENCY_SOURCE") from exc
+    return {
+        "mode": "zipf",
+        "policy": "GSE.completion-priority/subtlex-count-order/2",
+        "source": str(path),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "word_column": "Word",
+        "frequency_column": "SUBTLEX",
+        "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+        "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+        "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+        "rows": records,
+        "included_words": len(seen),
+        "excluded_count": len(excluded),
+        "excluded_records": excluded,
+        "ranked_words": len(frequencies),
+        "zero_count_words": len(seen) - len(frequencies),
+        "semantic_authority": "NONE_SCHEDULING_ONLY",
+    }, frequencies
+{'excluded_count': 1, 'excluded_records': [{'code': 'MISSING_WORD', 'count': 27, 'csv_line': 21732, 'record_number': 21731}], 'frequency_column': 'SUBTLEX', 'included_words': 39953, 'mode': 'zipf', 'ordering': 'DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID', 'policy': 'gse.completion-priority/subtlex-count-order/2', 'ranked_words': 28902, 'rows': 39954, 'score': 'MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE', 'semantic_authority': 'NONE_SCHEDULING_ONLY', 'sha256': 'fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226', 'source': '/Users/rohanvinaik/Projects/gse/data/external/concreteness.csv', 'unranked': 'ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO', 'word_column': 'Word', 'zero_count_words': 11051}

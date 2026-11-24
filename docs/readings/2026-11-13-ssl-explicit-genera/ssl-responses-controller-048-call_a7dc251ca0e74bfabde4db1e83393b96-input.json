@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-root-journal-handoff -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-root-reference-transport.json','ssl-root-reference-audit.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-api-coverage-checkpoint-facts.json']:\n f=p/name\n if f.exists():print('\\n===',name,'===\\n'+f.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

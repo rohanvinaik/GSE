@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-openspec -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nfor p in Path('openspec/changes/lexicon-symbolic-foundation').rglob('*'):\n if p.is_file(): print('\\n===',p,'===\\n',p.read_text())\nfor name in ['docs/program/BUILD_SPEC.md','docs/program/BUILD_GAPS.md']:\n s=Path(name).read_text(); lines=s.splitlines(); starts=[i for i,l in enumerate(lines) if l.startswith('## ')]; print('\\n===',name,'GSE-01 sections ===')\n for a,b in zip(starts,starts[1:]+[len(lines)]):\n  if 'GSE-01' in lines[a]: print('\\n'.join(lines[a:b]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

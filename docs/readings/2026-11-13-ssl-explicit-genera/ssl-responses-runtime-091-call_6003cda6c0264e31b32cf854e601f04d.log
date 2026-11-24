@@ -1,0 +1,1567 @@
+
+FILE scripts/audit_lexicon_sentences.py
+def checkpoint_result(report, runtime=None, workload=None):
+    """Compute the formal checkpoint verdict, separately from nonregression.
+
+    This consumes measured sentence/runtime results and a byte-pinned workload
+    receipt. Missing evidence blocks acceptance; no singleton, homing count or
+    sparse runtime success substitutes for the declared independent workload.
+    The workload receipt records predeclared token denominators, operations,
+    critical cases, lineage separation and full replay/repository receipts.
+    It is evaluation-only and supplies no construction authority.
+    """
+    blockers, outcomes = [], defaultdict(Counter)
+    good_banks = {"CORRECT", "OPEN_AS_EXPECTED"}
+    rows = {row["id"]: row for row in report["cases"]}
+    for row in rows.values():
+        sense = row["sense_outcome"]
+        cells = [cell["runtime"] for cell in row["banks"].values()]
+        wrong = sense == "WRONG" or any(
+            cell[field]
+            in {"WRONG", "UNSUPPORTED_ASSIGNMENT", "UNSUPPORTED_EMISSION", "WRONG_EMISSION", "INVALID_DOMAIN"}
+            for cell in row["banks"].values()
+            for field in ("runtime", "exact_sense")
+        )
+        outcome = (
+            "WRONG"
+            if wrong
+            else "ABSTAINED"
+            if sense in {"ABSTAINED", "ABSTAINED_AS_EXPECTED"}
+            else "IDENTIFIED"
+            if sense == "CORRECT" and all(c in good_banks for c in cells)
+            else "PARTIAL"
+            if sense == "CORRECT"
+            else "UNAVAILABLE"
+        )
+        outcomes[row["class"]][outcome] += 1
+        if wrong:
+            blockers.append({"code": "KNOWN_WRONG_ASSERTION", "case": row["id"]})
+    if runtime is None or runtime.get("code") != "SPARSE_RUNTIME_VALIDATED":
+        blockers.append({"code": "RUNTIME_NOT_VALIDATED"})
+    elif runtime.get("lexicon_sha256") != report["lexicon_sha256"]:
+        blockers.append({"code": "RUNTIME_RESOURCE_MISMATCH"})
+    coverage = {}
+    if workload is None:
+        blockers.append({"code": "WORKLOAD_MANIFEST_NOT_FROZEN"})
+    else:
+        if current_id(workload.get("format")) != "GSE.checkpoint-workload/1":
+            raise ValueError("INVALID_CHECKPOINT_WORKLOAD")
+        expected_pins = {
+            "lexicon_sha256": report["lexicon_sha256"],
+            "benchmark_sha256": report["benchmark_sha256"],
+            **report["snapshot_pins"],
+        }
+        if workload.get("pins") != expected_pins:
+            blockers.append({"code": "WORKLOAD_PINS_MISMATCH"})
+        split = workload.get("evaluation", {})
+        if split.get("split") != "FINAL_UNEXPOSED":
+            blockers.append({"code": "FINAL_HOLDOUT_NOT_UNEXPOSED"})
+        for scale in ("senses", "families"):
+            development, final = split.get(f"development_{scale}"), split.get(f"final_{scale}")
+            if not isinstance(development, list) or not isinstance(final, list) or not final:
+                blockers.append({"code": "HOLDOUT_LINEAGE_UNAVAILABLE", "scale": scale})
+            elif set(development) & set(final):
+                blockers.append({"code": "HOLDOUT_LINEAGE_OVERLAP", "scale": scale})
+        if set(split.get("final_senses", [])) != {r["sense"] for r in rows.values() if r["sense"] is not None}:
+            blockers.append({"code": "FINAL_SENSE_INVENTORY_MISMATCH"})
+        critical = workload.get("critical_case_ids", [])
+        if not critical or not set(critical) <= rows.keys():
+            blockers.append({"code": "CRITICAL_CASE_INVENTORY_MISSING"})
+        for case_id in critical:
+            row = rows.get(case_id)
+            if row is not None and (
+                row["sense_outcome"] not in {"CORRECT", "ABSTAINED_AS_EXPECTED"}
+                or any(c["runtime"] not in good_banks for c in row["banks"].values())
+            ):
+                blockers.append({"code": "CRITICAL_ANSWER_NOT_ESTABLISHED", "case": case_id})
+        operations = workload.get("operations", [])
+        claimed = set()
+        if not operations:
+            blockers.append({"code": "PROMISED_OPERATIONS_NOT_DECLARED"})
+        runtime_classes = {row["class"]: row["outcome"] for row in (runtime or {}).get("records", [])}
+        for operation in operations:
+            cases = operation.get("case_ids", [])
+            structures = operation.get("runtime_classes", [])
+            claimed.update(cases)
+            if not cases and not structures:
+                blockers.append({"code": "OPERATION_WITHOUT_WITNESSES", "operation": operation.get("id")})
+            if not set(cases) <= set(critical) or any(runtime_classes.get(c) != "IDENTIFIED" for c in structures):
+                blockers.append({"code": "PROMISED_OPERATION_NOT_ESTABLISHED", "operation": operation.get("id")})
+            for case_id, banks in operation.get("required_banks", {}).items():
+                if case_id not in cases or not set(banks) <= rows.get(case_id, {}).get("banks", {}).keys():
+                    blockers.append({"code": "REQUIRED_BANK_NOT_TESTED", "case": case_id})
+        if not set(critical) <= claimed:
+            blockers.append({"code": "CRITICAL_CASE_WITHOUT_OPERATION"})
+        demand = workload.get("token_demand", {})
+        forms = demand.get("common_forms", [])
+        if (
+            not forms
+            or len(set(forms)) != len(forms)
+            or any(not isinstance(f, str) or f != f.casefold() for f in forms)
+        ):
+            blockers.append({"code": "COMMON_FORM_COHORT_NOT_PINNED"})
+        for key in ("frequency_source_sha256", "corpus_source_sha256", "denominator_rules", "exclusions"):
+            if key not in demand or (key != "exclusions" and not demand[key]):
+                blockers.append({"code": "TOKEN_DEMAND_PROVENANCE_MISSING", "field": key})
+        if demand.get("frequency_source_sha256") == demand.get("corpus_source_sha256"):
+            blockers.append({"code": "INDEPENDENT_CORPUS_REQUIRED"})
+        try:
+            coverage["frequency"] = _mass(demand.get("frequency_counts"), set(forms))
+            genres = demand.get("corpus_genres", {})
+            if not genres:
+                raise ValueError("CORPUS_GENRES_MISSING")
+            combined = Counter()
+            coverage["genres"] = {}
+            for genre, counts in genres.items():
+                coverage["genres"][genre] = _mass(counts, set(forms))
+                combined.update(counts)
+            coverage["independent_corpus"] = _mass(dict(combined), set(forms))
+            if not all(
+                row["meets_90_percent"]
+                for row in [coverage["frequency"], coverage["independent_corpus"], *coverage["genres"].values()]
+            ):
+                blockers.append({"code": "ELIGIBLE_TOKEN_MASS_BELOW_90_PERCENT"})
+        except ValueError as error:
+            blockers.append({"code": "TOKEN_DEMAND_UNAVAILABLE", "reason": str(error)})
+        for name in ("full_replay", "repository_gate", "two_sided_semantic_audit"):
+            gate = workload.get("gates", {}).get(name, {})
+            if (
+                gate.get("code") != "PASSED"
+                or gate.get("lexicon_sha256") != report["lexicon_sha256"]
+                or not gate.get("receipt_sha256")
+            ):
+                blockers.append({"code": "REQUIRED_GATE_NOT_ESTABLISHED", "gate": name})
+    return {
+        "format": "GSE.checkpoint-acceptance/1",
+        "code": "CHECKPOINT_BLOCKED" if blockers else "CHECKPOINT_ACCEPTED_FOR_DECLARED_WORKLOAD",
+        "lexicon_sha256": report["lexicon_sha256"],
+        "benchmark_sha256": report["benchmark_sha256"],
+        "workload_sha256": _digest(workload) if workload is not None else None,
+        "by_class": {key: dict(value) for key, value in sorted(outcomes.items())},
+        "token_mass": coverage,
+        "blockers": blockers,
+        "scope": "DECLARED_WORKLOAD_ONLY_NOT_FULL_LEXICON_COMPLETION",
+    }
+def load_workload(path):
+    """Verify original resource/receipt bytes before consuming their claims.
+
+    Relative paths are relative to the manifest. Every source and gate digest
+    consumed by checkpoint_result must have a retained artifact, including the
+    denominator/exclusion computation receipt. Merely declaring a hash is not
+    a resource pin. This does not independently certify supplied semantic gold.
+    """
+    workload = read(path)
+    artifacts = workload.get("artifacts", [])
+    verified = set()
+    paths = {}
+    for artifact in artifacts:
+        target = (Path(path).parent / artifact["path"]).resolve(strict=True)
+        actual = fingerprint(target)
+        if actual != artifact["sha256"]:
+            raise ValueError("CHECKPOINT_ARTIFACT_CHANGED")
+        verified.add(actual)
+        paths[actual] = target
+    demand = workload.get("token_demand", {})
+    needed = {
+        demand.get("frequency_source_sha256"),
+        demand.get("corpus_source_sha256"),
+        demand.get("counts_receipt_sha256"),
+        workload.get("scope_freeze_sha256"),
+    }
+    needed.update(g.get("receipt_sha256") for g in workload.get("gates", {}).values())
+    if None in needed or not needed <= verified:
+        raise ValueError("CHECKPOINT_ARTIFACT_UNPINNED")
+    counts = read(paths[demand["counts_receipt_sha256"]])
+    fields = {
+        "common_forms",
+        "frequency_source_sha256",
+        "corpus_source_sha256",
+        "frequency_counts",
+        "corpus_genres",
+        "denominator_rules",
+        "exclusions",
+    }
+    if counts != {key: demand.get(key) for key in fields}:
+        raise ValueError("CHECKPOINT_COUNTS_RECEIPT_MISMATCH")
+    scope = read(paths[workload["scope_freeze_sha256"]])
+    if (
+        current_id(scope.get("format")) != "GSE.checkpoint-workload-scope-freeze/1"
+        or scope.get("token_demand_sha256") != demand["counts_receipt_sha256"]
+        or not scope.get("operations")
+        or {operation.get("id") for operation in workload.get("operations", [])} != set(scope["operations"])
+        or len(workload["operations"]) != len(scope["operations"])
+    ):
+        raise ValueError("CHECKPOINT_FROZEN_SCOPE_CHANGED")
+    for name, gate in workload.get("gates", {}).items():
+        receipt = read(paths[gate["receipt_sha256"]])
+        if any(receipt.get(key) != gate.get(key) for key in ("code", "lexicon_sha256")):
+            raise ValueError("CHECKPOINT_GATE_RECEIPT_MISMATCH")
+        if not receipt.get("command") or receipt.get("exit_code") != 0:
+            raise ValueError("CHECKPOINT_GATE_EXECUTION_UNAVAILABLE")
+        if name == "full_replay" and (
+            receipt.get("definition_cohort_sha256") != workload["pins"]["definition_cohort_sha256"]
+            or receipt.get("checked_definitions") != workload["pins"]["definitions"]
+            or receipt.get("mismatches") != 0
+            or receipt.get("solver_limits") != 0
+        ):
+            raise ValueError("CHECKPOINT_FULL_REPLAY_INCOMPLETE")
+        if name == "two_sided_semantic_audit" and (
+            set(receipt.get("audited_forms", [])) != set(demand["common_forms"])
+            or receipt.get("known_wrong") != 0
+            or receipt.get("missing_required") != 0
+            or any(
+                receipt.get("checks", {}).get(key) != "PASSED"
+                for key in (
+                    "positive",
+                    "must_not",
+                    "missing_sign",
+                    "source_warrants",
+                    "morphology",
+                    "pos_roles",
+                    "tail_strata",
+                    "genre_strata",
+                )
+            )
+        ):
+            raise ValueError("CHECKPOINT_TWO_SIDED_AUDIT_INCOMPLETE")
+    return workload
+
+FILE tests/test_audit_lexicon_sentences.py
+"""Pin the distinct sentence-audit outcomes for absence, zero, and sign."""
+
+import pytest
+
+from scripts.audit_lexicon_sentences import checkpoint_result, compare_reports, load_workload, main, score_domain
+
+
+@pytest.mark.parametrize(
+    "domain,expected,code",
+    [
+        ([-1, 0, 1], 0, "OPEN"),
+        ([0], 0, "CORRECT"),
+        ([-1, 0, 1], None, "OPEN_AS_EXPECTED"),
+        ([0], None, "UNSUPPORTED_ASSIGNMENT"),
+        ([-1, 0], 1, "WRONG"),
+        (None, 0, "INVALID_DOMAIN"),
+        ([], 1, "INVALID_DOMAIN"),
+        ([True], 1, "INVALID_DOMAIN"),
+        ([0, 0], 0, "INVALID_DOMAIN"),
+    ],
+)
+def test_score_domain(domain, expected, code):
+    assert score_domain(domain, expected) == code
+
+
+def test_comparison_separates_exact_gain_from_runtime_and_rejects_false_zero():
+    def report(domain, outcome):
+        return {
+            "benchmark_sha256": "benchmark",
+            "lexicon_sha256": str(domain),
+            "cases": [
+                {
+                    "id": "blocked",
+                    "class": "action",
+                    "sense_outcome": "ABSTAINED",
+                    "banks": {
+                        "DO": {
+                            "expected": 1,
+                            "domain": domain,
+                            "exact_sense": outcome,
+                            "runtime": "BLOCKED_BY_SENSE",
+                        }
+                    },
+                }
+            ],
+        }
+
+    baseline = report([-1, 0, 1], "OPEN")
+    gained = compare_reports(baseline, report([1], "CORRECT"))
+    assert gained["code"] == "SENTENCE_BENCHMARK_VALIDATED"
+    assert gained["by_class"]["action"]["exact_sense_new_correct"] == 1
+    assert "runtime_new_correct" not in gained["by_class"]["action"]
+    wrong = compare_reports(baseline, report([0], "WRONG"))
+    assert wrong["code"] == "SENTENCE_BENCHMARK_REGRESSION"
+    assert wrong["failures"][0]["field"] == "exact_sense"
+
+
+@pytest.fixture
+def acceptance_inputs():
+    report = {
+        "lexicon_sha256": "lexicon",
+        "benchmark_sha256": "benchmark",
+        "snapshot_pins": {
+            "definition_cohort_sha256": "cohort",
+            "definitions": 100,
+            "representation_sha256": "basis",
+            "rule_version": "rules",
+        },
+        "cases": [
+            {
+                "id": "test",
+                "class": "own-state",
+                "sense": "native:test",
+                "sense_outcome": "CORRECT",
+                "banks": {"BE": {"runtime": "CORRECT", "exact_sense": "CORRECT"}},
+            }
+        ],
+    }
+    runtime = {"code": "SPARSE_RUNTIME_VALIDATED", "lexicon_sha256": "lexicon", "records": []}
+    workload = {
+        "format": "GSE.checkpoint-workload/1",
+        "pins": {"lexicon_sha256": "lexicon", "benchmark_sha256": "benchmark", **report["snapshot_pins"]},
+        "evaluation": {
+            "split": "FINAL_UNEXPOSED",
+            "development_senses": ["native:other"],
+            "final_senses": ["native:test"],
+            "development_families": ["other"],
+            "final_families": ["state"],
+        },
+        "critical_case_ids": ["test"],
+        "operations": [{"id": "state-query", "case_ids": ["test"], "required_banks": {"test": ["BE"]}}],
+        "token_demand": {
+            "common_forms": ["the"],
+            "frequency_counts": {"the": 90, "tail": 10},
+            "corpus_genres": {"news": {"the": 91, "tail": 9}},
+            "denominator_rules": "all tokens",
+            "exclusions": [],
+            "frequency_source_sha256": "freq",
+            "corpus_source_sha256": "corpus",
+        },
+        "gates": {
+            name: {"code": "PASSED", "lexicon_sha256": "lexicon", "receipt_sha256": name}
+            for name in ("full_replay", "repository_gate", "two_sided_semantic_audit")
+        },
+    }
+    return report, runtime, workload
+
+
+def test_checkpoint_consumes_exact_critical_answers_and_separate_token_mass(acceptance_inputs):
+    report, runtime, workload = acceptance_inputs
+    result = checkpoint_result(report, runtime, workload)
+    assert result["code"] == "CHECKPOINT_ACCEPTED_FOR_DECLARED_WORKLOAD"
+    assert result["token_mass"]["frequency"] == {"eligible": 100, "in_cohort": 90, "meets_90_percent": True}
+    report["cases"][0]["banks"]["BE"]["runtime"] = "OPEN"
+    result = checkpoint_result(report, runtime, workload)
+    assert result["code"] == "CHECKPOINT_BLOCKED"  # 100% homing cannot excuse one critical missing bank
+    assert result["by_class"]["own-state"] == {"PARTIAL": 1}
+
+
+@pytest.mark.parametrize("outcome", ["ABSTAINED", "UNAVAILABLE", "WRONG", "TOKEN_MISMATCH"])
+def test_no_semantic_error_allowance_at_ninety_percent_token_mass(acceptance_inputs, outcome):
+    report, runtime, workload = acceptance_inputs
+    report["cases"][0]["sense_outcome"] = outcome
+    result = checkpoint_result(report, runtime, workload)
+    assert result["code"] == "CHECKPOINT_BLOCKED"
+    assert any(b["code"] == "CRITICAL_ANSWER_NOT_ESTABLISHED" for b in result["blockers"])
+
+
+@pytest.mark.parametrize(
+    "change,blocker",
+    [
+        ("genre", "ELIGIBLE_TOKEN_MASS_BELOW_90_PERCENT"),
+        ("lineage", "HOLDOUT_LINEAGE_OVERLAP"),
+        ("development", "FINAL_HOLDOUT_NOT_UNEXPOSED"),
+        ("pins", "WORKLOAD_PINS_MISMATCH"),
+        ("runtime", "RUNTIME_RESOURCE_MISMATCH"),
+        ("bank", "REQUIRED_BANK_NOT_TESTED"),
+        ("gate", "REQUIRED_GATE_NOT_ESTABLISHED"),
+    ],
+)
+def test_checkpoint_refuses_incomplete_or_changed_proofs(acceptance_inputs, change, blocker):
+    report, runtime, workload = acceptance_inputs
+    if change == "genre":
+        workload["token_demand"]["corpus_genres"]["fiction"] = {"the": 1, "tail": 99}
+    elif change == "lineage":
+        workload["evaluation"]["development_families"] = ["state"]
+    elif change == "development":
+        workload["evaluation"]["split"] = "DEVELOPMENT"
+    elif change == "pins":
+        workload["pins"]["definition_cohort_sha256"] = "different"
+    elif change == "runtime":
+        runtime["lexicon_sha256"] = "different"
+    elif change == "bank":
+        workload["operations"][0]["required_banks"]["test"] = ["BODY"]
+    else:
+        workload["gates"].pop("full_replay")
+    assert any(b["code"] == blocker for b in checkpoint_result(report, runtime, workload)["blockers"])
+
+
+def test_sparse_runtime_and_nonregression_are_not_checkpoint_acceptance(acceptance_inputs):
+    report, runtime, _ = acceptance_inputs
+    result = checkpoint_result(report, runtime)
+    assert result["code"] == "CHECKPOINT_BLOCKED"
+    assert result["blockers"] == [{"code": "WORKLOAD_MANIFEST_NOT_FROZEN"}]
+
+
+def test_workload_declared_digests_require_retained_matching_artifacts(tmp_path):
+    import hashlib
+    import json
+
+    source = tmp_path / "source.json"
+    source.write_text("{}")
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    manifest = tmp_path / "workload.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "artifacts": [{"path": source.name, "sha256": digest}],
+                "token_demand": {"frequency_source_sha256": digest, "corpus_source_sha256": "absent"},
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="CHECKPOINT_ARTIFACT_UNPINNED"):
+        load_workload(manifest)
+    source.write_text('{"changed":true}')
+    with pytest.raises(ValueError, match="CHECKPOINT_ARTIFACT_CHANGED"):
+        load_workload(manifest)
+
+
+def test_sentence_cli_cannot_overwrite_input_even_before_parsing(tmp_path):
+    source = tmp_path / "lexicon.db"
+    source.write_bytes(b"preserve")
+    with pytest.raises(SystemExit):
+        main(["--lexicon", str(source), "--benchmark", str(source), "--report", str(source)])
+    assert source.read_bytes() == b"preserve"
+
+
+def test_workload_loader_cannot_narrow_pre_frozen_public_operation_inventory(tmp_path):
+    import hashlib
+    import json
+
+    artifacts = []
+
+    def save(name, value):
+        path = tmp_path / name
+        path.write_text(json.dumps(value))
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        artifacts.append({"path": name, "sha256": digest})
+        return digest
+
+    frequency = save("frequency.json", {"the": 100})
+    corpus = save("corpus.json", {"the": 101})
+    counts = {
+        "common_forms": ["the"],
+        "frequency_source_sha256": frequency,
+        "corpus_source_sha256": corpus,
+        "frequency_counts": {"the": 100},
+        "corpus_genres": {"news": {"the": 101}},
+        "denominator_rules": "all tokens",
+        "exclusions": [],
+    }
+    count_digest = save("counts.json", counts)
+    scope_digest = save(
+        "scope.json",
+        {
+            "format": "GSE.checkpoint-workload-scope-freeze/1",
+            "token_demand_sha256": count_digest,
+            "operations": {"lexical": "all banks", "inference": "exact claims"},
+        },
+    )
+    path = tmp_path / "manifest.json"
+    path.write_text(
+        json.dumps(
+            {
+                "artifacts": artifacts,
+                "token_demand": {**counts, "counts_receipt_sha256": count_digest},
+                "scope_freeze_sha256": scope_digest,
+                "operations": [{"id": "lexical", "case_ids": ["some-passing-fixture"]}],
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="CHECKPOINT_FROZEN_SCOPE_CHANGED"):
+        load_workload(path)
+
+
+FILE tests/test_copula_complement.py
+"""Frozen specification for GSE #88, revision 4."""
+
+import importlib.util
+import itertools
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.nlp.native import NativeNLP
+
+DEGREE_WORDS = (
+    "very",
+    "quite",
+    "rather",
+    "too",
+    "always",
+    "never",
+    "often",
+    "usually",
+    "almost",
+    "nearly",
+    "somewhat",
+    "also",
+)
+SKIP_WORDS = DEGREE_WORDS + ("really", "sometimes")
+CONTRACTED_BASES = (
+    "it",
+    "he",
+    "she",
+    "that",
+    "this",
+    "there",
+    "here",
+    "what",
+    "who",
+    "where",
+    "how",
+)
+BOOL_PAIRS = tuple(itertools.product((False, True), repeat=2))
+BOOL_TRIPLES = tuple(itertools.product((False, True), repeat=3))
+
+READING_ROWS = (
+    ((False, False, False, False), "NO_READING"),
+    ((False, False, False, True), "NOUN"),
+    ((False, False, True, False), "ADJ"),
+    ((False, False, True, True), "ADJ"),
+    ((False, True, False, False), "MODIFIER"),
+    ((False, True, False, True), "MODIFIER"),
+    ((False, True, True, False), "MODIFIER"),
+    ((False, True, True, True), "MODIFIER"),
+    ((True, False, False, False), "PARTICIPLE"),
+    ((True, False, False, True), "PARTICIPLE"),
+    ((True, False, True, False), "PARTICIPLE"),
+    ((True, False, True, True), "PARTICIPLE"),
+    ((True, True, False, False), "MODIFIER"),
+    ((True, True, False, True), "MODIFIER"),
+    ((True, True, True, False), "MODIFIER"),
+    ((True, True, True, True), "MODIFIER"),
+)
+
+LEFT_ROWS = (
+    ((), False),
+    (("OTHER",), False),
+    (("SKIP",), False),
+    (("BE",), True),
+    (("CONTRACTED_BE",), True),
+    (("BE", "SKIP"), True),
+    (("BE", "SKIP", "SKIP"), True),
+    (("BE", "SKIP", "SKIP", "SKIP"), True),
+    (("CONTRACTED_BE", "SKIP", "SKIP", "SKIP"), True),
+    (("OTHER", "BE"), True),
+    (("OTHER", "SKIP"), False),
+    (("BE", "OTHER"), False),
+    (("BE", "OTHER", "SKIP"), False),
+    (("BE", "unknown-role", "SKIP"), False),
+    (("BE", 0, "SKIP"), False),
+    (("BE", None, "SKIP"), False),
+    (("BE", [], "SKIP"), False),
+    (("BE", {}, "SKIP"), False),
+    (("BE", ["BE"], "SKIP"), False),
+    (("BE", {"role": "BE"}, "SKIP"), False),
+    (("BE", "SKIP", "OTHER", "SKIP"), False),
+    (("BE",) + ("SKIP",) * 257, True),
+    (("CONTRACTED_BE",) + ("SKIP",) * 257, True),
+    (("OTHER",) + ("SKIP",) * 257, False),
+    (("SKIP",) * 257, False),
+    (("be", "skip"), False),
+    (("BE", "skip"), False),
+    (("be", "SKIP"), False),
+)
+
+ROLE_PATTERNS = (
+    (
+        "plain",
+        "",
+        ("OTHER", "SKIP", "BE", "BE", "OTHER", "SKIP", "BE", "BE"),
+    ),
+    (
+        "oddly",
+        "",
+        ("SKIP", "SKIP", "BE", "BE", "OTHER", "SKIP", "BE", "BE"),
+    ),
+    (
+        "very",
+        "",
+        ("SKIP", "SKIP", "BE", "BE", "SKIP", "SKIP", "BE", "BE"),
+    ),
+    (
+        "'s",
+        "it",
+        (
+            "CONTRACTED_BE",
+            "CONTRACTED_BE",
+            "BE",
+            "BE",
+            "CONTRACTED_BE",
+            "CONTRACTED_BE",
+            "BE",
+            "BE",
+        ),
+    ),
+)
+
+PARTICIPLE_ROWS = (
+    ("served", "serve", "PARTICIPLE"),
+    ("killed", "kill", "PARTICIPLE"),
+    ("gone", "go", "PARTICIPLE"),
+    ("seen", "see", "PARTICIPLE"),
+    ("cooks", "cook", "NOT_PARTICIPLE"),
+    ("red", "read", "NOT_PARTICIPLE"),
+    ("indeed", "inde", "NOT_PARTICIPLE"),
+    ("sing", "sing", "NOT_PARTICIPLE"),
+    ("hit", "hit", "NOT_PARTICIPLE"),
+    ("fooed", "fooed", "NOT_PARTICIPLE"),
+    ("", "", "NOT_PARTICIPLE"),
+    ("served", "", "NOT_PARTICIPLE"),
+    (" served", " served", "NOT_PARTICIPLE"),
+)
+
+
+def test_table_left_role_truths():
+    from GSE.nlp.native import copula_left_role
+
+    for word, previous, answers in ROLE_PATTERNS:
+        for facts, wanted in zip(BOOL_TRIPLES, answers):
+            assert copula_left_role(word, previous, *facts) == wanted
+
+    for word in SKIP_WORDS:
+        for has_a in (False, True):
+            assert copula_left_role(word, "is", has_a, False, False) == "SKIP"
+            assert copula_left_role(word.upper(), "IS", has_a, False, False) == "SKIP"
+
+    for base in CONTRACTED_BASES:
+        for has_a in (False, True):
+            assert copula_left_role("'s", base, has_a, False, False) == "CONTRACTED_BE"
+            assert copula_left_role("'S", base.upper(), has_a, False, False) == "CONTRACTED_BE"
+
+    for base in ("someone", "Duncan", "", "unknown", "it "):
+        for has_a in (False, True):
+            assert copula_left_role("'s", base, has_a, False, False) == "OTHER"
+
+    boundary_rows = (
+        ("ugly", True, "OTHER"),
+        ("daily", True, "OTHER"),
+        ("oddly", False, "SKIP"),
+        ("only", False, "OTHER"),
+        ("only", True, "OTHER"),
+        ("here", False, "OTHER"),
+        ("there", False, "OTHER"),
+        ("today", False, "OTHER"),
+        ("indeed", False, "OTHER"),
+        ("", False, "OTHER"),
+        ("!", False, "OTHER"),
+        (" really", False, "SKIP"),
+        ("really ", False, "OTHER"),
+    )
+    for word, has_a, wanted in boundary_rows:
+        assert copula_left_role(word, "", has_a, False, False) == wanted
+
+    for word in ("am", "is", "are", "was", "were", "be", "been", "being"):
+        assert copula_left_role(word, "", False, True, False) == "BE"
+    for word in ("not", "n't", "unknown"):
+        assert copula_left_role(word, "", False, False, True) == "SKIP"
+
+
+def test_table_participle_truths():
+    from GSE.nlp.native import copula_participle_kind
+
+    for word, lemma, qualifying_code in PARTICIPLE_ROWS:
+        for has_v, closed_nonverb in BOOL_PAIRS:
+            wanted = qualifying_code if has_v and not closed_nonverb else "NOT_PARTICIPLE"
+            assert copula_participle_kind(word, lemma, has_v, closed_nonverb) == wanted
+            assert copula_participle_kind(word.upper(), lemma.upper(), has_v, closed_nonverb) == wanted
+
+
+def test_table_modifier_truths():
+    from GSE.nlp.native import copula_modifier_context
+
+    ordinary_rows = (
+        (False, False, "NOT_MODIFIER"),
+        (False, True, "MODIFIER"),
+        (True, False, "NOT_MODIFIER"),
+        (True, True, "NOT_MODIFIER"),
+    )
+    for has_a, has_r, ordinary_code in ordinary_rows:
+        for word in ("good", "daily", "DAILY", ""):
+            for next_kind in (
+                "PARTICIPLE",
+                "NOT_PARTICIPLE",
+                "",
+                "unknown",
+                "participle",
+                "Participle",
+                [],
+                {},
+            ):
+                wanted = "NOT_MODIFIER"
+                if isinstance(next_kind, str) and next_kind == "PARTICIPLE":
+                    wanted = "MODIFIER" if word in ("daily", "DAILY") else ordinary_code
+                assert copula_modifier_context(word, has_a, has_r, next_kind) == wanted
+
+
+def test_table_complement_truths():
+    from GSE.nlp.native import copula_complement_reading
+
+    for left, eligible in LEFT_ROWS:
+        for facts, eligible_code in READING_ROWS:
+            roles = list(left)
+            original = list(roles)
+            wanted = eligible_code if eligible else "NOT_COMPLEMENT"
+            assert copula_complement_reading(roles, *facts) == wanted
+            assert roles == original
+
+    for nonlist in ("BE", "", False, True, 0, 1):
+        for facts, unused_code in READING_ROWS:
+            assert copula_complement_reading(nonlist, *facts) == "NOT_COMPLEMENT"
+
+
+def test_table_degree_truths():
+    from GSE.nlp.native import copula_degree_reading
+
+    for word in DEGREE_WORDS:
+        assert copula_degree_reading(word, False) == "DEGREE_ADV"
+        assert copula_degree_reading(word, True) == "DEFER"
+        assert copula_degree_reading(word.upper(), False) == "DEGREE_ADV"
+        assert copula_degree_reading(word.upper(), True) == "DEFER"
+
+    for word in (
+        "really",
+        "sometimes",
+        "here",
+        "pretty",
+        "so",
+        "",
+        "very ",
+    ):
+        for previous_nominal in (False, True):
+            assert copula_degree_reading(word, previous_nominal) == "DEFER"
+
+
+def test_table_lexical_and_code_boundaries():
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_degree_reading,
+        copula_left_role,
+        copula_modifier_context,
+        copula_participle_kind,
+    )
+
+    for nonstring in (False, True, 0, 1, [], ["is"]):
+        assert copula_left_role(nonstring, "", False, False, False) == "OTHER"
+        assert copula_left_role("'s", nonstring, False, False, False) == "OTHER"
+        assert copula_degree_reading(nonstring, False) == "DEFER"
+        assert copula_participle_kind(nonstring, "", False, False) == "NOT_PARTICIPLE"
+        assert copula_participle_kind("served", nonstring, True, False) == "NOT_PARTICIPLE"
+        assert copula_modifier_context("daily", False, True, nonstring) == "NOT_MODIFIER"
+
+    assert copula_left_role("IS", "", False, True, False) == "BE"
+    assert copula_participle_kind("SERVED", "SERVE", True, False) == "PARTICIPLE"
+    assert copula_modifier_context("DAILY", True, True, "PARTICIPLE") == "MODIFIER"
+    assert copula_modifier_context("DAILY", True, True, "participle") == "NOT_MODIFIER"
+    assert copula_complement_reading(["be", "skip"], False, False, True, True) == "NOT_COMPLEMENT"
+    assert copula_complement_reading(["BE", "SKIP"], False, False, True, True) == "ADJ"
+
+    assert copula_left_role("plain", "", 0, 1, 0) == "BE"
+    assert copula_participle_kind("served", "serve", 1, 0) == "PARTICIPLE"
+    assert copula_modifier_context("good", 0, 1, "PARTICIPLE") == "MODIFIER"
+    assert copula_complement_reading(["BE"], 0, 0, 1, 1) == "ADJ"
+    assert copula_degree_reading("very", 0) == "DEGREE_ADV"
+    assert copula_degree_reading("very", 1) == "DEFER"
+
+
+@pytest.mark.parametrize(
+    "sentence, surface, next_kind, modifier_code, reading_code, wanted_pos",
+    (
+        (
+            "He is evil indeed.",
+            "evil",
+            "NOT_PARTICIPLE",
+            "NOT_MODIFIER",
+            "ADJ",
+            "ADJ",
+        ),
+        (
+            "It is red.",
+            "red",
+            "NOT_PARTICIPLE",
+            "NOT_MODIFIER",
+            "ADJ",
+            "ADJ",
+        ),
+        (
+            "The food is good served cold.",
+            "good",
+            "PARTICIPLE",
+            "NOT_MODIFIER",
+            "ADJ",
+            "ADJ",
+        ),
+        (
+            "The reports are daily inspected.",
+            "daily",
+            "PARTICIPLE",
+            "MODIFIER",
+            "MODIFIER",
+            "ADV",
+        ),
+    ),
+)
+def test_table_participle_caller(sentence, surface, next_kind, modifier_code, reading_code, wanted_pos):
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_modifier_context,
+        copula_participle_kind,
+    )
+
+    # Hand-worked rows, then their production-caller replay.
+    assert copula_participle_kind("red", "read", True, False) == "NOT_PARTICIPLE"
+    assert copula_participle_kind("indeed", "inde", True, True) == "NOT_PARTICIPLE"
+    assert copula_participle_kind("served", "serve", True, False) == "PARTICIPLE"
+    assert copula_modifier_context("good", True, True, "PARTICIPLE") == "NOT_MODIFIER"
+    assert copula_modifier_context("daily", True, True, "PARTICIPLE") == "MODIFIER"
+
+    with (
+        patch.object(
+            native,
+            "copula_participle_kind",
+            wraps=copula_participle_kind,
+        ) as part_spy,
+        patch.object(
+            native,
+            "copula_modifier_context",
+            wraps=copula_modifier_context,
+        ) as modifier_spy,
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+    ):
+        tokens = {token.text: token.pos_ for token in NativeNLP()(sentence)}
+
+    assert tokens.get(surface) == wanted_pos
+    assert len(modifier_spy.call_args_list) == len(reading_spy.call_args_list)
+
+    target_rows = []
+    for modifier_call, reading_call in zip(modifier_spy.call_args_list, reading_spy.call_args_list):
+        word, has_a, has_r, observed_next = modifier_call.args
+        if word == surface:
+            target_rows.append((modifier_call.args, reading_call.args))
+            assert observed_next == next_kind
+            assert copula_modifier_context(word, has_a, has_r, observed_next) == modifier_code
+            roles, participle, modifier, actual_a, actual_n = reading_call.args
+            assert participle is False
+            assert modifier is (modifier_code == "MODIFIER")
+            assert actual_a == has_a
+            assert copula_complement_reading(roles, participle, modifier, actual_a, actual_n) == reading_code
+    assert target_rows
+
+    current_part_rows = []
+    for observed_call in part_spy.call_args_list:
+        word, lemma, has_v, closed_nonverb = observed_call.args
+        if word == surface:
+            current_part_rows.append(observed_call.args)
+            assert copula_participle_kind(word, lemma, has_v, closed_nonverb) == "NOT_PARTICIPLE"
+    assert current_part_rows
+
+    if sentence == "He is evil indeed.":
+        indeed_rows = []
+        for observed_call in part_spy.call_args_list:
+            word, lemma, has_v, closed_nonverb = observed_call.args
+            if word == "indeed":
+                indeed_rows.append(observed_call.args)
+                assert copula_participle_kind(word, lemma, has_v, closed_nonverb) == "NOT_PARTICIPLE"
+        assert indeed_rows
+
+    if sentence == "The food is good served cold.":
+        encoder = GSEEncoder()
+        try:
+            encoded = {
+                token.token: {
+                    "pos": token.pos,
+                    "roles": tuple(token.sent_primitives),
+                }
+                for token in encoder.encode(sentence).tokens
+            }
+            good = encoded.get("good", {})
+            assert good.get("pos") == "ADJ"
+            assert "SYN_COMPL" in good.get("roles", ())
+            assert "SYN_ADV_MOD" not in good.get("roles", ())
+        finally:
+            encoder.close()
+
+
+@pytest.mark.parametrize("word", SKIP_WORDS)
+def test_table_skip_caller(word):
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_left_role,
+    )
+
+    assert copula_left_role(word, "is", False, False, False) == "SKIP"
+    assert copula_left_role(word, "is", True, False, False) == "SKIP"
+    assert copula_complement_reading(["BE", "SKIP"], False, False, True, True) == "ADJ"
+
+    with (
+        patch.object(native, "copula_left_role", wraps=copula_left_role) as role_spy,
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+    ):
+        tokens = {token.text: token.pos_ for token in NativeNLP()(f"He is {word} evil.")}
+
+    assert tokens.get("evil") == "ADJ"
+    word_rows = []
+    for observed_call in role_spy.call_args_list:
+        observed_word, previous, has_a, is_be, is_neg = observed_call.args
+        if observed_word == word:
+            word_rows.append(observed_call.args)
+            assert copula_left_role(observed_word, previous, has_a, is_be, is_neg) == "SKIP"
+    assert word_rows
+
+    eligible_rows = []
+    for observed_call in reading_spy.call_args_list:
+        roles, participle, modifier, has_a, has_n = observed_call.args
+        if roles == ["BE", "SKIP"]:
+            eligible_rows.append(observed_call.args)
+            assert copula_complement_reading(roles, participle, modifier, has_a, has_n) == "ADJ"
+    assert eligible_rows
+
+
+@pytest.mark.parametrize("base", CONTRACTED_BASES)
+def test_table_contraction_caller(base):
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_left_role,
+    )
+
+    assert copula_left_role("'s", base, False, False, False) == "CONTRACTED_BE"
+    assert copula_complement_reading(["CONTRACTED_BE"], False, False, True, True) == "ADJ"
+
+    with (
+        patch.object(native, "copula_left_role", wraps=copula_left_role) as role_spy,
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+    ):
+        tokens = {token.text: token.pos_ for token in NativeNLP()(f"{base.capitalize()}'s evil.")}
+
+    assert tokens.get("evil") == "ADJ"
+    contraction_rows = []
+    for observed_call in role_spy.call_args_list:
+        word, previous, has_a, is_be, is_neg = observed_call.args
+        if word == "'s" and previous == base:
+            contraction_rows.append(observed_call.args)
+            assert copula_left_role(word, previous, has_a, is_be, is_neg) == "CONTRACTED_BE"
+    assert contraction_rows
+
+    eligible_rows = []
+    for observed_call in reading_spy.call_args_list:
+        roles, participle, modifier, has_a, has_n = observed_call.args
+        if roles == ["CONTRACTED_BE"]:
+            eligible_rows.append(observed_call.args)
+            assert copula_complement_reading(roles, participle, modifier, has_a, has_n) == "ADJ"
+    assert eligible_rows
+
+
+@pytest.mark.parametrize(
+    "skip_words",
+    (
+        ("not", "really", "very"),
+        ("really",) * 257,
+    ),
+)
+def test_table_walk_caller(skip_words):
+    import GSE.nlp.native as native
+    from GSE.nlp.native import copula_complement_reading
+
+    expected_roles = ["BE"] + ["SKIP"] * len(skip_words)
+    assert copula_complement_reading(expected_roles, False, False, True, True) == "ADJ"
+
+    sentence = "It is " + " ".join(skip_words) + " good."
+    with patch.object(
+        native,
+        "copula_complement_reading",
+        wraps=copula_complement_reading,
+    ) as reading_spy:
+        tokens = {token.text: token.pos_ for token in NativeNLP()(sentence)}
+
+    assert tokens.get("good") == "ADJ"
+    complete_rows = []
+    for observed_call in reading_spy.call_args_list:
+        roles, participle, modifier, has_a, has_n = observed_call.args
+        if roles == expected_roles:
+            complete_rows.append(observed_call.args)
+            assert copula_complement_reading(roles, participle, modifier, has_a, has_n) == "ADJ"
+    assert complete_rows
+
+
+def test_table_barrier_caller():
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_left_role,
+    )
+
+    assert copula_left_role("here", "is", False, False, False) == "OTHER"
+    assert copula_complement_reading(["OTHER"], False, False, True, True) == "NOT_COMPLEMENT"
+
+    # evil reaches the walk; today could return earlier as a closed adverb.
+    with (
+        patch.object(native, "copula_left_role", wraps=copula_left_role) as role_spy,
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+    ):
+        tokens = {token.text: token.pos_ for token in NativeNLP()("He is here evil.")}
+
+    assert tokens.get("evil") is not None
+    barrier_rows = []
+    for observed_call in role_spy.call_args_list:
+        word, previous, has_a, is_be, is_neg = observed_call.args
+        if word == "here":
+            barrier_rows.append(observed_call.args)
+            assert copula_left_role(word, previous, has_a, is_be, is_neg) == "OTHER"
+    assert barrier_rows
+
+    assert reading_spy.call_args_list
+    for observed_call in reading_spy.call_args_list:
+        roles, participle, modifier, has_a, has_n = observed_call.args
+        assert roles == ["OTHER"]
+        assert copula_complement_reading(roles, participle, modifier, has_a, has_n) == "NOT_COMPLEMENT"
+
+
+def test_table_modifier_deferral_caller():
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_modifier_context,
+        copula_participle_kind,
+    )
+
+    assert copula_participle_kind("zorb", "", False, False) == "NOT_PARTICIPLE"
+    assert copula_participle_kind("served", "serve", True, False) == "PARTICIPLE"
+    assert copula_modifier_context("zorb", False, True, "PARTICIPLE") == "MODIFIER"
+    assert copula_complement_reading(["BE"], False, True, False, True) == "MODIFIER"
+
+    nlp = NativeNLP()
+    present = (object(),)
+    # Current v,n,a,s,r; next v,n,a,s,r; left a,s.
+    synset_results = (
+        (),
+        present,
+        (),
+        (),
+        present,
+        present,
+        (),
+        (),
+        (),
+        (),
+        (),
+        (),
+    )
+    with (
+        patch.object(native.wn, "synsets", side_effect=synset_results) as synset_spy,
+        patch.object(native.wn, "morphy", side_effect=(None, "serve")) as lemma_spy,
+        patch.object(native, "resolve_degree", return_value=None),
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+    ):
+        # Production caller, with controlled lexical facts for the deferred row.
+        actual = nlp._pos("zorb", 1, ["is", "zorb", "served"])
+
+    assert actual == "ADV"
+    assert synset_spy.call_count == 12
+    assert lemma_spy.call_count == 2
+    assert reading_spy.call_count == 1
+    assert reading_spy.call_args.args == (
+        ["BE"],
+        False,
+        True,
+        False,
+        True,
+    )
+
+
+def test_table_determined_very_caller():
+    import GSE.nlp.native as native
+    from GSE.nlp.native import (
+        copula_complement_reading,
+        copula_degree_reading,
+    )
+
+    assert copula_degree_reading("very", True) == "DEFER"
+    assert copula_complement_reading(["OTHER"], False, False, True, True) == "NOT_COMPLEMENT"
+
+    nlp = NativeNLP()
+
+    # Exact executable remainder of the supplied HEAD _pos for this spelling.
+    # No claim is made that its resulting POS was separately measured at HEAD.
+    low = "very"
+    lemma = native.wn.morphy(low, "v") or ""
+    has_v = bool(native.wn.synsets(low, pos="v") or lemma)
+    has_n = bool(native.wn.synsets(low, pos="n"))
+    has_a = bool(native.wn.synsets(low, pos="a") or native.wn.synsets(low, pos="s"))
+    person_is_noun = bool("person" not in native._STOP and native.wn.synsets("person", pos="n"))
+
+    if lemma and lemma != low and not low.endswith("s") and not has_n:
+        legacy_expected = "VERB"
+    elif low in native._IRREGULAR_PAST_VERB:
+        legacy_expected = "VERB"
+    elif native.resolve_degree(low) is not None:
+        legacy_expected = "ADJ"
+    elif has_a and person_is_noun:
+        legacy_expected = "ADJ"
+    elif has_n:
+        legacy_expected = "NOUN"
+    elif has_v:
+        legacy_expected = "VERB"
+    elif has_a:
+        legacy_expected = "ADJ"
+    else:
+        legacy_expected = "NOUN"
+
+    with (
+        patch.object(
+            native,
+            "copula_degree_reading",
+            wraps=copula_degree_reading,
+        ) as degree_spy,
+        patch.object(
+            native,
+            "copula_complement_reading",
+            wraps=copula_complement_reading,
+        ) as reading_spy,
+        patch.object(
+            native,
+            "copula_modifier_context",
+            wraps=native.copula_modifier_context,
+        ) as modifier_spy,
+    ):
+        tokens = {token.text: token.pos_ for token in nlp("He is the very person we need.")}
+
+    assert tokens.get("very") == legacy_expected
+
+    degree_rows = []
+    for observed_call in degree_spy.call_args_list:
+        word, previous_nominal = observed_call.args
+        if word == "very":
+            degree_rows.append(observed_call.args)
+            assert previous_nominal is True
+            assert copula_degree_reading(word, previous_nominal) == "DEFER"
+    assert degree_rows
+
+    assert len(modifier_spy.call_args_list) == len(reading_spy.call_args_list)
+    very_rows = []
+    for modifier_call, reading_call in zip(modifier_spy.call_args_list, reading_spy.call_args_list):
+        word, actual_a, actual_r, next_kind = modifier_call.args
+        if word == "very":
+            very_rows.append(reading_call.args)
+            roles, participle, modifier, reading_a, reading_n = reading_call.args
+            assert roles == ["OTHER"]
+            assert copula_complement_reading(roles, participle, modifier, reading_a, reading_n) == "NOT_COMPLEMENT"
+    assert very_rows
+
+
+@pytest.mark.parametrize(
+    "sentence, surface",
+    (
+        ("It is necessary to do this.", "necessary"),
+        ("He is evil.", "evil"),
+        ("Cawdor begins being dead.", "dead"),
+        ("Lady Macbeth is evil.", "evil"),
+        ("Lady Macbeth is evil and greedy.", "evil"),
+        ("The rules are simple.", "simple"),
+        ("The food was not good.", "good"),
+        ("That's good.", "good"),
+        ("It's not good.", "good"),
+        ("It is ugly.", "ugly"),
+        ("It is sometimes good.", "good"),
+    ),
+)
+def test_flip_predicate_adjective_pos(sentence, surface):
+    tokens = {token.text: token.pos_ for token in NativeNLP()(sentence)}
+    assert tokens.get(surface) == "ADJ"
+
+
+@pytest.mark.parametrize(
+    "sentence, surface",
+    (
+        ("The food was not good.", "good"),
+        ("That's good.", "good"),
+        ("It's not good.", "good"),
+        ("It is ugly.", "ugly"),
+    ),
+)
+def test_flip_encoder_adjective_and_complement(sentence, surface):
+    encoder = GSEEncoder()
+    try:
+        tokens = {
+            token.token: {
+                "pos": token.pos,
+                "roles": tuple(token.sent_primitives),
+            }
+            for token in encoder.encode(sentence).tokens
+        }
+        token = tokens.get(surface, {})
+        assert token.get("pos") == "ADJ"
+        assert "SYN_COMPL" in token.get("roles", ())
+        assert "SYN_ADV_MOD" not in token.get("roles", ())
+    finally:
+        encoder.close()
+
+
+@pytest.mark.parametrize("sentence", ("The food was not good.", "It's not good."))
+def test_flip_negated_assertion_survives(sentence):
+    encoder = GSEEncoder()
+    try:
+        tokens = {token.token: token.pos for token in encoder.encode(sentence).tokens}
+        assert tokens.get("good") == "ADJ"
+
+        probe_path = Path(__file__).with_name("test_reading_probes_ring2.py")
+        module_name = "_gse88_existing_ring2_probe"
+        probe_spec = importlib.util.spec_from_file_location(module_name, probe_path)
+        assert probe_spec is not None
+        assert probe_spec.loader is not None
+        probe_module = importlib.util.module_from_spec(probe_spec)
+        previous_module = sys.modules.get(module_name)
+        sys.modules[module_name] = probe_module
+        try:
+            probe_spec.loader.exec_module(probe_module)
+            projector = getattr(probe_module, "_negated", None)
+            assert callable(projector)
+            assert projector(encoder, sentence) == [("TYPE_ASSERT", None)]
+        finally:
+            if previous_module is None:
+                sys.modules.pop(module_name, None)
+            else:
+                sys.modules[module_name] = previous_module
+    finally:
+        encoder.close()
+
+
+@pytest.mark.parametrize(
+    "sentence, surface, wanted",
+    (
+        ("He is greedy.", "greedy", "ADJ"),
+        ("Lady Macbeth is greedy.", "greedy", "ADJ"),
+        ("Lady Macbeth is evil and greedy.", "greedy", "ADJ"),
+        ("He is a cook.", "cook", "NOUN"),
+        ("He is president.", "president", "NOUN"),
+        ("They are friends.", "friends", "NOUN"),
+        ("They are cooks.", "cooks", "NOUN"),
+        ("Someone's cold was severe.", "cold", "NOUN"),
+        ("Duncan's guards became drunk.", "guards", "NOUN"),
+        ("It is ugly today.", "today", "ADV"),
+        ("The reports are daily inspected.", "daily", "ADV"),
+        ("He's gone.", "gone", "VERB"),
+        ("He was killed by Macbeth.", "killed", "VERB"),
+        ("He has never seen it.", "seen", "VERB"),
+        ("It is really good.", "really", "ADV"),
+        ("He is here today.", "today", "ADV"),
+    ),
+)
+def test_guard_existing_pos(sentence, surface, wanted):
+    tokens = {token.text: token.pos_ for token in NativeNLP()(sentence)}
+    assert tokens.get(surface) == wanted
+
+
+@pytest.mark.parametrize(
+    "sentence, surface",
+    (
+        ("He is greedy.", "greedy"),
+        ("Lady Macbeth is greedy.", "greedy"),
+        ("He is evil.", "evil"),
+        ("He is a cook.", "cook"),
+    ),
+)
+def test_guard_existing_complement_role(sentence, surface):
+    encoder = GSEEncoder()
+    try:
+        tokens = {token.token: tuple(token.sent_primitives) for token in encoder.encode(sentence).tokens}
+        assert surface in tokens
+        assert "SYN_COMPL" in tokens.get(surface, ())
+        assert "SYN_ADV_MOD" not in tokens.get(surface, ())
+    finally:
+        encoder.close()
+
+
+FILE tests/test_operator_core_preservation.py
+"""Intent guards: qualifying operators preserve the clause and its participants."""
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.api.encoder import head_linker_operation
+from GSE.symbolic import evaluate_tree, from_trace, resolve
+from GSE.symbolic.expression import Phrase, operator_composition_plan
+from GSE.symbolic.predicates import BoundaryCase, Contrast, Event, SetRestriction, TypeQuery
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as enc:
+        yield enc
+
+
+def test_attachment_codes_preserve_the_tier():
+    assert operator_composition_plan("CONTRAST", 2, True, True, False) == "clause_pair"
+    assert operator_composition_plan("CONTRAST", 2, False, True, True) == "open_discourse"
+    assert operator_composition_plan("CONTRAST", 2, False, False, False) == "operand"
+    assert operator_composition_plan("SET_RESTRICT", 1, False, True, True) == "qualified_core"
+    assert operator_composition_plan("SET_DIFF", 2, True, False, False) == "operand"
+    assert operator_composition_plan("BIND_EQ", 2, True, True, False) == "matrix_core"
+    assert operator_composition_plan("", 0, False, False, False) == "operand"
+
+
+def test_head_linker_codes_are_scoped():
+    assert head_linker_operation("however", True) == "CONTRAST"
+    assert head_linker_operation("therefore", True) == "CONSEQUENCE"
+    assert head_linker_operation("and", True) == "CLAUSE_COORD"
+    assert head_linker_operation("then", True) == "TEMPORAL"
+    assert head_linker_operation("however", False) == "none"
+    assert head_linker_operation("when", True) == "none"
+    assert head_linker_operation("", True) == "none"
+
+
+@pytest.mark.parametrize(
+    "linker", ["However", "Yet", "Still", "Instead", "Thus", "Therefore", "Hence", "Consequently", "And", "Then"]
+)
+def test_supported_head_linkers_retain_their_open_relation_and_event(encoder, linker):
+    from GSE.symbolic.propositions import propositions
+
+    trace = encoder.encode(f"{linker} the cell moved.")
+    assert trace.tokens[0].operator_tier == "discourse"
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    events = [p.node for p in propositions(tree) if isinstance(p.node, Event)]
+    assert len(events) == 1 and events[0].verb == "move"
+    assert events[0].agent.head.lemma == "cell"
+
+
+def test_head_contrast_keeps_event_without_inventing_a_previous_clause(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("But the cell moved."))))
+    assert isinstance(tree, Contrast)
+    assert isinstance(tree.left, Phrase) and tree.left.atoms == []
+    assert isinstance(tree.right, Event) and tree.right.verb == "move"
+    assert tree.right.agent.head.lemma == "cell"
+
+
+def test_clause_contrast_keeps_both_events_and_roles(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("The cell moved, but the lens stopped."))))
+    assert isinstance(tree, Contrast)
+    assert isinstance(tree.left, Event) and tree.left.verb == "move"
+    assert isinstance(tree.right, Event) and tree.right.verb == "stop"
+    assert tree.left.agent.head.lemma == "cell"
+    assert tree.right.agent.head.lemma == "lens"
+
+
+def test_restriction_keeps_its_member_and_event(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("Only the king slept."))))
+    assert isinstance(tree, SetRestriction)
+    assert tree.member.head.lemma == "king"
+    assert isinstance(tree.predicate, Event) and tree.predicate.verb == "sleep"
+
+
+def test_even_keeps_its_modal_event(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("You can even validate it by hand."))))
+    assert isinstance(tree, BoundaryCase)
+    assert isinstance(tree.predicate, Event) and tree.predicate.verb == "validate"
+    assert tree.predicate.agent.head.lemma == "you"
+    assert "CAN" in tree.predicate.modal
+
+
+def test_unary_query_reads_the_following_operand(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("What is a dog?"))))
+    assert isinstance(tree, TypeQuery)
+    assert tree.entity.head.lemma == "dog"
+
+
+def test_phrase_contrast_does_not_invent_events(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("small but strong"))))
+    assert isinstance(tree, Contrast)
+    assert not isinstance(tree.left, Event) and not isinstance(tree.right, Event)
+
+
+FILE GSE/symbolic/operators.py
+def event(op: Op) -> Event:
+    """EVENT — a verb roleframe over its arguments (the base-case predicate).
+
+    "Duncan rewarded Macbeth" → ``Event(verb="reward", agent=duncan,
+    patient=macbeth)``. Synthesized in ``from_trace`` from a plain verb clause;
+    the verb lemma rides on ``Op.primitive``, arg0 = subject, arg1 = object (when
+    present, else intransitive).
+    """
+    if not op.args:
+        raise ValueError(f"EVENT expects ≥1 arg, got {op.arity}")
+    # Args beyond agent+patient are the SECONDARY constituents the role-split peeled off a
+    # ditransitive / object+complement (resolution's ArgSplit flattened them in). Preserve
+    # them as latent `themes` — the clean primary read (agent, patient) is unchanged; themes
+    # ride along, dropped from the default analysis but revivable.
+    return Event(
+        verb=op.primitive,
+        agent=op.args[0],
+        patient=op.args[1] if len(op.args) > 1 else None,
+        themes=tuple(op.args[2:]) if len(op.args) > 2 else (),
+        modal=op.modal,
+        duration=op.duration,
+    )
+def temporal(op: Op) -> Temporal:
+    """TEMPORAL — when/while/after/before X, Y → both clauses asserted, temporal link.
+
+    Like CAUSAL_SOURCE / IMPLIES, the *subordinate* (when-)clause is the arg1/right
+    operand in both readings — "Y when X" (medial) and "When X, Y" (fronted, where the
+    encoder presents the clauses as ``[main, dependent]``). So the when-clause is always
+    the setting: setting = arg1, event = arg0.
+    """
+    _require_arity(op, 2)
+    conjunction = op.primitive.lower() if op.primitive in ("BEFORE", "AFTER") else "when"
+    return Temporal(
+        setting=op.args[1],
+        event=op.args[0],
+        conjunction=op.duration.relation if op.duration else conjunction,
+        duration=op.duration,
+    )
+
+FILE GSE/symbolic/lexical_grounding.py
+def _bounds(self, position, boundaries):
+        return (
+            max((i for i in boundaries if i < position), default=-1),
+            min((i for i in boundaries if i > position), default=len(self.doc)),
+        )
+def _nominal_support(self, lemma, senses, start, end):
+        context = {
+            token.lemma_.casefold()
+            for token in self.doc[start + 1 : end]
+            if token.pos_ == "NOUN" and token.lemma_.casefold() != lemma
+        }
+        if not context:
+            return {"code": "NO_NOMINAL_CONTEXT"}
+        context_nodes = set()
+        witnessed_words = set()
+        for word in sorted(context):
+            alternatives = self._senses(word)
+            if len(alternatives) == 1:
+                context_nodes.update(next(iter(alternatives.values())).nodes)
+                witnessed_words.add(word)
+        support = {
+            key: sorted(sense.anchors & witnessed_words)
+            for key, sense in senses.items()
+            if sense.anchors & witnessed_words
+        }
+        common = set.intersection(*(set(sense.nodes) for sense in senses.values())) if len(senses) > 1 else set()
+        scores = sorted(
+            (
+                (_jaccard(set(sense.nodes) - common, context_nodes), key)
+                for key, sense in senses.items()
+                if (sense.nodes - common) & context_nodes
+            ),
+            reverse=True,
+        )
+        thread = (
+            scores[0][1]
+            if scores and scores[0][0] > (scores[1][0] if len(scores) > 1 else 0) + _COHERENCE_MARGIN
+            else None
+        )
+        if thread:
+            # Eligibility and lexical witnesses are established above. The
+            # production coherence selector, not a parallel similarity resolver,
+            # then consumes the native type threads. Common nodes carry no WSD
+            # signal and are removed on both sides, as in the diagnostics.
+            ordered = sorted(senses)
+            threads = {lemma: [tuple(sorted(senses[key].nodes - common)) for key in ordered]}
+            threads.update(
+                (word, [tuple(sorted(next(iter(self._senses(word).values())).nodes))])
+                for word in sorted(witnessed_words)
+            )
+            entities = [Entity(Atom(word, pos="NOUN")) for word in threads]
+            chosen = _select_by_coherence(entities, _NativeThreads(threads), native_only=True)
+            selected_thread = chosen.get(_signature(entities[0]), ())
+            if selected_thread != threads[lemma][ordered.index(thread)]:
+                thread = None
+        anchor = next(iter(support)) if len(support) == 1 else None
+        evidence = {"native_anchor_support": support, "type_coherence": dict((key, score) for score, key in scores)}
+        if thread:
+            evidence["type_thread_candidate"] = thread
+        if not support:
+            code = "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS" if thread else "INSUFFICIENT_CONTEXTUAL_SUPPORT"
+            return {"code": code, **evidence}
+        if thread and thread not in support:
+            return {"code": "CONTEXTUAL_WITNESSES_DISAGREE", **evidence}
+        selected = anchor or thread
+        if selected is None:
+            return {"code": "INSUFFICIENT_CONTEXTUAL_SUPPORT", **evidence}
+        return {"code": "EXACT_WORDNET_SENSE", "entry_id": selected, **evidence}
+def _construction_span(self, position):
+        start, end = self._bounds(position, self.boundaries)
+        _, sentence_end = self._bounds(position, self.sentence_boundaries)
+        cuts = sorted(self.boundaries | {sentence_end})
+        # A temporal preposition with no predicate in its own segment is
+        # nominal context, e.g. “before six, when …” or “after midnight”.
+        while end < sentence_end and self.doc[end].lemma_ in {"after", "before"}:
+            following = next(i for i in cuts if i > end)
+            if any(token.pos_ == "VERB" for token in self.doc[end + 1 : following]):
+                break
+            end = following
+        linked = next(
+            (
+                t.i
+                for t in self.doc[position + 1 : min(end + 1, sentence_end)]
+                if t.lemma_ in _EXPLANATORY_LINKERS and t.pos_ == "SCONJ"
+            ),
+            None,
+        )
+        if linked is not None:
+            linked_end = next(i for i in cuts if i > linked)
+            if any(token.pos_ == "VERB" for token in self.doc[linked + 1 : linked_end]):
+                end = linked_end
+            else:
+                linked = None
+        elif end < sentence_end and self.doc[end].lemma_ == "and":
+            following = next(i for i in cuts if i > end)
+            if self.doc[end + 1 : following] and self.doc[end + 1].pos_ == "VERB":
+                end = following
+            elif self.doc[end + 1 : following] and not self.doc[end + 1].is_stop:
+                # A zero-inflection verb with an immediate object determiner
+                # is a shared-subject conjunct even when POS remains nominal.
+                if (
+                    end + 2 < following
+                    and self.doc[end + 2].pos_ == "DET"
+                    and _verb_derivations(self.doc[end + 1].lemma_)
+                ):
+                    end = following
+        return tuple(self.doc[start + 1 : end]), linked
+
+FORMAL SECTION
+#### Checkpoint workload and acceptance
+
+Before teaching against a checkpoint target, freeze an acceptance manifest containing:
+
+1. The fixed ordinary-bank basis and hierarchy convention, full definition/word cohort, source/rule versions, and the already pinned frequency bytes.
+2. The common-form cohort meeting the existing GSE-01 **90% eligible token-mass requirement in both the frequency source and an independent real-text corpus**, with genre slices and all denominator/exclusion rules. Retain every sense and every out-of-cohort definition; spelling frequency is not sense-use frequency.
+3. The actual NLP operations the checkpoint promises: exact lexical/sense selection, required bank queries, grammar/reference binding and composed sentence outputs. Inventory which cells and structures those operations require. Homing or recognizing 90% of tokens is not a 90% semantic-accuracy acceptance rule.
+4. Source-warranted positive and MUST-NOT cases for those operations, including ordinary/function-word ambiguity, he/He, first-/second-person boundaries, WANT polarity, BE own-state content, constitutive anatomy, negation, VERY scope and unspecified/long duration. Gold and expected answers stay outside construction requests and rule-warrant evidence.
+5. Separate development and final evaluation cases. Earlier sentence benchmarks used to choose teaching or refine rules are development diagnostics, not untouched final holdouts. Freeze a separate final audit with lineage-separated senses/families and corpus/genre coverage. A subsequently inspected holdout becomes development evidence and needs a replacement final slice.
+6. Explicit pass/abstention/partial/unavailable outcomes per class. Every promised acceptance-critical answer needs its warranted expected result; a critical abstention or resource refusal blocks that promise. No known wrong assertion, missing required component or failed negative witness is accepted. Unclaimed/unlabelled banks remain declared unknown or unverified rather than acquiring credit from the tested subset.
+7. Full-cohort solver/provenance/catalogue replay, changed-cell and reopened-cell accounting, real runtime tests and applicable repository checks. Sparse publication's finite label/runtime checks are necessary mechanics, not sufficient evidence of this usable-checkpoint milestone.
+
+The checkpoint is complete **for that declared and passed workload**, with its sparse limitations published. It is not a complete 56-bank assignment for every dictionary definition. Do not narrow a workload or remove a failing sense after seeing the result to manufacture a pass. A material scope change is a new version with the old failure retained. No new percentage or task waiver is authorized by this engineering section.
+
+
+WORDNET TIME TYPES
+dawn [('dawn.n.01', []), ('dawn.n.02', ['event.n.01']), ('dawn.n.03', ['time_period.n.01'])]
+noon [('noon.n.01', [])]
+winter [('winter.n.01', ['time_period.n.01'])]
+king [('king.n.01', ['person.n.01', 'physical_entity.n.01']), ('king.n.02', ['person.n.01', 'physical_entity.n.01']), ('baron.n.03', ['person.n.01', 'physical_entity.n.01']), ('king.n.04', []), ('king.n.05', []), ('king.n.06', []), ('king.n.07', []), ('king.n.08', ['physical_entity.n.01']), ('king.n.09', ['physical_entity.n.01']), ('king.n.10', ['physical_entity.n.01'])]
+tree [('tree.n.01', ['physical_entity.n.01']), ('tree.n.02', []), ('tree.n.03', [])]

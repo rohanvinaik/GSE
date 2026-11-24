@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-feedback-check -- .venv/bin/python -m pytest tests/test_lexicon_epoch.py tests/test_lexicon_learning_questions.py tests/test_lexicon_builder_retention.py tests/test_lexicon_builder_joint_revisions.py -q --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-feedback-tests.xml; uvx --offline ruff@0.16.10 check GSE/curation/lexicon_builder/learning_feedback.py GSE/curation/lexicon_builder/epoch.py GSE/curation/lexicon_builder/learning_state.py GSE/curation/lexicon_builder/retention.py; uvx --offline ty check GSE/curation/lexicon_builder/learning_feedback.py GSE/curation/lexicon_builder/epoch.py GSE/curation/lexicon_builder/learning_state.py GSE/curation/lexicon_builder/retention.py",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 900
+}

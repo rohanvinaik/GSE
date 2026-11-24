@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-cache-class-contract -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('GSE/symbolic/lexical_grounding.py');s=p.read_text().splitlines();a=ast.parse('\\n'.join(s))\nfor n in a.body:\n if isinstance(n,ast.ClassDef) and n.name=='LexicalGrounding':\n  for f in n.body:\n   if isinstance(f,ast.FunctionDef) and f.name=='__init__': print('\\n'.join(s[f.lineno-1:f.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

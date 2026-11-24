@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-type-advisory -- env UV_OFFLINE=1 uvx ty check GSE/api/encoder.py GSE/symbolic/grounding.py GSE/symbolic/lexical_grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py && /Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-active-real-cli -- .venv/bin/python scripts/audit_lexicon_runtime.py --lexicon-db data/lexicon_builder/2026-11-12/sparse-release-021.db --sparse --report docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit.json",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

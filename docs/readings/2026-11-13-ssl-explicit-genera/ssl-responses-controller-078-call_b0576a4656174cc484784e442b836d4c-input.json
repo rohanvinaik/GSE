@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-forecast-and-opportunity-unit -- .venv/bin/python - <<'PY'\nimport json,ast\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera');d=json.loads((p/'ssl-api-coverage-opportunities.json').read_text())\nfor r in d['opportunities']:\n print('OPPORTUNITY',[(k,v) for k,v in r.items() if isinstance(v,(str,int,bool))]);print('KEYS',list(r))\n if any('explicit-human-person-genus-body'==v or 'possess-have'==v for v in r.values() if isinstance(v,str)):print(json.dumps(r,indent=2))\nfor f,names in [('GSE/curation/lexicon_builder/epoch.py',{'forecast','scope_rows','snapshot_copy','Family'}),('GSE/curation/lexicon_builder/completion.py',{'complete_dictionary'})]:\n t=Path(f).read_text();print('\\n###',f)\n for n in ast.parse(t).body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(t,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

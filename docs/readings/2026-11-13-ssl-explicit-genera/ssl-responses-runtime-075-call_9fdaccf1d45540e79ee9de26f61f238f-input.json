@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-final-receipt-facts -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nr=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-active-checkpoint-v2.json','ssl-api-runtime-foundation-checkpoint-v2.json','ssl-api-runtime-checkpoint-demand.json']:\n o=json.loads((r/name).read_text());print(name)\n if 'checkpoint' in o:\n  print(json.dumps(o['checkpoint'],indent=2));print(json.dumps(o['snapshot_pins'],indent=2));print([(c['id'],c['sense_outcome'],{b:v['runtime'] for b,v in c['banks'].items()}) for c in o['cases']])\n else:print(json.dumps(o,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

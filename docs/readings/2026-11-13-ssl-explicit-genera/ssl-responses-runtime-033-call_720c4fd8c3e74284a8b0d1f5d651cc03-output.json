@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 0,
+  "elapsed_seconds": 0.7862581249792129,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-033-call_720c4fd8c3e74284a8b0d1f5d651cc03.log",
+  "output_characters": 1197,
+  "output": "from __future__ import annotations\nimport csv\nimport hashlib\nimport heapq\nimport io\nimport sqlite3\nfrom collections import Counter, defaultdict\nfrom dataclasses import asdict\nfrom pathlib import Path\nfrom GSE.namespace import identity_form\nfrom .catalog import SENTENCE_DURATION_SOURCE_RECORD\nfrom .evidence import Definition, Observation\nfrom .foundation import BANKS, definition_context, lexical_context, validate_lexical_guards\nfrom .model_receipts import append_model_receipt, migrate_model_receipts\nfrom .relevance import observation_relevance\nfrom .residual import build_request, complete_bank\nfrom .resolution import resolve_dictionary\nfrom .scheduling import pending_banks, question_order_policy, spelling_cohort\nfrom .storage import _json, store_entry\nfrom .validation import _assertions, _domain_restrictions, _read_json, _relations, validate_build\nBENCHMARK docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-cases.json 5\nBENCHMARK docs/readings/2026-11-13-ssl-contextual-grounding/sentences-corrected.json 24\nBENCHMARK docs/readings/2026-11-14-ssl-incident-accident/sense-contrasts.json 6\nBENCHMARK docs/readings/2026-11-13-ssl-sentence-event-action/sentences.json 24\n"
+}

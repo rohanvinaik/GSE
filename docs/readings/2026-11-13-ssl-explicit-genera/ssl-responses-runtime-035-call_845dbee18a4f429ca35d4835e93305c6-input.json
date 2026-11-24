@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-workload-authority-and-freeze -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text();print(s[s.index('## WANT polarity'):s.index('## Native identity guard')]);print(Path('GSE/__init__.py').read_text());print(Path('GSE/symbolic/__init__.py').read_text())\nPY\ncat docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-cases.json",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

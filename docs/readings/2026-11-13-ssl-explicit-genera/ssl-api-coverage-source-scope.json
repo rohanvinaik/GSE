@@ -1,0 +1,8566 @@
+{
+  "absence_guard_examples": {
+    "founder:absence:big-good": {
+      "complete_guard_receipt": {
+        "context": {
+          "pos": "adjective",
+          "wordnet_native_lemma": "true",
+          "wordnet_other_than_synset:albuginea.n.01": "true",
+          "wordnet_other_than_synset:birthday.n.02": "true",
+          "wordnet_other_than_synset:cell_membrane.n.01": "true",
+          "wordnet_other_than_synset:cladogram.n.01": "true",
+          "wordnet_other_than_synset:conodont.n.01": "true",
+          "wordnet_other_than_synset:cortex.n.02": "true",
+          "wordnet_other_than_synset:date.n.01": "true",
+          "wordnet_other_than_synset:date.n.07": "true",
+          "wordnet_other_than_synset:delta.n.02": "true",
+          "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+          "wordnet_other_than_synset:ellipsoid.n.01": "true",
+          "wordnet_other_than_synset:em.n.01": "true",
+          "wordnet_other_than_synset:eve.n.02": "true",
+          "wordnet_other_than_synset:exposure.n.06": "true",
+          "wordnet_other_than_synset:fiber_bundle.n.01": "true",
+          "wordnet_other_than_synset:future_date.n.01": "true",
+          "wordnet_other_than_synset:hood.n.10": "true",
+          "wordnet_other_than_synset:intima.n.01": "true",
+          "wordnet_other_than_synset:investment.n.04": "true",
+          "wordnet_other_than_synset:lens_cortex.n.01": "true",
+          "wordnet_other_than_synset:maturity.n.03": "true",
+          "wordnet_other_than_synset:mean_time.n.01": "true",
+          "wordnet_other_than_synset:medulla.n.03": "true",
+          "wordnet_other_than_synset:megacolon.n.01": "true",
+          "wordnet_other_than_synset:membrane.n.02": "true",
+          "wordnet_other_than_synset:morrow.n.01": "true",
+          "wordnet_other_than_synset:night.n.04": "true",
+          "wordnet_other_than_synset:partition.n.02": "true",
+          "wordnet_other_than_synset:pellicle.n.01": "true",
+          "wordnet_other_than_synset:quadrate.n.01": "true",
+          "wordnet_other_than_synset:quadrate.n.02": "true",
+          "wordnet_other_than_synset:quarter.n.09": "true",
+          "wordnet_other_than_synset:rain_date.n.01": "true",
+          "wordnet_other_than_synset:sell-by_date.n.01": "true",
+          "wordnet_other_than_synset:stemma.n.01": "true",
+          "wordnet_other_than_synset:stroma.n.03": "true",
+          "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+          "wordnet_other_than_synset:tissue.n.01": "true",
+          "wordnet_other_than_synset:today.n.02": "true",
+          "wordnet_other_than_synset:tomorrow.n.01": "true",
+          "wordnet_other_than_synset:tree.n.02": "true",
+          "wordnet_other_than_synset:tunic.n.01": "true",
+          "wordnet_other_than_synset:word.n.07": "true",
+          "wordnet_other_than_synset:yesterday.n.01": "true",
+          "wordnet_outside_ancestor:argue.v.03": "true",
+          "wordnet_outside_ancestor:bridle.v.03": "true",
+          "wordnet_outside_ancestor:find.v.05": "true",
+          "wordnet_outside_ancestor:linear_unit.n.01": "true",
+          "wordnet_outside_ancestor:monetary_unit.n.01": "true",
+          "wordnet_outside_ancestor:nonbeing.n.01": "true",
+          "wordnet_outside_ancestor:rent.v.04": "true",
+          "wordnet_outside_ancestor:sign.v.03": "true",
+          "wordnet_outside_ancestor:summarize.v.02": "true",
+          "wordnet_outside_ancestor:universalize.v.01": "true"
+        },
+        "kind": "EVIDENCE_GUARD",
+        "reason": "RELEVANT_EVIDENCE",
+        "relation": {
+          "absent_evidence": [
+            "GOOD"
+          ],
+          "allowed_rows": [
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "approved": true,
+          "authority": "conditional",
+          "banks": [
+            "BIG",
+            "GOOD"
+          ],
+          "guards": [
+            [
+              "pos",
+              "adjective"
+            ]
+          ],
+          "provenance": [
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+          ],
+          "rule_id": "founder:absence:big-good"
+        },
+        "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+        "rule_id": "founder:absence:big-good",
+        "status": "BLOCKED",
+        "witnesses": [
+          {
+            "assertions": [],
+            "bank": "GOOD",
+            "baseline_domain": [
+              -1,
+              0,
+              1
+            ],
+            "baseline_narrowed": false,
+            "baseline_rule_ids": [],
+            "supplied_evidence": true
+          }
+        ]
+      },
+      "entry_id": "wordnet:0:zero.s.01",
+      "lemma": "0"
+    },
+    "founder:absence:good-big": {
+      "complete_guard_receipt": {
+        "context": {
+          "pos": "adjective",
+          "wordnet_native_lemma": "true",
+          "wordnet_other_than_synset:albuginea.n.01": "true",
+          "wordnet_other_than_synset:birthday.n.02": "true",
+          "wordnet_other_than_synset:cell_membrane.n.01": "true",
+          "wordnet_other_than_synset:cladogram.n.01": "true",
+          "wordnet_other_than_synset:conodont.n.01": "true",
+          "wordnet_other_than_synset:cortex.n.02": "true",
+          "wordnet_other_than_synset:date.n.01": "true",
+          "wordnet_other_than_synset:date.n.07": "true",
+          "wordnet_other_than_synset:delta.n.02": "true",
+          "wordnet_other_than_synset:electromagnetic_unit.n.01": "true",
+          "wordnet_other_than_synset:ellipsoid.n.01": "true",
+          "wordnet_other_than_synset:em.n.01": "true",
+          "wordnet_other_than_synset:eve.n.02": "true",
+          "wordnet_other_than_synset:exposure.n.06": "true",
+          "wordnet_other_than_synset:fiber_bundle.n.01": "true",
+          "wordnet_other_than_synset:future_date.n.01": "true",
+          "wordnet_other_than_synset:hood.n.10": "true",
+          "wordnet_other_than_synset:intima.n.01": "true",
+          "wordnet_other_than_synset:investment.n.04": "true",
+          "wordnet_other_than_synset:lens_cortex.n.01": "true",
+          "wordnet_other_than_synset:maturity.n.03": "true",
+          "wordnet_other_than_synset:mean_time.n.01": "true",
+          "wordnet_other_than_synset:medulla.n.03": "true",
+          "wordnet_other_than_synset:megacolon.n.01": "true",
+          "wordnet_other_than_synset:membrane.n.02": "true",
+          "wordnet_other_than_synset:morrow.n.01": "true",
+          "wordnet_other_than_synset:night.n.04": "true",
+          "wordnet_other_than_synset:partition.n.02": "true",
+          "wordnet_other_than_synset:pellicle.n.01": "true",
+          "wordnet_other_than_synset:quadrate.n.01": "true",
+          "wordnet_other_than_synset:quadrate.n.02": "true",
+          "wordnet_other_than_synset:quarter.n.09": "true",
+          "wordnet_other_than_synset:rain_date.n.01": "true",
+          "wordnet_other_than_synset:sell-by_date.n.01": "true",
+          "wordnet_other_than_synset:stemma.n.01": "true",
+          "wordnet_other_than_synset:stroma.n.03": "true",
+          "wordnet_other_than_synset:terrestrial_time.n.01": "true",
+          "wordnet_other_than_synset:tissue.n.01": "true",
+          "wordnet_other_than_synset:today.n.02": "true",
+          "wordnet_other_than_synset:tomorrow.n.01": "true",
+          "wordnet_other_than_synset:tree.n.02": "true",
+          "wordnet_other_than_synset:tunic.n.01": "true",
+          "wordnet_other_than_synset:word.n.07": "true",
+          "wordnet_other_than_synset:yesterday.n.01": "true",
+          "wordnet_outside_ancestor:argue.v.03": "true",
+          "wordnet_outside_ancestor:bridle.v.03": "true",
+          "wordnet_outside_ancestor:find.v.05": "true",
+          "wordnet_outside_ancestor:linear_unit.n.01": "true",
+          "wordnet_outside_ancestor:monetary_unit.n.01": "true",
+          "wordnet_outside_ancestor:nonbeing.n.01": "true",
+          "wordnet_outside_ancestor:rent.v.04": "true",
+          "wordnet_outside_ancestor:sign.v.03": "true",
+          "wordnet_outside_ancestor:summarize.v.02": "true",
+          "wordnet_outside_ancestor:universalize.v.01": "true"
+        },
+        "kind": "EVIDENCE_GUARD",
+        "reason": "RELEVANT_EVIDENCE",
+        "relation": {
+          "absent_evidence": [
+            "BIG"
+          ],
+          "allowed_rows": [
+            [
+              -1,
+              0
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "approved": true,
+          "authority": "conditional",
+          "banks": [
+            "GOOD",
+            "BIG"
+          ],
+          "guards": [
+            [
+              "pos",
+              "adjective"
+            ]
+          ],
+          "provenance": [
+            "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+          ],
+          "rule_id": "founder:absence:good-big"
+        },
+        "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+        "rule_id": "founder:absence:good-big",
+        "status": "BLOCKED",
+        "witnesses": [
+          {
+            "assertions": [],
+            "bank": "BIG",
+            "baseline_domain": [
+              -1,
+              0,
+              1
+            ],
+            "baseline_narrowed": false,
+            "baseline_rule_ids": [],
+            "supplied_evidence": true
+          }
+        ]
+      },
+      "entry_id": "wordnet:0:zero.s.01",
+      "lemma": "0"
+    }
+  },
+  "absence_guards": {
+    "founder:absence:big-good": {
+      "BLOCKED:RELEVANT_EVIDENCE": 60669,
+      "definitions": 60669
+    },
+    "founder:absence:good-big": {
+      "BLOCKED:RELEVANT_EVIDENCE": 60669,
+      "definitions": 60669
+    }
+  },
+  "absence_guards_by_bucket": {
+    "1-500": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 2008
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 2008
+      }
+    },
+    "1501-5000": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 6821
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 6821
+      }
+    },
+    "5001+": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 23556
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 23556
+      }
+    },
+    "501-1500": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 3174
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 3174
+      }
+    },
+    "runtime_common_forms": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 20403
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 20403
+      }
+    },
+    "unranked": {
+      "founder:absence:big-good": {
+        "BLOCKED:RELEVANT_EVIDENCE": 25110
+      },
+      "founder:absence:good-big": {
+        "BLOCKED:RELEVANT_EVIDENCE": 25110
+      }
+    }
+  },
+  "by_source_family_scope": {
+    "1-500|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 135,
+      "filled_banks": 96,
+      "unresolved_banks": 7464
+    },
+    "1-500|nsm_chart|nsm_primary_chart|source_structure": {
+      "definitions": 19,
+      "filled_banks": 0,
+      "unresolved_banks": 1064
+    },
+    "1-500|sentiwordnet|wordnet|association": {
+      "definitions": 4164,
+      "filled_banks": 5363,
+      "unresolved_banks": 227821
+    },
+    "1-500|verbnet|verb_structure|lexical": {
+      "definitions": 394,
+      "filled_banks": 345,
+      "unresolved_banks": 21719
+    },
+    "1-500|wiktionary|wiktionary|lexical": {
+      "definitions": 9530,
+      "filled_banks": 5504,
+      "unresolved_banks": 528176
+    },
+    "1-500|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 5343,
+      "filled_banks": 5901,
+      "unresolved_banks": 293307
+    },
+    "1501-5000|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 19,
+      "filled_banks": 14,
+      "unresolved_banks": 1050
+    },
+    "1501-5000|sentiwordnet|wordnet|association": {
+      "definitions": 15121,
+      "filled_banks": 24808,
+      "unresolved_banks": 821968
+    },
+    "1501-5000|verbnet|verb_structure|lexical": {
+      "definitions": 1289,
+      "filled_banks": 1721,
+      "unresolved_banks": 70463
+    },
+    "1501-5000|wiktionary|wiktionary|lexical": {
+      "definitions": 37374,
+      "filled_banks": 24856,
+      "unresolved_banks": 2068088
+    },
+    "1501-5000|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 19261,
+      "filled_banks": 26795,
+      "unresolved_banks": 1051821
+    },
+    "5001+|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 12,
+      "filled_banks": 11,
+      "unresolved_banks": 661
+    },
+    "5001+|sentiwordnet|wordnet|association": {
+      "definitions": 40526,
+      "filled_banks": 68113,
+      "unresolved_banks": 2201343
+    },
+    "5001+|verbnet|verb_structure|lexical": {
+      "definitions": 2036,
+      "filled_banks": 2206,
+      "unresolved_banks": 111810
+    },
+    "5001+|wiktionary|wiktionary|lexical": {
+      "definitions": 84448,
+      "filled_banks": 62919,
+      "unresolved_banks": 4666169
+    },
+    "5001+|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 47840,
+      "filled_banks": 71193,
+      "unresolved_banks": 2607847
+    },
+    "501-1500|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 33,
+      "filled_banks": 22,
+      "unresolved_banks": 1826
+    },
+    "501-1500|nsm_chart|nsm_primary_chart|source_structure": {
+      "definitions": 3,
+      "filled_banks": 0,
+      "unresolved_banks": 168
+    },
+    "501-1500|sentiwordnet|wordnet|association": {
+      "definitions": 6957,
+      "filled_banks": 10283,
+      "unresolved_banks": 379309
+    },
+    "501-1500|verbnet|verb_structure|lexical": {
+      "definitions": 680,
+      "filled_banks": 873,
+      "unresolved_banks": 37207
+    },
+    "501-1500|wiktionary|wiktionary|lexical": {
+      "definitions": 16476,
+      "filled_banks": 10343,
+      "unresolved_banks": 912313
+    },
+    "501-1500|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 8928,
+      "filled_banks": 11160,
+      "unresolved_banks": 488808
+    },
+    "lexicon|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 213,
+      "filled_banks": 152,
+      "unresolved_banks": 11776
+    },
+    "lexicon|nsm_chart|nsm_primary_chart|source_structure": {
+      "definitions": 29,
+      "filled_banks": 0,
+      "unresolved_banks": 1624
+    },
+    "lexicon|sentiwordnet|wordnet|association": {
+      "definitions": 114316,
+      "filled_banks": 201289,
+      "unresolved_banks": 6200407
+    },
+    "lexicon|verbnet|verb_structure|lexical": {
+      "definitions": 4797,
+      "filled_banks": 5540,
+      "unresolved_banks": 263092
+    },
+    "lexicon|websters1913|historical_dictionary|lexical": {
+      "definitions": 1,
+      "filled_banks": 1,
+      "unresolved_banks": 55
+    },
+    "lexicon|wiktionary|wiktionary|lexical": {
+      "definitions": 246240,
+      "filled_banks": 174930,
+      "unresolved_banks": 13614510
+    },
+    "lexicon|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 155111,
+      "filled_banks": 236000,
+      "unresolved_banks": 8450216
+    },
+    "runtime_common_forms|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 197,
+      "filled_banks": 141,
+      "unresolved_banks": 10891
+    },
+    "runtime_common_forms|nsm_chart|nsm_primary_chart|source_structure": {
+      "definitions": 22,
+      "filled_banks": 0,
+      "unresolved_banks": 1232
+    },
+    "runtime_common_forms|sentiwordnet|wordnet|association": {
+      "definitions": 37686,
+      "filled_banks": 60645,
+      "unresolved_banks": 2049771
+    },
+    "runtime_common_forms|verbnet|verb_structure|lexical": {
+      "definitions": 2535,
+      "filled_banks": 3181,
+      "unresolved_banks": 138779
+    },
+    "runtime_common_forms|wiktionary|wiktionary|lexical": {
+      "definitions": 94509,
+      "filled_banks": 59848,
+      "unresolved_banks": 5232656
+    },
+    "runtime_common_forms|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 61952,
+      "filled_banks": 82326,
+      "unresolved_banks": 3386986
+    },
+    "unranked|gse_closed_class|gse_curated_grammar|lexical": {
+      "definitions": 14,
+      "filled_banks": 9,
+      "unresolved_banks": 775
+    },
+    "unranked|nsm_chart|nsm_primary_chart|source_structure": {
+      "definitions": 7,
+      "filled_banks": 0,
+      "unresolved_banks": 392
+    },
+    "unranked|sentiwordnet|wordnet|association": {
+      "definitions": 47548,
+      "filled_banks": 92722,
+      "unresolved_banks": 2569966
+    },
+    "unranked|verbnet|verb_structure|lexical": {
+      "definitions": 398,
+      "filled_banks": 395,
+      "unresolved_banks": 21893
+    },
+    "unranked|websters1913|historical_dictionary|lexical": {
+      "definitions": 1,
+      "filled_banks": 1,
+      "unresolved_banks": 55
+    },
+    "unranked|wiktionary|wiktionary|lexical": {
+      "definitions": 98412,
+      "filled_banks": 71308,
+      "unresolved_banks": 5439764
+    },
+    "unranked|wordnet_hierarchy|wordnet|lexical": {
+      "definitions": 73739,
+      "filled_banks": 120951,
+      "unresolved_banks": 4008433
+    }
+  },
+  "by_source_family_scope_bank": {
+    "1-500|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "unresolved": 135
+      },
+      "ALIVE": {
+        "unresolved": 135
+      },
+      "BE": {
+        "filled": 8,
+        "unresolved": 127
+      },
+      "BECAUSE": {
+        "unresolved": 135
+      },
+      "BEFORE": {
+        "unresolved": 135
+      },
+      "BIG": {
+        "unresolved": 135
+      },
+      "BODY": {
+        "filled": 13,
+        "unresolved": 122
+      },
+      "CAN": {
+        "filled": 2,
+        "unresolved": 133
+      },
+      "CAUSE": {
+        "unresolved": 135
+      },
+      "CERTAINTY": {
+        "unresolved": 135
+      },
+      "DO": {
+        "filled": 4,
+        "unresolved": 131
+      },
+      "EXIST": {
+        "unresolved": 135
+      },
+      "FAR": {
+        "unresolved": 135
+      },
+      "FEEL": {
+        "unresolved": 135
+      },
+      "GOOD": {
+        "unresolved": 135
+      },
+      "HAPPEN": {
+        "filled": 4,
+        "unresolved": 131
+      },
+      "HAVE": {
+        "filled": 2,
+        "unresolved": 133
+      },
+      "HEAR": {
+        "unresolved": 135
+      },
+      "HERE": {
+        "unresolved": 135
+      },
+      "I": {
+        "filled": 1,
+        "unresolved": 134
+      },
+      "IF": {
+        "unresolved": 135
+      },
+      "INFER": {
+        "unresolved": 135
+      },
+      "INTENSITY": {
+        "unresolved": 135
+      },
+      "KIND": {
+        "unresolved": 135
+      },
+      "KNOW": {
+        "unresolved": 135
+      },
+      "LIKE": {
+        "filled": 1,
+        "unresolved": 134
+      },
+      "LONG_TIME": {
+        "unresolved": 135
+      },
+      "MAYBE": {
+        "filled": 4,
+        "unresolved": 131
+      },
+      "MOMENT": {
+        "unresolved": 135
+      },
+      "MOVE": {
+        "unresolved": 135
+      },
+      "MUST": {
+        "filled": 2,
+        "unresolved": 133
+      },
+      "NOT": {
+        "filled": 1,
+        "unresolved": 134
+      },
+      "ONE": {
+        "unresolved": 135
+      },
+      "OUTSIDE": {
+        "unresolved": 135
+      },
+      "PART": {
+        "unresolved": 135
+      },
+      "PEOPLE": {
+        "unresolved": 135
+      },
+      "QUANTITY": {
+        "unresolved": 135
+      },
+      "SAME": {
+        "unresolved": 135
+      },
+      "SAY": {
+        "unresolved": 135
+      },
+      "SEE": {
+        "unresolved": 135
+      },
+      "SIDE": {
+        "unresolved": 135
+      },
+      "SOMEONE": {
+        "filled": 28,
+        "unresolved": 107
+      },
+      "SOMETHING": {
+        "filled": 16,
+        "unresolved": 119
+      },
+      "START": {
+        "unresolved": 135
+      },
+      "THEN": {
+        "unresolved": 135
+      },
+      "THINK": {
+        "unresolved": 135
+      },
+      "TOUCH": {
+        "unresolved": 135
+      },
+      "TOWARD": {
+        "unresolved": 135
+      },
+      "TRUE": {
+        "unresolved": 135
+      },
+      "TWO": {
+        "unresolved": 135
+      },
+      "WANT": {
+        "filled": 9,
+        "unresolved": 126
+      },
+      "WHEN": {
+        "unresolved": 135
+      },
+      "WHERE": {
+        "unresolved": 135
+      },
+      "WITH": {
+        "unresolved": 135
+      },
+      "WORDS": {
+        "unresolved": 135
+      },
+      "YOU": {
+        "filled": 1,
+        "unresolved": 134
+      }
+    },
+    "1-500|nsm_chart|nsm_primary_chart|source_structure": {
+      "ABOVE": {
+        "unresolved": 19
+      },
+      "ALIVE": {
+        "unresolved": 19
+      },
+      "BE": {
+        "unresolved": 19
+      },
+      "BECAUSE": {
+        "unresolved": 19
+      },
+      "BEFORE": {
+        "unresolved": 19
+      },
+      "BIG": {
+        "unresolved": 19
+      },
+      "BODY": {
+        "unresolved": 19
+      },
+      "CAN": {
+        "unresolved": 19
+      },
+      "CAUSE": {
+        "unresolved": 19
+      },
+      "CERTAINTY": {
+        "unresolved": 19
+      },
+      "DO": {
+        "unresolved": 19
+      },
+      "EXIST": {
+        "unresolved": 19
+      },
+      "FAR": {
+        "unresolved": 19
+      },
+      "FEEL": {
+        "unresolved": 19
+      },
+      "GOOD": {
+        "unresolved": 19
+      },
+      "HAPPEN": {
+        "unresolved": 19
+      },
+      "HAVE": {
+        "unresolved": 19
+      },
+      "HEAR": {
+        "unresolved": 19
+      },
+      "HERE": {
+        "unresolved": 19
+      },
+      "I": {
+        "unresolved": 19
+      },
+      "IF": {
+        "unresolved": 19
+      },
+      "INFER": {
+        "unresolved": 19
+      },
+      "INTENSITY": {
+        "unresolved": 19
+      },
+      "KIND": {
+        "unresolved": 19
+      },
+      "KNOW": {
+        "unresolved": 19
+      },
+      "LIKE": {
+        "unresolved": 19
+      },
+      "LONG_TIME": {
+        "unresolved": 19
+      },
+      "MAYBE": {
+        "unresolved": 19
+      },
+      "MOMENT": {
+        "unresolved": 19
+      },
+      "MOVE": {
+        "unresolved": 19
+      },
+      "MUST": {
+        "unresolved": 19
+      },
+      "NOT": {
+        "unresolved": 19
+      },
+      "ONE": {
+        "unresolved": 19
+      },
+      "OUTSIDE": {
+        "unresolved": 19
+      },
+      "PART": {
+        "unresolved": 19
+      },
+      "PEOPLE": {
+        "unresolved": 19
+      },
+      "QUANTITY": {
+        "unresolved": 19
+      },
+      "SAME": {
+        "unresolved": 19
+      },
+      "SAY": {
+        "unresolved": 19
+      },
+      "SEE": {
+        "unresolved": 19
+      },
+      "SIDE": {
+        "unresolved": 19
+      },
+      "SOMEONE": {
+        "unresolved": 19
+      },
+      "SOMETHING": {
+        "unresolved": 19
+      },
+      "START": {
+        "unresolved": 19
+      },
+      "THEN": {
+        "unresolved": 19
+      },
+      "THINK": {
+        "unresolved": 19
+      },
+      "TOUCH": {
+        "unresolved": 19
+      },
+      "TOWARD": {
+        "unresolved": 19
+      },
+      "TRUE": {
+        "unresolved": 19
+      },
+      "TWO": {
+        "unresolved": 19
+      },
+      "WANT": {
+        "unresolved": 19
+      },
+      "WHEN": {
+        "unresolved": 19
+      },
+      "WHERE": {
+        "unresolved": 19
+      },
+      "WITH": {
+        "unresolved": 19
+      },
+      "WORDS": {
+        "unresolved": 19
+      },
+      "YOU": {
+        "unresolved": 19
+      }
+    },
+    "1-500|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 4164
+      },
+      "ALIVE": {
+        "filled": 187,
+        "unresolved": 3977
+      },
+      "BE": {
+        "filled": 13,
+        "unresolved": 4151
+      },
+      "BECAUSE": {
+        "unresolved": 4164
+      },
+      "BEFORE": {
+        "unresolved": 4164
+      },
+      "BIG": {
+        "unresolved": 4164
+      },
+      "BODY": {
+        "filled": 39,
+        "unresolved": 4125
+      },
+      "CAN": {
+        "unresolved": 4164
+      },
+      "CAUSE": {
+        "filled": 68,
+        "unresolved": 4096
+      },
+      "CERTAINTY": {
+        "unresolved": 4164
+      },
+      "DO": {
+        "filled": 202,
+        "unresolved": 3962
+      },
+      "EXIST": {
+        "unresolved": 4164
+      },
+      "FAR": {
+        "unresolved": 4164
+      },
+      "FEEL": {
+        "filled": 36,
+        "unresolved": 4128
+      },
+      "GOOD": {
+        "filled": 1541,
+        "unresolved": 2623
+      },
+      "HAPPEN": {
+        "filled": 280,
+        "unresolved": 3884
+      },
+      "HAVE": {
+        "unresolved": 4164
+      },
+      "HEAR": {
+        "filled": 2,
+        "unresolved": 4162
+      },
+      "HERE": {
+        "unresolved": 4164
+      },
+      "I": {
+        "unresolved": 4164
+      },
+      "IF": {
+        "unresolved": 4164
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 4163
+      },
+      "INTENSITY": {
+        "filled": 1,
+        "unresolved": 4163
+      },
+      "KIND": {
+        "unresolved": 4164
+      },
+      "KNOW": {
+        "filled": 2,
+        "unresolved": 4162
+      },
+      "LIKE": {
+        "unresolved": 4164
+      },
+      "LONG_TIME": {
+        "unresolved": 4164
+      },
+      "MAYBE": {
+        "unresolved": 4164
+      },
+      "MOMENT": {
+        "unresolved": 4164
+      },
+      "MOVE": {
+        "filled": 65,
+        "unresolved": 4099
+      },
+      "MUST": {
+        "unresolved": 4164
+      },
+      "NOT": {
+        "unresolved": 4164
+      },
+      "ONE": {
+        "unresolved": 4164
+      },
+      "OUTSIDE": {
+        "unresolved": 4164
+      },
+      "PART": {
+        "filled": 24,
+        "unresolved": 4140
+      },
+      "PEOPLE": {
+        "filled": 11,
+        "unresolved": 4153
+      },
+      "QUANTITY": {
+        "filled": 23,
+        "unresolved": 4141
+      },
+      "SAME": {
+        "unresolved": 4164
+      },
+      "SAY": {
+        "filled": 12,
+        "unresolved": 4152
+      },
+      "SEE": {
+        "filled": 2,
+        "unresolved": 4162
+      },
+      "SIDE": {
+        "unresolved": 4164
+      },
+      "SOMEONE": {
+        "filled": 164,
+        "unresolved": 4000
+      },
+      "SOMETHING": {
+        "filled": 2555,
+        "unresolved": 1609
+      },
+      "START": {
+        "unresolved": 4164
+      },
+      "THEN": {
+        "unresolved": 4164
+      },
+      "THINK": {
+        "filled": 75,
+        "unresolved": 4089
+      },
+      "TOUCH": {
+        "unresolved": 4164
+      },
+      "TOWARD": {
+        "unresolved": 4164
+      },
+      "TRUE": {
+        "unresolved": 4164
+      },
+      "TWO": {
+        "unresolved": 4164
+      },
+      "WANT": {
+        "filled": 52,
+        "unresolved": 4112
+      },
+      "WHEN": {
+        "filled": 7,
+        "unresolved": 4157
+      },
+      "WHERE": {
+        "filled": 1,
+        "unresolved": 4163
+      },
+      "WITH": {
+        "unresolved": 4164
+      },
+      "WORDS": {
+        "unresolved": 4164
+      },
+      "YOU": {
+        "unresolved": 4164
+      }
+    },
+    "1-500|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 394
+      },
+      "ALIVE": {
+        "unresolved": 394
+      },
+      "BE": {
+        "unresolved": 394
+      },
+      "BECAUSE": {
+        "unresolved": 394
+      },
+      "BEFORE": {
+        "unresolved": 394
+      },
+      "BIG": {
+        "unresolved": 394
+      },
+      "BODY": {
+        "unresolved": 394
+      },
+      "CAN": {
+        "unresolved": 394
+      },
+      "CAUSE": {
+        "filled": 57,
+        "unresolved": 337
+      },
+      "CERTAINTY": {
+        "unresolved": 394
+      },
+      "DO": {
+        "filled": 77,
+        "unresolved": 317
+      },
+      "EXIST": {
+        "unresolved": 394
+      },
+      "FAR": {
+        "unresolved": 394
+      },
+      "FEEL": {
+        "filled": 16,
+        "unresolved": 378
+      },
+      "GOOD": {
+        "unresolved": 394
+      },
+      "HAPPEN": {
+        "filled": 114,
+        "unresolved": 280
+      },
+      "HAVE": {
+        "unresolved": 394
+      },
+      "HEAR": {
+        "filled": 1,
+        "unresolved": 393
+      },
+      "HERE": {
+        "unresolved": 394
+      },
+      "I": {
+        "unresolved": 394
+      },
+      "IF": {
+        "unresolved": 394
+      },
+      "INFER": {
+        "unresolved": 394
+      },
+      "INTENSITY": {
+        "unresolved": 394
+      },
+      "KIND": {
+        "unresolved": 394
+      },
+      "KNOW": {
+        "filled": 1,
+        "unresolved": 393
+      },
+      "LIKE": {
+        "unresolved": 394
+      },
+      "LONG_TIME": {
+        "unresolved": 394
+      },
+      "MAYBE": {
+        "unresolved": 394
+      },
+      "MOMENT": {
+        "unresolved": 394
+      },
+      "MOVE": {
+        "filled": 52,
+        "unresolved": 342
+      },
+      "MUST": {
+        "unresolved": 394
+      },
+      "NOT": {
+        "unresolved": 394
+      },
+      "ONE": {
+        "unresolved": 394
+      },
+      "OUTSIDE": {
+        "unresolved": 394
+      },
+      "PART": {
+        "unresolved": 394
+      },
+      "PEOPLE": {
+        "unresolved": 394
+      },
+      "QUANTITY": {
+        "unresolved": 394
+      },
+      "SAME": {
+        "unresolved": 394
+      },
+      "SAY": {
+        "filled": 4,
+        "unresolved": 390
+      },
+      "SEE": {
+        "filled": 1,
+        "unresolved": 393
+      },
+      "SIDE": {
+        "unresolved": 394
+      },
+      "SOMEONE": {
+        "unresolved": 394
+      },
+      "SOMETHING": {
+        "unresolved": 394
+      },
+      "START": {
+        "unresolved": 394
+      },
+      "THEN": {
+        "unresolved": 394
+      },
+      "THINK": {
+        "filled": 13,
+        "unresolved": 381
+      },
+      "TOUCH": {
+        "unresolved": 394
+      },
+      "TOWARD": {
+        "unresolved": 394
+      },
+      "TRUE": {
+        "unresolved": 394
+      },
+      "TWO": {
+        "unresolved": 394
+      },
+      "WANT": {
+        "filled": 9,
+        "unresolved": 385
+      },
+      "WHEN": {
+        "unresolved": 394
+      },
+      "WHERE": {
+        "unresolved": 394
+      },
+      "WITH": {
+        "unresolved": 394
+      },
+      "WORDS": {
+        "unresolved": 394
+      },
+      "YOU": {
+        "unresolved": 394
+      }
+    },
+    "1-500|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "filled": 15,
+        "unresolved": 9515
+      },
+      "ALIVE": {
+        "filled": 15,
+        "unresolved": 9515
+      },
+      "BE": {
+        "filled": 4,
+        "unresolved": 9526
+      },
+      "BECAUSE": {
+        "filled": 1,
+        "unresolved": 9529
+      },
+      "BEFORE": {
+        "filled": 1,
+        "unresolved": 9529
+      },
+      "BIG": {
+        "filled": 1,
+        "unresolved": 9529
+      },
+      "BODY": {
+        "filled": 24,
+        "unresolved": 9506
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 9529
+      },
+      "CAUSE": {
+        "filled": 1,
+        "unresolved": 9529
+      },
+      "CERTAINTY": {
+        "unresolved": 9530
+      },
+      "DO": {
+        "unresolved": 9530
+      },
+      "EXIST": {
+        "unresolved": 9530
+      },
+      "FAR": {
+        "unresolved": 9530
+      },
+      "FEEL": {
+        "unresolved": 9530
+      },
+      "GOOD": {
+        "filled": 3620,
+        "unresolved": 5910
+      },
+      "HAPPEN": {
+        "filled": 2,
+        "unresolved": 9528
+      },
+      "HAVE": {
+        "unresolved": 9530
+      },
+      "HEAR": {
+        "unresolved": 9530
+      },
+      "HERE": {
+        "unresolved": 9530
+      },
+      "I": {
+        "unresolved": 9530
+      },
+      "IF": {
+        "unresolved": 9530
+      },
+      "INFER": {
+        "unresolved": 9530
+      },
+      "INTENSITY": {
+        "unresolved": 9530
+      },
+      "KIND": {
+        "unresolved": 9530
+      },
+      "KNOW": {
+        "unresolved": 9530
+      },
+      "LIKE": {
+        "unresolved": 9530
+      },
+      "LONG_TIME": {
+        "unresolved": 9530
+      },
+      "MAYBE": {
+        "unresolved": 9530
+      },
+      "MOMENT": {
+        "unresolved": 9530
+      },
+      "MOVE": {
+        "unresolved": 9530
+      },
+      "MUST": {
+        "unresolved": 9530
+      },
+      "NOT": {
+        "unresolved": 9530
+      },
+      "ONE": {
+        "unresolved": 9530
+      },
+      "OUTSIDE": {
+        "unresolved": 9530
+      },
+      "PART": {
+        "filled": 3,
+        "unresolved": 9527
+      },
+      "PEOPLE": {
+        "filled": 2,
+        "unresolved": 9528
+      },
+      "QUANTITY": {
+        "unresolved": 9530
+      },
+      "SAME": {
+        "unresolved": 9530
+      },
+      "SAY": {
+        "unresolved": 9530
+      },
+      "SEE": {
+        "unresolved": 9530
+      },
+      "SIDE": {
+        "unresolved": 9530
+      },
+      "SOMEONE": {
+        "filled": 12,
+        "unresolved": 9518
+      },
+      "SOMETHING": {
+        "filled": 1793,
+        "unresolved": 7737
+      },
+      "START": {
+        "unresolved": 9530
+      },
+      "THEN": {
+        "unresolved": 9530
+      },
+      "THINK": {
+        "unresolved": 9530
+      },
+      "TOUCH": {
+        "unresolved": 9530
+      },
+      "TOWARD": {
+        "unresolved": 9530
+      },
+      "TRUE": {
+        "unresolved": 9530
+      },
+      "TWO": {
+        "unresolved": 9530
+      },
+      "WANT": {
+        "filled": 2,
+        "unresolved": 9528
+      },
+      "WHEN": {
+        "filled": 5,
+        "unresolved": 9525
+      },
+      "WHERE": {
+        "filled": 2,
+        "unresolved": 9528
+      },
+      "WITH": {
+        "unresolved": 9530
+      },
+      "WORDS": {
+        "unresolved": 9530
+      },
+      "YOU": {
+        "unresolved": 9530
+      }
+    },
+    "1-500|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 5343
+      },
+      "ALIVE": {
+        "filled": 206,
+        "unresolved": 5137
+      },
+      "BE": {
+        "filled": 13,
+        "unresolved": 5330
+      },
+      "BECAUSE": {
+        "unresolved": 5343
+      },
+      "BEFORE": {
+        "unresolved": 5343
+      },
+      "BIG": {
+        "unresolved": 5343
+      },
+      "BODY": {
+        "filled": 40,
+        "unresolved": 5303
+      },
+      "CAN": {
+        "unresolved": 5343
+      },
+      "CAUSE": {
+        "filled": 84,
+        "unresolved": 5259
+      },
+      "CERTAINTY": {
+        "unresolved": 5343
+      },
+      "DO": {
+        "filled": 275,
+        "unresolved": 5068
+      },
+      "EXIST": {
+        "unresolved": 5343
+      },
+      "FAR": {
+        "unresolved": 5343
+      },
+      "FEEL": {
+        "filled": 38,
+        "unresolved": 5305
+      },
+      "GOOD": {
+        "filled": 1616,
+        "unresolved": 3727
+      },
+      "HAPPEN": {
+        "filled": 393,
+        "unresolved": 4950
+      },
+      "HAVE": {
+        "unresolved": 5343
+      },
+      "HEAR": {
+        "filled": 4,
+        "unresolved": 5339
+      },
+      "HERE": {
+        "unresolved": 5343
+      },
+      "I": {
+        "unresolved": 5343
+      },
+      "IF": {
+        "unresolved": 5343
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 5342
+      },
+      "INTENSITY": {
+        "filled": 1,
+        "unresolved": 5342
+      },
+      "KIND": {
+        "unresolved": 5343
+      },
+      "KNOW": {
+        "filled": 4,
+        "unresolved": 5339
+      },
+      "LIKE": {
+        "unresolved": 5343
+      },
+      "LONG_TIME": {
+        "unresolved": 5343
+      },
+      "MAYBE": {
+        "unresolved": 5343
+      },
+      "MOMENT": {
+        "unresolved": 5343
+      },
+      "MOVE": {
+        "filled": 74,
+        "unresolved": 5269
+      },
+      "MUST": {
+        "unresolved": 5343
+      },
+      "NOT": {
+        "unresolved": 5343
+      },
+      "ONE": {
+        "unresolved": 5343
+      },
+      "OUTSIDE": {
+        "unresolved": 5343
+      },
+      "PART": {
+        "filled": 25,
+        "unresolved": 5318
+      },
+      "PEOPLE": {
+        "filled": 11,
+        "unresolved": 5332
+      },
+      "QUANTITY": {
+        "filled": 23,
+        "unresolved": 5320
+      },
+      "SAME": {
+        "unresolved": 5343
+      },
+      "SAY": {
+        "filled": 21,
+        "unresolved": 5322
+      },
+      "SEE": {
+        "filled": 6,
+        "unresolved": 5337
+      },
+      "SIDE": {
+        "unresolved": 5343
+      },
+      "SOMEONE": {
+        "filled": 179,
+        "unresolved": 5164
+      },
+      "SOMETHING": {
+        "filled": 2706,
+        "unresolved": 2637
+      },
+      "START": {
+        "unresolved": 5343
+      },
+      "THEN": {
+        "unresolved": 5343
+      },
+      "THINK": {
+        "filled": 120,
+        "unresolved": 5223
+      },
+      "TOUCH": {
+        "unresolved": 5343
+      },
+      "TOWARD": {
+        "unresolved": 5343
+      },
+      "TRUE": {
+        "unresolved": 5343
+      },
+      "TWO": {
+        "unresolved": 5343
+      },
+      "WANT": {
+        "filled": 53,
+        "unresolved": 5290
+      },
+      "WHEN": {
+        "filled": 7,
+        "unresolved": 5336
+      },
+      "WHERE": {
+        "filled": 1,
+        "unresolved": 5342
+      },
+      "WITH": {
+        "unresolved": 5343
+      },
+      "WORDS": {
+        "unresolved": 5343
+      },
+      "YOU": {
+        "unresolved": 5343
+      }
+    },
+    "1501-5000|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "filled": 1,
+        "unresolved": 18
+      },
+      "ALIVE": {
+        "unresolved": 19
+      },
+      "BE": {
+        "unresolved": 19
+      },
+      "BECAUSE": {
+        "unresolved": 19
+      },
+      "BEFORE": {
+        "unresolved": 19
+      },
+      "BIG": {
+        "unresolved": 19
+      },
+      "BODY": {
+        "unresolved": 19
+      },
+      "CAN": {
+        "unresolved": 19
+      },
+      "CAUSE": {
+        "unresolved": 19
+      },
+      "CERTAINTY": {
+        "unresolved": 19
+      },
+      "DO": {
+        "unresolved": 19
+      },
+      "EXIST": {
+        "unresolved": 19
+      },
+      "FAR": {
+        "unresolved": 19
+      },
+      "FEEL": {
+        "unresolved": 19
+      },
+      "GOOD": {
+        "unresolved": 19
+      },
+      "HAPPEN": {
+        "unresolved": 19
+      },
+      "HAVE": {
+        "unresolved": 19
+      },
+      "HEAR": {
+        "unresolved": 19
+      },
+      "HERE": {
+        "unresolved": 19
+      },
+      "I": {
+        "unresolved": 19
+      },
+      "IF": {
+        "unresolved": 19
+      },
+      "INFER": {
+        "unresolved": 19
+      },
+      "INTENSITY": {
+        "unresolved": 19
+      },
+      "KIND": {
+        "unresolved": 19
+      },
+      "KNOW": {
+        "unresolved": 19
+      },
+      "LIKE": {
+        "unresolved": 19
+      },
+      "LONG_TIME": {
+        "unresolved": 19
+      },
+      "MAYBE": {
+        "unresolved": 19
+      },
+      "MOMENT": {
+        "unresolved": 19
+      },
+      "MOVE": {
+        "unresolved": 19
+      },
+      "MUST": {
+        "unresolved": 19
+      },
+      "NOT": {
+        "unresolved": 19
+      },
+      "ONE": {
+        "unresolved": 19
+      },
+      "OUTSIDE": {
+        "unresolved": 19
+      },
+      "PART": {
+        "unresolved": 19
+      },
+      "PEOPLE": {
+        "unresolved": 19
+      },
+      "QUANTITY": {
+        "unresolved": 19
+      },
+      "SAME": {
+        "unresolved": 19
+      },
+      "SAY": {
+        "unresolved": 19
+      },
+      "SEE": {
+        "unresolved": 19
+      },
+      "SIDE": {
+        "unresolved": 19
+      },
+      "SOMEONE": {
+        "filled": 3,
+        "unresolved": 16
+      },
+      "SOMETHING": {
+        "filled": 9,
+        "unresolved": 10
+      },
+      "START": {
+        "unresolved": 19
+      },
+      "THEN": {
+        "unresolved": 19
+      },
+      "THINK": {
+        "unresolved": 19
+      },
+      "TOUCH": {
+        "unresolved": 19
+      },
+      "TOWARD": {
+        "unresolved": 19
+      },
+      "TRUE": {
+        "unresolved": 19
+      },
+      "TWO": {
+        "unresolved": 19
+      },
+      "WANT": {
+        "unresolved": 19
+      },
+      "WHEN": {
+        "unresolved": 19
+      },
+      "WHERE": {
+        "filled": 1,
+        "unresolved": 18
+      },
+      "WITH": {
+        "unresolved": 19
+      },
+      "WORDS": {
+        "unresolved": 19
+      },
+      "YOU": {
+        "unresolved": 19
+      }
+    },
+    "1501-5000|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 15121
+      },
+      "ALIVE": {
+        "filled": 1117,
+        "unresolved": 14004
+      },
+      "BE": {
+        "filled": 43,
+        "unresolved": 15078
+      },
+      "BECAUSE": {
+        "unresolved": 15121
+      },
+      "BEFORE": {
+        "unresolved": 15121
+      },
+      "BIG": {
+        "unresolved": 15121
+      },
+      "BODY": {
+        "filled": 194,
+        "unresolved": 14927
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 15118
+      },
+      "CAUSE": {
+        "filled": 347,
+        "unresolved": 14774
+      },
+      "CERTAINTY": {
+        "unresolved": 15121
+      },
+      "DO": {
+        "filled": 757,
+        "unresolved": 14364
+      },
+      "EXIST": {
+        "unresolved": 15121
+      },
+      "FAR": {
+        "unresolved": 15121
+      },
+      "FEEL": {
+        "filled": 165,
+        "unresolved": 14956
+      },
+      "GOOD": {
+        "filled": 8290,
+        "unresolved": 6831
+      },
+      "HAPPEN": {
+        "filled": 1071,
+        "unresolved": 14050
+      },
+      "HAVE": {
+        "unresolved": 15121
+      },
+      "HEAR": {
+        "unresolved": 15121
+      },
+      "HERE": {
+        "unresolved": 15121
+      },
+      "I": {
+        "unresolved": 15121
+      },
+      "IF": {
+        "unresolved": 15121
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 15120
+      },
+      "INTENSITY": {
+        "filled": 1,
+        "unresolved": 15120
+      },
+      "KIND": {
+        "unresolved": 15121
+      },
+      "KNOW": {
+        "unresolved": 15121
+      },
+      "LIKE": {
+        "unresolved": 15121
+      },
+      "LONG_TIME": {
+        "unresolved": 15121
+      },
+      "MAYBE": {
+        "unresolved": 15121
+      },
+      "MOMENT": {
+        "unresolved": 15121
+      },
+      "MOVE": {
+        "filled": 352,
+        "unresolved": 14769
+      },
+      "MUST": {
+        "unresolved": 15121
+      },
+      "NOT": {
+        "unresolved": 15121
+      },
+      "ONE": {
+        "unresolved": 15121
+      },
+      "OUTSIDE": {
+        "unresolved": 15121
+      },
+      "PART": {
+        "filled": 167,
+        "unresolved": 14954
+      },
+      "PEOPLE": {
+        "filled": 17,
+        "unresolved": 15104
+      },
+      "QUANTITY": {
+        "filled": 63,
+        "unresolved": 15058
+      },
+      "SAME": {
+        "unresolved": 15121
+      },
+      "SAY": {
+        "filled": 76,
+        "unresolved": 15045
+      },
+      "SEE": {
+        "filled": 1,
+        "unresolved": 15120
+      },
+      "SIDE": {
+        "unresolved": 15121
+      },
+      "SOMEONE": {
+        "filled": 862,
+        "unresolved": 14259
+      },
+      "SOMETHING": {
+        "filled": 11036,
+        "unresolved": 4085
+      },
+      "START": {
+        "unresolved": 15121
+      },
+      "THEN": {
+        "unresolved": 15121
+      },
+      "THINK": {
+        "filled": 149,
+        "unresolved": 14972
+      },
+      "TOUCH": {
+        "unresolved": 15121
+      },
+      "TOWARD": {
+        "unresolved": 15121
+      },
+      "TRUE": {
+        "unresolved": 15121
+      },
+      "TWO": {
+        "unresolved": 15121
+      },
+      "WANT": {
+        "filled": 82,
+        "unresolved": 15039
+      },
+      "WHEN": {
+        "filled": 10,
+        "unresolved": 15111
+      },
+      "WHERE": {
+        "filled": 4,
+        "unresolved": 15117
+      },
+      "WITH": {
+        "unresolved": 15121
+      },
+      "WORDS": {
+        "unresolved": 15121
+      },
+      "YOU": {
+        "unresolved": 15121
+      }
+    },
+    "1501-5000|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 1289
+      },
+      "ALIVE": {
+        "unresolved": 1289
+      },
+      "BE": {
+        "unresolved": 1289
+      },
+      "BECAUSE": {
+        "unresolved": 1289
+      },
+      "BEFORE": {
+        "unresolved": 1289
+      },
+      "BIG": {
+        "unresolved": 1289
+      },
+      "BODY": {
+        "unresolved": 1289
+      },
+      "CAN": {
+        "unresolved": 1289
+      },
+      "CAUSE": {
+        "filled": 325,
+        "unresolved": 964
+      },
+      "CERTAINTY": {
+        "unresolved": 1289
+      },
+      "DO": {
+        "filled": 409,
+        "unresolved": 880
+      },
+      "EXIST": {
+        "unresolved": 1289
+      },
+      "FAR": {
+        "unresolved": 1289
+      },
+      "FEEL": {
+        "filled": 41,
+        "unresolved": 1248
+      },
+      "GOOD": {
+        "unresolved": 1289
+      },
+      "HAPPEN": {
+        "filled": 600,
+        "unresolved": 689
+      },
+      "HAVE": {
+        "unresolved": 1289
+      },
+      "HEAR": {
+        "unresolved": 1289
+      },
+      "HERE": {
+        "unresolved": 1289
+      },
+      "I": {
+        "unresolved": 1289
+      },
+      "IF": {
+        "unresolved": 1289
+      },
+      "INFER": {
+        "unresolved": 1289
+      },
+      "INTENSITY": {
+        "unresolved": 1289
+      },
+      "KIND": {
+        "unresolved": 1289
+      },
+      "KNOW": {
+        "unresolved": 1289
+      },
+      "LIKE": {
+        "unresolved": 1289
+      },
+      "LONG_TIME": {
+        "unresolved": 1289
+      },
+      "MAYBE": {
+        "unresolved": 1289
+      },
+      "MOMENT": {
+        "unresolved": 1289
+      },
+      "MOVE": {
+        "filled": 291,
+        "unresolved": 998
+      },
+      "MUST": {
+        "unresolved": 1289
+      },
+      "NOT": {
+        "unresolved": 1289
+      },
+      "ONE": {
+        "unresolved": 1289
+      },
+      "OUTSIDE": {
+        "unresolved": 1289
+      },
+      "PART": {
+        "unresolved": 1289
+      },
+      "PEOPLE": {
+        "unresolved": 1289
+      },
+      "QUANTITY": {
+        "unresolved": 1289
+      },
+      "SAME": {
+        "unresolved": 1289
+      },
+      "SAY": {
+        "filled": 11,
+        "unresolved": 1278
+      },
+      "SEE": {
+        "unresolved": 1289
+      },
+      "SIDE": {
+        "unresolved": 1289
+      },
+      "SOMEONE": {
+        "unresolved": 1289
+      },
+      "SOMETHING": {
+        "unresolved": 1289
+      },
+      "START": {
+        "unresolved": 1289
+      },
+      "THEN": {
+        "unresolved": 1289
+      },
+      "THINK": {
+        "filled": 36,
+        "unresolved": 1253
+      },
+      "TOUCH": {
+        "unresolved": 1289
+      },
+      "TOWARD": {
+        "unresolved": 1289
+      },
+      "TRUE": {
+        "unresolved": 1289
+      },
+      "TWO": {
+        "unresolved": 1289
+      },
+      "WANT": {
+        "filled": 8,
+        "unresolved": 1281
+      },
+      "WHEN": {
+        "unresolved": 1289
+      },
+      "WHERE": {
+        "unresolved": 1289
+      },
+      "WITH": {
+        "unresolved": 1289
+      },
+      "WORDS": {
+        "unresolved": 1289
+      },
+      "YOU": {
+        "unresolved": 1289
+      }
+    },
+    "1501-5000|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "unresolved": 37374
+      },
+      "ALIVE": {
+        "unresolved": 37374
+      },
+      "BE": {
+        "filled": 17,
+        "unresolved": 37357
+      },
+      "BECAUSE": {
+        "unresolved": 37374
+      },
+      "BEFORE": {
+        "unresolved": 37374
+      },
+      "BIG": {
+        "unresolved": 37374
+      },
+      "BODY": {
+        "filled": 3,
+        "unresolved": 37371
+      },
+      "CAN": {
+        "unresolved": 37374
+      },
+      "CAUSE": {
+        "unresolved": 37374
+      },
+      "CERTAINTY": {
+        "unresolved": 37374
+      },
+      "DO": {
+        "filled": 2,
+        "unresolved": 37372
+      },
+      "EXIST": {
+        "unresolved": 37374
+      },
+      "FAR": {
+        "unresolved": 37374
+      },
+      "FEEL": {
+        "unresolved": 37374
+      },
+      "GOOD": {
+        "filled": 19907,
+        "unresolved": 17467
+      },
+      "HAPPEN": {
+        "filled": 7,
+        "unresolved": 37367
+      },
+      "HAVE": {
+        "unresolved": 37374
+      },
+      "HEAR": {
+        "unresolved": 37374
+      },
+      "HERE": {
+        "unresolved": 37374
+      },
+      "I": {
+        "unresolved": 37374
+      },
+      "IF": {
+        "unresolved": 37374
+      },
+      "INFER": {
+        "unresolved": 37374
+      },
+      "INTENSITY": {
+        "unresolved": 37374
+      },
+      "KIND": {
+        "unresolved": 37374
+      },
+      "KNOW": {
+        "unresolved": 37374
+      },
+      "LIKE": {
+        "unresolved": 37374
+      },
+      "LONG_TIME": {
+        "unresolved": 37374
+      },
+      "MAYBE": {
+        "unresolved": 37374
+      },
+      "MOMENT": {
+        "unresolved": 37374
+      },
+      "MOVE": {
+        "unresolved": 37374
+      },
+      "MUST": {
+        "unresolved": 37374
+      },
+      "NOT": {
+        "unresolved": 37374
+      },
+      "ONE": {
+        "unresolved": 37374
+      },
+      "OUTSIDE": {
+        "unresolved": 37374
+      },
+      "PART": {
+        "filled": 50,
+        "unresolved": 37324
+      },
+      "PEOPLE": {
+        "filled": 5,
+        "unresolved": 37369
+      },
+      "QUANTITY": {
+        "unresolved": 37374
+      },
+      "SAME": {
+        "unresolved": 37374
+      },
+      "SAY": {
+        "unresolved": 37374
+      },
+      "SEE": {
+        "unresolved": 37374
+      },
+      "SIDE": {
+        "unresolved": 37374
+      },
+      "SOMEONE": {
+        "filled": 78,
+        "unresolved": 37296
+      },
+      "SOMETHING": {
+        "filled": 4765,
+        "unresolved": 32609
+      },
+      "START": {
+        "unresolved": 37374
+      },
+      "THEN": {
+        "unresolved": 37374
+      },
+      "THINK": {
+        "unresolved": 37374
+      },
+      "TOUCH": {
+        "unresolved": 37374
+      },
+      "TOWARD": {
+        "unresolved": 37374
+      },
+      "TRUE": {
+        "unresolved": 37374
+      },
+      "TWO": {
+        "unresolved": 37374
+      },
+      "WANT": {
+        "filled": 3,
+        "unresolved": 37371
+      },
+      "WHEN": {
+        "filled": 12,
+        "unresolved": 37362
+      },
+      "WHERE": {
+        "filled": 6,
+        "unresolved": 37368
+      },
+      "WITH": {
+        "unresolved": 37374
+      },
+      "WORDS": {
+        "filled": 1,
+        "unresolved": 37373
+      },
+      "YOU": {
+        "unresolved": 37374
+      }
+    },
+    "1501-5000|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 19261
+      },
+      "ALIVE": {
+        "filled": 1146,
+        "unresolved": 18115
+      },
+      "BE": {
+        "filled": 43,
+        "unresolved": 19218
+      },
+      "BECAUSE": {
+        "unresolved": 19261
+      },
+      "BEFORE": {
+        "unresolved": 19261
+      },
+      "BIG": {
+        "unresolved": 19261
+      },
+      "BODY": {
+        "filled": 194,
+        "unresolved": 19067
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 19258
+      },
+      "CAUSE": {
+        "filled": 372,
+        "unresolved": 18889
+      },
+      "CERTAINTY": {
+        "unresolved": 19261
+      },
+      "DO": {
+        "filled": 1078,
+        "unresolved": 18183
+      },
+      "EXIST": {
+        "unresolved": 19261
+      },
+      "FAR": {
+        "unresolved": 19261
+      },
+      "FEEL": {
+        "filled": 181,
+        "unresolved": 19080
+      },
+      "GOOD": {
+        "filled": 8644,
+        "unresolved": 10617
+      },
+      "HAPPEN": {
+        "filled": 1511,
+        "unresolved": 17750
+      },
+      "HAVE": {
+        "unresolved": 19261
+      },
+      "HEAR": {
+        "filled": 2,
+        "unresolved": 19259
+      },
+      "HERE": {
+        "unresolved": 19261
+      },
+      "I": {
+        "unresolved": 19261
+      },
+      "IF": {
+        "unresolved": 19261
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 19260
+      },
+      "INTENSITY": {
+        "filled": 1,
+        "unresolved": 19260
+      },
+      "KIND": {
+        "unresolved": 19261
+      },
+      "KNOW": {
+        "unresolved": 19261
+      },
+      "LIKE": {
+        "unresolved": 19261
+      },
+      "LONG_TIME": {
+        "unresolved": 19261
+      },
+      "MAYBE": {
+        "unresolved": 19261
+      },
+      "MOMENT": {
+        "unresolved": 19261
+      },
+      "MOVE": {
+        "filled": 436,
+        "unresolved": 18825
+      },
+      "MUST": {
+        "unresolved": 19261
+      },
+      "NOT": {
+        "unresolved": 19261
+      },
+      "ONE": {
+        "unresolved": 19261
+      },
+      "OUTSIDE": {
+        "unresolved": 19261
+      },
+      "PART": {
+        "filled": 176,
+        "unresolved": 19085
+      },
+      "PEOPLE": {
+        "filled": 17,
+        "unresolved": 19244
+      },
+      "QUANTITY": {
+        "filled": 63,
+        "unresolved": 19198
+      },
+      "SAME": {
+        "unresolved": 19261
+      },
+      "SAY": {
+        "filled": 113,
+        "unresolved": 19148
+      },
+      "SEE": {
+        "filled": 1,
+        "unresolved": 19260
+      },
+      "SIDE": {
+        "unresolved": 19261
+      },
+      "SOMEONE": {
+        "filled": 884,
+        "unresolved": 18377
+      },
+      "SOMETHING": {
+        "filled": 11550,
+        "unresolved": 7711
+      },
+      "START": {
+        "unresolved": 19261
+      },
+      "THEN": {
+        "unresolved": 19261
+      },
+      "THINK": {
+        "filled": 266,
+        "unresolved": 18995
+      },
+      "TOUCH": {
+        "unresolved": 19261
+      },
+      "TOWARD": {
+        "unresolved": 19261
+      },
+      "TRUE": {
+        "unresolved": 19261
+      },
+      "TWO": {
+        "unresolved": 19261
+      },
+      "WANT": {
+        "filled": 99,
+        "unresolved": 19162
+      },
+      "WHEN": {
+        "filled": 10,
+        "unresolved": 19251
+      },
+      "WHERE": {
+        "filled": 4,
+        "unresolved": 19257
+      },
+      "WITH": {
+        "unresolved": 19261
+      },
+      "WORDS": {
+        "unresolved": 19261
+      },
+      "YOU": {
+        "unresolved": 19261
+      }
+    },
+    "5001+|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "unresolved": 12
+      },
+      "ALIVE": {
+        "unresolved": 12
+      },
+      "BE": {
+        "unresolved": 12
+      },
+      "BECAUSE": {
+        "unresolved": 12
+      },
+      "BEFORE": {
+        "unresolved": 12
+      },
+      "BIG": {
+        "unresolved": 12
+      },
+      "BODY": {
+        "unresolved": 12
+      },
+      "CAN": {
+        "unresolved": 12
+      },
+      "CAUSE": {
+        "unresolved": 12
+      },
+      "CERTAINTY": {
+        "unresolved": 12
+      },
+      "DO": {
+        "unresolved": 12
+      },
+      "EXIST": {
+        "unresolved": 12
+      },
+      "FAR": {
+        "unresolved": 12
+      },
+      "FEEL": {
+        "unresolved": 12
+      },
+      "GOOD": {
+        "unresolved": 12
+      },
+      "HAPPEN": {
+        "unresolved": 12
+      },
+      "HAVE": {
+        "unresolved": 12
+      },
+      "HEAR": {
+        "unresolved": 12
+      },
+      "HERE": {
+        "unresolved": 12
+      },
+      "I": {
+        "unresolved": 12
+      },
+      "IF": {
+        "unresolved": 12
+      },
+      "INFER": {
+        "unresolved": 12
+      },
+      "INTENSITY": {
+        "unresolved": 12
+      },
+      "KIND": {
+        "unresolved": 12
+      },
+      "KNOW": {
+        "unresolved": 12
+      },
+      "LIKE": {
+        "unresolved": 12
+      },
+      "LONG_TIME": {
+        "unresolved": 12
+      },
+      "MAYBE": {
+        "unresolved": 12
+      },
+      "MOMENT": {
+        "unresolved": 12
+      },
+      "MOVE": {
+        "unresolved": 12
+      },
+      "MUST": {
+        "unresolved": 12
+      },
+      "NOT": {
+        "unresolved": 12
+      },
+      "ONE": {
+        "unresolved": 12
+      },
+      "OUTSIDE": {
+        "unresolved": 12
+      },
+      "PART": {
+        "unresolved": 12
+      },
+      "PEOPLE": {
+        "unresolved": 12
+      },
+      "QUANTITY": {
+        "unresolved": 12
+      },
+      "SAME": {
+        "unresolved": 12
+      },
+      "SAY": {
+        "unresolved": 12
+      },
+      "SEE": {
+        "unresolved": 12
+      },
+      "SIDE": {
+        "unresolved": 12
+      },
+      "SOMEONE": {
+        "filled": 1,
+        "unresolved": 11
+      },
+      "SOMETHING": {
+        "filled": 10,
+        "unresolved": 2
+      },
+      "START": {
+        "unresolved": 12
+      },
+      "THEN": {
+        "unresolved": 12
+      },
+      "THINK": {
+        "unresolved": 12
+      },
+      "TOUCH": {
+        "unresolved": 12
+      },
+      "TOWARD": {
+        "unresolved": 12
+      },
+      "TRUE": {
+        "unresolved": 12
+      },
+      "TWO": {
+        "unresolved": 12
+      },
+      "WANT": {
+        "unresolved": 12
+      },
+      "WHEN": {
+        "unresolved": 12
+      },
+      "WHERE": {
+        "unresolved": 12
+      },
+      "WITH": {
+        "unresolved": 12
+      },
+      "WORDS": {
+        "unresolved": 12
+      },
+      "YOU": {
+        "unresolved": 12
+      }
+    },
+    "5001+|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 40526
+      },
+      "ALIVE": {
+        "filled": 4037,
+        "unresolved": 36489
+      },
+      "BE": {
+        "filled": 157,
+        "unresolved": 40369
+      },
+      "BECAUSE": {
+        "unresolved": 40526
+      },
+      "BEFORE": {
+        "unresolved": 40526
+      },
+      "BIG": {
+        "unresolved": 40526
+      },
+      "BODY": {
+        "filled": 630,
+        "unresolved": 39896
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 40523
+      },
+      "CAUSE": {
+        "filled": 445,
+        "unresolved": 40081
+      },
+      "CERTAINTY": {
+        "unresolved": 40526
+      },
+      "DO": {
+        "filled": 1193,
+        "unresolved": 39333
+      },
+      "EXIST": {
+        "unresolved": 40526
+      },
+      "FAR": {
+        "unresolved": 40526
+      },
+      "FEEL": {
+        "filled": 396,
+        "unresolved": 40130
+      },
+      "GOOD": {
+        "filled": 22031,
+        "unresolved": 18495
+      },
+      "HAPPEN": {
+        "filled": 1677,
+        "unresolved": 38849
+      },
+      "HAVE": {
+        "unresolved": 40526
+      },
+      "HEAR": {
+        "filled": 1,
+        "unresolved": 40525
+      },
+      "HERE": {
+        "unresolved": 40526
+      },
+      "I": {
+        "unresolved": 40526
+      },
+      "IF": {
+        "unresolved": 40526
+      },
+      "INFER": {
+        "filled": 14,
+        "unresolved": 40512
+      },
+      "INTENSITY": {
+        "unresolved": 40526
+      },
+      "KIND": {
+        "unresolved": 40526
+      },
+      "KNOW": {
+        "unresolved": 40526
+      },
+      "LIKE": {
+        "unresolved": 40526
+      },
+      "LONG_TIME": {
+        "unresolved": 40526
+      },
+      "MAYBE": {
+        "unresolved": 40526
+      },
+      "MOMENT": {
+        "unresolved": 40526
+      },
+      "MOVE": {
+        "filled": 489,
+        "unresolved": 40037
+      },
+      "MUST": {
+        "unresolved": 40526
+      },
+      "NOT": {
+        "unresolved": 40526
+      },
+      "ONE": {
+        "unresolved": 40526
+      },
+      "OUTSIDE": {
+        "unresolved": 40526
+      },
+      "PART": {
+        "filled": 377,
+        "unresolved": 40149
+      },
+      "PEOPLE": {
+        "filled": 12,
+        "unresolved": 40514
+      },
+      "QUANTITY": {
+        "filled": 109,
+        "unresolved": 40417
+      },
+      "SAME": {
+        "unresolved": 40526
+      },
+      "SAY": {
+        "filled": 101,
+        "unresolved": 40425
+      },
+      "SEE": {
+        "filled": 1,
+        "unresolved": 40525
+      },
+      "SIDE": {
+        "unresolved": 40526
+      },
+      "SOMEONE": {
+        "filled": 3084,
+        "unresolved": 37442
+      },
+      "SOMETHING": {
+        "filled": 32926,
+        "unresolved": 7600
+      },
+      "START": {
+        "unresolved": 40526
+      },
+      "THEN": {
+        "unresolved": 40526
+      },
+      "THINK": {
+        "filled": 277,
+        "unresolved": 40249
+      },
+      "TOUCH": {
+        "unresolved": 40526
+      },
+      "TOWARD": {
+        "unresolved": 40526
+      },
+      "TRUE": {
+        "unresolved": 40526
+      },
+      "TWO": {
+        "unresolved": 40526
+      },
+      "WANT": {
+        "filled": 131,
+        "unresolved": 40395
+      },
+      "WHEN": {
+        "filled": 13,
+        "unresolved": 40513
+      },
+      "WHERE": {
+        "filled": 5,
+        "unresolved": 40521
+      },
+      "WITH": {
+        "unresolved": 40526
+      },
+      "WORDS": {
+        "filled": 4,
+        "unresolved": 40522
+      },
+      "YOU": {
+        "unresolved": 40526
+      }
+    },
+    "5001+|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 2036
+      },
+      "ALIVE": {
+        "unresolved": 2036
+      },
+      "BE": {
+        "unresolved": 2036
+      },
+      "BECAUSE": {
+        "unresolved": 2036
+      },
+      "BEFORE": {
+        "unresolved": 2036
+      },
+      "BIG": {
+        "unresolved": 2036
+      },
+      "BODY": {
+        "unresolved": 2036
+      },
+      "CAN": {
+        "unresolved": 2036
+      },
+      "CAUSE": {
+        "filled": 408,
+        "unresolved": 1628
+      },
+      "CERTAINTY": {
+        "unresolved": 2036
+      },
+      "DO": {
+        "filled": 526,
+        "unresolved": 1510
+      },
+      "EXIST": {
+        "unresolved": 2036
+      },
+      "FAR": {
+        "unresolved": 2036
+      },
+      "FEEL": {
+        "filled": 54,
+        "unresolved": 1982
+      },
+      "GOOD": {
+        "unresolved": 2036
+      },
+      "HAPPEN": {
+        "filled": 790,
+        "unresolved": 1246
+      },
+      "HAVE": {
+        "unresolved": 2036
+      },
+      "HEAR": {
+        "filled": 1,
+        "unresolved": 2035
+      },
+      "HERE": {
+        "unresolved": 2036
+      },
+      "I": {
+        "unresolved": 2036
+      },
+      "IF": {
+        "unresolved": 2036
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 2035
+      },
+      "INTENSITY": {
+        "unresolved": 2036
+      },
+      "KIND": {
+        "unresolved": 2036
+      },
+      "KNOW": {
+        "unresolved": 2036
+      },
+      "LIKE": {
+        "unresolved": 2036
+      },
+      "LONG_TIME": {
+        "unresolved": 2036
+      },
+      "MAYBE": {
+        "unresolved": 2036
+      },
+      "MOMENT": {
+        "unresolved": 2036
+      },
+      "MOVE": {
+        "filled": 352,
+        "unresolved": 1684
+      },
+      "MUST": {
+        "unresolved": 2036
+      },
+      "NOT": {
+        "unresolved": 2036
+      },
+      "ONE": {
+        "unresolved": 2036
+      },
+      "OUTSIDE": {
+        "unresolved": 2036
+      },
+      "PART": {
+        "unresolved": 2036
+      },
+      "PEOPLE": {
+        "unresolved": 2036
+      },
+      "QUANTITY": {
+        "unresolved": 2036
+      },
+      "SAME": {
+        "unresolved": 2036
+      },
+      "SAY": {
+        "filled": 21,
+        "unresolved": 2015
+      },
+      "SEE": {
+        "filled": 1,
+        "unresolved": 2035
+      },
+      "SIDE": {
+        "unresolved": 2036
+      },
+      "SOMEONE": {
+        "unresolved": 2036
+      },
+      "SOMETHING": {
+        "unresolved": 2036
+      },
+      "START": {
+        "unresolved": 2036
+      },
+      "THEN": {
+        "unresolved": 2036
+      },
+      "THINK": {
+        "filled": 43,
+        "unresolved": 1993
+      },
+      "TOUCH": {
+        "unresolved": 2036
+      },
+      "TOWARD": {
+        "unresolved": 2036
+      },
+      "TRUE": {
+        "unresolved": 2036
+      },
+      "TWO": {
+        "unresolved": 2036
+      },
+      "WANT": {
+        "filled": 9,
+        "unresolved": 2027
+      },
+      "WHEN": {
+        "unresolved": 2036
+      },
+      "WHERE": {
+        "unresolved": 2036
+      },
+      "WITH": {
+        "unresolved": 2036
+      },
+      "WORDS": {
+        "unresolved": 2036
+      },
+      "YOU": {
+        "unresolved": 2036
+      }
+    },
+    "5001+|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "unresolved": 84448
+      },
+      "ALIVE": {
+        "unresolved": 84448
+      },
+      "BE": {
+        "filled": 193,
+        "unresolved": 84255
+      },
+      "BECAUSE": {
+        "unresolved": 84448
+      },
+      "BEFORE": {
+        "unresolved": 84448
+      },
+      "BIG": {
+        "unresolved": 84448
+      },
+      "BODY": {
+        "filled": 20,
+        "unresolved": 84428
+      },
+      "CAN": {
+        "filled": 2,
+        "unresolved": 84446
+      },
+      "CAUSE": {
+        "unresolved": 84448
+      },
+      "CERTAINTY": {
+        "unresolved": 84448
+      },
+      "DO": {
+        "filled": 11,
+        "unresolved": 84437
+      },
+      "EXIST": {
+        "unresolved": 84448
+      },
+      "FAR": {
+        "unresolved": 84448
+      },
+      "FEEL": {
+        "unresolved": 84448
+      },
+      "GOOD": {
+        "filled": 45445,
+        "unresolved": 39003
+      },
+      "HAPPEN": {
+        "filled": 18,
+        "unresolved": 84430
+      },
+      "HAVE": {
+        "unresolved": 84448
+      },
+      "HEAR": {
+        "unresolved": 84448
+      },
+      "HERE": {
+        "unresolved": 84448
+      },
+      "I": {
+        "unresolved": 84448
+      },
+      "IF": {
+        "unresolved": 84448
+      },
+      "INFER": {
+        "unresolved": 84448
+      },
+      "INTENSITY": {
+        "unresolved": 84448
+      },
+      "KIND": {
+        "unresolved": 84448
+      },
+      "KNOW": {
+        "unresolved": 84448
+      },
+      "LIKE": {
+        "unresolved": 84448
+      },
+      "LONG_TIME": {
+        "unresolved": 84448
+      },
+      "MAYBE": {
+        "unresolved": 84448
+      },
+      "MOMENT": {
+        "unresolved": 84448
+      },
+      "MOVE": {
+        "unresolved": 84448
+      },
+      "MUST": {
+        "unresolved": 84448
+      },
+      "NOT": {
+        "unresolved": 84448
+      },
+      "ONE": {
+        "unresolved": 84448
+      },
+      "OUTSIDE": {
+        "unresolved": 84448
+      },
+      "PART": {
+        "filled": 44,
+        "unresolved": 84404
+      },
+      "PEOPLE": {
+        "filled": 3,
+        "unresolved": 84445
+      },
+      "QUANTITY": {
+        "unresolved": 84448
+      },
+      "SAME": {
+        "unresolved": 84448
+      },
+      "SAY": {
+        "unresolved": 84448
+      },
+      "SEE": {
+        "unresolved": 84448
+      },
+      "SIDE": {
+        "unresolved": 84448
+      },
+      "SOMEONE": {
+        "filled": 474,
+        "unresolved": 83974
+      },
+      "SOMETHING": {
+        "filled": 16646,
+        "unresolved": 67802
+      },
+      "START": {
+        "unresolved": 84448
+      },
+      "THEN": {
+        "unresolved": 84448
+      },
+      "THINK": {
+        "unresolved": 84448
+      },
+      "TOUCH": {
+        "unresolved": 84448
+      },
+      "TOWARD": {
+        "unresolved": 84448
+      },
+      "TRUE": {
+        "unresolved": 84448
+      },
+      "TWO": {
+        "unresolved": 84448
+      },
+      "WANT": {
+        "filled": 20,
+        "unresolved": 84428
+      },
+      "WHEN": {
+        "filled": 19,
+        "unresolved": 84429
+      },
+      "WHERE": {
+        "filled": 21,
+        "unresolved": 84427
+      },
+      "WITH": {
+        "unresolved": 84448
+      },
+      "WORDS": {
+        "filled": 3,
+        "unresolved": 84445
+      },
+      "YOU": {
+        "unresolved": 84448
+      }
+    },
+    "5001+|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 47840
+      },
+      "ALIVE": {
+        "filled": 4094,
+        "unresolved": 43746
+      },
+      "BE": {
+        "filled": 157,
+        "unresolved": 47683
+      },
+      "BECAUSE": {
+        "unresolved": 47840
+      },
+      "BEFORE": {
+        "unresolved": 47840
+      },
+      "BIG": {
+        "unresolved": 47840
+      },
+      "BODY": {
+        "filled": 630,
+        "unresolved": 47210
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 47837
+      },
+      "CAUSE": {
+        "filled": 480,
+        "unresolved": 47360
+      },
+      "CERTAINTY": {
+        "unresolved": 47840
+      },
+      "DO": {
+        "filled": 1643,
+        "unresolved": 46197
+      },
+      "EXIST": {
+        "unresolved": 47840
+      },
+      "FAR": {
+        "unresolved": 47840
+      },
+      "FEEL": {
+        "filled": 412,
+        "unresolved": 47428
+      },
+      "GOOD": {
+        "filled": 22540,
+        "unresolved": 25300
+      },
+      "HAPPEN": {
+        "filled": 2363,
+        "unresolved": 45477
+      },
+      "HAVE": {
+        "unresolved": 47840
+      },
+      "HEAR": {
+        "filled": 1,
+        "unresolved": 47839
+      },
+      "HERE": {
+        "unresolved": 47840
+      },
+      "I": {
+        "unresolved": 47840
+      },
+      "IF": {
+        "unresolved": 47840
+      },
+      "INFER": {
+        "filled": 14,
+        "unresolved": 47826
+      },
+      "INTENSITY": {
+        "unresolved": 47840
+      },
+      "KIND": {
+        "unresolved": 47840
+      },
+      "KNOW": {
+        "filled": 1,
+        "unresolved": 47839
+      },
+      "LIKE": {
+        "unresolved": 47840
+      },
+      "LONG_TIME": {
+        "unresolved": 47840
+      },
+      "MAYBE": {
+        "unresolved": 47840
+      },
+      "MOMENT": {
+        "unresolved": 47840
+      },
+      "MOVE": {
+        "filled": 679,
+        "unresolved": 47161
+      },
+      "MUST": {
+        "unresolved": 47840
+      },
+      "NOT": {
+        "unresolved": 47840
+      },
+      "ONE": {
+        "unresolved": 47840
+      },
+      "OUTSIDE": {
+        "unresolved": 47840
+      },
+      "PART": {
+        "filled": 395,
+        "unresolved": 47445
+      },
+      "PEOPLE": {
+        "filled": 12,
+        "unresolved": 47828
+      },
+      "QUANTITY": {
+        "filled": 109,
+        "unresolved": 47731
+      },
+      "SAME": {
+        "unresolved": 47840
+      },
+      "SAY": {
+        "filled": 169,
+        "unresolved": 47671
+      },
+      "SEE": {
+        "filled": 3,
+        "unresolved": 47837
+      },
+      "SIDE": {
+        "unresolved": 47840
+      },
+      "SOMEONE": {
+        "filled": 3127,
+        "unresolved": 44713
+      },
+      "SOMETHING": {
+        "filled": 33702,
+        "unresolved": 14138
+      },
+      "START": {
+        "unresolved": 47840
+      },
+      "THEN": {
+        "unresolved": 47840
+      },
+      "THINK": {
+        "filled": 487,
+        "unresolved": 47353
+      },
+      "TOUCH": {
+        "unresolved": 47840
+      },
+      "TOWARD": {
+        "unresolved": 47840
+      },
+      "TRUE": {
+        "unresolved": 47840
+      },
+      "TWO": {
+        "unresolved": 47840
+      },
+      "WANT": {
+        "filled": 150,
+        "unresolved": 47690
+      },
+      "WHEN": {
+        "filled": 13,
+        "unresolved": 47827
+      },
+      "WHERE": {
+        "filled": 5,
+        "unresolved": 47835
+      },
+      "WITH": {
+        "unresolved": 47840
+      },
+      "WORDS": {
+        "filled": 4,
+        "unresolved": 47836
+      },
+      "YOU": {
+        "unresolved": 47840
+      }
+    },
+    "501-1500|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "unresolved": 33
+      },
+      "ALIVE": {
+        "unresolved": 33
+      },
+      "BE": {
+        "unresolved": 33
+      },
+      "BECAUSE": {
+        "unresolved": 33
+      },
+      "BEFORE": {
+        "unresolved": 33
+      },
+      "BIG": {
+        "unresolved": 33
+      },
+      "BODY": {
+        "unresolved": 33
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 32
+      },
+      "CAUSE": {
+        "unresolved": 33
+      },
+      "CERTAINTY": {
+        "unresolved": 33
+      },
+      "DO": {
+        "unresolved": 33
+      },
+      "EXIST": {
+        "unresolved": 33
+      },
+      "FAR": {
+        "unresolved": 33
+      },
+      "FEEL": {
+        "unresolved": 33
+      },
+      "GOOD": {
+        "unresolved": 33
+      },
+      "HAPPEN": {
+        "unresolved": 33
+      },
+      "HAVE": {
+        "unresolved": 33
+      },
+      "HEAR": {
+        "unresolved": 33
+      },
+      "HERE": {
+        "unresolved": 33
+      },
+      "I": {
+        "unresolved": 33
+      },
+      "IF": {
+        "unresolved": 33
+      },
+      "INFER": {
+        "unresolved": 33
+      },
+      "INTENSITY": {
+        "unresolved": 33
+      },
+      "KIND": {
+        "unresolved": 33
+      },
+      "KNOW": {
+        "unresolved": 33
+      },
+      "LIKE": {
+        "unresolved": 33
+      },
+      "LONG_TIME": {
+        "unresolved": 33
+      },
+      "MAYBE": {
+        "filled": 1,
+        "unresolved": 32
+      },
+      "MOMENT": {
+        "unresolved": 33
+      },
+      "MOVE": {
+        "unresolved": 33
+      },
+      "MUST": {
+        "unresolved": 33
+      },
+      "NOT": {
+        "filled": 1,
+        "unresolved": 32
+      },
+      "ONE": {
+        "unresolved": 33
+      },
+      "OUTSIDE": {
+        "unresolved": 33
+      },
+      "PART": {
+        "unresolved": 33
+      },
+      "PEOPLE": {
+        "unresolved": 33
+      },
+      "QUANTITY": {
+        "unresolved": 33
+      },
+      "SAME": {
+        "unresolved": 33
+      },
+      "SAY": {
+        "unresolved": 33
+      },
+      "SEE": {
+        "unresolved": 33
+      },
+      "SIDE": {
+        "unresolved": 33
+      },
+      "SOMEONE": {
+        "filled": 8,
+        "unresolved": 25
+      },
+      "SOMETHING": {
+        "filled": 11,
+        "unresolved": 22
+      },
+      "START": {
+        "unresolved": 33
+      },
+      "THEN": {
+        "unresolved": 33
+      },
+      "THINK": {
+        "unresolved": 33
+      },
+      "TOUCH": {
+        "unresolved": 33
+      },
+      "TOWARD": {
+        "unresolved": 33
+      },
+      "TRUE": {
+        "unresolved": 33
+      },
+      "TWO": {
+        "unresolved": 33
+      },
+      "WANT": {
+        "unresolved": 33
+      },
+      "WHEN": {
+        "unresolved": 33
+      },
+      "WHERE": {
+        "unresolved": 33
+      },
+      "WITH": {
+        "unresolved": 33
+      },
+      "WORDS": {
+        "unresolved": 33
+      },
+      "YOU": {
+        "unresolved": 33
+      }
+    },
+    "501-1500|nsm_chart|nsm_primary_chart|source_structure": {
+      "ABOVE": {
+        "unresolved": 3
+      },
+      "ALIVE": {
+        "unresolved": 3
+      },
+      "BE": {
+        "unresolved": 3
+      },
+      "BECAUSE": {
+        "unresolved": 3
+      },
+      "BEFORE": {
+        "unresolved": 3
+      },
+      "BIG": {
+        "unresolved": 3
+      },
+      "BODY": {
+        "unresolved": 3
+      },
+      "CAN": {
+        "unresolved": 3
+      },
+      "CAUSE": {
+        "unresolved": 3
+      },
+      "CERTAINTY": {
+        "unresolved": 3
+      },
+      "DO": {
+        "unresolved": 3
+      },
+      "EXIST": {
+        "unresolved": 3
+      },
+      "FAR": {
+        "unresolved": 3
+      },
+      "FEEL": {
+        "unresolved": 3
+      },
+      "GOOD": {
+        "unresolved": 3
+      },
+      "HAPPEN": {
+        "unresolved": 3
+      },
+      "HAVE": {
+        "unresolved": 3
+      },
+      "HEAR": {
+        "unresolved": 3
+      },
+      "HERE": {
+        "unresolved": 3
+      },
+      "I": {
+        "unresolved": 3
+      },
+      "IF": {
+        "unresolved": 3
+      },
+      "INFER": {
+        "unresolved": 3
+      },
+      "INTENSITY": {
+        "unresolved": 3
+      },
+      "KIND": {
+        "unresolved": 3
+      },
+      "KNOW": {
+        "unresolved": 3
+      },
+      "LIKE": {
+        "unresolved": 3
+      },
+      "LONG_TIME": {
+        "unresolved": 3
+      },
+      "MAYBE": {
+        "unresolved": 3
+      },
+      "MOMENT": {
+        "unresolved": 3
+      },
+      "MOVE": {
+        "unresolved": 3
+      },
+      "MUST": {
+        "unresolved": 3
+      },
+      "NOT": {
+        "unresolved": 3
+      },
+      "ONE": {
+        "unresolved": 3
+      },
+      "OUTSIDE": {
+        "unresolved": 3
+      },
+      "PART": {
+        "unresolved": 3
+      },
+      "PEOPLE": {
+        "unresolved": 3
+      },
+      "QUANTITY": {
+        "unresolved": 3
+      },
+      "SAME": {
+        "unresolved": 3
+      },
+      "SAY": {
+        "unresolved": 3
+      },
+      "SEE": {
+        "unresolved": 3
+      },
+      "SIDE": {
+        "unresolved": 3
+      },
+      "SOMEONE": {
+        "unresolved": 3
+      },
+      "SOMETHING": {
+        "unresolved": 3
+      },
+      "START": {
+        "unresolved": 3
+      },
+      "THEN": {
+        "unresolved": 3
+      },
+      "THINK": {
+        "unresolved": 3
+      },
+      "TOUCH": {
+        "unresolved": 3
+      },
+      "TOWARD": {
+        "unresolved": 3
+      },
+      "TRUE": {
+        "unresolved": 3
+      },
+      "TWO": {
+        "unresolved": 3
+      },
+      "WANT": {
+        "unresolved": 3
+      },
+      "WHEN": {
+        "unresolved": 3
+      },
+      "WHERE": {
+        "unresolved": 3
+      },
+      "WITH": {
+        "unresolved": 3
+      },
+      "WORDS": {
+        "unresolved": 3
+      },
+      "YOU": {
+        "unresolved": 3
+      }
+    },
+    "501-1500|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 6957
+      },
+      "ALIVE": {
+        "filled": 413,
+        "unresolved": 6544
+      },
+      "BE": {
+        "filled": 14,
+        "unresolved": 6943
+      },
+      "BECAUSE": {
+        "unresolved": 6957
+      },
+      "BEFORE": {
+        "unresolved": 6957
+      },
+      "BIG": {
+        "unresolved": 6957
+      },
+      "BODY": {
+        "filled": 47,
+        "unresolved": 6910
+      },
+      "CAN": {
+        "unresolved": 6957
+      },
+      "CAUSE": {
+        "filled": 179,
+        "unresolved": 6778
+      },
+      "CERTAINTY": {
+        "unresolved": 6957
+      },
+      "DO": {
+        "filled": 433,
+        "unresolved": 6524
+      },
+      "EXIST": {
+        "unresolved": 6957
+      },
+      "FAR": {
+        "unresolved": 6957
+      },
+      "FEEL": {
+        "filled": 51,
+        "unresolved": 6906
+      },
+      "GOOD": {
+        "filled": 3275,
+        "unresolved": 3682
+      },
+      "HAPPEN": {
+        "filled": 568,
+        "unresolved": 6389
+      },
+      "HAVE": {
+        "unresolved": 6957
+      },
+      "HEAR": {
+        "filled": 2,
+        "unresolved": 6955
+      },
+      "HERE": {
+        "unresolved": 6957
+      },
+      "I": {
+        "unresolved": 6957
+      },
+      "IF": {
+        "unresolved": 6957
+      },
+      "INFER": {
+        "unresolved": 6957
+      },
+      "INTENSITY": {
+        "unresolved": 6957
+      },
+      "KIND": {
+        "unresolved": 6957
+      },
+      "KNOW": {
+        "filled": 2,
+        "unresolved": 6955
+      },
+      "LIKE": {
+        "unresolved": 6957
+      },
+      "LONG_TIME": {
+        "unresolved": 6957
+      },
+      "MAYBE": {
+        "unresolved": 6957
+      },
+      "MOMENT": {
+        "unresolved": 6957
+      },
+      "MOVE": {
+        "filled": 152,
+        "unresolved": 6805
+      },
+      "MUST": {
+        "unresolved": 6957
+      },
+      "NOT": {
+        "unresolved": 6957
+      },
+      "ONE": {
+        "unresolved": 6957
+      },
+      "OUTSIDE": {
+        "unresolved": 6957
+      },
+      "PART": {
+        "filled": 55,
+        "unresolved": 6902
+      },
+      "PEOPLE": {
+        "filled": 6,
+        "unresolved": 6951
+      },
+      "QUANTITY": {
+        "filled": 17,
+        "unresolved": 6940
+      },
+      "SAME": {
+        "unresolved": 6957
+      },
+      "SAY": {
+        "filled": 32,
+        "unresolved": 6925
+      },
+      "SEE": {
+        "unresolved": 6957
+      },
+      "SIDE": {
+        "unresolved": 6957
+      },
+      "SOMEONE": {
+        "filled": 370,
+        "unresolved": 6587
+      },
+      "SOMETHING": {
+        "filled": 4545,
+        "unresolved": 2412
+      },
+      "START": {
+        "unresolved": 6957
+      },
+      "THEN": {
+        "unresolved": 6957
+      },
+      "THINK": {
+        "filled": 85,
+        "unresolved": 6872
+      },
+      "TOUCH": {
+        "unresolved": 6957
+      },
+      "TOWARD": {
+        "unresolved": 6957
+      },
+      "TRUE": {
+        "unresolved": 6957
+      },
+      "TWO": {
+        "unresolved": 6957
+      },
+      "WANT": {
+        "filled": 31,
+        "unresolved": 6926
+      },
+      "WHEN": {
+        "filled": 2,
+        "unresolved": 6955
+      },
+      "WHERE": {
+        "filled": 2,
+        "unresolved": 6955
+      },
+      "WITH": {
+        "unresolved": 6957
+      },
+      "WORDS": {
+        "filled": 2,
+        "unresolved": 6955
+      },
+      "YOU": {
+        "unresolved": 6957
+      }
+    },
+    "501-1500|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 680
+      },
+      "ALIVE": {
+        "unresolved": 680
+      },
+      "BE": {
+        "unresolved": 680
+      },
+      "BECAUSE": {
+        "unresolved": 680
+      },
+      "BEFORE": {
+        "unresolved": 680
+      },
+      "BIG": {
+        "unresolved": 680
+      },
+      "BODY": {
+        "unresolved": 680
+      },
+      "CAN": {
+        "unresolved": 680
+      },
+      "CAUSE": {
+        "filled": 169,
+        "unresolved": 511
+      },
+      "CERTAINTY": {
+        "unresolved": 680
+      },
+      "DO": {
+        "filled": 229,
+        "unresolved": 451
+      },
+      "EXIST": {
+        "unresolved": 680
+      },
+      "FAR": {
+        "unresolved": 680
+      },
+      "FEEL": {
+        "filled": 20,
+        "unresolved": 660
+      },
+      "GOOD": {
+        "unresolved": 680
+      },
+      "HAPPEN": {
+        "filled": 304,
+        "unresolved": 376
+      },
+      "HAVE": {
+        "unresolved": 680
+      },
+      "HEAR": {
+        "unresolved": 680
+      },
+      "HERE": {
+        "unresolved": 680
+      },
+      "I": {
+        "unresolved": 680
+      },
+      "IF": {
+        "unresolved": 680
+      },
+      "INFER": {
+        "unresolved": 680
+      },
+      "INTENSITY": {
+        "unresolved": 680
+      },
+      "KIND": {
+        "unresolved": 680
+      },
+      "KNOW": {
+        "filled": 1,
+        "unresolved": 679
+      },
+      "LIKE": {
+        "unresolved": 680
+      },
+      "LONG_TIME": {
+        "unresolved": 680
+      },
+      "MAYBE": {
+        "unresolved": 680
+      },
+      "MOMENT": {
+        "unresolved": 680
+      },
+      "MOVE": {
+        "filled": 121,
+        "unresolved": 559
+      },
+      "MUST": {
+        "unresolved": 680
+      },
+      "NOT": {
+        "unresolved": 680
+      },
+      "ONE": {
+        "unresolved": 680
+      },
+      "OUTSIDE": {
+        "unresolved": 680
+      },
+      "PART": {
+        "unresolved": 680
+      },
+      "PEOPLE": {
+        "unresolved": 680
+      },
+      "QUANTITY": {
+        "unresolved": 680
+      },
+      "SAME": {
+        "unresolved": 680
+      },
+      "SAY": {
+        "filled": 8,
+        "unresolved": 672
+      },
+      "SEE": {
+        "unresolved": 680
+      },
+      "SIDE": {
+        "unresolved": 680
+      },
+      "SOMEONE": {
+        "unresolved": 680
+      },
+      "SOMETHING": {
+        "unresolved": 680
+      },
+      "START": {
+        "unresolved": 680
+      },
+      "THEN": {
+        "unresolved": 680
+      },
+      "THINK": {
+        "filled": 19,
+        "unresolved": 661
+      },
+      "TOUCH": {
+        "unresolved": 680
+      },
+      "TOWARD": {
+        "unresolved": 680
+      },
+      "TRUE": {
+        "unresolved": 680
+      },
+      "TWO": {
+        "unresolved": 680
+      },
+      "WANT": {
+        "filled": 2,
+        "unresolved": 678
+      },
+      "WHEN": {
+        "unresolved": 680
+      },
+      "WHERE": {
+        "unresolved": 680
+      },
+      "WITH": {
+        "unresolved": 680
+      },
+      "WORDS": {
+        "unresolved": 680
+      },
+      "YOU": {
+        "unresolved": 680
+      }
+    },
+    "501-1500|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "unresolved": 16476
+      },
+      "ALIVE": {
+        "unresolved": 16476
+      },
+      "BE": {
+        "filled": 3,
+        "unresolved": 16473
+      },
+      "BECAUSE": {
+        "unresolved": 16476
+      },
+      "BEFORE": {
+        "unresolved": 16476
+      },
+      "BIG": {
+        "unresolved": 16476
+      },
+      "BODY": {
+        "unresolved": 16476
+      },
+      "CAN": {
+        "unresolved": 16476
+      },
+      "CAUSE": {
+        "unresolved": 16476
+      },
+      "CERTAINTY": {
+        "unresolved": 16476
+      },
+      "DO": {
+        "filled": 1,
+        "unresolved": 16475
+      },
+      "EXIST": {
+        "unresolved": 16476
+      },
+      "FAR": {
+        "unresolved": 16476
+      },
+      "FEEL": {
+        "unresolved": 16476
+      },
+      "GOOD": {
+        "filled": 8010,
+        "unresolved": 8466
+      },
+      "HAPPEN": {
+        "filled": 2,
+        "unresolved": 16474
+      },
+      "HAVE": {
+        "unresolved": 16476
+      },
+      "HEAR": {
+        "unresolved": 16476
+      },
+      "HERE": {
+        "unresolved": 16476
+      },
+      "I": {
+        "unresolved": 16476
+      },
+      "IF": {
+        "unresolved": 16476
+      },
+      "INFER": {
+        "unresolved": 16476
+      },
+      "INTENSITY": {
+        "unresolved": 16476
+      },
+      "KIND": {
+        "unresolved": 16476
+      },
+      "KNOW": {
+        "unresolved": 16476
+      },
+      "LIKE": {
+        "unresolved": 16476
+      },
+      "LONG_TIME": {
+        "unresolved": 16476
+      },
+      "MAYBE": {
+        "unresolved": 16476
+      },
+      "MOMENT": {
+        "unresolved": 16476
+      },
+      "MOVE": {
+        "unresolved": 16476
+      },
+      "MUST": {
+        "unresolved": 16476
+      },
+      "NOT": {
+        "unresolved": 16476
+      },
+      "ONE": {
+        "unresolved": 16476
+      },
+      "OUTSIDE": {
+        "unresolved": 16476
+      },
+      "PART": {
+        "filled": 18,
+        "unresolved": 16458
+      },
+      "PEOPLE": {
+        "unresolved": 16476
+      },
+      "QUANTITY": {
+        "unresolved": 16476
+      },
+      "SAME": {
+        "unresolved": 16476
+      },
+      "SAY": {
+        "unresolved": 16476
+      },
+      "SEE": {
+        "unresolved": 16476
+      },
+      "SIDE": {
+        "unresolved": 16476
+      },
+      "SOMEONE": {
+        "filled": 15,
+        "unresolved": 16461
+      },
+      "SOMETHING": {
+        "filled": 2291,
+        "unresolved": 14185
+      },
+      "START": {
+        "unresolved": 16476
+      },
+      "THEN": {
+        "unresolved": 16476
+      },
+      "THINK": {
+        "unresolved": 16476
+      },
+      "TOUCH": {
+        "unresolved": 16476
+      },
+      "TOWARD": {
+        "unresolved": 16476
+      },
+      "TRUE": {
+        "unresolved": 16476
+      },
+      "TWO": {
+        "unresolved": 16476
+      },
+      "WANT": {
+        "unresolved": 16476
+      },
+      "WHEN": {
+        "filled": 1,
+        "unresolved": 16475
+      },
+      "WHERE": {
+        "filled": 2,
+        "unresolved": 16474
+      },
+      "WITH": {
+        "unresolved": 16476
+      },
+      "WORDS": {
+        "unresolved": 16476
+      },
+      "YOU": {
+        "unresolved": 16476
+      }
+    },
+    "501-1500|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 8928
+      },
+      "ALIVE": {
+        "filled": 427,
+        "unresolved": 8501
+      },
+      "BE": {
+        "filled": 14,
+        "unresolved": 8914
+      },
+      "BECAUSE": {
+        "unresolved": 8928
+      },
+      "BEFORE": {
+        "unresolved": 8928
+      },
+      "BIG": {
+        "unresolved": 8928
+      },
+      "BODY": {
+        "filled": 47,
+        "unresolved": 8881
+      },
+      "CAN": {
+        "unresolved": 8928
+      },
+      "CAUSE": {
+        "filled": 190,
+        "unresolved": 8738
+      },
+      "CERTAINTY": {
+        "unresolved": 8928
+      },
+      "DO": {
+        "filled": 553,
+        "unresolved": 8375
+      },
+      "EXIST": {
+        "unresolved": 8928
+      },
+      "FAR": {
+        "unresolved": 8928
+      },
+      "FEEL": {
+        "filled": 55,
+        "unresolved": 8873
+      },
+      "GOOD": {
+        "filled": 3433,
+        "unresolved": 5495
+      },
+      "HAPPEN": {
+        "filled": 749,
+        "unresolved": 8179
+      },
+      "HAVE": {
+        "unresolved": 8928
+      },
+      "HEAR": {
+        "filled": 6,
+        "unresolved": 8922
+      },
+      "HERE": {
+        "unresolved": 8928
+      },
+      "I": {
+        "unresolved": 8928
+      },
+      "IF": {
+        "unresolved": 8928
+      },
+      "INFER": {
+        "unresolved": 8928
+      },
+      "INTENSITY": {
+        "unresolved": 8928
+      },
+      "KIND": {
+        "unresolved": 8928
+      },
+      "KNOW": {
+        "filled": 6,
+        "unresolved": 8922
+      },
+      "LIKE": {
+        "unresolved": 8928
+      },
+      "LONG_TIME": {
+        "unresolved": 8928
+      },
+      "MAYBE": {
+        "unresolved": 8928
+      },
+      "MOMENT": {
+        "unresolved": 8928
+      },
+      "MOVE": {
+        "filled": 183,
+        "unresolved": 8745
+      },
+      "MUST": {
+        "unresolved": 8928
+      },
+      "NOT": {
+        "unresolved": 8928
+      },
+      "ONE": {
+        "unresolved": 8928
+      },
+      "OUTSIDE": {
+        "unresolved": 8928
+      },
+      "PART": {
+        "filled": 61,
+        "unresolved": 8867
+      },
+      "PEOPLE": {
+        "filled": 6,
+        "unresolved": 8922
+      },
+      "QUANTITY": {
+        "filled": 17,
+        "unresolved": 8911
+      },
+      "SAME": {
+        "unresolved": 8928
+      },
+      "SAY": {
+        "filled": 39,
+        "unresolved": 8889
+      },
+      "SEE": {
+        "filled": 2,
+        "unresolved": 8926
+      },
+      "SIDE": {
+        "unresolved": 8928
+      },
+      "SOMEONE": {
+        "filled": 381,
+        "unresolved": 8547
+      },
+      "SOMETHING": {
+        "filled": 4815,
+        "unresolved": 4113
+      },
+      "START": {
+        "unresolved": 8928
+      },
+      "THEN": {
+        "unresolved": 8928
+      },
+      "THINK": {
+        "filled": 130,
+        "unresolved": 8798
+      },
+      "TOUCH": {
+        "unresolved": 8928
+      },
+      "TOWARD": {
+        "unresolved": 8928
+      },
+      "TRUE": {
+        "unresolved": 8928
+      },
+      "TWO": {
+        "unresolved": 8928
+      },
+      "WANT": {
+        "filled": 40,
+        "unresolved": 8888
+      },
+      "WHEN": {
+        "filled": 2,
+        "unresolved": 8926
+      },
+      "WHERE": {
+        "filled": 2,
+        "unresolved": 8926
+      },
+      "WITH": {
+        "unresolved": 8928
+      },
+      "WORDS": {
+        "filled": 2,
+        "unresolved": 8926
+      },
+      "YOU": {
+        "unresolved": 8928
+      }
+    },
+    "lexicon|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "filled": 1,
+        "unresolved": 212
+      },
+      "ALIVE": {
+        "unresolved": 213
+      },
+      "BE": {
+        "filled": 10,
+        "unresolved": 203
+      },
+      "BECAUSE": {
+        "unresolved": 213
+      },
+      "BEFORE": {
+        "unresolved": 213
+      },
+      "BIG": {
+        "unresolved": 213
+      },
+      "BODY": {
+        "filled": 13,
+        "unresolved": 200
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 210
+      },
+      "CAUSE": {
+        "unresolved": 213
+      },
+      "CERTAINTY": {
+        "unresolved": 213
+      },
+      "DO": {
+        "filled": 4,
+        "unresolved": 209
+      },
+      "EXIST": {
+        "unresolved": 213
+      },
+      "FAR": {
+        "unresolved": 213
+      },
+      "FEEL": {
+        "unresolved": 213
+      },
+      "GOOD": {
+        "unresolved": 213
+      },
+      "HAPPEN": {
+        "filled": 4,
+        "unresolved": 209
+      },
+      "HAVE": {
+        "filled": 5,
+        "unresolved": 208
+      },
+      "HEAR": {
+        "unresolved": 213
+      },
+      "HERE": {
+        "unresolved": 213
+      },
+      "I": {
+        "filled": 1,
+        "unresolved": 212
+      },
+      "IF": {
+        "unresolved": 213
+      },
+      "INFER": {
+        "unresolved": 213
+      },
+      "INTENSITY": {
+        "unresolved": 213
+      },
+      "KIND": {
+        "unresolved": 213
+      },
+      "KNOW": {
+        "unresolved": 213
+      },
+      "LIKE": {
+        "filled": 1,
+        "unresolved": 212
+      },
+      "LONG_TIME": {
+        "unresolved": 213
+      },
+      "MAYBE": {
+        "filled": 5,
+        "unresolved": 208
+      },
+      "MOMENT": {
+        "unresolved": 213
+      },
+      "MOVE": {
+        "unresolved": 213
+      },
+      "MUST": {
+        "filled": 2,
+        "unresolved": 211
+      },
+      "NOT": {
+        "filled": 3,
+        "unresolved": 210
+      },
+      "ONE": {
+        "unresolved": 213
+      },
+      "OUTSIDE": {
+        "unresolved": 213
+      },
+      "PART": {
+        "unresolved": 213
+      },
+      "PEOPLE": {
+        "unresolved": 213
+      },
+      "QUANTITY": {
+        "unresolved": 213
+      },
+      "SAME": {
+        "unresolved": 213
+      },
+      "SAY": {
+        "unresolved": 213
+      },
+      "SEE": {
+        "unresolved": 213
+      },
+      "SIDE": {
+        "unresolved": 213
+      },
+      "SOMEONE": {
+        "filled": 43,
+        "unresolved": 170
+      },
+      "SOMETHING": {
+        "filled": 46,
+        "unresolved": 167
+      },
+      "START": {
+        "unresolved": 213
+      },
+      "THEN": {
+        "unresolved": 213
+      },
+      "THINK": {
+        "unresolved": 213
+      },
+      "TOUCH": {
+        "unresolved": 213
+      },
+      "TOWARD": {
+        "unresolved": 213
+      },
+      "TRUE": {
+        "unresolved": 213
+      },
+      "TWO": {
+        "unresolved": 213
+      },
+      "WANT": {
+        "filled": 9,
+        "unresolved": 204
+      },
+      "WHEN": {
+        "unresolved": 213
+      },
+      "WHERE": {
+        "filled": 1,
+        "unresolved": 212
+      },
+      "WITH": {
+        "unresolved": 213
+      },
+      "WORDS": {
+        "unresolved": 213
+      },
+      "YOU": {
+        "filled": 1,
+        "unresolved": 212
+      }
+    },
+    "lexicon|nsm_chart|nsm_primary_chart|source_structure": {
+      "ABOVE": {
+        "unresolved": 29
+      },
+      "ALIVE": {
+        "unresolved": 29
+      },
+      "BE": {
+        "unresolved": 29
+      },
+      "BECAUSE": {
+        "unresolved": 29
+      },
+      "BEFORE": {
+        "unresolved": 29
+      },
+      "BIG": {
+        "unresolved": 29
+      },
+      "BODY": {
+        "unresolved": 29
+      },
+      "CAN": {
+        "unresolved": 29
+      },
+      "CAUSE": {
+        "unresolved": 29
+      },
+      "CERTAINTY": {
+        "unresolved": 29
+      },
+      "DO": {
+        "unresolved": 29
+      },
+      "EXIST": {
+        "unresolved": 29
+      },
+      "FAR": {
+        "unresolved": 29
+      },
+      "FEEL": {
+        "unresolved": 29
+      },
+      "GOOD": {
+        "unresolved": 29
+      },
+      "HAPPEN": {
+        "unresolved": 29
+      },
+      "HAVE": {
+        "unresolved": 29
+      },
+      "HEAR": {
+        "unresolved": 29
+      },
+      "HERE": {
+        "unresolved": 29
+      },
+      "I": {
+        "unresolved": 29
+      },
+      "IF": {
+        "unresolved": 29
+      },
+      "INFER": {
+        "unresolved": 29
+      },
+      "INTENSITY": {
+        "unresolved": 29
+      },
+      "KIND": {
+        "unresolved": 29
+      },
+      "KNOW": {
+        "unresolved": 29
+      },
+      "LIKE": {
+        "unresolved": 29
+      },
+      "LONG_TIME": {
+        "unresolved": 29
+      },
+      "MAYBE": {
+        "unresolved": 29
+      },
+      "MOMENT": {
+        "unresolved": 29
+      },
+      "MOVE": {
+        "unresolved": 29
+      },
+      "MUST": {
+        "unresolved": 29
+      },
+      "NOT": {
+        "unresolved": 29
+      },
+      "ONE": {
+        "unresolved": 29
+      },
+      "OUTSIDE": {
+        "unresolved": 29
+      },
+      "PART": {
+        "unresolved": 29
+      },
+      "PEOPLE": {
+        "unresolved": 29
+      },
+      "QUANTITY": {
+        "unresolved": 29
+      },
+      "SAME": {
+        "unresolved": 29
+      },
+      "SAY": {
+        "unresolved": 29
+      },
+      "SEE": {
+        "unresolved": 29
+      },
+      "SIDE": {
+        "unresolved": 29
+      },
+      "SOMEONE": {
+        "unresolved": 29
+      },
+      "SOMETHING": {
+        "unresolved": 29
+      },
+      "START": {
+        "unresolved": 29
+      },
+      "THEN": {
+        "unresolved": 29
+      },
+      "THINK": {
+        "unresolved": 29
+      },
+      "TOUCH": {
+        "unresolved": 29
+      },
+      "TOWARD": {
+        "unresolved": 29
+      },
+      "TRUE": {
+        "unresolved": 29
+      },
+      "TWO": {
+        "unresolved": 29
+      },
+      "WANT": {
+        "unresolved": 29
+      },
+      "WHEN": {
+        "unresolved": 29
+      },
+      "WHERE": {
+        "unresolved": 29
+      },
+      "WITH": {
+        "unresolved": 29
+      },
+      "WORDS": {
+        "unresolved": 29
+      },
+      "YOU": {
+        "unresolved": 29
+      }
+    },
+    "lexicon|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 114316
+      },
+      "ALIVE": {
+        "filled": 13713,
+        "unresolved": 100603
+      },
+      "BE": {
+        "filled": 410,
+        "unresolved": 113906
+      },
+      "BECAUSE": {
+        "unresolved": 114316
+      },
+      "BEFORE": {
+        "unresolved": 114316
+      },
+      "BIG": {
+        "unresolved": 114316
+      },
+      "BODY": {
+        "filled": 2616,
+        "unresolved": 111700
+      },
+      "CAN": {
+        "filled": 7,
+        "unresolved": 114309
+      },
+      "CAUSE": {
+        "filled": 1134,
+        "unresolved": 113182
+      },
+      "CERTAINTY": {
+        "unresolved": 114316
+      },
+      "DO": {
+        "filled": 3154,
+        "unresolved": 111162
+      },
+      "EXIST": {
+        "unresolved": 114316
+      },
+      "FAR": {
+        "unresolved": 114316
+      },
+      "FEEL": {
+        "filled": 940,
+        "unresolved": 113376
+      },
+      "GOOD": {
+        "filled": 66560,
+        "unresolved": 47756
+      },
+      "HAPPEN": {
+        "filled": 4317,
+        "unresolved": 109999
+      },
+      "HAVE": {
+        "unresolved": 114316
+      },
+      "HEAR": {
+        "filled": 5,
+        "unresolved": 114311
+      },
+      "HERE": {
+        "unresolved": 114316
+      },
+      "I": {
+        "unresolved": 114316
+      },
+      "IF": {
+        "unresolved": 114316
+      },
+      "INFER": {
+        "filled": 21,
+        "unresolved": 114295
+      },
+      "INTENSITY": {
+        "filled": 2,
+        "unresolved": 114314
+      },
+      "KIND": {
+        "unresolved": 114316
+      },
+      "KNOW": {
+        "filled": 10,
+        "unresolved": 114306
+      },
+      "LIKE": {
+        "unresolved": 114316
+      },
+      "LONG_TIME": {
+        "unresolved": 114316
+      },
+      "MAYBE": {
+        "unresolved": 114316
+      },
+      "MOMENT": {
+        "unresolved": 114316
+      },
+      "MOVE": {
+        "filled": 1181,
+        "unresolved": 113135
+      },
+      "MUST": {
+        "unresolved": 114316
+      },
+      "NOT": {
+        "unresolved": 114316
+      },
+      "ONE": {
+        "unresolved": 114316
+      },
+      "OUTSIDE": {
+        "unresolved": 114316
+      },
+      "PART": {
+        "filled": 1350,
+        "unresolved": 112966
+      },
+      "PEOPLE": {
+        "filled": 59,
+        "unresolved": 114257
+      },
+      "QUANTITY": {
+        "filled": 712,
+        "unresolved": 113604
+      },
+      "SAME": {
+        "unresolved": 114316
+      },
+      "SAY": {
+        "filled": 294,
+        "unresolved": 114022
+      },
+      "SEE": {
+        "filled": 4,
+        "unresolved": 114312
+      },
+      "SIDE": {
+        "unresolved": 114316
+      },
+      "SOMEONE": {
+        "filled": 9035,
+        "unresolved": 105281
+      },
+      "SOMETHING": {
+        "filled": 94237,
+        "unresolved": 20079
+      },
+      "START": {
+        "unresolved": 114316
+      },
+      "THEN": {
+        "unresolved": 114316
+      },
+      "THINK": {
+        "filled": 762,
+        "unresolved": 113554
+      },
+      "TOUCH": {
+        "unresolved": 114316
+      },
+      "TOWARD": {
+        "unresolved": 114316
+      },
+      "TRUE": {
+        "unresolved": 114316
+      },
+      "TWO": {
+        "unresolved": 114316
+      },
+      "WANT": {
+        "filled": 690,
+        "unresolved": 113626
+      },
+      "WHEN": {
+        "filled": 38,
+        "unresolved": 114278
+      },
+      "WHERE": {
+        "filled": 20,
+        "unresolved": 114296
+      },
+      "WITH": {
+        "unresolved": 114316
+      },
+      "WORDS": {
+        "filled": 18,
+        "unresolved": 114298
+      },
+      "YOU": {
+        "unresolved": 114316
+      }
+    },
+    "lexicon|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 4797
+      },
+      "ALIVE": {
+        "unresolved": 4797
+      },
+      "BE": {
+        "unresolved": 4797
+      },
+      "BECAUSE": {
+        "unresolved": 4797
+      },
+      "BEFORE": {
+        "unresolved": 4797
+      },
+      "BIG": {
+        "unresolved": 4797
+      },
+      "BODY": {
+        "unresolved": 4797
+      },
+      "CAN": {
+        "unresolved": 4797
+      },
+      "CAUSE": {
+        "filled": 1032,
+        "unresolved": 3765
+      },
+      "CERTAINTY": {
+        "unresolved": 4797
+      },
+      "DO": {
+        "filled": 1347,
+        "unresolved": 3450
+      },
+      "EXIST": {
+        "unresolved": 4797
+      },
+      "FAR": {
+        "unresolved": 4797
+      },
+      "FEEL": {
+        "filled": 138,
+        "unresolved": 4659
+      },
+      "GOOD": {
+        "unresolved": 4797
+      },
+      "HAPPEN": {
+        "filled": 1954,
+        "unresolved": 2843
+      },
+      "HAVE": {
+        "unresolved": 4797
+      },
+      "HEAR": {
+        "filled": 2,
+        "unresolved": 4795
+      },
+      "HERE": {
+        "unresolved": 4797
+      },
+      "I": {
+        "unresolved": 4797
+      },
+      "IF": {
+        "unresolved": 4797
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 4796
+      },
+      "INTENSITY": {
+        "unresolved": 4797
+      },
+      "KIND": {
+        "unresolved": 4797
+      },
+      "KNOW": {
+        "filled": 2,
+        "unresolved": 4795
+      },
+      "LIKE": {
+        "unresolved": 4797
+      },
+      "LONG_TIME": {
+        "unresolved": 4797
+      },
+      "MAYBE": {
+        "unresolved": 4797
+      },
+      "MOMENT": {
+        "unresolved": 4797
+      },
+      "MOVE": {
+        "filled": 867,
+        "unresolved": 3930
+      },
+      "MUST": {
+        "unresolved": 4797
+      },
+      "NOT": {
+        "unresolved": 4797
+      },
+      "ONE": {
+        "unresolved": 4797
+      },
+      "OUTSIDE": {
+        "unresolved": 4797
+      },
+      "PART": {
+        "unresolved": 4797
+      },
+      "PEOPLE": {
+        "unresolved": 4797
+      },
+      "QUANTITY": {
+        "unresolved": 4797
+      },
+      "SAME": {
+        "unresolved": 4797
+      },
+      "SAY": {
+        "filled": 52,
+        "unresolved": 4745
+      },
+      "SEE": {
+        "filled": 2,
+        "unresolved": 4795
+      },
+      "SIDE": {
+        "unresolved": 4797
+      },
+      "SOMEONE": {
+        "unresolved": 4797
+      },
+      "SOMETHING": {
+        "unresolved": 4797
+      },
+      "START": {
+        "unresolved": 4797
+      },
+      "THEN": {
+        "unresolved": 4797
+      },
+      "THINK": {
+        "filled": 115,
+        "unresolved": 4682
+      },
+      "TOUCH": {
+        "unresolved": 4797
+      },
+      "TOWARD": {
+        "unresolved": 4797
+      },
+      "TRUE": {
+        "unresolved": 4797
+      },
+      "TWO": {
+        "unresolved": 4797
+      },
+      "WANT": {
+        "filled": 28,
+        "unresolved": 4769
+      },
+      "WHEN": {
+        "unresolved": 4797
+      },
+      "WHERE": {
+        "unresolved": 4797
+      },
+      "WITH": {
+        "unresolved": 4797
+      },
+      "WORDS": {
+        "unresolved": 4797
+      },
+      "YOU": {
+        "unresolved": 4797
+      }
+    },
+    "lexicon|websters1913|historical_dictionary|lexical": {
+      "ABOVE": {
+        "unresolved": 1
+      },
+      "ALIVE": {
+        "unresolved": 1
+      },
+      "BE": {
+        "unresolved": 1
+      },
+      "BECAUSE": {
+        "unresolved": 1
+      },
+      "BEFORE": {
+        "unresolved": 1
+      },
+      "BIG": {
+        "unresolved": 1
+      },
+      "BODY": {
+        "unresolved": 1
+      },
+      "CAN": {
+        "unresolved": 1
+      },
+      "CAUSE": {
+        "unresolved": 1
+      },
+      "CERTAINTY": {
+        "unresolved": 1
+      },
+      "DO": {
+        "unresolved": 1
+      },
+      "EXIST": {
+        "unresolved": 1
+      },
+      "FAR": {
+        "unresolved": 1
+      },
+      "FEEL": {
+        "unresolved": 1
+      },
+      "GOOD": {
+        "filled": 1
+      },
+      "HAPPEN": {
+        "unresolved": 1
+      },
+      "HAVE": {
+        "unresolved": 1
+      },
+      "HEAR": {
+        "unresolved": 1
+      },
+      "HERE": {
+        "unresolved": 1
+      },
+      "I": {
+        "unresolved": 1
+      },
+      "IF": {
+        "unresolved": 1
+      },
+      "INFER": {
+        "unresolved": 1
+      },
+      "INTENSITY": {
+        "unresolved": 1
+      },
+      "KIND": {
+        "unresolved": 1
+      },
+      "KNOW": {
+        "unresolved": 1
+      },
+      "LIKE": {
+        "unresolved": 1
+      },
+      "LONG_TIME": {
+        "unresolved": 1
+      },
+      "MAYBE": {
+        "unresolved": 1
+      },
+      "MOMENT": {
+        "unresolved": 1
+      },
+      "MOVE": {
+        "unresolved": 1
+      },
+      "MUST": {
+        "unresolved": 1
+      },
+      "NOT": {
+        "unresolved": 1
+      },
+      "ONE": {
+        "unresolved": 1
+      },
+      "OUTSIDE": {
+        "unresolved": 1
+      },
+      "PART": {
+        "unresolved": 1
+      },
+      "PEOPLE": {
+        "unresolved": 1
+      },
+      "QUANTITY": {
+        "unresolved": 1
+      },
+      "SAME": {
+        "unresolved": 1
+      },
+      "SAY": {
+        "unresolved": 1
+      },
+      "SEE": {
+        "unresolved": 1
+      },
+      "SIDE": {
+        "unresolved": 1
+      },
+      "SOMEONE": {
+        "unresolved": 1
+      },
+      "SOMETHING": {
+        "unresolved": 1
+      },
+      "START": {
+        "unresolved": 1
+      },
+      "THEN": {
+        "unresolved": 1
+      },
+      "THINK": {
+        "unresolved": 1
+      },
+      "TOUCH": {
+        "unresolved": 1
+      },
+      "TOWARD": {
+        "unresolved": 1
+      },
+      "TRUE": {
+        "unresolved": 1
+      },
+      "TWO": {
+        "unresolved": 1
+      },
+      "WANT": {
+        "unresolved": 1
+      },
+      "WHEN": {
+        "unresolved": 1
+      },
+      "WHERE": {
+        "unresolved": 1
+      },
+      "WITH": {
+        "unresolved": 1
+      },
+      "WORDS": {
+        "unresolved": 1
+      },
+      "YOU": {
+        "unresolved": 1
+      }
+    },
+    "lexicon|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "filled": 15,
+        "unresolved": 246225
+      },
+      "ALIVE": {
+        "filled": 15,
+        "unresolved": 246225
+      },
+      "BE": {
+        "filled": 461,
+        "unresolved": 245779
+      },
+      "BECAUSE": {
+        "filled": 1,
+        "unresolved": 246239
+      },
+      "BEFORE": {
+        "filled": 1,
+        "unresolved": 246239
+      },
+      "BIG": {
+        "filled": 1,
+        "unresolved": 246239
+      },
+      "BODY": {
+        "filled": 83,
+        "unresolved": 246157
+      },
+      "CAN": {
+        "filled": 4,
+        "unresolved": 246236
+      },
+      "CAUSE": {
+        "filled": 1,
+        "unresolved": 246239
+      },
+      "CERTAINTY": {
+        "unresolved": 246240
+      },
+      "DO": {
+        "filled": 16,
+        "unresolved": 246224
+      },
+      "EXIST": {
+        "unresolved": 246240
+      },
+      "FAR": {
+        "unresolved": 246240
+      },
+      "FEEL": {
+        "unresolved": 246240
+      },
+      "GOOD": {
+        "filled": 130773,
+        "unresolved": 115467
+      },
+      "HAPPEN": {
+        "filled": 36,
+        "unresolved": 246204
+      },
+      "HAVE": {
+        "unresolved": 246240
+      },
+      "HEAR": {
+        "unresolved": 246240
+      },
+      "HERE": {
+        "unresolved": 246240
+      },
+      "I": {
+        "unresolved": 246240
+      },
+      "IF": {
+        "unresolved": 246240
+      },
+      "INFER": {
+        "unresolved": 246240
+      },
+      "INTENSITY": {
+        "unresolved": 246240
+      },
+      "KIND": {
+        "unresolved": 246240
+      },
+      "KNOW": {
+        "unresolved": 246240
+      },
+      "LIKE": {
+        "unresolved": 246240
+      },
+      "LONG_TIME": {
+        "unresolved": 246240
+      },
+      "MAYBE": {
+        "unresolved": 246240
+      },
+      "MOMENT": {
+        "unresolved": 246240
+      },
+      "MOVE": {
+        "unresolved": 246240
+      },
+      "MUST": {
+        "unresolved": 246240
+      },
+      "NOT": {
+        "unresolved": 246240
+      },
+      "ONE": {
+        "unresolved": 246240
+      },
+      "OUTSIDE": {
+        "unresolved": 246240
+      },
+      "PART": {
+        "filled": 163,
+        "unresolved": 246077
+      },
+      "PEOPLE": {
+        "filled": 12,
+        "unresolved": 246228
+      },
+      "QUANTITY": {
+        "unresolved": 246240
+      },
+      "SAME": {
+        "unresolved": 246240
+      },
+      "SAY": {
+        "unresolved": 246240
+      },
+      "SEE": {
+        "unresolved": 246240
+      },
+      "SIDE": {
+        "unresolved": 246240
+      },
+      "SOMEONE": {
+        "filled": 976,
+        "unresolved": 245264
+      },
+      "SOMETHING": {
+        "filled": 42213,
+        "unresolved": 204027
+      },
+      "START": {
+        "unresolved": 246240
+      },
+      "THEN": {
+        "unresolved": 246240
+      },
+      "THINK": {
+        "unresolved": 246240
+      },
+      "TOUCH": {
+        "unresolved": 246240
+      },
+      "TOWARD": {
+        "unresolved": 246240
+      },
+      "TRUE": {
+        "unresolved": 246240
+      },
+      "TWO": {
+        "unresolved": 246240
+      },
+      "WANT": {
+        "filled": 61,
+        "unresolved": 246179
+      },
+      "WHEN": {
+        "filled": 44,
+        "unresolved": 246196
+      },
+      "WHERE": {
+        "filled": 48,
+        "unresolved": 246192
+      },
+      "WITH": {
+        "unresolved": 246240
+      },
+      "WORDS": {
+        "filled": 6,
+        "unresolved": 246234
+      },
+      "YOU": {
+        "unresolved": 246240
+      }
+    },
+    "lexicon|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 155111
+      },
+      "ALIVE": {
+        "filled": 15051,
+        "unresolved": 140060
+      },
+      "BE": {
+        "filled": 410,
+        "unresolved": 154701
+      },
+      "BECAUSE": {
+        "unresolved": 155111
+      },
+      "BEFORE": {
+        "unresolved": 155111
+      },
+      "BIG": {
+        "unresolved": 155111
+      },
+      "BODY": {
+        "filled": 2617,
+        "unresolved": 152494
+      },
+      "CAN": {
+        "filled": 7,
+        "unresolved": 155104
+      },
+      "CAUSE": {
+        "filled": 1347,
+        "unresolved": 153764
+      },
+      "CERTAINTY": {
+        "unresolved": 155111
+      },
+      "DO": {
+        "filled": 5624,
+        "unresolved": 149487
+      },
+      "EXIST": {
+        "unresolved": 155111
+      },
+      "FAR": {
+        "unresolved": 155111
+      },
+      "FEEL": {
+        "filled": 1095,
+        "unresolved": 154016
+      },
+      "GOOD": {
+        "filled": 77779,
+        "unresolved": 77332
+      },
+      "HAPPEN": {
+        "filled": 7703,
+        "unresolved": 147408
+      },
+      "HAVE": {
+        "unresolved": 155111
+      },
+      "HEAR": {
+        "filled": 18,
+        "unresolved": 155093
+      },
+      "HERE": {
+        "unresolved": 155111
+      },
+      "I": {
+        "unresolved": 155111
+      },
+      "IF": {
+        "unresolved": 155111
+      },
+      "INFER": {
+        "filled": 21,
+        "unresolved": 155090
+      },
+      "INTENSITY": {
+        "filled": 2,
+        "unresolved": 155109
+      },
+      "KIND": {
+        "unresolved": 155111
+      },
+      "KNOW": {
+        "filled": 28,
+        "unresolved": 155083
+      },
+      "LIKE": {
+        "unresolved": 155111
+      },
+      "LONG_TIME": {
+        "unresolved": 155111
+      },
+      "MAYBE": {
+        "unresolved": 155111
+      },
+      "MOMENT": {
+        "unresolved": 155111
+      },
+      "MOVE": {
+        "filled": 1774,
+        "unresolved": 153337
+      },
+      "MUST": {
+        "unresolved": 155111
+      },
+      "NOT": {
+        "unresolved": 155111
+      },
+      "ONE": {
+        "unresolved": 155111
+      },
+      "OUTSIDE": {
+        "unresolved": 155111
+      },
+      "PART": {
+        "filled": 1531,
+        "unresolved": 153580
+      },
+      "PEOPLE": {
+        "filled": 59,
+        "unresolved": 155052
+      },
+      "QUANTITY": {
+        "filled": 712,
+        "unresolved": 154399
+      },
+      "SAME": {
+        "unresolved": 155111
+      },
+      "SAY": {
+        "filled": 653,
+        "unresolved": 154458
+      },
+      "SEE": {
+        "filled": 15,
+        "unresolved": 155096
+      },
+      "SIDE": {
+        "unresolved": 155111
+      },
+      "SOMEONE": {
+        "filled": 10163,
+        "unresolved": 144948
+      },
+      "SOMETHING": {
+        "filled": 106606,
+        "unresolved": 48505
+      },
+      "START": {
+        "unresolved": 155111
+      },
+      "THEN": {
+        "unresolved": 155111
+      },
+      "THINK": {
+        "filled": 1921,
+        "unresolved": 153190
+      },
+      "TOUCH": {
+        "unresolved": 155111
+      },
+      "TOWARD": {
+        "unresolved": 155111
+      },
+      "TRUE": {
+        "unresolved": 155111
+      },
+      "TWO": {
+        "unresolved": 155111
+      },
+      "WANT": {
+        "filled": 788,
+        "unresolved": 154323
+      },
+      "WHEN": {
+        "filled": 38,
+        "unresolved": 155073
+      },
+      "WHERE": {
+        "filled": 20,
+        "unresolved": 155091
+      },
+      "WITH": {
+        "unresolved": 155111
+      },
+      "WORDS": {
+        "filled": 18,
+        "unresolved": 155093
+      },
+      "YOU": {
+        "unresolved": 155111
+      }
+    },
+    "runtime_common_forms|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "filled": 1,
+        "unresolved": 196
+      },
+      "ALIVE": {
+        "unresolved": 197
+      },
+      "BE": {
+        "filled": 8,
+        "unresolved": 189
+      },
+      "BECAUSE": {
+        "unresolved": 197
+      },
+      "BEFORE": {
+        "unresolved": 197
+      },
+      "BIG": {
+        "unresolved": 197
+      },
+      "BODY": {
+        "filled": 13,
+        "unresolved": 184
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 194
+      },
+      "CAUSE": {
+        "unresolved": 197
+      },
+      "CERTAINTY": {
+        "unresolved": 197
+      },
+      "DO": {
+        "filled": 4,
+        "unresolved": 193
+      },
+      "EXIST": {
+        "unresolved": 197
+      },
+      "FAR": {
+        "unresolved": 197
+      },
+      "FEEL": {
+        "unresolved": 197
+      },
+      "GOOD": {
+        "unresolved": 197
+      },
+      "HAPPEN": {
+        "filled": 4,
+        "unresolved": 193
+      },
+      "HAVE": {
+        "filled": 4,
+        "unresolved": 193
+      },
+      "HEAR": {
+        "unresolved": 197
+      },
+      "HERE": {
+        "unresolved": 197
+      },
+      "I": {
+        "filled": 1,
+        "unresolved": 196
+      },
+      "IF": {
+        "unresolved": 197
+      },
+      "INFER": {
+        "unresolved": 197
+      },
+      "INTENSITY": {
+        "unresolved": 197
+      },
+      "KIND": {
+        "unresolved": 197
+      },
+      "KNOW": {
+        "unresolved": 197
+      },
+      "LIKE": {
+        "filled": 1,
+        "unresolved": 196
+      },
+      "LONG_TIME": {
+        "unresolved": 197
+      },
+      "MAYBE": {
+        "filled": 5,
+        "unresolved": 192
+      },
+      "MOMENT": {
+        "unresolved": 197
+      },
+      "MOVE": {
+        "unresolved": 197
+      },
+      "MUST": {
+        "filled": 2,
+        "unresolved": 195
+      },
+      "NOT": {
+        "filled": 2,
+        "unresolved": 195
+      },
+      "ONE": {
+        "unresolved": 197
+      },
+      "OUTSIDE": {
+        "unresolved": 197
+      },
+      "PART": {
+        "unresolved": 197
+      },
+      "PEOPLE": {
+        "unresolved": 197
+      },
+      "QUANTITY": {
+        "unresolved": 197
+      },
+      "SAME": {
+        "unresolved": 197
+      },
+      "SAY": {
+        "unresolved": 197
+      },
+      "SEE": {
+        "unresolved": 197
+      },
+      "SIDE": {
+        "unresolved": 197
+      },
+      "SOMEONE": {
+        "filled": 39,
+        "unresolved": 158
+      },
+      "SOMETHING": {
+        "filled": 43,
+        "unresolved": 154
+      },
+      "START": {
+        "unresolved": 197
+      },
+      "THEN": {
+        "unresolved": 197
+      },
+      "THINK": {
+        "unresolved": 197
+      },
+      "TOUCH": {
+        "unresolved": 197
+      },
+      "TOWARD": {
+        "unresolved": 197
+      },
+      "TRUE": {
+        "unresolved": 197
+      },
+      "TWO": {
+        "unresolved": 197
+      },
+      "WANT": {
+        "filled": 9,
+        "unresolved": 188
+      },
+      "WHEN": {
+        "unresolved": 197
+      },
+      "WHERE": {
+        "filled": 1,
+        "unresolved": 196
+      },
+      "WITH": {
+        "unresolved": 197
+      },
+      "WORDS": {
+        "unresolved": 197
+      },
+      "YOU": {
+        "filled": 1,
+        "unresolved": 196
+      }
+    },
+    "runtime_common_forms|nsm_chart|nsm_primary_chart|source_structure": {
+      "ABOVE": {
+        "unresolved": 22
+      },
+      "ALIVE": {
+        "unresolved": 22
+      },
+      "BE": {
+        "unresolved": 22
+      },
+      "BECAUSE": {
+        "unresolved": 22
+      },
+      "BEFORE": {
+        "unresolved": 22
+      },
+      "BIG": {
+        "unresolved": 22
+      },
+      "BODY": {
+        "unresolved": 22
+      },
+      "CAN": {
+        "unresolved": 22
+      },
+      "CAUSE": {
+        "unresolved": 22
+      },
+      "CERTAINTY": {
+        "unresolved": 22
+      },
+      "DO": {
+        "unresolved": 22
+      },
+      "EXIST": {
+        "unresolved": 22
+      },
+      "FAR": {
+        "unresolved": 22
+      },
+      "FEEL": {
+        "unresolved": 22
+      },
+      "GOOD": {
+        "unresolved": 22
+      },
+      "HAPPEN": {
+        "unresolved": 22
+      },
+      "HAVE": {
+        "unresolved": 22
+      },
+      "HEAR": {
+        "unresolved": 22
+      },
+      "HERE": {
+        "unresolved": 22
+      },
+      "I": {
+        "unresolved": 22
+      },
+      "IF": {
+        "unresolved": 22
+      },
+      "INFER": {
+        "unresolved": 22
+      },
+      "INTENSITY": {
+        "unresolved": 22
+      },
+      "KIND": {
+        "unresolved": 22
+      },
+      "KNOW": {
+        "unresolved": 22
+      },
+      "LIKE": {
+        "unresolved": 22
+      },
+      "LONG_TIME": {
+        "unresolved": 22
+      },
+      "MAYBE": {
+        "unresolved": 22
+      },
+      "MOMENT": {
+        "unresolved": 22
+      },
+      "MOVE": {
+        "unresolved": 22
+      },
+      "MUST": {
+        "unresolved": 22
+      },
+      "NOT": {
+        "unresolved": 22
+      },
+      "ONE": {
+        "unresolved": 22
+      },
+      "OUTSIDE": {
+        "unresolved": 22
+      },
+      "PART": {
+        "unresolved": 22
+      },
+      "PEOPLE": {
+        "unresolved": 22
+      },
+      "QUANTITY": {
+        "unresolved": 22
+      },
+      "SAME": {
+        "unresolved": 22
+      },
+      "SAY": {
+        "unresolved": 22
+      },
+      "SEE": {
+        "unresolved": 22
+      },
+      "SIDE": {
+        "unresolved": 22
+      },
+      "SOMEONE": {
+        "unresolved": 22
+      },
+      "SOMETHING": {
+        "unresolved": 22
+      },
+      "START": {
+        "unresolved": 22
+      },
+      "THEN": {
+        "unresolved": 22
+      },
+      "THINK": {
+        "unresolved": 22
+      },
+      "TOUCH": {
+        "unresolved": 22
+      },
+      "TOWARD": {
+        "unresolved": 22
+      },
+      "TRUE": {
+        "unresolved": 22
+      },
+      "TWO": {
+        "unresolved": 22
+      },
+      "WANT": {
+        "unresolved": 22
+      },
+      "WHEN": {
+        "unresolved": 22
+      },
+      "WHERE": {
+        "unresolved": 22
+      },
+      "WITH": {
+        "unresolved": 22
+      },
+      "WORDS": {
+        "unresolved": 22
+      },
+      "YOU": {
+        "unresolved": 22
+      }
+    },
+    "runtime_common_forms|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 37686
+      },
+      "ALIVE": {
+        "filled": 2830,
+        "unresolved": 34856
+      },
+      "BE": {
+        "filled": 118,
+        "unresolved": 37568
+      },
+      "BECAUSE": {
+        "unresolved": 37686
+      },
+      "BEFORE": {
+        "unresolved": 37686
+      },
+      "BIG": {
+        "unresolved": 37686
+      },
+      "BODY": {
+        "filled": 354,
+        "unresolved": 37332
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 37683
+      },
+      "CAUSE": {
+        "filled": 664,
+        "unresolved": 37022
+      },
+      "CERTAINTY": {
+        "unresolved": 37686
+      },
+      "DO": {
+        "filled": 1578,
+        "unresolved": 36108
+      },
+      "EXIST": {
+        "unresolved": 37686
+      },
+      "FAR": {
+        "unresolved": 37686
+      },
+      "FEEL": {
+        "filled": 359,
+        "unresolved": 37327
+      },
+      "GOOD": {
+        "filled": 19813,
+        "unresolved": 17873
+      },
+      "HAPPEN": {
+        "filled": 2142,
+        "unresolved": 35544
+      },
+      "HAVE": {
+        "unresolved": 37686
+      },
+      "HEAR": {
+        "filled": 4,
+        "unresolved": 37682
+      },
+      "HERE": {
+        "unresolved": 37686
+      },
+      "I": {
+        "unresolved": 37686
+      },
+      "IF": {
+        "unresolved": 37686
+      },
+      "INFER": {
+        "filled": 8,
+        "unresolved": 37678
+      },
+      "INTENSITY": {
+        "filled": 2,
+        "unresolved": 37684
+      },
+      "KIND": {
+        "unresolved": 37686
+      },
+      "KNOW": {
+        "filled": 4,
+        "unresolved": 37682
+      },
+      "LIKE": {
+        "unresolved": 37686
+      },
+      "LONG_TIME": {
+        "unresolved": 37686
+      },
+      "MAYBE": {
+        "unresolved": 37686
+      },
+      "MOMENT": {
+        "unresolved": 37686
+      },
+      "MOVE": {
+        "filled": 579,
+        "unresolved": 37107
+      },
+      "MUST": {
+        "unresolved": 37686
+      },
+      "NOT": {
+        "unresolved": 37686
+      },
+      "ONE": {
+        "unresolved": 37686
+      },
+      "OUTSIDE": {
+        "unresolved": 37686
+      },
+      "PART": {
+        "filled": 311,
+        "unresolved": 37375
+      },
+      "PEOPLE": {
+        "filled": 47,
+        "unresolved": 37639
+      },
+      "QUANTITY": {
+        "filled": 176,
+        "unresolved": 37510
+      },
+      "SAME": {
+        "unresolved": 37686
+      },
+      "SAY": {
+        "filled": 130,
+        "unresolved": 37556
+      },
+      "SEE": {
+        "filled": 4,
+        "unresolved": 37682
+      },
+      "SIDE": {
+        "unresolved": 37686
+      },
+      "SOMEONE": {
+        "filled": 2402,
+        "unresolved": 35284
+      },
+      "SOMETHING": {
+        "filled": 28488,
+        "unresolved": 9198
+      },
+      "START": {
+        "unresolved": 37686
+      },
+      "THEN": {
+        "unresolved": 37686
+      },
+      "THINK": {
+        "filled": 382,
+        "unresolved": 37304
+      },
+      "TOUCH": {
+        "unresolved": 37686
+      },
+      "TOWARD": {
+        "unresolved": 37686
+      },
+      "TRUE": {
+        "unresolved": 37686
+      },
+      "TWO": {
+        "unresolved": 37686
+      },
+      "WANT": {
+        "filled": 208,
+        "unresolved": 37478
+      },
+      "WHEN": {
+        "filled": 29,
+        "unresolved": 37657
+      },
+      "WHERE": {
+        "filled": 7,
+        "unresolved": 37679
+      },
+      "WITH": {
+        "unresolved": 37686
+      },
+      "WORDS": {
+        "filled": 3,
+        "unresolved": 37683
+      },
+      "YOU": {
+        "unresolved": 37686
+      }
+    },
+    "runtime_common_forms|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 2535
+      },
+      "ALIVE": {
+        "unresolved": 2535
+      },
+      "BE": {
+        "unresolved": 2535
+      },
+      "BECAUSE": {
+        "unresolved": 2535
+      },
+      "BEFORE": {
+        "unresolved": 2535
+      },
+      "BIG": {
+        "unresolved": 2535
+      },
+      "BODY": {
+        "unresolved": 2535
+      },
+      "CAN": {
+        "unresolved": 2535
+      },
+      "CAUSE": {
+        "filled": 603,
+        "unresolved": 1932
+      },
+      "CERTAINTY": {
+        "unresolved": 2535
+      },
+      "DO": {
+        "filled": 794,
+        "unresolved": 1741
+      },
+      "EXIST": {
+        "unresolved": 2535
+      },
+      "FAR": {
+        "unresolved": 2535
+      },
+      "FEEL": {
+        "filled": 87,
+        "unresolved": 2448
+      },
+      "GOOD": {
+        "unresolved": 2535
+      },
+      "HAPPEN": {
+        "filled": 1094,
+        "unresolved": 1441
+      },
+      "HAVE": {
+        "unresolved": 2535
+      },
+      "HEAR": {
+        "filled": 1,
+        "unresolved": 2534
+      },
+      "HERE": {
+        "unresolved": 2535
+      },
+      "I": {
+        "unresolved": 2535
+      },
+      "IF": {
+        "unresolved": 2535
+      },
+      "INFER": {
+        "filled": 1,
+        "unresolved": 2534
+      },
+      "INTENSITY": {
+        "unresolved": 2535
+      },
+      "KIND": {
+        "unresolved": 2535
+      },
+      "KNOW": {
+        "filled": 2,
+        "unresolved": 2533
+      },
+      "LIKE": {
+        "unresolved": 2535
+      },
+      "LONG_TIME": {
+        "unresolved": 2535
+      },
+      "MAYBE": {
+        "unresolved": 2535
+      },
+      "MOMENT": {
+        "unresolved": 2535
+      },
+      "MOVE": {
+        "filled": 468,
+        "unresolved": 2067
+      },
+      "MUST": {
+        "unresolved": 2535
+      },
+      "NOT": {
+        "unresolved": 2535
+      },
+      "ONE": {
+        "unresolved": 2535
+      },
+      "OUTSIDE": {
+        "unresolved": 2535
+      },
+      "PART": {
+        "unresolved": 2535
+      },
+      "PEOPLE": {
+        "unresolved": 2535
+      },
+      "QUANTITY": {
+        "unresolved": 2535
+      },
+      "SAME": {
+        "unresolved": 2535
+      },
+      "SAY": {
+        "filled": 31,
+        "unresolved": 2504
+      },
+      "SEE": {
+        "filled": 2,
+        "unresolved": 2533
+      },
+      "SIDE": {
+        "unresolved": 2535
+      },
+      "SOMEONE": {
+        "unresolved": 2535
+      },
+      "SOMETHING": {
+        "unresolved": 2535
+      },
+      "START": {
+        "unresolved": 2535
+      },
+      "THEN": {
+        "unresolved": 2535
+      },
+      "THINK": {
+        "filled": 79,
+        "unresolved": 2456
+      },
+      "TOUCH": {
+        "unresolved": 2535
+      },
+      "TOWARD": {
+        "unresolved": 2535
+      },
+      "TRUE": {
+        "unresolved": 2535
+      },
+      "TWO": {
+        "unresolved": 2535
+      },
+      "WANT": {
+        "filled": 19,
+        "unresolved": 2516
+      },
+      "WHEN": {
+        "unresolved": 2535
+      },
+      "WHERE": {
+        "unresolved": 2535
+      },
+      "WITH": {
+        "unresolved": 2535
+      },
+      "WORDS": {
+        "unresolved": 2535
+      },
+      "YOU": {
+        "unresolved": 2535
+      }
+    },
+    "runtime_common_forms|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "filled": 15,
+        "unresolved": 94494
+      },
+      "ALIVE": {
+        "filled": 15,
+        "unresolved": 94494
+      },
+      "BE": {
+        "filled": 68,
+        "unresolved": 94441
+      },
+      "BECAUSE": {
+        "filled": 1,
+        "unresolved": 94508
+      },
+      "BEFORE": {
+        "filled": 1,
+        "unresolved": 94508
+      },
+      "BIG": {
+        "filled": 1,
+        "unresolved": 94508
+      },
+      "BODY": {
+        "filled": 35,
+        "unresolved": 94474
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 94508
+      },
+      "CAUSE": {
+        "filled": 1,
+        "unresolved": 94508
+      },
+      "CERTAINTY": {
+        "unresolved": 94509
+      },
+      "DO": {
+        "filled": 6,
+        "unresolved": 94503
+      },
+      "EXIST": {
+        "unresolved": 94509
+      },
+      "FAR": {
+        "unresolved": 94509
+      },
+      "FEEL": {
+        "unresolved": 94509
+      },
+      "GOOD": {
+        "filled": 44866,
+        "unresolved": 49643
+      },
+      "HAPPEN": {
+        "filled": 13,
+        "unresolved": 94496
+      },
+      "HAVE": {
+        "unresolved": 94509
+      },
+      "HEAR": {
+        "unresolved": 94509
+      },
+      "HERE": {
+        "unresolved": 94509
+      },
+      "I": {
+        "unresolved": 94509
+      },
+      "IF": {
+        "unresolved": 94509
+      },
+      "INFER": {
+        "unresolved": 94509
+      },
+      "INTENSITY": {
+        "unresolved": 94509
+      },
+      "KIND": {
+        "unresolved": 94509
+      },
+      "KNOW": {
+        "unresolved": 94509
+      },
+      "LIKE": {
+        "unresolved": 94509
+      },
+      "LONG_TIME": {
+        "unresolved": 94509
+      },
+      "MAYBE": {
+        "unresolved": 94509
+      },
+      "MOMENT": {
+        "unresolved": 94509
+      },
+      "MOVE": {
+        "unresolved": 94509
+      },
+      "MUST": {
+        "unresolved": 94509
+      },
+      "NOT": {
+        "unresolved": 94509
+      },
+      "ONE": {
+        "unresolved": 94509
+      },
+      "OUTSIDE": {
+        "unresolved": 94509
+      },
+      "PART": {
+        "filled": 75,
+        "unresolved": 94434
+      },
+      "PEOPLE": {
+        "filled": 9,
+        "unresolved": 94500
+      },
+      "QUANTITY": {
+        "unresolved": 94509
+      },
+      "SAME": {
+        "unresolved": 94509
+      },
+      "SAY": {
+        "unresolved": 94509
+      },
+      "SEE": {
+        "unresolved": 94509
+      },
+      "SIDE": {
+        "unresolved": 94509
+      },
+      "SOMEONE": {
+        "filled": 170,
+        "unresolved": 94339
+      },
+      "SOMETHING": {
+        "filled": 14516,
+        "unresolved": 79993
+      },
+      "START": {
+        "unresolved": 94509
+      },
+      "THEN": {
+        "unresolved": 94509
+      },
+      "THINK": {
+        "unresolved": 94509
+      },
+      "TOUCH": {
+        "unresolved": 94509
+      },
+      "TOWARD": {
+        "unresolved": 94509
+      },
+      "TRUE": {
+        "unresolved": 94509
+      },
+      "TWO": {
+        "unresolved": 94509
+      },
+      "WANT": {
+        "filled": 13,
+        "unresolved": 94496
+      },
+      "WHEN": {
+        "filled": 23,
+        "unresolved": 94486
+      },
+      "WHERE": {
+        "filled": 17,
+        "unresolved": 94492
+      },
+      "WITH": {
+        "unresolved": 94509
+      },
+      "WORDS": {
+        "filled": 2,
+        "unresolved": 94507
+      },
+      "YOU": {
+        "unresolved": 94509
+      }
+    },
+    "runtime_common_forms|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 61952
+      },
+      "ALIVE": {
+        "filled": 3653,
+        "unresolved": 58299
+      },
+      "BE": {
+        "filled": 118,
+        "unresolved": 61834
+      },
+      "BECAUSE": {
+        "unresolved": 61952
+      },
+      "BEFORE": {
+        "unresolved": 61952
+      },
+      "BIG": {
+        "unresolved": 61952
+      },
+      "BODY": {
+        "filled": 355,
+        "unresolved": 61597
+      },
+      "CAN": {
+        "filled": 3,
+        "unresolved": 61949
+      },
+      "CAUSE": {
+        "filled": 798,
+        "unresolved": 61154
+      },
+      "CERTAINTY": {
+        "unresolved": 61952
+      },
+      "DO": {
+        "filled": 3088,
+        "unresolved": 58864
+      },
+      "EXIST": {
+        "unresolved": 61952
+      },
+      "FAR": {
+        "unresolved": 61952
+      },
+      "FEEL": {
+        "filled": 455,
+        "unresolved": 61497
+      },
+      "GOOD": {
+        "filled": 26918,
+        "unresolved": 35034
+      },
+      "HAPPEN": {
+        "filled": 4197,
+        "unresolved": 57755
+      },
+      "HAVE": {
+        "unresolved": 61952
+      },
+      "HEAR": {
+        "filled": 16,
+        "unresolved": 61936
+      },
+      "HERE": {
+        "unresolved": 61952
+      },
+      "I": {
+        "unresolved": 61952
+      },
+      "IF": {
+        "unresolved": 61952
+      },
+      "INFER": {
+        "filled": 8,
+        "unresolved": 61944
+      },
+      "INTENSITY": {
+        "filled": 2,
+        "unresolved": 61950
+      },
+      "KIND": {
+        "unresolved": 61952
+      },
+      "KNOW": {
+        "filled": 15,
+        "unresolved": 61937
+      },
+      "LIKE": {
+        "unresolved": 61952
+      },
+      "LONG_TIME": {
+        "unresolved": 61952
+      },
+      "MAYBE": {
+        "unresolved": 61952
+      },
+      "MOMENT": {
+        "unresolved": 61952
+      },
+      "MOVE": {
+        "filled": 896,
+        "unresolved": 61056
+      },
+      "MUST": {
+        "unresolved": 61952
+      },
+      "NOT": {
+        "unresolved": 61952
+      },
+      "ONE": {
+        "unresolved": 61952
+      },
+      "OUTSIDE": {
+        "unresolved": 61952
+      },
+      "PART": {
+        "filled": 423,
+        "unresolved": 61529
+      },
+      "PEOPLE": {
+        "filled": 47,
+        "unresolved": 61905
+      },
+      "QUANTITY": {
+        "filled": 176,
+        "unresolved": 61776
+      },
+      "SAME": {
+        "unresolved": 61952
+      },
+      "SAY": {
+        "filled": 352,
+        "unresolved": 61600
+      },
+      "SEE": {
+        "filled": 12,
+        "unresolved": 61940
+      },
+      "SIDE": {
+        "unresolved": 61952
+      },
+      "SOMEONE": {
+        "filled": 3128,
+        "unresolved": 58824
+      },
+      "SOMETHING": {
+        "filled": 36242,
+        "unresolved": 25710
+      },
+      "START": {
+        "unresolved": 61952
+      },
+      "THEN": {
+        "unresolved": 61952
+      },
+      "THINK": {
+        "filled": 1114,
+        "unresolved": 60838
+      },
+      "TOUCH": {
+        "unresolved": 61952
+      },
+      "TOWARD": {
+        "unresolved": 61952
+      },
+      "TRUE": {
+        "unresolved": 61952
+      },
+      "TWO": {
+        "unresolved": 61952
+      },
+      "WANT": {
+        "filled": 271,
+        "unresolved": 61681
+      },
+      "WHEN": {
+        "filled": 29,
+        "unresolved": 61923
+      },
+      "WHERE": {
+        "filled": 7,
+        "unresolved": 61945
+      },
+      "WITH": {
+        "unresolved": 61952
+      },
+      "WORDS": {
+        "filled": 3,
+        "unresolved": 61949
+      },
+      "YOU": {
+        "unresolved": 61952
+      }
+    },
+    "unranked|gse_closed_class|gse_curated_grammar|lexical": {
+      "ABOVE": {
+        "unresolved": 14
+      },
+      "ALIVE": {
+        "unresolved": 14
+      },
+      "BE": {
+        "filled": 2,
+        "unresolved": 12
+      },
+      "BECAUSE": {
+        "unresolved": 14
+      },
+      "BEFORE": {
+        "unresolved": 14
+      },
+      "BIG": {
+        "unresolved": 14
+      },
+      "BODY": {
+        "unresolved": 14
+      },
+      "CAN": {
+        "unresolved": 14
+      },
+      "CAUSE": {
+        "unresolved": 14
+      },
+      "CERTAINTY": {
+        "unresolved": 14
+      },
+      "DO": {
+        "unresolved": 14
+      },
+      "EXIST": {
+        "unresolved": 14
+      },
+      "FAR": {
+        "unresolved": 14
+      },
+      "FEEL": {
+        "unresolved": 14
+      },
+      "GOOD": {
+        "unresolved": 14
+      },
+      "HAPPEN": {
+        "unresolved": 14
+      },
+      "HAVE": {
+        "filled": 3,
+        "unresolved": 11
+      },
+      "HEAR": {
+        "unresolved": 14
+      },
+      "HERE": {
+        "unresolved": 14
+      },
+      "I": {
+        "unresolved": 14
+      },
+      "IF": {
+        "unresolved": 14
+      },
+      "INFER": {
+        "unresolved": 14
+      },
+      "INTENSITY": {
+        "unresolved": 14
+      },
+      "KIND": {
+        "unresolved": 14
+      },
+      "KNOW": {
+        "unresolved": 14
+      },
+      "LIKE": {
+        "unresolved": 14
+      },
+      "LONG_TIME": {
+        "unresolved": 14
+      },
+      "MAYBE": {
+        "unresolved": 14
+      },
+      "MOMENT": {
+        "unresolved": 14
+      },
+      "MOVE": {
+        "unresolved": 14
+      },
+      "MUST": {
+        "unresolved": 14
+      },
+      "NOT": {
+        "filled": 1,
+        "unresolved": 13
+      },
+      "ONE": {
+        "unresolved": 14
+      },
+      "OUTSIDE": {
+        "unresolved": 14
+      },
+      "PART": {
+        "unresolved": 14
+      },
+      "PEOPLE": {
+        "unresolved": 14
+      },
+      "QUANTITY": {
+        "unresolved": 14
+      },
+      "SAME": {
+        "unresolved": 14
+      },
+      "SAY": {
+        "unresolved": 14
+      },
+      "SEE": {
+        "unresolved": 14
+      },
+      "SIDE": {
+        "unresolved": 14
+      },
+      "SOMEONE": {
+        "filled": 3,
+        "unresolved": 11
+      },
+      "SOMETHING": {
+        "unresolved": 14
+      },
+      "START": {
+        "unresolved": 14
+      },
+      "THEN": {
+        "unresolved": 14
+      },
+      "THINK": {
+        "unresolved": 14
+      },
+      "TOUCH": {
+        "unresolved": 14
+      },
+      "TOWARD": {
+        "unresolved": 14
+      },
+      "TRUE": {
+        "unresolved": 14
+      },
+      "TWO": {
+        "unresolved": 14
+      },
+      "WANT": {
+        "unresolved": 14
+      },
+      "WHEN": {
+        "unresolved": 14
+      },
+      "WHERE": {
+        "unresolved": 14
+      },
+      "WITH": {
+        "unresolved": 14
+      },
+      "WORDS": {
+        "unresolved": 14
+      },
+      "YOU": {
+        "unresolved": 14
+      }
+    },
+    "unranked|nsm_chart|nsm_primary_chart|source_structure": {
+      "ABOVE": {
+        "unresolved": 7
+      },
+      "ALIVE": {
+        "unresolved": 7
+      },
+      "BE": {
+        "unresolved": 7
+      },
+      "BECAUSE": {
+        "unresolved": 7
+      },
+      "BEFORE": {
+        "unresolved": 7
+      },
+      "BIG": {
+        "unresolved": 7
+      },
+      "BODY": {
+        "unresolved": 7
+      },
+      "CAN": {
+        "unresolved": 7
+      },
+      "CAUSE": {
+        "unresolved": 7
+      },
+      "CERTAINTY": {
+        "unresolved": 7
+      },
+      "DO": {
+        "unresolved": 7
+      },
+      "EXIST": {
+        "unresolved": 7
+      },
+      "FAR": {
+        "unresolved": 7
+      },
+      "FEEL": {
+        "unresolved": 7
+      },
+      "GOOD": {
+        "unresolved": 7
+      },
+      "HAPPEN": {
+        "unresolved": 7
+      },
+      "HAVE": {
+        "unresolved": 7
+      },
+      "HEAR": {
+        "unresolved": 7
+      },
+      "HERE": {
+        "unresolved": 7
+      },
+      "I": {
+        "unresolved": 7
+      },
+      "IF": {
+        "unresolved": 7
+      },
+      "INFER": {
+        "unresolved": 7
+      },
+      "INTENSITY": {
+        "unresolved": 7
+      },
+      "KIND": {
+        "unresolved": 7
+      },
+      "KNOW": {
+        "unresolved": 7
+      },
+      "LIKE": {
+        "unresolved": 7
+      },
+      "LONG_TIME": {
+        "unresolved": 7
+      },
+      "MAYBE": {
+        "unresolved": 7
+      },
+      "MOMENT": {
+        "unresolved": 7
+      },
+      "MOVE": {
+        "unresolved": 7
+      },
+      "MUST": {
+        "unresolved": 7
+      },
+      "NOT": {
+        "unresolved": 7
+      },
+      "ONE": {
+        "unresolved": 7
+      },
+      "OUTSIDE": {
+        "unresolved": 7
+      },
+      "PART": {
+        "unresolved": 7
+      },
+      "PEOPLE": {
+        "unresolved": 7
+      },
+      "QUANTITY": {
+        "unresolved": 7
+      },
+      "SAME": {
+        "unresolved": 7
+      },
+      "SAY": {
+        "unresolved": 7
+      },
+      "SEE": {
+        "unresolved": 7
+      },
+      "SIDE": {
+        "unresolved": 7
+      },
+      "SOMEONE": {
+        "unresolved": 7
+      },
+      "SOMETHING": {
+        "unresolved": 7
+      },
+      "START": {
+        "unresolved": 7
+      },
+      "THEN": {
+        "unresolved": 7
+      },
+      "THINK": {
+        "unresolved": 7
+      },
+      "TOUCH": {
+        "unresolved": 7
+      },
+      "TOWARD": {
+        "unresolved": 7
+      },
+      "TRUE": {
+        "unresolved": 7
+      },
+      "TWO": {
+        "unresolved": 7
+      },
+      "WANT": {
+        "unresolved": 7
+      },
+      "WHEN": {
+        "unresolved": 7
+      },
+      "WHERE": {
+        "unresolved": 7
+      },
+      "WITH": {
+        "unresolved": 7
+      },
+      "WORDS": {
+        "unresolved": 7
+      },
+      "YOU": {
+        "unresolved": 7
+      }
+    },
+    "unranked|sentiwordnet|wordnet|association": {
+      "ABOVE": {
+        "unresolved": 47548
+      },
+      "ALIVE": {
+        "filled": 7959,
+        "unresolved": 39589
+      },
+      "BE": {
+        "filled": 183,
+        "unresolved": 47365
+      },
+      "BECAUSE": {
+        "unresolved": 47548
+      },
+      "BEFORE": {
+        "unresolved": 47548
+      },
+      "BIG": {
+        "unresolved": 47548
+      },
+      "BODY": {
+        "filled": 1706,
+        "unresolved": 45842
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 47547
+      },
+      "CAUSE": {
+        "filled": 95,
+        "unresolved": 47453
+      },
+      "CERTAINTY": {
+        "unresolved": 47548
+      },
+      "DO": {
+        "filled": 569,
+        "unresolved": 46979
+      },
+      "EXIST": {
+        "unresolved": 47548
+      },
+      "FAR": {
+        "unresolved": 47548
+      },
+      "FEEL": {
+        "filled": 292,
+        "unresolved": 47256
+      },
+      "GOOD": {
+        "filled": 31423,
+        "unresolved": 16125
+      },
+      "HAPPEN": {
+        "filled": 721,
+        "unresolved": 46827
+      },
+      "HAVE": {
+        "unresolved": 47548
+      },
+      "HEAR": {
+        "unresolved": 47548
+      },
+      "HERE": {
+        "unresolved": 47548
+      },
+      "I": {
+        "unresolved": 47548
+      },
+      "IF": {
+        "unresolved": 47548
+      },
+      "INFER": {
+        "filled": 5,
+        "unresolved": 47543
+      },
+      "INTENSITY": {
+        "unresolved": 47548
+      },
+      "KIND": {
+        "unresolved": 47548
+      },
+      "KNOW": {
+        "filled": 6,
+        "unresolved": 47542
+      },
+      "LIKE": {
+        "unresolved": 47548
+      },
+      "LONG_TIME": {
+        "unresolved": 47548
+      },
+      "MAYBE": {
+        "unresolved": 47548
+      },
+      "MOMENT": {
+        "unresolved": 47548
+      },
+      "MOVE": {
+        "filled": 123,
+        "unresolved": 47425
+      },
+      "MUST": {
+        "unresolved": 47548
+      },
+      "NOT": {
+        "unresolved": 47548
+      },
+      "ONE": {
+        "unresolved": 47548
+      },
+      "OUTSIDE": {
+        "unresolved": 47548
+      },
+      "PART": {
+        "filled": 727,
+        "unresolved": 46821
+      },
+      "PEOPLE": {
+        "filled": 13,
+        "unresolved": 47535
+      },
+      "QUANTITY": {
+        "filled": 500,
+        "unresolved": 47048
+      },
+      "SAME": {
+        "unresolved": 47548
+      },
+      "SAY": {
+        "filled": 73,
+        "unresolved": 47475
+      },
+      "SEE": {
+        "unresolved": 47548
+      },
+      "SIDE": {
+        "unresolved": 47548
+      },
+      "SOMEONE": {
+        "filled": 4555,
+        "unresolved": 42993
+      },
+      "SOMETHING": {
+        "filled": 43175,
+        "unresolved": 4373
+      },
+      "START": {
+        "unresolved": 47548
+      },
+      "THEN": {
+        "unresolved": 47548
+      },
+      "THINK": {
+        "filled": 176,
+        "unresolved": 47372
+      },
+      "TOUCH": {
+        "unresolved": 47548
+      },
+      "TOWARD": {
+        "unresolved": 47548
+      },
+      "TRUE": {
+        "unresolved": 47548
+      },
+      "TWO": {
+        "unresolved": 47548
+      },
+      "WANT": {
+        "filled": 394,
+        "unresolved": 47154
+      },
+      "WHEN": {
+        "filled": 6,
+        "unresolved": 47542
+      },
+      "WHERE": {
+        "filled": 8,
+        "unresolved": 47540
+      },
+      "WITH": {
+        "unresolved": 47548
+      },
+      "WORDS": {
+        "filled": 12,
+        "unresolved": 47536
+      },
+      "YOU": {
+        "unresolved": 47548
+      }
+    },
+    "unranked|verbnet|verb_structure|lexical": {
+      "ABOVE": {
+        "unresolved": 398
+      },
+      "ALIVE": {
+        "unresolved": 398
+      },
+      "BE": {
+        "unresolved": 398
+      },
+      "BECAUSE": {
+        "unresolved": 398
+      },
+      "BEFORE": {
+        "unresolved": 398
+      },
+      "BIG": {
+        "unresolved": 398
+      },
+      "BODY": {
+        "unresolved": 398
+      },
+      "CAN": {
+        "unresolved": 398
+      },
+      "CAUSE": {
+        "filled": 73,
+        "unresolved": 325
+      },
+      "CERTAINTY": {
+        "unresolved": 398
+      },
+      "DO": {
+        "filled": 106,
+        "unresolved": 292
+      },
+      "EXIST": {
+        "unresolved": 398
+      },
+      "FAR": {
+        "unresolved": 398
+      },
+      "FEEL": {
+        "filled": 7,
+        "unresolved": 391
+      },
+      "GOOD": {
+        "unresolved": 398
+      },
+      "HAPPEN": {
+        "filled": 146,
+        "unresolved": 252
+      },
+      "HAVE": {
+        "unresolved": 398
+      },
+      "HEAR": {
+        "unresolved": 398
+      },
+      "HERE": {
+        "unresolved": 398
+      },
+      "I": {
+        "unresolved": 398
+      },
+      "IF": {
+        "unresolved": 398
+      },
+      "INFER": {
+        "unresolved": 398
+      },
+      "INTENSITY": {
+        "unresolved": 398
+      },
+      "KIND": {
+        "unresolved": 398
+      },
+      "KNOW": {
+        "unresolved": 398
+      },
+      "LIKE": {
+        "unresolved": 398
+      },
+      "LONG_TIME": {
+        "unresolved": 398
+      },
+      "MAYBE": {
+        "unresolved": 398
+      },
+      "MOMENT": {
+        "unresolved": 398
+      },
+      "MOVE": {
+        "filled": 51,
+        "unresolved": 347
+      },
+      "MUST": {
+        "unresolved": 398
+      },
+      "NOT": {
+        "unresolved": 398
+      },
+      "ONE": {
+        "unresolved": 398
+      },
+      "OUTSIDE": {
+        "unresolved": 398
+      },
+      "PART": {
+        "unresolved": 398
+      },
+      "PEOPLE": {
+        "unresolved": 398
+      },
+      "QUANTITY": {
+        "unresolved": 398
+      },
+      "SAME": {
+        "unresolved": 398
+      },
+      "SAY": {
+        "filled": 8,
+        "unresolved": 390
+      },
+      "SEE": {
+        "unresolved": 398
+      },
+      "SIDE": {
+        "unresolved": 398
+      },
+      "SOMEONE": {
+        "unresolved": 398
+      },
+      "SOMETHING": {
+        "unresolved": 398
+      },
+      "START": {
+        "unresolved": 398
+      },
+      "THEN": {
+        "unresolved": 398
+      },
+      "THINK": {
+        "filled": 4,
+        "unresolved": 394
+      },
+      "TOUCH": {
+        "unresolved": 398
+      },
+      "TOWARD": {
+        "unresolved": 398
+      },
+      "TRUE": {
+        "unresolved": 398
+      },
+      "TWO": {
+        "unresolved": 398
+      },
+      "WANT": {
+        "unresolved": 398
+      },
+      "WHEN": {
+        "unresolved": 398
+      },
+      "WHERE": {
+        "unresolved": 398
+      },
+      "WITH": {
+        "unresolved": 398
+      },
+      "WORDS": {
+        "unresolved": 398
+      },
+      "YOU": {
+        "unresolved": 398
+      }
+    },
+    "unranked|websters1913|historical_dictionary|lexical": {
+      "ABOVE": {
+        "unresolved": 1
+      },
+      "ALIVE": {
+        "unresolved": 1
+      },
+      "BE": {
+        "unresolved": 1
+      },
+      "BECAUSE": {
+        "unresolved": 1
+      },
+      "BEFORE": {
+        "unresolved": 1
+      },
+      "BIG": {
+        "unresolved": 1
+      },
+      "BODY": {
+        "unresolved": 1
+      },
+      "CAN": {
+        "unresolved": 1
+      },
+      "CAUSE": {
+        "unresolved": 1
+      },
+      "CERTAINTY": {
+        "unresolved": 1
+      },
+      "DO": {
+        "unresolved": 1
+      },
+      "EXIST": {
+        "unresolved": 1
+      },
+      "FAR": {
+        "unresolved": 1
+      },
+      "FEEL": {
+        "unresolved": 1
+      },
+      "GOOD": {
+        "filled": 1
+      },
+      "HAPPEN": {
+        "unresolved": 1
+      },
+      "HAVE": {
+        "unresolved": 1
+      },
+      "HEAR": {
+        "unresolved": 1
+      },
+      "HERE": {
+        "unresolved": 1
+      },
+      "I": {
+        "unresolved": 1
+      },
+      "IF": {
+        "unresolved": 1
+      },
+      "INFER": {
+        "unresolved": 1
+      },
+      "INTENSITY": {
+        "unresolved": 1
+      },
+      "KIND": {
+        "unresolved": 1
+      },
+      "KNOW": {
+        "unresolved": 1
+      },
+      "LIKE": {
+        "unresolved": 1
+      },
+      "LONG_TIME": {
+        "unresolved": 1
+      },
+      "MAYBE": {
+        "unresolved": 1
+      },
+      "MOMENT": {
+        "unresolved": 1
+      },
+      "MOVE": {
+        "unresolved": 1
+      },
+      "MUST": {
+        "unresolved": 1
+      },
+      "NOT": {
+        "unresolved": 1
+      },
+      "ONE": {
+        "unresolved": 1
+      },
+      "OUTSIDE": {
+        "unresolved": 1
+      },
+      "PART": {
+        "unresolved": 1
+      },
+      "PEOPLE": {
+        "unresolved": 1
+      },
+      "QUANTITY": {
+        "unresolved": 1
+      },
+      "SAME": {
+        "unresolved": 1
+      },
+      "SAY": {
+        "unresolved": 1
+      },
+      "SEE": {
+        "unresolved": 1
+      },
+      "SIDE": {
+        "unresolved": 1
+      },
+      "SOMEONE": {
+        "unresolved": 1
+      },
+      "SOMETHING": {
+        "unresolved": 1
+      },
+      "START": {
+        "unresolved": 1
+      },
+      "THEN": {
+        "unresolved": 1
+      },
+      "THINK": {
+        "unresolved": 1
+      },
+      "TOUCH": {
+        "unresolved": 1
+      },
+      "TOWARD": {
+        "unresolved": 1
+      },
+      "TRUE": {
+        "unresolved": 1
+      },
+      "TWO": {
+        "unresolved": 1
+      },
+      "WANT": {
+        "unresolved": 1
+      },
+      "WHEN": {
+        "unresolved": 1
+      },
+      "WHERE": {
+        "unresolved": 1
+      },
+      "WITH": {
+        "unresolved": 1
+      },
+      "WORDS": {
+        "unresolved": 1
+      },
+      "YOU": {
+        "unresolved": 1
+      }
+    },
+    "unranked|wiktionary|wiktionary|lexical": {
+      "ABOVE": {
+        "unresolved": 98412
+      },
+      "ALIVE": {
+        "unresolved": 98412
+      },
+      "BE": {
+        "filled": 244,
+        "unresolved": 98168
+      },
+      "BECAUSE": {
+        "unresolved": 98412
+      },
+      "BEFORE": {
+        "unresolved": 98412
+      },
+      "BIG": {
+        "unresolved": 98412
+      },
+      "BODY": {
+        "filled": 36,
+        "unresolved": 98376
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 98411
+      },
+      "CAUSE": {
+        "unresolved": 98412
+      },
+      "CERTAINTY": {
+        "unresolved": 98412
+      },
+      "DO": {
+        "filled": 2,
+        "unresolved": 98410
+      },
+      "EXIST": {
+        "unresolved": 98412
+      },
+      "FAR": {
+        "unresolved": 98412
+      },
+      "FEEL": {
+        "unresolved": 98412
+      },
+      "GOOD": {
+        "filled": 53791,
+        "unresolved": 44621
+      },
+      "HAPPEN": {
+        "filled": 7,
+        "unresolved": 98405
+      },
+      "HAVE": {
+        "unresolved": 98412
+      },
+      "HEAR": {
+        "unresolved": 98412
+      },
+      "HERE": {
+        "unresolved": 98412
+      },
+      "I": {
+        "unresolved": 98412
+      },
+      "IF": {
+        "unresolved": 98412
+      },
+      "INFER": {
+        "unresolved": 98412
+      },
+      "INTENSITY": {
+        "unresolved": 98412
+      },
+      "KIND": {
+        "unresolved": 98412
+      },
+      "KNOW": {
+        "unresolved": 98412
+      },
+      "LIKE": {
+        "unresolved": 98412
+      },
+      "LONG_TIME": {
+        "unresolved": 98412
+      },
+      "MAYBE": {
+        "unresolved": 98412
+      },
+      "MOMENT": {
+        "unresolved": 98412
+      },
+      "MOVE": {
+        "unresolved": 98412
+      },
+      "MUST": {
+        "unresolved": 98412
+      },
+      "NOT": {
+        "unresolved": 98412
+      },
+      "ONE": {
+        "unresolved": 98412
+      },
+      "OUTSIDE": {
+        "unresolved": 98412
+      },
+      "PART": {
+        "filled": 48,
+        "unresolved": 98364
+      },
+      "PEOPLE": {
+        "filled": 2,
+        "unresolved": 98410
+      },
+      "QUANTITY": {
+        "unresolved": 98412
+      },
+      "SAME": {
+        "unresolved": 98412
+      },
+      "SAY": {
+        "unresolved": 98412
+      },
+      "SEE": {
+        "unresolved": 98412
+      },
+      "SIDE": {
+        "unresolved": 98412
+      },
+      "SOMEONE": {
+        "filled": 397,
+        "unresolved": 98015
+      },
+      "SOMETHING": {
+        "filled": 16718,
+        "unresolved": 81694
+      },
+      "START": {
+        "unresolved": 98412
+      },
+      "THEN": {
+        "unresolved": 98412
+      },
+      "THINK": {
+        "unresolved": 98412
+      },
+      "TOUCH": {
+        "unresolved": 98412
+      },
+      "TOWARD": {
+        "unresolved": 98412
+      },
+      "TRUE": {
+        "unresolved": 98412
+      },
+      "TWO": {
+        "unresolved": 98412
+      },
+      "WANT": {
+        "filled": 36,
+        "unresolved": 98376
+      },
+      "WHEN": {
+        "filled": 7,
+        "unresolved": 98405
+      },
+      "WHERE": {
+        "filled": 17,
+        "unresolved": 98395
+      },
+      "WITH": {
+        "unresolved": 98412
+      },
+      "WORDS": {
+        "filled": 2,
+        "unresolved": 98410
+      },
+      "YOU": {
+        "unresolved": 98412
+      }
+    },
+    "unranked|wordnet_hierarchy|wordnet|lexical": {
+      "ABOVE": {
+        "unresolved": 73739
+      },
+      "ALIVE": {
+        "filled": 9178,
+        "unresolved": 64561
+      },
+      "BE": {
+        "filled": 183,
+        "unresolved": 73556
+      },
+      "BECAUSE": {
+        "unresolved": 73739
+      },
+      "BEFORE": {
+        "unresolved": 73739
+      },
+      "BIG": {
+        "unresolved": 73739
+      },
+      "BODY": {
+        "filled": 1706,
+        "unresolved": 72033
+      },
+      "CAN": {
+        "filled": 1,
+        "unresolved": 73738
+      },
+      "CAUSE": {
+        "filled": 221,
+        "unresolved": 73518
+      },
+      "CERTAINTY": {
+        "unresolved": 73739
+      },
+      "DO": {
+        "filled": 2075,
+        "unresolved": 71664
+      },
+      "EXIST": {
+        "unresolved": 73739
+      },
+      "FAR": {
+        "unresolved": 73739
+      },
+      "FEEL": {
+        "filled": 409,
+        "unresolved": 73330
+      },
+      "GOOD": {
+        "filled": 41546,
+        "unresolved": 32193
+      },
+      "HAPPEN": {
+        "filled": 2687,
+        "unresolved": 71052
+      },
+      "HAVE": {
+        "unresolved": 73739
+      },
+      "HEAR": {
+        "filled": 5,
+        "unresolved": 73734
+      },
+      "HERE": {
+        "unresolved": 73739
+      },
+      "I": {
+        "unresolved": 73739
+      },
+      "IF": {
+        "unresolved": 73739
+      },
+      "INFER": {
+        "filled": 5,
+        "unresolved": 73734
+      },
+      "INTENSITY": {
+        "unresolved": 73739
+      },
+      "KIND": {
+        "unresolved": 73739
+      },
+      "KNOW": {
+        "filled": 17,
+        "unresolved": 73722
+      },
+      "LIKE": {
+        "unresolved": 73739
+      },
+      "LONG_TIME": {
+        "unresolved": 73739
+      },
+      "MAYBE": {
+        "unresolved": 73739
+      },
+      "MOMENT": {
+        "unresolved": 73739
+      },
+      "MOVE": {
+        "filled": 402,
+        "unresolved": 73337
+      },
+      "MUST": {
+        "unresolved": 73739
+      },
+      "NOT": {
+        "unresolved": 73739
+      },
+      "ONE": {
+        "unresolved": 73739
+      },
+      "OUTSIDE": {
+        "unresolved": 73739
+      },
+      "PART": {
+        "filled": 874,
+        "unresolved": 72865
+      },
+      "PEOPLE": {
+        "filled": 13,
+        "unresolved": 73726
+      },
+      "QUANTITY": {
+        "filled": 500,
+        "unresolved": 73239
+      },
+      "SAME": {
+        "unresolved": 73739
+      },
+      "SAY": {
+        "filled": 311,
+        "unresolved": 73428
+      },
+      "SEE": {
+        "filled": 3,
+        "unresolved": 73736
+      },
+      "SIDE": {
+        "unresolved": 73739
+      },
+      "SOMEONE": {
+        "filled": 5592,
+        "unresolved": 68147
+      },
+      "SOMETHING": {
+        "filled": 53833,
+        "unresolved": 19906
+      },
+      "START": {
+        "unresolved": 73739
+      },
+      "THEN": {
+        "unresolved": 73739
+      },
+      "THINK": {
+        "filled": 918,
+        "unresolved": 72821
+      },
+      "TOUCH": {
+        "unresolved": 73739
+      },
+      "TOWARD": {
+        "unresolved": 73739
+      },
+      "TRUE": {
+        "unresolved": 73739
+      },
+      "TWO": {
+        "unresolved": 73739
+      },
+      "WANT": {
+        "filled": 446,
+        "unresolved": 73293
+      },
+      "WHEN": {
+        "filled": 6,
+        "unresolved": 73733
+      },
+      "WHERE": {
+        "filled": 8,
+        "unresolved": 73731
+      },
+      "WITH": {
+        "unresolved": 73739
+      },
+      "WORDS": {
+        "filled": 12,
+        "unresolved": 73727
+      },
+      "YOU": {
+        "unresolved": 73739
+      }
+    }
+  },
+  "created_utc": "2026-11-24T08:33:22.991690+00:00",
+  "database_pin": {
+    "bytes": 20353929216,
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+    "sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+    "stable_stat": true
+  },
+  "demand_semantics": "Exact source/entry attachments only, distinct source-family-scope-entry; these strata overlap and must not be summed. No candidate-linked or association observation is promoted to sign authority.",
+  "format": "GSE.ssl-api-coverage-source-scope/1",
+  "native_person_case_number_scope": [
+    {
+      "I": [
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:i",
+      "grammar": {
+        "case": "NOM",
+        "number": "SINGULAR",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:i:45dd086ebaae4c403290881c319b5ced907e675dfbddde7e8555b0a72bd184f4",
+      "status": "REVIEWED_NARROW_SOURCE_PROJECTION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:me",
+      "grammar": {
+        "case": "ACC",
+        "number": "SINGULAR",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:me:ad00002a47533de9e6eef4c4d6f065ee0ce1250b5ab802567359a4fcf443019a",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:mine",
+      "grammar": {
+        "case": "GEN",
+        "number": "SINGULAR",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:mine:626e3c2154507ef6b7e2ff9a381a8109e33fa9805bea79ebffa65e161f8653bb",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:my",
+      "grammar": {
+        "case": "GEN",
+        "number": "SINGULAR",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:my:f827747aa0ace93d6135f2fe9f59a610f4d7790c76bf8684217b73e33e0cee53",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:myself",
+      "grammar": {
+        "case": "ACC",
+        "number": "SINGULAR",
+        "person": 1,
+        "reflexivity": "REFLEXIVE"
+      },
+      "native_record_id": "gse_closed_class:myself:ef5a9624ee24663dbe6f8525ee80609908f0929cf605ebe560ca2285f4b29ef2",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:our",
+      "grammar": {
+        "case": "GEN",
+        "number": "PLURAL",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:our:810947fad689e0877851c1fbea4b31842e38e87823831430025650e79454b6aa",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:ours",
+      "grammar": {
+        "case": "GEN",
+        "number": "PLURAL",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:ours:2f1e2b0721cbc4d921616ac542f85826127c392062d12987dae5be6a66a54203",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:ourselves",
+      "grammar": {
+        "case": "ACC",
+        "number": "PLURAL",
+        "person": 1,
+        "reflexivity": "REFLEXIVE"
+      },
+      "native_record_id": "gse_closed_class:ourselves:46498048b6a34b05f2b2502dd0e5381772bcd05f337638420690aa9daeef8355",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:us",
+      "grammar": {
+        "case": "ACC",
+        "number": "PLURAL",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:us:7b9ea4cfcf6c2580ddf0554d69c4e3134d0a4a0f75760081c2446e3d155c8416",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:we",
+      "grammar": {
+        "case": "NOM",
+        "number": "PLURAL",
+        "person": 1
+      },
+      "native_record_id": "gse_closed_class:we:64813a6a227546f3e160d74dafa0dcf03fc46a33fc8761e9c76350cc89b4ee04",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:you",
+      "grammar": {
+        "case": "NOM",
+        "person": 2
+      },
+      "native_record_id": "gse_closed_class:you:fbff12e440d68d97d943dd6e45a5ff93016a4fe8fe259c2c1e91e114ef17165b",
+      "status": "REVIEWED_NARROW_SOURCE_PROJECTION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:your",
+      "grammar": {
+        "case": "GEN",
+        "person": 2
+      },
+      "native_record_id": "gse_closed_class:your:1f376fbb72470eaf3db353e8735ce3524ce196c5b921d53164f04b62d9c866a8",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:yours",
+      "grammar": {
+        "case": "GEN",
+        "person": 2
+      },
+      "native_record_id": "gse_closed_class:yours:7235630750daa6c5000dc456cc3711a616b7fda014400fe545c4f71850797028",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:yourself",
+      "grammar": {
+        "case": "ACC",
+        "number": "SINGULAR",
+        "person": 2,
+        "reflexivity": "REFLEXIVE"
+      },
+      "native_record_id": "gse_closed_class:yourself:cb73c45408dba7ad7319fc7a1a74fe719699d79e6f64a153a3ceafd42cbf64ed",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    },
+    {
+      "I": [
+        -1,
+        0,
+        1
+      ],
+      "YOU": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "gse_closed_class:pronoun:yourselves",
+      "grammar": {
+        "case": "ACC",
+        "number": "PLURAL",
+        "person": 2,
+        "reflexivity": "REFLEXIVE"
+      },
+      "native_record_id": "gse_closed_class:yourselves:82f2d6c11073d3c7be74a76825a2b1d0f37318744c828efe94c42cd20e4acc3d",
+      "status": "OUTSIDE_REVIEWED_CASE_NUMBER_GUARD_NOT_PERMISSION"
+    }
+  ],
+  "semantic_findings": [
+    "Current native dictionary projections and local admitted relation support show zero unreflected marginal narrowing in scanned exact witnesses (separate law-reach artifact).",
+    "A BLOCKED absence guard is justified abstention, not missing-zero integration. Full unclassified native text blocks the default.",
+    "First/second-person oblique/plural catalog variants lie outside current reviewed sufficient guard; no sign inferred from omitted fields."
+  ]
+}

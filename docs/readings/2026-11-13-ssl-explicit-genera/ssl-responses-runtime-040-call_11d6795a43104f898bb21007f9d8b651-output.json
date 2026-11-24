@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 1,
+  "elapsed_seconds": 0.5727062090300024,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-040-call_11d6795a43104f898bb21007f9d8b651.log",
+  "output_characters": 1192,
+  "output": "error[missing-union-attribute]: Attribute `grammatical_eligibility` is not defined on `None` in union `LexicalGrounding | None`\n   --> GSE/api/encoder.py:420:31\n    |\n420 |                 eligibility = grounding.grammatical_eligibility(i, lookup_form, entry_id)\n    |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[not-callable]: Object of type `object` is not callable\n    --> GSE/symbolic/grounding.py:1211:44\n     |\n1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, \"NOUN\", False)]\n     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[not-subscriptable]: Cannot subscript object of type `None` with no `__getitem__` method\n   --> scripts/audit_lexicon_sentences.py:357:18\n    |\n357 |         domain = exact[\"domains\"].get(bank)\n    |                  ^^^^^^^^^^^^^^^^\n\nerror[missing-union-attribute]: Attribute `values` is not defined on `str` in union `Unknown | str | dict[Unknown, dict[str, Unknown | None | str]]`\n   --> scripts/audit_lexicon_sentences.py:424:21\n    |\n424 |         for bank in row[\"banks\"].values():\n    |                     ^^^^^^^^^^^^^^^^^^^\n\nFound 4 diagnostics\n"
+}

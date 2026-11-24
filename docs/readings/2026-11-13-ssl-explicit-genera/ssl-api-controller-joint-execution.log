@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py", line 594, in <module>
+    execute(retained_only=args.phase == "retained-teaching", teaching_only=args.phase == "teach")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py", line 532, in execute
+    record(migration_path, migrate_revision(working, output, revision))
+                           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/rule_migration.py", line 328, in migrate_revision
+    return _migrate(source, output, revision=revision)
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/rule_migration.py", line 351, in _migrate
+    return _migrate_snapshot(source, temporary, output, admissions, admission, revision)
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/rule_migration.py", line 373, in _migrate_snapshot
+    raise ValueError("MIGRATION_AUDITED_SNAPSHOT_CHANGED")
+ValueError: MIGRATION_AUDITED_SNAPSHOT_CHANGED

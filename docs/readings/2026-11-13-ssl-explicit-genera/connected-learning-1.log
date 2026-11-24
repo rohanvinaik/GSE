@@ -1,0 +1,19 @@
+I001 [*] Import block is un-sorted or un-formatted
+    --> tests/test_lexicon_epoch.py:1153:5
+     |
+1152 |   def test_open_bank_curriculum_runs_through_the_public_epoch_entry_point(tmp_path, monkeypatch):
+1153 | /     import sys
+1154 | |     from scripts import run_lexicon_epochs
+     | |__________________________________________^
+1155 |
+1156 |       base, pointer, plan, _ = open_curriculum_inputs(tmp_path)
+     |
+help: Organize imports
+     |
+1153 |     import sys
+1154 +
+1155 |     from scripts import run_lexicon_epochs
+     |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

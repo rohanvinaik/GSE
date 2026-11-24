@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 1,
+  "elapsed_seconds": 5.61859287484549,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-104-call_a5bad45c05db439190b563aff4bffd48.log",
+  "output_characters": 749,
+  "output": "........................                                                 [100%]\n24 passed in 4.47s\nAll checks passed!\nunformatted: File would be reformatted\n   --> docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py:328:21\n    |\n327 |         \"audit_entry_ids\": child[\"audit_entry_ids\"],\n    -         \"reviews\": [\n    -             {\"request_id\": row[\"receipt\"][\"request_id\"], \"review\": row[\"review\"]} for row in child[\"rulings\"]\n    -         ],\n328 +         \"reviews\": [{\"request_id\": row[\"receipt\"][\"request_id\"], \"review\": row[\"review\"]} for row in child[\"rulings\"]],\n329 |         **{key: child[key] for key in (\"candidates\", \"guarded_candidates\") if key in child},\n    |\n\n1 file would be reformatted, 1 file already formatted\n"
+}

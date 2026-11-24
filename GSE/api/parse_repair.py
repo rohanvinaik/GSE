@@ -109,7 +109,7 @@ def verbs_to_promote(doc) -> Set[int]:
 
     promote: Set[int] = set()
     for i, t in enumerate(toks):
-        if t.pos_ in ("VERB", "PUNCT"):
+        if t.pos_ in ("VERB", "AUX", "PUNCT"):
             continue
         if not _has_verb_sense(t.lemma_):
             continue

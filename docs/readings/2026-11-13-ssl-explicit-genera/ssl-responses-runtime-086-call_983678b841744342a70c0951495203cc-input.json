@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-unfreeze-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nf=p/'ssl-responses-runtime-steering.json'\nif f.exists():print(f.read_text())\nfor name in ['GSE/symbolic/expression.py','GSE/symbolic/predicates.py','GSE/symbolic/resolution.py','GSE/symbolic/operators.py','GSE/symbolic/emit.py','GSE/symbolic/lexical_grounding.py']:\n t=ast.parse(Path(name).read_text());print('\\nUNIT INVENTORY',name)\n for n in t.body:\n  if isinstance(n,(ast.ClassDef,ast.FunctionDef)):\n   print(n.lineno,n.end_lineno,n.name)\n   if isinstance(n,ast.ClassDef): print([(m.name,m.lineno,m.end_lineno) for m in n.body if isinstance(m,ast.FunctionDef)])\nprint('\\nFINAL FAILED CASES')\nb=json.loads((p/'ssl-api-runtime-final-cases.json').read_text());print(json.dumps(b,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

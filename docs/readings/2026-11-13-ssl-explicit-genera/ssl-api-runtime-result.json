@@ -1,0 +1,444 @@
+{
+  "format": "GSE.runtime-worker-result/1",
+  "role_scope": "ASSIGNMENT B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "status": "SOURCE_EDITING_UNFROZEN",
+  "source_edits_finished": false,
+  "frozen_at_utc": "2026-11-24T09:07:17.601514+00:00",
+  "coordination": "Explicit coordinated unfreeze authorized for composed spatial/temporal/copula fixes, exact nominal definition identity, and correction of two excess acceptance gates. Previous freeze retained in freeze_lineage.",
+  "owned_files": [
+    {
+      "path": "GSE/api/encoder.py",
+      "sha256": "a3905ffa912913bbfd21e81846bddf5861a3df5a77065524c9e196a250685dd4"
+    },
+    {
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "sha256": "b7e2595f5fd0002277d9dc6951d46d95a3ce7e8fc24a32b43276842dffa06885"
+    },
+    {
+      "path": "GSE/symbolic/grounding.py",
+      "sha256": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7"
+    },
+    {
+      "path": "scripts/audit_lexicon_runtime.py",
+      "sha256": "9650b6d0545667764658d0e12fd00392fee27bb67f499cc52716cc6e65e189d3"
+    },
+    {
+      "path": "scripts/audit_lexicon_sentences.py",
+      "sha256": "5c9f040cce3dd8ac08c81aa7b480ea39ea8bac09434d72a83dd4e783bab18d1e"
+    },
+    {
+      "path": "tests/test_runtime_native_identity_controls.py",
+      "sha256": "aa66d06c6083b80ef37096e8074f0ccf323c69b6df07a01260f8ea9f424aea4e"
+    },
+    {
+      "path": "tests/test_lexicon_builder_grammatical_definitions.py",
+      "sha256": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903"
+    },
+    {
+      "path": "tests/test_audit_lexicon_sentences.py",
+      "sha256": "5a600feebc74567dc5ecbafbbdcd71d8b3c8e819a24ff87ef80f0ee4fb8bdf6d"
+    },
+    {
+      "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+      "sha256": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534"
+    }
+  ],
+  "implementation": [
+    "Production grammatical eligibility precedes frequency/similarity; exact contextual native identity is consumed; contradictions abstain with named provenance. Broad native ancestors are not mistaken for exclusions.",
+    "Ordinary VERB/ADJ/ADV ambiguity reaches existing grounding; exact whole native source examples retain role/operator/punctuation evidence; no first-sense, flat word-to-prime table or blanket POS selection.",
+    "Existing native type-thread _select_by_coherence is the production nominal selector; no alternate cosine/HDC identity resolver.",
+    "Public runtime and sentence audits preserve snapshot/benchmark/cohort pins, separate identified/abstained/partial/unavailable/wrong classes, and compute fail-closed checkpoint acceptance with artifact-verified full-scope workload gates."
+  ],
+  "verification": [
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- env UV_OFFLINE=1 uvx ruff@0.16.10 format GSE/api/encoder.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py tests/test_runtime_native_identity_controls.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_audit_lexicon_sentences.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+      "exit_code": 0,
+      "outcome": "Formatting completed; no pending edits after freeze."
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- env UV_OFFLINE=1 uvx ruff@0.16.10 check GSE/api/encoder.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py tests/test_runtime_native_identity_controls.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_audit_lexicon_sentences.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+      "exit_code": 0,
+      "outcome": "All checks passed."
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- .venv/bin/python -m pytest -q tests/test_lexicon_builder_runtime.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_lexical_grounding_constructions.py tests/test_lexicon_builder_degree_runtime.py tests/test_lexicon_builder_grammar_runtime.py tests/test_audit_lexicon_sentences.py tests/test_audit_lexicon_runtime.py tests/test_runtime_native_identity_controls.py tests/test_claim_semantics.py tests/test_complete_document_reading.py --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-code-freeze-tests.xml",
+      "exit_code": 0,
+      "outcome": "316 passed in 50.69s",
+      "log": "ssl-responses-runtime-073-call_badff75deca2434d8be72c75fc22b5e3.log"
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- .venv/bin/python scripts/audit_lexicon_runtime.py --lexicon-db data/lexicon_builder/2026-11-12/sparse-release-021.db --sparse --report docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v2.json",
+      "exit_code": 0,
+      "outcome": "SPARSE_RUNTIME_VALIDATED",
+      "log": "ssl-responses-runtime-074-call_1c292b3cf29b4622b386efad7d4a0392.log"
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- env UV_OFFLINE=1 uvx ty check GSE/api/encoder.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py",
+      "exit_code": 1,
+      "outcome": "One pre-existing advisory only: GSE/symbolic/grounding.py:1211:44 genealogy.candidates object not callable. Not type-clean certified.",
+      "log": "ssl-responses-runtime-074-call_1c292b3cf29b4622b386efad7d4a0392.log"
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- .venv/bin/python -m scripts.audit_lexicon_sentences --lexicon data/lexicon_builder/2026-11-12/sparse-release-021.db --benchmark docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json --checkpoint --report docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-checkpoint-v2.json",
+      "exit_code": 2,
+      "outcome": "CHECKPOINT_BLOCKED; sparse runtime safety passed; complete workload acceptance manifest missing; per-class semantic failures retained.",
+      "log": "ssl-responses-runtime-068-call_dab1f176e701411fa8a4a4c0b89c799c.log",
+      "timing_note": "After final encoder changes, before final manifest scope-freeze guard and docstring-only update; no manifest supplied, so new guard does not change these measured results."
+    },
+    {
+      "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- .venv/bin/python -m scripts.audit_lexicon_sentences --lexicon data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db --benchmark docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json --checkpoint --report docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-foundation-checkpoint-v2.json",
+      "exit_code": 2,
+      "outcome": "CHECKPOINT_BLOCKED; sparse runtime safety passed; complete workload acceptance manifest missing; per-class semantic failures retained.",
+      "log": "ssl-responses-runtime-068-call_dab1f176e701411fa8a4a4c0b89c799c.log",
+      "timing_note": "After final encoder changes, before final manifest scope-freeze guard and docstring-only update; no manifest supplied, so new guard does not change these measured results."
+    }
+  ],
+  "test_junit": {
+    "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-code-freeze-tests.xml",
+    "sha256": "5d79304dd91353936bb68369ec1e608bb5cab163e560456bfff8760c2dc042a1"
+  },
+  "real_results": {
+    "active": {
+      "receipt": "ssl-api-runtime-active-checkpoint-v2.json",
+      "code": "CHECKPOINT_BLOCKED",
+      "lexicon_sha256": "91e744cdb4012738d7c9c15929c39cd44211306f75613aeea8e4409708cc6e00",
+      "snapshot_pins": {
+        "definition_cohort_sha256": "3d9088d55b65b8a9c3123bff0a9276fb1b7b3dad8d4bef303c3f027ebc3c2e5f",
+        "definitions": 401596,
+        "representation_sha256": "c8418174ed06b5745c656a0aa43deeb23d07770779f7936df7d904baf1715cd3",
+        "rule_version": "7833acfc3c3e3ba0110364c98ab9530e092859c5a7f5342bf1151eb90de0b69a"
+      },
+      "by_class": {
+        "chemical-symbol-critical": {
+          "ABSTAINED": 1
+        },
+        "closed-class-control": {
+          "IDENTIFIED": 1
+        },
+        "constitutive-anatomy": {
+          "ABSTAINED": 1,
+          "IDENTIFIED": 1
+        },
+        "event-content": {
+          "PARTIAL": 1
+        },
+        "must-not-collapse": {
+          "ABSTAINED": 2
+        },
+        "own-state": {
+          "IDENTIFIED": 1
+        },
+        "person-identity": {
+          "ABSTAINED": 1
+        },
+        "reference-person": {
+          "PARTIAL": 2
+        },
+        "want-polarity-critical": {
+          "IDENTIFIED": 1
+        },
+        "word-expression": {
+          "PARTIAL": 1
+        }
+      }
+    },
+    "foundation": {
+      "receipt": "ssl-api-runtime-foundation-checkpoint-v2.json",
+      "code": "CHECKPOINT_BLOCKED",
+      "lexicon_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+      "snapshot_pins": {
+        "definition_cohort_sha256": "3d9088d55b65b8a9c3123bff0a9276fb1b7b3dad8d4bef303c3f027ebc3c2e5f",
+        "definitions": 401596,
+        "representation_sha256": "c8418174ed06b5745c656a0aa43deeb23d07770779f7936df7d904baf1715cd3",
+        "rule_version": "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436"
+      },
+      "by_class": {
+        "chemical-symbol-critical": {
+          "ABSTAINED": 1
+        },
+        "closed-class-control": {
+          "IDENTIFIED": 1
+        },
+        "constitutive-anatomy": {
+          "ABSTAINED": 1,
+          "IDENTIFIED": 1
+        },
+        "event-content": {
+          "PARTIAL": 1
+        },
+        "must-not-collapse": {
+          "ABSTAINED": 2
+        },
+        "own-state": {
+          "IDENTIFIED": 1
+        },
+        "person-identity": {
+          "ABSTAINED": 1
+        },
+        "reference-person": {
+          "IDENTIFIED": 2
+        },
+        "want-polarity-critical": {
+          "IDENTIFIED": 1
+        },
+        "word-expression": {
+          "PARTIAL": 1
+        }
+      }
+    },
+    "sparse_runtime": {
+      "receipt": "ssl-api-runtime-active-audit-v2.json",
+      "code": "SPARSE_RUNTIME_VALIDATED",
+      "record_count": 26,
+      "by_class": {
+        "causal": {
+          "IDENTIFIED": 1
+        },
+        "comparison": {
+          "IDENTIFIED": 1
+        },
+        "control": {
+          "IDENTIFIED": 1
+        },
+        "coordination": {
+          "IDENTIFIED": 1
+        },
+        "degree_scope_distinction": {
+          "IDENTIFIED": 1
+        },
+        "degree_vector_distinction": {
+          "IDENTIFIED": 1
+        },
+        "demonstrative": {
+          "IDENTIFIED": 1
+        },
+        "event": {
+          "IDENTIFIED": 1
+        },
+        "extreme_degree": {
+          "IDENTIFIED": 1
+        },
+        "extremely_degree": {
+          "IDENTIFIED": 1
+        },
+        "negation": {
+          "IDENTIFIED": 1
+        },
+        "not_very_scope": {
+          "IDENTIFIED": 1
+        },
+        "ordinal_distinction": {
+          "IDENTIFIED": 1
+        },
+        "other_very_senses_anchor_isolation": {
+          "IDENTIFIED": 3
+        },
+        "repeated_degree": {
+          "IDENTIFIED": 1
+        },
+        "repeated_extreme_equivalence": {
+          "IDENTIFIED": 1
+        },
+        "restriction": {
+          "IDENTIFIED": 1
+        },
+        "single_degree": {
+          "IDENTIFIED": 1
+        },
+        "temporal": {
+          "IDENTIFIED": 1
+        },
+        "this_object": {
+          "IDENTIFIED": 1
+        },
+        "very_degree": {
+          "IDENTIFIED": 1
+        },
+        "very_not_scope": {
+          "IDENTIFIED": 1
+        },
+        "want_negative": {
+          "IDENTIFIED": 1
+        },
+        "want_positive": {
+          "IDENTIFIED": 1
+        }
+      },
+      "scope": "Safety/compatibility only; not usable-workload certification."
+    }
+  },
+  "frozen_workload": {
+    "scope_path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json",
+    "scope_sha256": "e92818e792604e69c97f640c4595a8799697f2b947209a7eeb4902b483760b89",
+    "token_demand_path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-token-demand.json",
+    "token_demand_sha256": "9c6d9f1e625b6aa5398bf2a60a8e10320783264f30f485b9179e96dc5010cbe4",
+    "benchmark_path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-final-cases.json",
+    "benchmark_sha256": "11e92b1bb066aa5c763342b1347d39b0428bf3ebf67785c2a636160e8a0936e2",
+    "final_holdout_note": "Mixed benchmark: eight independently source-warranted cases frozen before first scoring, five explicitly development controls. First-pass final outcomes retained. Any case used for subsequent correction becomes development and needs fresh replacement; no entire-file FINAL_UNEXPOSED claim.",
+    "acceptance_manifest_complete": false
+  },
+  "blockers": [
+    {
+      "code": "CRITICAL_IDENTITY_ABSTENTIONS",
+      "cases": [
+        "final-femur-anatomy",
+        "final-teacher-person",
+        "control-he-chemical"
+      ],
+      "required_action": "Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification."
+    },
+    {
+      "code": "REQUIRED_BANKS_OPEN",
+      "cases": [
+        {
+          "id": "final-leap-event",
+          "definition_id": "wordnet:leap:leap.n.01",
+          "bank": "HAPPEN",
+          "required": 1,
+          "domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "final-whisper-words",
+          "definition_id": "wordnet:whisper:whisper.n.01",
+          "bank": "SAY",
+          "required": 1,
+          "domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "required_action": "Controller source-warranted admission/migration and full replay; no inferred zero."
+    },
+    {
+      "code": "COMMON_OPERATION_IDENTITY_OPEN",
+      "observed": "Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.",
+      "required_action": "Retain full workload and establish independently justified construction/source eligibility for unresolved common operations."
+    },
+    {
+      "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
+      "scope_freeze": "ssl-api-runtime-workload-freeze.json",
+      "required_action": "Full eight-operation inventory, all critical positive/MUST-NOT outcomes, common-form two-sided semantic audit, required-bank operation witnesses, >=90% eligible token mass in frequency and independent aggregate plus every genre, exact artifact/source/cohort pins, full replay and integrated repository gate receipts."
+    }
+  ],
+  "actual_corpus_changes": {
+    "writes": 0,
+    "admitted_rules": 0,
+    "changed_cells": 0,
+    "models_called": 0,
+    "H_remeasured": false,
+    "phase_or_bucket_semantic_gain_claimed": false,
+    "staged_forecast": "50526 I/YOU forecast is not claimed committed by this worker.",
+    "replayed_by_this_worker": false,
+    "published": false,
+    "active_pointer_changed": false,
+    "active_pointer": {
+      "format": "gse.active-lexicon/1",
+      "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+    }
+  },
+  "remaining_cp_ids": {
+    "CP-07": "OPEN: consumer fixes and computed acceptance machinery verified; actual critical workload cases and full semantic/tool workload acceptance still fail or remain unproved.",
+    "CP-08": "Controller-owned integrated replay/semantic/workload/publication gates still required; no activation authorized by runtime safety alone.",
+    "CP-03/CP-04/CP-05/CP-06": "Controller/A-owned source/rule admission, learning and replay obligations not certified by this runtime receipt."
+  },
+  "tooling": "Local authorized tools with owned-run and full coherent-unit/AST/reference tracing. No MCP/Serena available or claimed.",
+  "postfreeze_readonly_audit": {
+    "receipt": "ssl-api-runtime-postfreeze-findings.json",
+    "evidence": "ssl-api-runtime-composed-tools-readonly.json",
+    "code": "KNOWN_WRONG_COMPOSED_OPERATIONS_BLOCK_CHECKPOINT",
+    "runtime_source_pins_unchanged": true,
+    "new_blockers": [
+      {
+        "code": "SPATIAL_COMPOSITION_COLLAPSES_OPPOSITES",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "The bird is above the tree.",
+          "The bird is below the tree."
+        ],
+        "observed": "Both real public encoder -> from_trace -> resolve -> evaluate_tree -> emit_contract yield identical TYPE_ASSERT(bird,tree), with no spatial relation in serialized evaluated tree. This is an actual composed meaning failure, not a raw lexical sign demand.",
+        "owner_action": "Coordinated runtime-source unfreeze needed to trace native spatial grammar metadata through existing construction/evaluation/emission; filling raw word ABOVE alone is not a remedy."
+      },
+      {
+        "code": "PREPOSITIONAL_TEMPORAL_ROLE_LOST",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "Alice arrived before dawn."
+        ],
+        "observed": "Composes EVENT arrive(alice,dawn), treating dawn as patient and dropping before; clausal before/after constructions correctly retain conjunction and must be preserved.",
+        "owner_action": "Coordinated runtime-source unfreeze needed for existing prepositional temporal construction/role path; not a lexical before-bank fill."
+      },
+      {
+        "code": "HELIUM_IDENTITY_FIXED_BUT_COPULA_CONSTRUCTION_WRONG",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "He is an inert gas."
+        ],
+        "observed": "He token correctly identifies exact native helium and is NOUN, but grammar marks gas VERB and whole composed tree is EVENT gas(inert he), not copular type assertion. Token-level identity success does NOT certify sentence.",
+        "owner_action": "Coordinated runtime-source unfreeze needed for source/native witnessed copular nominal construction; preserve grammar/context proof and do not blanket override gas POS."
+      }
+    ],
+    "controls": {
+      "before_after_clausal": "distinct TEMPORAL conjunction retained",
+      "not_very_very_not": "distinct scoped contracts retained",
+      "duration": "long versus short retained",
+      "queries": "axis big, swapped arguments true, swapped logical equal false, self equal true",
+      "inference": "conditional derives Mike leave with both source IDs; swapped agent, modal and negated positive queries withheld",
+      "document": "Real MultiScaleDoc with existing NullGenealogy: intake/resolution/fold/graph read; cross-paragraph she and supporting woman share e0; does not certify unavailable world resource",
+      "speech": "Quoted I ran attributed to Bob; source sentence and read state retained",
+      "profile": "read, affect unavailable None rather than measured zero for missing GOOD evidence",
+      "auxiliary_have_do": "Auxiliary versus main verb structurally distinct; auxiliary have emits stored HAVE1 at token scale, main have remains ambiguous. Existing source authority should review; do not manufacture full same-lemma mapping."
+    },
+    "coordination": "No runtime edits after freeze. Controller must explicitly coordinate unfreeze for further runtime construction repairs. No usable-checkpoint or CP-07 completion claim."
+  },
+  "freeze_lineage": [
+    {
+      "status": "CODE_FREEZE_READY",
+      "source_edits_finished": true,
+      "frozen_at_utc": "2026-11-24T09:07:17.601514+00:00",
+      "owned_files": [
+        {
+          "path": "GSE/api/encoder.py",
+          "sha256": "a3905ffa912913bbfd21e81846bddf5861a3df5a77065524c9e196a250685dd4"
+        },
+        {
+          "path": "GSE/symbolic/lexical_grounding.py",
+          "sha256": "b7e2595f5fd0002277d9dc6951d46d95a3ce7e8fc24a32b43276842dffa06885"
+        },
+        {
+          "path": "GSE/symbolic/grounding.py",
+          "sha256": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7"
+        },
+        {
+          "path": "scripts/audit_lexicon_runtime.py",
+          "sha256": "9650b6d0545667764658d0e12fd00392fee27bb67f499cc52716cc6e65e189d3"
+        },
+        {
+          "path": "scripts/audit_lexicon_sentences.py",
+          "sha256": "5c9f040cce3dd8ac08c81aa7b480ea39ea8bac09434d72a83dd4e783bab18d1e"
+        },
+        {
+          "path": "tests/test_runtime_native_identity_controls.py",
+          "sha256": "aa66d06c6083b80ef37096e8074f0ccf323c69b6df07a01260f8ea9f424aea4e"
+        },
+        {
+          "path": "tests/test_lexicon_builder_grammatical_definitions.py",
+          "sha256": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903"
+        },
+        {
+          "path": "tests/test_audit_lexicon_sentences.py",
+          "sha256": "5a600feebc74567dc5ecbafbbdcd71d8b3c8e819a24ff87ef80f0ee4fb8bdf6d"
+        },
+        {
+          "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+          "sha256": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534"
+        }
+      ]
+    }
+  ]
+}

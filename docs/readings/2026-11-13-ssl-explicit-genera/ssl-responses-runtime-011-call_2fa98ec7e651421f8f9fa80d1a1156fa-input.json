@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-authority-sections -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nfor name in ['docs/program/BUILD_SPEC.md','docs/program/BUILD_GAPS.md','/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/01_PAPER_SKELETON.md','/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/SIGNIFICANCE_WEIGHTING.md','/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/LLM_WORKFLOW/SEMANTIC_CONSTRUCTION_WORKFLOW.md']:\n s=Path(name).read_text();print(name,len(s));\n if 'BUILD' in name:\n  parts=s.split('\\n## ')\n  for part in parts:\n   if 'GSE-01' in part.split('\\n')[0] or ('BUILD_GAPS' in name and 'lexicon' in part.lower()):print(part)\n elif 'SKELETON' in name:print(s)\n else:\n  for part in s.split('\\n## '):\n   if any(w in part.lower().split('\\n')[0] for w in ('7','13','14','construction','constraint','semantic','workflow')):print(part)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

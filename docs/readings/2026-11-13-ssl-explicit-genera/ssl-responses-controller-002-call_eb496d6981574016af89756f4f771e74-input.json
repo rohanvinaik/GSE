@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-authorities -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\npaths=[Path('/Users/rohanvinaik/Projects/SquishOS/ops/agents/reference/code-verification.md'),Path('/Users/rohanvinaik/Projects/SquishOS/ops/agents/reference/project-composition.md'),Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md')]\nfor p in paths:\n print('\\n===== '+str(p)+' =====\\n'+p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

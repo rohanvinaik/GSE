@@ -1,0 +1,68 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.7, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/GSE
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 172 items
+
+tests/test_lexicon_epoch.py ............................................ [ 25%]
+........................................................................ [ 67%]
+.......................F...                                              [ 83%]
+tests/test_lexicon_learning_state.py ...........                         [ 89%]
+tests/test_lexicon_specification_space.py ..................             [100%]
+
+=================================== FAILURES ===================================
+_______ test_resolved_frequent_word_does_not_hide_the_open_bank_frontier _______
+
+tmp_path = PosixPath('/private/var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/pytest-of-rohanvinaik/pytest-55669/test_resolved_frequent_word_do0')
+
+    def test_resolved_frequent_word_does_not_hide_the_open_bank_frontier(tmp_path):
+        from GSE.curation.lexicon_builder.learning_curriculum import choose_open
+    
+>       base, _, plan, inventory = open_curriculum_inputs(tmp_path, resolved_alpha=True)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_lexicon_epoch.py:1157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_lexicon_epoch.py:1028: in open_curriculum_inputs
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+GSE/curation/lexicon_builder/pipeline.py:196: in build_dictionary
+    validate_assertion_competence(assertion)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+assertion = Assertion(bank='QUANTITY', value=1, source='wordnet_hierarchy', record_id='wordnet:alpha:alpha.n.01', family='wordnet', scope='lexical')
+
+    def validate_assertion_competence(assertion: Assertion | DomainRestriction) -> None:
+        """Enforce native source competence for collected and imported assertions.
+    
+        Source scopes name both primitive poles, while assertions use canonical
+        banks: BAD therefore permits GOOD with a negative sign, never a separate
+        BAD coordinate. Unknown authored dictionary sources have no native scope
+        restriction here; their identity, lexical typing and closed-basis checks
+        remain the caller's evidence/engine contract.
+        """
+        if not isinstance(assertion, (Assertion, DomainRestriction)):
+            raise ValueError("INVALID_ASSERTION")
+        if assertion.source == "wiktionary" and (
+            not isinstance(assertion, Assertion) or assertion.value != 1 or assertion.scope != "lexical"
+        ):
+            raise ValueError("ASSERTION_OUTSIDE_NATIVE_DEFINITION_SCOPE")
+        permitted = _native_definition_scope(assertion.source)
+        if permitted is None:
+            return
+        allowed = {
+            bank
+            for primitive in permitted
+            if primitive in PRIMITIVE_REGISTRY
+            for bank, _ in (get_canonical_pole(primitive),)
+            if bank in BANKS
+        }
+        if assertion.bank not in allowed:
+>           raise ValueError("ASSERTION_OUTSIDE_SOURCE_SCOPE")
+E           ValueError: ASSERTION_OUTSIDE_SOURCE_SCOPE
+
+GSE/curation/lexicon_builder/evidence.py:317: ValueError
+- generated xml file: /Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4.xml -
+=========================== short test summary info ============================
+FAILED tests/test_lexicon_epoch.py::test_resolved_frequent_word_does_not_hide_the_open_bank_frontier
+=================== 1 failed, 171 passed in 82.28s (0:01:22) ===================

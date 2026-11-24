@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-event-child-reference-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nnames={'lexical_context','validate_lexical_guards','_scaffold','protocol_contract','native_frame_source'}\nfor p in Path('GSE/curation/lexicon_builder').glob('*.py'):\n s=p.read_text();t=ast.parse(s)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print('SOURCE',p,ast.get_source_segment(s,n))\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint');rows=json.loads((w/'event-inventory.json').read_text());print('EVENT_INVENTORY_COMPLETE_RECORD',rows[0])\nprint('BUILDER_FILES',[p.name for p in Path('GSE/curation/lexicon_builder').glob('*.py')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,707 @@
+#!/usr/bin/env python3
+"""Finite runtime compatibility probes, not a corpus-wide semantic gold evaluation.
+
+Run with --lexicon-db PATH [--report PATH]. The database is queried only;
+world grounding is deliberately unverified using the public empty provider.
+Successful report generation exits zero regardless of the measured outcomes.
+"""
+
+import argparse
+import json
+import sys
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from GSE.api import GSEEncoder
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.symbolic import emit_contract, negation_signs, resolve_references
+from GSE.symbolic.queries import is_logically_equal_to
+
+PROBES = (
+    ("event", "Alice helps Bob.", "EVENT"),
+    ("causal", "Alice helps Bob because Bob helps Carol.", "CAUSATION"),
+    ("coordination", "Alice helps Bob and Carol helps Dave.", "CLAUSE_COORD"),
+    ("comparison", "The dog is bigger than the cat.", "COMPARISON"),
+    ("restriction", "Only the dog runs.", "SET_RESTRICT"),
+    ("control", "Alice wants to leave.", "CONTROL"),
+    ("temporal", "When Alice leaves, Bob sleeps.", "TEMPORAL"),
+    ("demonstrative", "This is a dog.", "TYPE_ASSERT"),
+    ("negation", "Alice does not help Bob.", "NOT"),
+    ("not_very_scope", "The dog is not very good.", "TYPE_ASSERT"),
+    ("very_not_scope", "The dog is very not good.", "NOT"),
+    ("single_degree", "The dog is very good.", "TYPE_ASSERT"),
+    ("repeated_degree", "The dog is very very good.", "TYPE_ASSERT"),
+    ("extreme_degree", "The dog is extremely good.", "TYPE_ASSERT"),
+)
+ANCHORS = (
+    ("this_object", "gse:prime:this", "SOMETHING", 1, None),
+    ("want_positive", "wordnet:want:desire.v.01", "WANT", 1, None),
+    ("want_negative", "gse:prime:dont-want", "WANT", -1, None),
+    ("very_degree", "wordnet:very:very.r.01", "INTENSITY", 1, 1),
+    ("extremely_degree", "wordnet:extremely:extremely.r.02", "INTENSITY", 1, 2),
+)
+OTHER_VERY_IDS = (
+    "wordnet:very:identical.s.02",
+    "wordnet:very:very.r.02",
+    "wordnet:very:very.s.01",
+)
+ORDINAL_ANCHOR_RECORD = "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#ordinal-stability"
+
+
+def ordinal_anchor_isolation(entry):
+    """Check anchor provenance, without requiring unrelated senses to stay unknown.
+
+    A later definition-scoped ruling may legitimately resolve INTENSITY. This
+    probe only checks that the two approved degree anchors were not copied into
+    another identity. Whole-build replay checks the remaining proof obligations.
+    """
+    leaked = [
+        record
+        for record in entry["trace"]
+        if record.get("kind") == "ASSERTION"
+        and record.get("bank") == "INTENSITY"
+        and record.get("record_id") == ORDINAL_ANCHOR_RECORD
+    ]
+    return {"outcome": "WRONG" if leaked else "IDENTIFIED", "copied_anchor_assertions": leaked}
+
+
+def anchor_outcome(selection, bank, value, level):
+    """Missing evidence abstains; an evidenced contradiction is wrong."""
+    if selection["code"] != "IDENTIFIED":
+        return "ABSTAINED"
+    entry = selection["selected"]
+    assignments = entry["assignments"]
+    hierarchy = entry["hierarchy"]
+    if bank in assignments and assignments[bank] != value:
+        return "WRONG"
+    if level is not None and bank in hierarchy and hierarchy[bank] != level:
+        return "WRONG"
+    if bank not in assignments or (level is not None and bank not in hierarchy):
+        return "ABSTAINED"
+    return "IDENTIFIED"
+
+
+def _structure(encoder):
+    expectations = {name: operation for name, _, operation in PROBES}
+    records = []
+    trees = {}
+    levels = {"not_very_scope": -1, "very_not_scope": 1, "single_degree": 1, "repeated_degree": 2, "extreme_degree": 2}
+    for event in encode_document_utterance_events(encoder, [{"id": name, "text": text} for name, text, _ in PROBES]):
+        if event["type"] != "utterance":
+            continue
+        name = event["source_sentence_id"]
+        record = {"class": name, "text": event["content"], "expected_top_operation": expectations[name]}
+        if event["state"] != "read" or event["tree"] is None:
+            records.append({**record, "outcome": "ABSTAINED", "error": event["error"]})
+            continue
+        # Explicit DB-free genealogy: this exercises the public v2 emit shape,
+        # and never silently claims that real world grounding was verified.
+        contract = emit_contract(resolve_references(event["tree"]))
+        predicate = contract["predicate"]
+        actual = predicate.get("op") if isinstance(predicate, dict) else None
+        signs = negation_signs(event["trace"])
+        trees[name] = event["tree"]
+        matched = actual == expectations[name]
+        if name in {"not_very_scope", "very_not_scope"}:
+            expected = "hierarchy_direction" if name == "not_very_scope" else "syntactic_negation"
+            matched = matched and any(owner["mechanism"] == expected for owner in signs["owners"])
+        if name in levels:
+            assertion = predicate["args"][0] if actual == "NOT" else predicate
+            matched = matched and assertion.get("features", {}).get("degree") == [
+                {"argument": 1, "target": "good", "scale": "INTENSITY", "level": levels[name]}
+            ]
+        records.append(
+            {
+                **record,
+                "outcome": "IDENTIFIED" if matched else "WRONG",
+                "actual_top_operation": actual,
+                "contract": contract,
+                "sign_owners": signs["owners"],
+                "structural_loss": event["structural_loss"],
+                "lexical_selection_counts": dict(
+                    Counter(
+                        token.lexical_evidence.get("selection_status", token.lexical_evidence["state"])
+                        for token in event["trace"].tokens
+                    )
+                ),
+            }
+        )
+    for name, left, right, expected in (
+        ("repeated_extreme_equivalence", "repeated_degree", "extreme_degree", True),
+        ("degree_scope_distinction", "not_very_scope", "very_not_scope", False),
+        ("ordinal_distinction", "single_degree", "repeated_degree", False),
+    ):
+        actual = is_logically_equal_to(trees[left], trees[right]) if left in trees and right in trees else None
+        records.append(
+            {
+                "class": name,
+                "expected_equal": expected,
+                "actual_equal": actual,
+                "outcome": "ABSTAINED" if actual is None else "IDENTIFIED" if actual == expected else "WRONG",
+            }
+        )
+    return records
+
+
+def _definitions(encoder):
+    records, degree_vectors = [], {}
+    for name, entry_id, bank, value, level in ANCHORS:
+        record = {"class": name, "entry_id": entry_id, "expected_bank": bank, "expected_value": value}
+        if level is not None:
+            record["expected_hierarchy"] = level
+        try:
+            selection = encoder.lookup_definition(entry_id)
+            outcome = anchor_outcome(selection, bank, value, level)
+            record.update(outcome=outcome, selection=selection["code"])
+            if selection["code"] == "IDENTIFIED":
+                entry = selection["selected"]
+                vector = encoder.encode_definition(entry_id)
+                record.update(assignments=entry["assignments"], hierarchy=entry["hierarchy"], vector_nnz=vector.nnz)
+                if outcome == "IDENTIFIED":
+                    base = encoder.word_basis.get_primitive(bank)
+                    if base is None:
+                        raise ValueError("ANCHOR_BASE_UNAVAILABLE")
+                    signed = base.negate() if value == -1 else base
+                    # Hierarchy markers share INTENSITY's vector bank. For degree
+                    # anchors, the signed semantic assignment is the invariant;
+                    # extra marker positions are deliberately part of the vector.
+                    preserved = (
+                        entry["assignments"][bank] == value
+                        if level is not None
+                        else np.array_equal(vector.with_bank_only(base.bank).to_dense(), signed.to_dense())
+                    )
+                    record["signed_base_preserved"] = bool(preserved)
+                    if not preserved or vector.nnz == 0:
+                        record["outcome"] = "WRONG"
+                    if level is not None and record["outcome"] == "IDENTIFIED":
+                        degree_vectors[name] = vector.to_dense()
+                if name == "this_object":
+                    record["have_domain"] = entry["domains"].get("HAVE")
+                    # Completing an unknown with justified orthogonality is
+                    # allowed; object-reference must not become possession.
+                    if entry["assignments"].get("HAVE") in {-1, 1}:
+                        record["outcome"] = "WRONG"
+        except (ValueError, RuntimeError) as error:
+            record.update(outcome="ABSTAINED", error=str(error))
+        records.append(record)
+    records.append(
+        {
+            "class": "degree_vector_distinction",
+            "outcome": "ABSTAINED"
+            if len(degree_vectors) != 2
+            else "WRONG"
+            if np.array_equal(degree_vectors["very_degree"], degree_vectors["extremely_degree"])
+            else "IDENTIFIED",
+            "property": "Two approved nonzero degree vectors differ while retaining their positive base.",
+        }
+    )
+    for entry_id in OTHER_VERY_IDS:
+        record = {"class": "other_very_senses_anchor_isolation", "entry_id": entry_id}
+        try:
+            selection = encoder.lookup_definition(entry_id)
+            if selection["code"] != "IDENTIFIED":
+                record.update(outcome="ABSTAINED", selection=selection["code"])
+            else:
+                entry = selection["selected"]
+                domain = entry["domains"].get("INTENSITY")
+                record.update(
+                    **ordinal_anchor_isolation(entry),
+                    intensity_domain=domain,
+                    hierarchy=entry["hierarchy"],
+                    property="Approved ordinal anchors are confined to their exact definition identities.",
+                )
+        except ValueError as error:
+            record.update(outcome="ABSTAINED", error=str(error))
+        records.append(record)
+    return records
+
+
+def audit_runtime(lexicon_db):
+    path = Path(lexicon_db).expanduser().resolve()
+    with GSEEncoder(str(path)) as encoder:
+        encoder.conn.execute("PRAGMA query_only=ON")
+        records = _structure(encoder) + _definitions(encoder)
+    counts = defaultdict(Counter)
+    for record in records:
+        counts[record["class"]][record["outcome"]] += 1
+    return {
+        "format": "GSE.runtime-compatibility-audit/1",
+        "measured_at": datetime.now(timezone.utc).isoformat(),
+        "lexicon_db": str(path),
+        "file_identity": {"size": path.stat().st_size, "mtime_ns": path.stat().st_mtime_ns},
+        "scope": {
+            "structure": "Fourteen hand-authored top-operation probes; degree cases also check emitted levels, scope and logical comparison. Not full semantic gold.",
+            "anchors": "Explicit founder-approved definition IDs, signed bases, ordinal 1/2, and sense isolation.",
+            "genealogy": "EXPLICIT_NULL_GENEALOGY",
+            "world_grounding": "UNVERIFIED",
+            "corpus_semantic_accuracy": "NOT_MEASURED",
+            "degree_composition": "Canonical adjective degree, signed scope, repeated-VERY/extremely equivalence and ordinal distinction; not exhaustive grammar coverage.",
+        },
+        "by_class": {name: dict(outcomes) for name, outcomes in sorted(counts.items())},
+        "records": records,
+    }
+
+
+def audit_sparse_runtime(lexicon_db):
+    """Check the production encoder's exact selection and abstention cases."""
+    from GSE.api.encoder import GrammaticalDefinitionError
+    from GSE.symbolic.expression import from_trace
+
+    report = audit_runtime(lexicon_db)
+    checks = (
+        ("The river rose above the bank.", "bank", "wordnet:bank:bank.n.01"),
+        ("A bank approved the mortgage.", "bank", "wordnet:bank:depository_financial_institution.n.01"),
+        ("I saw a bank.", "bank", None),
+        ("An electrician repaired the light.", "light", None),
+    )
+    results = []
+    with GSEEncoder(str(lexicon_db)) as encoder:
+        encoder.conn.execute("PRAGMA query_only=ON")
+        for text, lemma, expected in checks:
+            token = next((t for t in encoder.encode(text).tokens if t.lemma == lemma), None)
+            if token is None:
+                results.append({"text": text, "expected": expected, "code": "MISSING_TOKEN", "passed": False})
+                continue
+            evidence = token.lexical_evidence
+            observed = (evidence.get("selected_record") or {}).get("entry_id")
+            accepted = observed == expected and (
+                evidence.get("selection_status") == "AMBIGUOUS" and not token.word_primitives
+                if expected is None
+                else evidence.get("contextual_grounding", {}).get("code") == "EXACT_WORDNET_SENSE"
+            )
+            results.append({"text": text, "expected": expected, "observed": observed, "passed": accepted})
+        modal_text = "She might leave."
+        try:
+            modal = encoder.encode(modal_text)
+        except GrammaticalDefinitionError as error:
+            results.append(
+                {"text": modal_text, "code": "GRAMMATICAL_DEFINITION_ERROR", "error": str(error), "passed": False}
+            )
+        else:
+            modal_token = next((t for t in modal.tokens if t.lemma == "might"), None)
+            selected = modal_token.lexical_evidence.get("selected_record") if modal_token else None
+            observed = selected.get("entry_id") if selected else None
+            results.append(
+                {"text": modal_text, "observed": observed, "passed": observed == "gse_closed_class:modal:might"}
+            )
+        for text, expected in (("I waited for some time.", "unspecified"), ("I waited for a long time.", "long")):
+            expression = from_trace(encoder.encode(text))
+            duration = getattr(expression, "duration", None)
+            observed = (duration.extent, duration.relation) if duration is not None else None
+            results.append({"text": text, "observed": observed, "passed": observed == (expected, "during")})
+    report["sparse_controls"] = results
+    report["code"] = (
+        "SPARSE_RUNTIME_VALIDATED"
+        if (
+            all(row["passed"] for row in results)
+            and all(set(group) == {"IDENTIFIED"} for group in report["by_class"].values())
+        )
+        else "SPARSE_RUNTIME_REJECTED"
+    )
+    return report
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lexicon-db", required=True, type=Path)
+    parser.add_argument("--report", type=Path, help="Save the JSON report; otherwise print it.")
+    parser.add_argument("--sparse", action="store_true", help="Include exact sense and ambiguity controls")
+    args = parser.parse_args(argv)
+    if args.report is not None and args.report.resolve() == args.lexicon_db.resolve():
+        parser.error("REPORT_MUST_NOT_REPLACE_LEXICON")
+    report = (audit_sparse_runtime if args.sparse else audit_runtime)(args.lexicon_db)
+    payload = json.dumps(report, indent=2, allow_nan=False) + "\n"
+    if args.report is None:
+        print(payload, end="")
+    else:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(payload)
+        print(json.dumps({"report": str(args.report.resolve()), "by_class": report["by_class"]}))
+    return 2 if report.get("code") == "SPARSE_RUNTIME_REJECTED" else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+"""Score held-out exact senses and required banks through the sentence encoder."""
+
+from __future__ import annotations
+
+import argparse
+from collections import Counter, defaultdict
+from math import log2
+from pathlib import Path
+
+from GSE.api.encoder import GSEEncoder
+from GSE.curation.lexicon_builder.epoch import fingerprint, read, record
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.namespace import current_id
+
+FORMAT = "GSE.lexicon-sentence-benchmark/1"
+
+
+def load_benchmark(path):
+    benchmark = read(path)
+    if (
+        not isinstance(benchmark, dict)
+        or set(benchmark) != {"format", "cases"}
+        or current_id(benchmark["format"]) != FORMAT
+    ):
+        raise ValueError("INVALID_SENTENCE_BENCHMARK")
+    cases = benchmark["cases"]
+    if not isinstance(cases, list) or not cases:
+        raise ValueError("EMPTY_SENTENCE_BENCHMARK")
+    seen = set()
+    fields = {"id", "class", "text", "token", "lemma", "sense", "banks", "basis"}
+    for case in cases:
+        if not isinstance(case, dict) or set(case) != fields:
+            raise ValueError("INVALID_SENTENCE_BENCHMARK_CASE")
+        if any(not isinstance(case[key], str) or not case[key].strip() for key in fields - {"sense", "banks"}):
+            raise ValueError("INVALID_SENTENCE_BENCHMARK_TEXT")
+        if case["id"] in seen:
+            raise ValueError("DUPLICATE_SENTENCE_BENCHMARK_ID")
+        seen.add(case["id"])
+        banks = case["banks"]
+        sense = case["sense"]
+        if not isinstance(banks, dict) or any(
+            bank not in BANKS or (value is not None and (type(value) is not int or value not in (-1, 0, 1)))
+            for bank, value in banks.items()
+        ):
+            raise ValueError("INVALID_SENTENCE_BENCHMARK_BANK")
+        if (sense is None and banks) or (sense is not None and (not isinstance(sense, str) or not sense or not banks)):
+            raise ValueError("INVALID_SENTENCE_BENCHMARK_SENSE")
+    return cases
+
+
+def score_domain(domain, expected):
+    if (
+        not isinstance(domain, list)
+        or not domain
+        or any(type(value) is not int or value not in (-1, 0, 1) for value in domain)
+        or len(set(domain)) != len(domain)
+    ):
+        return "INVALID_DOMAIN"
+    if expected is None:
+        return "OPEN_AS_EXPECTED" if len(domain) > 1 else "UNSUPPORTED_ASSIGNMENT"
+    if expected not in domain:
+        return "WRONG"
+    return "CORRECT" if len(domain) == 1 else "OPEN"
+
+
+def score_case(encoder, case):
+    expected = case["sense"]
+    if expected is not None:
+        gold = encoder.lexical_lookup(case["lemma"], entry_id=expected)
+        exact = gold.get("selected_record")
+        if not exact or exact["entry_id"] != expected:
+            raise ValueError(f"BENCHMARK_GOLD_SENSE_UNAVAILABLE {case['id']} {expected}")
+    else:
+        exact = None
+
+    hits = [token for token in encoder.encode(case["text"]).tokens if token.token == case["token"]]
+    token = hits[0] if len(hits) == 1 else None
+    evidence = token.lexical_evidence if token else {}
+    selected = evidence.get("selected_record") or {}
+    identity = selected.get("entry_id")
+    status = evidence.get("selection_status")
+    if token is None:
+        sense_outcome = "TOKEN_MISMATCH"
+    elif identity is not None:
+        sense_outcome = "CORRECT" if identity == expected else "WRONG"
+    elif status == "AMBIGUOUS":
+        sense_outcome = "ABSTAINED_AS_EXPECTED" if expected is None else "ABSTAINED"
+    else:
+        sense_outcome = status or "NO_LEXICAL_EVIDENCE"
+
+    banks = {}
+    for bank, value in case["banks"].items():
+        domain = exact["domains"].get(bank)
+        lexical = score_domain(domain, value)
+        emitted = token.word_primitives.get(bank) if token else None
+        if sense_outcome != "CORRECT":
+            runtime = "BLOCKED_BY_SENSE"
+        elif lexical in {"OPEN", "OPEN_AS_EXPECTED"} and emitted is not None:
+            runtime = "UNSUPPORTED_EMISSION"
+        elif lexical == "CORRECT" and emitted != (None if value == 0 else value):
+            runtime = "WRONG_EMISSION"
+        else:
+            runtime = lexical
+        banks[bank] = {
+            "domain": domain,
+            "expected": value,
+            "exact_sense": lexical,
+            "runtime": runtime,
+            "emitted": emitted,
+        }
+
+    return {
+        **case,
+        "sense_outcome": sense_outcome,
+        "observed_sense": identity,
+        "selection_status": status,
+        "parser_lemma": token.lemma if token else None,
+        "parser_pos": token.pos if token else None,
+        "grounding": evidence.get("contextual_grounding", {}).get("code"),
+        "banks": banks,
+    }
+
+
+def audit(lexicon, benchmark):
+    lexicon_sha256 = fingerprint(lexicon)
+    benchmark_sha256 = fingerprint(benchmark)
+    cases = load_benchmark(benchmark)
+    with GSEEncoder(lexicon) as encoder:
+        encoder.conn.execute("PRAGMA query_only=ON")
+        rows = [score_case(encoder, case) for case in cases]
+    if fingerprint(lexicon) != lexicon_sha256 or fingerprint(benchmark) != benchmark_sha256:
+        raise ValueError("SENTENCE_BENCHMARK_INPUT_CHANGED")
+    counts = defaultdict(lambda: {"sense": Counter(), "runtime_bank": Counter(), "exact_sense_bank": Counter()})
+    for row in rows:
+        group = counts[row["class"]]
+        group["sense"][row["sense_outcome"]] += 1
+        for bank in row["banks"].values():
+            group["runtime_bank"][bank["runtime"]] += 1
+            group["exact_sense_bank"][bank["exact_sense"]] += 1
+    return {
+        "format": "GSE.lexicon-sentence-benchmark-report/1",
+        "lexicon_sha256": lexicon_sha256,
+        "benchmark_sha256": benchmark_sha256,
+        "by_class": dict(counts),
+        "cases": rows,
+    }
+
+
+def compare_reports(baseline, candidate):
+    if baseline["benchmark_sha256"] != candidate["benchmark_sha256"]:
+        raise ValueError("SENTENCE_COMPARISON_BENCHMARK_CHANGED")
+    previous = {case["id"]: case for case in baseline["cases"]}
+    if previous.keys() != {case["id"] for case in candidate["cases"]}:
+        raise ValueError("SENTENCE_COMPARISON_CASES_CHANGED")
+    counts = defaultdict(Counter)
+    failures = []
+    good_senses = {"CORRECT", "ABSTAINED_AS_EXPECTED"}
+    good_banks = {"CORRECT", "OPEN_AS_EXPECTED"}
+    open_banks = {"OPEN", "BLOCKED_BY_SENSE"}
+    for case in candidate["cases"]:
+        old = previous[case["id"]]
+        group = counts[case["class"]]
+        sense = case["sense_outcome"]
+        if sense not in good_senses | {"ABSTAINED"} or (
+            old["sense_outcome"] in good_senses and sense not in good_senses
+        ):
+            failures.append({"case": case["id"], "outcome": sense, "prior": old["sense_outcome"]})
+        for bank, cell in case["banks"].items():
+            prior = old["banks"][bank]
+            for field in ("exact_sense", "runtime"):
+                outcome = cell[field]
+                if outcome not in good_banks | open_banks or (prior[field] in good_banks and outcome not in good_banks):
+                    failures.append(
+                        {"case": case["id"], "bank": bank, "field": field, "outcome": outcome, "prior": prior[field]}
+                    )
+                if outcome == "CORRECT" and prior[field] != "CORRECT":
+                    group[f"{field}_new_correct"] += 1
+            if cell["expected"] is not None and prior["domain"] and cell["domain"]:
+                group["exact_sense_bits_removed"] += log2(len(prior["domain"]) / len(cell["domain"]))
+    return {
+        "format": "GSE.lexicon-sentence-benchmark-comparison/1",
+        "code": "SENTENCE_BENCHMARK_REGRESSION" if failures else "SENTENCE_BENCHMARK_VALIDATED",
+        "baseline_sha256": baseline["lexicon_sha256"],
+        "candidate_sha256": candidate["lexicon_sha256"],
+        "benchmark_sha256": candidate["benchmark_sha256"],
+        "by_class": dict(counts),
+        "failures": failures,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lexicon", type=Path, required=True)
+    parser.add_argument("--benchmark", type=Path, required=True)
+    parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--baseline-report", type=Path)
+    args = parser.parse_args()
+    report = audit(args.lexicon.resolve(strict=True), args.benchmark)
+    if args.baseline_report:
+        report["comparison"] = compare_reports(read(args.baseline_report), report)
+    record(args.report, report)
+    if report.get("comparison", {}).get("failures"):
+        raise SystemExit(2)
+
+
+if __name__ == "__main__":
+    main()
+"""Audit outcomes distinguish unknown evidence from observed contradictions."""
+
+import json
+
+import pytest
+
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from scripts.audit_lexicon_runtime import (
+    ORDINAL_ANCHOR_RECORD,
+    anchor_outcome,
+    audit_runtime,
+    main,
+    ordinal_anchor_isolation,
+)
+
+
+@pytest.mark.parametrize(
+    "assignments,hierarchy,expected",
+    [
+        ({}, {}, "ABSTAINED"),
+        ({"INTENSITY": 1}, {}, "ABSTAINED"),
+        ({"INTENSITY": 0}, {}, "WRONG"),
+        ({"INTENSITY": -1}, {"INTENSITY": 1}, "WRONG"),
+        ({}, {"INTENSITY": 2}, "WRONG"),
+        ({"INTENSITY": 1}, {"INTENSITY": 2}, "WRONG"),
+        ({"INTENSITY": 1}, {"INTENSITY": 1}, "IDENTIFIED"),
+    ],
+)
+def test_anchor_outcome_distinguishes_silence_zero_and_wrong_degree(assignments, hierarchy, expected):
+    selected = {"code": "IDENTIFIED", "selected": {"assignments": assignments, "hierarchy": hierarchy}}
+    assert anchor_outcome(selected, "INTENSITY", 1, 1) == expected
+
+
+@pytest.mark.parametrize("code", ["AMBIGUOUS", "NOT_FOUND", "CONFLICT"])
+def test_unselected_definition_is_reported_as_abstention(code):
+    assert anchor_outcome({"code": code, "selected": None}, "WANT", 1, None) == "ABSTAINED"
+
+
+def test_report_cannot_overwrite_the_input_database(tmp_path):
+    database = tmp_path / "lexicon.db"
+    database.write_bytes(b"preserve this file")
+    with pytest.raises(SystemExit):
+        main(["--lexicon-db", str(database), "--report", str(database)])
+    assert database.read_bytes() == b"preserve this file"
+
+
+def test_audit_exercises_approved_degree_vectors_and_leaves_database_unchanged(tmp_path):
+    from pathlib import Path
+
+    manifest = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
+    path = tmp_path / "anchors.db"
+    parsers, diagnostics = load_local_sources(("gse_closed_class", "nsm_chart", "wordnet_hierarchy"))
+    assert all(record["code"] == "LOADED" for record in diagnostics)
+    native = collect_evidence(parsers, words=("extremely",))
+    build_dictionary(native, path, manifest=manifest)
+    before = path.read_bytes()
+    report = audit_runtime(path)
+    assert path.read_bytes() == before
+    assert report["scope"]["world_grounding"] == "UNVERIFIED"
+    for name in (
+        "want_positive",
+        "want_negative",
+        "this_object",
+        "very_degree",
+        "extremely_degree",
+        "degree_vector_distinction",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
+    assert report["by_class"]["other_very_senses_anchor_isolation"] == {"IDENTIFIED": 3}
+    for name in (
+        "not_very_scope",
+        "very_not_scope",
+        "repeated_extreme_equivalence",
+        "degree_scope_distinction",
+        "ordinal_distinction",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
+    json.dumps(report, allow_nan=False)
+
+
+@pytest.mark.parametrize("value", [-1, 0, 1])
+def test_sense_isolation_allows_independent_completion_but_rejects_copied_anchor(value):
+    entry = {
+        "entry_id": "wordnet:very:very.r.02",
+        "assignments": {"INTENSITY": value},
+        "domains": {"INTENSITY": [value]},
+        "trace": [{"kind": "ASSERTION", "bank": "INTENSITY", "value": value, "record_id": "independent:exact-sense"}],
+    }
+    assert ordinal_anchor_isolation(entry)["outcome"] == "IDENTIFIED"
+    entry["trace"][0]["record_id"] = ORDINAL_ANCHOR_RECORD
+    assert ordinal_anchor_isolation(entry)["outcome"] == "WRONG"
+
+
+def test_runtime_audit_accepts_justified_this_have_zero(tmp_path):
+    from pathlib import Path
+
+    from GSE.curation.lexicon_builder.completion import complete_dictionary
+
+    manifest = json.loads(
+        (Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json").read_text()
+    )
+    # A deliberately small fixture retains only the authored THIS definition.
+    manifest["definitions"] = [d for d in manifest["definitions"] if d["entry_id"] == "gse:prime:this"]
+    manifest["anchors"] = {"gse:prime:this": manifest["anchors"]["gse:prime:this"]}
+    manifest["prime_entries"] = {"nsm:v20:this": ["gse:prime:this"]}
+    manifest["hierarchy"] = {}
+    rules = tmp_path / "this-rules.json"
+    rules.write_text(json.dumps(manifest))
+    path = tmp_path / "this.db"
+    build_dictionary(EvidenceBundle((), (), (), ()), path, manifest=rules)
+    complete_dictionary(path, lambda payload, schema: '{"HAVE":0}', 1, entry_ids=("gse:prime:this",), banks=("HAVE",))
+    report = audit_runtime(path)
+    this = next(record for record in report["records"] if record["class"] == "this_object")
+    assert this["have_domain"] == [0]
+    assert this["outcome"] == "IDENTIFIED"
+"""Pin the distinct sentence-audit outcomes for absence, zero, and sign."""
+
+import pytest
+
+from scripts.audit_lexicon_sentences import compare_reports, score_domain
+
+
+@pytest.mark.parametrize(
+    "domain,expected,code",
+    [
+        ([-1, 0, 1], 0, "OPEN"),
+        ([0], 0, "CORRECT"),
+        ([-1, 0, 1], None, "OPEN_AS_EXPECTED"),
+        ([0], None, "UNSUPPORTED_ASSIGNMENT"),
+        ([-1, 0], 1, "WRONG"),
+        (None, 0, "INVALID_DOMAIN"),
+        ([], 1, "INVALID_DOMAIN"),
+        ([True], 1, "INVALID_DOMAIN"),
+        ([0, 0], 0, "INVALID_DOMAIN"),
+    ],
+)
+def test_score_domain(domain, expected, code):
+    assert score_domain(domain, expected) == code
+
+
+def test_comparison_separates_exact_gain_from_runtime_and_rejects_false_zero():
+    def report(domain, outcome):
+        return {
+            "benchmark_sha256": "benchmark",
+            "lexicon_sha256": str(domain),
+            "cases": [
+                {
+                    "id": "blocked",
+                    "class": "action",
+                    "sense_outcome": "ABSTAINED",
+                    "banks": {
+                        "DO": {
+                            "expected": 1,
+                            "domain": domain,
+                            "exact_sense": outcome,
+                            "runtime": "BLOCKED_BY_SENSE",
+                        }
+                    },
+                }
+            ],
+        }
+
+    baseline = report([-1, 0, 1], "OPEN")
+    gained = compare_reports(baseline, report([1], "CORRECT"))
+    assert gained["code"] == "SENTENCE_BENCHMARK_VALIDATED"
+    assert gained["by_class"]["action"]["exact_sense_new_correct"] == 1
+    assert "runtime_new_correct" not in gained["by_class"]["action"]
+    wrong = compare_reports(baseline, report([0], "WRONG"))
+    assert wrong["code"] == "SENTENCE_BENCHMARK_REGRESSION"
+    assert wrong["failures"][0]["field"] == "exact_sense"

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-source-genera -- .venv/bin/python - <<'PY'\nfrom contextlib import closing\nfrom pathlib import Path\nimport json\nfrom GSE.curation.lexicon_builder.epoch import connect\np=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db')\nwith closing(connect(p)) as conn:\n for synset in ['event.n.01','speech_act.n.01','communication.n.02','act.n.02','motion.n.03','happening.n.01']:\n  rows=conn.execute(\"SELECT d.entry_id,l.lemma,l.pos,l.gloss,o.payload FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id JOIN source_observations o ON o.record_id=d.entry_id WHERE o.source='wordnet_hierarchy' AND json_extract(o.payload,'$.features.synset_name')=? ORDER BY d.entry_id\",(synset,)).fetchall()\n  print('\\n===',synset,'===')\n  for r in rows:print(json.dumps({'entry_id':r[0],'lemma':r[1],'pos':r[2],'definition':r[3],'native_observation':json.loads(r[4])},indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 900
+}

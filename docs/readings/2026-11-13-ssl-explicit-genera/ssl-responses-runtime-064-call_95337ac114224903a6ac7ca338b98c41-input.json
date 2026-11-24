@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-final-focused-gates -- bash -c '.venv/bin/python -m pytest -q tests/test_lexicon_builder_runtime.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_lexical_grounding_constructions.py tests/test_lexicon_builder_degree_runtime.py tests/test_lexicon_builder_grammar_runtime.py tests/test_audit_lexicon_sentences.py tests/test_audit_lexicon_runtime.py tests/test_runtime_native_identity_controls.py tests/test_claim_semantics.py tests/test_complete_document_reading.py --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-focused-final-tests.xml; TEST_STATUS=$?; .venv/bin/ty check GSE/api/encoder.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py; TYPE_STATUS=$?; printf \"pytest_exit=%s ty_advisory_exit=%s\\n\" \"$TEST_STATUS\" \"$TYPE_STATUS\"; exit \"$TEST_STATUS\"'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 1200
+}

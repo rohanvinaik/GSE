@@ -1,0 +1,40 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> scripts/run_lexicon_epochs.py:3:1
+   |
+ 1 |   """Initialize, resume, and compare two budgeted lexicon learning arms."""
+ 2 |
+ 3 | / import argparse
+ 4 | | import fcntl
+ 5 | | import json
+ 6 | | import math
+ 7 | | from pathlib import Path
+ 8 | |
+ 9 | | from GSE.curation.lexicon_builder.epoch import (
+10 | |     POLICIES,
+11 | |     _domains,
+12 | |     _resolve,
+13 | |     fingerprint,
+14 | |     mine_scope_chains,
+15 | |     parse_plan,
+16 | |     read,
+17 | |     record,
+18 | |     run_arm,
+19 | |     scope_rows,
+20 | | )
+21 | | from GSE.curation.lexicon_builder.residual import OllamaTransport
+22 | | from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+23 | | from GSE.curation.lexicon_builder.rule_history import digest
+24 | | from GSE.curation.lexicon_builder.specification import compare_measurements
+25 | | from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+   | |_____________________________________________________________________^
+help: Organize imports
+   |
+20 | )
+21 + from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+22 | from GSE.curation.lexicon_builder.residual import OllamaTransport
+   - from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+23 | from GSE.curation.lexicon_builder.rule_history import digest
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

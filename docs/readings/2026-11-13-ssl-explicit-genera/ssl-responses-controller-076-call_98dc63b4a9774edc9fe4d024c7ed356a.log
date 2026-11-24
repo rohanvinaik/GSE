@@ -1,0 +1,264 @@
+
+### GSE/curation/lexicon_builder/foundation.py
+FOUNDER_SOURCE = "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md"
+DESIGN_SOURCE = "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+CONVENTION_VERSION = "GSE.lexicon-conventions/2026-10-29"
+WANT_POLARITY = {-1: "NOT_WANT", 0: "ORTHOGONAL_TO_WANTING", 1: "WANT"}
+ORDINAL_INTENSITY = {"VERY": 1, "EXTREMELY": 2}
+NEGATIVE_POLES = {negative: positive for positive, negative in BIPOLAR_PAIRS}
+BANKS = tuple(p for p in ALL_PRIMITIVES if p not in NEGATIVE_POLES and p not in {"NUMBER", "HIER_PLUS", "HIER_MINUS"})
+POS_NAMES = {
+    "n": "noun",
+    "v": "verb",
+    "a": "adjective",
+    "s": "adjective",
+    "r": "adverb",
+    "adj": "adjective",
+    "adv": "adverb",
+}
+representation_contract 47 66
+definition_context 69 72
+_WORDNET_SYNSET = re.compile(r"[^\s:]+\.[nvasr]\.(?:0[1-9]|[1-9][0-9]+)\Z")
+_ANCESTOR_PREFIX = "wordnet_ancestor:"
+EXCEPTION_GUARD_PREFIX = "except_entry:"
+WORDNET_OUTSIDE_ANCESTOR_PREFIX = "wordnet_outside_ancestor:"
+WORDNET_OTHER_SYNSET_PREFIX = "wordnet_other_than_synset:"
+WORDNET_ANCESTRY_GUARD_PREFIXES = (
+    _ANCESTOR_PREFIX,
+    WORDNET_OUTSIDE_ANCESTOR_PREFIX,
+    WORDNET_OTHER_SYNSET_PREFIX,
+)
+valid_lexical_guard 89 107
+validate_lexical_guards 110 120
+_field 123 124
+_exact_wordnet_ancestry 127 178
+_attested_wordnet_lemma 181 190
+native_frame_source 193 230
+lexical_context 233 292
+projection_relations 295 371
+load_manifest 374 430
+load_manifest_extensions 433 471
+def valid_lexical_guard(key, value) -> bool:
+    """Recognize lexical scope predicates, never bank values or inferred signs."""
+    if not isinstance(key, str) or not isinstance(value, str):
+        return False
+    if key == "pos":
+        return bool(value.strip())
+    if key == "wordnet_native_lemma":
+        return value == "true"
+    if key.startswith(NATIVE_FRAME_PREFIX):
+        return value == "true" and key.removeprefix(NATIVE_FRAME_PREFIX) in NATIVE_NOUN_FRAMES
+    if key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX):
+        return value == "true" and key.removeprefix(WIKTIONARY_ANATOMY_FRAME_PREFIX) in WIKTIONARY_ANATOMY_FRAMES
+    if key.startswith(EXCEPTION_GUARD_PREFIX):
+        identity = key.removeprefix(EXCEPTION_GUARD_PREFIX)
+        return bool(identity) and not any(char.isspace() for char in identity) and value == "true"
+    return value == "true" and any(
+        key.startswith(prefix) and _WORDNET_SYNSET.fullmatch(key.removeprefix(prefix)) is not None
+        for prefix in WORDNET_ANCESTRY_GUARD_PREFIXES
+    )
+def validate_lexical_guards(relations) -> tuple[str, ...]:
+    """Refuse unsupported scope schemas, including for empty build populations."""
+    requested = set()
+    for relation in relations:
+        for key, value in relation.guards:
+            if not valid_lexical_guard(key, value):
+                raise ValueError("UNSUPPORTED_LEXICAL_GUARD")
+            for prefix in WORDNET_ANCESTRY_GUARD_PREFIXES:
+                if key.startswith(prefix):
+                    requested.add(key.removeprefix(prefix))
+    return tuple(sorted(requested))
+def lexical_context(definition, observations, relations) -> dict[str, str]:
+    """Add only requested predicates supported by exact native witnesses.
+
+    Accept typed Definition/Observation objects or their serialized dictionaries.
+    Missing witnesses remain absent, never false or a bank zero. With no source
+    guards, the result is byte-for-byte equivalent to the old POS-only context;
+    unrelated source context cannot perturb historical model request identities.
+    """
+    context = definition_context(_field(definition, "pos"))
+    requested = validate_lexical_guards(relations)
+    native_lemma_requested = any(key == "wordnet_native_lemma" for rule in relations for key, _ in rule.guards)
+    frame_guards = {key for rule in relations for key, _ in rule.guards if key.startswith(NATIVE_FRAME_PREFIX)}
+    gloss = _field(definition, "definition")
+    if frame_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        matched = frame_guards.intersection(NATIVE_FRAME_PREFIX + frame for frame in native_noun_frames(gloss))
+        if matched and any(native_frame_source(definition, row) for row in observations):
+            context.update(dict.fromkeys(sorted(matched), "true"))
+    anatomy_guards = {
+        key for rule in relations for key, _ in rule.guards if key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX)
+    }
+    if anatomy_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        for observation in observations:
+            if _field(observation, "source") != "wiktionary" or not native_frame_source(definition, observation):
+                continue
+            frame = wiktionary_anatomy_frame(gloss, "noun", _field(observation, "features")["native_sense"])
+            if frame is not None and WIKTIONARY_ANATOMY_FRAME_PREFIX + frame in anatomy_guards:
+                context[WIKTIONARY_ANATOMY_FRAME_PREFIX + frame] = "true"
+    if requested or native_lemma_requested:
+        ancestors = set()
+        synsets = set()
+        for observation in observations:
+            witnessed = _exact_wordnet_ancestry(definition, observation)
+            ancestors.update(witnessed)
+            if witnessed:
+                synsets.add(_field(observation, "features")["synset_name"])
+            if native_lemma_requested and witnessed and _attested_wordnet_lemma(definition, observation):
+                context["wordnet_native_lemma"] = "true"
+        if ancestors:
+            for relation in relations:
+                for key, _ in relation.guards:
+                    if (
+                        key.startswith(_ANCESTOR_PREFIX)
+                        and key.removeprefix(_ANCESTOR_PREFIX) in ancestors
+                        or key.startswith(WORDNET_OUTSIDE_ANCESTOR_PREFIX)
+                        and key.removeprefix(WORDNET_OUTSIDE_ANCESTOR_PREFIX) not in ancestors
+                        or key.startswith(WORDNET_OTHER_SYNSET_PREFIX)
+                        and len(synsets) == 1
+                        and key.removeprefix(WORDNET_OTHER_SYNSET_PREFIX) not in synsets
+                    ):
+                        context[key] = "true"
+    for relation in relations:
+        exclusions = [key for key, _ in relation.guards if key.startswith(EXCEPTION_GUARD_PREFIX)]
+        if exclusions and all(context.get(key) == value for key, value in relation.guards if key not in exclusions):
+            identity = _field(definition, "entry_id")
+            if not isinstance(identity, str) or not identity:
+                continue
+            context.update(
+                {key: "false" if identity == key.removeprefix(EXCEPTION_GUARD_PREFIX) else "true" for key in exclusions}
+            )
+    return context
+def projection_relations() -> tuple[Relation, ...]:
+    """Compile the approved own-word projection rules, with their scope guards."""
+    foundational = (
+        Relation(
+            "founder:noun-own-evaluation",
+            ("GOOD",),
+            ((0,),),
+            (FOUNDER_SOURCE + "#F057",),
+            "foundational",
+            True,
+            (("pos", "noun"),),
+        ),
+        Relation(
+            "founder:adjective-not-object",
+            ("SOMETHING",),
+            ((0,),),
+            (FOUNDER_SOURCE + "#F057",),
+            "foundational",
+            True,
+            (("pos", "adjective"),),
+        ),
+        Relation(
+            "founder:adverb-not-object",
+            ("SOMETHING",),
+            ((0,),),
+            (FOUNDER_SOURCE + "#F057",),
+            "foundational",
+            True,
+            (("pos", "adverb"),),
+        ),
+    )
+    categories = (
+        ("I", "SOMEONE", (1,), ()),
+        ("YOU", "SOMEONE", (1,), ()),
+        ("BODY", "SOMETHING", (1,), (("pos", "noun"),)),
+        ("ONE", "QUANTITY", (1,), ()),
+        ("TWO", "QUANTITY", (1,), ()),
+        ("MOVE", "HAPPEN", (1,), ()),
+        ("DO", "HAPPEN", (1,), ()),
+        ("CAUSE", "HAPPEN", (1,), ()),
+        ("THEN", "WHEN", (-1, 1), ()),
+        ("BEFORE", "WHEN", (-1, 1), ()),
+        ("LONG_TIME", "WHEN", (-1, 1), ()),
+        ("MOMENT", "WHEN", (1,), ()),
+        ("ABOVE", "WHERE", (-1, 1), ()),
+        ("FAR", "WHERE", (-1, 1), ()),
+        ("OUTSIDE", "WHERE", (-1, 1), ()),
+        ("TOWARD", "WHERE", (-1, 1), ()),
+        ("HERE", "WHERE", (1,), ()),
+        ("SIDE", "WHERE", (1,), ()),
+    )
+    category_relations = tuple(
+        Relation(
+            f"founder:category:{specific.lower()}-{general.lower()}",
+            (specific, general),
+            tuple((a, b) for a, b in product((-1, 0, 1), repeat=2) if a not in active or b == 1),
+            (DESIGN_SOURCE + "#category-content",),
+            "conditional",
+            True,
+            guards,
+        )
+        for specific, general, active, guards in categories
+    )
+    absence_relations = tuple(
+        Relation(
+            f"founder:absence:{source.lower()}-{target.lower()}",
+            (source, target),
+            tuple((a, b) for a, b in product((-1, 0, 1), repeat=2) if a == 0 or b == 0),
+            (DESIGN_SOURCE + "#evidence-conditioned-absence",),
+            "conditional",
+            True,
+            (("pos", "adjective"),),
+            absent_evidence=(target,),
+        )
+        for source, target in (("GOOD", "BIG"), ("BIG", "GOOD"))
+    )
+    return foundational + category_relations + absence_relations
+
+### GSE/curation/lexicon_builder/source_enrichment.py
+_digest 31 32
+_file_digest 35 37
+_identifier 40 41
+_inventory 44 65
+_definition 68 76
+_observations 79 108
+_construct 111 161
+_verify_wiktionary 164 186
+_verify_wordnet 189 224
+_refuse_bound_receipts 227 234
+enrich_sources 237 321
+_refresh_unweighted_discovery 324 354
+revise_source_candidate 357 422
+wiktionary_projection_scope 425 452
+forecast_wiktionary_projection 455 511
+
+### GSE/curation/lexicon_builder/evidence.py
+_require_string 86 88
+_require_ids 91 95
+_require_json 98 114
+_json_value 141 157
+_canonical_json 160 161
+_native_features 164 173
+_record_id 176 179
+_wordnet_id 182 183
+_pos 186 190
+_native_records 193 209
+_vocabulary 212 240
+_taxonomy_proposals 243 254
+_native_definition_scope 257 262
+_taxonomy_assertions 265 288
+validate_assertion_competence 291 317
+_wordnet_relation_target 320 327
+_wordnet_relations 330 368
+_wordnet_definitions 371 450
+_scope 453 460
+_verbnet_links 463 497
+_validated_projection_candidates 500 540
+_closed_class_definitions 543 571
+_chart_definitions 574 603
+_native_reference_leaf 606 634
+_native_reference_observation_fields 637 720
+native_reference_observation 723 725
+native_reference_observations 728 746
+wiktionary_definition_projection 749 762
+wiktionary_person_witness 765 766
+_wiktionary_definitions 769 816
+_historical_definitions 819 843
+collect_evidence 846 996
+_verify_nltk_cache 1035 1056
+_load_local_source 1059 1110
+load_local_sources 1113 1139
+PROCESS   PID  PPID ELAPSED  %CPU COMM
+
+LOG 

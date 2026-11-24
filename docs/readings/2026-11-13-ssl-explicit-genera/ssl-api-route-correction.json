@@ -1,0 +1,40 @@
+{
+  "format": "GSE.ssl-api-route-correction/1",
+  "supersedes_conclusion_in": "ssl-api-dispatch-blocker.json",
+  "codex_cli_restriction_observed": true,
+  "ordinary_responses_api_requests_accepted": true,
+  "ordinary_api_scope": "CODE_GENERATION_AND_FUNCTION_CALLING_AGENTS",
+  "billing_modified": false,
+  "credential_store": "~/tools/Databases/.env",
+  "credential_variable": "OPENAI_API_KEY",
+  "documentation": "https://developers.openai.com/api/docs/guides/chatgpt-api-credits",
+  "workers": {
+    "controller": {
+      "format": "GSE.ssl-responses-worker/1",
+      "role": "controller",
+      "route": "ORDINARY_RESPONSES_API_FUNCTION_CALLING",
+      "model": "gpt-6.1-sol",
+      "credential_source": "/Users/rohanvinaik/tools/Databases/.env",
+      "started_at": "2026-11-24T08:03:56.884633+00:00",
+      "state": "RUNNING",
+      "turns": 15,
+      "input_tokens": 940927,
+      "output_tokens": 3374,
+      "response_id": "resp_02d2f1a2860b74e1006b05454aff4487d2aeb5aab69e148589"
+    },
+    "runtime": {
+      "format": "GSE.ssl-responses-worker/1",
+      "role": "runtime",
+      "route": "ORDINARY_RESPONSES_API_FUNCTION_CALLING",
+      "model": "gpt-6.1-sol",
+      "credential_source": "/Users/rohanvinaik/tools/Databases/.env",
+      "started_at": "2026-11-24T08:04:07.713882+00:00",
+      "state": "RUNNING",
+      "turns": 14,
+      "input_tokens": 745870,
+      "output_tokens": 2883,
+      "response_id": "resp_0d66c4c7356128c8006b0545500ac887d288213a486feae8ee"
+    }
+  },
+  "completion_claim": "RUNNING_NOT_VALIDATED_OR_COMPLETE"
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-event-audit-cohort -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint');rows=json.loads((w/'event-child-source-census.json').read_text());chosen=[r for r in rows if r['lemma'] in {'explosion','collision','outbreak','eruption','interruption','rainfall','birth','arrival','fall','crash','impact','noise','movement'}];print(json.dumps(chosen,indent=2));print('CHILD_SCOPE_CHALLENGE_ENTRIES',[r['entry_id'] for r in rows if r['synset'] in {'passing.n.02','elves.n.01'}]);b=Path('docs/readings/2026-11-13-ssl-explicit-genera');print('PRIME_ANSWERS_EXISTS',(b/'ssl-api-controller-prime-answers.json').exists());print('JOINT_LOG',(b/'ssl-api-controller-joint-job.log').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

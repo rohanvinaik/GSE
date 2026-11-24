@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-native-example-obligations -- .venv/bin/python - <<'PY'\nfrom GSE.api import GSEEncoder\nfrom GSE.symbolic.lexical_grounding import LexicalGrounding\nimport json\nwith GSEEncoder() as e:\n g=LexicalGrounding(e.conn,e.nlp(''),set())\n for w in ['hear','feel']:\n  for k,v in g._senses(w,'VERB').items():print(k,json.dumps(v.examples))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

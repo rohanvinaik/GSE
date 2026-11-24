@@ -1,0 +1,311 @@
+GSE/teaching/teacher.py teach
+GSE/curation/lexicon_builder/learning_curriculum.py Family,parse_plan
+GSE/curation/lexicon_builder/rule_migration.py export_reviewed_input
+GSE/curation/lexicon_builder/epoch.py Family,complete_dictionary,export_reviewed_input,parse_plan,run_epoch,teach
+GSE/curation/lexicon_builder/reviewed_export.py export_reviewed_input
+GSE/curation/cli/commands.py complete_dictionary
+scripts/run_lexicon_epochs.py parse_plan,run_arm
+scripts/teach_networks.py teach
+scripts/refine_lexicon_pattern.py export_reviewed_input
+tests/test_lexicon_builder_completion_breadth.py complete_dictionary
+tests/test_lexicon_builder_completion_progress.py complete_dictionary
+tests/test_lexicon_builder_native_lemma_guard.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_rule_migration.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_source_enrichment.py complete_dictionary
+tests/test_lexicon_checkpoint_reference_migration.py complete_dictionary
+tests/test_lexicon_builder_completion_cohorts.py complete_dictionary
+tests/test_lexicon_builder_lexical_context.py complete_dictionary
+tests/test_lexicon_builder_batch_completion.py complete_dictionary
+tests/test_audit_lexicon_runtime.py complete_dictionary
+tests/test_lexicon_builder_reviewed_history.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_catalog_native.py complete_dictionary
+tests/test_lexicon_builder_completion.py complete_dictionary
+tests/test_GSE_teaching_teacher.py teach
+tests/test_lexicon_builder_completion_busy.py complete_dictionary
+tests/test_lexicon_builder_completion_zipf.py complete_dictionary
+tests/test_lexicon_builder_reviewed_export.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_joint_revisions.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_reviewed_source_guards.py export_reviewed_input
+tests/test_lexicon_builder_rule_migration_integrity.py complete_dictionary
+tests/test_lexicon_builder_body_scope.py complete_dictionary
+tests/test_lexicon_builder_retention.py retire_snapshot
+tests/test_lexicon_epoch.py parse_plan,run_arm
+tests/test_lexicon_builder_publication_scope.py complete_dictionary
+tests/test_lexicon_builder_completion_sessions.py complete_dictionary
+tests/test_lexicon_builder_rule_reservations.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_reconsideration.py complete_dictionary
+tests/test_lexicon_builder_publication.py complete_dictionary
+tests/test_lexicon_builder_source_guard_migration.py complete_dictionary,export_reviewed_input
+tests/test_lexicon_builder_model_receipts.py complete_dictionary
+
+=== RECEIPT FILE MAP ===
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-catalogue-rebase.json 4079
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-plan.json 3873
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-stage.json 18453333
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md 3156
+
+=== ssl-v2-reference-plan.json ===
+ {
+  "format": "GSE.lexicon-epoch-plan/1",
+  "baseline_sha256": "694f3d9b82603f7fc8231d361063f10afff5ff9c37786102ee17b2446aa2145f",
+  "active_pointer_sha256": "13d9d1f610355995928d0f9147bee1e8cf7289714e38131e746a00c09326660a",
+  "epochs": 2,
+  "audits_per_epoch": 3,
+  "teaching_entry_ids": [
+    "wordnet:water:water.n.01",
+    "wordnet:body:body.n.01",
+    "wordnet:rock:rock.n.01"
+  ],
+  "families": [
+    {
+      "id": "physical-nondeictic-i",
+      "antecedent": null,
+      "consequent": [
+        "I",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:physical_entity.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:person.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:dog:dog.n.01",
+        "wordnet:door:door.n.01",
+        "wordnet:tree:tree.n.01"
+      ],
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "warrant_id": "ssl-v2:physical-nondeictic-i",
+        "review_id": "ssl-v2:approved-reference-boundary-and-exact-native-role",
+        "reviewer": "Founder convention and exact native definition review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json",
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md",
+          "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within exact native physical non-person noun definitions, the word names its own entity or kind and does not supply current-speaker/addressee deixis. Under the approved reference-only coordinate boundary this warrants I=0. Participant content and sentence reference binding do not migrate into the lexical coordinate. No other bank is assigned by this law."
+      }
+    },
+    {
+      "id": "physical-nondeictic-you",
+      "antecedent": null,
+      "consequent": [
+        "YOU",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:physical_entity.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:person.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:cat:cat.n.01",
+        "wordnet:house:house.n.01",
+        "wordnet:glass:glass.n.01"
+      ],
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "warrant_id": "ssl-v2:physical-nondeictic-you",
+        "review_id": "ssl-v2:approved-reference-boundary-and-exact-native-role",
+        "reviewer": "Founder convention and exact native definition review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json",
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md",
+          "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within exact native physical non-person noun definitions, the word names its own entity or kind and does not supply current-speaker/addressee deixis. Under the approved reference-only coordinate boundary this warrants YOU=0. Participant content and sentence reference binding do not migrate into the lexical coordinate. No other bank is assigned by this law."
+      }
+    }
+  ]
+}
+
+
+=== ssl-v2-reference-warrant.md ===
+ # Nondeictic physical naming: specification-learning round
+
+This is a new measured phase under `gse.ssl-construction/2`, following the
+singleton-only controller diagnosis. Its records belong beside the existing
+lexicon experiment records; it is not a second construction design.
+
+The founder's approved boundary is first-/second-person reference only;
+generic selfhood does not supply I or YOU. The exact decision is retained in
+`023-approved-person-reference-boundary.json`. The native closed-class I/YOU
+definitions are positive controls. The approved generic self definition is an
+outside-scope negative control, not an empirical audit result.
+
+The candidate mechanism is own-word naming versus discourse deixis. An exact
+native noun definition naming a physical non-person entity or kind does not
+thereby refer to the current speaker or addressee. Under the approved bank
+meanings its own content is orthogonal to I and YOU. Sentence-level reference
+binding and any participant described in its gloss remain separate. This is a
+positive type/role argument, not a zero supplied by a missing source field.
+
+The initial sufficient scope is the conjunction of noun POS, an attested native
+lemma, a witnessed WordNet `physical_entity.n.01` ancestry and witnessed exclusion
+from `person.n.01` ancestry. Both ancestry predicates must be established from
+the same exact definition's stored native paths. This deliberately reserves
+person/address/pronominal definitions. It does not claim that physicality is a
+necessary condition for nondeictic naming, or that every noun has zero deixis.
+World associations, alias spellings and unrelated senses cannot activate it.
+
+The first Zipf-aware teaching frontier consists of the exact ordinary water,
+body and rock senses. Their source definitions must be inspected and their
+eligibility established before frequency orders them. Aggregate spelling
+frequency is labelled as such; it is not attributed to a rare homograph.
+Holdouts span animals, plants, artifacts and matter, use distinct native senses
+and spellings, and are disjoint from teaching. The proposed rules and their
+answers are withheld from direct audit requests.
+
+Stage each rule separately and together over the entire eligible population.
+Retain exact contradictions, model-prefix reconsiderations, partial narrowing
+and joint-space contraction. Independent model disagreement is a typed challenge
+to inspect, not grounds for inventing an exception or voting a sign into place.
+Admission requires the semantic warrant and successful independent audits;
+model agreement alone is not semantic gold. If a counterexample changes the
+guard, record the narrower mechanism and re-stage the entire scope.
+
+Measure baseline, direct teaching and rule propagation separately, including
+the full-lexicon frequency buckets. An accepted model prefix may be archived by
+the existing rule migration when its context changes; reopened cells remain
+unknown and are reported. Full replay is required before publication. This
+round does not claim to complete the lexicon, all foundational laws, general
+rule-universe discovery, or the common-language runtime checkpoint.
+
+
+=== ssl-v2-catalogue-rebase.json ===
+ {
+  "format": "GSE.lexicon-catalogue-rebase/1",
+  "change": "EXPLICIT_CATALOGUE_METADATA_REFRESH_ONLY",
+  "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+  "original_sha256": "694f3d9b82603f7fc8231d361063f10afff5ff9c37786102ee17b2446aa2145f",
+  "rebased_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "active_pointer_sha256": "13d9d1f610355995928d0f9147bee1e8cf7289714e38131e746a00c09326660a",
+  "ordinary_replay": {
+    "format": "GSE.lexicon-replay-report/1",
+    "code": "REPLAY_VALIDATED",
+    "gold": "NOT_CHECKED",
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "complete_search": true,
+    "inference_counts": {
+      "components_joint_checked": 2495950,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "metadata_verification": {
+      "representation_contract": "VERIFIED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "build_report": "NOT_CHECKED"
+    },
+    "entries_checked": 401596,
+    "entries_validated": 401596,
+    "entries_mismatched": 0,
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    },
+    "mismatch_counts": {},
+    "mismatches": []
+  },
+  "semantic_change": {
+    "buckets": {
+      "1-500": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "1501-5000": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "5001+": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "501-1500": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      },
+      "unranked": {
+        "domain_potential_gain_bits": 0.0,
+        "joint_count_comparison": "EXACT",
+        "net_filled_banks": 0,
+        "specification_gain_bits": 0.0,
+        "unresolved_banks_reduction": 0
+      }
+    },
+    "lexicon": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    },
+    "sentence_constructions": {
+      "domain_potential_gain_bits": 0.0,
+      "joint_count_comparison": "EXACT",
+      "net_filled_banks": 0,
+      "specification_gain_bits": 0.0,
+      "unresolved_banks_reduction": 0
+    }
+  },
+  "question_reuse": {
+    "code": "EXACT_QUESTION_AND_SCHEMA_REUSABLE",
+    "fresh_request_id": "f78bf87b11e7a4676780cd837a0243ae342979eec69cb0ae0ade539e2a04c9a3",
+    "original_request_id": "f78bf87b11e7a4676780cd837a0243ae342979eec69cb0ae0ade539e2a04c9a3",
+    "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@db4f4f036e9065e42d90a7d040e0b0163a5eb8ac10d5b3d7894a1b55bdcd6b82",
+    "journal_directory": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01",
+    "value": 0,
+    "writer_status": "NOT_COMMITTED"
+  },
+  "model_calls": 0,
+  "bank_writes": 0,
+  "publication_attempted": false
+}
+

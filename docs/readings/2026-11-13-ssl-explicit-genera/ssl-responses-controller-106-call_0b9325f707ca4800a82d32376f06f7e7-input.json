@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-prime-transport-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nb=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-root-prime-transport.json','ssl-root-canonical-prime-projection-review.json','ssl-api-controller-event-frontier.json','ssl-api-controller-event-genus-warrant.md']:\n p=b/name\n print(name, p.read_text() if p.exists() else 'ABSENT')\np=Path('GSE/curation/lexicon_builder/completion.py');s=p.read_text()\nfor n in ast.parse(s).body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in ('complete_dictionary','_process_entry','_attempts','_identity'):\n  print(ast.get_source_segment(s,n))\nprint('COMPLETION_FUNCTION_NAMES',[n.name for n in ast.parse(s).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

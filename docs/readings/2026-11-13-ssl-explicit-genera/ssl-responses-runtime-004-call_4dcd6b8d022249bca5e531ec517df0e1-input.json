@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-read-authorities -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text().splitlines();print('\\n'.join(s[:421]));print('\\n'.join(s[1086:1144]))\nfor name in ['openspec/changes/lexicon-symbolic-foundation/proposal.md','openspec/changes/lexicon-symbolic-foundation/design.md','openspec/changes/lexicon-symbolic-foundation/tasks.md','openspec/changes/lexicon-symbolic-foundation/specs/lexicon-construction/spec.md']:\n print('\\nFILE',name,'\\n',Path(name).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

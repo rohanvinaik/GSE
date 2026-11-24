@@ -5,6 +5,26 @@ The single engineering sequence is CP-01–CP-08 in
 This checklist records implementation/verification, not another specification or release result.
 Historical October foundation/family reports remain evidence of their original scope.
 
+## Urgent checkpoint execution — 2026-11-24
+
+The direct user instruction now prioritizes a validated usable checkpoint before
+completion of generic CP-02–CP-06 research machinery. The existing source,
+semantic, replay, runtime and declared-workload gates are not waived. The
+controller's current owned-scope gate passes **1,800 tests, zero skips/failures/errors**,
+including the real Regenesis guard-imputer integration; this is not the final
+integrated repository gate or a publication receipt. Exact evidence and source
+pins: `docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-code-freeze.json`.
+That receipt marks controller edits stopped, not a whole-run protocol freeze:
+the runtime peer's repaired completion receipt remains the synchronization boundary.
+
+The original v1 plan remains unchanged. The explicit v2 rebase and eight exact
+typed questions are retained beside it. The root is executing seven fresh local
+questions and reusing the original water/I journal without repetition; no
+production admission or 50,526-cell write is claimed before the actual receipts,
+ordinary writer, joint migration and full replay complete. A native event-genus
+frontier retains an actual source/role scope challenge rather than admitting a
+broad ancestry prediction automatically.
+
 ## Contract reconciliation
 
 - [x] Read the complete SSL paper skeleton and the relevant whole significance/workflow units.
@@ -65,7 +85,7 @@ Historical October foundation/family reports remain evidence of their original s
 
 ## CP-05 — reporting consumes actual joint measurements
 
-- [ ] Update the public equal-budget comparison and acceptance code to consume phase joint H,
+- [x] Update the public equal-budget comparison and acceptance code to consume phase joint H,
   exact-count coverage and bucket deltas, retaining singleton diagnostics separately.
 - [ ] Separate direct teaching, propagation, new-rule effects, overlap and reopened cells using
   replayed counterfactuals. Keep sigma_sem minimum teaching evidence distinct from log-space H.
@@ -76,15 +96,21 @@ Historical October foundation/family reports remain evidence of their original s
 
 ## CP-06 — bounded working storage and crash recovery
 
-- [ ] Reuse the existing sustained writer's shared replay for explicit bounded definition–bank
+- [x] Reuse the existing sustained writer's shared replay for explicit bounded definition–bank
   work; preserve identical single/batch acceptance and invalidate changed rules/sources. The
-  current per-question `complete_dictionary` invocation repeats full preflight.
+  writer now accepts an explicit tuple of entry–bank questions without creating
+  their Cartesian product. One invocation shares full preflight and the existing
+  indexed, data-version-checked connection. This does not claim to retain one
+  writer connection across rule-version boundaries.
 - [ ] Replace per-epoch retained whole DBs with one working head and compact transition records,
   reusing existing transactions, copy-on-write staging, receipt deduplication and retention.
 - [ ] Resume correctly after teaching, audit, transition installation and pointer activation,
   including partial output and a process interrupted before its receipt is finalized.
-- [ ] Verify resumption after obsolete owned staging DBs are removed; no request repeats or
+- [x] Verify resumption after obsolete owned staging DBs are removed; no request repeats or
   unsupported answer commits. Active/previous/source/audit resources remain protected.
+  Synthetic connected tests cover teaching-result, migration-result, head-before/head-after
+  CAS and post-unlink interruptions, with old DBs actually removed and native/audit
+  streams retained. Publication-interruption recovery remains separately open.
 - [ ] Demonstrate a fixed bound on working DB count as epoch count grows.
 
 ## CP-07 — usable-checkpoint workload and actual consumer

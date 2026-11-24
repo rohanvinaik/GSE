@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-reservation-reexport-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py');s=p.read_text();print(s)\np=Path('tests/test_lexicon_checkpoint_retained_transport.py');print(p.read_text())\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint');r=json.loads((w/'joint-revision.json').read_text())\nfor a in r['admissions']:\n x=a['input'];print('SELECTED_ENTRIES',{'discovery':x['discovery_entry_ids'],'audit':x['audit_entry_ids'],'entries':[z['definition']['entry_id'] for z in x['entries']]})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

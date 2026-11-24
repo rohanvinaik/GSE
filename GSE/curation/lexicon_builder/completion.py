@@ -503,6 +503,7 @@ def complete_dictionary(
     frequency_path=None,
     cohort_policy="definition",
     bank_priority="constraint",
+    entry_bank_questions=None,
 ):
     """Complete only explicitly budgeted residual cells, with durable resumption.
 
@@ -523,6 +524,32 @@ def complete_dictionary(
     connectivity only to choose questions. Both policies have separate durable
     visit scopes; earlier exact request journals remain authoritative.
     """
+    explicit_questions = None
+    if entry_bank_questions is not None:
+        if (
+            type(entry_bank_questions) is not tuple
+            or not entry_bank_questions
+            or any(
+                type(pair) is not tuple
+                or len(pair) != 2
+                or type(pair[0]) is not str
+                or not pair[0]
+                or type(pair[1]) is not str
+                or pair[1] not in BANKS
+                for pair in entry_bank_questions
+            )
+            or len(set(entry_bank_questions)) != len(entry_bank_questions)
+            or entry_ids is not None
+            or banks is not None
+            or batch_size != 1
+            or continue_cohorts is not True
+        ):
+            raise ValueError("INVALID_EXPLICIT_ENTRY_BANK_QUESTIONS")
+        explicit_questions = {}
+        for identity, bank in entry_bank_questions:
+            explicit_questions.setdefault(identity, []).append(bank)
+        entry_ids = tuple(explicit_questions)
+        banks = tuple(sorted({bank for _, bank in entry_bank_questions}))
     if type(max_model_calls) is not int or max_model_calls <= 0:
         raise ValueError("INVALID_MODEL_BUDGET")
     if type(max_calls_per_entry) is not int or max_calls_per_entry <= 0:
@@ -722,6 +749,7 @@ def complete_dictionary(
                     )
                     attempted_banks = set()
                     entry_calls = 0
+                    entry_banks = explicit_questions[entry] if explicit_questions is not None else chosen_banks
                     while (
                         resolution.code == "PARTIAL"
                         and session["calls"] < max_model_calls
@@ -729,7 +757,7 @@ def complete_dictionary(
                     ):
                         remaining = pending_banks(
                             resolution,
-                            chosen_banks,
+                            entry_banks,
                             attempted_banks,
                             policy=bank_priority,
                             observations=observations[entry],
@@ -830,7 +858,7 @@ def complete_dictionary(
                         resolution.code != "PARTIAL"
                         or entry_calls >= max_calls_per_entry
                         or not any(
-                            len(resolution.domains[bank]) > 1 and bank not in attempted_banks for bank in chosen_banks
+                            len(resolution.domains[bank]) > 1 and bank not in attempted_banks for bank in entry_banks
                         )
                     )
                     if finished:
@@ -885,7 +913,11 @@ def complete_dictionary(
             if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
                 raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
         selected = tuple(selected_in_session)
-        remaining = _scope_remaining(conn, selected, chosen_banks)
+        if explicit_questions is None:
+            remaining = _scope_remaining(conn, selected, chosen_banks)
+        else:
+            scopes = [_scope_remaining(conn, (entry,), explicit_questions[entry]) for entry in selected]
+            remaining = {key: sum(row[key] for row in scopes) for key in ("entries", "cells", "conflicted_entries")}
         unselected_residual = not selected and requested is None and _has_remaining(conn, chosen_banks)
         code = (
             "RESIDUAL_REMAINS"
@@ -907,6 +939,11 @@ def complete_dictionary(
             "max_entries_per_pass": max_entries_per_pass,
             "batch_size": batch_size,
             "continue_cohorts": continue_cohorts,
+            **(
+                {"entry_bank_questions": [list(pair) for pair in entry_bank_questions]}
+                if entry_bank_questions is not None
+                else {}
+            ),
             "priority": priority_info,
             "question_order": order_info,
             "selected_entry_ids": list(selected),

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-checkpoint-steering -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nroot=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-controller-steering.json','ssl-api-runtime-result.json','ssl-api-runtime-result.md','ssl-api-runtime-blockers.json']:\n p=root/name\n if p.exists():print('\\n===',p,'===\\n',p.read_text())\np=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure')\nfor f in sorted(p.rglob('*')):\n if f.is_file(): print(f, f.stat().st_size)\nfor f in sorted(root.iterdir()):\n if f.name.startswith(('ssl-v2','checkpoint','023-')) and f.suffix in {'.json','.py'}:print(f, f.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

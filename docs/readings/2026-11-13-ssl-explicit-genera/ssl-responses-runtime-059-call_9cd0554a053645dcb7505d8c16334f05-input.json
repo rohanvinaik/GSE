@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-native-prime-construction-probes -- .venv/bin/python - <<'PY'\nimport json\nfrom GSE.api import GSEEncoder\nfrom GSE.symbolic.lexical_grounding import LexicalGrounding\nwith GSEEncoder() as e:\n e.conn.execute('PRAGMA query_only=ON');g=LexicalGrounding(e.conn,e.nlp(''),set())\n for word in ['want','think','know','see','hear','feel','say','happen','move']:\n  print('\\n',word)\n  senses=g._senses(word,'VERB')\n  for entry,sense in senses.items():\n   if not sense.examples:continue\n   text=sense.examples[0]\n   tr=e.encode(text)\n   rows=[t for t in tr.tokens if t.lemma==word]\n   if rows: print(json.dumps({'source':entry,'text':text,'observed':[(t.pos,(t.lexical_evidence.get('selected_record') or {}).get('entry_id'),t.word_primitives,(t.lexical_evidence.get('contextual_grounding') or {}).get('code')) for t in rows]}))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

@@ -92,6 +92,53 @@ def test_pronoun_selection_does_not_replace_explicit_noun_identity(encoder):
     assert encoder.lexical_lookup("he", entry_id="fixture:noun:he")["primitives"] == {"SOMETHING": 1}
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "The chemical symbol He denotes helium.",
+        "The surname He is common.",
+        "The letter I is printed.",
+    ],
+)
+def test_native_nominal_name_role_challenges_parser_pronoun(encoder, text):
+    token = next(t for t in encoder.encode(text).tokens if t.token in {"He", "I"})
+    assert token.pos == "PRON"  # the parser label is NOT patched to force a result
+    assert token.lexical_evidence["selection_status"] == "CONFLICT"
+    assert token.lexical_evidence["selected_record"] is None
+    assert not token.lexical_evidence["sense_resolved"]
+    assert token.word_primitives == {}
+    assert token.word_vec_nnz == 0
+    witness = token.lexical_evidence["reading_eligibility"]
+    assert witness["code"] == "GRAMMATICAL_CONTEXT_CONFLICT"
+    assert witness["construction"]["kind"] == "DETERMINED_NOMINAL_NAME"
+    assert witness["catalog_provenance"]
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "He studies helium.",
+        "He is not a gas.",
+        "He is a doctor.",
+        "He is a gas?",
+        "He read the chemical symbol.",
+    ],
+)
+def test_unattached_chemical_words_negation_and_questions_do_not_veto_pronoun(encoder, text):
+    token = encoder.encode(text).tokens[0]
+    assert token.lexical_evidence["selected_record"]["entry_id"] == "gse_closed_class:pronoun:he"
+    assert token.word_primitives == {"SOMEONE": 1}
+
+
+def test_contextual_refusal_is_consumed_even_for_a_unique_storage_row(encoder):
+    word, sentence, _ = encoder._lookup_lexeme(
+        "he",
+        entry_id="fixture:noun:he",
+        lexical_evidence={"selection_status": "CONFLICT", "selected_record": None},
+    )
+    assert word == sentence == {}
+
+
 def test_noun_role_does_not_select_modal_definition(encoder):
     token = next(token for token in encoder.encode("The can fell.").tokens if token.lemma == "can")
     assert token.pos == "NOUN"

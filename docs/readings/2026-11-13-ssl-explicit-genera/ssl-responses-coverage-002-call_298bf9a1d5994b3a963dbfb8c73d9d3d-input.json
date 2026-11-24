@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-contract -- .venv/bin/python -c 'from pathlib import Path; p=Path(\"docs/program/LEXICON_CONSTRUCTION_DESIGN.md\"); s=p.read_text(); lines=s.splitlines(); heads=[(i,x) for i,x in enumerate(lines) if x.startswith(\"#\")]; print(\"\\n\".join(f\"{i+1}: {x}\" for i,x in heads)); print(\"\\n--- OPS ---\\n\"); print(Path(\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/reference/code-verification.md\").read_text()); print(Path(\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/reference/project-composition.md\").read_text())'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

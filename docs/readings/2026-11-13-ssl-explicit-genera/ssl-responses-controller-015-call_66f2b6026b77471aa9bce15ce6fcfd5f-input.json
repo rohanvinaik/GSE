@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-initial-tests -- .venv/bin/python -m pytest tests/test_lexicon_epoch.py tests/test_lexicon_learning_questions.py tests/test_lexicon_builder_retention.py -q --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-initial-tests.xml",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 900
+}

@@ -1,0 +1,215 @@
+OPPORTUNITY SCHEMA dict ['actual_bank_writes', 'admitted_rules', 'created_utc', 'database_pin', 'format', 'model_calls', 'opportunities', 'prime_review']
+FIELD actual_bank_writes int 1
+0
+FIELD admitted_rules int 1
+0
+FIELD created_utc str 34
+"2026-11-24T08:30:58.997621+00:00"
+FIELD database_pin dict 209
+{
+  "bytes": 20353929216,
+  "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+  "sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "stable_stat": true
+}
+FIELD format str 38
+"GSE.ssl-api-coverage-opportunities/1"
+FIELD model_calls int 1
+0
+FIELD opportunities list 31256
+FIELD prime_review dict 47166
+SOURCE MIGRATION ENTRYPOINTS
+def _construct(conn, observation):
+    """Validate structure and bind it to the candidate's original native root."""
+    definition = _definition(conn, observation.entry_id)
+    if observation.source == "wiktionary":
+        from .evidence import native_reference_observation
+
+        packet = observation.features.get("native_reference")
+        expected = native_reference_observation(packet)
+        root = packet["source_entry"]
+        if any(root[key] != definition[key] for key in definition):
+            raise ValueError("ENRICHMENT_NATIVE_ROOT_DEFINITION_MISMATCH")
+        matches = [
+            json.loads(row[0])
+            for row in conn.execute(
+                "SELECT payload FROM source_observations WHERE entry_id=? AND source='wiktionary'",
+                (observation.entry_id,),
+            )
+        ]
+        if not any(_json(identity_form(record["features"])) == _json(identity_form(root)) for record in matches):
+            raise ValueError("ENRICHMENT_ORIGINAL_NATIVE_ROOT_MISSING")
+    elif observation.source == "wordnet_hierarchy":
+        from .wordnet_identity import wordnet_identity_observation
+
+        packet = observation.features.get("definition_identity")
+        expected = wordnet_identity_observation(packet, definition)
+        row = conn.execute(
+            "SELECT payload FROM source_observations WHERE record_id=? AND entry_id=? AND source='wordnet_hierarchy'",
+            (observation.entry_id, observation.entry_id),
+        ).fetchone()
+        if row is None:
+            raise ValueError("ENRICHMENT_ORIGINAL_NATIVE_ROOT_MISSING")
+        native = json.loads(row[0])["features"]
+        if any(native.get(key) != definition[key] for key in ("lemma", "pos", "definition")):
+            raise ValueError("ENRICHMENT_NATIVE_ROOT_DEFINITION_MISMATCH")
+        if native.get("synset_name") != packet["native_synset"]["name"]:
+            raise ValueError("ENRICHMENT_NATIVE_ROOT_SYNSET_MISMATCH")
+        if any(native.get(key) != packet["native_synset"][key] for key in ("lemma_names", "lexname")):
+            raise ValueError("ENRICHMENT_NATIVE_ROOT_WITNESS_MISMATCH")
+        if "defining_ancestry" in packet:
+            paths = native.get("hypernym_paths")
+            if (
+                type(paths) is not list
+                or any(type(path) is not list or any(type(name) is not str for name in path) for path in paths)
+                or sorted(map(_json, paths)) != sorted(map(_json, packet["defining_ancestry"]["paths"]))
+            ):
+                raise ValueError("ENRICHMENT_NATIVE_ROOT_ANCESTRY_MISMATCH")
+    else:
+        raise ValueError("UNSUPPORTED_SOURCE_ENRICHMENT")
+    if _json(identity_form(asdict(expected))) != _json(identity_form(asdict(observation))):
+        raise ValueError("ENRICHMENT_OBSERVATION_CONSTRUCTOR_MISMATCH")
+    return definition
+def _refuse_bound_receipts(conn, entries):
+    if set(read_model_receipts(conn)) & entries:
+        raise ValueError("ENRICHMENT_REQUIRES_MODEL_RECONSIDERATION")
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='rule_migrations'").fetchone():
+        for (payload,) in conn.execute("SELECT payload FROM rule_migrations"):
+            event = json.loads(payload)
+            if any(record["definition"]["entry_id"] in entries for record in event["archived"]):
+                raise ValueError("ENRICHMENT_RULE_ARCHIVE_CONTEXT_BOUND")
+def revise_source_candidate(candidate, output, baseline, apply_revision, *, format_tag, metadata_key):
+    """Replay a reviewed source transition on a private copy of a pinned baseline."""
+    from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+
+    from .completion import _refresh_coverage, _set_metadata
+    from .sqlite_snapshot import copy_database
+
+    candidate = Path(candidate).resolve(strict=True)
+    output = Path(output).absolute()
+    if output.exists() or output.is_symlink() or output.suffix != ".db":
+        raise ValueError("SOURCE_REVISION_OUTPUT_MUST_BE_NEW_DATABASE")
+    output = output.resolve()
+    active = resolve_lexicon_path().resolve()
+    if output == active or output == candidate:
+        raise ValueError("SOURCE_REVISION_REQUIRES_SEPARATE_CANDIDATE")
+    replay = baseline["replay"]
+    source_hash = _file_digest(candidate)
+    pointer_hash = _file_digest(ACTIVE_POINTER)
+    if (
+        source_hash != baseline["candidate_sha256"]
+        or pointer_hash != baseline["active_pointer_sha256"]
+        or replay["code"] != "REPLAY_VALIDATED"
+        or not replay["complete_search"]
+        or replay["entries_mismatched"]
+        or replay["entries_validated"] != replay["entries_checked"]
+    ):
+        raise ValueError("SOURCE_REVISION_REQUIRES_PINNED_REPLAY")
+    with tempfile.TemporaryDirectory(prefix=".gse-source-revision-", dir=output.parent) as directory:
+        snapshot = Path(directory) / "snapshot.db"
+        copy_database(candidate, snapshot)
+        with closing(sqlite3.connect(snapshot.as_uri() + "?mode=rw", uri=True)) as conn:
+            conn.row_factory = sqlite3.Row
+            with conn:
+                changes = apply_revision(conn)
+                discovery = _refresh_unweighted_discovery(conn)
+                coverage = _refresh_coverage(conn)
+                _set_metadata(
+                    conn,
+                    metadata_key,
+                    {"format": format_tag, "baseline_sha256": source_hash, "changes": changes},
+                )
+        replayed = validate_build(snapshot)
+        if (
+            replayed["code"] != "REPLAY_VALIDATED"
+            or not replayed["complete_search"]
+            or replayed["entries_checked"] != replay["entries_checked"]
+            or replayed["entries_mismatched"]
+        ):
+            raise ValueError("SOURCE_REVISION_REPLAY_FAILED:" + _json(replayed["mismatch_counts"]))
+        if _file_digest(candidate) != source_hash or _file_digest(ACTIVE_POINTER) != pointer_hash:
+            raise ValueError("SOURCE_REVISION_INPUT_CHANGED")
+        candidate_hash = _file_digest(snapshot)
+        os.link(snapshot, output)
+    return {
+        "format": format_tag,
+        "code": "SOURCE_PROJECTION_REVISED_AND_REPLAYED",
+        "candidate": str(output),
+        "candidate_sha256": candidate_hash,
+        "baseline_sha256": source_hash,
+        "active_pointer_sha256": pointer_hash,
+        "activation_performed": False,
+        "changes": changes,
+        "discovery": discovery,
+        "coverage": coverage["cells"],
+        "replay": replayed,
+    }
+QUESTIONS SCHEMA
+['authority', 'bank_writes', 'baseline_sha256', 'coordinates', 'format', 'new_model_calls', 'questions']
+[['wordnet:water:water.n.01', 'I'], ['wordnet:rock:rock.n.01', 'YOU'], ['wordnet:dog:dog.n.01', 'I'], ['wordnet:door:door.n.01', 'I'], ['wordnet:tree:tree.n.01', 'I'], ['wordnet:cat:cat.n.01', 'YOU'], ['wordnet:house:house.n.01', 'YOU'], ['wordnet:glass:glass.n.01', 'YOU']]
+['request', 'request_id', 'schema']
+MAKE QUESTIONS
+def make_questions(candidate, coordinates):
+    """Prepare independent questions from a single read snapshot and evidence scan."""
+    coordinates = tuple(coordinates)
+    requests = []
+    with closing(connect(candidate)) as conn:
+        conn.execute("BEGIN")
+        rules = _relations(_metadata(conn, "relations"))
+        observations, evidence = _contexts(conn, tuple(identity for identity, _ in coordinates))
+        for identity, bank in coordinates:
+            definition, assertions, restrictions, _ = _entry(conn, identity)
+            context = lexical_context(definition, observations[identity], rules)
+            state = resolve_dictionary(
+                BANKS,
+                assertions,
+                rules,
+                context,
+                evidence_banks=tuple(sorted(evidence[identity])),
+                domain_restrictions=restrictions,
+            )
+            requests.append(
+                build_request(
+                    identity,
+                    bank,
+                    state,
+                    tuple(observations[identity]),
+                    definition=definition,
+                    relations=rules,
+                    context=context,
+                )
+            )
+    return tuple(requests)
+def reviewed_input(candidate, family, selected, taught, *, prefix_reviews=()):
+    warrant = family.warrant
+    selection = {
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": [selected["entry_id"]],
+        "audit_entry_ids": list(family.holdouts),
+        "guarded_candidates": [family.proposal()],
+        "reviews": [
+            {
+                "request_id": taught["request_id"],
+                "review": {
+                    "code": "ACCEPTED",
+                    "receipt_sha256": taught["receipt_sha256"],
+                    "review_id": f"epoch:{family.id}:{selected['entry_id']}",
+                    "reviewer": warrant["reviewer"],
+                    "source_refs": warrant["source_refs"],
+                    "rationale": warrant["statement"],
+                },
+            },
+            *prefix_reviews,
+        ],
+    }
+    exported = export_reviewed_input(candidate, selection)
+    # Explicit reviews of the exact prior model prefix are required. A new
+    # law's warrant is not independent review of arbitrary earlier answers.
+    target = next((row for row in exported["inventory"] if row["request_id"] == taught["request_id"]), None)
+    if target is None:
+        raise ValueError("LEARNING_TEACHING_RECEIPT_NOT_ACTIVE")
+    reviewed = {row["request_id"] for row in selection["reviews"]}
+    required = set(target["dependency_request_ids"])
+    if not required <= reviewed:
+        raise ValueError("LEARNING_MODEL_PREFIX_REVIEW_REQUIRED:" + ",".join(sorted(required - reviewed)))
+    return exported["input"]

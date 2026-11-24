@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-final-json-validation -- .venv/bin/python -c 'import json; from pathlib import Path; root=Path(\"docs/readings/2026-11-13-ssl-explicit-genera\"); files=sorted(root.glob(\"ssl-api-coverage-*.json\")); [json.loads(p.read_text()) for p in files]; result=json.loads((root/\"ssl-api-coverage-result.json\").read_text()); assert result[\"verification\"][\"passed_invariants\"] == 53; assert result[\"actual_corpus_changes\"][\"changed_banks\"] == 0; assert (root/\"ssl-api-coverage-result.md\").is_file(); print(json.dumps({\"json_reports_valid\":len(files),\"report_invariants_passed\":53,\"report_files\":[p.name for p in files],\"role_scope\":result[\"role_scope\"],\"status\":result[\"status\"]},indent=2))'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

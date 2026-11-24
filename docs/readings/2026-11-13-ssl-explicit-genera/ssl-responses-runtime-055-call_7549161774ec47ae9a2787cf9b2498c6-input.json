@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-checkpoint-failure-units -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\nr=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-active-checkpoint.json','ssl-api-runtime-foundation-checkpoint.json']:\n o=json.loads((r/name).read_text());print(name, list(o));print(json.dumps(o.get('checkpoint'),indent=2));\n cases=o.get('cases',[])\n for c in cases:print(json.dumps(c,sort_keys=True))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -14,7 +14,9 @@ from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _ex
 from GSE.lexicon.numerals import get_numeral_encoding, is_numeral
 from GSE.nlp.native import NativeNLP
 
-from .grounding import _COHERENCE_MARGIN, _jaccard
+from .expression import Atom
+from .grounding import _COHERENCE_MARGIN, _jaccard, _select_by_coherence, _signature
+from .resolution import Entity
 
 _GENERIC = {"entity.n.01", "physical_entity.n.01", "abstraction.n.06", "object.n.01", "thing.n.12"}
 _SENTENCE_BOUNDARIES = {".", "!", "?", ";", ":"}
@@ -43,6 +45,17 @@ class NativeSense:
     gloss: str
     anchors: frozenset[str]
     names: frozenset[str]
+    examples: tuple[str, ...] = ()
+
+
+class _NativeThreads:
+    """Adapter of already verified snapshot threads to the existing selector."""
+
+    def __init__(self, threads):
+        self.threads = threads
+
+    def candidates(self, lemma, pos, is_proper):
+        return self.threads.get(lemma, ())
 
 
 def _unique_native_witness(witnesses):
@@ -115,8 +128,39 @@ def _noun_forms(word):
         return frozenset()
 
 
+@lru_cache(maxsize=256)
+def _catalog_reading(lemma, entry_id):
+    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+    return next((e for e in GSEClosedClassParser().get_entries(lemma) if e.entry_id == entry_id), None)
+
+
+@lru_cache(maxsize=8192)
+def _native_example_signature(text, lemma=None, pos=None):
+    """Complete native construction, retaining roles, operators and arguments.
+
+    An example is a positive attestation, not an exhaustive selectional rule.
+    In particular, shared examples do not authorize choosing the first sense,
+    and omitted examples never exclude a reading. No bank value participates.
+    """
+    native_pos = {"VERB": wn.VERB, "ADJ": wn.ADJ, "ADV": wn.ADV}.get(pos)
+    signature = []
+    tokens = tuple(NativeNLP()(text))
+    for index, token in enumerate(tokens):
+        if index == len(tokens) - 1 and token.text in {".", "!", "?"}:
+            continue
+        word = token.lemma_.casefold()
+        # Membership in the complete native inflection set is not a
+        # first-stem preference. The complete source construction is still
+        # required; all matching senses compete below.
+        if native_pos and token.pos_ == pos and lemma in wn._morphy(token.text.casefold(), native_pos):
+            word = lemma
+        signature.append((word, token.pos_))
+    return tuple(signature)
+
+
 class LexicalGrounding:
-    """Sentence-local noun grounding from the snapshot's exact WordNet records.
+    """Sentence-local grounding from the snapshot's exact WordNet records.
 
     Nominal anchors and type threads are the first path. When they abstain,
     a bounded grammatical construction can supply a unique native witness.
@@ -128,11 +172,12 @@ class LexicalGrounding:
         self.doc = doc
         self.sentence_boundaries = {token.i for token in doc if token.text in _SENTENCE_BOUNDARIES}
         self.boundaries = clause_linkers | self.sentence_boundaries
-        self._by_lemma: dict[str, dict[str, NativeSense]] = {}
+        self._by_lemma: dict[tuple[str, str], dict[str, NativeSense]] = {}
 
-    def _senses(self, lemma):
-        if lemma in self._by_lemma:
-            return self._by_lemma[lemma]
+    def _senses(self, lemma, pos="NOUN"):
+        key = (lemma, pos)
+        if key in self._by_lemma:
+            return self._by_lemma[key]
         rows = self.conn.execute(
             """SELECT d.entry_id, d.code, l.lemma, l.pos, l.gloss, o.payload
                FROM lexemes l JOIN definition_states d ON d.lexeme_id=l.id
@@ -142,14 +187,20 @@ class LexicalGrounding:
             (lemma,),
         )
         results = {}
-        for entry_id, code, word, pos, gloss, raw in rows:
-            if pos not in {"n", "noun"} or code not in {"PARTIAL", "RESOLVED"}:
+        eligible_pos = {
+            "NOUN": {"n", "noun"},
+            "VERB": {"v", "verb"},
+            "ADJ": {"a", "s", "adj", "adjective"},
+            "ADV": {"r", "adv", "adverb"},
+        }.get(pos, set())
+        for entry_id, code, word, native_pos, gloss, raw in rows:
+            if native_pos not in eligible_pos or code not in {"PARTIAL", "RESOLVED"}:
                 continue
             try:
                 observation = json.loads(raw)
             except ValueError, TypeError:
                 continue
-            definition = {"entry_id": entry_id, "lemma": word, "pos": pos, "definition": gloss}
+            definition = {"entry_id": entry_id, "lemma": word, "pos": native_pos, "definition": gloss}
             nodes = _exact_wordnet_ancestry(definition, observation)
             if nodes and _attested_wordnet_lemma(definition, observation):
                 features = observation["features"]
@@ -159,15 +210,111 @@ class LexicalGrounding:
                     gloss,
                     frozenset(_anchors(features)),
                     frozenset(features["lemma_names"]),
+                    tuple(e for e in features.get("examples", ()) if isinstance(e, str)),
                 )
-        self._by_lemma[lemma] = results
+        self._by_lemma[key] = results
         return results
 
-    def select(self, position, lemma, candidates):
+    def grammatical_eligibility(self, position, lemma, entry_id):
+        """Challenge a catalog role with a *local construction*, never a keyword.
+
+        The native front-end labels closed-class spellings before reading their
+        surroundings. A determined nominal followed by that token (``the ...
+        symbol He``), or a positively witnessed specific native type, can
+        challenge that role. Absence of a person node is NOT disjointness:
+        broad ancestors such as entity/organism remain compatible with people.
+        Merely mentioning a substance elsewhere cannot challenge a pronoun.
+        """
+        native = _catalog_reading(lemma, entry_id)
+        if native is None or native.catalog != "pronoun" or native.primitives.get("SOMEONE") != 1:
+            return {"code": "GRAMMATICAL_ROLE_ELIGIBLE"}
+        start, end = self._bounds(position, self.sentence_boundaries)
+        left = tuple(self.doc[start + 1 : position])
+        right = tuple(self.doc[position + 1 : end])
+        witness = None
+        if (
+            len(left) >= 2
+            and left[0].pos_ == "DET"
+            and left[-1].pos_ == "NOUN"
+            and all(t.pos_ in {"ADJ", "NOUN"} for t in left[1:])
+        ):
+            witness = {"kind": "DETERMINED_NOMINAL_NAME", "tokens": [t.i for t in left]}
+        elif (
+            len(right) >= 3
+            and right[0].lemma_ == "be"
+            and right[0].pos_ == "AUX"
+            and right[1].lemma_ in {"a", "an"}
+            and (end == len(self.doc) or self.doc[end].text != "?")
+        ):
+            nominal = right[2:]
+            # Native noun witnesses can challenge a mislabeled complement too
+            # (e.g. zero-inflection ``gas`` also has a verb reading). The
+            # article/copula construction, not that POS label, supplies the role.
+            if nominal and all(t.pos_ in {"ADJ", "NOUN"} for t in nominal[:-1]):
+                phrase = "_".join(t.lemma_ for t in nominal)
+                # Read the complete nominal type (``noble gas``), not a POS
+                # veto or a list of chemistry words. These are the existing
+                # local WordNet type threads, never lexical-bank projections.
+                types = wn.synsets(phrase, pos=wn.NOUN)
+                person_ancestors = _noun_thread(_PARTICIPANT_ROOT)
+                specific = {t.name() for t in types if t.name() not in person_ancestors}
+                supported = {key for key, sense in self._senses(lemma).items() if sense.nodes & specific}
+                if specific and len(supported) == 1:
+                    witness = {
+                        "kind": "ASSERTED_NATIVE_READING_TYPE",
+                        "tokens": [t.i for t in right],
+                        "native_type_ids": sorted(specific),
+                        "supported_entry_ids": sorted(supported),
+                    }
+        if witness is None:
+            return {"code": "GRAMMATICAL_ROLE_ELIGIBLE"}
+        alternatives = sorted(self._senses(lemma))
+        contextual = (
+            self.select(position, lemma, alternatives) if alternatives else {"code": "NO_EXACT_WORDNET_WITNESS"}
+        )
+        if witness["kind"] == "ASSERTED_NATIVE_READING_TYPE":
+            supported = witness["supported_entry_ids"][0]
+            if contextual["code"] == "EXACT_WORDNET_SENSE" and contextual["entry_id"] != supported:
+                contextual = {"code": "CONTEXTUAL_WITNESSES_DISAGREE", "construction_witness": contextual}
+            elif contextual["code"] != "CONTEXTUAL_WITNESSES_DISAGREE":
+                # The complete positively asserted native type itself is an
+                # independent witness, even when the head is parsed correctly
+                # as nominal and no accidental verbal derivation is available.
+                contextual = {
+                    **contextual,
+                    "code": "EXACT_WORDNET_SENSE",
+                    "entry_id": supported,
+                    "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+                    "native_type_ids": witness["native_type_ids"],
+                }
+        if contextual["code"] == "EXACT_WORDNET_SENSE":
+            return {
+                "code": "CONTEXTUAL_DEFINITION_SELECTED",
+                "entry_id": contextual["entry_id"],
+                "challenged_grammatical_entry_id": entry_id,
+                "catalog_provenance": list(native.provenance),
+                "construction": witness,
+                "contextual_grounding": contextual,
+                "considered_entry_ids": alternatives,
+            }
+        return {
+            "code": "GRAMMATICAL_CONTEXT_CONFLICT",
+            "entry_id": entry_id,
+            "catalog_provenance": list(native.provenance),
+            "grammar_roles": list(native.grammar_roles),
+            "grammatical_features": native.grammatical_features,
+            "construction": witness,
+            "contextual_grounding": contextual,
+            "considered_entry_ids": alternatives,
+        }
+
+    def select(self, position, lemma, candidates, *, pos="NOUN"):
         candidate_ids = set(candidates)
-        senses = {key: value for key, value in self._senses(lemma).items() if key in candidate_ids}
+        senses = {key: value for key, value in self._senses(lemma, pos).items() if key in candidate_ids}
         if not senses:
             return {"code": "NO_EXACT_WORDNET_WITNESS"}
+        if pos in {"VERB", "ADJ", "ADV"}:
+            return self._native_example_support(position, lemma, senses, pos)
         start, end = self._bounds(position, self.boundaries)
         nominal = self._nominal_support(lemma, senses, start, end)
         definition_only = self.doc[position].pos_ == "PROPN"
@@ -184,6 +331,33 @@ class LexicalGrounding:
         if (supported and contextual["entry_id"] not in supported) or (thread and thread != contextual["entry_id"]):
             return {**nominal, "code": "CONTEXTUAL_WITNESSES_DISAGREE", "construction_witness": contextual}
         return {**nominal, **contextual, "code": "EXACT_WORDNET_SENSE"}
+
+    def _native_example_support(self, position, lemma, senses, pos):
+        """Make attested non-nominal identities reachable without a POS override.
+
+        Compare the complete sentence construction rather than isolated cue
+        words. This deliberately abstains on underspecified or novel uses;
+        grammatical role alone, frequency and already-filled banks cannot
+        license a definition. Existing nominal type-thread grounding is kept
+        separate because noun and verb threads are not comparable types.
+        """
+        start, end = self._bounds(position, self.sentence_boundaries)
+        actual = tuple((t.lemma_.casefold(), t.pos_) for t in self.doc[start + 1 : end])
+        witnesses = {}
+        for entry_id, sense in senses.items():
+            examples = [
+                example for example in sense.examples if _native_example_signature(example, lemma, pos) == actual
+            ]
+            if examples:
+                witnesses[entry_id] = {
+                    "witness_kind": "WORDNET_NATIVE_EXAMPLE_CONSTRUCTION",
+                    "native_synset": sense.synset,
+                    "native_examples": examples,
+                    "construction_signature": [list(pair) for pair in actual],
+                    "eligible_pos": pos,
+                    "source_record_id": entry_id,
+                }
+        return _unique_native_witness(witnesses)
 
     def _bounds(self, position, boundaries):
         return (
@@ -225,6 +399,22 @@ class LexicalGrounding:
             if scores and scores[0][0] > (scores[1][0] if len(scores) > 1 else 0) + _COHERENCE_MARGIN
             else None
         )
+        if thread:
+            # Eligibility and lexical witnesses are established above. The
+            # production coherence selector, not a parallel similarity resolver,
+            # then consumes the native type threads. Common nodes carry no WSD
+            # signal and are removed on both sides, as in the diagnostics.
+            ordered = sorted(senses)
+            threads = {lemma: [tuple(sorted(senses[key].nodes - common)) for key in ordered]}
+            threads.update(
+                (word, [tuple(sorted(next(iter(self._senses(word).values())).nodes))])
+                for word in sorted(witnessed_words)
+            )
+            entities = [Entity(Atom(word, pos="NOUN")) for word in threads]
+            chosen = _select_by_coherence(entities, _NativeThreads(threads), native_only=True)
+            selected_thread = chosen.get(_signature(entities[0]), ())
+            if selected_thread != threads[lemma][ordered.index(thread)]:
+                thread = None
         anchor = next(iter(support)) if len(support) == 1 else None
         evidence = {"native_anchor_support": support, "type_coherence": dict((key, score) for score, key in scores)}
         if thread:
@@ -256,7 +446,7 @@ class LexicalGrounding:
         predication = self._definition_predication(position)
         derivations = {word: _verb_derivations(word) for word, pos in cues.items() if pos == "VERB"}
         linked_verbs = {t.lemma_ for t in tokens if linked is not None and t.i > linked and t.pos_ == "VERB"}
-        witnesses = {}
+        witnesses, definition_witnesses = {}, {}
         for entry_id, sense in senses.items():
             gloss = dict(_gloss_content(sense.gloss))
             matched = frozenset(gloss.keys() & cues.keys())
@@ -271,7 +461,11 @@ class LexicalGrounding:
                     "related_derivation": related,
                     "construction_type": predication if repeated else type_witness if typed or related else None,
                 }
-        return _unique_native_witness(witnesses)
+                if repeated:
+                    definition_witnesses[entry_id] = witnesses[entry_id]
+        # Complete definition identity precedes weaker derivational similarity;
+        # two exact definitions still abstain rather than choosing by order.
+        return _unique_native_witness(definition_witnesses or witnesses)
 
     def _definition_predication(self, position):
         """Read an explicit nominal equivalence with the target as its subject."""
@@ -311,6 +505,11 @@ class LexicalGrounding:
             }
         if any(t.lemma_ in {"not", "never"} for t in following):
             return None
+        # Retain the entire asserted nominal clause, including a relative or
+        # prepositional modifier. It may identify a source reading only by
+        # exact comparison with that reading's complete native definition (or
+        # its complete principal clause before an explanatory semicolon).
+        complete_terms = [t.text.casefold() for t in complement]
         # A relative clause can elaborate an already asserted complement.
         relative = next((i for i, t in enumerate(following[2:], 2) if t.lemma_ in {"that", "which"}), len(following))
         nominal = following[2:relative]
@@ -320,12 +519,29 @@ class LexicalGrounding:
             or any(t.pos_ not in {"ADJ", "NOUN"} for t in nominal)
             or (relative < len(following) and not any(t.pos_ == "VERB" for t in following[relative + 1 :]))
         ):
-            return None
-        return {"kind": "EXPLICIT_DEFINITION_PREDICATION", "terms": [t.text.casefold() for t in nominal]}
+            return {
+                "kind": "EXPLICIT_DEFINITION_PREDICATION",
+                "terms": complete_terms,
+                "complete_terms": complete_terms,
+                "exact_clause_only": True,
+            }
+        return {
+            "kind": "EXPLICIT_DEFINITION_PREDICATION",
+            "terms": [t.text.casefold() for t in nominal],
+            "complete_terms": complete_terms,
+        }
 
     @staticmethod
     def _matches_definition_predication(sense, predication):
         if predication is None:
+            return False
+        principal = sense.gloss.casefold().split(";", 1)[0].removesuffix(".")
+        principal_terms = re.findall(r"\w+|[^\w\s]", principal)
+        if principal_terms and principal_terms[0] in {"a", "an", "the"}:
+            principal_terms = principal_terms[1:]
+        if predication.get("complete_terms") == principal_terms:
+            return True
+        if predication.get("exact_clause_only"):
             return False
         terms = predication["terms"]
         gloss = sense.gloss.casefold().removesuffix(".").split()

@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.7, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/GSE
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 166 items
+
+tests/test_lexicon_epoch.py ............................................ [ 26%]
+........................................................................ [ 69%]
+.......................                                                  [ 83%]
+tests/test_lexicon_learning_state.py .........                           [ 89%]
+tests/test_lexicon_specification_space.py ..................             [100%]
+
+- generated xml file: /Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/open-bank-learning-tests.xml -
+======================= 166 passed in 1193.26s (0:19:53) =======================

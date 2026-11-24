@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-read-contract -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text(); print(s[:s.index('## WANT polarity')]);print(s[s.index('## Mandatory SSL execution'):s.index('### Incremental frequency')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

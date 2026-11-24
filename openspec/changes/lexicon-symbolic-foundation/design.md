@@ -120,6 +120,26 @@ from that installed release using this same controller; whole-lexicon completion
 
 ## Verification and current blockers
 
+### Checkpoint-first execution update — 2026-11-24
+
+The direct owner deadline defers generic controller completeness until after the
+usable checkpoint; it does not defer its validity gates. Controller-owned code
+now has exact request-context archival, a durable head CAS, owned-stage retirement
+with native/unique-audit preservation, explicit model-prefix review, a reviewed
+joint-revision intake and bounded explicit entry–bank work on the sustained
+writer. Its 1,800-test scoped pass includes crash recovery after obsolete files
+are removed and the actual Regenesis refinement integration. It is not the
+integrated gate, a real linguistic admission, or a full CP-02–CP-06 receipt.
+
+The catalogue repair and subsequent full replay are already recorded as valid;
+the older failed catalogue/fixture observations below remain historical. The
+active pointer still names 021. The v2 rebase preserves the original v1 plan and
+water/I wire identity. Fresh reference audits are being supplied by the root's
+pinned local transport; ordinary admission, full-corpus joint revision/replay,
+usable-workload acceptance and the runtime peer's repaired code-freeze receipt
+remain prerequisites to activation. Generic joint-tuple discovery and complete
+source/identity/projector surprise correction remain deferred, not declared done.
+
 Use the scenario requirements and checklist, then real corpus execution and full replay. CP-01
 currently includes the failed catalogue refresh and reference-bank fixture failures. CP-02–CP-06
 cover the controller feedback, comparison and retention gaps. CP-07 includes the reproduced wrong

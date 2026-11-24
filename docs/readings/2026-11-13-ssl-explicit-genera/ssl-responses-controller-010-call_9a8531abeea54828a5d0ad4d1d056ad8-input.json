@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-epoch-selection -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('GSE/curation/lexicon_builder/epoch.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and 250<=n.lineno<954:print(ast.get_source_segment(s,n)+'\\n\\n')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

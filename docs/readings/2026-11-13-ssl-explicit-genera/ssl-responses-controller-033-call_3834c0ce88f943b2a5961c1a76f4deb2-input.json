@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-format-and-witness -- uvx --offline ruff@0.16.10 format GSE/curation/lexicon_builder/learning_feedback.py GSE/curation/lexicon_builder/epoch.py GSE/curation/lexicon_builder/completion.py GSE/curation/lexicon_builder/learning_state.py GSE/curation/lexicon_builder/learning_questions.py GSE/curation/lexicon_builder/retention.py GSE/curation/lexicon_builder/model_receipts.py tests/test_lexicon_learning_recovery.py tests/test_lexicon_learning_questions.py tests/test_lexicon_builder_completion_sessions.py; /Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-warrant-read -- cat docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-first-teaching.json docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-source-projection-warrants.json docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-controller-verification.json",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

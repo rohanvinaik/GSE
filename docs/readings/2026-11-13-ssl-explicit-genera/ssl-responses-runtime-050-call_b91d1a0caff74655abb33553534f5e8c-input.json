@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-crosswalk-case-structure -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json');o=json.loads(p.read_text())\nfor c in o['cases']:\n print(json.dumps({k:v for k,v in c.items() if k not in ['same_pos_candidates','all_candidates','candidates']},indent=2))\n print('KEYS',list(c))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

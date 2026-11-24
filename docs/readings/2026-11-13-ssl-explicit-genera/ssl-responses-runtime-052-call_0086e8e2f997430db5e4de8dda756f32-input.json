@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-prime-crosswalk-summary -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\no=json.loads(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json').read_text())\nfor c in o['cases']:\n print(json.dumps({k:v for k,v in c.items() if k not in {'all_senses','root_probe_selection'}},sort_keys=True))\nprint('first sense schema',o['cases'][0]['all_senses'][0])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

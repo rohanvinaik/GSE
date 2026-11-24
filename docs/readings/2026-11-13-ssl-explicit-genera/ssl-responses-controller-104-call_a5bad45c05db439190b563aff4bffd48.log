@@ -1,0 +1,15 @@
+........................                                                 [100%]
+24 passed in 4.47s
+All checks passed!
+unformatted: File would be reformatted
+   --> docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py:328:21
+    |
+327 |         "audit_entry_ids": child["audit_entry_ids"],
+    -         "reviews": [
+    -             {"request_id": row["receipt"]["request_id"], "review": row["review"]} for row in child["rulings"]
+    -         ],
+328 +         "reviews": [{"request_id": row["receipt"]["request_id"], "review": row["review"]} for row in child["rulings"]],
+329 |         **{key: child[key] for key in ("candidates", "guarded_candidates") if key in child},
+    |
+
+1 file would be reformatted, 1 file already formatted

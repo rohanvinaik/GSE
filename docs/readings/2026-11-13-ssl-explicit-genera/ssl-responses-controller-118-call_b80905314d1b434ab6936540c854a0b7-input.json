@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-packet-consumer-trace -- .venv/bin/python - <<'PY'\nimport ast,pathlib,json\np=pathlib.Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor file in ['ssl_api_checkpoint.py','ssl-api-controller-event-frontier.json','ssl-api-controller-event-genus-warrant.md','ssl-api-controller-prime-questions.json']:\n f=p/file\n if file.endswith('.py'): print('\\n###',file); print(f.read_text())\n elif file.endswith('questions.json'):\n  d=json.loads(f.read_text()); print('\\n### PACKET STRUCTURE',type(d).__name__)\n  if isinstance(d,dict):\n   print({k:([{'keys':list(x),'request_keys':list(x.get('request',{}))} for x in v[:1]] if isinstance(v,list) else v) for k,v in d.items()})\n else: print('\\n###',file);print(f.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

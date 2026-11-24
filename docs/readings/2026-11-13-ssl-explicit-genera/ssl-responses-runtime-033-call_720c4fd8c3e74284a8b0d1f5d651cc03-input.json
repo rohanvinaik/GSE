@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-demand-inputs -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor p in Path('data/external_data').iterdir():print(p,p.stat().st_size)\np=Path('GSE/curation/lexicon_builder/completion.py');t=ast.parse(p.read_text())\nfor n in t.body:\n if isinstance(n,(ast.Import,ast.ImportFrom)):print(ast.unparse(n))\nfor p in Path('docs/readings').rglob('*.json'):\n if p.stat().st_size>250000:continue\n try:d=json.loads(p.read_text())\n except (ValueError,UnicodeError):continue\n if isinstance(d,dict) and str(d.get('format','')).lower()=='gse.lexicon-sentence-benchmark/1':print('BENCHMARK',p,len(d['cases']))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-source-function-map -- .venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\np=Path('GSE/symbolic/lexical_grounding.py');t=p.read_text();a=ast.parse(t)\nprint(t[:t.index('class LexicalGrounding')])\nfor n in ast.walk(a):\n if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)):\n  print(n.name,n.lineno,n.end_lineno)\no=json.loads(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json').read_text());c=o['cases'][0]\nprint({k:type(v).__name__ for k,v in c.items()})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "format",
+      "GSE/curation/lexicon_builder/model_receipts.py",
+      "GSE/curation/lexicon_builder/learning_questions.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "tests/test_lexicon_learning_questions.py"
+    ],
+    "exit_code": 0,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/question-archive-check-0.log"
+  },
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "check",
+      "GSE/curation/lexicon_builder/model_receipts.py",
+      "GSE/curation/lexicon_builder/learning_questions.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "tests/test_lexicon_learning_questions.py"
+    ],
+    "exit_code": 1,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/question-archive-check-1.log"
+  }
+]

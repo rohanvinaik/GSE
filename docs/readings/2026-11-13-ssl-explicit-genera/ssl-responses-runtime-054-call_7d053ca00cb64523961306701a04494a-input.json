@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-nonnominal-source-contract -- .venv/bin/python - <<'PY'\nimport ast,json,sqlite3\nfrom pathlib import Path\np=Path('GSE/curation/lexicon_builder/foundation.py');s=p.read_text().splitlines();a=ast.parse('\\n'.join(s))\nfor n in ast.walk(a):\n if isinstance(n,ast.FunctionDef) and n.name in {'_exact_wordnet_ancestry','_attested_wordnet_lemma'}: print('\\n'.join(s[n.lineno-1:n.end_lineno]))\no=json.loads(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json').read_text())\nfor c in o['cases'][:10]:\n print('\\nCASE',c['lemma'])\n for r in c['all_senses']:\n  if r['entry_id'].startswith('wordnet:') and r['parser_pos_compatible_not_sufficient_for_identity']:print(r['entry_id'],r['definition'],r['domain'])\nc=sqlite3.connect('file:data/lexicon_builder/2026-11-12/sparse-release-021.db?mode=ro',uri=True)\nfor r in c.execute(\"SELECT source,family,record_id,payload FROM source_observations WHERE entry_id='wordnet:want:desire.v.01'\"):print(r)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

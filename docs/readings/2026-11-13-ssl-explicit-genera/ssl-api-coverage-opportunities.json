@@ -1,0 +1,3447 @@
+{
+  "actual_bank_writes": 0,
+  "admitted_rules": 0,
+  "created_utc": "2026-11-24T08:30:58.997621+00:00",
+  "database_pin": {
+    "bytes": 20353929216,
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+    "sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+    "stable_stat": true
+  },
+  "format": "GSE.ssl-api-coverage-opportunities/1",
+  "model_calls": 0,
+  "opportunities": [
+    {
+      "artifact": "gap-emotion-feel-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "already_target_singleton": 5,
+          "definitions": 5
+        },
+        "1501-5000": {
+          "already_target_singleton": 42,
+          "definitions": 42
+        },
+        "5001+": {
+          "already_target_singleton": 95,
+          "definitions": 95
+        },
+        "501-1500": {
+          "already_target_singleton": 10,
+          "definitions": 10
+        },
+        "runtime_common_forms": {
+          "already_target_singleton": 80,
+          "definitions": 80
+        },
+        "unranked": {
+          "already_target_singleton": 90,
+          "definitions": 90
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "FEEL",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:emotion.n.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:emotion.n.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Emotion denotes a feeling; test whether verified defining-genus content warrants FEEL=+1 on this scope.",
+          "warrant_id": "gap-hypothesis:emotion-feel"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "FEEL",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "a strong positive emotion of regard and affection",
+          "entry_id": "wordnet:love:love.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "love",
+          "spelling_SUBTLEX_count": 56864
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "an anxious feeling",
+          "entry_id": "wordnet:care:concern.n.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "care",
+          "spelling_SUBTLEX_count": 24748
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "a strong feeling of anxiety",
+          "entry_id": "wordnet:worry:worry.n.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "worry",
+          "spelling_SUBTLEX_count": 14638
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "a strong feeling of anxiety",
+          "entry_id": "wordnet:trouble:worry.n.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "trouble",
+          "spelling_SUBTLEX_count": 11401
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "the emotion of intense dislike; a feeling of dislike so strong that it demands action",
+          "entry_id": "wordnet:hate:hate.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "hate",
+          "spelling_SUBTLEX_count": 10944
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "501-1500",
+          "current_domain": [
+            1
+          ],
+          "definition": "a state of depression or agitation",
+          "entry_id": "wordnet:state:state.n.06",
+          "frequency_is_sense_frequency": false,
+          "lemma": "state",
+          "spelling_SUBTLEX_count": 5500
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "501-1500",
+          "current_domain": [
+            1
+          ],
+          "definition": "the swift release of a store of affective force",
+          "entry_id": "wordnet:charge:bang.n.04",
+          "frequency_is_sense_frequency": false,
+          "lemma": "charge",
+          "spelling_SUBTLEX_count": 4559
+        },
+        {
+          "bank": "FEEL",
+          "bucket": "501-1500",
+          "current_domain": [
+            1
+          ],
+          "definition": "a display of bad temper",
+          "entry_id": "wordnet:scene:fit.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "scene",
+          "spelling_SUBTLEX_count": 3807
+        }
+      ],
+      "live_target_counts": {
+        "already_target_singleton": 242,
+        "definitions": 242,
+        "unchanged_gloss": 242
+      },
+      "sha256": "1d569571c0f4121a6b02b0fbd46d96224854caf31e3b6e657670395c8718da34",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-desire-want-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "already_target_singleton": 12,
+          "definitions": 12
+        },
+        "1501-5000": {
+          "already_target_singleton": 14,
+          "definitions": 14
+        },
+        "5001+": {
+          "already_target_singleton": 12,
+          "definitions": 12
+        },
+        "501-1500": {
+          "already_target_singleton": 1,
+          "definitions": 1
+        },
+        "runtime_common_forms": {
+          "already_target_singleton": 24,
+          "definitions": 24
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "WANT",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:desire.v.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:desire.v.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Desiring entails wanting; test the exact native desire branch, reserving need/lack and lexicalized figurative uses.",
+          "warrant_id": "gap-hypothesis:desire-want"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "want to have",
+          "entry_id": "wordnet:like:like.v.05",
+          "frequency_is_sense_frequency": false,
+          "lemma": "like",
+          "spelling_SUBTLEX_count": 203947
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "prefer or wish to do something",
+          "entry_id": "wordnet:like:wish.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "like",
+          "spelling_SUBTLEX_count": 203947
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "feel or have a desire for; want strongly",
+          "entry_id": "wordnet:want:desire.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "want",
+          "spelling_SUBTLEX_count": 140718
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "prefer or wish to do something",
+          "entry_id": "wordnet:care:wish.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "care",
+          "spelling_SUBTLEX_count": 24748
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "feel or suffer from the lack of",
+          "entry_id": "wordnet:miss:miss.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "miss",
+          "spelling_SUBTLEX_count": 23850
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "expect and wish",
+          "entry_id": "wordnet:hope:hope.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "hope",
+          "spelling_SUBTLEX_count": 16352
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "be optimistic; be full of hope; have hopes",
+          "entry_id": "wordnet:hope:hope.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "hope",
+          "spelling_SUBTLEX_count": 16352
+        },
+        {
+          "bank": "WANT",
+          "bucket": "1-500",
+          "current_domain": [
+            1
+          ],
+          "definition": "languish as with love or desire",
+          "entry_id": "wordnet:die:die.v.06",
+          "frequency_is_sense_frequency": false,
+          "lemma": "die",
+          "spelling_SUBTLEX_count": 13318
+        }
+      ],
+      "live_target_counts": {
+        "already_target_singleton": 39,
+        "definitions": 39,
+        "unchanged_gloss": 39
+      },
+      "sha256": "915a60c8e3eaa830b01343a9ca4fdceaee5336726a5d99d5fb596ce5c6abd8b4",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-physical-contact-touch-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 14,
+          "target_open": 14
+        },
+        "1501-5000": {
+          "definitions": 82,
+          "target_open": 82
+        },
+        "5001+": {
+          "definitions": 90,
+          "target_open": 90
+        },
+        "501-1500": {
+          "definitions": 42,
+          "target_open": 42
+        },
+        "runtime_common_forms": {
+          "definitions": 126,
+          "target_open": 126
+        },
+        "unranked": {
+          "definitions": 41,
+          "target_open": 41
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "TOUCH",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:touch.v.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:touch.v.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Making physical contact supplies touching content; test senses for figurative contact, resultant state and instrument boundaries.",
+          "warrant_id": "gap-hypothesis:physical-contact-touch"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "reach with a blow or hit in a particular spot",
+          "entry_id": "wordnet:get:get.v.19",
+          "frequency_is_sense_frequency": false,
+          "lemma": "get",
+          "spelling_SUBTLEX_count": 233772
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "cause to come or go down",
+          "entry_id": "wordnet:down:down.v.05",
+          "frequency_is_sense_frequency": false,
+          "lemma": "down",
+          "spelling_SUBTLEX_count": 76004
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "make uniform",
+          "entry_id": "wordnet:work:knead.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "work",
+          "spelling_SUBTLEX_count": 40699
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "pass one's hands over the sexual organs of",
+          "entry_id": "wordnet:feel:feel.v.13",
+          "frequency_is_sense_frequency": false,
+          "lemma": "feel",
+          "spelling_SUBTLEX_count": 31989
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "examine (a body part) by palpation",
+          "entry_id": "wordnet:feel:palpate.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "feel",
+          "spelling_SUBTLEX_count": 31989
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "manipulate manually or in one's mind or imagination",
+          "entry_id": "wordnet:play:toy.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "play",
+          "spelling_SUBTLEX_count": 18081
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "alter the functioning or setting of",
+          "entry_id": "wordnet:turn:turn.v.22",
+          "frequency_is_sense_frequency": false,
+          "lemma": "turn",
+          "spelling_SUBTLEX_count": 15630
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "hit against; come into sudden contact with",
+          "entry_id": "wordnet:hit:hit.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "hit",
+          "spelling_SUBTLEX_count": 14025
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 269,
+        "target_open": 269,
+        "unchanged_gloss": 269
+      },
+      "sha256": "550a3c7d129cf44b7bbf2b4cdbb67cb4c7ac1949c40c061b8e6347ca72d53a43",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-possess-have-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 2,
+          "target_open": 2
+        },
+        "1501-5000": {
+          "definitions": 1,
+          "target_open": 1
+        },
+        "runtime_common_forms": {
+          "definitions": 3,
+          "target_open": 3
+        },
+        "unranked": {
+          "definitions": 1,
+          "target_open": 1
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "HAVE",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:own.v.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:own.v.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Owning entails having; test the exact native ownership branch rather than every occurrence of the word have.",
+          "warrant_id": "gap-hypothesis:possess-have"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "have ownership or possession of",
+          "entry_id": "wordnet:have:own.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "have",
+          "spelling_SUBTLEX_count": 314232
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "have ownership or possession of",
+          "entry_id": "wordnet:own:own.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "own",
+          "spelling_SUBTLEX_count": 23419
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "have ownership or possession of",
+          "entry_id": "wordnet:possess:own.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "possess",
+          "spelling_SUBTLEX_count": 280
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "unranked",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "possess beforehand",
+          "entry_id": "wordnet:prepossess:prepossess.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "prepossess",
+          "spelling_SUBTLEX_count": null
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 4,
+        "target_open": 4,
+        "unchanged_gloss": 4
+      },
+      "sha256": "f32dd3e31146055a82820f620b704cde3650fd3ec6954b9bd7daffaa9bfe443d",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-repeated-light-contact-touch-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1501-5000": {
+          "definitions": 11,
+          "target_open": 11
+        },
+        "5001+": {
+          "definitions": 6,
+          "target_open": 6
+        },
+        "501-1500": {
+          "definitions": 2,
+          "target_open": 2
+        },
+        "runtime_common_forms": {
+          "definitions": 10,
+          "target_open": 10
+        },
+        "unranked": {
+          "definitions": 2,
+          "target_open": 2
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "TOUCH",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:stroke.v.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:stroke.v.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Repeated light touching supplies contact content; test this child independently of the overbroad contact parent.",
+          "warrant_id": "gap-hypothesis:repeated-light-contact-touch"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "TOUCH",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "rub noses",
+          "entry_id": "wordnet:nose:nuzzle.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "nose",
+          "spelling_SUBTLEX_count": 3557
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "kiss, embrace, or fondle with sexual passion",
+          "entry_id": "wordnet:neck:neck.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "neck",
+          "spelling_SUBTLEX_count": 3035
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "lick or explore with the tongue",
+          "entry_id": "wordnet:tongue:tongue.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "tongue",
+          "spelling_SUBTLEX_count": 1589
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "pat or squeeze fondly or playfully, especially under the chin",
+          "entry_id": "wordnet:chuck:chuck.v.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "chuck",
+          "spelling_SUBTLEX_count": 1096
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "stroke or caress gently",
+          "entry_id": "wordnet:pet:pet.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "pet",
+          "spelling_SUBTLEX_count": 1029
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "stroke or caress in an erotic manner, as during lovemaking",
+          "entry_id": "wordnet:pet:pet.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "pet",
+          "spelling_SUBTLEX_count": 1029
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "pat or squeeze fondly or playfully, especially under the chin",
+          "entry_id": "wordnet:pat:chuck.v.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "pat",
+          "spelling_SUBTLEX_count": 933
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "stroke soothingly",
+          "entry_id": "wordnet:gentle:gentle.v.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "gentle",
+          "spelling_SUBTLEX_count": 844
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 21,
+        "target_open": 21,
+        "unchanged_gloss": 21
+      },
+      "sha256": "12f6ba6515e25f167a8045766180543329a81965a11db3dc8ef9bcccd868a1eb",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-collision-touch-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 1,
+          "target_open": 1
+        },
+        "1501-5000": {
+          "definitions": 7,
+          "target_open": 7
+        },
+        "5001+": {
+          "definitions": 8,
+          "target_open": 8
+        },
+        "501-1500": {
+          "definitions": 3,
+          "target_open": 3
+        },
+        "runtime_common_forms": {
+          "definitions": 10,
+          "target_open": 10
+        },
+        "unranked": {
+          "definitions": 1,
+          "target_open": 1
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "TOUCH",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:hit.v.02",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:hit.v.02",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "Sudden physical contact supplies touching content; test the collision child and retain metaphorical boundary cases.",
+          "warrant_id": "gap-hypothesis:collision-touch"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "TOUCH",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "hit against; come into sudden contact with",
+          "entry_id": "wordnet:hit:hit.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "hit",
+          "spelling_SUBTLEX_count": 14025
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "knock against with force or violence",
+          "entry_id": "wordnet:knock:bump.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "knock",
+          "spelling_SUBTLEX_count": 3299
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "strike the ground, as with a ship's bottom",
+          "entry_id": "wordnet:bottom:bottom.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "bottom",
+          "spelling_SUBTLEX_count": 2546
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "hit against; come into sudden contact with",
+          "entry_id": "wordnet:strike:hit.v.02",
+          "frequency_is_sense_frequency": false,
+          "lemma": "strike",
+          "spelling_SUBTLEX_count": 2324
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "collide violently",
+          "entry_id": "wordnet:shock:shock.v.04",
+          "frequency_is_sense_frequency": false,
+          "lemma": "shock",
+          "spelling_SUBTLEX_count": 1468
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "undergo damage or destruction on impact",
+          "entry_id": "wordnet:crash:crash.v.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "crash",
+          "spelling_SUBTLEX_count": 1461
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "leap, jerk, bang",
+          "entry_id": "wordnet:bang:spang.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "bang",
+          "spelling_SUBTLEX_count": 1019
+        },
+        {
+          "bank": "TOUCH",
+          "bucket": "1501-5000",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "knock against with force or violence",
+          "entry_id": "wordnet:bump:bump.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "bump",
+          "spelling_SUBTLEX_count": 630
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 20,
+        "target_open": 20,
+        "unchanged_gloss": 20
+      },
+      "sha256": "e0c10a4fad31349cb2f55c2c197caa9c2fe84832f644b6fa0ace66d242a3649b",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-concrete-or-abstract-possession-have-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 23,
+          "target_open": 23
+        },
+        "1501-5000": {
+          "definitions": 43,
+          "target_open": 43
+        },
+        "5001+": {
+          "definitions": 69,
+          "target_open": 69
+        },
+        "501-1500": {
+          "definitions": 24,
+          "target_open": 24
+        },
+        "runtime_common_forms": {
+          "definitions": 105,
+          "target_open": 105
+        },
+        "unranked": {
+          "definitions": 22,
+          "target_open": 22
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "antecedent": null,
+        "consequent": [
+          "HAVE",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "verb"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:have.v.01",
+            "true"
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "wordnet:have.v.01",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md"
+          ],
+          "statement": "The native have/possess branch proposes possession content; inspect experiential and relational descendants before admission.",
+          "warrant_id": "gap-hypothesis:concrete-or-abstract-possession-have"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "have or possess, either in a concrete or an abstract sense",
+          "entry_id": "wordnet:have:have.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "have",
+          "spelling_SUBTLEX_count": 314232
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "make a film or photograph of something",
+          "entry_id": "wordnet:take:film.v.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "take",
+          "spelling_SUBTLEX_count": 96443
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "retain possession of",
+          "entry_id": "wordnet:keep:keep.v.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "look after; be the keeper of; have charge of",
+          "entry_id": "wordnet:keep:keep.v.07",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "maintain by writing regular records",
+          "entry_id": "wordnet:keep:keep.v.08",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "store or keep customarily",
+          "entry_id": "wordnet:keep:keep.v.18",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "have as a supply",
+          "entry_id": "wordnet:keep:keep.v.19",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        },
+        {
+          "bank": "HAVE",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "maintain for use and service",
+          "entry_id": "wordnet:keep:keep.v.20",
+          "frequency_is_sense_frequency": false,
+          "lemma": "keep",
+          "spelling_SUBTLEX_count": 35846
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 181,
+        "target_open": 181,
+        "unchanged_gloss": 181
+      },
+      "sha256": "36603747270d347f63eb55ad70c6cf7571d79b2c9581a9e217e87fdc2eef7837",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-constitutive-human-person-body-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 164,
+          "target_open": 164
+        },
+        "1501-5000": {
+          "definitions": 861,
+          "target_open": 861
+        },
+        "5001+": {
+          "definitions": 3077,
+          "target_open": 3077
+        },
+        "501-1500": {
+          "definitions": 370,
+          "target_open": 370
+        },
+        "runtime_common_forms": {
+          "definitions": 2401,
+          "target_open": 2401
+        },
+        "unranked": {
+          "definitions": 4549,
+          "target_open": 4549
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "consequent": [
+          "BODY",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:person.n.01",
+            "true"
+          ]
+        ],
+        "premises": [
+          [
+            "ALIVE",
+            1
+          ],
+          [
+            "SOMEONE",
+            1
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SOURCE_REVIEW_AND_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json",
+            "wordnet:person.n.01",
+            "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+          ],
+          "statement": "Under the approved constitutive-anatomy convention, test whether ALIVE and SOMEONE on an exact native human-person noun witness bodily constitution through the defining genus. Pronominal reference alone supplies no BODY assertion; the native nominal genus is essential.",
+          "warrant_id": "gap-hypothesis:constitutive-human-person-body"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who possesses great material wealth",
+          "entry_id": "wordnet:have:rich_person.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "have",
+          "spelling_SUBTLEX_count": 314232
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "(football) a person who plays in the backfield",
+          "entry_id": "wordnet:back:back.n.04",
+          "frequency_is_sense_frequency": false,
+          "lemma": "back",
+          "spelling_SUBTLEX_count": 102467
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "an adult person who is male (as opposed to a woman)",
+          "entry_id": "wordnet:man:man.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "the generic use of the word to refer to any human being",
+          "entry_id": "wordnet:man:man.n.03",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a male subordinate",
+          "entry_id": "wordnet:man:man.n.05",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "an adult male person who has a manly character (virile and courageous competent)",
+          "entry_id": "wordnet:man:man.n.06",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a male person who plays a significant role (husband or lover or boyfriend) in the life of a particular woman",
+          "entry_id": "wordnet:man:man.n.08",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "someone who serves in the armed forces; a member of a military force",
+          "entry_id": "wordnet:man:serviceman.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "man",
+          "spelling_SUBTLEX_count": 94133
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 9021,
+        "premises_already_singleton": 9021,
+        "target_open": 9021,
+        "unchanged_gloss": 9021
+      },
+      "sha256": "cb4d9fe261ed1a0413ad580062f5e256fb549eb913099a30b4d5eb1603c5f52c",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    },
+    {
+      "artifact": "gap-explicit-human-person-genus-body-stage.json",
+      "baseline_authority": "Original stage baseline is 021, not current foundation; these are fresh live domain checks of original exact candidate IDs, not a new full forecast or admission",
+      "by_bucket": {
+        "1-500": {
+          "definitions": 7,
+          "target_open": 7
+        },
+        "1501-5000": {
+          "definitions": 112,
+          "target_open": 112
+        },
+        "5001+": {
+          "definitions": 651,
+          "target_open": 651
+        },
+        "501-1500": {
+          "definitions": 48,
+          "target_open": 48
+        },
+        "runtime_common_forms": {
+          "definitions": 252,
+          "target_open": 252
+        },
+        "unranked": {
+          "definitions": 635,
+          "target_open": 635
+        }
+      },
+      "family": {
+        "absent_evidence": [],
+        "consequent": [
+          "BODY",
+          1
+        ],
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:person.n.01",
+            "true"
+          ],
+          [
+            "native_noun_frame:explicit_person",
+            "true"
+          ]
+        ],
+        "premises": [
+          [
+            "ALIVE",
+            1
+          ],
+          [
+            "SOMEONE",
+            1
+          ]
+        ],
+        "warrant": {
+          "kind": "DEFINITIONAL_DERIVATION",
+          "review_id": "UNADMITTED_REQUIRES_SEMANTIC_AUDITS",
+          "reviewer": "PROPOSAL_ONLY",
+          "source_refs": [
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json",
+            "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/gap-constitutive-human-person-body-stage.json"
+          ],
+          "statement": "Test constitutive BODY on an exact native human noun whose own gloss has an explicit person genus, with ALIVE and SOMEONE already justified. This positive defining-head condition reserves title-denoting and merely metonymic descriptions without assigning them an opposing value.",
+          "warrant_id": "gap-refinement:explicit-human-person-genus-body"
+        }
+      },
+      "highest_spelling_priority_witnesses": [
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who possesses great material wealth",
+          "entry_id": "wordnet:have:rich_person.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "have",
+          "spelling_SUBTLEX_count": 314232
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who has achieved distinction and honor in some field",
+          "entry_id": "wordnet:great:great.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "great",
+          "spelling_SUBTLEX_count": 41864
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "someone who bets",
+          "entry_id": "wordnet:better:bettor.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "better",
+          "spelling_SUBTLEX_count": 40494
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who is in charge",
+          "entry_id": "wordnet:head:head.n.04",
+          "frequency_is_sense_frequency": false,
+          "lemma": "head",
+          "spelling_SUBTLEX_count": 18947
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who is married",
+          "entry_id": "wordnet:married:married.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "married",
+          "spelling_SUBTLEX_count": 12163
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "someone who is morally reprehensible",
+          "entry_id": "wordnet:dog:cad.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "dog",
+          "spelling_SUBTLEX_count": 9835
+        },
+        {
+          "bank": "BODY",
+          "bucket": "1-500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "a person who is not very bright",
+          "entry_id": "wordnet:stupid:stupid.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "stupid",
+          "spelling_SUBTLEX_count": 9405
+        },
+        {
+          "bank": "BODY",
+          "bucket": "501-1500",
+          "current_domain": [
+            -1,
+            0,
+            1
+          ],
+          "definition": "the person who holds the office of head of state of the United States government",
+          "entry_id": "wordnet:president:president_of_the_united_states.n.01",
+          "frequency_is_sense_frequency": false,
+          "lemma": "president",
+          "spelling_SUBTLEX_count": 7174
+        }
+      ],
+      "live_target_counts": {
+        "definitions": 1453,
+        "premises_already_singleton": 1453,
+        "target_open": 1453,
+        "unchanged_gloss": 1453
+      },
+      "sha256": "3b8e2d82a37412f95d1b6f0fbaad9bfb93d76c97a038ea77464507fd2a5e60b1",
+      "status": "UNADMITTED_FORECAST_NOT_OPERATIONAL_PERMISSION"
+    }
+  ],
+  "prime_review": {
+    "current_status_counts": {
+      "CONSTRUCTION_OR_HIERARCHY": 7,
+      "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD": 42,
+      "CURRENT_MAPPED_COORDINATE_SUPPORTED": 16
+    },
+    "governing_record": "checkpoint-foundation-review.json",
+    "status": "Catalogue correspondence is not assignment permission; old 44 open count is stale after two exact I/YOU projections",
+    "units": [
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "I",
+          "ME"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE pronoun use of 'i'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"number\": \"SINGULAR\", \"person\": 1}}.",
+            "entry_id": "gse_closed_class:pronoun:i",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "I",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:i"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "YOU"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE pronoun use of 'you'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"case\": \"NOM\", \"person\": 2}}.",
+            "entry_id": "gse_closed_class:pronoun:you",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "YOU",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:you"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "SOMEONE"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE pronoun use of 'someone'. Declared lexical components: SOMEONE=+1. Grammatical features: {\"animacy\": \"ANIMATE\", \"gram\": {\"number\": \"SINGULAR\", \"person\": 3}}.",
+            "entry_id": "gse_closed_class:pronoun:someone",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SOMEONE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:someone"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "PEOPLE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "(plural) any group of human beings (men or women or children) collectively",
+            "entry_id": "wordnet:people:people.n.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "PEOPLE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:people"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BODY"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "the entire structure of an organism (an animal, plant, or human being)",
+            "entry_id": "wordnet:body:body.n.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BODY",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:body"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "SOMETHING",
+          "THING"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE pronoun use of 'something'. Declared lexical components: SOMETHING=+1. Grammatical features: {\"animacy\": \"INANIMATE\", \"gram\": {\"number\": \"SINGULAR\", \"person\": 3}}.",
+            "entry_id": "gse_closed_class:pronoun:something",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SOMETHING",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:something"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "WORDS"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "a unit of language that native speakers can identify",
+            "entry_id": "wordnet:word:word.n.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "WORDS",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:words"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "(HAVE) PARTS"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "something determined in relation to something that includes it",
+            "entry_id": "wordnet:part:part.n.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "PART",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry PART is singular; chart specifies (HAVE) PARTS and its relational frames.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:parts"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "KINDS"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "a category of things distinguished by some common characteristic or quality",
+            "entry_id": "wordnet:kind:kind.n.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "KIND",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry KIND is singular; identify the taxonomic sense rather than the kindness homograph.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:kinds"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "THIS"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Demonstrative object reference; grammatical structure and context identify which object is designated.",
+            "entry_id": "gse:prime:this",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [
+            {
+              "bank": "SOMETHING",
+              "entry_id": "gse:prime:this",
+              "hierarchy_level": null,
+              "scope": "EXACT_DEFINITION_ONLY",
+              "signature_complete": false,
+              "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary",
+              "value": 1,
+              "version": "gse.lexicon-conventions/2026-10-29"
+            }
+          ],
+          "assignment_approved": false,
+          "bank": "SOMETHING",
+          "code": "ADAPTED",
+          "correspondence_approved": true,
+          "note": "Approved demonstrative object-reference anchor; which object is designated is a grammatical/contextual binding.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:this"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "THE SAME"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "same in identity",
+            "entry_id": "wordnet:same:same.a.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SAME",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry positive identity pole represents the chart form THE SAME.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:same"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "OTHER",
+          "ELSE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "not the same one or ones already mentioned or implied; - the White Queen",
+            "entry_id": "wordnet:other:other.a.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SAME",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds OTHER into SAME; ELSE is a chart allolex.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:other"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "MUCH",
+          "MANY"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit MUCH~MANY. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:much-many",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "QUANTITY",
+          "code": "METADATA",
+          "correspondence_approved": false,
+          "note": "Current quantity hierarchy has MANY; a complete definition and hierarchy level require explicit anchors.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:much-many"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "TWO"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "being one more than one",
+            "entry_id": "wordnet:two:two.s.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "TWO",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:two"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "ONE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "used of a single unit or thing; not two or more",
+            "entry_id": "wordnet:one:one.s.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "ONE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:one"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "LITTLE",
+          "FEW"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit LITTLE~FEW. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:little-few",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "QUANTITY",
+          "code": "METADATA",
+          "correspondence_approved": false,
+          "note": "Current quantity hierarchy has FEW; a complete definition and hierarchy level require explicit anchors.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:little-few"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "SOME"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit SOME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:some",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "QUANTITY",
+          "code": "METADATA",
+          "correspondence_approved": false,
+          "note": "Current quantity hierarchy has SOME; no ordinary SOME coordinate exists.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:some"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "ALL"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE determiner use of 'all'. No lexical bank assignment is declared. Grammatical features: {\"definiteness\": \"UNIVERSAL\", \"number\": \"PLURAL\"}.",
+            "entry_id": "gse_closed_class:determiner:all",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "QUANTITY",
+          "code": "METADATA",
+          "correspondence_approved": false,
+          "note": "Current quantity hierarchy has ALL; no ordinary ALL coordinate exists.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:all"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "TIME",
+          "WHEN"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit TIME~WHEN. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:time",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "WHEN",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Chart TIME~WHEN is represented by registry WHEN; preserve both chart forms.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:time"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "NOW"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit NOW. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:now",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "THEN",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds NOW into THEN; the chart does not list THEN as a separate prime.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:now"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "MOMENT"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit MOMENT. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:moment",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "MOMENT",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:moment"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "A SHORT TIME"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction A SHORT TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:short-time",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "LONG_TIME",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds SHORT_TIME into LONG_TIME.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:short-time"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "A LONG TIME"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction A LONG TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:long-time",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "LONG_TIME",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry spelling omits the chart article A.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:long-time"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "(FOR) SOME TIME"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction (FOR) SOME TIME. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:some-time",
+            "mapped_domain": null
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": null,
+          "code": "METADATA",
+          "construction": {
+            "extent": "unspecified",
+            "field": "duration",
+            "relations": [
+              "during",
+              "before",
+              "after"
+            ],
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+          },
+          "correspondence_approved": true,
+          "note": "Sentence duration and temporal offset carry an interval with unspecified extent.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:some-time"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "AFTER"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE conjunction use of 'after'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"TEMPORAL\", \"temporal_type\": \"POSTERIOR\"}.",
+            "entry_id": "gse_closed_class:conjunction:after",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BEFORE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds AFTER into BEFORE.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:after"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BEFORE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE conjunction use of 'before'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"TEMPORAL\", \"temporal_type\": \"ANTERIOR\"}.",
+            "entry_id": "gse_closed_class:conjunction:before",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BEFORE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:before"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "WANT"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "feel or have a desire for; want strongly",
+            "entry_id": "wordnet:want:desire.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [
+            {
+              "bank": "WANT",
+              "entry_id": "wordnet:want:desire.v.01",
+              "hierarchy_level": null,
+              "scope": "EXACT_DEFINITION_ONLY",
+              "signature_complete": false,
+              "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+              "value": 1,
+              "version": "gse.lexicon-conventions/2026-10-29"
+            }
+          ],
+          "assignment_approved": false,
+          "bank": "WANT",
+          "code": "EXACT",
+          "correspondence_approved": true,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:want"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "DON\u2019T WANT"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Not wanting a specified thing, action, or event; grammatical context supplies its target.",
+            "entry_id": "gse:prime:dont-want",
+            "mapped_domain": [
+              -1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [
+            {
+              "bank": "WANT",
+              "entry_id": "gse:prime:dont-want",
+              "hierarchy_level": null,
+              "scope": "EXACT_DEFINITION_ONLY",
+              "signature_complete": false,
+              "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity",
+              "value": -1,
+              "version": "gse.lexicon-conventions/2026-10-29"
+            }
+          ],
+          "assignment_approved": false,
+          "bank": "WANT",
+          "code": "ADAPTED",
+          "correspondence_approved": true,
+          "note": "Approved NOT WANT pole; zero remains orthogonal to wanting, and sentence negation retains its grammatical scope.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:dont-want"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "FEEL"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit FEEL. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:feel",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "FEEL",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:feel"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "KNOW"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "be cognizant or aware of a fact or a specific piece of information; possess knowledge or information about",
+            "entry_id": "wordnet:know:know.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "KNOW",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:know"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "SAY"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit SAY. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:say",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SAY",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:say"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "DO"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "carry out or perform an action",
+            "entry_id": "wordnet:do:perform.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "DO",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:do"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "THINK"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit THINK. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:think",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "THINK",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:think"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "HEAR"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "perceive (sound) via the auditory sense",
+            "entry_id": "wordnet:hear:hear.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "HEAR",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:hear"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "SEE"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "perceive by sight or have the power to perceive by sight",
+            "entry_id": "wordnet:see:see.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SEE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:see"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "NOT",
+          "DON\u2019T"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE negation use of 'not'. Declared lexical components: NOT=+1. Grammatical features: {\"lemma\": \"not\"}.",
+            "entry_id": "gse_closed_class:negation:not",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "NOT",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:not"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "CAN"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE modal use of 'can'. Declared lexical components: CAN=+1. Grammatical features: {\"lemma\": \"can\"}.",
+            "entry_id": "gse_closed_class:modal:can",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "CAN",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:can"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BECAUSE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE conjunction use of 'because'. No lexical bank assignment is declared. Grammatical features: {\"causal_type\": \"REASON\", \"clause_relation\": \"CAUSAL\"}.",
+            "entry_id": "gse_closed_class:conjunction:because",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BECAUSE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:because"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "LIKE",
+          "AS",
+          "WAY"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE preposition use of 'like'. Declared lexical components: LIKE=+1. Grammatical features: {\"relation_type\": \"MANNER\"}.",
+            "entry_id": "gse_closed_class:preposition:like",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "LIKE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:like"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "MAYBE"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE modal use of 'maybe'. Declared lexical components: MAYBE=+1. Grammatical features: {\"lemma\": \"maybe\"}.",
+            "entry_id": "gse_closed_class:modal:maybe",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "MAYBE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:maybe"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "IF"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE conjunction use of 'if'. No lexical bank assignment is declared. Grammatical features: {\"clause_relation\": \"CONDITIONAL\", \"conditional_type\": \"HYPOTHETICAL\"}.",
+            "entry_id": "gse_closed_class:conjunction:if",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "IF",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:if"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "MORE",
+          "ANYMORE"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit MORE~ANYMORE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:more",
+            "mapped_domain": null
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": null,
+          "code": "METADATA",
+          "correspondence_approved": false,
+          "note": "Chart MORE applies to several predicates and quantities; hierarchy must target an explicitly known nonzero base.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:more"
+      },
+      {
+        "current_status": "CONSTRUCTION_OR_HIERARCHY",
+        "forms": [
+          "VERY"
+        ],
+        "historical_review_status": "CONSTRUCTION_OR_HIERARCHY_REVIEW",
+        "linked_definitions": [
+          {
+            "definition": "used as intensifiers; `real' is sometimes used informally for `really'; `rattling' is informal",
+            "entry_id": "wordnet:very:very.r.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [
+            {
+              "bank": "INTENSITY",
+              "entry_id": "wordnet:very:very.r.01",
+              "hierarchy_level": 1,
+              "scope": "EXACT_DEFINITION_ONLY",
+              "signature_complete": false,
+              "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#ordinal-stability",
+              "value": 1,
+              "version": "gse.lexicon-conventions/2026-10-29"
+            }
+          ],
+          "assignment_approved": false,
+          "bank": "INTENSITY",
+          "code": "METADATA",
+          "correspondence_approved": true,
+          "note": "Current intensity hierarchy represents VERY; the chart also permits repeated intensity modification.",
+          "value": null
+        },
+        "unit_id": "nsm:v20:very"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "DIE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit DIE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:die",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "ALIVE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Candidate alignment to DEAD pole; event DIE versus state DEAD requires semantic validation.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:die"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_SUPPORTED",
+        "forms": [
+          "HAPPEN"
+        ],
+        "historical_review_status": "ALREADY_SUPPORTED_ON_LINKED_DEFINITIONS",
+        "linked_definitions": [
+          {
+            "definition": "come to pass",
+            "entry_id": "wordnet:happen:happen.v.01",
+            "mapped_domain": [
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "HAPPEN",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:happen"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BE (SOMEWHERE)"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction BE (SOMEWHERE). The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:be-somewhere",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry BE is shared with specification; a location sense must remain separately identified.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:be-somewhere"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "LIVE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit LIVE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:live",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "ALIVE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Candidate alignment to ALIVE; verbal LIVE and state ALIVE require sense-specific validation.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:live"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "(IS) MINE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction (IS) MINE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:mine",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "HAVE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Candidate possession alignment; chart (IS) MINE includes first-person perspective absent from HAVE alone.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:mine"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BE (SOMEONE/SOMETHING)"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction BE (SOMEONE/SOMETHING). The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:be-someone-something",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry BE is shared with location; a specification sense must remain separately identified.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:be-someone-something"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "THERE IS"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction THERE IS. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:there-is",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "EXIST",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry EXIST is the proposed existential coordinate, not an English spelling match.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:there-is"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "INSIDE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE preposition use of 'inside'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"INTERIOR\"}.",
+            "entry_id": "gse_closed_class:preposition:inside",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "OUTSIDE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds INSIDE into OUTSIDE.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:inside"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "TOUCH"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit TOUCH. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:touch",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "TOUCH",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:touch"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "MOVE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit MOVE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:move",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "MOVE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:move"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "SMALL"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit SMALL. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:small",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BIG",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds SMALL into BIG.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:small"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BIG"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit BIG. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:big",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "BIG",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:big"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "GOOD"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit GOOD. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:good",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "GOOD",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:good"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BAD"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit BAD. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:bad",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "GOOD",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds BAD into GOOD.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:bad"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "TRUE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "consistent with fact or reality; not false; ; - B. Russell",
+            "entry_id": "wordnet:true:true.a.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "TRUE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:true"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "PLACE",
+          "WHERE",
+          "SOMEWHERE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit PLACE~WHERE~SOMEWHERE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:place",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "WHERE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Chart PLACE~WHERE~SOMEWHERE shares registry WHERE; preserve the full exponent set.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:place"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "HERE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "in or at this place; where the speaker or writer is",
+            "entry_id": "wordnet:here:here.r.01",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "HERE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:here"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "ON (ONE) SIDE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 grammatical construction ON (ONE) SIDE. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:side",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "SIDE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Registry SIDE omits chart relational frame ON (ONE) SIDE.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:side"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "BELOW"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE preposition use of 'below'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"BELOW\"}.",
+            "entry_id": "gse_closed_class:preposition:below",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "ABOVE",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds BELOW into ABOVE.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:below"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "ABOVE"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "Curated GSE preposition use of 'above'. No lexical bank assignment is declared. Grammatical features: {\"spatial_type\": \"ABOVE\"}.",
+            "entry_id": "gse_closed_class:preposition:above",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "ABOVE",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:above"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "FAR"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit FAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:far",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "FAR",
+          "code": "EXACT",
+          "correspondence_approved": false,
+          "note": "Coordinate correspondence only; complete lexical signature is not asserted.",
+          "value": 1
+        },
+        "unit_id": "nsm:v20:far"
+      },
+      {
+        "current_status": "CURRENT_MAPPED_COORDINATE_OPEN_NO_ASSIGNMENT_WARRANT_IN_THIS_RECORD",
+        "forms": [
+          "NEAR"
+        ],
+        "historical_review_status": "OPEN_PROPOSED_CORRESPONDENCE_REQUIRES_WARRANT",
+        "linked_definitions": [
+          {
+            "definition": "NSM v20 lexical unit NEAR. The source identifies this elementary meaning through its exponent forms and allowable frames; these frames are preserved as context, not asserted as the unit's own bank values.",
+            "entry_id": "nsm_chart:v20:near",
+            "mapped_domain": [
+              -1,
+              0,
+              1
+            ]
+          }
+        ],
+        "mapping": {
+          "approved_claims": [],
+          "assignment_approved": false,
+          "bank": "FAR",
+          "code": "ADAPTED",
+          "correspondence_approved": false,
+          "note": "Existing bipolar convention folds NEAR into FAR.",
+          "value": -1
+        },
+        "unit_id": "nsm:v20:near"
+      }
+    ]
+  }
+}

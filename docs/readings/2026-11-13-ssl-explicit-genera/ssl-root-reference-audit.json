@@ -1,0 +1,94 @@
+{
+  "authority": "MODEL_PROPOSALS_REQUIRE_EXISTING_WRITER_AND_RULE_AUDIT",
+  "bank_writes": 0,
+  "baseline_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "format": "GSE.checkpoint-reference-audit/1",
+  "fresh_attempts": 7,
+  "journal_directory": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01",
+  "question_packet_sha256": "e800415380336ed7b580e7bc146be8f2ad9a8508c3800cc21e5841c1dc9a5dd1",
+  "records": [
+    {
+      "bank": "I",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:water:water.n.01",
+      "journal_label": "teach",
+      "raw_output": "{\n\"I\": 0\n}",
+      "request_id": "f78bf87b11e7a4676780cd837a0243ae342979eec69cb0ae0ade539e2a04c9a3",
+      "reused_original_question": true,
+      "value": 0
+    },
+    {
+      "bank": "YOU",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:rock:rock.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\"YOU\":0}",
+      "request_id": "abc101e91f76d3225558779c666f5293b157470b27e67090195cb0b0946b0134",
+      "reused_original_question": false,
+      "value": 0
+    },
+    {
+      "bank": "I",
+      "code": "MODEL_ABSTAINED",
+      "entry_id": "wordnet:dog:dog.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\"I\": null}",
+      "request_id": "dd546b6abc5f439cb7b2ba017090c4bc21f0ac6ec389841ee3c996745d437e09",
+      "reused_original_question": false,
+      "value": null
+    },
+    {
+      "bank": "I",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:door:door.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\n\"I\": 0\n}",
+      "request_id": "d0cc523f08b688c8fdb1dfdcfd3e327b0acbe6b81c0d9029a0b7e3b15aa308ff",
+      "reused_original_question": false,
+      "value": 0
+    },
+    {
+      "bank": "I",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:tree:tree.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\n\"I\": 0\n}",
+      "request_id": "2c4a9af3fa955fdc9b1d3a42a144228519aeabdc3bcb5b076879d9e5a1f1de3c",
+      "reused_original_question": false,
+      "value": 0
+    },
+    {
+      "bank": "YOU",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:cat:cat.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\"YOU\":0}",
+      "request_id": "e900551ba53585b9d4b688cfbc9c0034dea71b0fb9523f74541e7e5b6ab6bf34",
+      "reused_original_question": false,
+      "value": 0
+    },
+    {
+      "bank": "YOU",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:house:house.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\"YOU\":0}",
+      "request_id": "0f1bdb64ed3f2b4dcad9c8ec7d4494b68eb674af0b9f1e4b1ae59614e4cddeaa",
+      "reused_original_question": false,
+      "value": 0
+    },
+    {
+      "bank": "YOU",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:glass:glass.n.01",
+      "journal_label": "checkpoint-reference",
+      "raw_output": "{\"YOU\":0}",
+      "request_id": "d6e41202168c110b3aef5c94a57ad863bf0d8b8a0794d596c0627f8c3067ce00",
+      "reused_original_question": false,
+      "value": 0
+    }
+  ],
+  "request_archive": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-local-requests.sqlite",
+  "reused_original_questions": 1,
+  "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@db4f4f036e9065e42d90a7d040e0b0163a5eb8ac10d5b3d7894a1b55bdcd6b82"
+}

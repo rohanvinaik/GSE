@@ -1,0 +1,42 @@
+{
+  "format": "GSE.ssl-controller-edit-boundary/1",
+  "role_scope": "ASSIGNMENT A \u2014 COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
+  "updated_utc": "2026-11-24T08:28:08.824359+00:00",
+  "code": "OWNED_CODE_EDITS_STOPPED_SCOPED_GATES_PASSED_PENDING_INTEGRATED_GATE",
+  "is_real_run_protocol_freeze": false,
+  "runtime_completion_receipt": "AWAITING_PEER_DO_NOT_FREEZE_OR_PUBLISH_YET",
+  "source_sha256": {
+    "GSE/curation/lexicon_builder/epoch.py": "d2203f7046ba6bb3ea8de31595a93c7cc21866cc0b1de3f4c5e0c5cd6b95a8ba",
+    "GSE/curation/lexicon_builder/learning_state.py": "572d01eeb47f52cc6508c81d4052718600d9c720ba78b87ce9999fbc5c55b7d6",
+    "GSE/curation/lexicon_builder/learning_questions.py": "f5a8a683899f21f3f9ba28aae7c758f2007f9a9b081c2f0277fd1d98cb852e2f",
+    "GSE/curation/lexicon_builder/learning_feedback.py": "3e170077ae01f99e3f8059f19308c699a585f9cbe095c56655c6f6739beb302b",
+    "GSE/curation/lexicon_builder/model_receipts.py": "31e700dc8274ea2bd485d3ecaba3958a3bdd273196c028d9264e8e475c98d886",
+    "GSE/curation/lexicon_builder/retention.py": "913095e8f785e693e53b5575fc3a23d819cd248b5d2c98d14a856b100ff2b26d",
+    "GSE/curation/lexicon_builder/completion.py": "7be2b963f18d8d723ffb44ec4fd2742020bf08eb16471445c49f3d6a1f2e07cf",
+    "tests/test_lexicon_learning_questions.py": "fd922c4db0edabb926087d67afc70a5cdda79c379d9861c43ff845d9c90af914",
+    "tests/test_lexicon_learning_recovery.py": "dad2099450fcfedbcf7ab9342c86af37ced72da0d1f2d81c46ead879a645c0be",
+    "tests/test_lexicon_checkpoint_retained_transport.py": "ec8837d4510afb8fbc16f72d819bcbf2d31693e1a05f2ef0252adef8e06f186b",
+    "tests/test_lexicon_builder_completion_sessions.py": "0d3623c7ef343bdc47b3d13bbc02650e1306fe7381372df04aacc0659f3544f8",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py": "30f8fc1f0adb1107689174e2614ca15e1928666e15f1e74dd5e0b35411b12ff6"
+  },
+  "tests": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "1800",
+      "time": "155.992",
+      "timestamp": "2026-11-24T03:25:12.785299-05:00",
+      "hostname": "MacBookPro"
+    }
+  ],
+  "ruff": "PINNED_0.16.10_SCOPED_CHECK_AND_FORMAT_PASSED",
+  "ty": "CHANGED_SCOPE_PASSED_AFTER_EXPLICIT_QUESTION_OPTIONAL_NARROWING_FIX",
+  "ast_reference_trace": "LOCAL_AST_FULL_UNIT_AND_CALL_REFERENCE_TRACING_NO_MCP_OR_SERENA_LOADED",
+  "corpus_writes": 0,
+  "new_semantic_model_calls": 0,
+  "active_pointer_changed": false,
+  "next_operation": "CONSUME_ssl-root-reference-audit.json_EXACT_JOURNALS_THEN_ORDINARY_WRITER_AUDIT_ADMISSION_JOINT_MIGRATION_AND_FULL_REPLAY",
+  "remaining_generic_CP02_06": "DEFERRED_AFTER_URGENT_USABLE_CHECKPOINT_NOT_CLAIMED_COMPLETE"
+}

@@ -1,0 +1,35 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> GSE/curation/lexicon_builder/learning_questions.py:3:1
+   |
+ 1 |   """Lossless question evidence in the learner ledger, never lexical authority."""
+ 2 |
+ 3 | / import hashlib
+ 4 | | import json
+ 5 | |
+ 6 | | from GSE.namespace import current_id
+ 7 | |
+ 8 | | from .model_receipts import CONTEXT_SCHEMA, CONTEXT_VERSION, VERSION
+ 9 | | from .model_receipts import (
+10 | |     _context_digest,
+11 | |     _read_context,
+12 | |     _store_context,
+13 | |     restore_request_context,
+14 | |     store_request_context,
+15 | | )
+   | |_^
+16 |
+17 |   FORMAT = "GSE.lexicon-learning-question/1"
+   |
+help: Organize imports
+   |
+7  |
+   - from .model_receipts import CONTEXT_SCHEMA, CONTEXT_VERSION, VERSION
+8  | from .model_receipts import (
+9  +     CONTEXT_SCHEMA,
+10 +     CONTEXT_VERSION,
+11 +     VERSION,
+12 |     _context_digest,
+   |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.

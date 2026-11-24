@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 1,
+  "elapsed_seconds": 35.204972041770816,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-039-call_8ed7cb7b166b4ebda8bf0d4eca5b3bbc.log",
+  "output_characters": 971,
+  "output": "F401 [*] `test_lexicon_builder_source_guard_migration.UNIT` imported but unused\n   --> tests/test_lexicon_learning_recovery.py:124:79\n    |\n123 |     import test_lexicon_builder_source_guard_migration as fixture\n124 |     from test_lexicon_builder_source_guard_migration import AUDIT, HOMOGRAPH, UNIT, source_guard_packet, states\n    |                                                                               ^^^^\n125 |\n126 |     from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory\n    |\nhelp: Remove unused import: `test_lexicon_builder_source_guard_migration.UNIT`\n    |\n123 |     import test_lexicon_builder_source_guard_migration as fixture\n    -     from test_lexicon_builder_source_guard_migration import AUDIT, HOMOGRAPH, UNIT, source_guard_packet, states\n124 +     from test_lexicon_builder_source_guard_migration import AUDIT, HOMOGRAPH, source_guard_packet, states\n125 |\n    |\n\nFound 1 error.\n[*] 1 fixable with the `--fix` option.\n"
+}

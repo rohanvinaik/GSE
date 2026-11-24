@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="2.981" timestamp="2026-11-23T22:22:55.903908-05:00" hostname="MacBookPro"><testcase classname="tests.test_lexicon_epoch" name="test_open_bank_discovery_review_audit_and_replay_resume_under_the_same_plan" time="1.132" /><testcase classname="tests.test_lexicon_epoch" name="test_null_open_bank_answer_remains_unknown_and_proposes_no_rule" time="0.188" /><testcase classname="tests.test_lexicon_epoch" name="test_learning_review_cannot_change_the_observed_mechanism" time="0.421" /><testcase classname="tests.test_lexicon_epoch" name="test_old_fixed_plan_cannot_silently_acquire_open_bank_curriculum" time="0.026" /><testcase classname="tests.test_lexicon_epoch" name="test_open_bank_curriculum_runs_through_the_public_epoch_entry_point" time="0.463" /><testcase classname="tests.test_lexicon_epoch" name="test_real_guard_imputer_refines_a_counterexample_and_replays_with_fresh_audits" time="0.432"><failure message="ValueError: REFINEMENT_AUDIT_REPLAY_MISMATCH">tmp_path = PosixPath('/private/var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/pytest-of-rohanvinaik/pytest-55667/test_real_guard_imputer_refine0')
+
+    def test_real_guard_imputer_refines_a_counterexample_and_replays_with_fresh_audits(tmp_path):
+        pytest.importorskip("regenesis.promotion_ledger", reason="Integration: run with Regenesis on PYTHONPATH")
+        from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT, plan_inventory
+        from GSE.curation.lexicon_builder.learning_state import LearningState
+    
+        base, pointer = tmp_path / "contrast.db", tmp_path / "pointer.json"
+        pointer.write_text("{}")
+        members = []
+        for word in ("alpha", "beta", "gamma", "delta", "epsilon", "cold"):
+            definition, observation = native(word, "unit.n.01")
+            subtype = "negative_unit.n.01" if word == "beta" else "positive_unit.n.01"
+            observation = replace(
+                observation,
+                features={
+                    **observation.features,
+                    "hypernym_paths": [["entity.n.01", "unit.n.01", subtype, word + ".n.01"]],
+                },
+            )
+            members.append((definition, observation))
+        definitions, observations = zip(*members)
+        assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+        build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+        parent = family("broad-fixture", "unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "beta")
+        parent.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+        plan = {
+            "format": "GSE.lexicon-epoch-plan/2",
+            "baseline_sha256": fingerprint(base),
+            "active_pointer_sha256": fingerprint(pointer),
+            "epochs": 3,
+            "audits_per_epoch": 2,
+            "families": [parent],
+            "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+            "curriculum": {
+                "banks": ["QUANTITY"],
+                "frontier_limit": 4,
+                "banks_per_entry": 1,
+                "candidate_limit": 1,
+                "audit_entry_ids": [f"wordnet:{word}:{word}.n.01" for word in ("beta", "gamma", "delta", "epsilon")],
+                "scopes": [{"id": "curriculum:unit", "guards": parent["guards"]}],
+            },
+        }
+    
+        class ContrastRulings(Rulings):
+            identity = "synthetic-native-contrast"
+    
+            def __call__(self, payload, schema):
+                super().__call__(payload, schema)
+                return json.dumps({"QUANTITY": 0 if payload["entry_id"] == "wordnet:beta:beta.n.01" else 1})
+    
+        directory, model = tmp_path / "contrast", ContrastRulings()
+        args = (plan, base, pointer, directory, plan_inventory(base, plan), "closure", model, tmp_path / "model.lock")
+&gt;       first = run_arm(*args)
+                ^^^^^^^^^^^^^^
+
+tests/test_lexicon_epoch.py:1231: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+GSE/curation/lexicon_builder/epoch.py:1105: in run_arm
+    outcome = run_epoch(
+GSE/curation/lexicon_builder/epoch.py:1307: in run_epoch
+    refined = propose_refinements(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = {'audit_entry_ids': ['wordnet:beta:beta.n.01', 'wordnet:gamma:gamma.n.01'], 'discovery_entry_ids': ['wordnet:alpha:alp...d': 'wordnet:gamma:gamma.n.01', 'lemma': 'gamma', 'pos': 'noun'}, ...}], 'format': 'GSE.reviewed-pattern-input/2', ...}
+audited = {'audit_entry_ids': ['wordnet:beta:beta.n.01', 'wordnet:gamma:gamma.n.01'], 'authority': 'REPLAYED_BASELINE_AND_EXPLIC...s': {'MODEL_AGREEMENT': 1, 'MODEL_COUNTEREXAMPLE': 1}, ...}], 'discovery_entry_ids': ['wordnet:alpha:alpha.n.01'], ...}
+family = Family(id='broad-fixture', antecedent=None, consequent=('QUANTITY', 1), guards=(('pos', 'noun'), ('wordnet_native_lemm...thetic:epoch'], 'statement': 'Synthetic assignments establish the workflow contract.'}, premises=(), allowed_values=())
+selected = {'family': 'broad-fixture', 'entry_id': 'wordnet:alpha:alpha.n.01', 'synset': 'alpha.n.01', 'bank': 'QUANTITY', ...}
+taught = {'code': 'REVIEWED_TEACHING', 'request_id': '312319e3add15e4c8efacff04969467bf1267b32ab87bbe175739ff4f9bdd36c', 'receipt_sha256': '97680a7552a171aa4686094dd357346a6b1e3eb49cb36d73ff9b68cfddfa0eb1', 'value': 1, ...}
+witness = {'entry_id': 'wordnet:alpha:alpha.n.01', 'lemma': 'alpha', 'synset': 'alpha.n.01', 'source_sha256': 'afb5b7f634bf443a295c07fadef921af69af1feba246d7efdba9c693a2a49ac5'}
+
+    def propose_refinements(raw, audited, family, selected, taught, witness):
+        """Replay the saved audit before using positive/negative observations."""
+        result = {
+            "code": "REFINEMENT_REQUIRES_TYPED_CONTRAST",
+            "provider": provider_identity(),
+            "parent_mechanism_id": mechanism_id(family.relation()),
+            "input_sha256": digest(raw),
+            "audit_sha256": digest(audited),
+            "candidates": [],
+            "reservations": [],
+            "counterexamples": [],
+            "model_calls": 0,
+            "bank_writes": 0,
+        }
+        [report] = audited["candidates"]
+        records = report["audits"]
+        if not any(row["code"] == "MODEL_COUNTEREXAMPLE" for row in records):
+            result["reservations"] = [row for row in records if row["code"] != "MODEL_AGREEMENT"]
+            return result
+        if any(row["model_calls"] and type(row.get("raw_output")) is not str for row in records):
+            return {**result, "code": "REFINEMENT_AUDIT_REPLAY_UNAVAILABLE"}
+        replayed = run_workflow_input(raw, _RecordedAudit(records), max_calls=audited["max_model_calls"])
+        if identity_form(replayed) != identity_form(audited):
+&gt;           raise ValueError("REFINEMENT_AUDIT_REPLAY_MISMATCH")
+E           ValueError: REFINEMENT_AUDIT_REPLAY_MISMATCH
+
+GSE/curation/lexicon_builder/learning_refinement.py:75: ValueError</failure></testcase></testsuite></testsuites>

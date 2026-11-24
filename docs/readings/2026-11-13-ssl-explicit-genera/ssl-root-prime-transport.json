@@ -1,0 +1,18 @@
+{
+  "configuration": {
+    "model": "qwen3.8:27b-q4_K_M",
+    "context_tokens": 98304,
+    "thinking": false,
+    "output_tokens": 256,
+    "timeout_seconds": 600,
+    "identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+    "artifact": {
+      "model": "qwen3.8:27b-q4_K_M",
+      "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e"
+    }
+  },
+  "reason": "Measured largest complete typed wire81148UTF8bytes;65Kconservativebound rejectedbeforeinference.96Kfits all original requestswithoutdroppinganywirecontext.",
+  "installed_supported_context_tokens": 262144,
+  "original_failure_preserved": true,
+  "new_semantic_calls_during_configuration": 0
+}

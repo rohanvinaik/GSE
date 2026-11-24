@@ -1,0 +1,16 @@
+4 files reformatted, 5 files left unchanged
+All checks passed!
+........................................................................ [ 30%]
+........................................................................ [ 60%]
+........................................................................ [ 90%]
+........................                                                 [100%]
+240 passed in 37.74s
+error[not-iterable]: Object of type `None | (Unknown & tuple[object, ...] & ~AlwaysFalsy)` may not be iterable
+   --> GSE/curation/lexicon_builder/completion.py:943:66
+    |
+943 |                 {"entry_bank_questions": [list(pair) for pair in entry_bank_questions]}
+    |                                                                  ^^^^^^^^^^^^^^^^^^^^
+info: It may not have an `__iter__` method or a `__getitem__` method
+info: `None` does not implement `__iter__`
+
+Found 1 diagnostic

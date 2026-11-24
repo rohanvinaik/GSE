@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-metadata-and-coverage -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport sqlite3,ast\nc=sqlite3.connect('file:data/lexicon_builder/2026-11-12/sparse-release-021.db?mode=ro',uri=True)\nprint(c.execute('select key,substr(value,1,1000) from builder_metadata').fetchall())\nfor root in ['GSE','scripts','tests']:\n for p in Path(root).rglob('*.py'):\n  if '_archive' in p.parts or 'curation/lexicon_builder' in str(p): continue\n  t=ast.parse(p.read_text());names={n.id for n in ast.walk(t) if isinstance(n,ast.Name)}\n  if names & {'eligible_tokens','token_mass','coverage_audit'}: print(p)\nfor p in Path('docs').rglob('*.json'):\n if any(w in p.name for w in ('cohort','workload','sentence-benchmark','coverage')):print(p)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

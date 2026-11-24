@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-acceptance-scope-unit -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json');print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

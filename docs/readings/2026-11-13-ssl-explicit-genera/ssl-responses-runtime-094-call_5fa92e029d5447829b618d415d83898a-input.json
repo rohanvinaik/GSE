@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-composed-repair-probe -- .venv/bin/python - <<'PY'\nfrom GSE.api import GSEEncoder\nfrom GSE.symbolic import from_trace,resolve,evaluate_tree,emit_contract\nwith GSEEncoder() as e:\n e.conn.execute('PRAGMA query_only=ON')\n for text in ['The bird is above the tree.','The bird is below the tree.','Alice arrived before dawn.','Alice arrived after noon.','Alice arrived before Bob left.','He is an inert gas.','He is not an inert gas.','He gases the room.','The femur is the longest and thickest bone of the human skeleton.','A teacher is a person whose occupation is teaching.','The teacher is a person whose occupation is teaching.','The femur is the longest bone.','Alice stood before the king.']:\n  t=e.encode(text);print('\\n',text);print([(x.token,x.pos,x.lexical_evidence.get('selected_record',{}).get('entry_id') if x.lexical_evidence.get('selected_record') else x.lexical_evidence.get('selection_status')) for x in t.tokens]);print(emit_contract(evaluate_tree(resolve(from_trace(t)))))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 300
+}

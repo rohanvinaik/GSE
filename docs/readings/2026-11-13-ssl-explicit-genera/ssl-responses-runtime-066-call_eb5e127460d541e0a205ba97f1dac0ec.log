@@ -1,0 +1,6 @@
+    def __init__(self, conn, doc, clause_linkers):
+        self.conn = conn
+        self.doc = doc
+        self.sentence_boundaries = {token.i for token in doc if token.text in _SENTENCE_BOUNDARIES}
+        self.boundaries = clause_linkers | self.sentence_boundaries
+        self._by_lemma: dict[str, dict[str, NativeSense]] = {}

@@ -1,0 +1,24 @@
+from __future__ import annotations
+import csv
+import hashlib
+import heapq
+import io
+import sqlite3
+from collections import Counter, defaultdict
+from dataclasses import asdict
+from pathlib import Path
+from GSE.namespace import identity_form
+from .catalog import SENTENCE_DURATION_SOURCE_RECORD
+from .evidence import Definition, Observation
+from .foundation import BANKS, definition_context, lexical_context, validate_lexical_guards
+from .model_receipts import append_model_receipt, migrate_model_receipts
+from .relevance import observation_relevance
+from .residual import build_request, complete_bank
+from .resolution import resolve_dictionary
+from .scheduling import pending_banks, question_order_policy, spelling_cohort
+from .storage import _json, store_entry
+from .validation import _assertions, _domain_restrictions, _read_json, _relations, validate_build
+BENCHMARK docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-cases.json 5
+BENCHMARK docs/readings/2026-11-13-ssl-contextual-grounding/sentences-corrected.json 24
+BENCHMARK docs/readings/2026-11-14-ssl-incident-accident/sense-contrasts.json 6
+BENCHMARK docs/readings/2026-11-13-ssl-sentence-event-action/sentences.json 24

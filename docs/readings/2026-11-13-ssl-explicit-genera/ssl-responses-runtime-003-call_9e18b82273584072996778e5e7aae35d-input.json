@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-authority-map -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md')\ns=p.read_text(); lines=s.splitlines()\nfor i,l in enumerate(lines):\n if l.startswith('#'): print(i+1,l)\nprint('\\nFILES')\nfor root in ('openspec/changes/lexicon-symbolic-foundation','GSE','tests','scripts'):\n for p in Path(root).rglob('*'):\n  if p.is_file() and (root.startswith('openspec') or any(w in p.name for w in ('ground','encoder','runtime','sentence','checkpoint','grammar'))): print(p)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

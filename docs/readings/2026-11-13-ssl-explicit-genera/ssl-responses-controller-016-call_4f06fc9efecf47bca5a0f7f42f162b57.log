@@ -1,0 +1,765 @@
+"""Read-only candidate export for explicit reviewed-pattern preparation.
+
+An inventory is not a review. Only supplied hash-pinned ACCEPTED reviews enter
+the executable input; all other receipts remain visibly unreviewed.
+"""
+
+from __future__ import annotations
+
+import json
+import sqlite3
+from collections import Counter, defaultdict
+from dataclasses import asdict
+from pathlib import Path
+
+from GSE.namespace import current_id
+
+from .evidence import Observation
+from .foundation import lexical_context
+from .interchange import read_json
+from .residual import _request_id
+from .reviewed_patterns import INPUT_FORMAT, LEGACY_INPUT_FORMAT, _definition_input, _fields, _ids, reviewed_rulings
+from .validation import (
+    _assertions,
+    _authorities,
+    _domain_restrictions,
+    _metadata,
+    _NativeReference,
+    _provenance,
+    _read_json,
+    _relations,
+    _restriction_provenance,
+)
+
+SELECTION_FORMAT = "GSE.reviewed-pattern-selection/1"
+EXPORT_FORMAT = "GSE.reviewed-pattern-export/1"
+
+
+def _selected_observations(conn, entry_ids):
+    """One source-table scan; retain full records for exact and candidate links."""
+    selected = set(entry_ids)
+    result = defaultdict(list)
+    # SQL chooses records, not textual fragments; every matching native record
+    # is decoded and checked whole. The connection is query-only.
+    selection_json = json.dumps(sorted(selected))
+    rows = conn.execute(
+        "SELECT record_id,entry_id,source,family,scope,payload FROM source_observations "
+        "WHERE entry_id IN (SELECT value FROM json_each(?)) "
+        "OR (entry_id IS NULL AND EXISTS (SELECT 1 FROM json_each(payload,'$.candidate_entry_ids') c "
+        "WHERE c.value IN (SELECT value FROM json_each(?)))) ORDER BY record_id",
+        (selection_json, selection_json),
+    )
+    seen = set()
+    for record_id, entry_id, source, family, scope, payload in rows:
+        raw = _read_json(payload)
+        _fields(raw, ("record_id", "entry_id", "source", "family", "scope", "features", "candidate_entry_ids"))
+        candidates = _ids(raw["candidate_entry_ids"])
+        observation = Observation(
+            raw["entry_id"], raw["source"], raw["record_id"], raw["family"], raw["features"], raw["scope"], candidates
+        )
+        if (observation.record_id, observation.entry_id, observation.source, observation.family, observation.scope) != (
+            record_id,
+            entry_id,
+            source,
+            family,
+            scope,
+        ):
+            raise ValueError("OBSERVATION_COLUMN_PAYLOAD_MISMATCH")
+        if record_id in seen:
+            raise ValueError("AMBIGUOUS_OBSERVATION_ID")
+        seen.add(record_id)
+        targets = (entry_id,) if entry_id is not None else candidates
+        for target in set(targets) & selected:
+            result[target].append(raw)
+    return result
+
+
+def export_reviewed_input(candidate: str | Path, selection: dict, *, input_format=INPUT_FORMAT) -> dict:
+    """Export a consistent read-only selected snapshot and explicit review input."""
+    from .rule_history import digest, read_history, receipt_binding_key, relation_records
+
+    if type(input_format) is not str or current_id(input_format) not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}:
+        raise ValueError("INVALID_PATTERN_INPUT_FORMAT")
+    _fields(
+        selection, ("format", "discovery_entry_ids", "audit_entry_ids", "reviews"), ("candidates", "guarded_candidates")
+    )
+    if current_id(selection["format"]) != SELECTION_FORMAT or type(selection["reviews"]) is not list:
+        raise ValueError("INVALID_PATTERN_SELECTION")
+    discovery = _ids(selection["discovery_entry_ids"])
+    audit = _ids(selection["audit_entry_ids"])
+    if set(discovery) & set(audit):
+        raise ValueError("DISCOVERY_AUDIT_ID_OVERLAP")
+    selected = tuple(sorted(set(discovery) | set(audit)))
+    if not selected:
+        raise ValueError("EMPTY_PATTERN_EXPORT")
+    reviews = {}
+    for record in selection["reviews"]:
+        _fields(record, ("request_id", "review"))
+        if type(record["request_id"]) is not str or not record["request_id"]:
+            raise ValueError("INVALID_PATTERN_REVIEW_ID")
+        if record["request_id"] in reviews:
+            raise ValueError("DUPLICATE_PATTERN_REVIEW")
+        review = record["review"]
+        if (
+            type(review) is not dict
+            or not _ids(review.get("source_refs", []))
+            or type(review.get("rationale")) is not str
+            or not review["rationale"].strip()
+        ):
+            raise ValueError("SOURCE_BACKED_REVIEW_REQUIRED")
+        reviews[record["request_id"]] = record["review"]
+    path = Path(candidate).resolve(strict=True)
+    conn = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+    try:
+        conn.execute("PRAGMA query_only=ON")
+        conn.execute("BEGIN")
+        relations = _relations(_metadata(conn, "relations"))
+        history = read_history(conn, relations)
+        anchors, models = _authorities(conn)
+        observations = _selected_observations(conn, selected)
+        entries, inventory, accepted = [], [], []
+        for entry_id in selected:
+            row = conn.execute(
+                "SELECT l.lemma,l.pos,l.gloss FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id "
+                "WHERE d.entry_id=?",
+                (entry_id,),
+            ).fetchone()
+            if row is None:
+                raise ValueError("UNKNOWN_PATTERN_DEFINITION")
+            assertions = _assertions(
+                conn.execute("SELECT ordinal,payload FROM builder_assertions WHERE entry_id=?", (entry_id,)).fetchall()
+            )
+            restrictions = _domain_restrictions(
+                conn.execute(
+                    "SELECT ordinal,payload FROM builder_domain_restrictions WHERE entry_id=?", (entry_id,)
+                ).fetchall()
+            )
+            anchor_counts = Counter(anchors.get(entry_id, ()))
+            native_assertions, explicit_anchors = [], []
+            for assertion in assertions:
+                if anchor_counts[assertion]:
+                    explicit_anchors.append(asdict(assertion))
+                    anchor_counts[assertion] -= 1
+                elif assertion.family != "model" and not assertion.source.startswith("model:"):
+                    native_assertions.append(asdict(assertion))
+            raw = {
+                "definition": {"entry_id": entry_id, "lemma": row[0], "pos": row[1], "definition": row[2]},
+                "assertions": native_assertions,
+                "anchors": explicit_anchors,
+                "observations": observations[entry_id],
+                "domain_restrictions": [asdict(item) for item in restrictions],
+            }
+            raw["context"] = lexical_context(raw["definition"], raw["observations"], relations)
+            # JSON normalization preserves the public schema's arrays.
+            raw = _read_json(json.dumps(raw))
+            parsed = _definition_input(raw, relations)
+            native = {
+                (item["source"], item["record_id"]): _NativeReference(item["entry_id"], item["family"], item["scope"])
+                for item in observations[entry_id]
+                if item["scope"] == "lexical"
+            }
+            relevant = {entry_id: [item["record_id"] for item in observations[entry_id]]}
+            _restriction_provenance(entry_id, restrictions, native)
+            _provenance(
+                entry_id,
+                assertions,
+                parsed.definition,
+                relations,
+                native,
+                relevant,
+                anchors,
+                models,
+                conn,
+                evidence_banks=parsed.evidence_banks,
+                domain_restrictions=restrictions,
+                rule_history=history,
+            )
+            entries.append(raw)
+            for receipt in models.get(entry_id, ()):
+                request_id = receipt["request_id"]
+                dependencies = [
+                    item["record_id"]
+                    for item in receipt["request"]["scaffold"]["proof_trace"]
+                    if item.get("kind") == "ASSERTION" and item.get("family") == "model"
+                ]
+                status = "EXPLICIT_REVIEW_SUPPLIED" if request_id in reviews else "NOT_INDEPENDENTLY_REVIEWED"
+                inventory.append(
+                    {
+                        "entry_id": entry_id,
+                        "bank": receipt["assertion"]["bank"],
+                        "request_id": request_id,
+                        "receipt_sha256": _request_id(receipt),
+                        "review_status": status,
+                        "dependency_status": "PRIOR_MODEL_DEPENDENCIES" if dependencies else "NATIVE_ANCHOR_BASELINE",
+                        "dependency_request_ids": dependencies,
+                        "receipt": receipt,
+                    }
+                )
+                binding_key = receipt_binding_key(receipt) if history is not None else None
+                if history is not None and binding_key is not None and binding_key in history["bindings"]:
+                    identity, version = history["bindings"][binding_key]
+                    inventory[-1]["rule_binding"] = {
+                        "request_id": request_id,
+                        "entry_id": identity,
+                        "version": version,
+                        "receipt_sha256": binding_key[1],
+                    }
+                if request_id in reviews:
+                    accepted.append({"receipt": receipt, "review": reviews.pop(request_id)})
+        if reviews:
+            raise ValueError("REVIEW_NOT_IN_SELECTED_ACTIVE_RECEIPTS")
+        reviewed_rulings(accepted)
+        executable = {
+            "format": input_format,
+            "rulings": accepted,
+            "discovery_entry_ids": list(discovery),
+            "audit_entry_ids": list(audit),
+            "entries": entries,
+            "relations": relation_records(relations),
+        }
+        for key in ("candidates", "guarded_candidates"):
+            if key in selection:
+                executable[key] = selection[key]
+        if history is not None:
+            bindings = []
+            for accepted_record in accepted:
+                key = receipt_binding_key(accepted_record["receipt"])
+                if key in history["bindings"]:
+                    entry_id, version = history["bindings"][key]
+                    bindings.append(
+                        {
+                            "request_id": key[0],
+                            "entry_id": entry_id,
+                            "version": version,
+                            "receipt_sha256": key[1],
+                        }
+                    )
+            if bindings:
+                current_version = digest(relation_records(relations))
+                needed = {current_version, *(record["version"] for record in bindings)}
+                executable["rule_history"] = {
+                    "format": "GSE.reviewed-pattern-history/2"
+                    if history["allow_revisions"]
+                    else "GSE.reviewed-pattern-history/1",
+                    "current_version": current_version,
+                    "versions": [
+                        {"version": version, "relations": relation_records(history["versions"][version])}
+                        for version in sorted(needed)
+                    ],
+                    "bindings": sorted(bindings, key=lambda record: record["request_id"]),
+                }
+        return {
+            "format": EXPORT_FORMAT,
+            "candidate": str(path),
+            "lexicon_writes": False,
+            "model_calls": 0,
+            "selected_provenance": "REPLAY_VALIDATED",
+            "input": executable,
+            "input_sha256": _request_id(executable),
+            "selection_sha256": _request_id(selection),
+            "inventory": inventory,
+            "review_outcomes": dict(Counter(item["review_status"] for item in inventory)),
+            "authority": "EXPLICIT_REVIEWS_ONLY_EXPORT_DOES_NOT_REVIEW_OR_APPROVE",
+        }
+    finally:
+        conn.close()
+
+
+def export_from_selection(candidate: str | Path, selection_path: str | Path) -> dict:
+    return export_reviewed_input(candidate, read_json(selection_path))
+"""Sustained completion reuses one validated snapshot without unbounded contexts."""
+
+import json
+import sqlite3
+import sys
+
+import pytest
+
+from GSE.curation.lexicon_builder import completion
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
+
+
+class Transport:
+    identity = "session-fixture:pinned"
+
+    def __init__(self, answer=1):
+        self.answer = answer
+        self.requests = []
+
+    def pin(self):
+        return {"model": self.identity, "digest": "a" * 64}
+
+    def __call__(self, payload, schema):
+        self.requests.append(payload)
+        value = self.answer(payload) if callable(self.answer) else self.answer
+        return json.dumps({payload["bank"]: value})
+
+
+def dictionary(tmp_path, count=3, banks=("GOOD",), extra=()):
+    definitions, observations, restrictions = [], [], []
+    for index in range(count):
+        entry = f"entry:{index}"
+        record = f"native:{index}"
+        definitions.append(Definition(entry, entry, "verb", "explicit synthetic session fixture"))
+        observations.append(Observation(entry, "fixture", record, "fixture", {"index": index}, "lexical"))
+        restrictions.extend(
+            DomainRestriction(bank, (-1, 1) if bank in banks else (0,), "fixture", record, "fixture") for bank in BANKS
+        )
+    path = tmp_path / "session.db"
+    build_dictionary(EvidenceBundle(tuple(definitions), tuple(observations) + extra, (), (), tuple(restrictions)), path)
+    return path
+
+
+def assignment(path, entry, bank="GOOD"):
+    with sqlite3.connect(path) as conn:
+        row = conn.execute(
+            "SELECT p.value FROM primitive_values p JOIN definition_states d ON p.lexeme_id=d.lexeme_id WHERE d.entry_id=? AND p.primitive=?",
+            (entry, bank),
+        ).fetchone()
+        return None if row is None else row[0]
+
+
+def test_one_preflight_and_index_across_bounded_cohorts(tmp_path, monkeypatch):
+    path = dictionary(tmp_path, 5)
+    actual_validate, actual_index, actual_contexts = (
+        completion.validate_build,
+        completion._prepare_context_index,
+        completion._contexts,
+    )
+    validations, indexes, contexts = [], [], []
+
+    def validate(file):
+        validations.append(file)
+        return actual_validate(file)
+
+    def index(conn):
+        indexes.append(id(conn))
+        return actual_index(conn)
+
+    def context(conn, selected, *, indexed=False):
+        contexts.append((id(conn), tuple(selected), indexed))
+        return actual_contexts(conn, selected, indexed=indexed)
+
+    monkeypatch.setattr(completion, "validate_build", validate)
+    monkeypatch.setattr(completion, "_prepare_context_index", index)
+    monkeypatch.setattr(completion, "_contexts", context)
+    report = complete_dictionary(path, Transport(), 5, banks=("GOOD",), max_entries_per_pass=2, continue_cohorts=True)
+    assert len(validations) == len(indexes) == 1
+    assert [len(ids) for _, ids, _ in contexts] == [2, 2, 1]
+    assert all(conn == indexes[0] and indexed for conn, _, indexed in contexts)
+    assert report["model_calls"] == 5
+    assert report["dictionary_status"] == "ALL_BANKS_ASSIGNED"
+    assert report["scheduling"]["cohorts_processed"] == 3
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_nulls_visit_every_bank_then_stop_without_consuming_huge_budget(tmp_path):
+    path = dictionary(tmp_path, 5, ("GOOD", "WANT"))
+    transport = Transport(None)
+    report = complete_dictionary(
+        path,
+        transport,
+        10**9,
+        banks=("GOOD", "WANT"),
+        max_calls_per_entry=1,
+        max_entries_per_pass=2,
+        continue_cohorts=True,
+    )
+    assert report["model_calls"] == 10
+    assert report["outcomes"] == {"ABSTAINED": 10}
+    assert len({(p["entry_id"], p["bank"]) for p in transport.requests}) == 10
+    assert report["code"] == "RESIDUAL_REMAINS"
+    assert report["scheduling"]["code"] == "NO_NEW_ATTEMPTS_IN_PASS"
+    assert report["dictionary_status"] == "INCOMPLETE"
+    assert report["dictionary_cells"]["unresolved"] == 10
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_sustained_matches_separate_invocations_request_by_request(tmp_path):
+    separate_dir, sustained_dir = tmp_path / "separate", tmp_path / "sustained"
+    separate_dir.mkdir()
+    sustained_dir.mkdir()
+    separate = dictionary(separate_dir, 3, ("GOOD", "WANT"))
+    sustained = dictionary(sustained_dir, 3, ("GOOD", "WANT"))
+    first, second = Transport(), Transport()
+    for _ in range(6):
+        complete_dictionary(separate, first, 1, max_calls_per_entry=1, banks=("GOOD", "WANT"))
+    complete_dictionary(
+        sustained,
+        second,
+        6,
+        max_calls_per_entry=1,
+        max_entries_per_pass=1,
+        banks=("GOOD", "WANT"),
+        continue_cohorts=True,
+    )
+    assert completion._json(first.requests) == completion._json(second.requests)
+    snapshots = []
+    for path in (separate, sustained):
+        with sqlite3.connect(path) as conn:
+            snapshots.append(conn.execute("SELECT * FROM definition_states ORDER BY entry_id").fetchall())
+        assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    assert snapshots[0] == snapshots[1]
+
+
+def test_budgeted_restart_resumes_untouched_definitions(tmp_path):
+    path = dictionary(tmp_path)
+    first = Transport()
+    report = complete_dictionary(path, first, 2, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True)
+    assert [p["entry_id"] for p in first.requests] == ["entry:0", "entry:1"]
+    assert report["scheduling"]["cursor_after"][2] == "entry:1"
+    second = Transport()
+    resumed = complete_dictionary(path, second, 10, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True)
+    assert [p["entry_id"] for p in second.requests] == ["entry:2"]
+    assert resumed["dictionary_status"] == "ALL_BANKS_ASSIGNED"
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_interrupted_cohort_keeps_accepted_prefix_and_skips_running_request_on_restart(tmp_path):
+    path = dictionary(tmp_path)
+
+    def interrupt(payload):
+        if payload["entry_id"] == "entry:1":
+            raise KeyboardInterrupt()
+        return 1
+
+    with pytest.raises(KeyboardInterrupt):
+        complete_dictionary(
+            path, Transport(interrupt), 10, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True
+        )
+    assert assignment(path, "entry:0") == 1
+    assert assignment(path, "entry:1") is None
+    resumed = Transport()
+    report = complete_dictionary(path, resumed, 10, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True)
+    assert [p["entry_id"] for p in resumed.requests] == ["entry:2"]
+    assert report["skipped_attempts"]["RUNNING"] >= 1
+    assert report["scheduling"]["code"] == "NO_NEW_ATTEMPTS_IN_PASS"
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_explicit_retry_applies_once_per_request_per_invocation(tmp_path):
+    path = dictionary(tmp_path, 1)
+    complete_dictionary(path, Transport(None), 1, banks=("GOOD",))
+    transport = Transport(None)
+    report = complete_dictionary(path, transport, 10**9, banks=("GOOD",), continue_cohorts=True, retry=True)
+    assert report["model_calls"] == len(transport.requests) == 1
+    assert report["scheduling"]["code"] == "NO_NEW_ATTEMPTS_IN_PASS"
+    assert report["skipped_attempts"] == {"ABSTAINED": 1}
+    assert assignment(path, "entry:0") is None
+
+
+def test_no_eligible_cells_stops_without_a_phantom_cohort(tmp_path):
+    path = dictionary(tmp_path, 1)
+    complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    transport = Transport()
+    report = complete_dictionary(path, transport, 10**9, banks=("GOOD",), continue_cohorts=True)
+    assert transport.requests == []
+    assert report["model_calls"] == 0
+    assert report["scheduling"]["code"] == "NO_ELIGIBLE_ENTRIES"
+    assert report["scheduling"]["cohorts_processed"] == 0
+
+
+def test_changed_known_context_is_a_new_request_in_a_later_pass(tmp_path):
+    path = dictionary(tmp_path, 1, ("GOOD", "WANT"))
+
+    def answer(payload):
+        return None if payload["bank"] == "GOOD" and payload["known"].get("WANT") != 1 else 1
+
+    transport = Transport(answer)
+    report = complete_dictionary(
+        path, transport, 10, banks=("GOOD", "WANT"), max_calls_per_entry=1, continue_cohorts=True
+    )
+    assert [p["bank"] for p in transport.requests] == ["GOOD", "WANT", "GOOD"]
+    assert report["model_calls"] == 3
+    assert report["outcomes"] == {"ABSTAINED": 1, "ASSIGNED": 2}
+    assert report["dictionary_status"] == "ALL_BANKS_ASSIGNED"
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_external_write_in_later_cohort_cannot_publish_its_ruling(tmp_path):
+    path = dictionary(tmp_path)
+
+    def answer(payload):
+        if payload["entry_id"] == "entry:1":
+            with sqlite3.connect(path) as conn:
+                conn.execute("INSERT INTO builder_metadata VALUES ('external-marker','1')")
+        return 1
+
+    transport = Transport(answer)
+    with pytest.raises(ValueError, match="COMPLETION_SNAPSHOT_CHANGED"):
+        complete_dictionary(path, transport, 10, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True)
+    assert [p["entry_id"] for p in transport.requests] == ["entry:0", "entry:1"]
+    assert assignment(path, "entry:0") == 1
+    assert assignment(path, "entry:1") is None
+    assert assignment(path, "entry:2") is None
+    with sqlite3.connect(path) as conn:
+        assert (
+            conn.execute("SELECT code FROM completion_attempts WHERE entry_id='entry:1'").fetchone()[0]
+            == "STALE_SNAPSHOT"
+        )
+
+
+def test_indexed_and_scanned_contexts_are_byte_identical_and_index_is_temporary(tmp_path):
+    extra = (
+        Observation(
+            None, "rating", "a:shared", "rating", {"native": [None, False, -1, 0, 1]}, "lexical", ("entry:1", "entry:0")
+        ),
+        Observation(None, "conceptnet", "z:world", "graph", {"relation": "association"}, "lexical", ("entry:0",)),
+        Observation(None, "rating", "unlinked", "rating", {"raw": "retained"}, "lexical"),
+    )
+    path = dictionary(tmp_path, extra=extra)
+    with sqlite3.connect(path) as conn:
+        before = conn.execute("SELECT * FROM source_observations ORDER BY record_id").fetchall()
+        completion._prepare_context_index(conn)
+        for selected in ((), ("entry:0",), ("entry:1", "entry:0"), ("entry:2",)):
+            scanned = completion._contexts(conn, selected)
+            indexed = completion._contexts(conn, selected, indexed=True)
+            assert completion._json(scanned[0]) == completion._json(indexed[0])
+            assert scanned[1] == indexed[1]
+        assert conn.execute("PRAGMA temp_store").fetchone()[0] == 1
+        assert conn.execute("SELECT * FROM source_observations ORDER BY record_id").fetchall() == before
+        assert conn.execute("SELECT name FROM sqlite_master WHERE name='completion_context_targets'").fetchall() == []
+    with sqlite3.connect(path) as conn:
+        assert (
+            conn.execute("SELECT name FROM sqlite_temp_master WHERE name='completion_context_targets'").fetchall() == []
+        )
+
+
+def test_restart_rebuilds_candidate_index_from_changed_native_context(tmp_path):
+    extra = (Observation(None, "rating", "candidate", "rating", {"score": 1}, "lexical", ("entry:0",)),)
+    path = dictionary(tmp_path, 2, extra=extra)
+    complete_dictionary(path, Transport(None), 10, banks=("GOOD",), continue_cohorts=True)
+    with sqlite3.connect(path) as conn:
+        raw = json.loads(
+            conn.execute("SELECT payload FROM source_observations WHERE record_id='candidate'").fetchone()[0]
+        )
+        raw["candidate_entry_ids"] = ["entry:1"]
+        conn.execute("UPDATE source_observations SET payload=? WHERE record_id='candidate'", (json.dumps(raw),))
+    transport = Transport()
+    report = complete_dictionary(path, transport, 10, banks=("GOOD",), max_entries_per_pass=1, continue_cohorts=True)
+    assert report["model_calls"] == 2
+    by_entry = {p["entry_id"]: {o["record_id"] for o in p["observations"]} for p in transport.requests}
+    assert by_entry == {"entry:0": {"native:0"}, "entry:1": {"native:1", "candidate"}}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_snapshot_change_while_building_temporary_index_is_refused(tmp_path, monkeypatch):
+    path = dictionary(tmp_path)
+    actual = completion._prepare_context_index
+
+    def index(conn):
+        actual(conn)
+        with sqlite3.connect(path) as other:
+            other.execute("INSERT INTO builder_metadata VALUES ('external-marker','1')")
+
+    monkeypatch.setattr(completion, "_prepare_context_index", index)
+    transport = Transport()
+    with pytest.raises(ValueError, match="COMPLETION_SNAPSHOT_CHANGED"):
+        complete_dictionary(path, transport, 10, continue_cohorts=True)
+    assert transport.requests == []
+    assert assignment(path, "entry:0") is None
+
+
+@pytest.mark.parametrize("value", [None, 0, 1, "yes", []])
+def test_sustained_flag_requires_a_boolean_before_database_access(tmp_path, value):
+    with pytest.raises(ValueError, match="INVALID_COMPLETION_OPTIONS"):
+        complete_dictionary(tmp_path / "missing.db", Transport(), 1, continue_cohorts=value)
+
+
+def test_real_cli_continues_past_one_bounded_cohort(tmp_path, monkeypatch, capsys):
+    from GSE.curation.cli import commands
+    from GSE.curation.lexicon_builder import residual
+
+    path = dictionary(tmp_path)
+    transport = Transport()
+    monkeypatch.setattr(residual, "OllamaTransport", lambda *args, **kwargs: transport)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "GSE",
+            "--lexicon-db",
+            str(path),
+            "complete",
+            "--priority",
+            "constraint",
+            "--model",
+            transport.identity,
+            "--max-model-calls",
+            "3",
+            "--max-entries",
+            "1",
+            "--bank",
+            "GOOD",
+            "--continue-cohorts",
+        ],
+    )
+    commands.main()
+    report = json.loads(capsys.readouterr().out)
+    assert report["continue_cohorts"] is True
+    assert report["model_calls"] == 3
+    assert report["scheduling"]["cohorts_processed"] == 3
+    assert report["dictionary_status"] == "ALL_BANKS_ASSIGNED"
+"""Snapshot retirement preserves unique evidence and consumes its handle decision."""
+
+import gzip
+import json
+import sqlite3
+
+import pytest
+
+from GSE.curation.lexicon_builder import retention
+
+
+@pytest.fixture
+def snapshots(tmp_path, monkeypatch):
+    source, active, previous = (tmp_path / name for name in ("source.db", "active.db", "previous.db"))
+    for path in (source, active):
+        with sqlite3.connect(path) as c:
+            c.executescript("""
+                CREATE TABLE source_observations(record_id TEXT PRIMARY KEY,entry_id TEXT,source TEXT,family TEXT,scope TEXT,payload TEXT);
+                CREATE TABLE lexemes(id INTEGER PRIMARY KEY,lemma TEXT,pos TEXT,sense_id TEXT,gloss TEXT,source TEXT);
+                CREATE TABLE definition_states(entry_id TEXT PRIMARY KEY,lexeme_id INTEGER);
+                CREATE TABLE receipts(id TEXT PRIMARY KEY,payload TEXT);
+            """)
+    with sqlite3.connect(source) as c:
+        c.execute("INSERT INTO receipts VALUES ('unique','original audit')")
+    previous.write_bytes(b"rollback")
+    monkeypatch.setattr(retention, "resolve_lexicon_path", lambda: active)
+    return (
+        source,
+        active,
+        previous,
+        {
+            "expected_sha256": retention._fingerprint(active),
+            "archive_path": tmp_path / "audit.json.gz",
+            "previous_sha256": retention._fingerprint(previous),
+            "receipt_path": tmp_path / "retirement.json",
+            "handle_check": lambda path: {"code": "NO_OPEN_LOCAL_FILE_MATCHES"},
+        },
+    )
+
+
+def test_retirement_preserves_audits_and_replays_its_receipt(snapshots):
+    source, active, previous, kwargs = snapshots
+    receipt = retention.retire_snapshot(source, active, previous, **kwargs)
+    assert not source.exists() and active.exists() and previous.read_bytes() == b"rollback"
+    assert receipt["unique_audit_rows"] == {"receipts": 1}
+    document = json.loads(gzip.decompress(kwargs["archive_path"].read_bytes()))
+    assert document["tables"]["receipts"]["rows"] == [["unique", "original audit"]]
+    assert retention.retire_snapshot(source, active, previous, **kwargs) == receipt
+
+
+@pytest.mark.parametrize("index", [1, 2])
+def test_retirement_protects_active_and_previous(snapshots, index):
+    _, active, previous, kwargs = snapshots
+    source = snapshots[index]
+    with pytest.raises(ValueError, match="RETIREMENT_PROTECTS_ACTIVE_AND_ROLLBACK"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert source.exists()
+
+
+@pytest.mark.parametrize("decision", [None, False, {}, {"code": "BUSY"}])
+def test_retirement_requires_a_named_positive_handle_decision(snapshots, decision):
+    source, active, previous, kwargs = snapshots
+    kwargs["handle_check"] = lambda path: decision
+    with pytest.raises(ValueError, match="RETIREMENT_NO_OPEN_HANDLES_NOT_ESTABLISHED"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert source.exists()
+
+
+def test_retirement_closes_readers_before_handle_instrument(snapshots, monkeypatch):
+    source, active, previous, kwargs = snapshots
+    connect = sqlite3.connect
+    opened = []
+
+    def tracked(*args, **options):
+        connection = connect(*args, **options)
+        opened.append(connection)
+        return connection
+
+    def closed(path):
+        assert len(opened) == 2
+        for c in opened:
+            with pytest.raises(sqlite3.ProgrammingError):
+                c.execute("SELECT 1")
+        return {"code": "NO_OPEN_LOCAL_FILE_MATCHES"}
+
+    monkeypatch.setattr(retention.sqlite3, "connect", tracked)
+    kwargs["handle_check"] = closed
+    retention.retire_snapshot(source, active, previous, **kwargs)
+
+
+def test_retirement_allows_only_named_new_context_records(snapshots):
+    source, active, previous, kwargs = snapshots
+    with sqlite3.connect(active) as c:
+        c.execute("INSERT INTO source_observations VALUES ('new-context','d','s','f','lexical','{}')")
+    kwargs["expected_sha256"] = retention._fingerprint(active)
+    with pytest.raises(ValueError, match="RETIREMENT_SOURCE_STREAM_MISMATCH"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert source.exists()
+    result = retention.retire_snapshot(source, active, previous, **kwargs, new_context_ids=("new-context",))
+    assert result["code"] == "SOURCE_AND_UNIQUE_AUDITS_PRESERVED_SNAPSHOT_RETIRED"
+
+
+def test_retirement_refuses_changed_old_sources_even_with_new_context_allowance(snapshots):
+    source, active, previous, kwargs = snapshots
+    for path in (source, active):
+        with sqlite3.connect(path) as c:
+            c.execute("INSERT INTO source_observations VALUES ('old','d','s','f','lexical',?)", (path.name,))
+    kwargs["expected_sha256"] = retention._fingerprint(active)
+    with pytest.raises(ValueError, match="RETIREMENT_SOURCE_STREAM_MISMATCH"):
+        retention.retire_snapshot(source, active, previous, **kwargs, new_context_ids=("new-context",))
+    assert source.exists()
+
+
+def test_retirement_preserves_a_snapshot_with_a_sidecar(snapshots):
+    source, active, previous, kwargs = snapshots
+
+    def sidecar(path):
+        path.with_name(path.name + "-journal").touch()
+        return {"code": "NO_OPEN_LOCAL_FILE_MATCHES"}
+
+    kwargs["handle_check"] = sidecar
+    with pytest.raises(ValueError, match="RETIREMENT_HAS_SIDECAR"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert source.exists()
+
+
+def test_retirement_requires_an_intact_rollback(snapshots):
+    source, active, previous, kwargs = snapshots
+    previous.write_bytes(b"changed")
+    with pytest.raises(ValueError, match="RETIREMENT_ROLLBACK_MISSING_OR_CHANGED"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert source.exists() and not kwargs["archive_path"].exists()
+
+
+def test_retirement_recovers_after_unlink_before_final_receipt(snapshots, monkeypatch):
+    source, active, previous, kwargs = snapshots
+    original = retention.record
+
+    def fail_final(path, document):
+        if path == kwargs["receipt_path"]:
+            raise OSError("interrupted after unlink")
+        original(path, document)
+
+    monkeypatch.setattr(retention, "record", fail_final)
+    with pytest.raises(OSError, match="interrupted after unlink"):
+        retention.retire_snapshot(source, active, previous, **kwargs)
+    assert not source.exists() and not kwargs["receipt_path"].exists()
+    monkeypatch.setattr(retention, "record", original)
+    result = retention.retire_snapshot(source, active, previous, **kwargs)
+    assert result["code"] == "SOURCE_AND_UNIQUE_AUDITS_PRESERVED_SNAPSHOT_RETIRED"
+    assert json.loads(kwargs["receipt_path"].read_text()) == result
+
+
+def test_retirement_refuses_missing_source_without_a_verified_intent(snapshots):
+    source, active, previous, kwargs = snapshots
+    source.unlink()
+    with pytest.raises(ValueError, match="RETIREMENT_ABSENT_WITHOUT_VERIFIED_INTENT"):
+        retention.retire_snapshot(source, active, previous, **kwargs)

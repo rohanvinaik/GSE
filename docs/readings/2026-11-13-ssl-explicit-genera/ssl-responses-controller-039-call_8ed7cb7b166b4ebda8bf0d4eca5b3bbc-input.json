@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-checkpoint-prepare -- env PYTHONPATH=. .venv/bin/python docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py prepare; /Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-stable-check -- uvx --offline ruff@0.16.10 check GSE/curation/lexicon_builder/epoch.py GSE/curation/lexicon_builder/completion.py GSE/curation/lexicon_builder/learning_state.py GSE/curation/lexicon_builder/learning_feedback.py GSE/curation/lexicon_builder/retention.py tests/test_lexicon_learning_recovery.py tests/test_lexicon_builder_completion_sessions.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 900
+}

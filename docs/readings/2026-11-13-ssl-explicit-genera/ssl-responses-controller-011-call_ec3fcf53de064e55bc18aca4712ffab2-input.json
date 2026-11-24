@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-runner-read -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('GSE/curation/lexicon_builder/epoch.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,ast.FunctionDef) and n.lineno>=954:print(ast.get_source_segment(s,n)+'\\n\\n')\nprint('\\n=== LEARNING MODULE MAP ===')\nfor p in Path('GSE/curation/lexicon_builder').glob('learning*.py'):\n if p.name in {'learning_state.py','learning_questions.py'}:continue\n print('\\n'+str(p))\n for n in ast.parse(p.read_text()).body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)):print(n.lineno,n.end_lineno,n.name)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

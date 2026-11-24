@@ -1,0 +1,142 @@
+{
+  "active_pointer_sha256": "13d9d1f610355995928d0f9147bee1e8cf7289714e38131e746a00c09326660a",
+  "audits_per_epoch": 3,
+  "baseline_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "curriculum": {
+    "audit_entry_ids": [
+      "wordnet:dog:dog.n.01",
+      "wordnet:door:door.n.01",
+      "wordnet:tree:tree.n.01",
+      "wordnet:cat:cat.n.01",
+      "wordnet:house:house.n.01",
+      "wordnet:glass:glass.n.01"
+    ],
+    "banks": [
+      "I",
+      "YOU"
+    ],
+    "banks_per_entry": 2,
+    "candidate_limit": 32,
+    "frontier_limit": 64,
+    "scopes": [
+      {
+        "guards": [
+          [
+            "pos",
+            "noun"
+          ],
+          [
+            "wordnet_native_lemma",
+            "true"
+          ],
+          [
+            "wordnet_ancestor:physical_entity.n.01",
+            "true"
+          ],
+          [
+            "wordnet_outside_ancestor:person.n.01",
+            "true"
+          ]
+        ],
+        "id": "curriculum:physical-nondeictic"
+      }
+    ]
+  },
+  "epochs": 32,
+  "families": [
+    {
+      "antecedent": null,
+      "consequent": [
+        "I",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:physical_entity.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:person.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:dog:dog.n.01",
+        "wordnet:door:door.n.01",
+        "wordnet:tree:tree.n.01"
+      ],
+      "id": "physical-nondeictic-i",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "ssl-v2:approved-reference-boundary-and-exact-native-role",
+        "reviewer": "Founder convention and exact native definition review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json",
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md",
+          "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within exact native physical non-person noun definitions, the word names its own entity or kind and does not supply current-speaker/addressee deixis. Under the approved reference-only coordinate boundary this warrants I=0. Participant content and sentence reference binding do not migrate into the lexical coordinate. No other bank is assigned by this law.",
+        "warrant_id": "ssl-v2:physical-nondeictic-i"
+      }
+    },
+    {
+      "antecedent": null,
+      "consequent": [
+        "YOU",
+        0
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:physical_entity.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:person.n.01",
+          "true"
+        ]
+      ],
+      "holdouts": [
+        "wordnet:cat:cat.n.01",
+        "wordnet:house:house.n.01",
+        "wordnet:glass:glass.n.01"
+      ],
+      "id": "physical-nondeictic-you",
+      "warrant": {
+        "kind": "DEFINITIONAL_DERIVATION",
+        "review_id": "ssl-v2:approved-reference-boundary-and-exact-native-role",
+        "reviewer": "Founder convention and exact native definition review",
+        "source_refs": [
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json",
+          "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md",
+          "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+        ],
+        "statement": "Within exact native physical non-person noun definitions, the word names its own entity or kind and does not supply current-speaker/addressee deixis. Under the approved reference-only coordinate boundary this warrants YOU=0. Participant content and sentence reference binding do not migrate into the lexical coordinate. No other bank is assigned by this law.",
+        "warrant_id": "ssl-v2:physical-nondeictic-you"
+      }
+    }
+  ],
+  "format": "GSE.lexicon-epoch-plan/2",
+  "teaching_entry_ids": [
+    "wordnet:water:water.n.01",
+    "wordnet:body:body.n.01",
+    "wordnet:rock:rock.n.01"
+  ]
+}

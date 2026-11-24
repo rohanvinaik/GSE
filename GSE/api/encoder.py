@@ -400,6 +400,7 @@ class GSEEncoder:
             lemma = tok.lemma_.lower()
             lookup_form = lemma
             grammatical = None
+            contextual_pos = None
             if self._definition_database:
                 # Predicate promotion assigns a sentence role; an existing AUX
                 # reading still licenses its exact grammatical definition.
@@ -417,7 +418,41 @@ class GSEEncoder:
             lexical: Dict[str, Any]
             if grammatical is not None:
                 lookup_form, entry_id, lexical = grammatical
-                word_prims, sent_prims, comp_meta = self._lookup_lexeme(lookup_form, entry_id=entry_id)
+                if grounding is None:
+                    raise ValueError("GRAMMATICAL_SELECTION_REQUIRES_GROUNDING")
+                eligibility = grounding.grammatical_eligibility(i, lookup_form, entry_id)
+                if eligibility["code"] == "CONTEXTUAL_DEFINITION_SELECTED":
+                    entry_id = eligibility["entry_id"]
+                    lexical = {
+                        **self.lexical_lookup(lookup_form, entry_id=entry_id),
+                        "reading_eligibility": eligibility,
+                        "contextual_grounding": eligibility["contextual_grounding"],
+                    }
+                    # An exact source/role witness repairs this occurrence,
+                    # not every occurrence sharing the parser's POS/spelling.
+                    contextual_pos = "NOUN"
+                elif eligibility["code"] == "GRAMMATICAL_CONTEXT_CONFLICT":
+                    # POS is evidence, not a veto over native/context facts.
+                    # Retain both rivals, but publish neither reading nor banks.
+                    lexical = {
+                        **lexical,
+                        "state": "unread",
+                        "reason": eligibility["code"],
+                        "selection_status": "CONFLICT",
+                        "selected_record": None,
+                        "sense_resolved": False,
+                        "primitives": {},
+                        "domains": {},
+                        "hierarchy": {},
+                        "primitive_evidence": [],
+                        "reading_eligibility": eligibility,
+                    }
+                    entry_id = None
+                else:
+                    lexical = {**lexical, "reading_eligibility": eligibility}
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
             else:
                 if lookup_form not in lexical_rows:
                     lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
@@ -425,12 +460,12 @@ class GSEEncoder:
                 entry_id = None
                 if (
                     grounding is not None
-                    and tok.pos_ in {"NOUN", "PROPN"}
-                    and i not in promote_to_verb
+                    and (tok.pos_ in {"NOUN", "PROPN", "VERB", "ADJ", "ADV"} or i in promote_to_verb)
                     and lexical.get("selection_status") == "AMBIGUOUS"
                 ):
                     alternatives = lexical["candidate_entry_ids"]
-                    selection = grounding.select(i, lookup_form, alternatives)
+                    eligible_pos = "VERB" if i in promote_to_verb else "NOUN" if tok.pos_ == "PROPN" else tok.pos_
+                    selection = grounding.select(i, lookup_form, alternatives, pos=eligible_pos)
                     if selection["code"] == "EXACT_WORDNET_SENSE":
                         entry_id = selection["entry_id"]
                         lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
@@ -521,7 +556,7 @@ class GSEEncoder:
             token_trace = TokenTrace(
                 token=tok.text,
                 lemma=tok.lemma_.lower(),
-                pos=("VERB" if i in promote_to_verb else tok.pos_),
+                pos=(contextual_pos or ("VERB" if i in promote_to_verb else tok.pos_)),
                 position=i,
                 word_primitives=word_prims,
                 sent_primitives=sent_prims,
@@ -898,7 +933,16 @@ class GSEEncoder:
                 if registered is not None
                 else {}
             )
-            selection = runtime_lookup(self.conn, lemma.lower(), entry_id)
+            # A contextual refusal must not be undone by a second, narrower
+            # lookup (especially when storage has only one same-spelling row).
+            selection = (
+                {
+                    "code": lexical_evidence["selection_status"],
+                    "selected": lexical_evidence.get("selected_record"),
+                }
+                if lexical_evidence is not None
+                else runtime_lookup(self.conn, lemma.lower(), entry_id)
+            )
             if selection["code"] != "IDENTIFIED":
                 if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
                     raise OOVError(lemma)

@@ -257,6 +257,8 @@ def _select_by_coherence(
     margin: float = _COHERENCE_MARGIN,
     genre: str | None = None,
     raw_text: str | None = None,
+    *,
+    native_only: bool = False,
 ) -> Dict[Tuple, Tuple[str, ...]]:
     """Pick each referent's thread by coherence with the rest of the sentence.
 
@@ -296,7 +298,9 @@ def _select_by_coherence(
     # context and promotes the winner (margin-gated over the frequency-primary). It
     # falls back silently — empty dict if the store is absent or a word is OOV — and the
     # frequency + Jaccard pass below then decides exactly as before (no regression).
-    hdc_choice = _hdc_overrides(cand, raw_of, lemma_of, proper_of)
+    # Exact-definition consumers supply their own eligible native threads.
+    # Their identities must never be reinterpreted as sense-ordered HDC rows.
+    hdc_choice = {} if native_only else _hdc_overrides(cand, raw_of, lemma_of, proper_of)
 
     # ANCHOR coherence is the PROPER-NOUN counterpart: a named referent's world
     # candidates live in the DBpedia vocabulary, orthogonal to the word threads, so

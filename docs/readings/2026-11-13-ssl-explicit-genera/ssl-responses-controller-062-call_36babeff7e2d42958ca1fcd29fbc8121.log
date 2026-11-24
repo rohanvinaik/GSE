@@ -1,0 +1,320 @@
+"""Execute the existing checkpoint path from exact retained local-model journals.
+
+No model service is called here. Fresh local typed answers, when supplied by an
+authorized operator, must retain the complete original packet identity. The
+historical water/I reply is reused only for its exact request/schema/transport.
+This orchestrates the ordinary writer, audit, admission and joint migration;
+it is not another lexical constructor and never activates a candidate.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from contextlib import closing
+from pathlib import Path
+
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.epoch import (
+    connect,
+    exact_delta,
+    fingerprint,
+    forecast,
+    make_questions,
+    parse_plan,
+    read,
+    record,
+    reviewed_input,
+    scope_rows,
+    snapshot_copy,
+)
+from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow_input
+from GSE.curation.lexicon_builder.rule_admission import admit_records
+from GSE.curation.lexicon_builder.rule_history import digest
+from GSE.curation.lexicon_builder.rule_migration import migrate_revision
+from GSE.curation.lexicon_builder.rule_revisions import FORMAT as REVISION_FORMAT
+from GSE.curation.lexicon_builder.specification import compare_measurements, measure_dictionary
+from GSE.lexicon_resource import ACTIVE_POINTER
+
+ROOT = Path(__file__).resolve().parents[3]
+NOTES = Path(__file__).resolve().parent
+BASE = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db"
+WORK = BASE.parent / "ssl-api-checkpoint"
+QUESTIONS = NOTES / "ssl-api-controller-local-questions.json"
+ANSWERS = NOTES / "ssl-api-controller-local-answers.json"
+PLAN = NOTES / "ssl-api-controller-rebased-plan.json"
+REBASE = NOTES / "ssl-api-controller-rebase.json"
+
+
+class RetainedTransport:
+    def __init__(self):
+        rebase = read(NOTES / "ssl-v2-catalogue-rebase.json")
+        self.identity = rebase["question_reuse"]["transport"]
+        self.packet = read(QUESTIONS)
+        self.requests = {row["request_id"]: row for row in self.packet["questions"]}
+        directory = Path(rebase["question_reuse"]["journal_directory"])
+        request = rebase["question_reuse"]["original_request_id"]
+        intent = read(directory / ("teach-" + request + ".intent.json"))
+        original = self.requests[request]
+        if intent != {"request_id": request, "schema": original["schema"], "transport": self.identity}:
+            raise ValueError("CHECKPOINT_ORIGINAL_JOURNAL_IDENTITY_CHANGED")
+        self.answers = {request: read(directory / ("teach-" + request + ".result.json"))["raw_output"]}
+        if ANSWERS.exists():
+            retained = read(ANSWERS)
+            if (
+                type(retained) is not dict
+                or retained.keys() != {"format", "questions_sha256", "transport", "answers"}
+                or retained["format"] != "GSE.ssl-checkpoint-local-answers/1"
+                or retained["questions_sha256"] != fingerprint(QUESTIONS)
+                or retained["transport"] != self.identity
+                or type(retained["answers"]) is not list
+            ):
+                raise ValueError("CHECKPOINT_RETAINED_ANSWERS_IDENTITY_CHANGED")
+            seen = set()
+            for row in retained["answers"]:
+                if type(row) is not dict or row.keys() != {"request_id", "raw_output"}:
+                    raise ValueError("INVALID_CHECKPOINT_RETAINED_ANSWER")
+                identity = row["request_id"]
+                if identity not in self.requests or identity in seen or type(row["raw_output"]) is not str:
+                    raise ValueError("INVALID_CHECKPOINT_RETAINED_ANSWER")
+                seen.add(identity)
+                if identity in self.answers and self.answers[identity] != row["raw_output"]:
+                    raise ValueError("CHECKPOINT_ORIGINAL_REPLY_CHANGED")
+                self.answers[identity] = row["raw_output"]
+        self.replayed = []
+
+    def __call__(self, payload, schema):
+        identity = _request_id(payload)
+        original = self.requests.get(identity)
+        if original is None or original["request"] != payload or original["schema"] != schema:
+            raise ValueError("CHECKPOINT_RETAINED_QUESTION_CHANGED")
+        if identity not in self.answers:
+            raise ValueError("CHECKPOINT_FRESH_INDEPENDENT_LOCAL_ANSWER_REQUIRED:" + identity)
+        self.replayed.append(identity)
+        return self.answers[identity]
+
+
+def prepare():
+    old = read(NOTES / "ssl-v2-reference-plan.json")
+    catalogue = read(NOTES / "ssl-v2-catalogue-rebase.json")
+    if fingerprint(BASE) != catalogue["rebased_sha256"] or fingerprint(ACTIVE_POINTER) != old["active_pointer_sha256"]:
+        raise ValueError("CHECKPOINT_REBASE_INPUT_CHANGED")
+    scopes = [{"id": "curriculum:physical-nondeictic", "guards": old["families"][0]["guards"]}]
+    plan = {
+        **old,
+        "format": "GSE.lexicon-epoch-plan/2",
+        "baseline_sha256": catalogue["rebased_sha256"],
+        "epochs": 32,
+        "curriculum": {
+            "banks": ["I", "YOU"],
+            "scopes": scopes,
+            "frontier_limit": 64,
+            "banks_per_entry": 2,
+            "candidate_limit": 32,
+            "audit_entry_ids": [identity for family in old["families"] for identity in family["holdouts"]],
+        },
+    }
+    parse_plan(plan)
+    record(PLAN, plan)
+    record(
+        REBASE,
+        {
+            "format": "GSE.ssl-checkpoint-rebase/1",
+            "historical_plan": str(NOTES / "ssl-v2-reference-plan.json"),
+            "historical_plan_sha256": fingerprint(NOTES / "ssl-v2-reference-plan.json"),
+            "new_plan": str(PLAN),
+            "new_plan_sha256": fingerprint(PLAN),
+            "catalogue_rebase": str(NOTES / "ssl-v2-catalogue-rebase.json"),
+            "catalogue_rebase_sha256": fingerprint(NOTES / "ssl-v2-catalogue-rebase.json"),
+            "baseline": str(BASE),
+            "baseline_sha256": fingerprint(BASE),
+            "published_baseline": read(ACTIVE_POINTER),
+            "published_baseline_pointer_sha256": fingerprint(ACTIVE_POINTER),
+            "working_lineage": "UNPUBLISHED_FOUNDATION_WITH_REFERENCE_SOURCE_MIGRATION_AND_CATALOGUE_REPAIR_NOT_RELEASE_021",
+            "new_local_question_budget": 128,
+            "historical_water_I_question_cost": 1,
+            "curriculum_change": "VERSIONED_OPEN_BANK_NATIVE_FRONTIER_WITH_RESERVED_DISJOINT_AUDITS",
+            "semantic_gain_from_rebase": 0,
+            "activation_performed": False,
+        },
+    )
+    WORK.mkdir(exist_ok=True)
+    inventory_path = WORK / "inventory.json"
+    if not inventory_path.exists():
+        record(inventory_path, plan_inventory(BASE, plan))
+    return plan
+
+
+def execute(*, retained_only=False):
+    plan = read(PLAN)
+    if fingerprint(BASE) != plan["baseline_sha256"] or fingerprint(ACTIVE_POINTER) != plan["active_pointer_sha256"]:
+        raise ValueError("CHECKPOINT_PINNED_INPUT_CHANGED")
+    model = RetainedTransport()
+    result_path = WORK / "result.json"
+    if result_path.exists():
+        result = read(result_path)
+        if fingerprint(Path(result["candidate"])) != result["candidate_sha256"]:
+            raise ValueError("CHECKPOINT_COMPLETED_CANDIDATE_CHANGED")
+        return
+    coordinates = model.packet["coordinates"][: 1 if retained_only else 2]
+    required = {
+        row["request_id"] for row in model.packet["questions"][: 1 if retained_only else len(model.packet["questions"])]
+    }
+    if not required <= model.answers.keys():
+        missing = sorted(required - model.answers.keys())
+        record(
+            WORK / ("pending-answers-" + digest(missing) + ".json"),
+            {
+                "code": "FRESH_LOCAL_ANSWERS_REQUIRED",
+                "missing_request_ids": missing,
+                "new_model_calls": 0,
+                "bank_writes": 0,
+            },
+        )
+        raise ValueError("CHECKPOINT_FRESH_INDEPENDENT_LOCAL_ANSWERS_REQUIRED:" + ",".join(missing))
+    fresh = make_questions(BASE, coordinates)
+    for request in fresh:
+        original = model.requests[request.request_id]
+        if request.payload() != original["request"] or request.output_schema() != original["schema"]:
+            raise ValueError("CHECKPOINT_FRESH_QUESTION_MISMATCH")
+    working = WORK / "teaching.db"
+    snapshot_copy(BASE, working)
+    baseline_path = WORK / "space-baseline.json"
+    if not baseline_path.exists():
+        record(baseline_path, measure_dictionary(BASE))
+    teaching_path = WORK / ("typed-writer-retained.json" if retained_only else "typed-writer.json")
+    if not teaching_path.exists():
+        result = complete_dictionary(
+            working,
+            model,
+            len(coordinates),
+            entry_bank_questions=tuple(tuple(pair) for pair in coordinates),
+            continue_cohorts=True,
+            max_calls_per_entry=1,
+            max_entries_per_pass=len(coordinates),
+            priority="zipf",
+            progress=lambda row: print(json.dumps(row), flush=True),
+        )
+        record(teaching_path, result)
+    after_teaching_path = WORK / ("space-post-retained-teaching.json" if retained_only else "space-post-teaching.json")
+    if not after_teaching_path.exists():
+        record(after_teaching_path, measure_dictionary(working))
+    if retained_only:
+        record(
+            WORK / "retained-teaching-result.json",
+            {
+                "code": "RETAINED_WATER_I_WRITTEN_AUDITS_AND_POSTFLIGHT_PENDING",
+                "candidate": str(working),
+                "candidate_sha256": fingerprint(working),
+                "new_model_calls": 0,
+                "historical_questions_reused": 1,
+                "rule_admissions": 0,
+                "activation_performed": False,
+                "measurement": compare_measurements(read(baseline_path), read(after_teaching_path)),
+            },
+        )
+        return
+    admissions = []
+    with closing(connect(working)) as conn:
+        receipts = read_model_receipts(conn)
+    for index, family in enumerate(parse_plan(plan).values()):
+        entry, bank = coordinates[index]
+        receipt = next(row for row in receipts[entry] if row["assertion"]["bank"] == bank)
+        taught = {
+            "request_id": receipt["request_id"],
+            "receipt_sha256": _request_id(receipt),
+            "value": receipt["assertion"]["value"],
+        }
+        raw = reviewed_input(working, family, {"entry_id": entry}, taught)
+        record(WORK / (family.id + "-input.json"), raw)
+        audited = run_workflow_input(raw, model, max_calls=3)
+        record(WORK / (family.id + "-audit.json"), audited)
+        [candidate] = audited["candidates"]
+        review = {
+            "rule_id": candidate["relation"]["rule_id"],
+            "warrant_sha256": candidate["warrant_sha256"],
+            "review_id": "checkpoint-admission:" + family.id,
+            "reviewer": family.warrant["reviewer"],
+            "decision": "APPROVE_DEFINITIONAL_RULE",
+            "source_refs": family.warrant["source_refs"],
+            "rationale": family.warrant["statement"],
+        }
+        admissions.append(admit_records(raw, audited, review))
+    inventory = read(WORK / "inventory.json")
+    members = {
+        row["entry_id"]: row for key, rows in inventory.items() if not key.startswith("curriculum:") for row in rows
+    }
+    rules, rows = scope_rows(working, members.values())
+    staged = forecast(rows, rules, tuple(family.relation() for family in parse_plan(plan).values()))
+    record(WORK / "joint-stage.json", staged)
+    if staged["contradictions"] or staged["progress_code"] != "CONTRACTION":
+        raise ValueError("CHECKPOINT_SCOPE_CHALLENGE_OR_NO_EXACT_CONTRACTION")
+    revision = {
+        "format": REVISION_FORMAT,
+        "baseline_version": admissions[0]["baseline_version"],
+        "admissions": admissions,
+        "retirements": [],
+        "exceptions": [],
+    }
+    record(WORK / "joint-revision.json", revision)
+    output = WORK / "candidate.db"
+    migration_path = WORK / "migration.json"
+    if not output.exists():
+        record(migration_path, migrate_revision(working, output, revision))
+    if migration_path.exists():
+        migration = read(migration_path)
+    else:
+        # Atomic migration may have installed output just before interruption.
+        # Reconstruct authority from its exact reviewed history, never adopt an
+        # arbitrary preexisting output on the strength of a filename.
+        from GSE.curation.lexicon_builder.rule_history import read_history
+        from GSE.curation.lexicon_builder.validation import _metadata, _relations, validate_build
+
+        replay = validate_build(output)
+        with closing(connect(output)) as conn:
+            history = read_history(conn, _relations(_metadata(conn, "relations")))
+        if not history or digest(history["events"][-1].get("revision")) != digest(revision):
+            raise ValueError("CHECKPOINT_RECOVERED_MIGRATION_IDENTITY_CHANGED")
+        migration = {"postflight": replay, "recovered_from_exact_revision": digest(revision)}
+        record(migration_path, migration)
+    if migration["postflight"]["code"] != "REPLAY_VALIDATED" or not migration["postflight"]["complete_search"]:
+        raise ValueError("CHECKPOINT_POSTFLIGHT_FAILED")
+    count, changed = exact_delta(working, output)
+
+    def by_cell(items):
+        return {(row["entry_id"], row["bank"]): row for row in items}
+
+    if by_cell(changed) != by_cell(staged["changes"]):
+        raise ValueError("CHECKPOINT_STAGE_COMMIT_DELTA_MISMATCH")
+    after = measure_dictionary(output)
+    record(WORK / "space-post-revision.json", after)
+    record(
+        WORK / "result.json",
+        {
+            "code": "JOINT_REFERENCE_REVISION_REPLAYED_WORKLOAD_GATE_PENDING",
+            "candidate": str(output),
+            "candidate_sha256": fingerprint(output),
+            "definitions_replayed": count,
+            "replay": migration["postflight"],
+            "new_model_calls_by_this_script": 0,
+            "external_local_questions_replayed": len(set(model.replayed) - {fresh[0].request_id}),
+            "historical_water_I_question_cost": 1,
+            "teaching": compare_measurements(read(baseline_path), read(after_teaching_path)),
+            "rule_revision": compare_measurements(read(after_teaching_path), after),
+            "total": compare_measurements(read(baseline_path), after),
+            "activation_performed": False,
+        },
+    )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("phase", choices=("prepare", "retained-teaching", "execute"))
+    args = parser.parse_args()
+    if args.phase == "prepare":
+        prepare()
+    else:
+        execute(retained_only=args.phase == "retained-teaching")

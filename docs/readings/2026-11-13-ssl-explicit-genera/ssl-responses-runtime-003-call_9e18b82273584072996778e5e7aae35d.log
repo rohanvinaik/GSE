@@ -1,0 +1,141 @@
+1 # GSE lexicon construction design
+5 ## Authority and purpose
+17 ## Identity and representation
+27 ## Word and sentence boundary
+45 ## Source evidence and competence
+61 ### Relevance is not a value
+69 ### Audited source-integration deficits
+81 ## Category content
+96 ## Evidence-conditioned absence
+115 ## WANT polarity
+121 ## BE stative-content scope
+145 ## BODY reference-content scope
+159 ## WORDS defining-genus scope
+165 ## Constitutive anatomy and defining genus
+177 ## Native identity guard for population rules
+189 ## Native reference and derived identity context
+233 ## Ordinal stability
+247 ## Construction and inference
+261 ## Mandatory SSL execution and measurement contract
+279 ### Engineering execution: one checkpoint and a continuing learner
+283 #### Production composition and the second constructor
+289 #### Dependency-ordered engineering work
+315 #### Persistent feedback and admission protocol
+370 #### Checkpoint workload and acceptance
+384 #### Learning evidence, stopping and storage
+403 #### Dated engineering audit, not a completion receipt
+421 ### Incremental frequency-prioritized construction
+469 ## Coherence induction from the reviewed curriculum
+481 ### Literal temporal extent and human collectivity
+491 ### First whole-corpus coherence stage
+499 ## Bounded residual model
+525 ## Storage, runtime and verification
+547 ## Implementation status and completion criteria
+575 ### Reconciliation with the existing upstream constructor
+581 ### Whole-project audit sources
+587 ## Historical November 1 alias and identity integration
+604 ## Monetary-unit QUANTITY migration
+612 ## November 11 abbreviation and identity checkpoint
+624 ## Operative abbreviation definitions and BODY
+642 ## Historical November 1 reviewed BODY continuation — superseded checkpoint
+663 ## November 1 native linear-unit QUANTITY migration
+683 ## Historical November 1 checkpoint — source-backed population rule and BODY batch
+709 ## Historical November 1 checkpoint — reviewed WANT batch and post-change validation
+725 ## Historical incremental verification receipt — first Zipf batch
+735 ## Approved BE convention — applied reconsideration
+745 ## Historical incremental verification receipt — resumed Zipf batches
+761 ## Historical verification receipt — accepted convention build
+771 ## Historical verification receipt — full-cohort rebuild after the project audit
+785 ### Reproduction and receipts
+808 ## Interim replacement first-pass receipt — not completion
+816 # Part II — Upstream symbolic constructor contract
+820 ## GSE lexicon construction: bank laws, prime words, and source-guided definition
+826 ### 0. Implementation contract (F157–F158)
+843 ### 1. The product and its boundary
+851 #### Two different uncertainty spaces
+855 ### 2. What is atomic, and what is smaller than an atom
+886 ### 3. The state being computed
+905 #### Scale is a separate operation on an established vector
+915 ### 4. The bank-law registry comes first
+940 ### 5. How research becomes a rule, rather than an appeal to authority
+956 #### 5.1 Discover the bank relations from the shared English population
+966 #### 5.2 Rank by what a rule resolves now, and recompute after it acts
+974 #### 5.3 How the rules were obtained, where they are saved, and how they become executable
+1013 ##### Redundancy check required before claiming a new constraint
+1023 #### 5.4 ModelAtlas principles for the uncertain remainder
+1038 ### 6. Source-native field contracts
+1059 ### 7. Construction path for one word, then every word
+1071 #### 7.1 Implemented construction contracts
+1087 #### 7.2 Artifacts and the real runtime consumer
+1108 #### 7.3 Evaluation, residual coverage and release receipts
+1145 ### 8. Demonstration and release sequence
+1159 ### 9. Decisions the rulebook must not fake
+1173 ### 10. Sources and provenance of this design
+
+FILES
+openspec/changes/lexicon-symbolic-foundation/tasks.md
+openspec/changes/lexicon-symbolic-foundation/design.md
+openspec/changes/lexicon-symbolic-foundation/proposal.md
+openspec/changes/lexicon-symbolic-foundation/specs/lexicon-construction/spec.md
+GSE/encoders/sentence_structure_encoder.py
+GSE/encoders/text_structure_encoder.py
+GSE/encoders/paragraph_structure_encoder.py
+GSE/nlp/sentence_parser.py
+GSE/api/encoder.py
+GSE/symbolic/grounding.py
+GSE/symbolic/lexical_grounding.py
+GSE/_archive/lexicon_builder/runtime.py
+GSE/_archive/encoders/sentence_encoder.py
+GSE/_archive/encoders/conversation_encoder.py
+GSE/_archive/encoders/paragraph_encoder.py
+GSE/_archive/lexicon_builder/__pycache__/runtime.cpython-314.pyc
+GSE/symbolic/__pycache__/grounding.cpython-314.pyc
+GSE/symbolic/__pycache__/lexical_grounding.cpython-314.pyc
+GSE/api/__pycache__/encoder.cpython-314.pyc
+GSE/nlp/__pycache__/sentence_parser.cpython-314.pyc
+GSE/encoders/__pycache__/sentence_structure_encoder.cpython-314.pyc
+GSE/encoders/__pycache__/text_structure_encoder.cpython-314.pyc
+GSE/encoders/__pycache__/paragraph_structure_encoder.cpython-314.pyc
+GSE/curation/lexicon_builder/grounded_rules.py
+GSE/curation/lexicon_builder/__pycache__/grounded_rules.cpython-314.pyc
+tests/test_GSE_encoders_sentence_structure_encoder.py
+tests/test_lexicon_checkpoint_reference_migration.py
+tests/test_audit_lexicon_runtime.py
+tests/test_knowability_sentences.py
+tests/test_lexicon_builder_grammar_runtime.py
+tests/test_lexical_grounding_constructions.py
+tests/test_lexicon_builder_runtime.py
+tests/test_GSE_encoders_paragraph_structure_encoder.py
+tests/test_sentence_architecture.py
+tests/test_audit_lexicon_sentences.py
+tests/test_GSE_api_encoder.py
+tests/test_GSE_encoders_text_structure_encoder.py
+tests/test_lexicon_builder_degree_runtime.py
+tests/__pycache__/test_knowability_sentences.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexicon_checkpoint_reference_migration.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexicon_builder_grammar_runtime.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_gse_encoders_sentence_structure_encoder.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexicon_builder_runtime.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexicon_builder_runtime.cpython-314-pytest-9.1.1.pyc
+tests/__pycache__/test_lexicon_release_runtime.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_audit_lexicon_sentences.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_GSE_api_encoder.cpython-314-pytest-9.1.1.pyc
+tests/__pycache__/test_gse_api_encoder.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexicon_builder_degree_runtime.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_lexical_grounding_constructions.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_audit_lexicon_runtime.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_gse_encoders_text_structure_encoder.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_gse_encoders_paragraph_structure_encoder.cpython-314-pytest-9.1.0.pyc
+tests/__pycache__/test_sentence_architecture.cpython-314-pytest-9.1.0.pyc
+tests/detective/test_GSE_api_encoder_word_vector_plan_af64bc8bf3_synth.py
+tests/_archive/test_lexicon_release_runtime.py
+tests/detective/__pycache__/test_gse_api_encoder_word_vector_plan_af64bc8bf3_synth.cpython-314-pytest-9.1.0.pyc
+scripts/load_intensity_ground_truth.py
+scripts/audit_lexicon_runtime.py
+scripts/run_sentence_experiment.py
+scripts/audit_lexicon_sentences.py
+scripts/__pycache__/audit_lexicon_runtime.cpython-314.pyc
+scripts/__pycache__/audit_lexicon_sentences.cpython-314.pyc
+scripts/__pycache__/load_intensity_ground_truth.cpython-314.pyc
+scripts/_archive/migrate_sentence_scale.py
+scripts/_archive/semantic_playground.py

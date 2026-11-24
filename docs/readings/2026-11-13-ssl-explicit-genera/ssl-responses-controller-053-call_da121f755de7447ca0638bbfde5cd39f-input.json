@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-owned-regression -- sh -c 'PYTHONPATH=.:/Users/rohanvinaik/Projects/Regenesis .venv/bin/python -m pytest tests/test_lexicon_builder_*.py tests/test_lexicon_epoch.py tests/test_lexicon_learning_*.py tests/test_lexicon_checkpoint_retained_transport.py -q --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-owned-tests.xml && uvx --offline ruff@0.16.10 check GSE/curation/lexicon_builder tests/test_lexicon_learning_recovery.py tests/test_lexicon_checkpoint_retained_transport.py tests/test_lexicon_builder_completion_sessions.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py && uvx --offline ruff@0.16.10 format --check GSE/curation/lexicon_builder tests/test_lexicon_learning_recovery.py tests/test_lexicon_checkpoint_retained_transport.py tests/test_lexicon_builder_completion_sessions.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py && git diff --check'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 900
+}

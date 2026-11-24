@@ -1,0 +1,4221 @@
+{
+  "candidate_machinery_gap_count": 0,
+  "candidate_machinery_gaps_requiring_trace_review": [],
+  "created_utc": "2026-11-24T08:30:03.696320+00:00",
+  "database_pin": {
+    "bytes": 20353929216,
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+    "sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+    "stable_stat": true
+  },
+  "elapsed_seconds": 273.9311078749597,
+  "format": "GSE.ssl-api-coverage-law-reach/1",
+  "method": "Read-only production lexical_context over each exact native source observation; standalone per-relation support crosscheck, NOT new full replay or admission. Counts are observation applications, not unique definitions where multiple native records share identity. Absence rules require retained full relevance receipts and are not unconditionally activated. Closed-class original declared primitives plus narrow I/YOU replay only; shared _taxonomy_assertions canonicalizes poles and scope.",
+  "native_observations_checked": 401614,
+  "native_source_projection_counts": {
+    "gse_closed_class": {
+      "ABOVE:expected": 1,
+      "BE:expected": 10,
+      "CAN:expected": 3,
+      "DO:expected": 4,
+      "HAVE:expected": 5,
+      "I:expected": 1,
+      "LIKE:expected": 1,
+      "MAYBE:expected": 5,
+      "MUST:expected": 2,
+      "NOT:expected": 3,
+      "SOMEONE:expected": 43,
+      "SOMETHING:expected": 15,
+      "YOU:expected": 1,
+      "already_singleton": 94,
+      "expected_assertion_cells": 94
+    },
+    "verbnet": {
+      "already_singleton": 3210,
+      "exact_lexical_observations": 5625,
+      "expected_assertion_cells": 3210
+    },
+    "wiktionary": {
+      "BODY:expected": 60,
+      "SOMEONE:expected": 606,
+      "already_singleton": 666,
+      "expected_assertion_cells": 666
+    },
+    "wordnet_hierarchy": {
+      "ALIVE:expected": 14825,
+      "CAUSE:expected": 330,
+      "DO:expected": 4285,
+      "FEEL:expected": 980,
+      "HAPPEN:expected": 168,
+      "HEAR:expected": 18,
+      "KNOW:expected": 28,
+      "MOVE:expected": 1088,
+      "PART:expected": 1466,
+      "SAY:expected": 653,
+      "SEE:expected": 15,
+      "SOMEONE:expected": 10149,
+      "SOMETHING:expected": 77779,
+      "THINK:expected": 1921,
+      "WANT:expected": 104,
+      "already_singleton": 113809,
+      "expected_assertion_cells": 113809
+    }
+  },
+  "rule_application_counts": {
+    "founder:absence:big-good": {
+      "1-500:guard_matches": 2009,
+      "1501-5000:guard_matches": 6821,
+      "5001+:guard_matches": 23556,
+      "501-1500:guard_matches": 3174,
+      "native_witness_guard_matches": 60670,
+      "requires_saved_absence_guard_receipt": 60670,
+      "unranked:guard_matches": 25110
+    },
+    "founder:absence:good-big": {
+      "1-500:guard_matches": 2009,
+      "1501-5000:guard_matches": 6821,
+      "5001+:guard_matches": 23556,
+      "501-1500:guard_matches": 3174,
+      "native_witness_guard_matches": 60670,
+      "requires_saved_absence_guard_receipt": 60670,
+      "unranked:guard_matches": 25110
+    },
+    "founder:adjective-not-object": {
+      "1-500:guard_matches": 2009,
+      "1501-5000:guard_matches": 6821,
+      "5001+:guard_matches": 23556,
+      "501-1500:guard_matches": 3174,
+      "SOMETHING:filled": 60670,
+      "marginal_closure_consistent": 60670,
+      "native_witness_guard_matches": 60670,
+      "unranked:guard_matches": 25110
+    },
+    "founder:adverb-not-object": {
+      "1-500:guard_matches": 874,
+      "1501-5000:guard_matches": 806,
+      "5001+:guard_matches": 4197,
+      "501-1500:guard_matches": 491,
+      "SOMETHING:filled": 10179,
+      "marginal_closure_consistent": 10179,
+      "native_witness_guard_matches": 10179,
+      "unranked:guard_matches": 3811
+    },
+    "founder:category:above-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "ABOVE:filled": 16,
+      "ABOVE:open": 401598,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:before-when": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "BEFORE:filled": 1,
+      "BEFORE:open": 401613,
+      "WHEN:filled": 82,
+      "WHEN:open": 401532,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:body-something": {
+      "1-500:guard_matches": 5247,
+      "1501-5000:guard_matches": 28553,
+      "5001+:guard_matches": 67988,
+      "501-1500:guard_matches": 11451,
+      "BODY:filled": 2704,
+      "BODY:open": 205895,
+      "SOMETHING:filled": 78040,
+      "SOMETHING:open": 130559,
+      "marginal_closure_consistent": 208599,
+      "native_witness_guard_matches": 208599,
+      "unranked:guard_matches": 95360
+    },
+    "founder:category:cause-happen": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "CAUSE:filled": 1348,
+      "CAUSE:open": 400266,
+      "HAPPEN:filled": 7744,
+      "HAPPEN:open": 393870,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:do-happen": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "DO:filled": 5645,
+      "DO:open": 395969,
+      "HAPPEN:filled": 7744,
+      "HAPPEN:open": 393870,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:far-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "FAR:open": 401614,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:here-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "HERE:open": 401614,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:i-someone": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "I:filled": 1,
+      "I:open": 401613,
+      "SOMEONE:filled": 11182,
+      "SOMEONE:open": 390432,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:long_time-when": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "LONG_TIME:open": 401614,
+      "WHEN:filled": 82,
+      "WHEN:open": 401532,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:moment-when": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "MOMENT:open": 401614,
+      "WHEN:filled": 82,
+      "WHEN:open": 401532,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:move-happen": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "HAPPEN:filled": 7744,
+      "HAPPEN:open": 393870,
+      "MOVE:filled": 1774,
+      "MOVE:open": 399840,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:one-quantity": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "ONE:open": 401614,
+      "QUANTITY:filled": 712,
+      "QUANTITY:open": 400902,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:outside-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "OUTSIDE:open": 401614,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:side-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "SIDE:open": 401614,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:then-when": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "THEN:open": 401614,
+      "WHEN:filled": 82,
+      "WHEN:open": 401532,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:toward-where": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "TOWARD:open": 401614,
+      "WHERE:filled": 69,
+      "WHERE:open": 401545,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:two-quantity": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "QUANTITY:filled": 712,
+      "QUANTITY:open": 400902,
+      "TWO:open": 401614,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:category:you-someone": {
+      "1-500:guard_matches": 15022,
+      "1501-5000:guard_matches": 56656,
+      "5001+:guard_matches": 132303,
+      "501-1500:guard_matches": 25445,
+      "SOMEONE:filled": 11182,
+      "SOMEONE:open": 390432,
+      "YOU:filled": 1,
+      "YOU:open": 401613,
+      "marginal_closure_consistent": 401614,
+      "native_witness_guard_matches": 401614,
+      "unranked:guard_matches": 172188
+    },
+    "founder:noun-own-evaluation": {
+      "1-500:guard_matches": 5247,
+      "1501-5000:guard_matches": 28553,
+      "5001+:guard_matches": 67988,
+      "501-1500:guard_matches": 11451,
+      "GOOD:filled": 208599,
+      "marginal_closure_consistent": 208599,
+      "native_witness_guard_matches": 208599,
+      "unranked:guard_matches": 95360
+    },
+    "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684": {
+      "1501-5000:guard_matches": 10,
+      "5001+:guard_matches": 43,
+      "BODY:filled": 115,
+      "PART:filled": 115,
+      "marginal_closure_consistent": 115,
+      "native_witness_guard_matches": 115,
+      "unranked:guard_matches": 62
+    },
+    "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4": {
+      "1-500:guard_matches": 13,
+      "1501-5000:guard_matches": 43,
+      "5001+:guard_matches": 155,
+      "501-1500:guard_matches": 14,
+      "BE:filled": 404,
+      "SOMETHING:filled": 404,
+      "marginal_closure_consistent": 404,
+      "native_witness_guard_matches": 404,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71": {
+      "1-500:guard_matches": 3,
+      "1501-5000:guard_matches": 10,
+      "5001+:guard_matches": 26,
+      "501-1500:guard_matches": 4,
+      "WHERE:filled": 68,
+      "marginal_closure_consistent": 68,
+      "native_witness_guard_matches": 68,
+      "unranked:guard_matches": 25
+    },
+    "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6": {
+      "1-500:guard_matches": 1,
+      "1501-5000:guard_matches": 7,
+      "5001+:guard_matches": 17,
+      "501-1500:guard_matches": 2,
+      "QUANTITY:filled": 70,
+      "WANT:filled": 70,
+      "marginal_closure_consistent": 70,
+      "native_witness_guard_matches": 70,
+      "unranked:guard_matches": 43
+    },
+    "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52": {
+      "1501-5000:guard_matches": 6,
+      "5001+:guard_matches": 10,
+      "501-1500:guard_matches": 2,
+      "QUANTITY:filled": 49,
+      "WANT:filled": 49,
+      "marginal_closure_consistent": 49,
+      "native_witness_guard_matches": 49,
+      "unranked:guard_matches": 31
+    },
+    "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5": {
+      "1-500:guard_matches": 1,
+      "1501-5000:guard_matches": 6,
+      "5001+:guard_matches": 8,
+      "501-1500:guard_matches": 1,
+      "BODY:filled": 32,
+      "WANT:filled": 32,
+      "marginal_closure_consistent": 32,
+      "native_witness_guard_matches": 32,
+      "unranked:guard_matches": 16
+    },
+    "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d": {
+      "1501-5000:guard_matches": 22,
+      "5001+:guard_matches": 82,
+      "501-1500:guard_matches": 3,
+      "BODY:filled": 286,
+      "PART:filled": 286,
+      "marginal_closure_consistent": 286,
+      "native_witness_guard_matches": 286,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8": {
+      "1-500:guard_matches": 6,
+      "1501-5000:guard_matches": 7,
+      "5001+:guard_matches": 18,
+      "501-1500:guard_matches": 1,
+      "WHEN:filled": 35,
+      "marginal_closure_consistent": 35,
+      "native_witness_guard_matches": 35,
+      "unranked:guard_matches": 3
+    },
+    "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60": {
+      "1-500:guard_matches": 3,
+      "1501-5000:guard_matches": 19,
+      "5001+:guard_matches": 11,
+      "501-1500:guard_matches": 1,
+      "BODY:filled": 90,
+      "QUANTITY:filled": 90,
+      "marginal_closure_consistent": 90,
+      "native_witness_guard_matches": 90,
+      "unranked:guard_matches": 56
+    },
+    "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5": {
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 7,
+      "501-1500:guard_matches": 2,
+      "WORDS:filled": 24,
+      "marginal_closure_consistent": 24,
+      "native_witness_guard_matches": 24,
+      "unranked:guard_matches": 14
+    },
+    "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c": {
+      "1-500:guard_matches": 5,
+      "1501-5000:guard_matches": 30,
+      "5001+:guard_matches": 30,
+      "501-1500:guard_matches": 10,
+      "HAPPEN:filled": 89,
+      "marginal_closure_consistent": 89,
+      "native_witness_guard_matches": 89,
+      "unranked:guard_matches": 14
+    },
+    "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 11,
+      "5001+:guard_matches": 29,
+      "501-1500:guard_matches": 3,
+      "QUANTITY:filled": 226,
+      "marginal_closure_consistent": 226,
+      "native_witness_guard_matches": 226,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7": {
+      "1-500:guard_matches": 1,
+      "1501-5000:guard_matches": 6,
+      "5001+:guard_matches": 8,
+      "501-1500:guard_matches": 1,
+      "BODY:filled": 33,
+      "marginal_closure_consistent": 33,
+      "native_witness_guard_matches": 33,
+      "unranked:guard_matches": 17
+    },
+    "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50": {
+      "1-500:guard_matches": 5,
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 3,
+      "501-1500:guard_matches": 3,
+      "QUANTITY:filled": 20,
+      "SOMETHING:filled": 20,
+      "marginal_closure_consistent": 20,
+      "native_witness_guard_matches": 20,
+      "unranked:guard_matches": 8
+    },
+    "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42": {
+      "1-500:guard_matches": 1,
+      "1501-5000:guard_matches": 5,
+      "5001+:guard_matches": 13,
+      "501-1500:guard_matches": 2,
+      "BODY:filled": 49,
+      "SOMETHING:filled": 49,
+      "marginal_closure_consistent": 49,
+      "native_witness_guard_matches": 49,
+      "unranked:guard_matches": 28
+    },
+    "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659": {
+      "1-500:guard_matches": 1,
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 14,
+      "INFER:filled": 21,
+      "THINK:filled": 21,
+      "marginal_closure_consistent": 21,
+      "native_witness_guard_matches": 21,
+      "unranked:guard_matches": 5
+    },
+    "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855": {
+      "1-500:guard_matches": 13,
+      "1501-5000:guard_matches": 22,
+      "5001+:guard_matches": 15,
+      "501-1500:guard_matches": 6,
+      "PEOPLE:filled": 71,
+      "marginal_closure_consistent": 71,
+      "native_witness_guard_matches": 71,
+      "unranked:guard_matches": 15
+    },
+    "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 11,
+      "5001+:guard_matches": 29,
+      "501-1500:guard_matches": 3,
+      "BODY:filled": 226,
+      "QUANTITY:filled": 226,
+      "marginal_closure_consistent": 226,
+      "native_witness_guard_matches": 226,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e": {
+      "1-500:guard_matches": 10,
+      "1501-5000:guard_matches": 116,
+      "5001+:guard_matches": 447,
+      "501-1500:guard_matches": 22,
+      "ALIVE:filled": 1772,
+      "BODY:filled": 1772,
+      "marginal_closure_consistent": 1772,
+      "native_witness_guard_matches": 1772,
+      "unranked:guard_matches": 1177
+    },
+    "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 20,
+      "5001+:guard_matches": 13,
+      "501-1500:guard_matches": 2,
+      "QUANTITY:filled": 100,
+      "marginal_closure_consistent": 100,
+      "native_witness_guard_matches": 100,
+      "unranked:guard_matches": 61
+    },
+    "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 11,
+      "5001+:guard_matches": 29,
+      "501-1500:guard_matches": 3,
+      "QUANTITY:filled": 226,
+      "WANT:filled": 226,
+      "marginal_closure_consistent": 226,
+      "native_witness_guard_matches": 226,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c": {
+      "1-500:guard_matches": 9,
+      "1501-5000:guard_matches": 30,
+      "5001+:guard_matches": 64,
+      "501-1500:guard_matches": 9,
+      "QUANTITY:filled": 363,
+      "SOMETHING:filled": 363,
+      "marginal_closure_consistent": 363,
+      "native_witness_guard_matches": 363,
+      "unranked:guard_matches": 251
+    },
+    "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39": {
+      "1501-5000:guard_matches": 3,
+      "5001+:guard_matches": 5,
+      "CAN:filled": 10,
+      "SOMEONE:filled": 10,
+      "marginal_closure_consistent": 10,
+      "native_witness_guard_matches": 10,
+      "unranked:guard_matches": 2
+    },
+    "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e": {
+      "1-500:guard_matches": 7,
+      "1501-5000:guard_matches": 13,
+      "5001+:guard_matches": 32,
+      "501-1500:guard_matches": 11,
+      "BODY:filled": 105,
+      "WANT:filled": 105,
+      "marginal_closure_consistent": 105,
+      "native_witness_guard_matches": 105,
+      "unranked:guard_matches": 42
+    },
+    "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13": {
+      "1-500:guard_matches": 2,
+      "1501-5000:guard_matches": 6,
+      "5001+:guard_matches": 28,
+      "501-1500:guard_matches": 1,
+      "SOMEONE:filled": 68,
+      "marginal_closure_consistent": 68,
+      "native_witness_guard_matches": 68,
+      "unranked:guard_matches": 31
+    },
+    "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc": {
+      "1-500:guard_matches": 7,
+      "1501-5000:guard_matches": 27,
+      "5001+:guard_matches": 36,
+      "501-1500:guard_matches": 9,
+      "HAPPEN:filled": 94,
+      "marginal_closure_consistent": 94,
+      "native_witness_guard_matches": 94,
+      "unranked:guard_matches": 15
+    },
+    "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832": {
+      "1-500:guard_matches": 6,
+      "1501-5000:guard_matches": 16,
+      "5001+:guard_matches": 25,
+      "501-1500:guard_matches": 2,
+      "WHEN:filled": 59,
+      "marginal_closure_consistent": 59,
+      "native_witness_guard_matches": 59,
+      "unranked:guard_matches": 10
+    },
+    "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef": {
+      "1-500:guard_matches": 5,
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 3,
+      "501-1500:guard_matches": 3,
+      "QUANTITY:filled": 20,
+      "WANT:filled": 20,
+      "marginal_closure_consistent": 20,
+      "native_witness_guard_matches": 20,
+      "unranked:guard_matches": 8
+    },
+    "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810": {
+      "1-500:guard_matches": 1,
+      "5001+:guard_matches": 6,
+      "501-1500:guard_matches": 1,
+      "QUANTITY:filled": 22,
+      "WANT:filled": 22,
+      "marginal_closure_consistent": 22,
+      "native_witness_guard_matches": 22,
+      "unranked:guard_matches": 14
+    },
+    "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 21,
+      "5001+:guard_matches": 29,
+      "501-1500:guard_matches": 9,
+      "DO:filled": 76,
+      "marginal_closure_consistent": 76,
+      "native_witness_guard_matches": 76,
+      "unranked:guard_matches": 13
+    },
+    "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4": {
+      "1501-5000:guard_matches": 2,
+      "5001+:guard_matches": 4,
+      "BODY:filled": 10,
+      "WANT:filled": 10,
+      "marginal_closure_consistent": 10,
+      "native_witness_guard_matches": 10,
+      "unranked:guard_matches": 4
+    },
+    "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414": {
+      "1-500:guard_matches": 11,
+      "1501-5000:guard_matches": 76,
+      "5001+:guard_matches": 73,
+      "501-1500:guard_matches": 26,
+      "PART:filled": 264,
+      "SOMETHING:filled": 264,
+      "marginal_closure_consistent": 264,
+      "native_witness_guard_matches": 264,
+      "unranked:guard_matches": 78
+    },
+    "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72": {
+      "1-500:guard_matches": 18,
+      "1501-5000:guard_matches": 188,
+      "5001+:guard_matches": 1128,
+      "501-1500:guard_matches": 63,
+      "SOMEONE:filled": 2434,
+      "marginal_closure_consistent": 2434,
+      "native_witness_guard_matches": 2434,
+      "unranked:guard_matches": 1037
+    },
+    "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b": {
+      "1-500:guard_matches": 6,
+      "1501-5000:guard_matches": 34,
+      "5001+:guard_matches": 288,
+      "501-1500:guard_matches": 10,
+      "BE:filled": 686,
+      "marginal_closure_consistent": 686,
+      "native_witness_guard_matches": 686,
+      "unranked:guard_matches": 348
+    },
+    "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d": {
+      "1501-5000:guard_matches": 4,
+      "5001+:guard_matches": 2,
+      "501-1500:guard_matches": 2,
+      "DO:filled": 11,
+      "marginal_closure_consistent": 11,
+      "native_witness_guard_matches": 11,
+      "unranked:guard_matches": 3
+    },
+    "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744": {
+      "1-500:guard_matches": 5,
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 3,
+      "501-1500:guard_matches": 3,
+      "BODY:filled": 20,
+      "QUANTITY:filled": 20,
+      "WANT:filled": 20,
+      "marginal_closure_consistent": 20,
+      "native_witness_guard_matches": 20,
+      "unranked:guard_matches": 8
+    },
+    "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634": {
+      "1-500:guard_matches": 4,
+      "1501-5000:guard_matches": 11,
+      "5001+:guard_matches": 29,
+      "501-1500:guard_matches": 3,
+      "ALIVE:filled": 226,
+      "GOOD:filled": 226,
+      "marginal_closure_consistent": 226,
+      "native_witness_guard_matches": 226,
+      "unranked:guard_matches": 179
+    },
+    "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6": {
+      "1-500:guard_matches": 11,
+      "1501-5000:guard_matches": 76,
+      "5001+:guard_matches": 73,
+      "501-1500:guard_matches": 26,
+      "PART:filled": 264,
+      "marginal_closure_consistent": 264,
+      "native_witness_guard_matches": 264,
+      "unranked:guard_matches": 78
+    },
+    "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4": {
+      "1-500:guard_matches": 14,
+      "1501-5000:guard_matches": 78,
+      "5001+:guard_matches": 117,
+      "501-1500:guard_matches": 43,
+      "DO:filled": 280,
+      "DO:open": 54,
+      "SAY:filled": 280,
+      "SAY:open": 54,
+      "marginal_closure_consistent": 334,
+      "native_witness_guard_matches": 334,
+      "unranked:guard_matches": 82
+    },
+    "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9": {
+      "5001+:guard_matches": 3,
+      "BODY:filled": 18,
+      "SOMETHING:filled": 18,
+      "marginal_closure_consistent": 18,
+      "native_witness_guard_matches": 18,
+      "unranked:guard_matches": 15
+    },
+    "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e": {
+      "1-500:guard_matches": 7,
+      "1501-5000:guard_matches": 13,
+      "5001+:guard_matches": 32,
+      "501-1500:guard_matches": 11,
+      "BODY:filled": 105,
+      "PART:filled": 105,
+      "marginal_closure_consistent": 105,
+      "native_witness_guard_matches": 105,
+      "unranked:guard_matches": 42
+    },
+    "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2": {
+      "1501-5000:guard_matches": 1,
+      "5001+:guard_matches": 16,
+      "BODY:filled": 49,
+      "WANT:filled": 49,
+      "marginal_closure_consistent": 49,
+      "native_witness_guard_matches": 49,
+      "unranked:guard_matches": 32
+    },
+    "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37": {
+      "1-500:guard_matches": 5,
+      "1501-5000:guard_matches": 20,
+      "5001+:guard_matches": 15,
+      "501-1500:guard_matches": 9,
+      "WANT:filled": 133,
+      "marginal_closure_consistent": 133,
+      "native_witness_guard_matches": 133,
+      "unranked:guard_matches": 84
+    }
+  },
+  "rule_version": "9aeb7c65650902cbf3139400c64acff3aa9645a9937069d95015f5b728e06436",
+  "samples": {},
+  "scope_identity_counts": {
+    "wordnet_attested_native_lemma": 114316,
+    "wordnet_exact_witness_unavailable": 39,
+    "wordnet_not_attested_native_lemma": 40795
+  },
+  "source_pins": {
+    "GSE/curation/external_sources/gse_closed_class.py": "979090b9f65deb62323ad6cc96b9c03d64c62600b4c26d25cb87517add2ff596",
+    "GSE/curation/external_sources/wiktionary.py": "36997a0a639370e5c879b1c70ad21aa24522147399fc1fc070aa9b7612091972",
+    "GSE/curation/external_sources/wordnet_hierarchy.py": "51acfeb0970c7e5cd45496a6d9220dd225182763662a56d4c4cf0f8c50e8b25e",
+    "GSE/curation/lexicon_builder/definition_frames.py": "f15e0f8ae5094439700cdcef270031d9dd37881febb4ad25eb37e91bcbb4145d",
+    "GSE/curation/lexicon_builder/evidence.py": "65305a543bf43e263607556735a3545fb6bb69174f99dd384b01a0d2517c7663",
+    "GSE/curation/lexicon_builder/foundation.py": "0b913ff69f986387e2d15387141189ccc896b520be5f54f807e94e7dbd966c43"
+  },
+  "stored_rules": [
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "foundational",
+      "banks": [
+        "GOOD"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "rule_id": "founder:noun-own-evaluation"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "foundational",
+      "banks": [
+        "SOMETHING"
+      ],
+      "guards": [
+        [
+          "pos",
+          "adjective"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "rule_id": "founder:adjective-not-object"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "foundational",
+      "banks": [
+        "SOMETHING"
+      ],
+      "guards": [
+        [
+          "pos",
+          "adverb"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_FOUNDER_WORDS_2026-10-24.md#F057"
+      ],
+      "rule_id": "founder:adverb-not-object"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "I",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:i-someone"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "YOU",
+        "SOMEONE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:you-someone"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY",
+        "SOMETHING"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:body-something"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "ONE",
+        "QUANTITY"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:one-quantity"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "TWO",
+        "QUANTITY"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:two-quantity"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "MOVE",
+        "HAPPEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:move-happen"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "DO",
+        "HAPPEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:do-happen"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "CAUSE",
+        "HAPPEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:cause-happen"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "THEN",
+        "WHEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:then-when"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BEFORE",
+        "WHEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:before-when"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "LONG_TIME",
+        "WHEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:long_time-when"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "MOMENT",
+        "WHEN"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:moment-when"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "ABOVE",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:above-where"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "FAR",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:far-where"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "OUTSIDE",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:outside-where"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "TOWARD",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:toward-where"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "HERE",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:here-where"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SIDE",
+        "WHERE"
+      ],
+      "guards": [],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+      ],
+      "rule_id": "founder:category:side-where"
+    },
+    {
+      "absent_evidence": [
+        "BIG"
+      ],
+      "allowed_rows": [
+        [
+          -1,
+          0
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "GOOD",
+        "BIG"
+      ],
+      "guards": [
+        [
+          "pos",
+          "adjective"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+      ],
+      "rule_id": "founder:absence:good-big"
+    },
+    {
+      "absent_evidence": [
+        "GOOD"
+      ],
+      "allowed_rows": [
+        [
+          -1,
+          0
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BIG",
+        "GOOD"
+      ],
+      "guards": [
+        [
+          "pos",
+          "adjective"
+        ]
+      ],
+      "provenance": [
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+      ],
+      "rule_id": "founder:absence:big-good"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:linear-unit-want-2026-11-01:15e40a4fdc532701c2778eec427a7fe9bdb5da0ed36fad95509add81b980ac7a",
+        "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-inventory.json",
+        "docs/readings/2026-11-01-lexicon-next-stage/linear-unit-rule-ledger.md",
+        "user-convention:WANT:-1=NOT_WANT,0=ORTHOGONAL,+1=WANT"
+      ],
+      "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:native-linear-unit-quantity-2026-11-01:7734adc5cf42a3fce86a013df3ce152ea06c4c4ac06b498a6131f8272a0440e3",
+        "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+        "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+        "data/external/references/goddard-2012-primes-molecules-templates.pdf#section-3",
+        "gse/curation/lexicon_builder/foundation.py#projection_relations",
+        "docs/readings/2026-11-01-lexicon-you-body/linear-unit-native-lemma-scope.json"
+      ],
+      "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:native-monetary-unit-quantity-2026-11-01:57bc1998651b2c64b7cf1dd3058d22f2557347e18de6906dd77bc50e0d18b202",
+        "docs/readings/2026-11-01-lexicon-next-stage/quantity-unit-population-inventory.json@sha256:5a392a773cef5cebd2e9d05df34258bf17c35307cddd82d46be9dbb8134ced79",
+        "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+        "gse/curation/lexicon_builder/foundation.py#projection_relations"
+      ],
+      "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:internal_organ.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:native-internal-organ-body-2026-11-11:fbde542054619b8cca0a50daeafe129fae0c8040a988828eb97cae54d0f94ba2",
+        "docs/readings/2026-11-01-lexicon-alias-identity/internal-organ-body-inventory.json@sha256:7ccc515d557c5d82a6eaf04766f2b832c785fd91237578f254ee9bb762c695c2",
+        "docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "GOOD",
+        "ALIVE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:native-monetary-unit-alive-2026-11-11:1487fdd9c6ec8dafc701f5e345743957f38d635ddb91be96d01f2f17fee70f4b",
+        "docs/readings/2026-11-11-lexicon-learning-loop/alive-native-scope.json",
+        "gse/curation/lexicon_builder/model_protocol.py#coordinate_contract",
+        "refinement:sha256:0e8f3a9b990cb56105a9f32f7dd36a2db81957ad93872f84781be91eb97aa1a8",
+        "parent:reviewed-pattern:bdc292921dbbe6df814aa35fbeee67b21995ca3167cd394c17196c1d4604251d"
+      ],
+      "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "except_entry:wordnet:cubit:cubit.n.01",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:digit:finger.n.02",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:finger:finger.n.02",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:fingerbreadth:finger.n.02",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:fistmele:fistmele.n.01",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:handbreadth:handbreadth.n.01",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:handsbreadth:handbreadth.n.01",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:head:head.n.11",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:palm:palm.n.02",
+          "true"
+        ],
+        [
+          "except_entry:wordnet:span:span.n.04",
+          "true"
+        ],
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_ancestor:linear_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:joint-native-body-linear:e4d6dcfa2fea0ae8e1eff1811b1be840a9898ec73e6d0c30e40b635f88e2bad4",
+        "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:joint-native-body-monetary:c240d4f95dfe853b9dbd18fe9e416b91aa25ec835ba0c2074f5eaf0ee7be5905",
+        "docs/readings/2026-11-11-lexicon-learning-loop/joint-body-source-scope.json",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMETHING",
+        "QUANTITY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:unit_of_measurement.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:linear_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:monetary_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:electromagnetic_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:em.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:exposure.n.06",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:partition.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:word.n.07",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:native-measurement-unit-quantity-refined:7c707b5d5ba871243eb3ae9bb2c8e9ea6d3205d4617c857ddfb40928a5acbe2f",
+        "docs/readings/2026-11-11-lexicon-learning-loop/unit-quantity-scope-review.json",
+        "docs/readings/2026-11-11-lexicon-learning-loop/native-unit-quantity-scope.json"
+      ],
+      "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:volume_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quarter.n.09",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:exact-volume-unit-quantity-want:8ebde2206ab9fd8d7964748b01b7f4978a0a36cc0fe24f8cb627303949f9f677",
+        "docs/readings/2026-11-11-lexicon-learning-loop/volume-want-scope.json"
+      ],
+      "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:monetary_unit.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:exact-monetary-unit-quantity-want:d59516258790ce144be95d81b1b9fc6c195a351c5226609f72a074be2e28ab36",
+        "docs/readings/2026-11-11-lexicon-learning-loop/monetary-want-scope.json"
+      ],
+      "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMETHING",
+        "QUANTITY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:time_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:birthday.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.07",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:eve.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:future_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:maturity.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:mean_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:morrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:night.n.04",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:rain_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:sell-by_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:terrestrial_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:today.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tomorrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:yesterday.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:duration-quantity:0950471d80b59132d674a37ae166b1470f0a2f5dc1779b380bcd35a9a2f11a10",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-epoch-comparison/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:time_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:birthday.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.07",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:eve.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:future_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:maturity.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:mean_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:morrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:night.n.04",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:rain_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:sell-by_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:terrestrial_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:today.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tomorrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:yesterday.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:duration-want:1700e35fdc0a0ae13c59820275a321348a4ef749b18ce1f53f7bef0bf6dd16f7",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-epoch-comparison/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:mass_unit.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:mass-want:197c863584b5d9f700e643e57a8bd69f559dca08f3d4c70b23280769102b96d6",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          0
+        ],
+        [
+          -1,
+          -1,
+          1
+        ],
+        [
+          -1,
+          0,
+          -1
+        ],
+        [
+          -1,
+          0,
+          0
+        ],
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1
+        ],
+        [
+          -1,
+          1,
+          0
+        ],
+        [
+          -1,
+          1,
+          1
+        ],
+        [
+          0,
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          0,
+          -1,
+          1
+        ],
+        [
+          0,
+          0,
+          -1
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          -1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          -1,
+          -1
+        ],
+        [
+          1,
+          -1,
+          0
+        ],
+        [
+          1,
+          -1,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          -1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:time_unit.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:birthday.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:date.n.07",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:eve.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:future_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:maturity.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:mean_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:morrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:night.n.04",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:rain_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:sell-by_date.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:terrestrial_time.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:today.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tomorrow.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:yesterday.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:duration-body:98cd0cd06102ae144b27c873f16354a67f93d42c759cf22ff688392888a43719",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "QUANTITY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:weight_unit.n.02",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:weight-want:04355d97dcd644c254968391057186ec1e0e79328d43d81e03e43ccf7fb86b7a",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-grounded-comparison/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMETHING",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:plane_figure.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:cladogram.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:delta.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:ellipsoid.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quadrate.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:stemma.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tree.n.02",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:plane-figure-body:0f24fb6f6ba73878d4bf65ce993a30c2ac06816c4907f9044891742e667505e3",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMETHING",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:polyhedron.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:quadrate.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:polyhedron-body:fdf6e337e8c14d32b3bd881437f088549bfb0bb53ffa494b7c56bcc42f8364f6",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PART",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:bone.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:conodont.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:skeletal-part-body:cee4fec76f8195b996f44f7c95231989d9bee71cf5b5f9ae4f0581862f4310dc",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PART",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:tissue.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:albuginea.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:cell_membrane.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:conodont.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:cortex.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:fiber_bundle.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:intima.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:investment.n.04",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:lens_cortex.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:medulla.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:membrane.n.02",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:pellicle.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:stroma.n.03",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tissue.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:tunic.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:animal-anatomical-tissue-part-body:637ee23c5d4ea4e0255590e86242d0385276ed3842d26fb336365fe498ca189e",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PART",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:external_body_part.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:hood.n.10",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:external-anatomical-part-body:94707221ee473e609057248265d2f3a267832853d28a6dca229f6a68eb341f2b",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-anatomical-parts/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PART"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:part_of",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-partitive:8ee3e72f77cc5dbd7dbe0e92381e28499566565078b4006b3ecdbf2910abea75",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-cross-source/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PART",
+        "SOMETHING"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:part_of",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:partitive-object-content:01f0a291f9e19c43ae1030e72c9a9039db1d4e06d445b9304f2bd02ad079dc2e",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-cross-source/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "WORDS"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:word_unit",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-word-genus:a52aeb0ba553f107d0dde86cf0a04cc52885756421a42df83e4fac3d9b554cb8",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-words-resolution/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#words-defining-genus-scope",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMEONE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:coordinated_person",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:coordinated-person-genus:78f5b961b1e20a92b8cd5fb6559054aa325148728f2294e771e4adc2226f66eb",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-12-ssl-cross-source/SOURCE_SCOPE.md",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMEONE",
+        "CAN"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:person_own_capacity",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-person-capacity:d460822899bfceefe85bea0da2988a67e32b9cd66019f3faddcc146b5c3b7fbb",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-person-capacity/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt",
+        "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+      ],
+      "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "WHERE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_place",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-place:8014ac4b5302373e56efb94e385e03169b9410c03098901e7ead3872de60167e",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "WHEN"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_time",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-time:d4df84f63a6bc2d66f6bf06d63de2e96f5981dc240235416132a80e87c2c9bc8",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMEONE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_person",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-person:bb2ab36c9a3c02b75f01ca90748579949586a9991a2fa2f9282b9bd74a0900e5",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "HAPPEN"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:explicit_occurrence",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-occurrence:14ef26c0b056d9e83833fc9ffe26d603a78d65fd69071013f2ec4203ee68dd08",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-sentence-event-action/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "DO"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:agentive_intervention",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:agentive-intervention:0b091afd5676f1e25accbe9576a5cd52d6cd525b97928c5ad680493ec1956537",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-sentence-event-action/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "HAPPEN"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:qualified_occurrence",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:event:d162c7ec9724e79b096f469fa3110c62201b829de4edcd73758835e38e6b1845",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-grounded-event-action/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "DO"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:agentive_acquisition",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:acquisition:f6ff8144c9952880aa03aae0fccfc53bb549a62e64302878ccfbb849f9b65d49",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-grounded-event-action/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:internal_organ.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:megacolon.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:internal-organ-want:af330a5f91b53c1659af4a6a67b2250c11862c8c296bab272a9005d4d0f6ed6f",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-14-ssl-anatomical-want/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity"
+      ],
+      "rule_id": "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:external_body_part.n.01",
+          "true"
+        ],
+        [
+          "wordnet_other_than_synset:hood.n.10",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:external-anatomical-part-want:50dc76e0cc0e87997fd2e8d5dc3024d00791ed62df3dfe2db061fc24ee3534be",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-14-ssl-anatomical-want/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity"
+      ],
+      "rule_id": "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wiktionary_anatomy_frame:organ_gland",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:wiktionary-anatomy-want-organ_gland:82bc1fa57eba10404af6dfa9cefc8773dc12bf9bbb3d419366c637103a025854",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-14-ssl-anatomical-want/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity"
+      ],
+      "rule_id": "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "BODY",
+        "WANT"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wiktionary_anatomy_frame:physical_structure",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:wiktionary-anatomy-want-physical_structure:0d67a536da0439448c99d3db522e34e3a1467034c9be43d2e3afbd304b9630fd",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-14-ssl-anatomical-want/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#want-polarity"
+      ],
+      "rule_id": "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SOMETHING",
+        "BE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:state.n.02",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:nonbeing.n.01",
+          "true"
+        ],
+        [
+          "native_noun_frame:explicit_stative",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:explicit-native-state-be:0fdced33ce0d666dae62e8dd15cd63b0e9466ab025eab838974e64ac0284004d",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope"
+      ],
+      "rule_id": "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "foundational",
+      "banks": [
+        "BE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:stative_being",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:founder:own-state-denotation-be-2026-11-18:69ec708c84bbb6c21810db9c4b2de6f701546632765197996fabade46d072871",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/019-approved-be-convention.json",
+        "convention:founder:own-state-denotation-be-2026-11-18:fe341937e8fc7db6e72123507ba3f4726f46a0c9000c6a2821a8a9ab0d49165d"
+      ],
+      "rule_id": "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "SAY",
+        "DO"
+      ],
+      "guards": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:express.v.02",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:argue.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:sign.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:bridle.v.03",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:rent.v.04",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:summarize.v.02",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:020:scoped-expression-say-do:f7efbe4bb38846058992d67e3f1823f5c8eb0a9185f345a86f84b8af6a62c079",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "THINK",
+        "INFER"
+      ],
+      "guards": [
+        [
+          "pos",
+          "verb"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:reason.v.01",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:find.v.05",
+          "true"
+        ],
+        [
+          "wordnet_outside_ancestor:universalize.v.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:020:scoped-reasoning-think-infer:1e786c8b1cebe023e1245a66b4884e00807e5144865496b4421c5ca77b4ef6fe",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "rule_id": "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          -1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "ALIVE",
+        "BODY"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "wordnet_native_lemma",
+          "true"
+        ],
+        [
+          "wordnet_ancestor:vertebrate.n.01",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:021:approved-constitutive-vertebrate-alive-body:b745acefdce148bf3cecd2ed24fff04440a266fcc57c795dcb5613bb34c95277",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+        "https://doi.org/10.22363/2312-9182-2018-22-3-539-559",
+        "wordnet:vertebrate:vertebrate.n.01",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-enrichment.json"
+      ],
+      "rule_id": "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "WHEN"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:temporal_extent",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:022:literal-temporal-extent:a128f1c11b59a3f172a736be0c903864c5e1864abbcb41ec85e234815c5ab477",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/022-source-review.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt",
+        "/Users/rohanvinaik/Projects/gse/gse/primitives_v2.py",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832"
+    },
+    {
+      "absent_evidence": [],
+      "allowed_rows": [
+        [
+          1
+        ]
+      ],
+      "approved": true,
+      "authority": "conditional",
+      "banks": [
+        "PEOPLE"
+      ],
+      "guards": [
+        [
+          "pos",
+          "noun"
+        ],
+        [
+          "native_noun_frame:human_collective",
+          "true"
+        ]
+      ],
+      "provenance": [
+        "warrant:022:literal-human-collective:c3876b1a8d4484c4339cec80210c3f34e73c8650a55097c5a20379fb97f68e04",
+        "/Users/rohanvinaik/Projects/gse/docs/readings/2026-11-13-ssl-explicit-genera/022-source-review.md",
+        "/Users/rohanvinaik/Projects/gse/data/external/references/nsm-primes-chart-v20-2022.txt",
+        "/Users/rohanvinaik/Projects/gse/gse/primitives_v2.py",
+        "/Users/rohanvinaik/Projects/gse/docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+      ],
+      "rule_id": "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855"
+    }
+  ],
+  "verbnet_check": "Exact lexical features.projection through original shared competence/canonical-pole adapter; not the legacy word aggregate",
+  "verbnet_projection_gaps": []
+}

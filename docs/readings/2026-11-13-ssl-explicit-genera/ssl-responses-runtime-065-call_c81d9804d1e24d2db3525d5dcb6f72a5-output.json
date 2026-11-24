@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 0,
+  "elapsed_seconds": 0.6922133339103311,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-065-call_c81d9804d1e24d2db3525d5dcb6f72a5.log",
+  "output_characters": 1335,
+  "output": "error[not-callable]: Object of type `object` is not callable\n    --> GSE/symbolic/grounding.py:1211:44\n     |\n1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, \"NOUN\", False)]\n     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[invalid-assignment]: Invalid subscript assignment with key of type `tuple[Unknown, Unknown | Literal[\"NOUN\"]]` and value of type `dict[Unknown, NativeSense]` on object of type `dict[str, dict[str, NativeSense]]`\n   --> GSE/symbolic/lexical_grounding.py:215:9\n    |\n215 |         self._by_lemma[key] = results\n    |         ^^^^^^^^^^^^^^^---^^^^^^^^^^^\n    |                        |\n    |                        Expected key of type `str`, got `tuple[Unknown, Unknown | Literal[\"NOUN\"]]`\n\nFound 2 diagnostics\n GSE/api/encoder.py                                 |  56 +++-\n GSE/symbolic/grounding.py                          |   6 +-\n GSE/symbolic/lexical_grounding.py                  | 195 +++++++++++-\n scripts/audit_lexicon_runtime.py                   |  50 ++++\n scripts/audit_lexicon_sentences.py                 | 331 ++++++++++++++++++++-\n tests/test_audit_lexicon_sentences.py              | 142 ++++++++-\n ...test_lexicon_builder_grammatical_definitions.py |  47 +++\n 7 files changed, 803 insertions(+), 24 deletions(-)\n"
+}

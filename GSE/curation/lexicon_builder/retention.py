@@ -3,7 +3,9 @@
 import gzip
 import json
 import os
+import re
 import sqlite3
+import subprocess
 from contextlib import closing
 from hashlib import file_digest, sha256
 from pathlib import Path
@@ -38,6 +40,58 @@ def _identity(path):
     return {"device": stat.st_dev, "inode": stat.st_ino, "logical_bytes": stat.st_size, "mtime_ns": stat.st_mtime_ns}
 
 
+def no_open_handles(path):
+    """Use the existing local-file handle instrument; incomplete scans abstain."""
+    result = subprocess.run(["lsof", "-nP", "-f", "-Fpn", "--", str(path)], capture_output=True, text=True)
+    if result.returncode != 1 or result.stdout:
+        raise ValueError("CHECKPOINT_OPEN_HANDLE_CHECK_FAILED:" + str(path))
+    warning = None
+    if result.stderr:
+        diagnostic = re.fullmatch(
+            r"lsof: WARNING: can't stat\(\) smbfs file system (?P<mount>/Volumes/\.timemachine/[^\n]+)\n"
+            r'      Output information may be incomplete.\n      assuming "dev=(?P<device>[0-9a-fA-F]+)" from mount table\n',
+            result.stderr,
+        )
+        if diagnostic is None:
+            raise ValueError("CHECKPOINT_OPEN_HANDLE_CHECK_FAILED:" + str(path))
+        mount = Path(diagnostic["mount"])
+        device = int(diagnostic["device"], 16)
+        if path.absolute().is_relative_to(mount) or path.stat().st_dev == device:
+            raise ValueError("CHECKPOINT_ON_UNINSPECTED_NETWORK_FILESYSTEM")
+        warning = {"code": "UNRELATED_INACCESSIBLE_SMB_MOUNT", "path": str(mount), "device": device}
+    return {"code": "NO_OPEN_LOCAL_FILE_MATCHES", "stderr": result.stderr, "unrelated_mount": warning}
+
+
+def _verify_retirement_witness(active, expected_sha256, learning_state):
+    if learning_state is None:
+        if resolve_lexicon_path().resolve() != active.resolve():
+            raise ValueError("RETIREMENT_ACTIVE_WITNESS_CHANGED")
+    else:
+        head = learning_state.head()
+        if Path(head["candidate"]).resolve() != active.resolve() or head["candidate_sha256"] != expected_sha256:
+            raise ValueError("RETIREMENT_WORKING_HEAD_CHANGED")
+    if _fingerprint(active) != expected_sha256:
+        raise ValueError("RETIREMENT_ACTIVE_WITNESS_CHANGED")
+
+
+def _verify_learning_retirement(source, learning_state):
+    """A working-head witness can retire only its ledger's owned phase files."""
+    owner = learning_state.path.parent.absolute()
+    if source.parent.parent != owner or source.name not in {"teaching.db", "candidate.db"}:
+        raise ValueError("RETIREMENT_NOT_OWNED_LEARNING_STAGE")
+    if source.parent.is_symlink() or source.parent.name not in {
+        f"epoch-{row['epoch']:02d}" for row in learning_state.head_history()
+    }:
+        raise ValueError("RETIREMENT_NOT_OWNED_LEARNING_STAGE")
+    expected = {
+        row["path"]: row["sha256"] for transition in learning_state.head_history() for row in transition["staging"]
+    }.get(str(source))
+    if expected is None or source.exists() and (_fingerprint(source) != expected or source.stat().st_nlink != 1):
+        raise ValueError("RETIREMENT_LEARNING_STAGE_CHANGED_OR_ALIASED")
+    if source.resolve() == resolve_lexicon_path().resolve():
+        raise ValueError("RETIREMENT_PROTECTS_ACTIVE_AND_ROLLBACK")
+
+
 def _stream(connection, query, parameters=()):
     digest, count = sha256(), 0
     for row in connection.execute(query, parameters):
@@ -46,6 +100,53 @@ def _stream(connection, query, parameters=()):
         digest.update(payload)
         count += 1
     return {"rows": count, "sha256": digest.hexdigest()}
+
+
+def retire_learning_stages(learning, opening, opening_sha256):
+    """Bound owned phase DBs after a durable head CAS, retaining all audit deltas.
+
+    The opening source remains pinned and is never owned by this operation.
+    Historical retirement receipts are self-contained: later heads need not
+    preserve the former witness database just to resume an earlier unlink.
+    """
+    head = learning.head()
+    active = Path(head["candidate"]).absolute()
+    results = []
+    for transition in learning.head_history():
+        for stage in transition["staging"]:
+            source = Path(stage["path"])
+            if source.absolute() == active:
+                continue
+            receipt_path = source.with_suffix(".retirement.json")
+            archive_path = source.with_suffix(".audit.json.gz")
+            if receipt_path.exists():
+                receipt = json.loads(receipt_path.read_text())
+                if (
+                    source.exists()
+                    or receipt.get("path") != str(source.absolute())
+                    or receipt.get("sha256") != stage["sha256"]
+                    or receipt.get("audit_archive") != str(archive_path)
+                    or _fingerprint(archive_path) != receipt.get("archive_sha256")
+                ):
+                    raise ValueError("LEARNING_RETIREMENT_RECEIPT_CHANGED")
+                results.append(receipt)
+                continue
+            # A crash after unlink leaves an intent whose original witness
+            # might be an earlier head. Finish it before starting another epoch.
+            results.append(
+                retire_snapshot(
+                    source,
+                    active,
+                    opening,
+                    expected_sha256=head["candidate_sha256"],
+                    previous_sha256=opening_sha256,
+                    archive_path=archive_path,
+                    receipt_path=receipt_path,
+                    handle_check=no_open_handles,
+                    learning_state=learning,
+                )
+            )
+    return results
 
 
 def retire_snapshot(
@@ -59,6 +160,7 @@ def retire_snapshot(
     receipt_path,
     handle_check,
     new_context_ids=(),
+    learning_state=None,
 ):
     """Preserve complete native streams and every unique non-derived row.
 
@@ -72,8 +174,9 @@ def retire_snapshot(
     archive_path, receipt_path = Path(archive_path), Path(receipt_path)
     if source.is_symlink() or source.resolve() in {active.resolve(), previous.resolve()}:
         raise ValueError("RETIREMENT_PROTECTS_ACTIVE_AND_ROLLBACK")
-    if resolve_lexicon_path().resolve() != active.resolve() or _fingerprint(active) != expected_sha256:
-        raise ValueError("RETIREMENT_ACTIVE_WITNESS_CHANGED")
+    if learning_state is not None:
+        _verify_learning_retirement(source, learning_state)
+    _verify_retirement_witness(active, expected_sha256, learning_state)
     if previous.is_symlink() or not previous.is_file() or _fingerprint(previous) != previous_sha256:
         raise ValueError("RETIREMENT_ROLLBACK_MISSING_OR_CHANGED")
     if receipt_path.exists():
@@ -181,8 +284,7 @@ def retire_snapshot(
         raise ValueError("RETIREMENT_SOURCE_CHANGED")
     if any(Path(str(source) + suffix).exists() for suffix in ("-wal", "-shm", "-journal")):
         raise ValueError("RETIREMENT_HAS_SIDECAR")
-    if resolve_lexicon_path().resolve() != active.resolve() or _fingerprint(active) != expected_sha256:
-        raise ValueError("RETIREMENT_ACTIVE_WITNESS_CHANGED")
+    _verify_retirement_witness(active, expected_sha256, learning_state)
     if _fingerprint(previous) != previous_sha256:
         raise ValueError("RETIREMENT_ROLLBACK_MISSING_OR_CHANGED")
     result = {

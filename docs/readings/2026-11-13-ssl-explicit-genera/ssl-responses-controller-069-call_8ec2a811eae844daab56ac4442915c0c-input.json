@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-prime-admission-units -- .venv/bin/python - <<'PY'\nimport json,ast\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nd=json.loads((p/'ssl-api-coverage-prime-demand-crosswalk.json').read_text())\nfor c in d['cases']:\n print('CASE KEYS',list(c));break\nfor c in d['cases']:\n if any(v in ['good','bad','big','small','have','here','above','before'] for v in c.values() if isinstance(v,str)):\n  print(json.dumps(c,indent=2))\nfor f in ['GSE/curation/lexicon_builder/rule_admission.py','GSE/curation/lexicon_builder/anchors.py']:\n q=Path(f);print('\\n###',f);print(q.read_text() if q.exists() else 'NOT PRESENT')\nprint('\\n### teaching log');q=p/'ssl-api-controller-teaching.log';print(q.read_text())\nprint('\\n### tracked status')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

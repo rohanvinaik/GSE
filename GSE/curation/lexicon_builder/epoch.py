@@ -441,7 +441,22 @@ def forecast(rows, rules, proposals):
             or issues
             or any(new.assignments.get(k) != v for k, v in retained.assignments.items())
         ):
-            conflicts.append({"entry_id": identity, "issues": issues, "conflicts": new.conflicts})
+            conflicts.append(
+                {
+                    "code": "CONDITIONAL_CONFLICT" if issues else "HARD_CONTRADICTION",
+                    "entry_id": identity,
+                    "definition": {key: getattr(definition, key) for key in ("entry_id", "lemma", "pos", "definition")},
+                    "observation": observation,
+                    "context": scope,
+                    "issues": issues,
+                    "conflicts": new.conflicts,
+                    "retained_domains": _domains(retained),
+                    "proposed_domains": _domains(new),
+                    "retained_derivations": retained.trace,
+                    "proposed_derivations": new.trace,
+                    "remedy": "REVIEW_IDENTITY_PROJECTION_CONDITION_OR_EXACT_EXCEPTION",
+                }
+            )
             continue
         before_space, after_space = measure_resolution(retained), measure_resolution(new)
         delta = space_delta(before_space, after_space)
@@ -664,22 +679,43 @@ class EpochTransportRefusal(RuntimeError):
 class JournaledTransport:
     """Charge a typed question before execution, then replay the recorded reply."""
 
-    def __init__(self, transport, directory, label, limit, lock_path):
+    def __init__(self, transport, directory, label, limit, lock_path, *, context_store=None):
         self.transport = transport
         self.identity = transport.identity
         self.directory = directory
         self.label = label
         self.limit = limit
         self.lock_path = lock_path
+        self.context_store = context_store
 
     def __call__(self, payload, schema):
         request_id = _request_id(payload)
         stem = self.label + "-" + request_id
         intent, result = (self.directory / (stem + suffix + ".json") for suffix in (".intent", ".result"))
         expected = {"request_id": request_id, "transport": self.identity, "schema": schema}
-        if result.exists():
-            if read(intent) != expected:
+        if intent.exists():
+            saved = read(intent)
+            if (
+                type(saved) is not dict
+                or set(saved) not in (set(expected), set(expected) | {"request_archive"})
+                or {key: saved[key] for key in expected} != expected
+            ):
                 raise ValueError("EPOCH_QUESTION_IDENTITY_CHANGED")
+            if "request_archive" in saved:
+                if self.context_store is None:
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_REQUIRED")
+                archived = self.context_store.request(saved["request_archive"])
+                if (
+                    archived["request_id"] != request_id
+                    or archived["transport"] != self.identity
+                    or archived["schema"] != schema
+                ):
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_CHANGED")
+            elif self.context_store is not None:
+                raise ValueError("EPOCH_QUESTION_ARCHIVE_MISSING")
+        elif result.exists():
+            raise ValueError("EPOCH_QUESTION_INTENT_MISSING")
+        if result.exists():
             response = read(result)
             if "raw_output" not in response:
                 raise ModelTransportError(response["code"])
@@ -690,6 +726,11 @@ class JournaledTransport:
             raise EpochTransportRefusal("EPOCH_MODEL_BUDGET_EXHAUSTED")
         with self.lock_path.open("a") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
+            if self.context_store is not None:
+                expected = {
+                    **expected,
+                    "request_archive": self.context_store.archive_request(payload, schema, self.identity),
+                }
             record(intent, expected)
             try:
                 raw = self.transport(payload, schema)
@@ -781,8 +822,8 @@ def teach(base, working, selected, family, transport, directory):
             working,
             transport,
             1,
-            entry_ids=(identity,),
-            banks=(bank,),
+            entry_bank_questions=((identity, bank),),
+            continue_cohorts=True,
             max_calls_per_entry=1,
             max_entries_per_pass=1,
             priority="zipf",
@@ -819,7 +860,7 @@ def teach(base, working, selected, family, transport, directory):
     return result
 
 
-def reviewed_input(candidate, family, selected, taught):
+def reviewed_input(candidate, family, selected, taught, *, prefix_reviews=()):
     warrant = family.warrant
     selection = {
         "format": "GSE.reviewed-pattern-selection/1",
@@ -837,10 +878,21 @@ def reviewed_input(candidate, family, selected, taught):
                     "source_refs": warrant["source_refs"],
                     "rationale": warrant["statement"],
                 },
-            }
+            },
+            *prefix_reviews,
         ],
     }
-    return export_reviewed_input(candidate, selection)["input"]
+    exported = export_reviewed_input(candidate, selection)
+    # Explicit reviews of the exact prior model prefix are required. A new
+    # law's warrant is not independent review of arbitrary earlier answers.
+    target = next((row for row in exported["inventory"] if row["request_id"] == taught["request_id"]), None)
+    if target is None:
+        raise ValueError("LEARNING_TEACHING_RECEIPT_NOT_ACTIVE")
+    reviewed = {row["request_id"] for row in selection["reviews"]}
+    required = set(target["dependency_request_ids"])
+    if not required <= reviewed:
+        raise ValueError("LEARNING_MODEL_PREFIX_REVIEW_REQUIRED:" + ",".join(sorted(required - reviewed)))
+    return exported["input"]
 
 
 def pair_discovery(raw, family):
@@ -997,6 +1049,8 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
     dynamic = curriculum(plan)
     if policy not in POLICIES:
         raise ValueError("INVALID_EPOCH_POLICY")
+    if fingerprint(baseline) != plan["baseline_sha256"] or fingerprint(active_pointer) != plan["active_pointer_sha256"]:
+        raise ValueError("EPOCH_FROZEN_INPUT_MISMATCH")
     directory.mkdir(exist_ok=True)
     priority, frequencies = _priority_source("zipf", None)
     configuration = {
@@ -1012,8 +1066,8 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
 
         configuration["learning_protocol"] = {
             "files": {
-                name: fingerprint(Path(__file__).with_name(name))
-                for name in ("epoch.py", "learning_state.py", "learning_curriculum.py", "learning_refinement.py")
+                str(path.relative_to(Path(__file__).parents[2])): fingerprint(path)
+                for path in (*sorted(Path(__file__).parent.glob("*.py")), Path(__file__).parents[2] / "namespace.py")
             },
             "guard_imputer": provider_identity(),
         }
@@ -1033,6 +1087,12 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
             raise ValueError("EPOCH_RESULT_SNAPSHOT_CHANGED")
         return result
     learning = LearningState(directory / "learning.sqlite", configuration)
+    if dynamic:
+        learning.initialize_head(baseline, plan["baseline_sha256"])
+        head = learning.head()
+        if fingerprint(Path(head["candidate"])) != head["candidate_sha256"]:
+            raise ValueError("LEARNING_WORKING_HEAD_CHANGED")
+    completed = {row["epoch"]: row for row in learning.epochs()} if dynamic else {}
     for item in plan["families"]:
         family = families[item["id"]]
         identity = learning.propose(family.relation(), {"warrant": family.warrant}, origin="DECLARED_CURRICULUM")
@@ -1076,7 +1136,13 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
         phase.mkdir(exist_ok=True)
         finished = phase / "result.json"
         outcome: dict[str, Any]
-        if finished.exists():
+        if epoch in completed:
+            # Historical phase databases may already have been retired. The
+            # content-addressed ledger, not their old byte paths, is authority.
+            outcome = completed[epoch]
+            if finished.exists() and read(finished) != outcome:
+                raise ValueError("LEARNING_EPOCH_FILE_CHANGED")
+        elif finished.exists():
             outcome = read(finished)
         else:
             pick_file = phase / "selection.json"
@@ -1085,7 +1151,14 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
             if pick_file.exists():
                 selected = read(pick_file)
             else:
-                selected = (
+                if dynamic:
+                    from .learning_feedback import refresh_intake, revision_choice
+
+                    refresh_intake(directory, learning)
+                    selected = revision_choice(base, learning)
+                else:
+                    selected = None
+                selected = selected or (
                     reviewed_choice(base, learning, families, inventory, done | challenged, policy, frequencies)
                     if dynamic
                     else None
@@ -1106,7 +1179,7 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
                     attempted = {
                         (report["selected"]["entry_id"], report["selected"]["bank"])
                         for report in reports
-                        if report.get("selected")
+                        if report.get("selected", {}).get("entry_id")
                     }
                     selected = choose_open(base, plan, inventory, families, attempted, policy, frequencies)
             if selected is None and dynamic and learning.pending():
@@ -1123,17 +1196,55 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
                 outcome = {"code": "NO_ELIGIBLE_QUESTION", "epoch": epoch, "candidate": str(base)}
             else:
                 outcome = run_epoch(
-                    plan, base, phase, inventory, everyone, families, selected, admitted, transport, lock_path
+                    plan,
+                    base,
+                    phase,
+                    inventory,
+                    everyone,
+                    families,
+                    selected,
+                    admitted,
+                    transport,
+                    lock_path,
+                    question_store=learning if dynamic else None,
                 )
                 outcome["epoch"] = epoch
             outcome["candidate_sha256"] = fingerprint(Path(outcome["candidate"]))
             record(finished, outcome)
-        learning.record_epoch(epoch, outcome)
+        if dynamic:
+            if epoch not in completed:
+                current = learning.head()
+                candidate = Path(outcome["candidate"])
+                if fingerprint(candidate) != outcome["candidate_sha256"]:
+                    raise ValueError("LEARNING_WORKING_HEAD_CHANGED")
+                staging = [
+                    {"path": str(path.absolute()), "sha256": fingerprint(path)}
+                    for name in ("teaching.db", "candidate.db")
+                    if (path := phase / name).is_file()
+                ]
+                learning.advance_head(
+                    outcome,
+                    {
+                        "format": "GSE.lexicon-learning-transition/1",
+                        "epoch": epoch,
+                        "prior_head": current,
+                        "candidate": outcome["candidate"],
+                        "candidate_sha256": outcome["candidate_sha256"],
+                        "outcome_sha256": digest(outcome),
+                        "staging": staging,
+                    },
+                )
+        else:
+            learning.record_epoch(epoch, outcome)
         retain_discoveries(learning, outcome)
+        if dynamic:
+            from .learning_feedback import retain_feedback
+
+            retain_feedback(learning, outcome)
         base = Path(outcome["candidate"])
-        if fingerprint(base) != outcome["candidate_sha256"]:
+        if (not dynamic or epoch == learning.head()["epoch"]) and fingerprint(base) != outcome["candidate_sha256"]:
             raise ValueError("EPOCH_RESULT_SNAPSHOT_CHANGED")
-        if outcome.get("selected"):
+        if outcome.get("selected", {}).get("entry_id"):
             lemma = everyone[outcome["selected"]["entry_id"]]["lemma"].casefold()
             used.update(_sense_group(row) for row in everyone.values() if row["lemma"].casefold() == lemma)
         if outcome["code"] == "RULE_ADMITTED":
@@ -1171,7 +1282,21 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
                 "AWAITING_AUDIT_REVIEW" if outcome["code"] == "RULE_WITHHELD_INDEPENDENT_AUDIT" else "NEEDS_REFINEMENT",
                 {"epoch": epoch, "code": outcome["code"], "outcome_sha256": digest(outcome)},
             )
+        elif outcome["code"] == "RULE_AWAITING_MODEL_PREFIX_REVIEW":
+            learning.disposition(
+                mechanism_id(families[outcome["selected"]["family"]].relation()),
+                "AWAITING_PREFIX_REVIEW",
+                {"epoch": epoch, "reason": outcome["reason"]},
+            )
+        if outcome.get("selected", {}).get("task") == "REVIEWED_RULE_REVISION":
+            learning.finish_work(
+                outcome["selected"]["work_sha256"], {"epoch": epoch, "outcome_sha256": digest(outcome)}
+            )
         reports.append(outcome)
+        if dynamic and epoch == learning.head()["epoch"]:
+            from .retention import retire_learning_stages
+
+            retire_learning_stages(learning, baseline, plan["baseline_sha256"])
         print(
             json.dumps(
                 {
@@ -1261,12 +1386,23 @@ def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transp
     return read(report_path)
 
 
-def learn_reviewed_rule(plan, working, output, phase, inventory, families, selected, taught, auditing):
+def learn_reviewed_rule(
+    plan, working, output, phase, inventory, families, selected, taught, auditing, *, prefix_reviews=()
+):
     """Discover and independently audit the proposed rule after confirming teaching."""
     family = families[selected["family"]]
     outcome = {"code": "RULE_WITHHELD", "candidate": str(working)}
     raw_file = phase / "reviewed-input.json"
-    raw = read(raw_file) if raw_file.exists() else reviewed_input(working, family, selected, taught)
+    try:
+        raw = (
+            read(raw_file)
+            if raw_file.exists()
+            else reviewed_input(working, family, selected, taught, prefix_reviews=prefix_reviews)
+        )
+    except ValueError as error:
+        if str(error).startswith(("LEARNING_MODEL_PREFIX_REVIEW_REQUIRED:", "LEARNING_TEACHING_RECEIPT_NOT_ACTIVE")):
+            return {**outcome, "code": "RULE_AWAITING_MODEL_PREFIX_REVIEW", "reason": str(error)}
+        raise
     record(raw_file, raw)
     grounding, observed = epoch_discovery(raw, family, families)
     record(phase / "grounded-discovery.json", grounding)
@@ -1277,6 +1413,7 @@ def learn_reviewed_rule(plan, working, output, phase, inventory, families, selec
     record(phase / "staged.json", staged)
     if staged["contradictions"]:
         outcome["code"] = "RULE_WITHHELD_SCOPE_CONTRADICTION"
+        outcome["scope_surprises"] = staged["contradictions"]
     elif staged["progress_code"] == "CONTRACTION":
         audit_file = phase / "audit.json"
         audited = (
@@ -1297,8 +1434,15 @@ def learn_reviewed_rule(plan, working, output, phase, inventory, families, selec
     return outcome
 
 
-def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitted, transport, lock_path):
+def run_epoch(
+    plan, base, phase, inventory, everyone, families, selected, admitted, transport, lock_path, *, question_store=None
+):
     from .learning_curriculum import discover_teaching
+
+    if selected.get("task") == "REVIEWED_RULE_REVISION":
+        from .learning_feedback import apply_revision
+
+        return apply_revision(base, phase, selected)
 
     family = families.get(selected["family"])
     parents = premise_dependencies(base, everyone, selected, admitted)
@@ -1308,8 +1452,10 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
         "candidate": str(base),
         "premise_depends_on": parents,
     }
-    teaching = JournaledTransport(transport, phase, "teach", 1, lock_path)
-    auditing = JournaledTransport(transport, phase, "audit", plan["audits_per_epoch"], lock_path)
+    teaching = JournaledTransport(transport, phase, "teach", 1, lock_path, context_store=question_store)
+    auditing = JournaledTransport(
+        transport, phase, "audit", plan["audits_per_epoch"], lock_path, context_store=question_store
+    )
     working, output = (phase / name for name in ("teaching.db", "candidate.db"))
     if selected.get("reviewed_teaching"):
         working = base
@@ -1356,8 +1502,27 @@ def run_epoch(plan, base, phase, inventory, everyone, families, selected, admitt
             record(phase / "teaching-counterexample.json", surprise)
             outcome.update(code="RULE_CHALLENGED_BY_TEACHING", surprise=surprise)
         else:
+            prefix_reviews = selected.get("prefix_reviews", ())
+            if question_store is not None:
+                prefix_reviews = [
+                    {"request_id": row["payload"]["receipt"]["request_id"], "review": row["payload"]["review"]}
+                    for row in question_store.work(kind="MODEL_PREFIX_REVIEW", disposition="READY")
+                    if row["payload"]["receipt"]["entry_id"] == selected["entry_id"]
+                    and row["payload"]["receipt"]["request_id"] != taught["request_id"]
+                ]
             outcome.update(
-                learn_reviewed_rule(plan, working, output, phase, inventory, families, selected, taught, auditing)
+                learn_reviewed_rule(
+                    plan,
+                    working,
+                    output,
+                    phase,
+                    inventory,
+                    families,
+                    selected,
+                    taught,
+                    auditing,
+                    prefix_reviews=prefix_reviews,
+                )
             )
             if outcome["code"] == "RULE_WITHHELD_INDEPENDENT_AUDIT" and plan.get("curriculum"):
                 from .learning_refinement import propose_refinements

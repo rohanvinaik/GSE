@@ -1,0 +1,147 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.7, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/GSE
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 172 items
+
+tests/test_lexicon_epoch.py ............................................ [ 25%]
+........................................................................ [ 67%]
+.......................F...                                              [ 83%]
+tests/test_lexicon_learning_state.py ...........                         [ 89%]
+tests/test_lexicon_specification_space.py ..................             [100%]
+
+=================================== FAILURES ===================================
+_______ test_resolved_frequent_word_does_not_hide_the_open_bank_frontier _______
+
+tmp_path = PosixPath('/private/var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/pytest-of-rohanvinaik/pytest-55670/test_resolved_frequent_word_do0')
+
+    def test_resolved_frequent_word_does_not_hide_the_open_bank_frontier(tmp_path):
+        from GSE.curation.lexicon_builder.learning_curriculum import choose_open
+    
+>       base, _, plan, inventory = open_curriculum_inputs(tmp_path, resolved_alpha=True)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_lexicon_epoch.py:1157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_lexicon_epoch.py:1028: in open_curriculum_inputs
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+bundle = EvidenceBundle(definitions=(Definition(entry_id='wordnet:alpha:alpha.n.01', lemma='alpha', pos='noun', definition='Syn...tity', record_id='wordnet:alpha:alpha.n.01', family='anchor', scope='lexical')), unresolved=(), domain_restrictions=())
+output = PosixPath('/private/var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/pytest-of-rohanvinaik/pytest-55670/test_resolved_frequent_word_do0/open-base.db')
+manifest = None, transport = None, max_model_calls = 0, weights = {}
+discover = False, requested_words = None
+
+    def build_dictionary(
+        bundle: EvidenceBundle,
+        output: str | Path,
+        *,
+        manifest=None,
+        transport=None,
+        max_model_calls: int = 0,
+        weights=None,
+        discover: bool = False,
+        requested_words: tuple[str, ...] | None = None,
+    ) -> dict:
+        """Propagate every definition, optionally complete bounded residuals, then store.
+    
+        The active lexicon is never overwritten through an implicit migration. The
+        destination must be a new database or an existing versioned builder database.
+        """
+        if type(max_model_calls) is not int or max_model_calls < 0:
+            raise ValueError("INVALID_MODEL_BUDGET")
+        if not isinstance(bundle, EvidenceBundle):
+            raise ValueError("INVALID_EVIDENCE_BUNDLE")
+        for values, kind in (
+            (bundle.definitions, Definition),
+            (bundle.observations, Observation),
+            (bundle.assertions, Assertion),
+            (bundle.domain_restrictions, DomainRestriction),
+        ):
+            if not isinstance(values, tuple) or any(not isinstance(value, kind) for value in values):
+                raise ValueError("INVALID_EVIDENCE_BUNDLE")
+            for value in values:
+                value.__post_init__()
+        if not isinstance(bundle.unresolved, tuple):
+            raise ValueError("INVALID_SOURCE_DIAGNOSTICS")
+        for record in bundle.unresolved:
+            if not isinstance(record, dict) or not isinstance(record.get("code"), str):
+                raise ValueError("INVALID_SOURCE_DIAGNOSTIC")
+            _json(record)
+        if weights is not None and not isinstance(weights, dict):
+            raise ValueError("INVALID_FREQUENCY_WEIGHTS")
+        weights = {} if weights is None else weights
+        extra_relations, anchors, hierarchy = load_manifest(manifest)
+        representation = representation_contract()
+        authored_definitions, prime_entries = load_manifest_extensions(manifest)
+        relations = projection_relations() + extra_relations
+        # Validate even an empty corpus, before creating an output database.
+        propagate(BANKS, (), relations)
+        ancestry_guards = validate_lexical_guards(relations)
+        native_lemma_guard = any(key == "wordnet_native_lemma" for rule in relations for key, _ in rule.guards)
+        definitions = {d.entry_id: d for d in bundle.definitions}
+        if len(definitions) != len(bundle.definitions):
+            raise ValueError("DUPLICATE_DEFINITION_ID")
+        if requested_words is not None and (
+            not isinstance(requested_words, tuple)
+            or any(not isinstance(word, str) or not word.strip() for word in requested_words)
+        ):
+            raise ValueError("INVALID_REQUESTED_WORDS")
+        worklist = sorted(
+            {word.strip().lower() for word in requested_words}
+            if requested_words is not None
+            else {definition.lemma.strip().lower() for definition in bundle.definitions}
+        )
+        authored_ids = set()
+        for definition in authored_definitions:
+            if definition.entry_id in authored_ids:
+                raise ValueError("DUPLICATE_MANIFEST_DEFINITION")
+            authored_ids.add(definition.entry_id)
+            if definition.entry_id in definitions and definition != definitions[definition.entry_id]:
+                raise ValueError("MANIFEST_DEFINITION_ID_COLLISION")
+            definitions[definition.entry_id] = definition
+        if set(weights) - definitions.keys():
+            raise ValueError("UNKNOWN_WEIGHT_DEFINITION")
+        if (set(anchors) | set(hierarchy)) - definitions.keys():
+            raise ValueError("UNKNOWN_MANIFEST_DEFINITION")
+        from .catalog import SENTENCE_DURATION_SOURCE_RECORD, catalog_report
+    
+        links, observations, record_ids = {}, defaultdict(list), {}
+        relevance_by_entry = {}
+        for observation in bundle.observations:
+            relevance = observation_relevance(observation)
+            if observation.entry_id is not None and observation.entry_id not in definitions:
+                raise ValueError("UNKNOWN_OBSERVATION_DEFINITION")
+            key = (observation.source, observation.record_id)
+            if observation.record_id in record_ids and record_ids[observation.record_id] != observation:
+                raise ValueError("SOURCE_RECORD_ID_COLLISION")
+            record_ids[observation.record_id] = observation
+            if key in links and links[key] != observation:
+                raise ValueError("AMBIGUOUS_RECORD_LINK")
+            links[key] = observation
+            targets = (observation.entry_id,) if observation.entry_id is not None else observation.candidate_entry_ids
+            for target in targets:
+                if target not in definitions:
+                    raise ValueError("UNKNOWN_CANDIDATE_DEFINITION")
+                if transport is not None or (
+                    (ancestry_guards or native_lemma_guard) and observation.source == "wordnet_hierarchy"
+                ):
+                    observations[target].append(observation)
+                previous = relevance_by_entry.get(target, frozenset())
+                if len(previous) < len(BANKS):
+                    relevance_by_entry[target] = previous | relevance
+        assertions_by_entry = defaultdict(list)
+        restrictions_by_entry = defaultdict(list)
+        for assertion in bundle.assertions + bundle.domain_restrictions:
+            validate_assertion_competence(assertion)
+            observation = links.get((assertion.source, assertion.record_id))
+            if observation is None or observation.entry_id is None:
+>               raise ValueError("ASSERTION_REQUIRES_EXACT_DEFINITION_LINK")
+E               ValueError: ASSERTION_REQUIRES_EXACT_DEFINITION_LINK
+
+GSE/curation/lexicon_builder/pipeline.py:199: ValueError
+- generated xml file: /Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-5.xml -
+=========================== short test summary info ============================
+FAILED tests/test_lexicon_epoch.py::test_resolved_frequent_word_does_not_hide_the_open_bank_frontier
+======================== 1 failed, 171 passed in 21.12s ========================

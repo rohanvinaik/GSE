@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-instruments -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nroot=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents')\nfor f,heads in [('SIGNIFICANCE_WEIGHTING.md',['## 7.','## 7b.','## 13.','## 14.']),('LLM_WORKFLOW/SEMANTIC_CONSTRUCTION_WORKFLOW.md',['## Purpose','## What','## 2.','## 3.','## 4.','## 5.','## 6.','## 7.','## 8.','## 9.','## 10.','## 11.','## 12.'])]:\n s=(root/f).read_text(); lines=s.splitlines();starts=[i for i,l in enumerate(lines) if l.startswith('## ')];print('\\n===',f,'===')\n for a,b in zip(starts,starts[1:]+[len(lines)]):\n  if any(lines[a].startswith(h) for h in heads):print('\\n'.join(lines[a:b]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

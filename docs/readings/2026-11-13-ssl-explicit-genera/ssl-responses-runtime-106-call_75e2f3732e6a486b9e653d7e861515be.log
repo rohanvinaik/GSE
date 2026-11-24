@@ -1,0 +1,70 @@
+def test_finite_two_sided_audit_is_not_whole_common_form_label_requirement(tmp_path, failure):
+    """Synthetic loader fixtures, never production semantic certificates."""
+    import hashlib
+    import json
+
+    artifacts = []
+
+    def save(name, value):
+        path = tmp_path / name
+        path.write_text(json.dumps(value))
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        artifacts.append({"path": name, "sha256": digest})
+        return digest
+
+    frequency = save("frequency.json", {"the": 100})
+    corpus = save("corpus.json", {"the": 101})
+    counts = {
+        "common_forms": ["the", "teacher", "tree"],
+        "frequency_source_sha256": frequency,
+        "corpus_source_sha256": corpus,
+        "frequency_counts": {"the": 100},
+        "corpus_genres": {"news": {"the": 101}},
+        "denominator_rules": "all tokens",
+        "exclusions": [],
+    }
+    count_digest = save("counts.json", counts)
+    scope_digest = save(
+        "scope.json",
+        {
+            "format": "GSE.checkpoint-workload-scope-freeze/1",
+            "token_demand_sha256": count_digest,
+            "operations": {"lexical": "all banks", "inference": "exact claims"},
+        },
+    )
+    audit = {
+        "code": "PASSED",
+        "lexicon_sha256": "lexicon",
+        "command": "synthetic loader unit test only",
+        "exit_code": 0,
+        "audited_forms": ["teacher", "unranked-anatomy-form"],
+        "known_wrong": 0,
+        "missing_required": 0,
+        "checks": dict.fromkeys(
+            ["positive", "must_not", "missing_sign", "source_warrants", "morphology", "pos_roles", "tail_strata", "genre_strata"],
+            "PASSED",
+        ),
+    }
+    if failure == "must_not":
+        audit["checks"]["must_not"] = "FAILED"
+    elif failure:
+        audit[failure] = 1
+    gate_digest = save("audit.json", audit)
+    manifest = {
+        "artifacts": artifacts,
+        "token_demand": {**counts, "counts_receipt_sha256": count_digest},
+        "scope_freeze_sha256": scope_digest,
+        "operations": [{"id": "lexical"}, {"id": "inference"}],
+        "gates": {"two_sided_semantic_audit": {"code": "PASSED", "lexicon_sha256": "lexicon", "receipt_sha256": gate_digest}},
+    }
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest))
+    if failure:
+        with pytest.raises(ValueError, match="CHECKPOINT_TWO_SIDED_AUDIT_INCOMPLETE"):
+            load_workload(path)
+    else:
+        assert load_workload(path) == manifest
+PARSE REPAIR REFERENCES
+GSE/api/native_repair.py [(101, 'Load')]
+GSE/api/encoder.py [(351, 'Load')]
+tests/test_symbolic_expression.py [(306, 'Load'), (300, 'Load')]

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-pattern-boundary -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor file,names in [('reviewed_patterns.py',{'Pattern','guarded_patterns','_relation','_discovery_consequent','stage_pattern','audit_pattern','run_workflow_input','_antecedent_state'}),('rule_admission.py',None)]:\n p=Path('GSE/curation/lexicon_builder')/file;s=p.read_text();print('\\n===',file,'===')\n for n in ast.parse(s).body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and (names is None or n.name in names):print(ast.get_source_segment(s,n)+'\\n\\n')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

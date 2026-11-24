@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-core-read -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nfor f in ['learning_state.py','learning_questions.py','epoch.py']:\n p=Path('GSE/curation/lexicon_builder')/f;s=p.read_text()\n if f=='epoch.py':s=s[:s.index('def census(')]\n print('\\n===',p,'===\\n',s)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795511237,
+  "created_at": 1795511181,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0d66c4c7356128c8006b05538d166487d283a42bb7733800f9",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBVOQ52CzZiTLgInubdi355GQ445NSSu-miqQtG80oRDlV1N7rEiMkYUdTmT_J4tOCQFh0kBE22xbu50Gc_aH2TaKrqKvByL5LAZm_qeGTLTwrT5H09kM2YnverAxaEFdn9PkOoaYg4H8mWJH6h6xN3fh50XbQLjzLRfP7ESddvZqbLP-5fI_Coj32vqCN0oPkNFj9eyriosQZrdNS94fOCa9-Io3w7MZv8MbejvSxqkXXQNS4SP72dD4maqsMvfieUcMeHwBlupqnso2-cP_kUz2U9DZy-hPRfvaB5nManJAkQ3gOjdFCKFmpuBwVBCPsDQ2rtdhwh40Nw87Sdg2-F3q4w00uT2_frMqfRad8isPLTfMfiOePwfrI3ogW8Lh5iBnyR5wKuPq6H3NyIW9Q_7Z5MWeZ-QMT5kFNh8ru3Vmaj3aMDWpwfqBoh-wlG9TJKNFepCJJ9IbOUyxqEYejGkbdCc1mNXBgCAHaMPLZMBKqM4CMq3Y02ApbmzNZ6O0aFtzkRrOJORI7vzozbNsZ6fQx5nm5tXGP1_YXO8_wR7OCV4RT9KWf2NbZ65Kw4A7IKqIBXzXZT5q9ZIQ8rR-jLMOCZ4ejzrChTcyTg-xzlt4Q3r9FJKwGsNuy_7FWFgdFXko_AQhYdIs998KesDsFOlpqe8GcBOA4AwbwvCXtr-hQ9CRHPBzhAJC0C50SgBDF4RL9AxMFguE7irgMb11HTAjYZOxP0Am8pLdY3IrGarQ-SDqnyDY75hclpbzvycMNSBqaVH_eA3IDquAkngG-sDfY12KyN9n5CgI4Hxt2ked2bZnDdFuT-ma650JLqSk_s-pdxZpkhfuxUqvIhX3C3MDvy-N7-Lu2EHGs-yU7cdAGdFd44GtLbjcy4IEoNTs3xyysi8_fO6oGLxB_VaUjuRTfkbSmkTK8zh6JU-3FD75MOrE2sbHpm711weqYeCMnNCo0eXQsuHmM9sxaSlU6CWD-9liUtfh4cbeMk_NUQZ2JaNTbYRv1Sk2Uhc7Enhy6SKoju_sTDvcZT372HoCVX1K3WAVww3ZXik7Q7-DouAbOkfrYYgor0mW7da4_7J0VE1J_PSVaSgz8WCFDFU_I2AXGUi56FhbhPnfM4Wwvj2E-n-4Eo84JcP1R4znkxXKWehYCPt6TPtZ3HBDPxz4UdKQllGaRYk-b9-auWqJIr_aD00jhk3ksTsC-vIRwXZuklapiOwnvAzXdvetRqj3O025Vsz_WnZpLCs_DA2fDZOd7iOOm7nLjQjw3ZscOYbI9syUd7c55tBnfJjSZn58gQgFMffQVrMnfQFocuXwpv2VcX6OyAt_UigvXzkHIqXpD3ACjdild40c8ogAXZpYWfwq5yW2_XABRdqoOReuxGDb3RBH2pDzwqZB1kKqSWmWRhBtyhGMuYzJ7b-PGk9XMGMMjIZXnXZ9rnOVV3XN-oViwjk3VhB3cl8HYXlMD2mlWlhLUpG6HxfqkaSaFM60RNNzZOgDUjNnLdeY8F5HoN3vb5N5KNzoXbQPRCTCCfOfpB-YeLmIFc4SU1jY-rBkXx5HE4Yej5s2un_f9pvOoPlpUef8qORALN_AR9DMFHyiqitm1AtnnExrFZuEQ4x0KWQUrCrI0QCs_M5laq5tGMtLNlCkP8m6kRwUed-4T-9I0kba2VoSvxFq3bl_ZwCBP-uJDBfGJaiEOSW4DJRaSfindSAnWmuWwcFIn9xK9yJ8mfbNRciTbRJdzP_dcGOfTmw8X13e0QO3hcVvBPotA010zW5zZlXW4Zcx-D-uW1_-i5qvHVt3gGM0A1Asq37iebnCJiRukmX4PO7vHvGT5je_GJUAbBkidHi8VY4qEJzTX_KmvNyjM-QhGd_MfHn2vwkktim_JZD4ZtpGzMURlHMrHw0y5q_BD7kNQH1G1ss-6gkyjcYdfOw4oslD_cq3OVeEoTZgWz37CQH34RBKRtJE4behCFSd45kFNTx7d3o0T7Ddgv5b7Qr90y2dIEIgfY4QQeCgyqXqJRnLESidYpJOSNsflcumyukypT7pP61Iu4tseRpVNS0Ivb58YelU0a3oXt4tpSdERXcUGxXuvUDpwJ4hn_WfahPX20sWhdpoZ-CT0N47gyz5Gg5xypPiHzd2OfkzTC-LnyD-xDojwRMCRkCJGtbLMe67VoSXLNAkMJDhwS9APhusWw0t7mpkZgn6o8swQ48_oU2Iq-5vKgD2jpaYgXmJejaApQHRypa2-J4eg6wwW-qwxTGHOARlu_Xk3n2MuIL0HFj-gEZ-Srge2rovLZsEotxzWGo62QpHbDX4Sb8DEmYXjx_JQqMfuQ1DGFFO2X3kZay4qOqA0fF9tvzI3ob4lloIlvxaEQJsAyKX2YOdZR7IyiwEvzn6Hwdnz_0MPFJywnlEhZfJaEGqxLbcHLs7HyyNC_K4-RHcpiXcH7l8HMMRA2kGoMe940X10u4CRW8FaIHE3Bl8rKuiDCeXdD0achLHzbgRdLta7i_tmXWH2NGb-bperDvntKToVokfENbc4H2FUrEdurmfJFd2vjyz7mTuJpgU_IEZ7DhdvKhPKT9X5bpREJCIH5-0VDlJ6vmW7Yw1p9nXOCriw0K4aEJchfWrZcLuAGR-V-2v8sj6AMn3EuTOMIt4_bFjiBJj6pjIEIpmOahDvXE1LOPIEno0bgY-bIpbw1VviQElxhz0PGTqlNdP-8HYqSNjdq_H_gOWmb-LlSRgXRw7zDI9YpIN4V-sWTdRJRaxnhfCjaNf5UszFmBJla8bKSyvfBPmDTRhuintZ4uIZTxqWpI0bNmVrBN1Dzl0Zc8n3cmJVCBeFRpIFwUplWKbjscMhUzoMQnH0gVE29tsHHwIK1_7ksVP9SMVtPanednb0yWdVzCI2WA54vPuqKCpNxJQff-hbEdDfJjTl0eCig_nHcqR7zY1lEPoc1TNxFUMv7n0UKXMfiH75mAIX_0Yw2XVQ72bwTbmUw0sztXO4867hzJmWfjaU_VsKZzNIeo0XVs916zE1ur77eNG9AU85_rwPzpBAdduGkJEgCNsIiGTbZ7ZDTxo9yay3bdLQIhfmEHTd2oIJYbD8TEpaJ3MHBSnG9iALy9oZlRiJrCo1vUbziEA08w66R5d8JrDgh2mqCsXUlqSEkbKC-fqyaU1-AWmZB0EmM9RXynSkhUrdyvHl7J2xt_4i5pgmsZ2gaupiMsyXKwkJhz2dlD7QU6dnD1FKOAxLs5Kbi70UlBdpFo3wDoMqMTR_ychWf7p_cE9okMNSptCYMag8N8oRfQ9Lj8WxJG4Rs5_dm93wIjH2448F1m5iPVoX38z1hO6Qi21ve160b9Pk_1w9dVJeKz98ulZnC-6WUdP-qBWcVNp3p4t44_EDjKvnMinbtQlTk_4KGemQeVglNUOlvI7YYBtYlTE1mnmBqjhsaom27xPAR83xM5LLWI6AmcXCLSZyzI03JdZfUEm3NR6H1HcSYnjamsIqYk8EXHQ6j0_Nu2ra8WKjIhCLZy5FCd2Zid5-GzaUs9z5vUgylFkcpYEebR4h3V9oRZFER7v4MLIEplcC17QAo-sovlvNA48SQqlbHhsXecQFMWvDXs_-AKepPb3ORdfEca2HRluvaUmmwZUIcQ5fXJLHPOiIR-yegMsZ4GM18DA-T4Jo2qEdXnYuGNEGNdeqZQuAFMXHd5H7fx_uqzompLkUoe2fpKiJHVGJR8q_7DzHKY9Y1k-4FNWNW4humEMOm2nqq2mB0kF-_oosV_AC0d5EwrX-MMzP34WNLZEGUwAGgRWSC_qGHEGN8EM4JxPugv0AoelQUHuOiKrE9k1V9XzY6BbjCFy8MR_4GtIT_OXDnZ2VeQg1npzNqYEjWHi7RfxHNGDFIQdvNh6iyhlDzAwBi5eYzUvIt_AlRKfI5_Fvv07XGFDXcw_SCYkN4iJc7bNClAdSdEE7rflU07eWOY84NhmmuolbtPqTEZHPlyALM99H9lis2ozcPqodXD-wVa0Z8DtHW02GRZlqaqjTyCVTrhG7x7au2DKmSSNd6qYssynxBPAIp_Lm4Tp2muBM8fWyiysRE-yXJTA6UQddS744TVcOW_sg69GyGx0hx7fsZGAesBEY4qNsqFimutM64x0NLSJ4b2siVNCqn_ckLXOOydaqc_ZfjZ9YhuW-y67W2yAFmaWVY_RPj38i9KqNXxATZTTKtzxOeFemAvOKAOteavTwahO9m3cyqZhKl0yBl8YcHnEGi3uAmm-Lu7_EDOrmAFYCuu5xM_GPZS38V9CqvGoHzFol7ALGFwl4E8VPCuoRa5TInGI9hkEB7v3ErKMLl4ioMefATJFC6oY0s6Y-Aip0cjUDvUdcysFh9PfUTZvslG763wOmNIrht06biyEMHoSwq-u9IIZRav-BAMgQvpaCHbAGTPpmwde19yoZrHVORBCdfjPOZrxw4qgF4ZON9kNqEuquqFnvXm3GP6JYdfdtaGB4fWCED_-ExZqWHY9gaA7DeOfy9KyMYwWx56J6H4rdb97NfuhVCQuJQNci7ZZHFoW2KUJZrOoUIuWWDroPTMgKdQPf-3nlpNXl8gRTvgZc_NbQ4NJSn5nT-a8aY6ZzfeM8G8lOL-oNky9LyGEySuuTDTaR4U3TJqqTFEeZZqdDqxvDn6h4nguHGb8urO0mSAWjvAKYW_VcLST0ESoaz2ISZ_mRixLhb_LCr4R93OHiv_7CWFTJwLQPdMPjAHyLsn4V4O8DEbKsRAfEKDE9UNmLuQJmWyITwePnFEka55AnGdZ2NtX7FLZhkueGu67Rl-dOqs_1VorTo3ad3x_Lc-KTx2eBmeXmV2RB-OOjTYwtu6qWnTDjuFDtCMdO6jg3dqREe67xmawjMBq0Rt2HqqvcEU9dKx1Kf5AXs6_SY6mSQVFH0wiNh0oCgl9Hym0IJeJK88YLwmvtgG-nz4VRA6Mv6UMsezkGU3F_c7Wo-SOjXtu3G8S3V5qp_owo5pPv5cU6ae_aSSVTrUmKmGDOdxy6y7q1XSkCs9T8Vc7ATzsm7YESXE9IlyNghE2w04LRpMR2EXjWYBvX79IKxzr0VusXRJtJWa50uwO-mNTX0rQv_TBJpq2ysOOPAJJLV4QoiZPCcIjsk90RBLPNnumfFsf-kmYFfx80x3Uas9NJNTTULtxvJmXIe0tOGOu-jZQu0ZW9IwOLnz06hKQS9POMtaWiQZV595Ia2WPSa3ZcCMV5G7iljCFQoJwmbk=",
+      "id": "rs_0d66c4c7356128c8006b055390dbbc87d2b768fb7c4acad48b",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"command\":\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-freeze-receipt -- .venv/bin/python - <<'PY'\\nfrom pathlib import Path\\nfrom datetime import datetime, timezone\\nimport hashlib,json,xml.etree.ElementTree as ET\\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\\nnow=datetime.now(timezone.utc).isoformat()\\ndef sha(f):return hashlib.sha256(Path(f).read_bytes()).hexdigest()\\ndef read(n):return json.loads((p/n).read_text())\\nowned=['GSE/api/encoder.py','GSE/symbolic/lexical_grounding.py','GSE/symbolic/grounding.py','scripts/audit_lexicon_runtime.py','scripts/audit_lexicon_sentences.py','tests/test_runtime_native_identity_controls.py','tests/test_lexicon_builder_grammatical_definitions.py','tests/test_audit_lexicon_sentences.py',str(p/'ssl_api_runtime_workload.py')]\\nactive=read('ssl-api-runtime-active-checkpoint-v2.json'); foundation=read('ssl-api-runtime-foundation-checkpoint-v2.json'); audit=read('ssl-api-runtime-active-audit-v2.json')\\nfreeze=read('ssl-api-runtime-workload-freeze.json')\\ntestpaths=['tests/test_lexicon_builder_runtime.py','tests/test_lexicon_builder_grammatical_definitions.py','tests/test_lexical_grounding_constructions.py','tests/test_lexicon_builder_degree_runtime.py','tests/test_lexicon_builder_grammar_runtime.py','tests/test_audit_lexicon_sentences.py','tests/test_audit_lexicon_runtime.py','tests/test_runtime_native_identity_controls.py','tests/test_claim_semantics.py','tests/test_complete_document_reading.py']\\nsourcepaths=owned\\nprefix='/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label PURPOSE -- '\\ncommands=[{'command':prefix+'env UV_OFFLINE=1 uvx ruff@0.16.10 format '+' '.join(sourcepaths),'exit_code':0,'outcome':'Formatting completed; no pending edits after freeze.'},{'command':prefix+'env UV_OFFLINE=1 uvx ruff@0.16.10 check '+' '.join(sourcepaths),'exit_code':0,'outcome':'All checks passed.'},{'command':prefix+'.venv/bin/python -m pytest -q '+' '.join(testpaths)+' --junitxml='+str(p/'ssl-api-runtime-code-freeze-tests.xml'),'exit_code':0,'outcome':'316 passed in 50.69s','log':'ssl-responses-runtime-073-call_badff75deca2434d8be72c75fc22b5e3.log'},{'command':prefix+'.venv/bin/python scripts/audit_lexicon_runtime.py --lexicon-db data/lexicon_builder/2026-11-12/sparse-release-021.db --sparse --report '+str(p/'ssl-api-runtime-active-audit-v2.json'),'exit_code':0,'outcome':audit['code'],'log':'ssl-responses-runtime-074-call_1c292b3cf29b4622b386efad7d4a0392.log'},{'command':prefix+'env UV_OFFLINE=1 uvx ty check '+' '.join(owned[:5]),'exit_code':1,'outcome':'One pre-existing advisory only: GSE/symbolic/grounding.py:1211:44 genealogy.candidates object not callable. Not type-clean certified.','log':'ssl-responses-runtime-074-call_1c292b3cf29b4622b386efad7d4a0392.log'}]\\nfor arm,db in [('active','data/lexicon_builder/2026-11-12/sparse-release-021.db'),('foundation','data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db')]:\\n commands.append({'command':prefix+'.venv/bin/python -m scripts.audit_lexicon_sentences --lexicon '+db+' --benchmark '+str(p/'ssl-api-runtime-final-cases.json')+' --checkpoint --report '+str(p/f'ssl-api-runtime-{arm}-checkpoint-v2.json'),'exit_code':2,'outcome':'CHECKPOINT_BLOCKED; sparse runtime safety passed; complete workload acceptance manifest missing; per-class semantic failures retained.','log':'ssl-responses-runtime-068-call_dab1f176e701411fa8a4a4c0b89c799c.log','timing_note':'After final encoder changes, before final manifest scope-freeze guard and docstring-only update; no manifest supplied, so new guard does not change these measured results.'})\\nblockers=[{'code':'CRITICAL_IDENTITY_ABSTENTIONS','cases':['final-femur-anatomy','final-teacher-person','control-he-chemical'],'required_action':'Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification.'},{'code':'REQUIRED_BANKS_OPEN','cases':[{'id':'final-leap-event','definition_id':'wordnet:leap:leap.n.01','bank':'HAPPEN','required':1,'domain':[-1,0,1]},{'id':'final-whisper-words','definition_id':'wordnet:whisper:whisper.n.01','bank':'SAY','required':1,'domain':[-1,0,1]}],'required_action':'Controller source-warranted admission/migration and full replay; no inferred zero.'},{'code':'COMMON_OPERATION_IDENTITY_OPEN','observed':'Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.','required_action':'Retain full workload and establish independently justified construction/source eligibility for unresolved common operations.'},{'code':'WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED','scope_freeze':'ssl-api-runtime-workload-freeze.json','required_action':'Full eight-operation inventory, all critical positive/MUST-NOT outcomes, common-form two-sided semantic audit, required-bank operation witnesses, >=90% eligible token mass in frequency and independent aggregate plus every genre, exact artifact/source/cohort pins, full replay and integrated repository gate receipts.'}]\\nresult={'format':'GSE.runtime-worker-result/1','role_scope':'ASSIGNMENT B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE','status':'CODE_FREEZE_READY','source_edits_finished':True,'frozen_at_utc':now,'coordination':'Runtime owned source/tests edits FINISHED. Controller may freeze these pins. No commits. Subsequent audits, if any, are read-only; source changes require explicit coordinated unfreeze. This receipt does not certify checkpoint acceptance.','owned_files':[{'path':f,'sha256':sha(f)} for f in owned],'implementation':['Production grammatical eligibility precedes frequency/similarity; exact contextual native identity is consumed; contradictions abstain with named provenance. Broad native ancestors are not mistaken for exclusions.','Ordinary VERB/ADJ/ADV ambiguity reaches existing grounding; exact whole native source examples retain role/operator/punctuation evidence; no first-sense, flat word-to-prime table or blanket POS selection.','Existing native type-thread _select_by_coherence is the production nominal selector; no alternate cosine/HDC identity resolver.','Public runtime and sentence audits preserve snapshot/benchmark/cohort pins, separate identified/abstained/partial/unavailable/wrong classes, and compute fail-closed checkpoint acceptance with artifact-verified full-scope workload gates.'],'verification':commands,'test_junit':{'path':str(p/'ssl-api-runtime-code-freeze-tests.xml'),'sha256':sha(p/'ssl-api-runtime-code-freeze-tests.xml')},'real_results':{'active':{'receipt':'ssl-api-runtime-active-checkpoint-v2.json','code':active['checkpoint']['code'],'lexicon_sha256':active['lexicon_sha256'],'snapshot_pins':active['snapshot_pins'],'by_class':active['checkpoint']['by_class']},'foundation':{'receipt':'ssl-api-runtime-foundation-checkpoint-v2.json','code':foundation['checkpoint']['code'],'lexicon_sha256':foundation['lexicon_sha256'],'snapshot_pins':foundation['snapshot_pins'],'by_class':foundation['checkpoint']['by_class']},'sparse_runtime':{'receipt':'ssl-api-runtime-active-audit-v2.json','code':audit['code'],'record_count':len(audit['records']),'by_class':audit['by_class'],'scope':'Safety/compatibility only; not usable-workload certification.'}},'frozen_workload':{'scope_path':str(p/'ssl-api-runtime-workload-freeze.json'),'scope_sha256':sha(p/'ssl-api-runtime-workload-freeze.json'),'token_demand_path':str(p/'ssl-api-runtime-token-demand.json'),'token_demand_sha256':sha(p/'ssl-api-runtime-token-demand.json'),'benchmark_path':str(p/'ssl-api-runtime-final-cases.json'),'benchmark_sha256':sha(p/'ssl-api-runtime-final-cases.json'),'final_holdout_note':'Mixed benchmark: eight independently source-warranted cases frozen before first scoring, five explicitly development controls. First-pass final outcomes retained. Any case used for subsequent correction becomes development and needs fresh replacement; no entire-file FINAL_UNEXPOSED claim.','acceptance_manifest_complete':False},'blockers':blockers,'actual_corpus_changes':{'writes':0,'admitted_rules':0,'changed_cells':0,'models_called':0,'H_remeasured':False,'phase_or_bucket_semantic_gain_claimed':False,'staged_forecast':'50526 I/YOU forecast is not claimed committed by this worker.','replayed_by_this_worker':False,'published':False,'active_pointer_changed':False,'active_pointer':json.loads(Path('data/lexicon_active.json').read_text())},'remaining_cp_ids':{'CP-07':'OPEN: consumer fixes and computed acceptance machinery verified; actual critical workload cases and full semantic/tool workload acceptance still fail or remain unproved.','CP-08':'Controller-owned integrated replay/semantic/workload/publication gates still required; no activation authorized by runtime safety alone.','CP-03/CP-04/CP-05/CP-06':'Controller/A-owned source/rule admission, learning and replay obligations not certified by this runtime receipt.'},'tooling':'Local authorized tools with owned-run and full coherent-unit/AST/reference tracing. No MCP/Serena available or claimed.'}\\nfor name in ['ssl-api-runtime-result.json','ssl-api-runtime-result.md']:\\n if (p/name).exists(): raise SystemExit('Refusing overwrite existing final freeze receipt: '+name)\\n(p/'ssl-api-runtime-result.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\\\\n')\\nmd='# Runtime code freeze — CP-07\\\\n\\\\n**CODE_FREEZE_READY** — '+now+'\\\\n\\\\nScope: **ASSIGNMENT B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE**. Owned source/test edits are FINISHED; controller may pin them. No commits; subsequent work read-only unless explicitly unfrozen.\\\\n\\\\n## Implemented files\\\\n\\\\n'+''.join('- `'+f+'`\\\\n' for f in owned)+'\\\\nExact SHA256 pins and full commands are retained in `ssl-api-runtime-result.json`.\\\\n\\\\n## Verification\\\\n\\\\n- Pinned Ruff 0.16.10 formatting/check: passed.\\\\n- Focused intent/runtime/grammar/claim/document suite: **316 passed in 50.69s**; JUnit `ssl-api-runtime-code-freeze-tests.xml`.\\\\n- Public active sparse runtime audit CLI: **SPARSE_RUNTIME_VALIDATED**, exit 0. This is a safety gate, not semantic workload acceptance.\\\\n- Focused ty: one pre-existing `grounding.py:1211:44` object-not-callable advisory, exit 1; not certified type-clean.\\\\n- Actual public sentence/checkpoint CLI on active sparse021 and foundation: both **CHECKPOINT_BLOCKED**, exit 2. Reports preserve exact DB/cohort/representation/benchmark pins.\\\\n\\\\n## Real workload results, not a completion claim\\\\n\\\\nBoth snapshots identify neatness/BE, kidney/BODY, pronoun he/SOMEONE, and native-attested WANT correctly; both preserve ambiguous leap/whisper as requested. Femur and teacher still abstain despite correct stored BODY/SOMEONE signs. Chemical-symbol He safely conflicts/abstains rather than misidentifying a pronoun, but still fails required exact identification. Leap/HAPPEN and whisper/SAY remain open [-1,0,1] despite correct identity. Foundation I/YOU anchors identify correctly; active anchors have open required banks. No WRONG outcome in this 13-case benchmark is not a claim of zero errors in the lexicon.\\\\n\\\\nBroad entity/thing/organism/animal pronoun regressions are repaired on the real encoder; inert-gas He now consumes exact independently contextualized helium identity. Signed ordinary predicates reach native source example eligibility without forcing underspecified alternatives. This limited source-attested construction access is not a full common-word accuracy proof.\\\\n\\\\nFull workload scope and frequency/Brown token denominators were frozen before scoring. A **complete passing acceptance manifest is NOT established**: critical sense/bank gaps, full eight-operation witnesses, common-form two-sided semantic review, independent held-out acceptance, full replay and integrated repository gates remain. >=90% token mass is coverage, not an allowed error percentage. Above/before must be checked at composed sentence scale, not failed merely for absent raw word signs.\\\\n\\\\n## Corpus / publication\\\\n\\\\nZero corpus writes, admitted rules, changed lexical cells, model calls, or publication by this worker. No new H or bucket gain measured; staged I/YOU forecast is not claimed committed. Active pointer unchanged (sparse-release-021). CP-07 remains OPEN for actual workload acceptance; CP-08 and controller-owned source/admission/replay obligations remain. See `ssl-api-runtime-blockers.json` and `ssl-api-runtime-checkpoint-demand.json` for actionable cases.\\\\n'\\n(p/'ssl-api-runtime-result.md').write_text(md)\\nb=read('ssl-api-runtime-blockers.json');b.update(status='CODE_FREEZE_READY_CHECKPOINT_BLOCKED',updated_utc=now,source_freeze_receipt='ssl-api-runtime-result.json',source_edits_finished=True,current_failures=blockers,identity_regression={'status':'REPAIRED_VERIFIED_REAL_ENCODER','evidence':'ssl-api-runtime-code-freeze-tests.xml','note':'Broad generic native ancestors preserve pronoun; inert-gas exact contextual identity consumed; unrelated/negated mentions do not force chemical reading.'},ongoing_runtime_repair='FINISHED; no source edits after runtime freeze without coordination.')\\n(p/'ssl-api-runtime-blockers.json').write_text(json.dumps(b,indent=2,ensure_ascii=False)+'\\\\n')\\nd=read('ssl-api-runtime-checkpoint-demand.json');d['runtime_phase_update']={'measured_at_utc':now,'source_freeze_receipt':'ssl-api-runtime-result.json','note':'Original full-cohort/common-form census is preserved above. These compact actual observed failures do not narrow the frozen workload or request all unknown cells be filled.','active_report':'ssl-api-runtime-active-checkpoint-v2.json','foundation_report':'ssl-api-runtime-foundation-checkpoint-v2.json','actionable_populations':blockers,'source_only_prime_demand':{'ordinary_same_spelling_not_automatically_eligible':['good','bad','big','small','have','here'],'composed_relation_before_missing_lexical_claim':['above','before'],'owner_boundary':'Preserve auxiliaries vs main verb, degree/negation scope and source identities. Canonical prime projection authority does not transfer to ordinary same-spelling senses.'}}\\n(p/'ssl-api-runtime-checkpoint-demand.json').write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\\\\n')\\nprint('CODE_FREEZE_READY',now)\\nprint('Created ssl-api-runtime-result.json / .md; updated blockers and demand. Source files unchanged.')\\nprint('Snapshot source pins', json.dumps(result['owned_files'],indent=2))\\nPY\",\"cwd\":\"/Users/rohanvinaik/Projects/GSE\",\"timeout_seconds\":120}",
+      "call_id": "call_1cad9fc9e6864567bf1b38c16476bb54",
+      "id": "fc_0d66c4c7356128c8006b055390f66887d2b726a5cd924918ec",
+      "name": "run_command",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_0d66c4c7356128c8006b055380fd0c87d297aee7777ebc6fdd",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 23302,
+    "input_tokens_details": {
+      "cache_write_tokens": 3738,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 3738
+      },
+      "cached_tokens": 19561
+    },
+    "output_tokens": 3617,
+    "output_tokens_details": {
+      "reasoning_tokens": 78
+    },
+    "total_tokens": 26919
+  },
+  "user": null,
+  "metadata": {}
+}

@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795511294,
+  "created_at": 1795511260,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0d66c4c7356128c8006b0553dc1f9887d2ba60cf0e4b430a6a",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external model APIs, modify billing, read secrets, or touch the API launcher. The controller IS AUTHORIZED to run the existing LOCAL GSE/Ollama typed semantic transport for its bounded checkpoint questions and audits; this is not a forbidden external model call. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBVPo9jGO9KiwOcOPIrOgd0zv6PhYu6vUMyhti42zGIsb59euIOXVMgqUDotUaThs5iQHn69DpPWeVy_fgCd5cM_gyGZSOc5dVEPikxZLCq7W2ErXoY6ZSBQpuuWoWB2VSwatKXjrysiO1FiDajMmtfRqoMIB5P1I2CGsqhgpmxOzY1NxJNA9ehfPpqpayyhpti1YpqgbP_BEiQ8RpXwEaKQmMnRRrXnqS3Nu3muXcP8jYlVkfKzzSoL-4WB5Fis3KBe9vTK7beDerExhvk57V5WTHuAsLBRWRlUiE9vHZpxCrOTl75tFAkqJm2rqFnXOhqqspcWos_y0IfBY7mqZEFKeVTJsGT_oGCKAsqQLeg2bvwqo6Uo9nrtzAb4OzUSTzTwnGomcT4AVIc0OiLV1weydYURvKdNtBTKX35lWLxQ69GMrUx29nQ8pu9GfKFYg_XRRGALJII82rXzDz_u1dnpevaDTyHybKaR3DQJJkFYsZ7vgR9jVuwiyOyMfvQJ5QwIBaYwDPFhh1JLuc-9aKRceNxqq-_iSCVP5kYqVdxxo8u_AbAemlUFozLuhGVKTJB9jrxFdNthkg2_d1fEpa4OWQhkmaBWZhot1f0VQTpgAkHn53RrdczToRbdNvwlE5x0TlpFsPT6ZxkfZkEUf73z9ZDbO7T0RL8nXN4J3T7FetXGLjGFY-pPLNWY6wSUE1CIM3TkFH5rgBs6Mkbx2QOaX422Guu1a7BA6-0l0g92Whjj-OZct0fPZTqO7GOCUJKV_kDJPizA4YJRFJ9yiu_NQO-v4Y-cgkcG_j93UX5Lanp8I-V1gLnVMgEQIRt0bqB-afpRQbZPixarOf1Oq2VWaKkOj0bf3-eIr0MrvE9ehzTPeuqIuDitC1JfsArqMWdxxQ16FynXrj0vm4wq4-57p1nveYkGtFSy6IGoGskYl_Vvw3kmtMrUcwsCBVHExgxTmkQK4qZQw-FopkmwNJxVxMLD1KgpIgWWwIn9r0wIOsGp_MVGvvqZVBYRplQeeTqIK4EculoCtUnqwdVlYcHVRwpXG3kRhC1QNMqMUuvKVqXvrGdTxumCIM3rNS6ztca6OL8ziR_sbhqOlokwql3xmEsDvzAutgR1v_w0G6hCy5YD7BEAbFvVwQnLkd2pPt4PVyvAMKQFEeNHE59v2p7btEXzNbdfOdLY9lXTNiUrb1TDx_66orVsAOjJHvfwC6XP9CGMJCghXcW-7cFcPK5FR1bOcemskwWUxMntxAZVQHzUwQqf0zY-lWCH-PrBUjiIM2rpjMitpI_Y6mNDFpKdAVs4nhf_6dOuEDCScaK4ceg84qFm0YdHLTLxmY6uwVIZw-BVmboMpVU_xcjg-A1PTog9ZPEMB4oOLHIyMVaKyb7ioitlH_wccHRWBr7bVIhQZtUbxkw7uo3ez-L_6m65auP2Rup6vKNfxBis9wlZIJj-up4p5x-Uol-2TviH6EhOr07nkI3n1Lb3J5b9jrD0xb1dfod4exvKx9-UzttpNd4DINVhLSM77oeN0ch5_Xqos_bNfsPg4OWlcvXkDwZTLyiXr4ImcMUFe-Urt5R0OqyNGlGnYR8AGmp3e2PERg6NLIVo9z-gLdCF5i-uNGwWlHPK9Nqy6qzvXTFvO8ZTrJafwlccaVo_vfGba0OT014vz7v5VF4YXMoePrDUDuJ6yYeY7vjRdqeLO6oOFf-77vKs5WVGvP4AsiT-Y9M4kWYWSJmZz-1lvqWXTby_OsaDfNYW5t_ig8zSpKFtOAbYMPiICzW385bFNE4MA1BKjjLcrfyUBa6GvwkHKXnZOgYy8bhHT_FxCv2usd_PBZV-6BmdvQORcNlNw8fOKL2if0rOWHSDWStvEoRvppeWnsloZb5FNAzLWacNxjC01HWd2wO8KANAPCVQvboWZjNTBMB2A6IwL087JMqJ8Qsbg_chK-oKLDveKbL0l2hP9HTmq2bHV7Vx8PzxOpEI_ssCxIUKUZM0R7c0YnckRdTLrvwM5OC63t4wsqgdKS3-Q_wU_T9YlC-Av_uItuJvOBfZmkU__-9ISIbQqULz8TBl6suekqBUGOxEzVw2omQxuLAUqfy7FVCMZfzSZFhUvyJYbHszXrC-tHOrH1KBKyB3tC81jq93uIesnQLNiSXv5TqETfFrfa8iWyBLAtScvgPq-SV3Z2m9pSwz51cgk2tn1UvsX4NYBJD7wZmJqEHDlU3p4x5ccneR2XsRjiyNSuGcrGxV-5Re3sIWCh5GuFNaaF5QeKS-UUOibMD4r22hsqzCIoNhgr80OZclCH69spnFS5i4TM0QntYv8XGDmo4PVrk6pR0EtLDSlYf8XYJss8hybZMSZ0GAt-uRJs6uh5Xr-Ol15aaFR4m0AJ7l9HyPsxO-BDQom702GvUsd9IgMa2JjI13ojAI5d78oNHLNAQjU3dhw-zMHJLt4BrbYrf558BeOqv6T_P7xLLLjIBaD6EhsKSKVWluAgL6s50ZiR0qkiwEsXje2DL59ubAfqAjolJNVhRXZxCAKrPnA3kW_S2wV-03rc1Ct4qEBSnJGFYLvjS8zIMIFufMXrckur05iJblCTfVu4j874MK6FRl8zjhhddpmiexs-WXKy8NQwY54tCZN7AIWGmWZjY_KGfGY22JbvR4FsPeHLKhjJ4xkWuRfJbX_z2zwAgeSRkG9jZOGBLku_VmvdEWTzbzafnrTFPS6LZWBU_W_nHfkAx9M60jAyH__j-Z_NMF2mH7JPtHiVBJoGGTfK7Reugglx6gIqAxsMvavVb6KkExkuHHjSs4JVAhSxrmUyMtFsXrcioOkq2HFBpJoi74NW4AZWr86IsukzCTHT1RQ0mCHBUiz2LAQFF23_qFgkGtuEPy2A0Dj_y0RtzeWleNZALDdbUHYnyYg0IiLxal63jU8lzi-F0AJxqJ3OjLCBHbdKfLIh-jjFsu-NTb8AmQnQkv9DSDhee7eZZXyukZzBj1kg02U9mB8ElXnnPhVEP0dhm9FNU7xlARSzgjfkfgFNNvqA3aTTBRG7fsfofXYJKoZs1_JkmsGe0UVFKARJqueolwIozoCtQdojzWERDr4bQzzfuaoJ9eGutAEE370Of548O29gJzFGiWFTmBLEnDi5wxtOdDz4uryAzpuekJqizKM-0PDdHFCkiID7aMU7SVkvJfXDWrFQHjrA2FkzQV8fmEI54Akq-u5xSYqcsVMOufCDtXdEck8txBV0sYn1e5c4yV9cdDIz6pVos3mN54B-dQ9yMo4JFIqLgIoeidUH7Q4QuBa-nfbT5OWX_CzbW0ZrRc7OIU3cq9itHMRFZph4IFnAtlAl9WkAc4M9oqfprBnq9rNBjBr9HyENQDQzNuFsDlwdth8ooh4cw2EAlBNrkI8qNYakSWHIgA-z133vnbqt0QgYantQBqom0LWLGnzjmXTgjfdx7QUcfblpFsauUrn4kEuBKwk0uJrqr9EpWKEuP-U-9OYLQhbyxZJaAUCMGLY3q2aylfLzTGwWLeD1BH2YiKYcgZEEGCmtZG0vujSYA39huMIx6wbc0cbuGzDZs-h0e67BHU6TivMqUAQYApmY0WyIeBwF0uA4vQSIUMF5-5KaEcdnULp-L4Cexxojpp4_lT0j2Kw__gtQS3XPM_rnbYROyRI2eXQa0diKHLaqIxeBX_O_zTyv-nbMa_mJdQCID3xXvsVltuomuejzFXOYVqfzceY3OOT_LKN7vfxUh3YRp86NqSNU2kJIu835yaC6QofLinp1DQBFHD8bTprnx-ArGgKZA6jVCIEkGnW4kv_6yB9oxMDKiUK3pa2RnyV6ikogRSYBTcxNQ2bwdIo0Jd0rVOixKsBPO-Zcu-g8zccnXAnr0Qu_5gSRBX_tTlA2uJ4XmtvF8RhvZdORVQgKXBsuBPwUyN8NQw0ZHsEYmEmic7b4w485mfFHJLuoG5thXEXFmd2zqur9RiyRseQqje6VH73hcQyK9A0Zd5N65tH15lOV6u8T8hnEF_lVkyQ3tpEFr1HcQCwZ-YrWhkWPnT6w2NLuOn-rAzIB3RelzRh0A_zcBtjnVhL71Syo5LvPt18APQYZUeUL9tOnlj_iOTL1x4qdB_RShaOhdYky-bM9G9oHxbj7BW6DkiZlNbLwgafW2toBbtg0ZxYeZYarg5fLTWPV_sjSKqF3ZEOzEt9qb2kFLMeQ48HO6q_K9y44OkBlvxEXK4RWlCZRvDIhkWJtH7kopeYPqk4PVz_AoEHWookRQdLQglQ3u1ogL8GgdZtVJct8zMoCKJUji3x8XB5zRmok7_mbfTP8PJfnIcp_4EGnynrNB8smSr5bufs_dOwRwts7Q_l992nuTZfMwiVkmxA5zDDr384L1fkWyL5Lwzl0l4FCda4B_FgVzId_TlCMtN_xdTVlV1Aez2VSmcYDzK3LKMEZXDGn_9Wb2EhvXHK2S8rELMZ-gBc90_7YsQbgAVUknhVHN_ZkfMqiDVRTbVzQ2l5Loi0HoGLadDiIhJiLsqwAB1ROxtYo-2Oou0JVc1Jw0Sk6wfDgqHPnK0ppmmvuECe1gNNj-f9A2auCNhwPs4_j6Etafj3Tk8bhP5b9Yoq7QQnQi-IOyUeQc_mOOKgYuf-wL5Kmtn6_HOJua__3EDshtfmZ4VIH3AIy9p7gFAiGmG1uR6YBVyNwMudNh1OALEXwX4fwJdzxpeYUNubMBJk-McS6e3SLqlndiDs-jRx3r2DgJfzVTF_ynhgM3P1f_ybKFxTKCZzQShmwHV0UOtCiiTSwfcv1zygXYdILOJNNSM-1qY3s_5v_DiH-WG9YPrmYYjcdN4J6TIx1J9WK_NuDwdufP33X_4kK_Brnl6N9orEC8ze2tsah21B9AO8enRbgVRq_agp3WRNBMA7pgHmt8AIh8fi6aFqGMXeusPSQMMO4qcri1TWD6Pk2nzDNOtWXX18a0pYjpmiDHZkfHHC-DABlXkf5yISTYLZGarEef17CnDyeORJab9DYO70zRsHioqfA7f2AW6nDhsVrnqPlJ0haCyVOh_qYZG77ImYoFpTx7XwuM9nUONqUUAR3Oc26Q1roDMG48bVw-rORKD1CbGeMqxvUVm6TWFtYUbOhWV2njL7iByzxQHJsavaulRar00j1fJWZeY6qj9KmUP3SzqtaL8R81f6--zK1ACvHoVD-v8UR8Bou5Frwno6DZoCx_6ACQdexTJDVJ_YpDxYXOT-7V3g0BVUptv3uXDkECMP3q4JcYMjvWjWLhAUHJNc98aAge0w61iQD84g9OYqHFdEA0wh0-yUXm0-TFtGtJikE2rx78m692ryaAvzDFVKHx0E8PdJcchIxgjq9p0wS3Nr75HeUWvxzQ9IgT4XQsvTxgjVJbqgFV6C1tU_hszhc16im4X6zyvkAxlZxm0Te5S6-C-4t7Lk5Y58O4w3Wa_9fDszfE-tGcyy_a9WrdE4uCyvN_CSXJ9j5mkmR947YzPC-j5KjejVea13MJ4u7Nh8yBCIbHDhpnvs23if2R-JGzD9DHRgQCjXCZGkV50Dh4AgmdHwzjet9OjYccKrPm5FqisO5GvApOy7ZP6EaEnQk-eIfXX05aY0F1iQY8p9k_1slWXwOdDJ0DMITiDLhGMH_O9u6B4UCIrrn3zU_dnk_LnJQ1nB9dwEQDi68e-Jfjm-R3lH2x2SWHd6vwVE6Ca8ZPfP4bBbIfKf0mdI03o4fc0r4x3sDFNV9iLxtxDhyjl9lu_2U6PsS99KajyuRW8rF6xZaF2rAMK9YgvX0MO16ZsKD3-JVyr_MjXuXib0Os1SikGc4Uf5vEVGBIE_SO2fxiwVJkmd1nsirntFW3agwDKKKXyubkgfDgbQuac8dn8Dt8JhA2uxngLog7RY7wikZLXGQo9tws6DG5-zGO9pRkFhqwyi2ub01_iGK8t77cQpMWB3WvHhHhcvm4byVU3LhKS8Hf_utT1nXgXsU__k-PUGD9TBZq0nT3qaNdrNcCgRLUr27tXBjVbEN-fIOWSsqe1H90eFNWsKhCYsTC7c295EtDjZQqXG--0JQMqS1FuluRA_6X6OyN2nOEolbzVAvtV22niL00MsZ2RlgNimUmuWQhAxdiLwzuILMmPW1c-kNP2GNQHIvKGkoWICdX7zUPlG4e43Bk6L6uV1EP4HUpfJfdxKMDTjarC8CLtPf4oanRo1SwtFeHy-3MqMKkcsG99pA-xrfwgRVNJkjzmgN5rxYYuW_OSej83BYG6pDWkSz0_9nEPA0uqkBbqTX9o7WKDqaOq5rGbuS7xTZQi96_BvPnCKM1eD7qfAdM6nOL4lpufrpwgZRX3A4aXvDQtdFvBEXf5xSMILWyIoFdekHMvQ2Y97CJl1Xq6OV-bLWahckPpafOz_EoClwAEZmtKIm9f9GX7YUYwmb-IT0e49PpnEtPKe1Hs3P69FoawLZ8fnNTK20n_VZlOxYGAHPKjk-IYOvQLXafr9G-432Q4LK53gac6a0G4MzJwTdhfF8JWBdqqOI_Grky9xb3jRZY0T4m0bUeirRAEETimcQihoAiRBYX6rlTBqTlExFYfAC3rCz_vzA5X_V8kmUt6DfUq5PJtFAibsjyiZ0Z3XOhaKK7M4zMfKXJ1S7zVYFPwyPhICG5vZPeLn1L19D8fVY3YKVUtaeb-znjCcC8DDtP0V8e8s2v2w4elWGS7FzTPbyeKdpJeritP7l4vhYDe_V4Ro_ZHVsC5TVyWjfSsLw5_cjj9lmiNYXPdEKrIvXr2pRVftE0kWUuEJWQ9nCaTbIN7DMZjRYkgSHzyMRyCDy3f4pevBra4JlZ4YVcArF62M90LBUctFR2VjMr61d_NNh7fyY9tgjDghABIIgBIIOFRYK2G6rFBgyhE7XCv1BA5FbLDHKIcgr1RgIEFoHMFPOevt-XwYZSX_uciM_7hv1eqsDTAjGYC_8GAYkT9tFblIaA0xIKheJ2ubJmRgLFdu6tpK6VRbWxrNwTWa0elTaQlS4Y7EY9kdoHcu6mNcjxUSzuDA13j4a2PT4DnenpJLVdMTAqtGXNDYgRoHdUt8jFBTb-wzKJiWb6PD1CvX5rLtIKfoMpAYLggv23j2pjy7rAErcxsFzuvIGLaPCEGOFpd6VB_DV82h3ZmjQ2RvJV0p7ZF0hhV19l-nIyVK3xcGIpHG-4kq7bAqMM2WMeTfZwzFjTSLZGeYYyEqjtUVU1M11Yac15932bBGuzBQbd65zkJyLuz3xnWwtwqMuZCejvA8AOAPI6JF4qRlhNKlbc9fZZ5PEKfy7_3x02TD4HEFprPdeh2vQV14NONcj9AKx5CHw-vENiNoHhq9INmJ0nDWdUF0sBIcqT1nAPHOJumEsjtXnJ8Apda9wf9Y0grKjFnDp7nxM2UUCS9L-fw3ga8sDcZYbPg5hH4KEIfI8WHV8tS_AC3yGQ_29KLbm8tUlZNObGpTqmltGdWgyNzywCWvTdZajYuVWxL_cKLu8ft34Poe7YlbS2Snf-d3L0xKqfIZu3DAIOOIxMX4xPVASRlhCl1H6jJF_H8uqeuagjXAXQFtelCP6lWKMuqFj7ZJAVWnT_C_4mXUH7NuKrTKXXoCwHzzkJ7-2aOAZxSMvdmtQZ6QVpUVlJGflgwFIrjyIEjwG98AVd7RyTEeIrCOMmXVLj0fPxMDU4zsW6U1SREKcCIjxKzpQdgg1bikif_ug2Fh8hJ8DBqmOvVkGGLaf4cESHZvlNSLMSZZ4sJJ2PF-UN-glmNgA1OFFNRvpxWAoWFeFa7Ao6W4aoGA4ukKbjjvAeSx6k_SXt4MXjfSY2C-kWgCvCdxCsZbZH06BNUmefV2N1pq-JBFeba3ipaKfv0-rjywkwlzydlQt9vTGs__gVKWMOmyXQXTjnTDWVyp1dKMVeuamycczhBZKptQMaLU6pzYGl15BpNUthYpJjC0-Vx7SBxH6dwEkBYwsiBuJrQiG_OUqxu-UDxnCdQ-9zcnYvBjBP03jrziXE3yIiInjF3mCE8bc9GNm3p3sXXJEwX_HaFd0eJjCOQRE19Con4rJPEgKxYwenBr-7PM9s9adB6Fe4VUT5Sja40daJsE8mNFX-uYrkMZ3-_ygANRogM_QbfMf6hLP_tF9UZR2ydL_wOrPu7tF0qugRHrLS77nOiSxdowC2qZtvsa73CQm7HQyPg7kV-VZNo-0blkpuIFKYmVU0oB_Pue5PahxdXV7lWUUJjnm1gyJOu6bEbjbdrcZNzO3KfbDud9O7fLmYEL-X4mVpBb2KAPxzlflUcDiFDsjWN_1YFfqEpwGb463WJI2UXuJnFC0mYexLs4zaxDp8T3dIuRMqEwroGj_ptCs3Lmno-I_L5VxlgcAFU-B1GDdxLT9yiQRKLsuKfoBauFZ1FkK8drNhQQG_a-iXgkfGU6pnsUwFTMOSeZB4W8didH60YN8MFFmhzXQn9y41jSpoE4Qye0zAahX434Fw2X7GapGhMQpPjpW4qrQRB2AnIHvebpaCbIHRK7CdpozhafgjbTUVGqvV-RBtgbgDDqW3V78SG_bBjCOxpKEgf_FNilKGD6PALPm5_FpV6rtk1kEEF2IQbyPMOcWP-PGIQBL30xlwpXuwLHtSZSgZMGnyyL1qHdQ_uzPlFupTCLSUEDHmHbqD_LY6tu74TjIShGKZedQ-vGUIOZr9s0j0esQ4Gtuvo4B2dmYgg3BSQqIrCezxnSUFEQofQY1f6SxoTkcgUNCy1ppbBL5JM6K-TpluPnVBYPceqk3DShp1SAMQrJkeWxI6A7VzvyfnEZjt4ON_N49QZwQUdD7V2w-bxZMx0DzktEnitvP5FBaa7rQsbtc0AHGzdrJUhwbrBXPT3bDNyyuNQA7_vGIBLwTaVAD5MLF2ZNXy55sURt9KJMe3RzruTZDyFD_UH9ckS4z1-bmSpIhr-RPNwSU7WvCJ7FwX4sbFGuNg1L9yWcGqzjWFTGMbfgereOiExpECz42PIos6FrNsk0IbPm2osMTROnM2SGY_8XirHhbrgTLc-ShLMF_e-YSj6mmQDhMw9CQogAlogDNU2j9VWFDGVbYyx7xYGZHD6lS_wSZJYgu6Iha7_9omkZQIJUorlnIFhz8_NtbkhVOzAMJhfyNxd1XQg5O3ySF49gISEGGiTdexd3M7OZjBl13n7OpTJD1UdVgymgb-xE021DBJGHkGzGLFoJlF6YApFSTHtZMxxOuwzI2V4v4pFszI9m_se1t0jFF3rNacc8ysNy4MghcnnTLGxrdw==",
+      "id": "rs_0d66c4c7356128c8006b0553e8753887d282b4b756895f92c9",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"command\":\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-readonly-composed-tools -- .venv/bin/python - <<'PY'\\nfrom pathlib import Path\\nfrom datetime import datetime,timezone\\nimport dataclasses,hashlib,json\\nfrom GSE.api import GSEEncoder\\nfrom GSE.symbolic import from_trace,resolve,evaluate_tree,emit_contract,entities,predicates,clauses,axis_of_comparison,is_argument_swap_of,is_logically_equal_to,propositions,polarity,commitment,KnowledgeBase,NullGenealogy\\nfrom GSE.symbolic.serialization import to_dict\\nfrom GSE.discourse.profile import text_profile\\nfrom GSE.discourse.speech import encode_document_utterance_events\\nfrom GSE.cassettes.multiscale import MultiScaleDoc\\np=Path('docs/readings/2026-11-13-ssl-explicit-genera');out=p/'ssl-api-runtime-composed-tools-readonly.json'\\nif out.exists():raise SystemExit('receipt already exists')\\ndef sha(f):return hashlib.sha256(Path(f).read_bytes()).hexdigest()\\ndef plain(x):\\n if dataclasses.is_dataclass(x):return {f.name:plain(getattr(x,f.name)) for f in dataclasses.fields(x)}\\n if isinstance(x,dict):return {str(k):plain(v) for k,v in x.items()}\\n if isinstance(x,(list,tuple,set)):return [plain(v) for v in x]\\n if isinstance(x,(str,int,float,bool)) or x is None:return x\\n if hasattr(x,'tolist'):return x.tolist()\\n return repr(x)\\nfreeze=json.loads((p/'ssl-api-runtime-result.json').read_text());assert all(sha(x['path'])==x['sha256'] for x in freeze['owned_files'])\\nDB=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db');before=sha(DB)\\nr={'format':'GSE.runtime-composed-tools-readonly/1','measured_at_utc':datetime.now(timezone.utc).isoformat(),'split':'DEVELOPMENT_DIAGNOSTICS_NOT_FINAL_HOLDOUT','lexicon':str(DB),'lexicon_sha256':before,'source_freeze':'ssl-api-runtime-result.json','notes':['Execution availability and observed composed contracts, not full semantic correctness certification.','No raw ABOVE/BEFORE lexical sign demanded when correct meaning is composed elsewhere.','Document witness uses existing NullGenealogy to avoid any write/open of external world resource; cannot certify unavailable world/cassette resources.'],'sentences':[]}\\ntexts=[('above','The bird is above the tree.'),('below','The bird is below the tree.'),('before','Alice left before Bob arrived.'),('after','Alice left after Bob arrived.'),('before-noun','Alice arrived before dawn.'),('have-auxiliary','Alice has left.'),('have-main','Alice has a dog.'),('do-auxiliary','Alice does not run.'),('do-main','Alice does a task.'),('not-very','The dog is not very good.'),('very-not','The dog is very not good.'),('duration-long','Alice slept for a long time.'),('duration-short','Alice slept for a short time.'),('comparison','The dog is bigger than the cat.'),('comparison-swapped','The cat is bigger than the dog.'),('he-type','He is an animal.'),('he-gas','He is an inert gas.')]\\nwith GSEEncoder(str(DB)) as enc:\\n enc.conn.execute('PRAGMA query_only=ON')\\n trees={}\\n for cid,text in texts:\\n  row={'id':cid,'text':text}\\n  try:\\n   tr=enc.encode(text);tree=evaluate_tree(resolve(from_trace(tr)));trees[cid]=tree\\n   row.update(execution='RETURNED',contract=emit_contract(tree),tree=to_dict(tree),tokens=[{'token':t.token,'lemma':t.lemma,'pos':t.pos,'word_primitives':t.word_primitives,'sentence_primitives':t.sent_primitives,'comp_operation':t.comp_operation,'selection_status':t.lexical_evidence.get('selection_status'),'selected_entry_id':(t.lexical_evidence.get('selected_record') or {}).get('definition_id'),'grammatical_eligibility':t.lexical_evidence.get('grammatical_eligibility')} for t in tr.tokens],claims=[{'commitment':commitment(q),'polarity':plain(polarity(q))} for q in propositions(tree)])\\n  except Exception as e:row.update(execution='ERROR',error_type=type(e).__name__,message=str(e))\\n  r['sentences'].append(row)\\n a,b=trees['comparison'],trees['comparison-swapped'];r['queries']={'entity_lemmas':[x.head.lemma for x in entities(a)],'predicates':[type(x).__name__ for x in predicates(a)],'clauses':len(clauses(a)),'comparison_axis':axis_of_comparison(a),'self_logical_equal':is_logically_equal_to(a,a),'swapped_arguments':is_argument_swap_of(a,b),'swapped_logical_equal':is_logically_equal_to(a,b)}\\n sentences=['If Rex barks, Mike leaves.','Rex barks.','He might leave.','Rex did not bark.']\\n ts=[evaluate_tree(resolve(from_trace(enc.encode(s)))) for s in sentences]\\n kb=KnowledgeBase.from_trees(ts[:2],source_ids=['rule-source','fact-source'])\\n modal=KnowledgeBase.from_trees([ts[2]]);negative=KnowledgeBase.from_trees([ts[3]])\\n r['inference']={'rule_result':plain(kb.event('leave','mike')),'must_not_swapped_agent':plain(kb.event('bark','mike')),'must_not_commit_modal':plain(modal.event('leave','he')),'must_not_positive_negated':plain(negative.event('bark','rex')),'negative_fact_present':('bark','rex',None) in negative._neg_facts}\\n doc=MultiScaleDoc('A woman smiled.\\\\n\\\\nShe ran.',enc,NullGenealogy());view=doc.unit_view(paragraph_id='p1')\\n r['document']={'text':doc.raw,'phases':doc.phases,'failures':plain(doc.failures),'source_sentence_ids':view['source_sentence_ids'],'mention_ids':[m.eid for m in view['mentions']],'supporting_mention_ids':[m.eid for m in view['supporting_mentions']],'supporting_sources':[m.source_sentence_id for m in view['supporting_mentions']],'tree_sources':doc.tree_sources}\\n r['profile']=plain(text_profile(enc,'The dog is very good. The dog is not very good.'))\\n r['document_speech']=[{'type':x['type'],'state':x.get('state'),'source_sentence_id':x.get('source_sentence_id'),'error':x.get('error'),'structural_loss':x.get('structural_loss'),'tree':to_dict(x['tree']) if x.get('tree') is not None else None} for x in encode_document_utterance_events(enc,[('speech','\\\"I ran,\\\" said Bob.')])]\\nr['lexicon_sha256_after']=sha(DB);r['unchanged']=r['lexicon_sha256_after']==before\\nr['runtime_source_pins_unchanged']=all(sha(x['path'])==x['sha256'] for x in freeze['owned_files']);assert r['unchanged'] and r['runtime_source_pins_unchanged']\\nout.write_text(json.dumps(plain(r),indent=2,ensure_ascii=False)+'\\\\n')\\nfor row in r['sentences']:print(row['id'],row.get('contract',row.get('message')))\\nprint('QUERIES',r['queries']);print('INFERENCE',r['inference']);print('DOCUMENT',r['document']);print('PROFILE',r['profile']['state'],r['profile']['affect']);print('RECEIPT',str(out))\\nPY\",\"cwd\":\"/Users/rohanvinaik/Projects/GSE\",\"timeout_seconds\":600}",
+      "call_id": "call_8f5e923c31d44b0faa45c9a44661b468",
+      "id": "fc_0d66c4c7356128c8006b0553e88b7887d284e14e3be3ce79d5",
+      "name": "run_command",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_0d66c4c7356128c8006b0553d0183487d291fbf5e0e7e58f6e",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, external model clients and other edit scopes are forbidden. The controller may invoke the existing LOCAL GSE/Ollama typed semantic transport.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 56502,
+    "input_tokens_details": {
+      "cache_write_tokens": 11456,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 11456
+      },
+      "cached_tokens": 45043
+    },
+    "output_tokens": 2175,
+    "output_tokens_details": {
+      "reasoning_tokens": 396
+    },
+    "total_tokens": 58677
+  },
+  "user": null,
+  "metadata": {}
+}

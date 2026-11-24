@@ -1,0 +1,154 @@
+{
+  "access_programs": {
+    "cyber": "standard"
+  },
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1795508728,
+  "created_at": 1795508694,
+  "error": null,
+  "frequency_penalty": 0.0,
+  "id": "resp_0340941e41008326006b0549d66ab487d28508e516f7725fe9",
+  "image": {
+    "context_compression": "disabled"
+  },
+  "incomplete_details": null,
+  "input_transformations": [],
+  "instructions": "You are a GSE implementation worker running through the ordinary OpenAI Responses API. Your tools execute on the authorized local project. No Codex CLI is running. No MCP servers are loaded; use full-unit AST/reference tracing instead of claiming Serena was used. Do not call external models or network services, modify billing, read secrets, or touch the API launcher. Use the two supplied local tools to READ, IMPLEMENT and TEST the task, not merely describe it. The run_command output is complete when included; a larger output is saved without truncation. Use exact role scopes in the handoff. Final factual results retain their requested filenames. Your peer's completion receipt is the synchronization boundary before the controller freezes source pins. Read the full owner intent in the handoff; never replace it with convenient familiar architecture. You have at most four hours and 100 API turns. No commits until both scopes stop editing and gates pass.",
+  "max_output_tokens": 32768,
+  "max_tool_calls": null,
+  "model": "gpt-6.1-sol",
+  "moderation": null,
+  "object": "response",
+  "output": [
+    {
+      "content": [],
+      "encrypted_content": "gAAAAABrBUncDc2uP62TUlI0d8-ncrNdRl2NCRhbaoGgfnSGk2Wazl1-2IHO4E5I5KYCgDcwgns-EfWEeoiLLEBbcfDYdXnWUgjk7evhWaQJ9ZmT7Va4edAW7hqz8kCkSYlOJhO1RnlENzGhi3yVEyxa2_Bh1RFu2KB42f4sd3d2kEY65Oth7HEVR_F7c8hjwzBvPJjIaNlV_dAg4QjesEXIOHc6Njz1yhij8pzOp4O6ov7RGxtvk2Mgf-BH2MzyqV05vOqibK3n6lBmU4meBBnQhgsxe3rh8Gw-nGHhnR1_JmNbf76Xr-lgzzHrGqelT6n3kVkE5cBzPibQNp0l0G_sFc1LsLaMyUYQeYcKPN0BRmvgptlPVPX30HVALRf_JQRjrOHxGZBDxWEoupLNO0m5vzr4XpHrN9FooYiO5EpaVG9zWWuZiko_dp9xM_lbn3ASARh1n9p5YpQzZPrrDTcvX4_ZPr_bJELy9sS5R2xUKh4-0-gxV31vENoIF3NJpCynmtHmamLjWy2Vmh6dYlOxbNNrE_CKRlsgIB_ihw9N3eaveWegc4vdpOtcsbC7--FqLmXVeGasxUxbcA3gI-wDV4SoeJsYia27qIXCAZ6IiR9zreEz-rJRiWU5AA9XgH_nxVEVFT7rX-5-LpIFUP4ZMGytU6hb0dwhE8Ad5D1XDMhlNofWEAtfF84mvrfKiQWadU6Xjxyw5mn2RywrpXVeuix4k3jHX8UonYTYWoiFY9TZC1xiIUm63vaaLdjNJUA3-fA3p0ZknzQV-95pOID-JOA8BVgNKtI5MmKt7EBRccvC0wv_gs0xzB2t_c45mGArEyGAzOPKV5VL6KsEG40mgKVsKZzTemjp90Wjo7xh9fZB3j_o3hSj3raJiG1ox1V-SUdl_hxL4afzvdSE2FUOIIIxFyZlbLyr2WBFUTCFkMPMzQ6MnkYpBQPHIlgGfac2YrfbUr244uGxcIzufaIMKiw43tR4PtRUP8uY_kvQLkVh0eO-drP7DTuqNfXRBrGrfaCJfCAD-sm21zPICN2LFnUmWVlurZXFteH14mMe4Sl3La78PbKWBrIySmZKAJ59SQmUMxjbzGOISuNt9mS3zGj-fVezuwbSdBKXPo5qh4QzALHF26pOt4QYmpN_IkEJrbhTv56DmoYUvJwYDGJV9Fsg5Eu_inBffxwy1z4Uyk5LcN_xEYNplN1zYVVu_WnxfkSsLu2JALwt-w5yz7JNmzUzKw2l3I4qiTcs0s85uHHVJjzYJeCmKUaGNOlvNSWGFTgwTjpnJ6zAdtfXbRLfkJQIxOPr9g-De2bj4bOtxDOm1tg1pzj6HGXGZUNIf6TSJnNSHIHudfvkaUPFAON1HOLq8KTFc0gkKmwte-ZFDpUCs_ge2QHKcmkXVH61z7KSG41i9Uqw-f7ReddaYxUoeNhBi43-AkGVUdq5QIJeg6npGVxXwTuJmmzy1NOUjbhm2TyXGlO6SB_0qzA272j-FUYIa2zw9o05_mBQ7nb4UgbJndoB2F3C5AixYniwFK5vldteidnBJlhP-XtyLiu_xTP6_nuyQ-N-wcF7feqAYTBPbD5_F66BjCL1Jx4yvqVFOn5E-K21MBLWjW0lz8dHdAO03bX_otTdzneqvTMLoWeUJr67YKy5gcHgLj8-u4hqNUBuBu6MVfslTYP8YZq6fwvx_kPF3S8nV84-SOprpirFSOB2yg0mgi2LOs1MQVRAADJRppm4KjORUKfdelvsAkdNUYLGSZODrU6izeuFPxiht3cDQwSHceTcScOji98yGEPxsNwScORoPvqMB_yEKloFDKq0jwyFUzw1ZjznYxAvTALuMpiTFZz31d0v0xazLSsr5dbpWjpCMr8baJt2-DoNK2U_DoeKG6RIajqa9iQc9_2l0_ILHSGmj0v0f4bmtcH9mhYjeQem3ZuPfg6-YxSfoozJ-1nszyJepzeer0FgERbx8ECc5hHJxHQ8H5DSL62vJ3-3UAYMzCXdA8_ERS7vmbC_MavshvzFO6bDh0OzTRmhI_twwDgkwJnDr4TOu7FAbhLcy5x5-8xrIVPOT83nL07jHoPPchVd3vW876vGQphuMbNpl9fqw2pwxZTB1aYTvguk0vbDsGO15sMMYlasjrYDt_eQme2mV5MKC7RRt1adJx2dcZgI77KGGszc9z3_K1Pvxg7A4wh1YldD6yjuvYoYrdx5gjsQuyxXV2ILcChbnB9FYvPFk3201Ehw00bqHmjIgyfEykmLmd2odXSznc_KMw3lMbyij4IAK5P4ce2rLuJkK8MvgsB-TG32x8bOPi5071YGp4h4cCyCF8hEQpe98N6IFaCQQHgHgQTxNx005d0QRhM6yZ7Mecpmb5Ha1QEj2uU8eExTzkCBtZEJ4C2xZM5V4tbrasVDwxdzcRLwij9qYprxYnav8Ky6yOd34yHs_0aVelwH6muhTJB_el_h8qzhxJq1Nx94Da84Z9rNwJLmE0ZK4WCR8tNwOCqx4PMHVlUnJ8Oxwmk75vunF2a2NPgLBq7nSucfMPRylW0w0hgPZdJkmVN-qX2rE82C4gDKh3dnil6pJqPEPT7nKkZF8t01cTU-BnyxyVIDuz86Ce6SPEdP_zCKMe6Jk4PL_4sREc8HqI8mifQ48tsaRWmAsg4ONK6EiAb5EzSyXqX4K0CTOGN8Gmt2z6kPiAo4t-tAktkuOdO70HQwV9HslB70_vHpubok5424pKeGMztvZxSNEayY72gzqcZ4cbfx-jlDdjS2UyTceiZRO0yHV095tk5tcVfdLlBgZvLz0nOP--eBIi44v_V9xvrrO6L-6lNPiIXQRaENb9cZ97LLAo7378qrb84GCqlW6mUdclXfXZuui0JHi7qfAh78lK6SM1l7KLL5gAdHPcGPmAQhauj3j-oAvCcA-OS0wrhfh0xbTXT6cZXVQoFQg6PHrRx7ft6Pv2l5Y5Z8azbxheqCscGYk2a8PmFBEalp5_tqRJfvyI9EE6FUYLG7x1w9rJpW1gVQps1yCCO_CUW5C8obINxtjPD-K9vjcjbYwTBL4XesPqMFQfh3lxIDQlrV9kZ0zMmls2V8uy5bz1fgj3A5XlAN9rUMBy0wRcN6hobnFnkL6SQpryx_6Cb9t61KR2dNKleTp4g_GhNaxuHO0MOV7YYCAssKWCT_p68VSVZ_tAOztzXRw48k6yERyFjSHKZA2WlVQGUEsiqnEe4KeC53nOtUetoLj89v0dWVnc5dR4ZVR5t-Qig63Xng2RJ-ync6fsDQ_ArtBWN8f4idtDT_r2wTrfMuPZdnyuIXN4_bZMHeNiFoGQa0IP0qXu1801KYawebkuGZsS3ye4DTuIqBcSIe9NPu0kBEOthFnWcxtJVLzqFozXTHHp6hrCiEtftjHkVDBfy_J8s97SBvH9sEW2TngeRQSte6NOopRlsG4P6T9sdiRQvA02P1LCn9-tnO_2aosy_cbU11S0sYd__fX_eF9VCtIpw1DYw41aTRinTtxdLKhpwDFVaxYrPOTU0ucjypvVDrczwSXeGzr1TM6yUBqzMwnQYicu2tJ2EmQ6aoxJpOrygUw4MCVIghUuvW5AUCGx2VMzkl5q2sWKQcANLZ1bCmFKU_HxIVIovcDxl0qrKf03CuhVRquTAjpzRW15DXEuBskXhXuOegl2Kvgcj1ezKRijrKpy2D-QvX6l-WDtUAnFK2tC9_QL7M9vA4rv8h8gzZMyJYdB_Pg9MWbOPkHi3iqu6OCH2Zd8feklApp6T2VutX7WZJ8qrfY9ip39om_au2esDCnZx5JMm70pYD4z4KxDNOa3zzTj6rIk-7oR7-ErMKYEB_ygh7zrhbDYl2ewaz3YnYgwLhG5dM7rGEBHe9h2q_6gM2EAkcATzoxDl_pvENpI9gYI9EMFu6j0A43M5H_aiJCVzsgKjTRL4nxgPZkMYRmx1Vv0WKObUUhRD2tzEBZwLaDh1idsKi62GnicvZaYSiiG33KrAC8eQg9S8TTD7x43EBwqF5lGuodDL9cH7nFQAx-368tpy0u50QiV2X99cRQl3aZRFBXTV9o9ZfAqv10csLV2bGqjfhRSRojw3WuUp_4fH7zQHW_tcKAuztpjQTDLks1vR509NYobjE0pZzXQUlYuJLM1ux0kakuNQv4T2EGVEwEiqnvZNXyRkQxV6SvX9S8wjN2L3Q0IF3wD8Me9sKPRnld_BFtGv9ylvDaM-BrBYOtDoJESDUW6H7O7Cx7DMCxYQ-gwzhFaHJJw9KSDQum-NevYId1VbLkpnEjZLbhsWMsEXR2hp3_9d1mWrlPduIJlJGw5HPnSckMg-ipi5qsPz2JxWn2apKMVU0Ae6uEvw2zx41apve0tGehmcdE0h7sPeHJMHocZCPl0IwtHjq9mPWpJn7BcFfVav8qmvpVLf7e60bEG65lwqSXxVX4MTJMa3YsurWlJ9Wvp7sNfvEhot-iUa0lk71eCgDALihsYhBDpX6JB-x-6DRqaV2DHOxmoxJS3Kcos5dcfXfiLdKpSh-MinHXSTyO8R4ahZKdBCVF_JOR7_SmlQI8EmhHMrHjdKW7u7qPw_abuL3l0t_mKL2QmjX_frBqIcGhfuCR4upDIydMHjkjXIjPWY3JOTTBwZZbFVf9ze7BheCzPN154RPCE8EuvXFuzo16bFLwLABm7lgcnCS6G_CNBB7LFIvKcpW1ksBcrt9PD3zNq3MdJC6JB6skrMCcnOg18zf8jmSigijzFEQPaDCV6z4olhm7Ru-he0oVbzDkVjV88FZewrolQza1Xf0mi46Go-S_pPPELPx2BH1EG7s7Rxs0RWDchby4z2tiMT31Qvi-KXpHxdkfMwKhLpyI8wS7WhPTjWzflzxVnS0DDdbH0iiOMkrAt2KU1WPiYhUawXRLqw8jhRdGQYXi9O__pxSYdCn5JZ9I9Vt9KkMOE-tW609aRVtgBqgJzp4lrINgvo_niXXtGstMQxKRaG5NkSDQMQy7INZYDY15Nfy5ETec6uEulYz5wh7O8NEcBXLLIK4tQHOdsLqEklHlSgEizXPiYddTuy_snTKg8drKQ4XdtuAahzuRVBoSUCCDVa5ynQwpBh-02rXMPbQ9a75OR2GmKFqi3HiBv_5mXXitCqjyyzeiAYoV4UtrOxHIde5K9REYN8lDYN7vyNjxpow6ChEPeZFUZjnhagNh5bca4Uamb-LW2YYQpVqja15J79gTm5r5kdKLsGZ_9Sx_dvcwva-mQqMJMIv1pZneYhxNurhm5FHqBA1FJGJePgCm_5-vDbabkY4M58L09UUKTo9RQE2LNlL2sKMyGEtFMs1GUTLddJB8NN0D-ELiUPa0cTfzeHSijUnzHRhRUzKqwSjrFxda3enOI8q3PZA1F9UvHhvhZWSS4TmBB1W46h3KFGnmA7rsqut9sn1LkutZl5UIBAqGHUir_7YhTQqWJ06pdY_z5W2r7Y0g0TSdvWUdk1RF31uX_y-BfvgzysmMKYr_5eRYSLpp-VxGpftV_Eiu7BrdOZKioRp2i3j2FdQ_unmVcry5BrVicx7pGEpTD_y8nGTmPTDNkviP6e4tpNlD1cRjppa2hPtgnxT2OEH84WqrQ9xHtuYKosC11B7Wfq9ViUog6OmJlP79sTi7yPM0Pp98Z_2X3z0iE2bDbcNvFr1bfzn8p3iyMBnv6VmT6cq_muQAh2haw1KqZjlsUL2_ToeNtTlUnW366xJkCrIZbWLduuzIFHZGb3cvqrXvqc4lbe-cMx1kn4cYMAsvcl6tQaxoMpLYdUrPDpAv-vlUA-7848cZgqxiktFzYBaNfrxOJ2QWM7CTEdLTrRBIIVYMIv-QOMn2F4F3t8FbOrZK-xo209zz5tPunT38mSJaJBfe-vMWYFSIZLXao8CPge65r-j4zLl0qoKjJgGrI1ixetTTHvW0pNx1uWO2Mv4LhEjDEgs34eDFSHy-_INX2uhqFh3p8QGqvTcvQyJh7p5fALsP6Fl8vfoUoqBTdvTsw2UxyWRbtMjDUysH1jJquz-jO0cdXkDSNWVajgGwjzlvL8hiQ2IhyJyLkHMIp1Kll3oXXjCnGvD6JPubOkXwkaeMplKEccoQFDjuLuqsZisrJm0SqIP9eCSwbu9_pc2nzJGE_5tmnXIJYDoMudzgSW_-qXXoCICCiNw-Ci_1GoJYY8h7KiekV3sWKux8YsJnnuiUZgfzNHFMzMrKUFtqYOMEzzhkMqJY4P_zcWoYFBUjSTOlGAOyOjyAr2fPYYUiCbIISykA7sa4fc_mGuB3itOD8pT_MdEHSYa0CRw2JGN8QBmaUTFKlimJEZrNNxjWxwCbW-ozMTLvGMHHejLT6lhApiGDhb_uAeCD7MsKWk0Nz-xtIHSyQ5wPssuA6zPNGGRYWatCjUKTl2i7AY6r3JympSW-ghPG_cue9ie4JuJJQC5mlh4MAvpkQklQejKvdUibrQ1w2eqO7X210U164o9EP7Ox5a7AzZsJQ9xDvFE82M5F-7uQdo_y3hnVWbV85Z_ntVfCRM7rE5NuaHuOCsXJB5FoJ8uSSZMPZ52gCnviQCoKMAh7KgCy-BYkC0d5eU=",
+      "id": "rs_0340941e41008326006b0549dc529487d299dc581c17c5793c",
+      "summary": [],
+      "type": "reasoning"
+    },
+    {
+      "arguments": "{\"command\":\"/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-closure-census -- .venv/bin/python - <<'PY'\\nimport sqlite3,json,hashlib,time\\nfrom pathlib import Path\\nfrom types import SimpleNamespace\\nfrom collections import Counter,defaultdict\\nfrom datetime import datetime,timezone\\nfrom GSE.curation.lexicon_builder.foundation import lexical_context,_exact_wordnet_ancestry,_attested_wordnet_lemma\\nfrom GSE.curation.lexicon_builder.engine import Relation\\nfrom GSE.curation.lexicon_builder.evidence import wiktionary_definition_projection,_taxonomy_assertions\\nfrom GSE.curation.external_sources.wordnet_hierarchy import _WARRANTED_ROOT_PRIMITIVES,ROOT_CONCEPT_PRIMITIVES,REVIEWED_SAY_EXCLUSIONS\\nfrom GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser\\nfrom GSE.curation.lexicon_builder.completion import _priority_source\\nfrom GSE.curation.lexicon_builder.specification import frequency_buckets,normalized_spelling\\nr=Path('docs/readings/2026-11-13-ssl-explicit-genera'); db=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db'); start=time.monotonic(); c=sqlite3.connect(f'file:{db}?mode=ro',uri=True); c.execute('BEGIN'); meta=dict(c.execute(\\\"SELECT key,value FROM builder_metadata WHERE key IN ('relations','rule_version')\\\")); rawrules=json.loads(meta['relations']); rules=[]\\nfor x in rawrules:\\n v=dict(x)\\n for k in ['banks','provenance','absent_evidence']:v[k]=tuple(v[k])\\n for k in ['guards','allowed_rows']:v[k]=tuple(tuple(a) for a in v[k])\\n rules.append(Relation(**v))\\n_,freq=_priority_source('zipf',None); buckets=frequency_buckets([a[0] for a in c.execute('SELECT DISTINCT lemma FROM lexemes')],freq); reach={x.rule_id:Counter() for x in rules}; gaps=[]; gap_count=0; sources=defaultdict(Counter); unsupported=Counter(); samples=defaultdict(list); checks=0\\nquery=\\\"SELECT o.record_id,o.payload,d.entry_id,l.lemma,l.pos,l.gloss,d.domains FROM source_observations o JOIN definition_states d ON d.entry_id=o.entry_id JOIN lexemes l ON l.id=d.lexeme_id WHERE o.source IN ('wordnet_hierarchy','wiktionary','gse_closed_class') ORDER BY o.record_id\\\"\\nfor rid,payload,eid,lemma,pos,gloss,rawdom in c.execute(query):\\n obs=json.loads(payload); definition={'entry_id':eid,'lemma':lemma,'pos':pos,'definition':gloss}; dom=json.loads(rawdom); src=obs['source']; bucket=buckets[normalized_spelling(lemma)]; context=lexical_context(definition,[obs],rules); checks+=1; projected={}\\n if src=='wordnet_hierarchy':\\n  anc=_exact_wordnet_ancestry(definition,obs)\\n  if not anc:unsupported['wordnet_exact_witness_unavailable']+=1\\n  else:\\n   unsupported['wordnet_attested_native_lemma' if _attested_wordnet_lemma(definition,obs) else 'wordnet_not_attested_native_lemma']+=1; f=obs['features']; syn=f['synset_name']\\n   for a in anc:\\n    for b in _WARRANTED_ROOT_PRIMITIVES.get(a,()):\\n     if b=='SAY' and a=='state.v.01' and syn in REVIEWED_SAY_EXCLUSIONS and f['definition']==REVIEWED_SAY_EXCLUSIONS[syn]:continue\\n     projected[b]=ROOT_CONCEPT_PRIMITIVES[a][b]\\n elif src=='wiktionary':projected=wiktionary_definition_projection(SimpleNamespace(**definition),obs['features'])\\n elif src=='gse_closed_class':\\n  projected=dict(obs['features'].get('primitives',{}))\\n  if eid in ['gse_closed_class:pronoun:i','gse_closed_class:pronoun:you']:projected.update(GSEClosedClassParser().reference_projection_for_observation(obs['features']))\\n for assertion in _taxonomy_assertions(rid,projected,src):\\n  b,val=assertion.bank,assertion.value; sc=sources[src]; sc['expected_assertion_cells']+=1; sc['already_singleton' if dom[b]==[val] else 'expected_value_open' if val in dom[b] else 'expected_value_excluded']+=1; sc[b+':expected']+=1\\n  if dom[b]!=[val] and len(samples['source_projection_gap'])<20:samples['source_projection_gap'].append({'entry_id':eid,'bank':b,'expected':val,'domain':dom[b],'source':src,'record_id':rid})\\n for rule in rules:\\n  rr=reach[rule.rule_id]\\n  if any(context.get(k)!=v for k,v in rule.guards):continue\\n  rr['native_witness_guard_matches']+=1; rr[bucket+':guard_matches']+=1\\n  if rule.absent_evidence:rr['requires_saved_absence_guard_receipt']+=1;continue\\n  rows=[row for row in rule.allowed_rows if all(v in dom[b] for b,v in zip(rule.banks,row))]\\n  if not rows:rr['no_compatible_row_review_trace_required']+=1;continue\\n  narrowed=[]\\n  for i,b in enumerate(rule.banks):\\n   allowed=sorted({row[i] for row in rows}); rr[b+(':open' if len(dom[b])>1 else ':filled')]+=1\\n   if set(allowed)!=set(dom[b]):narrowed.append({'bank':b,'current':dom[b],'rule_supported':allowed})\\n  if narrowed:\\n   rr['local_support_narrowing_not_reflected_in_domains']+=1;gap_count+=1\\n   if len(gaps)<40:gaps.append({'entry_id':eid,'rule_id':rule.rule_id,'record_id':rid,'narrowed':narrowed})\\n  else:rr['marginal_closure_consistent']+=1\\nc.close(); out={'format':'GSE.ssl-api-coverage-law-reach/1','created_utc':datetime.now(timezone.utc).isoformat(),'database_pin':json.loads((r/'ssl-api-coverage-demand.json').read_text())['database'],'method':'Read-only production lexical_context over each exact native source observation; standalone per-relation support crosscheck, NOT new full replay or admission. Counts are observation applications, not unique definitions where multiple native records share identity. Absence rules require retained full relevance receipts and are not unconditionally activated. Closed-class original declared primitives plus narrow I/YOU replay only; shared _taxonomy_assertions canonicalizes poles and scope.','rule_version':json.loads(meta['rule_version']),'native_observations_checked':checks,'stored_rules':rawrules,'rule_application_counts':reach,'native_source_projection_counts':sources,'scope_identity_counts':unsupported,'candidate_machinery_gap_count':gap_count,'candidate_machinery_gaps_requiring_trace_review':gaps,'samples':samples,'elapsed_seconds':time.monotonic()-start,'source_pins':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in map(Path,['GSE/curation/lexicon_builder/foundation.py','GSE/curation/lexicon_builder/definition_frames.py','GSE/curation/lexicon_builder/evidence.py','GSE/curation/external_sources/wordnet_hierarchy.py','GSE/curation/external_sources/wiktionary.py','GSE/curation/external_sources/gse_closed_class.py'])}}\\n(r/'ssl-api-coverage-law-reach.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\\\\n'); f=json.loads((r/'ssl-api-coverage-checkpoint-facts.json').read_text()); f['updated_utc']=out['created_utc']; f['source_projection_check']={'native_observations_checked':checks,'counts':sources,'candidate_machinery_gap_count':gap_count,'artifact':'ssl-api-coverage-law-reach.json'}; (r/'ssl-api-coverage-checkpoint-facts.json').write_text(json.dumps(f,indent=2)+'\\\\n'); print(json.dumps({'native_observations_checked':checks,'source_projection_counts':sources,'identity_counts':unsupported,'candidate_gap_count':gap_count,'candidate_gaps':gaps,'last_six_rule_reach':{k:v for k,v in reach.items() if k in [t['rule_id'] for t in rawrules[-6:]]},'seconds':out['elapsed_seconds']},indent=2))\\nPY\",\"cwd\":\"/Users/rohanvinaik/Projects/GSE\",\"timeout_seconds\":600}",
+      "call_id": "call_00b1de5099d349fc8a8c252eae8e4adf",
+      "id": "fc_0340941e41008326006b0549dc69bc87d28b6271a3635a5f87",
+      "name": "run_command",
+      "status": "completed",
+      "type": "function_call"
+    }
+  ],
+  "parallel_tool_calls": false,
+  "presence_penalty": 0.0,
+  "previous_response_id": "resp_0340941e41008326006b0549b2a44487d2b69ec6a1667688ed",
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "status": "completed",
+  "store": true,
+  "temperature": 1.0,
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+    "image_gen": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 0
+      },
+      "total_tokens": 0
+    },
+    "web_search": {
+      "num_requests": 0
+    }
+  },
+  "tools": [
+    {
+      "description": "Run a local command for the assigned implementation, returning complete output or a saved whole-output artifact. Read whole coherent units, never grep/rg or snippets. Credentials, billing, network clients, other workers and other edit scopes are forbidden.",
+      "name": "run_command",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 10800,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command",
+          "cwd",
+          "timeout_seconds"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    },
+    {
+      "description": "Apply an *** Begin Patch formatted edit to owned project files after tracing their consumers.",
+      "name": "apply_patch",
+      "output_schema": null,
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      },
+      "strict": true,
+      "type": "function"
+    }
+  ],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 135094,
+    "input_tokens_details": {
+      "cache_write_tokens": 2192,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 2192
+      },
+      "cached_tokens": 132899
+    },
+    "output_tokens": 2147,
+    "output_tokens_details": {
+      "reasoning_tokens": 200
+    },
+    "total_tokens": 137241
+  },
+  "user": null,
+  "metadata": {}
+}

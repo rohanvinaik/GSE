@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-composed-failure-evidence -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=json.loads((p/'ssl-api-runtime-composed-tools-readonly.json').read_text())\nfor x in r['sentences']:\n if x['id'] in {'above','below','before-noun','he-gas','have-auxiliary','have-main'}: print(json.dumps(x,indent=2))\nprint('SPEECH',json.dumps(r['document_speech'],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

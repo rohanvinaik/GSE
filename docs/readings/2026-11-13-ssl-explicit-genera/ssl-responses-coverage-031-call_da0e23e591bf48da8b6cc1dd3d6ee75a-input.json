@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-moving-source-pins -- .venv/bin/python - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nr=Path('docs/readings/2026-11-13-ssl-explicit-genera'); a=json.loads((r/'ssl-api-coverage-checkpoint-facts.json').read_text())['code_pins']; b=json.loads((r/'ssl-api-coverage-law-reach.json').read_text())['source_pins']; out={p:{'initial':sha,'law_scan_end':b.get(p),'current':hashlib.sha256(Path(p).read_bytes()).hexdigest()} for p,sha in a.items()}; print(json.dumps(out,indent=2)); (r/'ssl-api-coverage-source-pin-history.json').write_text(json.dumps({'format':'GSE.ssl-api-coverage-source-pin-history/1','created_utc':datetime.now(timezone.utc).isoformat(),'pins':out,'interpretation':'Shared tree moving; historical census results refer to their recorded code versions, not later edits. Persisted database H and demand do not depend on current source re-execution.'},indent=2)+'\\n')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

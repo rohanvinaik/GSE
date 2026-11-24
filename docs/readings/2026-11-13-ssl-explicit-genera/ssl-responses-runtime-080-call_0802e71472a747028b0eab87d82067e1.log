@@ -1,0 +1,1148 @@
+
+FILE GSE/api/decoder.py
+def __init__(self, db_path: str | Path | None = None):
+        """Initialize decoder with bases and database."""
+        self.db_path = resolve_lexicon_path(db_path)
+        # sqlite3.connect() creates a missing file, so check first: a wrong path fails here
+        # instead of leaving an empty database behind (#20).
+        if not self.db_path.exists():
+            raise FileNotFoundError(
+                f"GSE lexicon not found: {self.db_path} (cwd={Path.cwd()}). Pass an absolute "
+                "db_path or omit it for the activated lexical resource."
+            )
+
+        # Load HDC bases
+        self.word_basis = create_basis()
+        self.sent_basis = create_sentence_basis()
+
+        # Database connection
+        self.conn = sqlite3.connect(self.db_path)
+        self.cursor = self.conn.cursor()
+
+        # Build lexeme index for similarity search
+        self._build_lexeme_index()
+def decode(self, vector: SparseVector) -> DecodedSemantics:
+        """
+        Extract semantic information from vector.
+
+        Args:
+            vector: HDC vector to decode
+
+        Returns:
+            DecodedSemantics with entities, attributes, relations
+        """
+        # 1. Compute primitive activations
+        word_activations = self._probe_primitives(vector, self.word_basis)
+        sent_activations = self._probe_primitives(vector, self.sent_basis)
+
+        # 2. Extract entities
+        entities = self._extract_entities(vector, word_activations)
+
+        # 3. Extract attributes
+        attributes = self._extract_attributes(word_activations)
+
+        # 4. Extract relations
+        relations = self._extract_relations(sent_activations)
+
+        # 5. Find nearest lexemes
+        nearest = self._find_nearest_lexemes(vector, top_k=10)
+
+        # 6. Bank activity profile
+        bank_profile = self._compute_bank_activity(vector)
+
+        return DecodedSemantics(
+            entities=entities,
+            attributes=attributes,
+            relations=relations,
+            nearest_lexemes=nearest,
+            bank_activations=bank_profile,
+            primitive_activations={**word_activations, **sent_activations},
+        )
+def similarity(
+        self,
+        v1: SparseVector,
+        v2: SparseVector,
+        sentence1: str = "",
+        sentence2: str = "",
+    ) -> SimilarityResult:
+        """
+        Compute detailed similarity between two vectors.
+
+        Returns breakdown of:
+        - cosine: overall similarity
+        - alignment: same-sign overlap
+        - opposition: opposite-sign overlap
+        - orthogonality: non-overlap
+        """
+        cosine = v1.cosine(v2)
+
+        # Compute alignment/opposition/orthogonality
+        # alignment: positions where both have same sign
+        # opposition: positions where signs differ
+        # orthogonality: positions where one or both are zero
+
+        pos1 = set(v1.positive_indices.tolist())
+        neg1 = set(v1.negative_indices.tolist())
+        pos2 = set(v2.positive_indices.tolist())
+        neg2 = set(v2.negative_indices.tolist())
+
+        # Same-sign overlap
+        aligned_pos = len(pos1 & pos2)
+        aligned_neg = len(neg1 & neg2)
+        alignment = aligned_pos + aligned_neg
+
+        # Opposite-sign overlap
+        opposed = len(pos1 & neg2) + len(neg1 & pos2)
+
+        # Total active dimensions
+        total_active = len(pos1 | neg1 | pos2 | neg2)
+
+        # Normalize
+        if total_active > 0:
+            alignment_score = alignment / total_active
+            opposition_score = opposed / total_active
+            orthogonality_score = 1.0 - alignment_score - opposition_score
+        else:
+            alignment_score = 0.0
+            opposition_score = 0.0
+            orthogonality_score = 1.0
+
+        # Find shared/different primitives
+        shared_prims = []
+        different_prims = []
+
+        act1 = self._probe_primitives(v1, self.word_basis)
+        act2 = self._probe_primitives(v2, self.word_basis)
+
+        all_prims = set(act1.keys()) | set(act2.keys())
+        for prim in all_prims:
+            a1 = act1.get(prim, 0)
+            a2 = act2.get(prim, 0)
+            if a1 > 0.1 and a2 > 0.1:
+                shared_prims.append(prim)
+            elif abs(a1 - a2) > 0.2:
+                different_prims.append(prim)
+
+        return SimilarityResult(
+            sentence1=sentence1,
+            sentence2=sentence2,
+            cosine=round(cosine, 4),
+            alignment=round(alignment_score, 4),
+            opposition=round(opposition_score, 4),
+            orthogonality=round(orthogonality_score, 4),
+            shared_primitives=shared_prims,
+            different_primitives=different_prims,
+        )
+
+FILE GSE/cassettes/multiscale.py
+def _safe_store() -> Optional[GenealogyStore]:
+    try:
+        return GenealogyStore()
+    except Exception:
+        return None
+def __init__(self, raw_text: str, encoder: Optional[GSEEncoder] = None, store: Optional[GenealogyStore] = None):
+        self.raw = raw_text
+        self.source_sentences = document_sentences(_strip_scaffold(raw_text))
+        self.sentences = [unit.text for unit in self.source_sentences]
+        m = _GENRE_RE.search(raw_text[:300])
+        self.genre = m.group(1).upper() if m else None
+        self.encoder = encoder or GSEEncoder()
+        self.store = store if store is not None else _safe_store()
+
+        # sentence scale — the resolved per-sentence predicate trees
+        self.intake_events = list(encode_document_utterance_events(self.encoder, self.source_sentences))
+        self.manifest = self.intake_events[0]
+        self.utterance_outcomes = [event for event in self.intake_events if event["type"] == "utterance"]
+        self.failures = [event for event in self.utterance_outcomes if event["state"] != "read"]
+        successes = [event for event in self.utterance_outcomes if event["state"] == "read"]
+        trees = [event["tree"] for event in successes]
+        self.sentence_trees = list(trees)
+        sentence_indices = {unit.id: index for index, unit in enumerate(self.source_sentences)}
+        self._sent_of_tree: List[int] = []
+        self.tree_sources: List[Dict[str, Any]] = []
+        for index, event in enumerate(successes):
+            self._sent_of_tree.append(sentence_indices[event["source_sentence_id"]])
+            self.tree_sources.append(
+                {
+                    "tree_index": index,
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                }
+            )
+        self.phases = {}
+        expected = len(self.utterance_outcomes)
+        state = "empty" if not expected else ("unread" if not trees else ("partial" if self.failures else "read"))
+        self.phases["intake"] = {"state": state, "expected": expected, "read": len(trees), "failed": len(self.failures)}
+        self.sentence_states = {}
+        for unit in self.manifest["sentences"]:
+            outcomes = [event for event in self.utterance_outcomes if event["source_sentence_id"] == unit["id"]]
+            n_read = sum(event["state"] == "read" for event in outcomes)
+            self.sentence_states[unit["id"]] = (
+                "empty"
+                if not outcomes
+                else "unread"
+                if not n_read
+                else "read"
+                if n_read == len(outcomes)
+                else "partial"
+            )
+        try:
+            self.resolved = resolve_document(trees, self.store, genre=self.genre, raw_text=raw_text) if trees else []
+            self.phases["resolution"] = {"state": state, "error": None}
+        except Exception as exc:
+            self.resolved = trees
+            self.phases["resolution"] = {"state": "unread", "error": _phase_error("resolution", exc)}
+
+        # document scale — the multi-strand fold (recurrence × span, role, eligibility, strands)
+        self.timed = []
+        try:
+            self.timed = [(t, p) for t, tree in enumerate(self.resolved) for p in _collect_predicates(tree)]
+            self.fold: Dict[str, EntityFold] = read_fold(self.timed, None, self.store) if trees else {}
+            self.phases["fold"] = {"state": state, "error": None}
+            if self.phases["resolution"]["state"] == "unread" and trees:
+                self.phases["fold"] = {"state": "unread", "error": {"code": "unresolved_document"}}
+        except Exception as exc:
+            self.fold = {}
+            self.phases["fold"] = {"state": "unread", "error": _phase_error("fold", exc)}
+        self.graph = None
+        try:
+            if trees and self.phases["resolution"]["state"] != "unread":
+                from GSE.symbolic.narrative import NarrativeGraph
+
+                self.graph = NarrativeGraph.from_document(self.resolved, self.store, raw_text=raw_text)
+                self.phases["graph"] = {"state": state, "error": None}
+            else:
+                self.phases["graph"] = {
+                    "state": state if not trees else "unread",
+                    "error": None if not trees else {"code": "unresolved_document"},
+                }
+        except Exception as exc:
+            self.phases["graph"] = {"state": "unread", "error": _phase_error("graph", exc)}
+
+        # word + paragraph scale — every mention, tagged with its sentence and its discriminators
+        self.mentions: List[Mention] = []
+        self.by_id: Dict[str, List[Mention]] = {}
+        self._identity_links_cache: Optional[Dict[str, set]] = None
+        self._index_mentions()
+def unit_view(self, *, paragraph_id: str | None = None, source_sentence_id: str | None = None) -> dict:
+        """Select from the one document reading; retain out-of-unit antecedents.
+
+        No encoding or resolution is performed. Supporting mentions carry their
+        original source sentence and utterance IDs, including earlier paragraphs.
+        """
+        selected_ids = {
+            unit.id
+            for unit in self.source_sentences
+            if (paragraph_id is None or unit.paragraph_id == paragraph_id)
+            and (source_sentence_id is None or unit.id == source_sentence_id)
+        }
+        mentions = [mention for mention in self.mentions if mention.source_sentence_id in selected_ids]
+        referents = {mention.eid for mention in mentions if mention.eid is not None}
+        sources = [source for source in self.tree_sources if source["source_sentence_id"] in selected_ids]
+        return {
+            "source_sentence_ids": [unit.id for unit in self.source_sentences if unit.id in selected_ids],
+            "tree_sources": sources,
+            "trees": [self.resolved[source["tree_index"]] for source in sources],
+            "mentions": mentions,
+            "supporting_mentions": [
+                mention
+                for mention in self.mentions
+                if mention.eid in referents and mention.source_sentence_id not in selected_ids
+            ],
+            "phases": self.phases,
+        }
+
+FILE GSE/discourse/profile.py
+def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -> TextProfile:
+    """Encode every sentence of ``text`` with ``encoder`` and aggregate the
+    per-sentence GSE signals into a :class:`TextProfile`.
+
+    ``prime_basis`` fixes the primitive-bank key order (defaults to the encoder's
+    word basis) so profiles across texts share one vector layout.
+    """
+    from GSE.discourse.speech import encode_document_utterance_events
+
+    units = document_sentences(text)
+    if prime_basis is None:
+        prime_basis = sorted(encoder.word_basis.primitives.keys())
+    op_counts: Dict[str, int] = {op: 0 for op in OPERATION_VOCABULARY}
+    n_clauses = n_embedded = n_tokens = n_content = n_func = n_oov = 0
+    n_past = 0
+    degraded = 0
+    failures: List[dict] = []
+    read_ids: List[str] = []
+    depths: List[int] = []
+    losses: List[dict] = []
+    lemma_lens: List[int] = []
+    prim_sums: Dict[str, float] = {p: 0.0 for p in prime_basis}
+    per_sentence_valence: List[float] = []
+    valences: List[int] = []
+
+    for event in encode_document_utterance_events(encoder, units):
+        if event["type"] != "utterance":
+            continue
+        if event["state"] != "read":
+            failures.append(
+                {
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                    "error": event["error"],
+                }
+            )
+            continue
+        tr = event["trace"]
+        # Prepare a complete observation locally before committing accumulators.
+        # An exception must never leave a partially counted sentence behind.
+        try:
+            counts = event.get("operations", operation_counts(event["tree"]))
+            depth = event.get("embedding_depth", clause_depth(event["tree"]))
+            content = func = oov = 0
+            lengths = []
+            sent_val: List[int] = []
+            for t in tr.tokens:
+                if t.pos in _CONTENT_POS:
+                    content += 1
+                    lengths.append(len(t.lemma))
+                    wp, _sp, _m = encoder._lookup_lexeme(t.lemma)
+                    if not wp:
+                        oov += 1
+                    elif "GOOD" in wp or "BAD" in wp:
+                        v = int(wp.get("GOOD", 0)) - int(wp.get("BAD", 0))
+                        sent_val.append(v)
+                elif t.pos != "PUNCT":
+                    func += 1
+            degraded_count = len(coherence_report(event["tree"], tr))
+            activations = {p: float(tr.word_primitive_activations.get(p, 0.0)) for p in prime_basis}
+            clause_count = max(len(tr.clauses), 1)
+            embedded_count = sum(1 for clause in tr.clauses if clause.kind in _EMBED_KINDS)
+            token_count = len(tr.tokens)
+            past = int(any("SYN_TENSE_PAST" in (getattr(token, "sent_primitives", None) or {}) for token in tr.tokens))
+        except Exception as exc:
+            failures.append(
+                {
+                    "utterance_id": event["utterance_id"],
+                    "source_sentence_id": event["source_sentence_id"],
+                    "error": {
+                        "code": "profile_observation_error",
+                        "error_type": type(exc).__name__,
+                        "message": str(exc),
+                    },
+                }
+            )
+            continue
+        for operation, count in counts.items():
+            op_counts[operation] = op_counts.get(operation, 0) + count
+        read_ids.append(event["utterance_id"])
+        depths.append(depth)
+        losses.extend(event.get("structural_loss", []))
+        n_clauses += clause_count
+        n_embedded += embedded_count
+        n_tokens += token_count
+        n_content += content
+        n_func += func
+        n_oov += oov
+        lemma_lens.extend(lengths)
+        valences.extend(sent_val)
+        if sent_val:
+            per_sentence_valence.append(mean(sent_val))
+        n_past += past
+        for prime, activation in activations.items():
+            prim_sums[prime] += activation
+        degraded += degraded_count
+
+    n = len(read_ids)
+    state = "empty" if not units else ("unread" if not n else ("partial" if failures else "read"))
+    half = max(len(per_sentence_valence) // 2, 1)
+    arc = (
+        mean(per_sentence_valence[half:]) - mean(per_sentence_valence[:half])
+        if len(per_sentence_valence) >= 2
+        else None
+    )
+
+    def ratio(num, den):
+        return num / den if den else None
+
+    operator_mix = {op: ratio(op_counts.get(op, 0), n) for op in _OPERATIONS}
+    complexity = {
+        "clauses_per_sent": ratio(n_clauses, n),
+        "ops_per_sent": ratio(sum(op_counts.get(op, 0) for op in _OPERATIONS), n),
+        "tokens_per_sent": ratio(n_tokens, n),
+        "embed_rate": ratio(n_embedded, n),
+        "past_tense_rate": ratio(n_past, n),
+    }
+    coherence = {"degraded_rate": ratio(degraded, n_clauses)}
+    affect = {
+        "valence_mean": mean(valences) if valences else None,
+        "valence_spread": pstdev(valences) if valences else None,
+        "valence_arc": arc,
+    }
+    register = {
+        "func_word_ratio": ratio(n_func, n_content + n_func),
+        "oov_rate": ratio(n_oov, n_content),
+        "mean_lemma_len": mean(lemma_lens) if lemma_lens else None,
+    }
+    primitives = {p: ratio(prim_sums[p], n) for p in prime_basis}
+    populations = {}
+    for name, count, definition in (
+        ("structure", n, "successfully aggregated encoded utterances"),
+        ("coherence", n_clauses, "clauses from successfully aggregated utterances"),
+        ("affect", len(valences), "content tokens with explicit GOOD/BAD evidence"),
+        ("affect_arc", len(per_sentence_valence), "utterances with explicit GOOD/BAD evidence"),
+        ("content", n_content, "content-POS tokens from successfully aggregated utterances"),
+    ):
+        populations[name] = {
+            "state": ("partial" if failures else "measured") if count else ("unread" if failures else "absent"),
+            "n": count,
+            "failed": len(failures),
+            "support": "sufficient" if count >= 2 else ("thin" if count else "none"),
+            "evidence": read_ids,
+            "definition": definition,
+        }
+    return TextProfile(
+        n_sentences=len(units),
+        operator_mix=operator_mix,
+        complexity=complexity,
+        coherence=coherence,
+        affect=affect,
+        register=register,
+        primitives=primitives,
+        state=state,
+        n_read=n,
+        failures=failures,
+        populations=populations,
+        operations=op_counts,
+        embedding_depths=depths,
+        structural_loss=losses,
+    )
+
+FILE GSE/symbolic/__init__.py
+"""
+Symbolic evaluator over OperationTrace.
+
+Per ``sentence_architecture.md`` line 164: the API for engaging with the
+system should be pure Python / order of operations / set theory — not
+direct vector math. This package lifts encoder traces into typed ASTs
+and applies the set-theory semantics of each compositional operator
+symbolically.
+
+Sub-packages:
+
+* :mod:`expression` — the AST (Atom, Phrase, Negation, Op) + builder
+  ``from_trace`` that turns an :class:`GSE.api.trace.OperationTrace`
+  into an :class:`Expression`.
+* :mod:`resolution` *(planned, B5)* — multi-word entity grouping and
+  within-sentence reference binding.
+* :mod:`operators` *(planned, B2)* — pure-Python implementations of
+  SET_DIFF, BIND_EQ, etc.
+* :mod:`queries` *(planned, B3)* — consumer interface: entities(),
+  predicates(), is_logically_equal_to(), etc.
+* :mod:`templating` *(planned, B6)* — structural substitution.
+
+See ``docs/PHASE_B_SCOPE.md`` for the live scope.
+"""
+
+from GSE.symbolic.claims import (
+    CLAIM_KEY_VERSION,
+    ClaimKey,
+    Identity,
+    Polarity,
+    claim_key,
+    commitment,
+    commitment_modes,
+    identity,
+    polarity,
+    scope_signature,
+)
+from GSE.symbolic.emit import (
+    CONTRACT_VERSION,
+    emit,
+    emit_contract,
+    emit_json,
+)
+from GSE.symbolic.expression import (
+    Atom,
+    Expression,
+    Negation,
+    Op,
+    Phrase,
+    from_trace,
+)
+from GSE.symbolic.genealogy_store import GenealogyStore
+from GSE.symbolic.grounding import (
+    GenealogyProvider,
+    GroundingFlag,
+    NullGenealogy,
+    TriageResult,
+    grounding_flags,
+    resolve_document,
+    resolve_references,
+    triage_flags,
+)
+from GSE.symbolic.inference import Derivation, KnowledgeBase
+from GSE.symbolic.operators import (
+    OPERATION_DISPATCH,
+    UnknownOperation,
+    evaluate,
+    evaluate_tree,
+)
+from GSE.symbolic.predicates import (
+    BoundaryCase,
+    Causation,
+    ClauseCoordination,
+    Comparison,
+    Conditional,
+    Contrast,
+    Control,
+    DegreeQuery,
+    Equality,
+    Event,
+    MinimalSufficiency,
+    Predicate,
+    RelativeRestriction,
+    SetRestriction,
+    Temporal,
+    TypeAssertion,
+    TypeQuery,
+)
+from GSE.symbolic.propositions import Proposition, Scope, proposition_status, propositions
+from GSE.symbolic.queries import (
+    axis_of_comparison,
+    clauses,
+    entities,
+    entity_lemmas,
+    is_argument_swap_of,
+    is_logically_equal_to,
+    predicates,
+)
+from GSE.symbolic.resolution import Coordination, Entity, resolve, resolve_with_sources
+from GSE.symbolic.serialization import (
+    SerializationError,
+    from_dict,
+    from_json,
+    to_dict,
+    to_json,
+)
+from GSE.symbolic.signs import negation_signs
+from GSE.symbolic.templating import substitute
+
+__all__ = [
+    # AST
+    "Atom",
+    "Expression",
+    "Negation",
+    "Op",
+    "Phrase",
+    "from_trace",
+    # Predicates
+    "BoundaryCase",
+    "Causation",
+    "ClauseCoordination",
+    "Comparison",
+    "Conditional",
+    "Contrast",
+    "Control",
+    "DegreeQuery",
+    "Equality",
+    "Event",
+    "MinimalSufficiency",
+    "Predicate",
+    "RelativeRestriction",
+    "SetRestriction",
+    "Temporal",
+    "TypeAssertion",
+    "TypeQuery",
+    # Dispatch
+    "OPERATION_DISPATCH",
+    "UnknownOperation",
+    "evaluate",
+    "evaluate_tree",
+    # Emit contract (Genesis-facing §5 envelope)
+    "CONTRACT_VERSION",
+    "emit",
+    "emit_contract",
+    "emit_json",
+    # Resolution
+    "Coordination",
+    "Entity",
+    "resolve",
+    "resolve_with_sources",
+    # Reference resolution (entity ids + type threads) + document scope
+    "GenealogyProvider",
+    "NullGenealogy",
+    "resolve_references",
+    "resolve_document",
+    "GenealogyStore",
+    # Abstention signal (grounding confidence flags) + persist triage
+    "GroundingFlag",
+    "grounding_flags",
+    "TriageResult",
+    "triage_flags",
+    # Logical inference (transitive closure over the clause graph)
+    "KnowledgeBase",
+    "Derivation",
+    # Queries
+    "axis_of_comparison",
+    "clauses",
+    "entities",
+    "entity_lemmas",
+    "is_argument_swap_of",
+    "is_logically_equal_to",
+    "predicates",
+    # Signed propositions (one extraction under the shared modality decision)
+    "Proposition",
+    "Scope",
+    "proposition_status",
+    "propositions",
+    "CLAIM_KEY_VERSION",
+    "ClaimKey",
+    "Identity",
+    "Polarity",
+    "claim_key",
+    "commitment",
+    "commitment_modes",
+    "identity",
+    "polarity",
+    "scope_signature",
+    "negation_signs",
+    # Serialization
+    "SerializationError",
+    "from_dict",
+    "from_json",
+    "to_dict",
+    "to_json",
+    # Templating
+    "substitute",
+]
+
+
+FILE GSE/symbolic/queries.py
+"""
+Phase B3: query interface over evaluated symbolic trees.
+
+Per ``sentence_architecture.md`` line 154, the symbolic layer should
+support queries like:
+
+* "Recover what animals we're talking about" (entities)
+* "Recover the cuteness > 0 assertion about the dog" (predicates)
+* "Distinguish 'dog cuter than cat' from 'cat cuter than dog' symbolically"
+  (is_argument_swap_of, is_logically_equal_to)
+* "The axis of comparison" (axis_of_comparison)
+
+These functions consume any mix of :class:`Expression`, :class:`Entity`,
+and :class:`Predicate` nodes (i.e., the output of ``evaluate_tree`` over
+a ``resolve``'d AST). They never call back into HDC; pure Python set
+operations and tree walks.
+"""
+
+from __future__ import annotations
+
+from dataclasses import replace
+from typing import List, Optional, Set, Union
+
+from GSE.symbolic.expression import Atom, Expression, Negation, Op, Phrase
+from GSE.symbolic.predicates import (
+    BoundaryCase,
+    Causation,
+    ClauseCoordination,
+    Comparison,
+    Conditional,
+    Contrast,
+    Control,
+    DegreeQuery,
+    Equality,
+    Event,
+    MinimalSufficiency,
+    Predicate,
+    RelativeRestriction,
+    SetRestriction,
+    Temporal,
+    TypeAssertion,
+    TypeQuery,
+)
+from GSE.symbolic.resolution import Coordination, Entity
+
+# Anything that can show up in an evaluated symbolic tree.
+TreeNode = Union[Expression, Entity, Predicate]
+
+
+# ---------------------------------------------------------------------------
+# Entity extraction
+# ---------------------------------------------------------------------------
+
+
+def entities(tree: TreeNode) -> List[Entity]:
+    """Return every Entity in the tree, in document order.
+
+    "The dog is cuter than the cat" → [Entity(dog), Entity(cat)].
+    """
+    seen_lemmas: Set[tuple] = set()
+    out: List[Entity] = []
+
+    def _walk(n: TreeNode) -> None:
+        if isinstance(n, Entity):
+            key = (n.head.lemma, n.head.position)
+            if key not in seen_lemmas:
+                seen_lemmas.add(key)
+                out.append(n)
+            if n.possessor is not None:
+                _walk(n.possessor)
+            return
+        if isinstance(n, Coordination):
+            for m in n.members:
+                _walk(m)
+            return
+        if isinstance(n, Op):
+            for a in n.args:
+                _walk(a)
+            return
+        if isinstance(n, Negation):
+            _walk(n.operand)
+            return
+        if isinstance(n, Phrase):
+            for a in n.atoms:
+                _walk(a)
+            return
+        # Predicate types — walk their content fields
+        if isinstance(n, Comparison):
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
+        if isinstance(n, Equality):
+            _walk(n.lhs)
+            _walk(n.rhs)
+            return
+        if isinstance(n, TypeQuery):
+            _walk(n.entity)
+            return
+        if isinstance(n, TypeAssertion):
+            _walk(n.entity)
+            _walk(n.kind)
+            return
+        if isinstance(n, DegreeQuery):
+            _walk(n.entity)
+            return
+        if isinstance(n, MinimalSufficiency):
+            _walk(n.threshold)
+            _walk(n.purpose)
+            return
+        if isinstance(n, SetRestriction):
+            _walk(n.member)
+            _walk(n.predicate)
+            return
+        if isinstance(n, BoundaryCase):
+            _walk(n.entity)
+            _walk(n.predicate)
+            return
+        if isinstance(n, Contrast):
+            _walk(n.left)
+            _walk(n.right)
+            return
+        if isinstance(n, Causation):
+            _walk(n.cause)
+            _walk(n.effect)
+            return
+        if isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+            return
+        if isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+            return
+        if isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
+            return
+        if isinstance(n, RelativeRestriction):
+            _walk(n.head)
+            _walk(n.restriction)
+            return
+        if isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
+            _walk(n.controller)
+            _walk(n.inner)
+            return
+        if isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
+            return
+        # Atom — leaf, nothing to traverse further
+
+    _walk(tree)
+    return out
+
+
+def entity_lemmas(tree: TreeNode) -> List[str]:
+    """Convenience: the lemmas of every entity in document order."""
+    return [e.head.lemma for e in entities(tree)]
+
+
+# Predicate types that mark a clause boundary or an embedded clause — the
+# multi-clause structures (decision B: clauses are implicit, discoverable here).
+_CLAUSE_PREDICATES = (
+    Causation,
+    Contrast,
+    ClauseCoordination,
+    Conditional,
+    Temporal,
+    RelativeRestriction,
+    Control,
+)
+
+
+def clauses(tree: TreeNode) -> List[Predicate]:
+    """Return the clause-level predicates in the tree, in document order.
+
+    A "clause" in the multi-clause sense surfaces as a clause-linking or
+    embedding predicate: a clause linker joining two clauses — Causation
+    (because/so), Contrast (but), ClauseCoordination (and), Conditional (if)
+    or Temporal (when/while/after/before) — a RelativeRestriction
+    (who/which/that), or a Control ('to'). Per decision B clauses are
+    *implicit* — this walk is how you discover them. Returns ``[]`` for a
+    single-clause sentence. Use ``entities(clause)`` for clause-scoped
+    entities, since :func:`entities` accepts any subtree node.
+    """
+    return [p for p in predicates(tree) if isinstance(p, _CLAUSE_PREDICATES)]
+
+
+# ---------------------------------------------------------------------------
+# Predicate extraction
+# ---------------------------------------------------------------------------
+
+
+def predicates(tree: TreeNode) -> List[Predicate]:
+    """Return every Predicate in the tree (nested traversal)."""
+    out: List[Predicate] = []
+    _predicate_classes = (
+        Comparison,
+        Equality,
+        TypeQuery,
+        TypeAssertion,
+        DegreeQuery,
+        MinimalSufficiency,
+        SetRestriction,
+        BoundaryCase,
+        Contrast,
+        Causation,
+        ClauseCoordination,
+        Conditional,
+        Temporal,
+        RelativeRestriction,
+        Control,
+        Event,
+    )
+
+    def _walk(n: TreeNode) -> None:
+        if isinstance(n, _predicate_classes):
+            out.append(n)
+        # Predicates can wrap Expression children — walk them too in case
+        # of nested operators.
+        if isinstance(n, Op):
+            for a in n.args:
+                _walk(a)
+        elif isinstance(n, Negation):
+            _walk(n.operand)
+        elif isinstance(n, Phrase):
+            for a in n.atoms:
+                _walk(a)
+        elif isinstance(n, Entity):
+            if n.possessor is not None:
+                _walk(n.possessor)
+        # Walk Predicate children (in case of nesting)
+        if isinstance(n, Comparison):
+            _walk(n.lhs)
+            _walk(n.rhs)
+        elif isinstance(n, Equality):
+            _walk(n.lhs)
+            _walk(n.rhs)
+        elif isinstance(n, TypeQuery):
+            _walk(n.entity)
+        elif isinstance(n, TypeAssertion):
+            _walk(n.entity)
+            _walk(n.kind)
+        elif isinstance(n, DegreeQuery):
+            _walk(n.entity)
+        elif isinstance(n, MinimalSufficiency):
+            _walk(n.threshold)
+            _walk(n.purpose)
+        elif isinstance(n, SetRestriction):
+            _walk(n.member)
+            _walk(n.predicate)
+        elif isinstance(n, BoundaryCase):
+            _walk(n.entity)
+            _walk(n.predicate)
+        elif isinstance(n, Contrast):
+            _walk(n.left)
+            _walk(n.right)
+        elif isinstance(n, Causation):
+            _walk(n.cause)
+            _walk(n.effect)
+        elif isinstance(n, ClauseCoordination):
+            _walk(n.left)
+            _walk(n.right)
+        elif isinstance(n, Conditional):
+            _walk(n.antecedent)
+            _walk(n.consequent)
+        elif isinstance(n, Temporal):
+            _walk(n.setting)
+            _walk(n.event)
+        elif isinstance(n, RelativeRestriction):
+            _walk(n.head)
+            _walk(n.restriction)
+        elif isinstance(n, Control):
+            if n.subject is not None:
+                _walk(n.subject)
+            _walk(n.controller)
+            _walk(n.inner)
+        elif isinstance(n, Event):
+            _walk(n.agent)
+            if n.patient is not None:
+                _walk(n.patient)
+
+    _walk(tree)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Axis of comparison
+# ---------------------------------------------------------------------------
+
+
+def axis_of_comparison(node: TreeNode) -> Optional[str]:
+    """Best-guess axis for a Comparison / Equality / DegreeQuery.
+
+    Walks the relevant content fields looking for the first adjective/
+    adverb atom (POS == ``ADJ`` or ``ADV``) and returns its lemma. For
+    "Mike is taller than Rex" the lhs span typically includes "tall"
+    as ADJ (post-lemmatization).
+
+    Returns the predicate's stored ``axis`` field if set; otherwise
+    infers from the args' POS. Returns ``None`` if no candidate found.
+    """
+    if isinstance(node, (Comparison, Equality, DegreeQuery)):
+        if getattr(node, "axis", None):
+            return node.axis
+        # Walk the lhs / rhs / entity content looking for ADJ/ADV
+        targets: List[TreeNode] = []
+        if isinstance(node, Comparison):
+            targets = [node.lhs, node.rhs]
+        elif isinstance(node, Equality):
+            targets = [node.lhs, node.rhs]
+        else:  # DegreeQuery
+            targets = [node.entity]
+        for t in targets:
+            axis = _first_adj_adv(t)
+            if axis is not None:
+                return axis
+    return None
+
+
+def _first_adj_adv(node: TreeNode) -> Optional[str]:
+    """Find the leftmost ADJ/ADV atom (or Entity.modifier) in a subtree."""
+    if isinstance(node, Atom):
+        if node.pos in ("ADJ", "ADV"):
+            return node.lemma
+        return None
+    if isinstance(node, Entity):
+        # Resolution preserves the source Phrase's ADJ/ADV as Entity.modifier.
+        # This is the canonical recovery path after resolve().
+        if node.modifier is not None:
+            return node.modifier.lemma
+        # Entity head shouldn't be an adjective, but check as a fallback
+        if node.head.pos in ("ADJ", "ADV"):
+            return node.head.lemma
+        return None
+    if isinstance(node, Coordination):
+        if node.modifier is not None:
+            return node.modifier.lemma
+        for m in node.members:
+            found = _first_adj_adv(m)
+            if found is not None:
+                return found
+        return None
+    if isinstance(node, Phrase):
+        for a in node.atoms:
+            if a.pos in ("ADJ", "ADV"):
+                return a.lemma
+        return None
+    if isinstance(node, Negation):
+        return _first_adj_adv(node.operand)
+    if isinstance(node, Op):
+        for a in node.args:
+            found = _first_adj_adv(a)
+            if found is not None:
+                return found
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Logical equality and argument swap
+# ---------------------------------------------------------------------------
+
+
+def is_logically_equal_to(a: TreeNode, b: TreeNode) -> bool:
+    """True if two trees have the same logical structure + entity content.
+
+    Stricter than ``==`` because it ignores positions, roles, and
+    word_primitives — just looks at structural shape and lemma identity.
+    "Dog is taller than cat" should logically equal itself even if the
+    two trees were built from different traces.
+    """
+    return _structural_signature(a) == _structural_signature(b)
+
+
+def is_argument_swap_of(a: TreeNode, b: TreeNode) -> bool:
+    """True if ``a`` is ``b`` with the args of some top-level operator swapped.
+
+    "Dog cuter than cat" and "Cat cuter than dog" → True. The operation
+    and entity set are the same; only the directional argument
+    assignment differs.
+    """
+    if not isinstance(
+        a,
+        (Op, Comparison, Equality, Contrast, ClauseCoordination, Causation, Conditional, Temporal, MinimalSufficiency),
+    ):
+        return False
+    if type(a) is not type(b):
+        return False
+    # Swap b's args and compare structurally
+    swapped = _swap_args(b)
+    return is_logically_equal_to(a, swapped)
+
+
+def _swap_args(node: TreeNode) -> TreeNode:
+    if isinstance(node, Op):
+        if node.arity == 2 and len(node.args) == 2:
+            return replace(node, args=[node.args[1], node.args[0]])
+        return node
+    if isinstance(node, Comparison):
+        return Comparison(lhs=node.rhs, rhs=node.lhs, sign=node.sign, axis=node.axis)
+    if isinstance(node, Equality):
+        return Equality(lhs=node.rhs, rhs=node.lhs, axis=node.axis)
+    if isinstance(node, Contrast):
+        return Contrast(left=node.right, right=node.left)
+    if isinstance(node, Causation):
+        return Causation(cause=node.effect, effect=node.cause, conjunction=node.conjunction)
+    if isinstance(node, ClauseCoordination):
+        return ClauseCoordination(left=node.right, right=node.left, conjunction=node.conjunction)
+    if isinstance(node, Conditional):
+        return Conditional(antecedent=node.consequent, consequent=node.antecedent, conjunction=node.conjunction)
+    if isinstance(node, Temporal):
+        return replace(node, setting=node.event, event=node.setting)
+    if isinstance(node, MinimalSufficiency):
+        return MinimalSufficiency(threshold=node.purpose, purpose=node.threshold)
+    return node
+
+
+def _structural_signature(node: TreeNode):
+    """A canonical tuple representation for structural comparison."""
+    if isinstance(node, (Op, Event, TypeAssertion, Control, Temporal)) and node.duration is not None:
+        verb = node.primitive if isinstance(node, Op) and node.operation in {"EVENT", "CONTROL"} else None
+        return ("Duration", node.duration, verb, _structural_signature(replace(node, duration=None)))
+    if isinstance(node, Atom):
+        if not node.degree:
+            return ("Atom", node.lemma)
+        return ("Atom", node.lemma, node.degree.get("scale"), node.degree.get("level"))
+    if isinstance(node, Phrase):
+        atoms = [a for a in node.atoms if not a.degree_modifier]
+        if len(atoms) == 1 and any(a.degree_modifier for a in node.atoms):
+            return _structural_signature(atoms[0])
+        return ("Phrase", tuple(_structural_signature(a) for a in atoms))
+    if isinstance(node, Negation):
+        return ("Negation", _structural_signature(node.operand))
+    if isinstance(node, Op):
+        direction = (node.primitive,) if node.operation == "TEMPORAL" and node.primitive in ("BEFORE", "AFTER") else ()
+        return (
+            "Op",
+            node.operation,
+            node.arity,
+            tuple(_structural_signature(a) for a in node.args),
+            *direction,
+        )
+    if isinstance(node, Entity):
+        if node.head.degree or (node.modifier is not None and node.modifier.degree):
+            return (
+                "Entity",
+                _structural_signature(node.head),
+                _structural_signature(node.modifier) if node.modifier is not None else None,
+                _structural_signature(node.possessor) if node.possessor else None,
+            )
+        return (
+            "Entity",
+            node.head.lemma,
+            _structural_signature(node.possessor) if node.possessor else None,
+        )
+    if isinstance(node, Coordination):
+        if node.modifier is not None and node.modifier.degree:
+            return (
+                "Coordination",
+                node.conjunction,
+                tuple(_structural_signature(m) for m in node.members),
+                _structural_signature(node.modifier),
+            )
+        return (
+            "Coordination",
+            node.conjunction,
+            tuple(_structural_signature(m) for m in node.members),
+        )
+    if isinstance(node, Comparison):
+        return ("Comparison", node.sign, _structural_signature(node.lhs), _structural_signature(node.rhs))
+    if isinstance(node, Equality):
+        return ("Equality", _structural_signature(node.lhs), _structural_signature(node.rhs))
+    if isinstance(node, TypeQuery):
+        return ("TypeQuery", _structural_signature(node.entity))
+    if isinstance(node, TypeAssertion):
+        return ("TypeAssertion", _structural_signature(node.entity), _structural_signature(node.kind))
+    if isinstance(node, DegreeQuery):
+        return ("DegreeQuery", _structural_signature(node.entity))
+    if isinstance(node, MinimalSufficiency):
+        return ("MinimalSufficiency", _structural_signature(node.threshold), _structural_signature(node.purpose))
+    if isinstance(node, SetRestriction):
+        return ("SetRestriction", _structural_signature(node.member), _structural_signature(node.predicate))
+    if isinstance(node, BoundaryCase):
+        return ("BoundaryCase", _structural_signature(node.entity), _structural_signature(node.predicate))
+    if isinstance(node, Contrast):
+        return ("Contrast", _structural_signature(node.left), _structural_signature(node.right))
+    if isinstance(node, Causation):
+        return ("Causation", node.conjunction, _structural_signature(node.cause), _structural_signature(node.effect))
+    if isinstance(node, ClauseCoordination):
+        return (
+            "ClauseCoordination",
+            node.conjunction,
+            _structural_signature(node.left),
+            _structural_signature(node.right),
+        )
+    if isinstance(node, Conditional):
+        return (
+            "Conditional",
+            node.conjunction,
+            _structural_signature(node.antecedent),
+            _structural_signature(node.consequent),
+        )
+    if isinstance(node, Temporal):
+        return ("Temporal", node.conjunction, _structural_signature(node.setting), _structural_signature(node.event))
+    if isinstance(node, Event):
+        # The roleframe: verb + agent + patient. Event.themes are latent secondary args,
+        # preserved but not promoted into the default analysis, so they are not compared.
+        return (
+            "Event",
+            node.verb,
+            _structural_signature(node.agent),
+            _structural_signature(node.patient) if node.patient is not None else None,
+        )
+    if isinstance(node, RelativeRestriction):
+        return ("RelativeRestriction", _structural_signature(node.head), _structural_signature(node.restriction))
+    if isinstance(node, Control):
+        # The matrix verb and subject are content: "Lady Macbeth persuaded Macbeth to …" is not
+        # "Banquo forbade Macbeth to …" (both were dropped before #3).
+        return (
+            "Control",
+            node.verb,
+            _structural_signature(node.subject) if node.subject is not None else None,
+            _structural_signature(node.controller),
+            _structural_signature(node.inner),
+        )
+    return ("Unknown", repr(node))
+

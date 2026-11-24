@@ -790,6 +790,30 @@ class NativeNLP:
         if reading == "NOUN":
             return "NOUN"
 
+        # A determined copular NP can have adjective modifiers between its
+        # article and head. Its attested noun head is not a finite -s verb
+        # ("is an inert gas"). This is occurrence grammar, not sense choice;
+        # a noun/verb elsewhere and an article-less participle remain eligible
+        # for their ordinary predicate readings.
+        if has_n:
+            j = i - 1
+            while (
+                j >= 0
+                and surfaces[j].lower() not in _STOP
+                and (wn.synsets(surfaces[j].lower(), pos="a") or wn.synsets(surfaces[j].lower(), pos="s"))
+            ):
+                j -= 1
+            if j < i - 1 and j >= 1 and surfaces[j].lower() in {"a", "an", "the"}:
+                k = j - 1
+                while k >= 0 and surfaces[k].lower() in (_NEG | _COPULA_SKIP):
+                    k -= 1
+                next_word = surfaces[i + 1].lower() if i + 1 < len(surfaces) else ""
+                at_nominal_end = (
+                    not next_word or bool(_PUNCT_RE.fullmatch(next_word)) or next_word in (_ADP | _SCONJ | _CCONJ)
+                )
+                if k >= 0 and surfaces[k].lower() in _AUX_BE and at_nominal_end:
+                    return "NOUN"
+
         if low.endswith("ly") and low != "only":
             return "ADV"
 

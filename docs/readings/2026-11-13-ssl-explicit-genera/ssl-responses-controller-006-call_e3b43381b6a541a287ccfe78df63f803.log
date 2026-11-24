@@ -1,0 +1,316 @@
+
+=== /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/01_PAPER_SKELETON.md === 58905
+# Understanding as Constrained Resolution
+### Specification Complexity in Conceptual Space — a paper skeleton
+## The Empowerment Promise (½ page — opens the paper)
+## 1. Introduction (5–6 pages)
+### 1.1 The thesis, stated once and exactly
+### 1.2 Why deterministic, auditable, and abstaining matters
+### 1.3 Why this is not a new theory (the positioning, up front and honest)
+### 1.4 The load-bearing homology, in one paragraph
+### 1.4b The headline result: the Semantic Completeness Equation
+### 1.4c The scope of "complete": the field and the artifact
+### 1.5 Paper organization
+## 2. Semantic Degrees of Freedom and the Semantic Teaching Dimension $\sigma_{\mathrm{sem}}$ (5–6 pages)
+### 2.1 The candidate-reading neighborhood
+### 2.2 The semantic teaching dimension
+### 2.3 The $\sigma$-trajectory: understanding as a process
+### 2.4 Countability answers the subjectivity objection (foreshadows the Hinge, §5)
+### 2.5 The Learning Dynamics: the Semantic Completeness Equation (the headline result)
+## 3. Surprise as the Resolution Signal (4–5 pages)
+### 3.1 The definition and its direction
+### 3.2 Three exact forms (borrowed as priors, not re-derived)
+### 3.3 Surprise as free-energy descent (the continuous lower layer)
+### 3.4 The honest boundary of the continuous layer (stated here, not hidden)
+## 4. The Meta-Narrative Controller (5–6 pages)
+### 4.1 The two directions
+### 4.2 The controller in classical terms
+### 4.3 The falsifiability constraint (the one live design risk)
+### 4.4 Retained-plurality budget (the guard, quantified)
+## 5. Plural Coherence: The Battle-of-Stalingrad Hinge (4–5 pages)
+### 5.1 The objection, stated at full strength
+### 5.2 The answer: two lawful symmetry-breakings
+### 5.3 Why the plurality is lawful (H3) and how it is enumerated
+### 5.4 Regime/symmetry ⇒ $\sigma$ (the link back to the corpus)
+### 5.5 What SLT cannot do here (honest, and it strengthens the claim)
+## 6. Grounding in Specification Complexity and COEC (4–5 pages)
+### 6.1 The homology table (the paper's spine)
+### 6.2 The Five-Field Identification, inherited
+### 6.3 Understanding as a COEC system
+### 6.4 The Blum-vs-AIT distinction (why $\sigma_{\mathrm{sem}}$ is well-posed where ideal MDL only approximates)
+## 7. The Instrument: Genesis × GSE (5–6 pages)
+### 7.1 The substrate, and the division of labor
+### 7.2 The buildable seams (the two crisp engineering claims)
+### 7.3 Genesis mechanisms already running (cite as realization, not conjecture)
+### 7.4 Self-similarity: the theory is an instance of the pattern it describes
+## 8. Related Work: A Cross-Tradition Map (4–5 pages)
+### 8.1 The mapping table
+### 8.2 The one-line reading of the map
+### 8.3 Relation to information-based complexity (why IBC does not absorb the claim)
+## 9. Boundaries and Honest Future Directions (3–4 pages)
+### 9.1 What is proved vs. what is asserted
+### 9.2 The enumeration boundary
+### 9.3 The continuous/discrete seam
+### 9.4 The controller's falsifiability, empirically
+### 9.5 Scale
+## 10. Conclusion (1–2 pages)
+## Appendix A — Equation entry points (to be developed into Definitions/Theorems)
+## Appendix B — Citation ledger (priors to cite, not re-derive)
+
+=== /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/SIGNIFICANCE_WEIGHTING.md === 63988
+# Significance-weighting — surprise=information turned inward, and why it makes long-chain reasoning tractable
+## 1. What significance is
+## 2. The number is a bracket, and the base is measured, not picked
+## 3. The closed-set finding: `b < 1`, and why it is the correct starting condition
+## 4. The inversion: open the set, and significance becomes a proposal prior
+## 5. The resolution: weight by `κ`, not by raw `bᴺ`
+## 6. The two-sided payoff
+### 6.1 The leaked-function-word floor + the input pre-pass (built 2026-07-18)
+## 7. Where it lands as an induction controller
+## 7b. The dynamic: κ re-flows as rules are learned — the Socratic loop
+## 8. The build (`regenesis/significance.py`)
+## 9. The per-read theory, in one homology
+# Part II — The corpus layer: when the engine teaches itself
+## 10. What changes at N > 1
+## 11. The self-teaching completeness equation (the headline of the extension)
+## 12. The induction split: $I_{\text{solve}} = I_{\text{ind}} + I_{\text{ext}}$
+## 13. ★ THE CRUX: submodularity FAILS at bridges — and bridges are where the reasoning is
+## 14. The guard is a well-definedness condition, not just safety
+## 15. Status: proved / asserted / measured, and the Lean targets
+## 16. The build — learn the theory by building it
+## 16.1a — THE MEASUREMENT (2026-07-15): §13 is not a conjecture, it is the regime
+## 16.7 Promotion ON — the corpus fixpoint, and why it stays conservative
+# Part III — Consolidation: significance run in reverse (the legibility side)
+## 17. Safe forgetting = σ-preserving reduction
+## 17.1 Wake and sleep are the two directions of the σ-dynamics
+## 17.2 Status: proved / transported / conjectured, and the Lean targets
+## Provenance
+
+=== /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/LLM_WORKFLOW/SEMANTIC_CONSTRUCTION_WORKFLOW.md === 79835
+# Semantic construction through teaching, coherence, and surprise
+## Purpose and outcome
+## What the GSE conversation requires
+## 1. Declare the artifact and its domain adapter
+## 2. Represent uncertainty and authority explicitly
+## 3. Measure learning in the units the implementation can establish
+## 4. Run a teaching curriculum that exposes reusable structure
+## 5. Teach through bounded, replayable decisions
+## 6. Construct an explicit rule universe
+## 7. Stage broad effects and collect typed surprises
+## 8. Interpret exceptions and recurse
+## 9. Audit, admit, and migrate a rule revision
+## 10. The mechanical epoch
+## 11. Persist enough state to reproduce each transition
+## 12. Determine when to continue, pause, or publish
+## 13. GSE implementation inventory and integration order
+## 14. Existing commands and the first continuation
+### Publishing successive sparse GSE rounds
+## References and adaptation notes
+
+=== /Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md === 132257
+# From semantic teaching to reusable lexical rules
+## Specification learning in the construction of an English lexicon
+### Abstract
+### 1. The unit of inquiry
+### 2. Specification learning as a construction method
+### 3. The learning cycle
+### 4. Worked example
+### 5. Results ledger
+#### Follow-up beyond measurement senses
+#### Contraction on the active sparse series
+#### Right-hand and cross-source rounds
+#### Resolving the WORDS audit
+#### Rebasing the coordinated-person rule
+#### Explicit personal capacity
+#### Extending the exact genus rules
+#### A sentence-guided event and action comparison
+#### Realizing lexical gains through contextual grounding
+#### Acquisition and occurrence after contextual grounding
+#### The remaining incident and accident readings
+#### Anatomical definitions orthogonal to WANT
+#### Exact-sense transfer and explicit stative content
+#### Grounding the state diagnostics and transferring qualified conditions
+#### Specifying the missing state-denotation premise
+#### Coverage and scope before the 020 round
+#### Speech acts and evidence-based reasoning
+#### Vertebrate body-template learning cycle
+#### Approved constitutive-anatomy BODY cycle
+#### Breadth and typed genus refinement after release 021
+#### Person reference as the next broad exclusion mechanism
+#### Usable checkpoints, legacy hypotheses and patterns in the residual
+#### SSL checkpoint handoff: full-basis specification and experiment accounting
+### Checkpoint implementation: source proofs and consumer scope
+### Method correction: identity eligibility and historical Zipf attribution
+### Mandatory joint-space phase — 2026-11-23
+#### Engineering reconciliation and checkpoint acceptance — 2026-11-23
+#### Controller implementation follow-up — 2026-11-23
+### 6. Linguistic and sociological implications
+### Reproduction record
+### References
+
+=== PRODUCTION AST MAP ===
+
+GSE/curation/lexicon_builder/epoch.py
+44 46 def fingerprint(path):
+49 50 def read(path):
+53 64 def record(path, value):
+67 68 def connect(path):
+71 79 def snapshot_copy(source, target):
+83 132 class Family:
+  94 95 antecedents
+  98 99 allowed_consequents
+  101 113 proposal
+  115 132 relation
+135 247 def parse_plan(raw):
+250 299 def census(baseline, families):
+302 303 def _sense_group(row):
+306 341 def _append_native_frame_scopes(conn, framed, inventory):
+344 345 def _domains(state):
+348 363 def _resolve(row, rules, *, retire_models=False):
+366 394 def scope_rows(candidate, inventory):
+397 421 def mine_scope_chains(candidate, inventory):
+424 468 def forecast(rows, rules, proposals):
+471 472 def gains(report):
+475 496 def question_effects(row, rules, bank):
+499 651 def choose(
+654 655 def premises_proved(domains, premises):
+658 661 class EpochTransportRefusal(RuntimeError):
+  660 661 code
+664 729 class JournaledTransport:
+  667 674 __init__
+  676 726 __call__
+  728 729 count
+732 734 def make_question(candidate, identity, bank):
+737 767 def make_questions(candidate, coordinates):
+770 845 def teach(base, working, selected, family, transport, directory):
+848 869 def reviewed_input(candidate, family, selected, taught):
+872 882 def pair_discovery(raw, family):
+885 908 def epoch_discovery(raw, family, families):
+911 933 def exact_delta(before, after):
+936 951 def premise_dependencies(candidate, inventory, selected, admitted):
+954 1008 def admit_and_migrate(working, output, directory, raw, audited, family, staged):
+1011 1299 def run_arm(plan, baseline, active_pointer, directory, inventory, policy, transport, lock_path):
+1302 1335 def learn_reviewed_rule(plan, working, output, phase, inventory, families, selected, taught, auditing):
+1338 1434 def run_epoch(
+
+GSE/curation/lexicon_builder/learning_state.py
+61 62 def _json(value):
+65 76 def mechanism_contract(relation):
+79 80 def mechanism_id(relation):
+83 384 class LearningState:
+  86 110 __init__
+  113 131 _connect
+  134 141 _event
+  143 166 propose
+  168 170 review
+  172 200 review_many
+  202 212 disposition
+  214 221 ready
+  223 236 witnesses
+  238 246 reviewed
+  248 256 pending
+  258 262 archive_request
+  264 268 request
+  270 272 record_epoch
+  274 282 _record_epoch
+  284 300 initialize_head
+  303 334 _heads
+  336 338 head
+  340 342 head_history
+  344 373 advance_head
+  375 384 epochs
+
+GSE/curation/lexicon_builder/learning_questions.py
+24 26 def initialize(conn):
+29 30 def _json(value):
+33 35 def _literal_digest(value):
+38 69 def archive_request(conn, payload, schema, transport):
+72 118 def read_request(conn, identity):
+
+GSE/curation/lexicon_builder/completion.py
+43 48 class CompletionDatabaseBusy(ValueError):
+  46 48 __init__
+51 64 def _database_busy(error):
+67 78 def _selection(value, name, allowed=None):
+81 83 def _metadata(conn, key, default=None):
+86 87 def _set_metadata(conn, key, value):
+90 91 def _state_key(domains):
+94 165 def _priority_source(priority, frequency_path):
+168 213 def _select_entries(
+216 279 def _schedule(conn, model, banks, priority_identity=None, order_policy=None):
+282 304 def _advance_schedule(conn, schedule, cursor, revision):
+307 328 def _prepare_context_index(conn):
+331 370 def _contexts(conn, selected, *, indexed=False):
+373 387 def _entry(conn, entry_id):
+390 394 def _journal(conn, request, model, code, details):
+397 410 def _account(conn, before=None, after=None, calls=0):
+413 441 def _refresh_coverage(conn):
+444 453 def _scope_remaining(conn, selected, banks):
+456 463 def _has_remaining(conn, banks):
+466 486 class _JournaledTransport:
+  467 472 __init__
+  474 486 __call__
+489 984 def complete_dictionary(
+
+GSE/curation/lexicon_builder/rule_revisions.py
+16 24 def _review(record, fields, *, optional=()):
+27 43 def exception_source(conn, entry_id):
+46 53 def rule_changes(before, after):
+56 57 def touches_scope(relations, context):
+60 79 def reviewed_model_withdrawals(reviews, receipts):
+82 106 def _except(conn, rule, review):
+109 124 def validate_revision_shape(revision):
+127 189 def revision_relations(conn, before, revision):
+
+GSE/curation/lexicon_builder/rule_migration.py
+50 55 def _put_version(conn, relations):
+58 81 def _refresh_catalog(conn, relations, native, bank_relevance):
+84 91 def _exception_keys(resolution):
+94 313 def _apply_copy(conn, admission=None, *, revision=None):
+316 322 def migrate_rule(source, output, input_path, audit_path, review):
+325 328 def migrate_revision(source, output, revision):
+331 353 def _migrate(source, output, *, admission=None, revision=None):
+356 386 def _migrate_snapshot(source, temporary, output, admissions, admission, revision):
+
+GSE/curation/lexicon_builder/retention.py
+33 35 def _fingerprint(path):
+38 40 def _identity(path):
+43 62 def no_open_handles(path):
+65 74 def _verify_retirement_witness(active, expected_sha256, learning_state):
+77 94 def _verify_learning_retirement(source, learning_state):
+97 104 def _stream(connection, query, parameters=()):
+107 261 def retire_snapshot(
+
+GSE/curation/lexicon_builder/reviewed_export.py
+38 74 def _selected_observations(conn, entry_ids):
+77 265 def export_reviewed_input(candidate: str | Path, selection: dict, *, input_format=INPUT_FORMAT) -> dict:
+268 269 def export_from_selection(candidate: str | Path, selection_path: str | Path) -> dict:
+
+GSE/curation/lexicon_builder/grounded_rules.py
+10 15 def implication_rows(premises, consequent):
+18 33 def forward_implication(rule):
+36 87 def grounded_chains(trace, relations, assignments):
+90 131 def observed_conjunctions(examples, *, max_premises=MAX_PREMISES):
+134 176 def discover_reviewed_groundings(raw, premise_banks, *, max_premises=MAX_PREMISES):
+
+GSE/curation/lexicon_builder/discovery.py
+28 48 class BankObservation:
+  40 48 __post_init__
+52 65 class CandidateReport:
+68 78 def _record(item: BankObservation) -> dict:
+81 89 def _candidate(value: object) -> tuple[str, int, str, int]:
+92 110 def _weight_map(weights: dict[str, float] | None) -> dict[str, float]:
+113 120 def _count(counts: dict[str, dict[str, int | float]], family: str, status: str, weight: float) -> None:
+123 131 def _population(keys: set[tuple[str, str, str]], weights: dict[str, float]) -> dict[str, tuple[int, float]]:
+134 313 def discover_relations(
+316 360 def discover_bundle(bundle: EvidenceBundle, weights: dict[str, float] | None = None) -> tuple[CandidateReport, ...]:
+
+GSE/curation/lexicon_builder/specification.py
+26 86 def measure_space(domains, trace, *, conflicted=False):
+89 91 def measure_resolution(resolution):
+94 114 def space_delta(before, after):
+117 119 def normalized_spelling(word):
+122 133 def frequency_buckets(spellings, frequencies):
+136 176 def _aggregate(records):
+179 221 def measure_dictionary(path, frequency_path=None):
+224 248 def compare_measurements(before, after):

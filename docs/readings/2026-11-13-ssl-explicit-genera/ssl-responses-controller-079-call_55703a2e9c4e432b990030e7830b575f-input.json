@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-stage-warrants -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor fn in ['gap-possess-have-stage.json','gap-explicit-human-person-genus-body-stage.json']:\n d=json.loads((p/fn).read_text());print('\\n###',fn, 'KEYS',list(d))\n for k,v in d.items():\n  if len(json.dumps(v))<15000: print(k,json.dumps(v,indent=2))\n  else:print(k,'ITEMS',len(v))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

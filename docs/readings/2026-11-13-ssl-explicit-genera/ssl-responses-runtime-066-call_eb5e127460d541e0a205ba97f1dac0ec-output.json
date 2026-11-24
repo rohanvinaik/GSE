@@ -1,0 +1,8 @@
+{
+  "code": "COMMAND_COMPLETED",
+  "exit_code": 0,
+  "elapsed_seconds": 0.47519616689532995,
+  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-066-call_eb5e127460d541e0a205ba97f1dac0ec.log",
+  "output_characters": 330,
+  "output": "    def __init__(self, conn, doc, clause_linkers):\n        self.conn = conn\n        self.doc = doc\n        self.sentence_boundaries = {token.i for token in doc if token.text in _SENTENCE_BOUNDARIES}\n        self.boundaries = clause_linkers | self.sentence_boundaries\n        self._by_lemma: dict[str, dict[str, NativeSense]] = {}\n"
+}

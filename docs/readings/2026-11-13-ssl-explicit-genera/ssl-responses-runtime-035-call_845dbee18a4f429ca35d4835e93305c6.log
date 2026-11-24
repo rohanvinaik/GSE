@@ -1,0 +1,551 @@
+## WANT polarity
+
+The approved coordinate is exactly: −1 = NOT WANT, 0 = orthogonal to wanting, +1 = WANT. Zero does not mean weak desire or lack of evidence. This polarity concerns the component; sentence negation still obeys grammatical scope.
+
+`LEXICON_APPROVED_ANCHORS_2026-10-29.json` anchors NOT WANT as an explicit authored definition and anchors WANT=+1 only on `wordnet:want:desire.v.01`, whose full native gloss denotes desire. It does not modify the noun “want” meaning deprivation or other senses. The desire gloss includes “strongly”; no arbitrary intensity is inferred and it is not declared a complete exact NSM-prime signature. The explicit THIS and NOT WANT definitions are linked to their chart units, with remaining cells unresolved.
+
+## BE stative-content scope
+
+The first frequency-prioritized run assigned BE=+1 to `gse_closed_class:pronoun:you`. An isolated repeat with the target answer withheld and the registry gloss included returned the same sign. These are model rulings, not independent source validation. The exact retained grammar record supplies SOMEONE=+1, person 2, nominative case and animacy; its other retained records are candidate-linked concreteness and sensorimotor ratings. The separate noun definition of “you” in this batch denotes the letter U, so its different answer does not by itself contradict the pronoun answer.
+
+The code calls BE “Stative existence” and EXIST “Ontological status.” The saved primary NSM v20 chart distinguishes BE (SOMEWHERE), BE (SOMEONE/SOMETHING), and THERE IS, and describes its examples as combinatorial possibilities. Wierzbicka's 2022 *I and Thou* introduction treats I/YOU as argument primitives rather than predicates. These sources do not themselves specify a complete GSE cross-bank signature or settle YOU/BE by a one-hot assumption.
+
+Rohan approved this scope convention on 2026-10-29: **“Yes—require the definition’s own stative content.”** Accordingly, **BE=+1 requires stative content belonging to the lexical definition itself; entity reference alone is insufficient evidence for BE=+1.** This adds no blanket pronoun-zero rule. A zero still needs its own definition-scoped justification; unsupported values remain unresolved. The convention does not change EXIST or declare a negative BE pole. Disputed prior model rulings and dependent rulings require explicit reconsideration with their original provenance retained, rather than a silent overwrite.
+
+On 2026-11-18 Rohan approved the sufficient condition: **“Yes—own state denotation is sufficient for BE=+1.”** The question explicitly included the noun *order* defined as “the state of being well arranged” and excluded a grammatical copula alone. A noun whose own meaning denotes a state of being in a condition therefore carries BE=+1, including relational and resultative conditions. This does not assert ontological existence, alter EXIST, introduce a negative BE pole, or supply any zero.
+
+The first operational subset requires an exact verified WordNet or Wiktionary noun leaf whose complete defining genus is *a/the state of being* followed by a lexical condition. Alternate genera, multiple glosses, bare existence and unsupported native identities remain outside that parser's scope. A separate SOMETHING assignment is not required by this sufficient condition; its missing domain stays unknown. This is a founder-approved representation convention. Earlier model nulls and the order zero remain audit history; the convention supplies the new positive justification. The broader *state of/in which* population still needs its own scope review. [Exact approval and operational binding](../readings/2026-11-13-ssl-explicit-genera/019-approved-be-convention.json)
+
+Admission version 2 binds the explicit founder question/reply, coordinate, premises, guards and source warrant to the candidate. It replays the original typed audits, retains dissent and abstentions, and records normative authority separately from empirical confirmation. Its admitted rule is foundational within the witnessed scope. Empirical rule admission still requires model agreement. Corpus staging, complete migration replay, runtime and semantic validation remain required before publication. Typed residual protocol 13 carries the sufficient condition as BE metadata while retaining all three signs, null, and the distinct zero-justification obligation.
+
+Single-question protocol version 8 carries this approved BE-only scope as typed coordinate metadata: the positive sign requires the definition's own stative content, entity reference alone is insufficient, and zero requires independent definition-scoped justification. The protocol identity changes; original saved request identities remain unchanged. This metadata does not itself assign any bank or supply a broad zero rule.
+
+The direct protocol-8 probe still returned BE=+1 for the original YOU question. `scope_admission.model_scope_admission` therefore enforces the approved boundary in the existing bank-admission path. Its narrow classification requires complete exact native records matching the existing grammatical pronoun catalog, PRON role, and only declared reference components. Additional exact lexical sources, non-reference components, or unrecognized records prevent that classification. Association/world records do not establish the definition's own stative content. A positive BE answer classified as reference-only returns `SCOPE_UNJUSTIFIED`, no assertion, and unchanged domains. This is neither a spelling exception nor a zero-fill rule.
+
+`scripts/reconsider_lexicon_model.py` implements explicit reconsideration of an accepted model question. After full preflight replay, it archives that receipt and every later model receipt for the same definition, because those questions used the preceding values as context. Original requests, assertions, ordinals and the reason/convention survive in a hashed append-only archive. Earlier independent model rulings, native assertions, anchors, domain restrictions, other definitions, and original attempt history remain. The existing resolver recomputes the definition from retained evidence; a withdrawn value becomes unknown unless independent evidence still resolves it. Archive, withdrawal, recomputation and local provenance replay commit atomically. Concurrent changes, stale plans, or hierarchy metadata losing its justified base are refused rather than patched with invented values.
+
+Publication readiness separately checks every active model receipt through the same current scope-admission function, even when the candidate is incomplete. `MODEL_SCOPE_UNJUSTIFIED` blocks publication; malformed receipt evidence has a distinct blocker. Archived receipts are historical evidence and are excluded from active authority. `NOT_APPLICABLE` means the narrow check supplies no verdict, not that the ruling is semantically validated. Historical structural replay remains distinct so superseded rulings can still be inspected and safely reconsidered under a newly approved convention.
+
+Evidence: `data/external/references/nsm-primes-chart-v20-2022.txt` (whole chart), `data/external/references/wierzbicka-2022-i-and-thou.txt` (complete section 1), and the saved `first-zipf-you-be-review.json` / `you-be-direct-protocol7.json` review receipts under `docs/readings/2026-10-29-lexicon-coherence/`.
+
+## BODY reference-content scope
+
+The November 1 YOU/BODY ruling prompted a source-backed review of Goddard (2012), especially the complete semantic-molecules section, Wierzbicka (2022) *I and Thou* §§1 and 3, the complete GSE sentence-architecture document and the current pronoun catalog. The review is recorded in `docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md`. It is an implementation interpretation of the existing definitional boundary, not a new founder-supplied signature or independent semantic gold.
+
+**Entity reference and grammatical animacy alone do not justify BODY=+1.** Goddard's bodily explications explicitly distinguish a person argument from bodily components. Wierzbicka distinguishes pronoun meaning from physical pointing and role-shifted referents; she does not reduce YOU to a reference index or SOMEONE. GSE's word-scale projection is correspondingly distinguished from its full grammatical representation. None of these sources supplies a complete GSE prime vector, and none licenses complement zeros.
+
+The source-scope check is limited to complete exact native reference-only pronoun records, verified against the existing catalog. It refuses an unsupported positive BODY ruling with `SCOPE_UNJUSTIFIED` and `ENTITY_REFERENCE_ALONE_DOES_NOT_JUSTIFY_POSITIVE_BODY`. Additional exact lexical evidence or non-reference content prevents that narrow classification. This is not a spelling mask, a general pronoun rule, a negative BODY assertion, or a zero assignment. The current domains remain unchanged.
+
+Protocol 9 adds this scope as typed BODY metadata with authority `SOURCE_BACKED_DESIGN_INTERPRETATION`, while preserving the separately founder-approved BE convention. Live completion and publication use the same admission check. Reconsideration archived exactly the disputed YOU/BODY receipt, retained its three earlier model receipts, and reclosed the definition through the existing resolver. BODY returned to `[-1, 0, 1]`; no zero was supplied. Full preflight replay validated 401,596 definitions with no mismatches, and the changed definition passed local replay. See `docs/readings/2026-11-01-lexicon-you-body/you-body-reconsideration.json`, archive event `b1442da5df03d13689fdf2422a967b732cf6a21d60f0ea9c0762f6a2cf754db2`. A subsequent BODY sign still requires an accepted bounded ruling and its own review. Excluding the old warrant alone does not settle that replacement sign.
+
+The subsequent `body-zipf-005` checkpoint returned a fresh BODY=0 ruling for the exact curated YOU definition, request `37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d`. Its separate source-backed review justifies component orthogonality from the addressee-role meaning and GSE's separation of lexical reference from the referent's bodily properties. The role remains the same under changes in those properties; an anatomical description requires additional content. This is not the complement of the withdrawn +1, a blanket remaining-bank zero, or a founder-authored complete prime signature. The review is bound to the exact receipt in `docs/readings/2026-11-01-lexicon-you-body/body-zipf-005-source-review.json`.
+
+The native Wiktionary adapter can supply BODY=+1 for a noun whose single anatomy gloss explicitly identifies an anatomical genus. A determiner, optional modifiers, and a recognized noun head establish the opening phrase. A bounded disjunction requires an anatomical genus in each alternative. The source adapter also recognizes postnominal *having* and *forming* phrases, the exact tissue, ending, and fibre compounds in the reviewed scope, and a fold explicitly made of skin. Figurative senses, native references, and attachments outside these constructions leave the projection open. Replay checks the same matcher against the exact stored definition and its linked source record. SOMETHING=+1 follows through the existing BODY-to-SOMETHING noun rule. See `docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md` for the active-snapshot scope and audit.
+
+## WORDS defining-genus scope
+
+The NSM WORDS prime admits singular uses such as *one word* alongside plural uses. An exact noun definition that explicitly identifies its referent as a word supplies own lexical WORDS content. The defining restriction identifies which kind of word it is. The Wiktionary noun sense of *negative*, “A word that indicates negation,” therefore supports WORDS=+1. A photographic negative and a negative quantity are distinct lexical identities.
+
+Protocol 12 exposes this source-backed scope in the typed WORDS contract. A word mentioned in an example or in the definition of another genus supplies no assignment by itself. Alternate genera such as *a word or phrase* fall outside the reviewed single-genus projection. The contract supplies no automatic sign for reserved senses. Exact native identity, the source guard, independent audits and complete replay still govern population admission.
+
+## Constitutive anatomy and defining genus
+
+Rohan approved the following convention on November 19, 2026: “Yes, constitutive anatomy, including verified defining-genus content, warrants BODY=+1.” The complete instruction and claim ledger are preserved in `docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json`.
+
+A literal organism-kind definition has BODY=+1 when bodily structure is constitutive of its own meaning. The content may occur explicitly in the definition or follow through a verified defining genus. The inherited case requires exact native identity, source-verified IS-A ancestry and the genus's actual defining content. A category spelling, candidate identity or biological association alone supplies no such proof. Reference-only grammatical roles, observer reactions and optional participant properties do not acquire BODY through this convention. An unresolved witness leaves the bank unresolved; no complement zero follows. No other bank is assigned by this convention.
+
+The typed model protocol version 14 records this positive sufficiency condition with founder authority. Single and bounded-batch writers consume the same coordinate contract. Older replies retain their original request and protocol identities; the prior vertebrate diagnostics are not silently reinterpreted or admitted.
+
+The existing WordNet definition-identity context can additionally carry a version 2 packet with all native hypernym paths and complete synset witnesses. It remains context-only, selects no sense and assigns no bank. The enrichment path reconstructs the packet from the pinned local WordNet parser and compares it with the original exact root. Structural validation binds every path to that root and accounts for every witness. Native regeneration, not a caller-supplied digest, certifies the definitions. The existing evidence view passes the complete packet to both writers. The version 1 constructor remains unchanged for historical replay.
+
+Any population rule still requires exact scope, independently justified premises, new teaching, disjoint audit senses and source review. If the earlier diagnostic cases inform the revised condition, they cannot also serve as its held-out confirmations. Full-corpus replay, runtime and cumulative semantic validation remain publication prerequisites. The approved convention does not itself activate the staged vertebrate rule.
+
+
+"""
+GSE - Geometric Semantic Encoding
+
+Functional core (deterministic, import-light):
+- GSE.api      : text -> OperationTrace        (GSEEncoder)
+- GSE.symbolic : OperationTrace -> typed Predicates
+
+The v2 hyperdimensional stack (primitives_v2, vectors_v2, merkle, patterns,
+scales, encoders, pipeline_v2) is auxiliary and heavier (numpy/scipy). To keep
+the functional core importable without pulling that stack in, the v2 top-level
+names are exposed LAZILY via PEP 562 ``__getattr__``: ``from gse import
+GSEPipeline`` still works and imports on first access, but ``import GSE.api`` /
+``import GSE.symbolic`` no longer eagerly drag the v2 stack (and its numpy/scipy
+dependencies) into the process.
+
+Usage:
+    # functional core
+    from GSE.api import GSEEncoder
+    from GSE.symbolic import from_trace, resolve, evaluate_tree
+
+    # v2 pipeline (lazy)
+    from GSE import GSEPipeline
+    pipeline = GSEPipeline()
+    result = pipeline.encode_sentence("I feel happy")
+"""
+
+from __future__ import annotations
+
+import importlib
+from typing import TYPE_CHECKING, Any
+
+__version__ = "2.0.0"
+
+if TYPE_CHECKING:  # eager imports for static analysis / IDEs only — no runtime cost
+    from GSE.encoders import SentenceStructureEncoder
+    from GSE.merkle import (
+        BankNode,
+        FamilyNode,
+        HDCFuzzyDecomposer,
+        HubNode,
+        LexemeNode,
+        MerkleBellmanFord,
+        MerkleHashChain,
+        MerkleLexiconTree,
+        MerkleNode,
+        RootNode,
+        SQLiteMerkleTranslator,
+    )
+    from GSE.patterns import (
+        LearningNetwork,
+        OrchestratedPipeline,
+        OrchestratorNetwork,
+        ParagraphScaleNetwork,
+        ScaleNetworkCollection,
+        SentenceScaleNetwork,
+        TextScaleNetwork,
+        WordScaleNetwork,
+    )
+    from GSE.pipeline_v2 import (
+        DecompositionResult,
+        EncodingResult,
+        GSEPipeline,
+        SimilarityResult,
+    )
+    from GSE.primitives_v2 import (
+        ALL_HIERARCHY_LEVELS,
+        BIPOLAR_DIMENSIONS,
+        DIMS_PER_BANK,
+        HUB_PRIMITIVES,
+        N_BANKS,
+        PRIMITIVE_FAMILIES,
+        SEMANTIC_BANK_NAMES,
+        SEMANTIC_ROLES,
+        D,
+        SemanticBank,
+        get_bank_primitives,
+        get_dimension_range,
+    )
+    from GSE.scales import (
+        SyntacticBank,
+        SyntacticPrimitive,
+        SyntacticPrimitiveEncoder,
+    )
+    from GSE.vectors_v2 import (
+        HadamardOTPBasis,
+        SparseVector,
+        bind,
+        bundle,
+        compose_decomposition,
+        create_basis,
+        permute,
+    )
+
+# v2 top-level name -> submodule that defines it. Exposed lazily so that
+# importing the functional core (GSE.api / GSE.symbolic) does not import the
+# v2 stack. Resolved on first attribute access via __getattr__ below.
+_LAZY_IMPORTS = {
+    # Encoders
+    "SentenceStructureEncoder": "GSE.encoders",
+    # Merkle tree lexicon
+    "BankNode": "GSE.merkle",
+    "FamilyNode": "GSE.merkle",
+    "HDCFuzzyDecomposer": "GSE.merkle",
+    "HubNode": "GSE.merkle",
+    "LexemeNode": "GSE.merkle",
+    "MerkleBellmanFord": "GSE.merkle",
+    "MerkleHashChain": "GSE.merkle",
+    "MerkleLexiconTree": "GSE.merkle",
+    "MerkleNode": "GSE.merkle",
+    "RootNode": "GSE.merkle",
+    "SQLiteMerkleTranslator": "GSE.merkle",
+    # Learning networks
+    "LearningNetwork": "GSE.patterns",
+    "OrchestratedPipeline": "GSE.patterns",
+    "OrchestratorNetwork": "GSE.patterns",
+    "ParagraphScaleNetwork": "GSE.patterns",
+    "ScaleNetworkCollection": "GSE.patterns",
+    "SentenceScaleNetwork": "GSE.patterns",
+    "TextScaleNetwork": "GSE.patterns",
+    "WordScaleNetwork": "GSE.patterns",
+    # Main pipeline
+    "DecompositionResult": "GSE.pipeline_v2",
+    "EncodingResult": "GSE.pipeline_v2",
+    "GSEPipeline": "GSE.pipeline_v2",
+    "SimilarityResult": "GSE.pipeline_v2",
+    # Primitives
+    "ALL_HIERARCHY_LEVELS": "GSE.primitives_v2",
+    "BIPOLAR_DIMENSIONS": "GSE.primitives_v2",
+    "DIMS_PER_BANK": "GSE.primitives_v2",
+    "HUB_PRIMITIVES": "GSE.primitives_v2",
+    "N_BANKS": "GSE.primitives_v2",
+    "PRIMITIVE_FAMILIES": "GSE.primitives_v2",
+    "SEMANTIC_BANK_NAMES": "GSE.primitives_v2",
+    "SEMANTIC_ROLES": "GSE.primitives_v2",
+    "D": "GSE.primitives_v2",
+    "SemanticBank": "GSE.primitives_v2",
+    "get_bank_primitives": "GSE.primitives_v2",
+    "get_dimension_range": "GSE.primitives_v2",
+    # Syntactic structure
+    "SyntacticBank": "GSE.scales",
+    "SyntacticPrimitive": "GSE.scales",
+    "SyntacticPrimitiveEncoder": "GSE.scales",
+    # Vectors
+    "HadamardOTPBasis": "GSE.vectors_v2",
+    "SparseVector": "GSE.vectors_v2",
+    "bind": "GSE.vectors_v2",
+    "bundle": "GSE.vectors_v2",
+    "compose_decomposition": "GSE.vectors_v2",
+    "create_basis": "GSE.vectors_v2",
+    "permute": "GSE.vectors_v2",
+}
+
+__all__ = [
+    # Version
+    "__version__",
+    # Dimensions
+    "D",
+    "N_BANKS",
+    "DIMS_PER_BANK",
+    # Semantic banks
+    "SemanticBank",
+    "SEMANTIC_BANK_NAMES",
+    "BIPOLAR_DIMENSIONS",
+    "HUB_PRIMITIVES",
+    "SEMANTIC_ROLES",
+    "ALL_HIERARCHY_LEVELS",
+    "get_dimension_range",
+    "get_bank_primitives",
+    "PRIMITIVE_FAMILIES",
+    # Vectors
+    "SparseVector",
+    "HadamardOTPBasis",
+    "create_basis",
+    "compose_decomposition",
+    "bind",
+    "bundle",
+    "permute",
+    # Merkle tree
+    "MerkleLexiconTree",
+    "MerkleNode",
+    "RootNode",
+    "BankNode",
+    "FamilyNode",
+    "HubNode",
+    "LexemeNode",
+    "MerkleHashChain",
+    "MerkleBellmanFord",
+    "HDCFuzzyDecomposer",
+    "SQLiteMerkleTranslator",
+    # Learning networks
+    "LearningNetwork",
+    "TextScaleNetwork",
+    "ParagraphScaleNetwork",
+    "SentenceScaleNetwork",
+    "WordScaleNetwork",
+    "ScaleNetworkCollection",
+    "OrchestratorNetwork",
+    "OrchestratedPipeline",
+    # Syntactic
+    "SyntacticPrimitive",
+    "SyntacticBank",
+    "SyntacticPrimitiveEncoder",
+    # Encoders
+    "SentenceStructureEncoder",
+    # Pipeline
+    "GSEPipeline",
+    "EncodingResult",
+    "SimilarityResult",
+    "DecompositionResult",
+]
+
+
+def __getattr__(name: str) -> Any:
+    """PEP 562 lazy attribute access for the v2 stack (see module docstring)."""
+    module = _LAZY_IMPORTS.get(name)
+    if module is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(importlib.import_module(module), name)
+    globals()[name] = value  # cache so subsequent access skips __getattr__
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted(__all__)
+
+"""
+Symbolic evaluator over OperationTrace.
+
+Per ``sentence_architecture.md`` line 164: the API for engaging with the
+system should be pure Python / order of operations / set theory — not
+direct vector math. This package lifts encoder traces into typed ASTs
+and applies the set-theory semantics of each compositional operator
+symbolically.
+
+Sub-packages:
+
+* :mod:`expression` — the AST (Atom, Phrase, Negation, Op) + builder
+  ``from_trace`` that turns an :class:`GSE.api.trace.OperationTrace`
+  into an :class:`Expression`.
+* :mod:`resolution` *(planned, B5)* — multi-word entity grouping and
+  within-sentence reference binding.
+* :mod:`operators` *(planned, B2)* — pure-Python implementations of
+  SET_DIFF, BIND_EQ, etc.
+* :mod:`queries` *(planned, B3)* — consumer interface: entities(),
+  predicates(), is_logically_equal_to(), etc.
+* :mod:`templating` *(planned, B6)* — structural substitution.
+
+See ``docs/PHASE_B_SCOPE.md`` for the live scope.
+"""
+
+from GSE.symbolic.claims import (
+    CLAIM_KEY_VERSION,
+    ClaimKey,
+    Identity,
+    Polarity,
+    claim_key,
+    commitment,
+    commitment_modes,
+    identity,
+    polarity,
+    scope_signature,
+)
+from GSE.symbolic.emit import (
+    CONTRACT_VERSION,
+    emit,
+    emit_contract,
+    emit_json,
+)
+from GSE.symbolic.expression import (
+    Atom,
+    Expression,
+    Negation,
+    Op,
+    Phrase,
+    from_trace,
+)
+from GSE.symbolic.genealogy_store import GenealogyStore
+from GSE.symbolic.grounding import (
+    GenealogyProvider,
+    GroundingFlag,
+    NullGenealogy,
+    TriageResult,
+    grounding_flags,
+    resolve_document,
+    resolve_references,
+    triage_flags,
+)
+from GSE.symbolic.inference import Derivation, KnowledgeBase
+from GSE.symbolic.operators import (
+    OPERATION_DISPATCH,
+    UnknownOperation,
+    evaluate,
+    evaluate_tree,
+)
+from GSE.symbolic.predicates import (
+    BoundaryCase,
+    Causation,
+    ClauseCoordination,
+    Comparison,
+    Conditional,
+    Contrast,
+    Control,
+    DegreeQuery,
+    Equality,
+    Event,
+    MinimalSufficiency,
+    Predicate,
+    RelativeRestriction,
+    SetRestriction,
+    Temporal,
+    TypeAssertion,
+    TypeQuery,
+)
+from GSE.symbolic.propositions import Proposition, Scope, proposition_status, propositions
+from GSE.symbolic.queries import (
+    axis_of_comparison,
+    clauses,
+    entities,
+    entity_lemmas,
+    is_argument_swap_of,
+    is_logically_equal_to,
+    predicates,
+)
+from GSE.symbolic.resolution import Coordination, Entity, resolve, resolve_with_sources
+from GSE.symbolic.serialization import (
+    SerializationError,
+    from_dict,
+    from_json,
+    to_dict,
+    to_json,
+)
+from GSE.symbolic.signs import negation_signs
+from GSE.symbolic.templating import substitute
+
+__all__ = [
+    # AST
+    "Atom",
+    "Expression",
+    "Negation",
+    "Op",
+    "Phrase",
+    "from_trace",
+    # Predicates
+    "BoundaryCase",
+    "Causation",
+    "ClauseCoordination",
+    "Comparison",
+    "Conditional",
+    "Contrast",
+    "Control",
+    "DegreeQuery",
+    "Equality",
+    "Event",
+    "MinimalSufficiency",
+    "Predicate",
+    "RelativeRestriction",
+    "SetRestriction",
+    "Temporal",
+    "TypeAssertion",
+    "TypeQuery",
+    # Dispatch
+    "OPERATION_DISPATCH",
+    "UnknownOperation",
+    "evaluate",
+    "evaluate_tree",
+    # Emit contract (Genesis-facing §5 envelope)
+    "CONTRACT_VERSION",
+    "emit",
+    "emit_contract",
+    "emit_json",
+    # Resolution
+    "Coordination",
+    "Entity",
+    "resolve",
+    "resolve_with_sources",
+    # Reference resolution (entity ids + type threads) + document scope
+    "GenealogyProvider",
+    "NullGenealogy",
+    "resolve_references",
+    "resolve_document",
+    "GenealogyStore",
+    # Abstention signal (grounding confidence flags) + persist triage
+    "GroundingFlag",
+    "grounding_flags",
+    "TriageResult",
+    "triage_flags",
+    # Logical inference (transitive closure over the clause graph)
+    "KnowledgeBase",
+    "Derivation",
+    # Queries
+    "axis_of_comparison",
+    "clauses",
+    "entities",
+    "entity_lemmas",
+    "is_argument_swap_of",
+    "is_logically_equal_to",
+    "predicates",
+    # Signed propositions (one extraction under the shared modality decision)
+    "Proposition",
+    "Scope",
+    "proposition_status",
+    "propositions",
+    "CLAIM_KEY_VERSION",
+    "ClaimKey",
+    "Identity",
+    "Polarity",
+    "claim_key",
+    "commitment",
+    "commitment_modes",
+    "identity",
+    "polarity",
+    "scope_signature",
+    "negation_signs",
+    # Serialization
+    "SerializationError",
+    "from_dict",
+    "from_json",
+    "to_dict",
+    "to_json",
+    # Templating
+    "substitute",
+]
+
+{
+  "cases": [
+    {
+      "banks": {
+        "BE": 1
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "id": "stative-inactivity",
+      "lemma": "arrest",
+      "sense": "wordnet:arrest:arrest.n.02",
+      "text": "The arrest was a state of inactivity.",
+      "token": "arrest"
+    },
+    {
+      "banks": {
+        "BE": 1
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "id": "stative-sleeping",
+      "lemma": "sleeping",
+      "sense": "wordnet:sleeping:sleeping.n.01",
+      "text": "Sleeping is the state of being asleep.",
+      "token": "Sleeping"
+    },
+    {
+      "banks": {
+        "BE": 1
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "stative-positive",
+      "id": "stative-anger",
+      "lemma": "anger",
+      "sense": "wordnet:anger:anger.n.02",
+      "text": "The anger was the state of being angry.",
+      "token": "anger"
+    },
+    {
+      "banks": {
+        "BE": null
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "reserved-nonbeing",
+      "id": "stative-nonbeing",
+      "lemma": "nonbeing",
+      "sense": "wordnet:nonbeing:nonbeing.n.01",
+      "text": "Nonbeing is the state of not being.",
+      "token": "Nonbeing"
+    },
+    {
+      "banks": {
+        "BE": null
+      },
+      "basis": "Explicit native state genus under the approved own-stative-content convention; nonbeing polarity reserved. This is a runtime-path diagnostic, outside the teaching and model audits.",
+      "class": "reserved-nonbeing",
+      "id": "stative-nonexistence",
+      "lemma": "nonexistence",
+      "sense": "wordnet:nonexistence:nonexistence.n.01",
+      "text": "Nonexistence is the state of not existing.",
+      "token": "Nonexistence"
+    }
+  ],
+  "format": "gse.lexicon-sentence-benchmark/1"
+}

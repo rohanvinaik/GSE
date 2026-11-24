@@ -1,0 +1,12 @@
+All checks passed!
+8 files already formatted
+error[not-callable]: Object of type `object` is not callable
+    --> GSE/symbolic/grounding.py:1211:44
+     |
+1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, "NOUN", False)]
+     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Found 1 diagnostic
+ty_advisory_exit=1
+active_checkpoint_exit=2
+foundation_checkpoint_exit=2

@@ -20,6 +20,7 @@ DISPOSITIONS = frozenset(
         "READY_FOR_TEACHING",
         "NEEDS_REFINEMENT",
         "AWAITING_AUDIT_REVIEW",
+        "AWAITING_PREFIX_REVIEW",
         "RESERVED",
         "UNAVAILABLE",
         "ALREADY_ENTAILED",
@@ -50,6 +51,15 @@ CREATE TABLE IF NOT EXISTS learning_events (
     """
 CREATE TABLE IF NOT EXISTS learning_epochs (
  epoch INTEGER PRIMARY KEY, outcome_sha256 TEXT NOT NULL, outcome TEXT NOT NULL);
+""",
+    """
+CREATE TABLE IF NOT EXISTS learning_heads (
+ epoch INTEGER PRIMARY KEY, transition_sha256 TEXT NOT NULL, payload TEXT NOT NULL);
+""",
+    """
+CREATE TABLE IF NOT EXISTS learning_work (
+ work_sha256 TEXT PRIMARY KEY, kind TEXT NOT NULL, disposition TEXT NOT NULL,
+ payload TEXT NOT NULL);
 """,
 )
 
@@ -96,6 +106,9 @@ class LearningState:
                     raise ValueError("INCOMPLETE_LEARNING_SCHEMA")
             for statement in SCHEMA:
                 conn.execute(statement)
+            from .learning_questions import initialize
+
+            initialize(conn)
             for key, value in (("format", _json(FORMAT)), ("identity", self.identity)):
                 row = conn.execute("SELECT payload FROM learning_metadata WHERE key=?", (key,)).fetchone()
                 if row is not None and row[0] != value:
@@ -248,18 +261,166 @@ class LearningState:
                 )
             ]
 
+    def archive_request(self, payload, schema, transport):
+        from .learning_questions import archive_request
+
+        with self._connect() as conn:
+            return archive_request(conn, payload, schema, transport)
+
+    def retain_work(self, kind, payload, *, disposition="AWAITING_REVIEW"):
+        """Retain a typed surprise/task without interpreting it as lexical truth."""
+        if not isinstance(kind, str) or not kind or not isinstance(payload, dict) or not payload:
+            raise ValueError("INVALID_LEARNING_WORK")
+        if disposition not in {"AWAITING_REVIEW", "READY", "APPLIED", "UNAVAILABLE", "REJECTED"}:
+            raise ValueError("INVALID_LEARNING_WORK_DISPOSITION")
+        value = {"kind": kind, "payload": payload}
+        identity = digest(value)
+        with self._connect() as conn:
+            row = conn.execute("SELECT kind,payload FROM learning_work WHERE work_sha256=?", (identity,)).fetchone()
+            if row is not None and row != (kind, _json(payload)):
+                raise ValueError("LEARNING_WORK_CHANGED")
+            conn.execute(
+                "INSERT OR IGNORE INTO learning_work VALUES (?,?,?,?)",
+                (identity, kind, disposition, _json(payload)),
+            )
+            self._event(conn, "WORK_RETAINED", identity, value)
+        return identity
+
+    def work(self, *, kind=None, disposition=None):
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT work_sha256,kind,disposition,payload FROM learning_work ORDER BY work_sha256"
+            ).fetchall()
+        result = []
+        for identity, operation, state, encoded in rows:
+            payload = json.loads(encoded)
+            if digest({"kind": operation, "payload": payload}) != identity:
+                raise ValueError("LEARNING_WORK_HASH_MISMATCH")
+            if (kind is None or kind == operation) and (disposition is None or disposition == state):
+                result.append({"work_sha256": identity, "kind": operation, "disposition": state, "payload": payload})
+        return result
+
+    def finish_work(self, identity, outcome):
+        with self._connect() as conn:
+            if not conn.execute("SELECT 1 FROM learning_work WHERE work_sha256=?", (identity,)).fetchone():
+                raise ValueError("UNKNOWN_LEARNING_WORK")
+            conn.execute("UPDATE learning_work SET disposition='APPLIED' WHERE work_sha256=?", (identity,))
+            self._event(conn, "WORK_APPLIED", identity, outcome)
+
+    def request(self, identity):
+        from .learning_questions import read_request
+
+        with self._connect() as conn:
+            return read_request(conn, identity)
+
     def record_epoch(self, epoch, outcome):
+        with self._connect() as conn:
+            self._record_epoch(conn, epoch, outcome)
+
+    def _record_epoch(self, conn, epoch, outcome):
         if type(epoch) is not int or epoch < 1 or not isinstance(outcome, dict) or outcome.get("epoch") != epoch:
             raise ValueError("INVALID_LEARNING_EPOCH")
         encoded, identity = _json(outcome), digest(outcome)
+        previous = conn.execute("SELECT outcome_sha256,outcome FROM learning_epochs WHERE epoch=?", (epoch,)).fetchone()
+        if previous is not None and previous != (identity, encoded):
+            raise ValueError("LEARNING_EPOCH_CHANGED")
+        conn.execute("INSERT OR IGNORE INTO learning_epochs VALUES (?,?,?)", (epoch, identity, encoded))
+        self._event(conn, "EPOCH_COMPLETED", str(epoch), {"outcome_sha256": identity})
+
+    def initialize_head(self, candidate, candidate_sha256):
+        opening = {
+            "epoch": 0,
+            "candidate": str(Path(candidate).absolute()),
+            "candidate_sha256": candidate_sha256,
+            "transition_sha256": None,
+        }
         with self._connect() as conn:
-            previous = conn.execute(
+            row = conn.execute("SELECT payload FROM learning_metadata WHERE key='opening_head'").fetchone()
+            if row is not None and row[0] != _json(opening):
+                raise ValueError("LEARNING_OPENING_HEAD_CHANGED")
+            if row is None:
+                if conn.execute("SELECT 1 FROM learning_epochs LIMIT 1").fetchone():
+                    raise ValueError("LEARNING_HEAD_REBASE_REQUIRED")
+                conn.execute("INSERT INTO learning_metadata VALUES ('opening_head',?)", (_json(opening),))
+                self._event(conn, "HEAD_OPENED", "0", opening)
+            return self._heads(conn)[0]
+
+    @staticmethod
+    def _heads(conn):
+        row = conn.execute("SELECT payload FROM learning_metadata WHERE key='opening_head'").fetchone()
+        if row is None:
+            raise ValueError("LEARNING_HEAD_NOT_INITIALIZED")
+        opening = json.loads(row[0])
+        head, history = opening, []
+        for epoch, identity, encoded in conn.execute(
+            "SELECT epoch,transition_sha256,payload FROM learning_heads ORDER BY epoch"
+        ):
+            transition = json.loads(encoded)
+            if digest(transition) != identity:
+                raise ValueError("LEARNING_HEAD_TRANSITION_HASH_MISMATCH")
+            if (
+                epoch != head["epoch"] + 1
+                or transition["epoch"] != epoch
+                or transition["prior_head"] != head
+                or transition["format"] != "GSE.lexicon-learning-transition/1"
+            ):
+                raise ValueError("LEARNING_HEAD_CHAIN_CHANGED")
+            outcome = conn.execute(
                 "SELECT outcome_sha256,outcome FROM learning_epochs WHERE epoch=?", (epoch,)
             ).fetchone()
-            if previous is not None and previous != (identity, encoded):
-                raise ValueError("LEARNING_EPOCH_CHANGED")
-            conn.execute("INSERT OR IGNORE INTO learning_epochs VALUES (?,?,?)", (epoch, identity, encoded))
-            self._event(conn, "EPOCH_COMPLETED", str(epoch), {"outcome_sha256": identity})
+            if (
+                outcome is None
+                or outcome[0] != transition["outcome_sha256"]
+                or digest(json.loads(outcome[1])) != outcome[0]
+            ):
+                raise ValueError("LEARNING_HEAD_OUTCOME_CHANGED")
+            head = {
+                "epoch": epoch,
+                "candidate": transition["candidate"],
+                "candidate_sha256": transition["candidate_sha256"],
+                "transition_sha256": identity,
+            }
+            history.append(transition)
+        return head, history
+
+    def head(self):
+        with self._connect() as conn:
+            return self._heads(conn)[0]
+
+    def head_history(self):
+        with self._connect() as conn:
+            return self._heads(conn)[1]
+
+    def advance_head(self, outcome, transition):
+        """Install the epoch and head in one transaction; never overwrite history."""
+        if (
+            not isinstance(transition, dict)
+            or transition.get("format") != "GSE.lexicon-learning-transition/1"
+            or type(transition.get("epoch")) is not int
+            or transition["epoch"] < 1
+            or transition.get("outcome_sha256") != digest(outcome)
+            or transition.get("candidate") != outcome.get("candidate")
+            or transition.get("candidate_sha256") != outcome.get("candidate_sha256")
+        ):
+            raise ValueError("INVALID_LEARNING_HEAD_TRANSITION")
+        epoch = transition["epoch"]
+        identity, encoded = digest(transition), _json(transition)
+        with self._connect() as conn:
+            current, _ = self._heads(conn)
+            previous = conn.execute(
+                "SELECT transition_sha256,payload FROM learning_heads WHERE epoch=?", (epoch,)
+            ).fetchone()
+            if previous is not None:
+                if previous != (identity, encoded):
+                    raise ValueError("LEARNING_HEAD_TRANSITION_CHANGED")
+                self._record_epoch(conn, epoch, outcome)
+                return current
+            if epoch != current["epoch"] + 1 or transition.get("prior_head") != current:
+                raise ValueError("LEARNING_HEAD_COMPARE_AND_SWAP_FAILED")
+            self._record_epoch(conn, epoch, outcome)
+            conn.execute("INSERT INTO learning_heads VALUES (?,?,?)", (epoch, identity, encoded))
+            self._event(conn, "HEAD_ADVANCED", str(epoch), {"transition_sha256": identity})
+            return self._heads(conn)[0]
 
     def epochs(self):
         with self._connect() as conn:

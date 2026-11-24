@@ -4,7 +4,6 @@ import argparse
 import gzip
 import json
 import os
-import re
 import subprocess
 import sys
 import tempfile
@@ -69,26 +68,9 @@ def record_status(path, value):
 
 
 def no_open_handles(path):
-    result = subprocess.run(["lsof", "-nP", "-f", "-Fpn", "--", str(path)], capture_output=True, text=True)
-    if result.returncode != 1 or result.stdout:
-        raise ValueError("CHECKPOINT_OPEN_HANDLE_CHECK_FAILED:" + str(path))
-    warning = None
-    if result.stderr:
-        # Parse the complete machine diagnostic, including its current mount
-        # identity. Neither a cached UUID nor suppressed warnings is evidence.
-        diagnostic = re.fullmatch(
-            r"lsof: WARNING: can't stat\(\) smbfs file system (?P<mount>/Volumes/\.timemachine/[^\n]+)\n"
-            r'      Output information may be incomplete.\n      assuming "dev=(?P<device>[0-9a-fA-F]+)" from mount table\n',
-            result.stderr,
-        )
-        if diagnostic is None:
-            raise ValueError("CHECKPOINT_OPEN_HANDLE_CHECK_FAILED:" + str(path))
-        mount = Path(diagnostic["mount"])
-        device = int(diagnostic["device"], 16)
-        if path.absolute().is_relative_to(mount) or path.stat().st_dev == device:
-            raise ValueError("CHECKPOINT_ON_UNINSPECTED_NETWORK_FILESYSTEM")
-        warning = {"code": "UNRELATED_INACCESSIBLE_SMB_MOUNT", "path": str(mount), "device": device}
-    return {"code": "NO_OPEN_LOCAL_FILE_MATCHES", "stderr": result.stderr, "unrelated_mount": warning}
+    from GSE.curation.lexicon_builder.retention import no_open_handles as inspect_handles
+
+    return inspect_handles(path)
 
 
 def validate_retirement(item, protected):

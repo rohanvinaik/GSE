@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-final-cli-and-advisory -- bash -c '.venv/bin/python scripts/audit_lexicon_runtime.py --lexicon-db data/lexicon_builder/2026-11-12/sparse-release-021.db --sparse --report docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v2.json; STATUS=$?; env UV_OFFLINE=1 uvx ty check GSE/api/encoder.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py; printf \"runtime_cli_exit=%s ty_advisory_exit=%s\\n\" \"$STATUS\" \"$?\"; exit \"$STATUS\"'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

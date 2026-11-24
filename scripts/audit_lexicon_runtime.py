@@ -7,6 +7,7 @@ Successful report generation exits zero regardless of the measured outcomes.
 """
 
 import argparse
+import hashlib
 import json
 import sys
 from collections import Counter, defaultdict
@@ -223,9 +224,14 @@ def _definitions(encoder):
 
 def audit_runtime(lexicon_db):
     path = Path(lexicon_db).expanduser().resolve()
+    with path.open("rb") as stream:
+        before = hashlib.file_digest(stream, "sha256").hexdigest()
     with GSEEncoder(str(path)) as encoder:
         encoder.conn.execute("PRAGMA query_only=ON")
         records = _structure(encoder) + _definitions(encoder)
+    with path.open("rb") as stream:
+        if hashlib.file_digest(stream, "sha256").hexdigest() != before:
+            raise ValueError("RUNTIME_AUDIT_INPUT_CHANGED")
     counts = defaultdict(Counter)
     for record in records:
         counts[record["class"]][record["outcome"]] += 1
@@ -233,6 +239,7 @@ def audit_runtime(lexicon_db):
         "format": "GSE.runtime-compatibility-audit/1",
         "measured_at": datetime.now(timezone.utc).isoformat(),
         "lexicon_db": str(path),
+        "lexicon_sha256": before,
         "file_identity": {"size": path.stat().st_size, "mtime_ns": path.stat().st_mtime_ns},
         "scope": {
             "structure": "Fourteen hand-authored top-operation probes; degree cases also check emitted levels, scope and logical comparison. Not full semantic gold.",
@@ -294,6 +301,49 @@ def audit_sparse_runtime(lexicon_db):
             duration = getattr(expression, "duration", None)
             observed = (duration.extent, duration.relation) if duration is not None else None
             results.append({"text": text, "observed": observed, "passed": observed == (expected, "during")})
+        for name, text, lemma, expected in (
+            ("pronoun_he", "He went home.", "he", "gse_closed_class:pronoun:he"),
+            ("chemical_symbol_he", "The chemical symbol He denotes helium.", "he", None),
+            ("nonperson_type_he", "He is a noble gas.", "he", None),
+            ("surname_he", "The surname He is common.", "he", None),
+            ("pronoun_chemical_context", "He studies helium.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_entity_type", "He is an entity.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_thing_type", "He is a thing.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_organism_type", "He is an organism.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_animal_type", "He is an animal.", "he", "gse_closed_class:pronoun:he"),
+            ("native_inert_gas", "He is an inert gas.", "he", "wordnet:he:helium.n.01"),
+            ("negated_type_he", "He is not a gas.", "he", "gse_closed_class:pronoun:he"),
+            ("first_person", "I went home.", "i", "gse_closed_class:pronoun:i"),
+            ("second_person", "You went home.", "you", "gse_closed_class:pronoun:you"),
+        ):
+            token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+            evidence = token.lexical_evidence
+            observed = (evidence.get("selected_record") or {}).get("entry_id")
+            eligibility = evidence.get("reading_eligibility", {})
+            safe = (
+                observed is None
+                and evidence.get("selection_status") == "CONFLICT"
+                and eligibility.get("code") == "GRAMMATICAL_CONTEXT_CONFLICT"
+                and not token.word_primitives
+                and token.word_vec_nnz == 0
+                if expected is None
+                else observed == expected
+            )
+            results.append(
+                {
+                    "class": name,
+                    "text": text,
+                    "expected": expected,
+                    "observed": observed,
+                    "outcome": "ABSTAINED" if safe and expected is None else "IDENTIFIED" if safe else "WRONG",
+                    "reading_eligibility": eligibility,
+                    "passed": safe,
+                    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION",
+                }
+            )
+    with Path(lexicon_db).open("rb") as stream:
+        if hashlib.file_digest(stream, "sha256").hexdigest() != report["lexicon_sha256"]:
+            raise ValueError("RUNTIME_AUDIT_INPUT_CHANGED")
     report["sparse_controls"] = results
     report["code"] = (
         "SPARSE_RUNTIME_VALIDATED"

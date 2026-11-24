@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-steering-and-resources -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-steering.json')\nif p.exists(): print(p.read_text())\nfor root in ['data','docs/verification/lexicon-rebuild/top1000-2026-10-25','tests']:\n for p in Path(root).iterdir():\n  if root=='tests':\n   if any(x in p.name for x in ('claim','read','query','inference','multiscale','cassette','document','semantics')): print(p)\n  else:print(p)\nimport nltk\nfor root in nltk.data.path:\n p=Path(root)/'corpora'\n if p.exists(): print(p,[x.name for x in p.iterdir()])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

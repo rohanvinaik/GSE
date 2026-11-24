@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-adversarial-probe -- .venv/bin/python - <<'PY'\nfrom GSE.api import GSEEncoder\nwith GSEEncoder() as e:\n e.conn.execute('PRAGMA query_only=ON')\n for s in ['He went home.','The chemical symbol He denotes helium.','The chemical symbol He denotes neon.','He studies helium.','He is a noble gas.','He is not a gas.','He is a doctor.','He is a gas?','The surname He is common.','I am a person.','You are a person.']:\n  t=e.encode(s); print(s,[(x.token,x.pos) for x in t.tokens]);print([(x.token,x.lexical_evidence.get('selection_status'),(x.lexical_evidence.get('selected_record') or {}).get('entry_id'),x.lexical_evidence.get('reading_eligibility')) for x in t.tokens if x.lemma in {'he','i','you'}])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

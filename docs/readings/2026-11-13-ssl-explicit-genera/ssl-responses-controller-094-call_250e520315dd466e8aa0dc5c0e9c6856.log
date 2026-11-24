@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "<stdin>", line 15, in <module>
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/epoch.py", line 64, in record
+    raise ValueError("EPOCH_CHECKPOINT_CHANGED:" + path.name) from None
+ValueError: EPOCH_CHECKPOINT_CHANGED:ssl-api-controller-blockers.json
+{"format": "GSE.lexicon-completion-progress/1", "phase": "PREFLIGHT", "model_calls": 0, "transport_invocations": 0, "max_model_calls": 9, "committed_outcomes": {}, "dictionary_status": "NOT_RECOUNTED"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "CONTEXT_PREPARATION", "model_calls": 0, "transport_invocations": 0, "max_model_calls": 9, "committed_outcomes": {}, "dictionary_status": "NOT_RECOUNTED"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 1, "transport_invocations": 1, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 1}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:have:have.v.01", "bank": "HAVE", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 2, "transport_invocations": 2, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 2}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:have:own.v.01", "bank": "HAVE", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 3, "transport_invocations": 3, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 3}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:here:here.r.01", "bank": "HERE", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 4, "transport_invocations": 4, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 4}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:good:good.a.01", "bank": "GOOD", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 5, "transport_invocations": 5, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 5}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:big:large.a.01", "bank": "BIG", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 6, "transport_invocations": 6, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 6}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:bad:bad.a.01", "bank": "GOOD", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 7, "transport_invocations": 7, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 6, "ASSIGNED": 1}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:water:water.n.01", "bank": "I", "code": "ASSIGNED"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 8, "transport_invocations": 8, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 7, "ASSIGNED": 1}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:small:small.a.01", "bank": "BIG", "code": "TRANSPORT_ERROR"}
+{"format": "GSE.lexicon-completion-progress/1", "phase": "ACCEPTANCE_COMMIT", "model_calls": 9, "transport_invocations": 9, "max_model_calls": 9, "committed_outcomes": {"TRANSPORT_ERROR": 7, "ASSIGNED": 2}, "dictionary_status": "NOT_RECOUNTED", "entry_id": "wordnet:rock:rock.n.01", "bank": "YOU", "code": "ASSIGNED"}
+Traceback (most recent call last):
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/validation.py", line 129, in _relations
+    raise ValueError("INVALID_RELATION_ARRAY")
+ValueError: INVALID_RELATION_ARRAY
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py", line 555, in <module>
+    execute(retained_only=args.phase == "retained-teaching", teaching_only=args.phase == "teach")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py", line 478, in execute
+    proposals = list(_relations([admission["relation"] for admission in admissions]))
+                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/validation.py", line 145, in _relations
+    raise ValueError(f"INVALID_BUILD_RELATION:{index}") from error
+ValueError: INVALID_BUILD_RELATION:0

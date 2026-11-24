@@ -1,0 +1,3 @@
+{
+  "patch": "*** Begin Patch\n*** Update File: /Users/rohanvinaik/Projects/GSE/GSE/symbolic/lexical_grounding.py\n@@\n         actual = tuple((t.lemma_.casefold(), t.pos_) for t in self.doc[start + 1 : end])\n-        witnesses, definition_witnesses = {}, {}\n+        witnesses = {}\n@@\n         linked_verbs = {t.lemma_ for t in tokens if linked is not None and t.i > linked and t.pos_ == \"VERB\"}\n-        witnesses = {}\n+        witnesses, definition_witnesses = {}, {}\n*** End Patch"
+}

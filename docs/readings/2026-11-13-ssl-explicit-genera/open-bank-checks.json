@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "format",
+      "GSE/curation/lexicon_builder/learning_curriculum.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "scripts/run_lexicon_epochs.py",
+      "tests/test_lexicon_epoch.py",
+      "tests/test_lexicon_learning_state.py"
+    ],
+    "exit_code": 0,
+    "log": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/open-bank-check-0.log"
+  },
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "check",
+      "GSE/curation/lexicon_builder/learning_curriculum.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "scripts/run_lexicon_epochs.py",
+      "tests/test_lexicon_epoch.py",
+      "tests/test_lexicon_learning_state.py"
+    ],
+    "exit_code": 1,
+    "log": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/open-bank-check-1.log"
+  }
+]

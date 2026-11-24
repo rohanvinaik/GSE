@@ -138,26 +138,19 @@ def _restored_scaffold_field(conn, key, reference, version):
     return _read_context(conn, reference)
 
 
-def _stored_receipt(conn, record):
-    """Split large repeated fields, preserving every original request field."""
-    request = dict(record["request"])
+def store_request_context(conn, payload):
+    """Share repeated request fields without granting the request any authority."""
+    request = dict(payload)
     contexts = {key: _store_context(conn, request.pop(key)) for key in ("observations", "definition") if key in request}
     scaffold = None
     if isinstance(request.get("scaffold"), dict):
         # Relation tables/context stay stable even as domains and proof traces change.
         scaffold = {key: _stored_scaffold_field(conn, key, value) for key, value in request.pop("scaffold").items()}
-    return {
-        **record,
-        "request": {"format": REQUEST_STORAGE, "inline": request, "contexts": contexts, "scaffold": scaffold},
-    }
+    return {"format": REQUEST_STORAGE, "inline": request, "contexts": contexts, "scaffold": scaffold}
 
 
-def _restored_receipt(conn, record, version):
-    if current_id(version) == LEGACY_VERSION:
-        return validate_receipt(record)
-    if not isinstance(record, dict):
-        raise ValueError("INVALID_MODEL_AUTHORITY")
-    envelope = record.get("request")
+def restore_request_context(conn, envelope, version=VERSION):
+    """Restore and check all shared fields, including ordered proof records."""
     if (
         not isinstance(envelope, dict)
         or set(envelope) != {"format", "inline", "contexts", "scaffold"}
@@ -179,7 +172,20 @@ def _restored_receipt(conn, record, version):
             key: _restored_scaffold_field(conn, key, reference, version)
             for key, reference in envelope["scaffold"].items()
         }
-    return validate_receipt({**record, "request": request})
+    return request
+
+
+def _stored_receipt(conn, record):
+    """Split repeated fields while preserving the original receipt envelope."""
+    return {**record, "request": store_request_context(conn, record["request"])}
+
+
+def _restored_receipt(conn, record, version):
+    if current_id(version) == LEGACY_VERSION:
+        return validate_receipt(record)
+    if not isinstance(record, dict):
+        raise ValueError("INVALID_MODEL_AUTHORITY")
+    return validate_receipt({**record, "request": restore_request_context(conn, record.get("request"), version)})
 
 
 class ModelReceipts(Mapping):

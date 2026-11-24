@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-workload-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor filename in ['docs/program/BUILD_SPEC.md','docs/program/BUILD_GAPS.md']:\n s=Path(filename).read_text();\n for block in s.split('\\n## '):\n  if 'GSE-01' in block.split('\\n')[0]:print(filename,block)\nfor p in Path('scripts').glob('*.py'):\n t=ast.parse(p.read_text()); names={n.name for n in ast.walk(t) if isinstance(n,(ast.FunctionDef,ast.ClassDef))}\n if any('corpus' in n or 'coverage' in n or 'checkpoint' in n for n in names):print(p, sorted(names))\nfor filename in ['018-grounded-benchmark.json','021-approved-candidate-state-corpus.json','checkpoint-status.json']:\n p=Path('docs/readings/2026-11-13-ssl-explicit-genera')/filename;o=json.loads(p.read_text()); print(filename,type(o),list(o) if isinstance(o,dict) else len(o))\n if 'benchmark' in filename:print(json.dumps(o,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

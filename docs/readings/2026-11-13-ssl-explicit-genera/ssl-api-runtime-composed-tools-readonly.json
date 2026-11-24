@@ -1,0 +1,2971 @@
+{
+  "format": "GSE.runtime-composed-tools-readonly/1",
+  "measured_at_utc": "2026-11-24T09:08:36.443060+00:00",
+  "split": "DEVELOPMENT_DIAGNOSTICS_NOT_FINAL_HOLDOUT",
+  "lexicon": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db",
+  "lexicon_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "source_freeze": "ssl-api-runtime-result.json",
+  "notes": [
+    "Execution availability and observed composed contracts, not full semantic correctness certification.",
+    "No raw ABOVE/BEFORE lexical sign demanded when correct meaning is composed elsewhere.",
+    "Document witness uses existing NullGenealogy to avoid any write/open of external world resource; cannot certify unavailable world/cassette resources."
+  ],
+  "sentences": [
+    {
+      "id": "above",
+      "text": "The bird is above the tree.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "bird",
+            "tree"
+          ],
+          "features": {}
+        }
+      },
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "bird",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "kind": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "tree",
+            "word_primitives": {},
+            "role": null,
+            "position": 5,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "bird",
+          "lemma": "bird",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "above",
+          "lemma": "above",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "tree",
+          "lemma": "tree",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": "tree",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "below",
+      "text": "The bird is below the tree.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "bird",
+            "tree"
+          ],
+          "features": {}
+        }
+      },
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "bird",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "kind": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "tree",
+            "word_primitives": {},
+            "role": null,
+            "position": 5,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "bird",
+          "lemma": "bird",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "below",
+          "lemma": "below",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "tree",
+          "lemma": "tree",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": "tree",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "before",
+      "text": "Alice left before Bob arrived.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TEMPORAL",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                "bob"
+              ],
+              "features": {
+                "verb": "arrive"
+              }
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                "alice"
+              ],
+              "features": {
+                "verb": "leave"
+              }
+            }
+          ],
+          "features": {
+            "conjunction": "before"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Temporal",
+        "setting": {
+          "_kind": "Event",
+          "verb": "arrive",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "bob",
+              "word_primitives": {},
+              "role": null,
+              "position": 3,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        },
+        "event": {
+          "_kind": "Event",
+          "verb": "leave",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "alice",
+              "word_primitives": {},
+              "role": null,
+              "position": 0,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        },
+        "conjunction": "before"
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "left",
+          "lemma": "leave",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "before",
+          "lemma": "before",
+          "pos": "SCONJ",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": "TEMPORAL",
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "Bob",
+          "lemma": "bob",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "arrived",
+          "lemma": "arrive",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        },
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        },
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "after",
+      "text": "Alice left after Bob arrived.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TEMPORAL",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                "bob"
+              ],
+              "features": {
+                "verb": "arrive"
+              }
+            },
+            {
+              "op": "EVENT",
+              "args": [
+                "alice"
+              ],
+              "features": {
+                "verb": "leave"
+              }
+            }
+          ],
+          "features": {
+            "conjunction": "after"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Temporal",
+        "setting": {
+          "_kind": "Event",
+          "verb": "arrive",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "bob",
+              "word_primitives": {},
+              "role": null,
+              "position": 3,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        },
+        "event": {
+          "_kind": "Event",
+          "verb": "leave",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "alice",
+              "word_primitives": {},
+              "role": null,
+              "position": 0,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        },
+        "conjunction": "after"
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "left",
+          "lemma": "leave",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "after",
+          "lemma": "after",
+          "pos": "SCONJ",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": "TEMPORAL",
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "Bob",
+          "lemma": "bob",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "arrived",
+          "lemma": "arrive",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        },
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        },
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "before-noun",
+      "text": "Alice arrived before dawn.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice",
+            "dawn"
+          ],
+          "features": {
+            "verb": "arrive"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "arrive",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "dawn",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "arrived",
+          "lemma": "arrive",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "before",
+          "lemma": "before",
+          "pos": "SCONJ",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dawn",
+          "lemma": "dawn",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "have-auxiliary",
+      "text": "Alice has left.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice"
+          ],
+          "features": {
+            "verb": "leave"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "leave",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "has",
+          "lemma": "have",
+          "pos": "AUX",
+          "word_primitives": {
+            "HAVE": 1
+          },
+          "sentence_primitives": {
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "left",
+          "lemma": "leave",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "have-main",
+      "text": "Alice has a dog.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice",
+            "dog"
+          ],
+          "features": {
+            "verb": "have"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "have",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "dog",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "has",
+          "lemma": "have",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dog",
+          "lemma": "dog",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "do-auxiliary",
+      "text": "Alice does not run.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                "alice"
+              ],
+              "features": {
+                "verb": "run"
+              }
+            }
+          ],
+          "features": {}
+        }
+      },
+      "tree": {
+        "_kind": "Negation",
+        "operand": {
+          "_kind": "Event",
+          "verb": "run",
+          "agent": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "alice",
+              "word_primitives": {},
+              "role": null,
+              "position": 0,
+              "pos": "PROPN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "patient": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "does",
+          "lemma": "do",
+          "pos": "AUX",
+          "word_primitives": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "sentence_primitives": {
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "not",
+          "lemma": "not",
+          "pos": "PART",
+          "word_primitives": {
+            "NOT": 1
+          },
+          "sentence_primitives": {
+            "SYN_ADV_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "run",
+          "lemma": "run",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": -1,
+            "lexical_sign": 1,
+            "sign": -1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "do-main",
+      "text": "Alice does a task.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice",
+            "task"
+          ],
+          "features": {
+            "verb": "do"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "do",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "task",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "does",
+          "lemma": "do",
+          "pos": "VERB",
+          "word_primitives": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "task",
+          "lemma": "task",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "not-very",
+      "text": "The dog is not very good.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "dog",
+            "good"
+          ],
+          "features": {
+            "degree": [
+              {
+                "argument": 1,
+                "target": "good",
+                "scale": "INTENSITY",
+                "level": -1
+              }
+            ]
+          }
+        }
+      },
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "dog",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "kind": {
+          "_kind": "Atom",
+          "lemma": "good",
+          "word_primitives": {},
+          "role": null,
+          "position": 5,
+          "pos": "ADJ",
+          "degree": {
+            "scale": "INTENSITY",
+            "level": -1,
+            "sources": [
+              4
+            ]
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dog",
+          "lemma": "dog",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "not",
+          "lemma": "not",
+          "pos": "PART",
+          "word_primitives": {
+            "NOT": 1
+          },
+          "sentence_primitives": {
+            "SYN_ADV_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "very",
+          "lemma": "very",
+          "pos": "ADV",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_ADV_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "good",
+          "lemma": "good",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": "good",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "very-not",
+      "text": "The dog is very not good.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "TYPE_ASSERT",
+              "args": [
+                "dog",
+                "good"
+              ],
+              "features": {
+                "degree": [
+                  {
+                    "argument": 1,
+                    "target": "good",
+                    "scale": "INTENSITY",
+                    "level": 1
+                  }
+                ]
+              }
+            }
+          ],
+          "features": {}
+        }
+      },
+      "tree": {
+        "_kind": "Negation",
+        "operand": {
+          "_kind": "TypeAssertion",
+          "entity": {
+            "_kind": "Entity",
+            "head": {
+              "_kind": "Atom",
+              "lemma": "dog",
+              "word_primitives": {},
+              "role": null,
+              "position": 1,
+              "pos": "NOUN",
+              "number": "sing"
+            },
+            "possessor": null,
+            "role": null,
+            "modifier": null
+          },
+          "kind": {
+            "_kind": "Atom",
+            "lemma": "good",
+            "word_primitives": {},
+            "role": null,
+            "position": 5,
+            "pos": "ADJ",
+            "degree": {
+              "scale": "INTENSITY",
+              "level": 1,
+              "sources": [
+                3
+              ]
+            }
+          }
+        }
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dog",
+          "lemma": "dog",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "very",
+          "lemma": "very",
+          "pos": "ADV",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_ADV_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "not",
+          "lemma": "not",
+          "pos": "PART",
+          "word_primitives": {
+            "NOT": 1
+          },
+          "sentence_primitives": {
+            "SYN_ADV_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "good",
+          "lemma": "good",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": -1,
+            "lexical_sign": 1,
+            "sign": -1,
+            "base": "good",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "duration-long",
+      "text": "Alice slept for a long time.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice"
+          ],
+          "features": {
+            "verb": "sleep",
+            "duration": {
+              "extent": "long",
+              "relation": "during"
+            }
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "sleep",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null,
+        "duration": {
+          "extent": "long",
+          "relation": "during"
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "slept",
+          "lemma": "sleep",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "for",
+          "lemma": "for",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "long",
+          "lemma": "long",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_ADJ_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "time",
+          "lemma": "time",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "duration-short",
+      "text": "Alice slept for a short time.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "alice"
+          ],
+          "features": {
+            "verb": "sleep",
+            "duration": {
+              "extent": "short",
+              "relation": "during"
+            }
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "sleep",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "alice",
+            "word_primitives": {},
+            "role": null,
+            "position": 0,
+            "pos": "PROPN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null,
+        "duration": {
+          "extent": "short",
+          "relation": "during"
+        }
+      },
+      "tokens": [
+        {
+          "token": "Alice",
+          "lemma": "alice",
+          "pos": "PROPN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "slept",
+          "lemma": "sleep",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "for",
+          "lemma": "for",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "short",
+          "lemma": "short",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_ADJ_MOD": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "time",
+          "lemma": "time",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_OBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "comparison",
+      "text": "The dog is bigger than the cat.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "COMPARISON",
+          "args": [
+            "big dog",
+            "cat"
+          ],
+          "features": {
+            "sign": 1,
+            "axis": null
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Comparison",
+        "lhs": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "dog",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": {
+            "_kind": "Atom",
+            "lemma": "big",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "ADJ",
+            "graded": true
+          }
+        },
+        "rhs": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "cat",
+            "word_primitives": {},
+            "role": null,
+            "position": 6,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "sign": 1,
+        "axis": null
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dog",
+          "lemma": "dog",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "bigger",
+          "lemma": "big",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "than",
+          "lemma": "than",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": "SET_DIFF",
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "cat",
+          "lemma": "cat",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "comparison-swapped",
+      "text": "The cat is bigger than the dog.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "COMPARISON",
+          "args": [
+            "big cat",
+            "dog"
+          ],
+          "features": {
+            "sign": 1,
+            "axis": null
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Comparison",
+        "lhs": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "cat",
+            "word_primitives": {},
+            "role": null,
+            "position": 1,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": {
+            "_kind": "Atom",
+            "lemma": "big",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "ADJ",
+            "graded": true
+          }
+        },
+        "rhs": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "dog",
+            "word_primitives": {},
+            "role": null,
+            "position": 6,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "sign": 1,
+        "axis": null
+      },
+      "tokens": [
+        {
+          "token": "The",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "cat",
+          "lemma": "cat",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "bigger",
+          "lemma": "big",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "than",
+          "lemma": "than",
+          "pos": "ADP",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": "SET_DIFF",
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "dog",
+          "lemma": "dog",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "he-type",
+      "text": "He is an animal.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "he",
+            "animal"
+          ],
+          "features": {}
+        }
+      },
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "he",
+            "word_primitives": {
+              "SOMEONE": 1
+            },
+            "role": null,
+            "position": 0,
+            "pos": "PRON"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "kind": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "animal",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        }
+      },
+      "tokens": [
+        {
+          "token": "He",
+          "lemma": "he",
+          "pos": "PRON",
+          "word_primitives": {
+            "SOMEONE": 1
+          },
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "VERB",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "an",
+          "lemma": "an",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "animal",
+          "lemma": "animal",
+          "pos": "NOUN",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": "animal",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "he-gas",
+      "text": "He is an inert gas.",
+      "execution": "RETURNED",
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "inert he"
+          ],
+          "features": {
+            "verb": "gas"
+          }
+        }
+      },
+      "tree": {
+        "_kind": "Event",
+        "verb": "gas",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "he",
+            "word_primitives": {
+              "SOMETHING": 1
+            },
+            "role": null,
+            "position": 0,
+            "pos": "NOUN",
+            "number": "sing"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": {
+            "_kind": "Atom",
+            "lemma": "inert",
+            "word_primitives": {},
+            "role": null,
+            "position": 3,
+            "pos": "ADJ"
+          }
+        },
+        "patient": null
+      },
+      "tokens": [
+        {
+          "token": "He",
+          "lemma": "he",
+          "pos": "NOUN",
+          "word_primitives": {
+            "SOMETHING": 1
+          },
+          "sentence_primitives": {
+            "SYN_SUBJ": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word_primitives": {
+            "BE": 1
+          },
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "an",
+          "lemma": "an",
+          "pos": "DET",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_DET": 1
+          },
+          "comp_operation": null,
+          "selection_status": "IDENTIFIED",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "inert",
+          "lemma": "inert",
+          "pos": "ADJ",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_COMPL": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": "gas",
+          "lemma": "gas",
+          "pos": "VERB",
+          "word_primitives": {},
+          "sentence_primitives": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "comp_operation": null,
+          "selection_status": "AMBIGUOUS",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word_primitives": {},
+          "sentence_primitives": {},
+          "comp_operation": null,
+          "selection_status": "NOT_FOUND",
+          "selected_entry_id": null,
+          "grammatical_eligibility": null
+        }
+      ],
+      "claims": [
+        {
+          "commitment": "committed",
+          "polarity": {
+            "state": "read",
+            "clause_sign": 1,
+            "lexical_sign": 1,
+            "sign": 1,
+            "base": null,
+            "reason": ""
+          }
+        }
+      ]
+    }
+  ],
+  "queries": {
+    "entity_lemmas": [
+      "dog",
+      "cat"
+    ],
+    "predicates": [
+      "Comparison"
+    ],
+    "clauses": 0,
+    "comparison_axis": "big",
+    "self_logical_equal": true,
+    "swapped_arguments": true,
+    "swapped_logical_equal": false
+  },
+  "inference": {
+    "rule_result": {
+      "holds": true,
+      "relation": "event",
+      "query": [
+        "mike",
+        "mike leave"
+      ],
+      "chain": [
+        "fact: rex bark",
+        "rule: rex bark ⇒ mike leave",
+        "∴ mike leave"
+      ],
+      "axis": null,
+      "source_ids": [
+        "fact-source",
+        "rule-source"
+      ]
+    },
+    "must_not_swapped_agent": {
+      "holds": false,
+      "relation": "event",
+      "query": [
+        "mike",
+        "mike bark"
+      ],
+      "chain": [],
+      "axis": null,
+      "source_ids": []
+    },
+    "must_not_commit_modal": {
+      "holds": false,
+      "relation": "event",
+      "query": [
+        "he",
+        "he leave"
+      ],
+      "chain": [],
+      "axis": null,
+      "source_ids": []
+    },
+    "must_not_positive_negated": {
+      "holds": false,
+      "relation": "event",
+      "query": [
+        "rex",
+        "rex bark"
+      ],
+      "chain": [],
+      "axis": null,
+      "source_ids": []
+    },
+    "negative_fact_present": true
+  },
+  "document": {
+    "text": "A woman smiled.\n\nShe ran.",
+    "phases": {
+      "intake": {
+        "state": "read",
+        "expected": 2,
+        "read": 2,
+        "failed": 0
+      },
+      "resolution": {
+        "state": "read",
+        "error": null
+      },
+      "fold": {
+        "state": "read",
+        "error": null
+      },
+      "graph": {
+        "state": "read",
+        "error": null
+      }
+    },
+    "failures": [],
+    "source_sentence_ids": [
+      "s1"
+    ],
+    "mention_ids": [
+      "e0"
+    ],
+    "supporting_mention_ids": [
+      "e0"
+    ],
+    "supporting_sources": [
+      "s0"
+    ],
+    "tree_sources": [
+      {
+        "tree_index": 0,
+        "utterance_id": "s0:u0",
+        "source_sentence_id": "s0"
+      },
+      {
+        "tree_index": 1,
+        "utterance_id": "s1:u0",
+        "source_sentence_id": "s1"
+      }
+    ]
+  },
+  "profile": {
+    "n_sentences": 2,
+    "operator_mix": {
+      "EVENT": 0.0,
+      "TYPE_ASSERT": 1.0,
+      "SET_DIFF": 0.0,
+      "BIND_EQ": 0.0,
+      "DEGREE_QUERY": 0.0,
+      "TYPE_QUERY": 0.0,
+      "CARD_LOWER": 0.0,
+      "SCALAR_EXTREME": 0.0,
+      "CONTRAST": 0.0,
+      "COORDINATION": 0.0,
+      "CLAUSE_COORD": 0.0,
+      "CAUSAL_SOURCE": 0.0,
+      "CONSEQUENCE": 0.0,
+      "IMPLIES": 0.0,
+      "REL_RESTRICT": 0.0,
+      "CONTROL": 0.0
+    },
+    "complexity": {
+      "clauses_per_sent": 1.0,
+      "ops_per_sent": 1.0,
+      "tokens_per_sent": 6.5,
+      "embed_rate": 0.0,
+      "past_tense_rate": 0.0
+    },
+    "coherence": {
+      "degraded_rate": 0.0
+    },
+    "affect": {
+      "valence_mean": null,
+      "valence_spread": null,
+      "valence_arc": null
+    },
+    "register": {
+      "func_word_ratio": 0.45454545454545453,
+      "oov_rate": 1.0,
+      "mean_lemma_len": 3.6666666666666665
+    },
+    "primitives": {
+      "ABOVE": 0.0,
+      "AFTER": 0.0,
+      "ALIVE": 0.0,
+      "AWAY": 0.0,
+      "BAD": 0.0,
+      "BE": 0.0,
+      "BECAUSE": 0.0,
+      "BEFORE": 0.0,
+      "BELOW": 0.0,
+      "BIG": 0.0,
+      "BODY": 0.0,
+      "CAN": 0.0,
+      "CAUSE": 0.0,
+      "CERTAINTY": 0.0,
+      "DEAD": 0.0,
+      "DO": 0.0,
+      "END": 0.0,
+      "EXIST": 0.0,
+      "FALSE": 0.0,
+      "FAR": 0.0,
+      "FEEL": 0.0,
+      "GOOD": 0.0,
+      "HAPPEN": 0.0,
+      "HAVE": 0.0,
+      "HEAR": 0.0,
+      "HERE": 0.0,
+      "HIER_MINUS": 0.0,
+      "HIER_PLUS": 0.0,
+      "I": 0.0,
+      "IF": 0.0,
+      "INFER": 0.0,
+      "INSIDE": 0.0,
+      "INTENSITY": 0.0,
+      "KIND": 0.0,
+      "KNOW": 0.0,
+      "LIKE": 0.0,
+      "LONG_TIME": 0.0,
+      "MAYBE": 0.0,
+      "MOMENT": 0.0,
+      "MOVE": 0.0,
+      "MUST": 0.0,
+      "NEAR": 0.0,
+      "NOT": 0.0,
+      "NOW": 0.0,
+      "NUMBER": 0.0,
+      "ONE": 0.0,
+      "OTHER": -0.03305,
+      "OUTSIDE": 0.0,
+      "PART": 0.0,
+      "PEOPLE": 0.0,
+      "QUANTITY": 0.0596,
+      "SAME": 0.03305,
+      "SAY": 0.0,
+      "SEE": 0.0,
+      "SHORT_TIME": 0.0,
+      "SIDE": 0.0,
+      "SMALL": 0.0,
+      "SOMEONE": 0.0,
+      "SOMETHING": 0.0,
+      "START": 0.0,
+      "THEN": 0.0,
+      "THINK": 0.0,
+      "TOUCH": 0.0,
+      "TOWARD": 0.0,
+      "TRUE": 0.0,
+      "TWO": 0.0,
+      "WANT": 0.0,
+      "WHEN": 0.0,
+      "WHERE": 0.0,
+      "WITH": 0.0,
+      "WITHOUT": 0.0,
+      "WORDS": 0.0,
+      "YOU": 0.0
+    },
+    "version": "GSE.profile/2",
+    "state": "read",
+    "n_read": 2,
+    "failures": [],
+    "populations": {
+      "structure": {
+        "state": "measured",
+        "n": 2,
+        "failed": 0,
+        "support": "sufficient",
+        "evidence": [
+          "s0:u0",
+          "s1:u0"
+        ],
+        "definition": "successfully aggregated encoded utterances"
+      },
+      "coherence": {
+        "state": "measured",
+        "n": 2,
+        "failed": 0,
+        "support": "sufficient",
+        "evidence": [
+          "s0:u0",
+          "s1:u0"
+        ],
+        "definition": "clauses from successfully aggregated utterances"
+      },
+      "affect": {
+        "state": "absent",
+        "n": 0,
+        "failed": 0,
+        "support": "none",
+        "evidence": [
+          "s0:u0",
+          "s1:u0"
+        ],
+        "definition": "content tokens with explicit GOOD/BAD evidence"
+      },
+      "affect_arc": {
+        "state": "absent",
+        "n": 0,
+        "failed": 0,
+        "support": "none",
+        "evidence": [
+          "s0:u0",
+          "s1:u0"
+        ],
+        "definition": "utterances with explicit GOOD/BAD evidence"
+      },
+      "content": {
+        "state": "measured",
+        "n": 6,
+        "failed": 0,
+        "support": "sufficient",
+        "evidence": [
+          "s0:u0",
+          "s1:u0"
+        ],
+        "definition": "content-POS tokens from successfully aggregated utterances"
+      }
+    },
+    "operations": {
+      "BIND_EQ": 0,
+      "CARD_LOWER": 0,
+      "CAUSAL_SOURCE": 0,
+      "CLAUSE_COORD": 0,
+      "CONSEQUENCE": 0,
+      "CONTRAST": 0,
+      "CONTROL": 0,
+      "COORDINATION": 0,
+      "DEGREE_QUERY": 0,
+      "EVENT": 0,
+      "IMPLIES": 0,
+      "REL_RESTRICT": 0,
+      "SCALAR_EXTREME": 0,
+      "SET_DIFF": 0,
+      "SET_RESTRICT": 0,
+      "TEMPORAL": 0,
+      "TYPE_ASSERT": 2,
+      "TYPE_QUERY": 0
+    },
+    "embedding_depths": [
+      0,
+      0
+    ],
+    "structural_loss": []
+  },
+  "document_speech": [
+    {
+      "type": "manifest",
+      "state": null,
+      "source_sentence_id": null,
+      "error": null,
+      "structural_loss": null,
+      "tree": null
+    },
+    {
+      "type": "utterance",
+      "state": "read",
+      "source_sentence_id": "speech",
+      "error": null,
+      "structural_loss": [],
+      "tree": {
+        "_kind": "Event",
+        "verb": "run",
+        "agent": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "bob",
+            "word_primitives": {
+              "I": 1,
+              "SOMEONE": 1
+            },
+            "role": null,
+            "position": 0,
+            "pos": "PROPN"
+          },
+          "possessor": null,
+          "role": null,
+          "modifier": null
+        },
+        "patient": null
+      }
+    },
+    {
+      "type": "end",
+      "state": null,
+      "source_sentence_id": null,
+      "error": null,
+      "structural_loss": null,
+      "tree": null
+    }
+  ],
+  "lexicon_sha256_after": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "unchanged": true,
+  "runtime_source_pins_unchanged": true
+}

@@ -1,0 +1,52 @@
+
+ The bird is above the tree.
+[('The', 'DET', 'gse_closed_class:determiner:the'), ('bird', 'NOUN', 'AMBIGUOUS'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('above', 'ADP', 'gse_closed_class:preposition:above'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('tree', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['bird', 'tree'], 'features': {'verb': 'above'}}}
+
+ The bird is below the tree.
+[('The', 'DET', 'gse_closed_class:determiner:the'), ('bird', 'NOUN', 'AMBIGUOUS'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('below', 'ADP', 'gse_closed_class:preposition:below'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('tree', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['bird', 'tree'], 'features': {'verb': 'below'}}}
+
+ Alice arrived before dawn.
+[('Alice', 'PROPN', 'NOT_FOUND'), ('arrived', 'VERB', 'AMBIGUOUS'), ('before', 'SCONJ', 'gse_closed_class:conjunction:before'), ('dawn', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TEMPORAL', 'args': ['dawn', {'op': 'EVENT', 'args': ['alice'], 'features': {'verb': 'arrive'}}], 'features': {'conjunction': 'before'}}}
+
+ Alice arrived after noon.
+[('Alice', 'PROPN', 'NOT_FOUND'), ('arrived', 'VERB', 'AMBIGUOUS'), ('after', 'SCONJ', 'gse_closed_class:conjunction:after'), ('noon', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TEMPORAL', 'args': ['noon', {'op': 'EVENT', 'args': ['alice'], 'features': {'verb': 'arrive'}}], 'features': {'conjunction': 'after'}}}
+
+ Alice arrived before Bob left.
+[('Alice', 'PROPN', 'NOT_FOUND'), ('arrived', 'VERB', 'AMBIGUOUS'), ('before', 'SCONJ', 'gse_closed_class:conjunction:before'), ('Bob', 'PROPN', 'AMBIGUOUS'), ('left', 'VERB', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TEMPORAL', 'args': [{'op': 'EVENT', 'args': ['bob'], 'features': {'verb': 'leave'}}, {'op': 'EVENT', 'args': ['alice'], 'features': {'verb': 'arrive'}}], 'features': {'conjunction': 'before'}}}
+
+ He is an inert gas.
+[('He', 'PRON', 'CONFLICT'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('an', 'DET', 'gse_closed_class:determiner:an'), ('inert', 'ADJ', 'AMBIGUOUS'), ('gas', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['he', 'inert gas'], 'features': {}}}
+
+ He is not an inert gas.
+[('He', 'PRON', 'gse_closed_class:pronoun:he'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('not', 'PART', 'gse_closed_class:negation:not'), ('an', 'DET', 'gse_closed_class:determiner:an'), ('inert', 'ADJ', 'AMBIGUOUS'), ('gas', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'NOT', 'args': [{'op': 'TYPE_ASSERT', 'args': ['he', 'inert gas'], 'features': {}}], 'features': {}}}
+
+ He gases the room.
+[('He', 'PRON', 'gse_closed_class:pronoun:he'), ('gases', 'VERB', 'AMBIGUOUS'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('room', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['he', 'room'], 'features': {'verb': 'gas'}}}
+
+ The femur is the longest and thickest bone of the human skeleton.
+[('The', 'DET', 'gse_closed_class:determiner:the'), ('femur', 'NOUN', 'wordnet:femur:femur.n.01'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('longest', 'ADJ', 'NOT_FOUND'), ('and', 'CCONJ', 'gse_closed_class:conjunction:and'), ('thickest', 'ADJ', 'AMBIGUOUS'), ('bone', 'NOUN', 'AMBIGUOUS'), ('of', 'ADP', 'gse_closed_class:preposition:of'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('human', 'ADJ', 'AMBIGUOUS'), ('skeleton', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['femur', {'op': 'COORD', 'args': ['bone', 'skeleton'], 'features': {'conjunction': 'and', 'modifier': 'long'}}], 'features': {}}}
+
+ A teacher is a person whose occupation is teaching.
+[('A', 'DET', 'gse_closed_class:determiner:a'), ('teacher', 'NOUN', 'AMBIGUOUS'), ('is', 'VERB', 'gse_closed_class:auxiliary:is'), ('a', 'DET', 'gse_closed_class:determiner:a'), ('person', 'NOUN', 'AMBIGUOUS'), ('whose', 'PRON', 'gse_closed_class:pronoun:whose'), ('occupation', 'NOUN', 'AMBIGUOUS'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('teaching', 'VERB', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'REL_RESTRICT', 'args': ['teacher', 'occupation'], 'features': {}}], 'features': {'verb': 'teach'}}}
+
+ The teacher is a person whose occupation is teaching.
+[('The', 'DET', 'gse_closed_class:determiner:the'), ('teacher', 'NOUN', 'AMBIGUOUS'), ('is', 'VERB', 'gse_closed_class:auxiliary:is'), ('a', 'DET', 'gse_closed_class:determiner:a'), ('person', 'NOUN', 'AMBIGUOUS'), ('whose', 'PRON', 'gse_closed_class:pronoun:whose'), ('occupation', 'NOUN', 'AMBIGUOUS'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('teaching', 'VERB', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': [{'op': 'REL_RESTRICT', 'args': ['teacher', 'occupation'], 'features': {}}], 'features': {'verb': 'teach'}}}
+
+ The femur is the longest bone.
+[('The', 'DET', 'gse_closed_class:determiner:the'), ('femur', 'NOUN', 'AMBIGUOUS'), ('is', 'AUX', 'gse_closed_class:auxiliary:is'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('longest', 'ADJ', 'NOT_FOUND'), ('bone', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['femur', 'long bone'], 'features': {}}}
+
+ Alice stood before the king.
+[('Alice', 'PROPN', 'NOT_FOUND'), ('stood', 'VERB', 'AMBIGUOUS'), ('before', 'SCONJ', 'gse_closed_class:conjunction:before'), ('the', 'DET', 'gse_closed_class:determiner:the'), ('king', 'NOUN', 'AMBIGUOUS'), ('.', 'PUNCT', 'NOT_FOUND')]
+{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['alice', 'king'], 'features': {'verb': 'stand'}}}

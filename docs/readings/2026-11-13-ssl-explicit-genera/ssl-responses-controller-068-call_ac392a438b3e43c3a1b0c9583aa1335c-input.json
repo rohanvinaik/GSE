@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-start-ordinary-teaching -- sh -c 'uvx --offline ruff@0.16.10 format docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py && PYTHONPATH=. .venv/bin/python -m pytest tests/test_lexicon_checkpoint_retained_transport.py -q && (nohup env PYTHONPATH=. .venv/bin/python -u docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py teach > docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-teaching.log 2>&1 & echo $! > docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-teaching.pid)'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

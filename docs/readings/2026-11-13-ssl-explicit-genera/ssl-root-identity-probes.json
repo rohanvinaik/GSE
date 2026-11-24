@@ -1,0 +1,224 @@
+{
+  "format": "GSE.checkpoint-independent-identity-probes/1",
+  "command": "GSEEncoder().encode over 8 declared sentences",
+  "lexicon_pointer": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+  },
+  "source_sha256": {
+    "GSE/api/encoder.py": "118b35325ac51c2706d137636c6bf9aa974a1b2cea2271c4c25dcc9c5e910889",
+    "GSE/symbolic/grounding.py": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7",
+    "GSE/symbolic/lexical_grounding.py": "b206360e093268680616e663bb4d25853263bb57e6473361b9d4a0cc4818fb77"
+  },
+  "source_changed_during_probe": false,
+  "records": [
+    {
+      "sentence": "He is happy.",
+      "pos": "PRON",
+      "selection_status": "IDENTIFIED",
+      "selected_entry_id": "gse_closed_class:pronoun:he",
+      "word_primitives": {
+        "SOMEONE": 1
+      },
+      "eligibility_code": "GRAMMATICAL_ROLE_ELIGIBLE",
+      "construction": null,
+      "contextual_grounding": null
+    },
+    {
+      "sentence": "He is a person.",
+      "pos": "PRON",
+      "selection_status": "IDENTIFIED",
+      "selected_entry_id": "gse_closed_class:pronoun:he",
+      "word_primitives": {
+        "SOMEONE": 1
+      },
+      "eligibility_code": "GRAMMATICAL_ROLE_ELIGIBLE",
+      "construction": null,
+      "contextual_grounding": null
+    },
+    {
+      "sentence": "He is an entity.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "ASSERTED_NONPERSON_TYPE",
+        "tokens": [
+          1,
+          2,
+          3
+        ],
+        "type_entry_ids": [
+          "wordnet:entity:entity.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      }
+    },
+    {
+      "sentence": "He is a thing.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "ASSERTED_NONPERSON_TYPE",
+        "tokens": [
+          1,
+          2,
+          3
+        ],
+        "type_entry_ids": [
+          "wordnet:thing:matter.n.01",
+          "wordnet:thing:thing.n.01",
+          "wordnet:thing:thing.n.02",
+          "wordnet:thing:thing.n.03",
+          "wordnet:thing:thing.n.04",
+          "wordnet:thing:thing.n.05",
+          "wordnet:thing:thing.n.07",
+          "wordnet:thing:thing.n.08",
+          "wordnet:thing:thing.n.09",
+          "wordnet:thing:thing.n.10",
+          "wordnet:thing:thing.n.11",
+          "wordnet:thing:thing.n.12"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      }
+    },
+    {
+      "sentence": "He is an organism.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "ASSERTED_NONPERSON_TYPE",
+        "tokens": [
+          1,
+          2,
+          3
+        ],
+        "type_entry_ids": [
+          "wordnet:organism:organism.n.01",
+          "wordnet:organism:organism.n.02"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      }
+    },
+    {
+      "sentence": "He is an animal.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "ASSERTED_NONPERSON_TYPE",
+        "tokens": [
+          1,
+          2,
+          3
+        ],
+        "type_entry_ids": [
+          "wordnet:animal:animal.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      }
+    },
+    {
+      "sentence": "He is an inert gas.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "ASSERTED_NONPERSON_TYPE",
+        "tokens": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "type_entry_ids": [
+          "wordnet:gas:accelerator.n.01",
+          "wordnet:gas:flatulence.n.01",
+          "wordnet:gas:gas.n.01",
+          "wordnet:gas:gas.n.02",
+          "wordnet:gas:gasoline.n.01",
+          "wordnet:gas:natural_gas.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "entry_id": "wordnet:he:helium.n.01",
+        "witness_kind": "WORDNET_DEFINITION_CONSTRUCTION",
+        "gloss_terms": [
+          "gas",
+          "inert"
+        ],
+        "exact_derivation": [],
+        "related_derivation": [],
+        "construction_type": null
+      }
+    },
+    {
+      "sentence": "The chemical symbol He names helium.",
+      "pos": "PRON",
+      "selection_status": "CONFLICT",
+      "selected_entry_id": null,
+      "word_primitives": {},
+      "eligibility_code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "construction": {
+        "kind": "DETERMINED_NOMINAL_NAME",
+        "tokens": [
+          0,
+          1,
+          2
+        ]
+      },
+      "contextual_grounding": {
+        "code": "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS",
+        "native_anchor_support": {},
+        "type_coherence": {
+          "wordnet:he:helium.n.01": 1.0
+        },
+        "type_thread_candidate": "wordnet:he:helium.n.01",
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      }
+    }
+  ]
+}

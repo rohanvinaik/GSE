@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-workload-demand -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in sorted(p.glob('ssl-api-runtime-*')):\n if f.suffix in {'.json','.md'} and 'prompt' not in f.name:print(f.name,f.stat().st_size)\nfor name in ['ssl-api-runtime-checkpoint-demand.json','ssl-api-runtime-checkpoint-workload-manifest.json','ssl-api-runtime-checkpoint-report.json','ssl-api-runtime-checkpoint-gate.json']:\n f=p/name\n if f.exists():print('\\n===',name,'===\\n'+f.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

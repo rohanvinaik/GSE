@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-runner-and-projection -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport os,subprocess,ast\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-teaching.pid');pid=int(p.read_text());print(subprocess.run(['ps','-p',str(pid),'-o','pid,ppid,etime,pcpu,comm'],capture_output=True,text=True).stdout)\nprint(Path('/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run').read_text())\nfor q in Path('GSE/curation/lexicon_builder').glob('*.py'):\n t=q.read_text();tree=ast.parse(t)\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and (('anchor' in n.name or 'projection' in n.name) and q.name not in ['validation.py','reviewed_patterns.py']):print(q,n.name,n.lineno,n.end_lineno)\nprint('PLAN');print(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-rebased-plan.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

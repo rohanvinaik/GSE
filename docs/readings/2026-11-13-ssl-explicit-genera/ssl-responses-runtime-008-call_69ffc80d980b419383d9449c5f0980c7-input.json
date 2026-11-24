@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-ast-trace -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor name in ['GSE/api/encoder.py','GSE/nlp/native.py','GSE/lexicon/pronouns.py','GSE/lexicon/function_words.py']:\n p=Path(name); t=ast.parse(p.read_text()); print('\\n',name)\n for n in ast.walk(t):\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)): print(n.lineno,n.end_lineno,n.name)\nneed={'LexicalGrounding','_select_by_coherence','lexical_lookup','audit_sparse_runtime','audit_runtime','compare_reports'}\nfor root in ['GSE','scripts','tests']:\n for p in Path(root).rglob('*.py'):\n  if '_archive' in p.parts: continue\n  try:t=ast.parse(p.read_text())\n  except SyntaxError:continue\n  refs={n.id for n in ast.walk(t) if isinstance(n,ast.Name)}|{n.attr for n in ast.walk(t) if isinstance(n,ast.Attribute)}\n  hit=refs & need\n  if hit: print(p,sorted(hit))\nPY\ncat tests/test_lexicon_builder_grammar_runtime.py && cat tests/test_lexicon_builder_runtime.py",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

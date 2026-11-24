@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-real-admission-map -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/curation/lexicon_builder/residual.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.ClassDef,ast.FunctionDef)):\n  print(n.lineno,n.end_lineno,n.name)\n  if n.name in {'BankRequest','complete_bank','build_request'}:print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

@@ -1,0 +1,212 @@
+FUNCTION 9267
+def export_reviewed_input(candidate: str | Path, selection: dict, *, input_format=INPUT_FORMAT) -> dict:
+    """Export a consistent read-only selected snapshot and explicit review input."""
+    from .rule_history import digest, read_history, receipt_binding_key, relation_records
+
+    if type(input_format) is not str or current_id(input_format) not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}:
+        raise ValueError("INVALID_PATTERN_INPUT_FORMAT")
+    _fields(
+        selection, ("format", "discovery_entry_ids", "audit_entry_ids", "reviews"), ("candidates", "guarded_candidates")
+    )
+    if current_id(selection["format"]) != SELECTION_FORMAT or type(selection["reviews"]) is not list:
+        raise ValueError("INVALID_PATTERN_SELECTION")
+    discovery = _ids(selection["discovery_entry_ids"])
+    audit = _ids(selection["audit_entry_ids"])
+    if set(discovery) & set(audit):
+        raise ValueError("DISCOVERY_AUDIT_ID_OVERLAP")
+    selected = tuple(sorted(set(discovery) | set(audit)))
+    if not selected:
+        raise ValueError("EMPTY_PATTERN_EXPORT")
+    reviews = {}
+    for record in selection["reviews"]:
+        _fields(record, ("request_id", "review"))
+        if type(record["request_id"]) is not str or not record["request_id"]:
+            raise ValueError("INVALID_PATTERN_REVIEW_ID")
+        if record["request_id"] in reviews:
+            raise ValueError("DUPLICATE_PATTERN_REVIEW")
+        review = record["review"]
+        if (
+            type(review) is not dict
+            or not _ids(review.get("source_refs", []))
+            or type(review.get("rationale")) is not str
+            or not review["rationale"].strip()
+        ):
+            raise ValueError("SOURCE_BACKED_REVIEW_REQUIRED")
+        reviews[record["request_id"]] = record["review"]
+    path = Path(candidate).resolve(strict=True)
+    conn = sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)
+    try:
+        conn.execute("PRAGMA query_only=ON")
+        conn.execute("BEGIN")
+        relations = _relations(_metadata(conn, "relations"))
+        history = read_history(conn, relations)
+        anchors, models = _authorities(conn)
+        observations = _selected_observations(conn, selected)
+        entries, inventory, accepted = [], [], []
+        for entry_id in selected:
+            row = conn.execute(
+                "SELECT l.lemma,l.pos,l.gloss FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id "
+                "WHERE d.entry_id=?",
+                (entry_id,),
+            ).fetchone()
+            if row is None:
+                raise ValueError("UNKNOWN_PATTERN_DEFINITION")
+            assertions = _assertions(
+                conn.execute("SELECT ordinal,payload FROM builder_assertions WHERE entry_id=?", (entry_id,)).fetchall()
+            )
+            restrictions = _domain_restrictions(
+                conn.execute(
+                    "SELECT ordinal,payload FROM builder_domain_restrictions WHERE entry_id=?", (entry_id,)
+                ).fetchall()
+            )
+            anchor_counts = Counter(anchors.get(entry_id, ()))
+            native_assertions, explicit_anchors = [], []
+            for assertion in assertions:
+                if anchor_counts[assertion]:
+                    explicit_anchors.append(asdict(assertion))
+                    anchor_counts[assertion] -= 1
+                elif assertion.family != "model" and not assertion.source.startswith("model:"):
+                    native_assertions.append(asdict(assertion))
+            raw = {
+                "definition": {"entry_id": entry_id, "lemma": row[0], "pos": row[1], "definition": row[2]},
+                "assertions": native_assertions,
+                "anchors": explicit_anchors,
+                "observations": observations[entry_id],
+                "domain_restrictions": [asdict(item) for item in restrictions],
+            }
+            raw["context"] = lexical_context(raw["definition"], raw["observations"], relations)
+            # JSON normalization preserves the public schema's arrays.
+            raw = _read_json(json.dumps(raw))
+            parsed = _definition_input(raw, relations)
+            native = {
+                (item["source"], item["record_id"]): _NativeReference(item["entry_id"], item["family"], item["scope"])
+                for item in observations[entry_id]
+                if item["scope"] == "lexical"
+            }
+            relevant = {entry_id: [item["record_id"] for item in observations[entry_id]]}
+            _restriction_provenance(entry_id, restrictions, native)
+            _provenance(
+                entry_id,
+                assertions,
+                parsed.definition,
+                relations,
+                native,
+                relevant,
+                anchors,
+                models,
+                conn,
+                evidence_banks=parsed.evidence_banks,
+                domain_restrictions=restrictions,
+                rule_history=history,
+            )
+            entries.append(raw)
+            for receipt in models.get(entry_id, ()):
+                request_id = receipt["request_id"]
+                dependencies = [
+                    item["record_id"]
+                    for item in receipt["request"]["scaffold"]["proof_trace"]
+                    if item.get("kind") == "ASSERTION" and item.get("family") == "model"
+                ]
+                status = "EXPLICIT_REVIEW_SUPPLIED" if request_id in reviews else "NOT_INDEPENDENTLY_REVIEWED"
+                inventory.append(
+                    {
+                        "entry_id": entry_id,
+                        "bank": receipt["assertion"]["bank"],
+                        "request_id": request_id,
+                        "receipt_sha256": _request_id(receipt),
+                        "review_status": status,
+                        "dependency_status": "PRIOR_MODEL_DEPENDENCIES" if dependencies else "NATIVE_ANCHOR_BASELINE",
+                        "dependency_request_ids": dependencies,
+                        "receipt": receipt,
+                    }
+                )
+                binding_key = receipt_binding_key(receipt) if history is not None else None
+                if history is not None and binding_key is not None and binding_key in history["bindings"]:
+                    identity, version = history["bindings"][binding_key]
+                    inventory[-1]["rule_binding"] = {
+                        "request_id": request_id,
+                        "entry_id": identity,
+                        "version": version,
+                        "receipt_sha256": binding_key[1],
+                    }
+                if request_id in reviews:
+                    accepted.append({"receipt": receipt, "review": reviews.pop(request_id)})
+        if reviews:
+            raise ValueError("REVIEW_NOT_IN_SELECTED_ACTIVE_RECEIPTS")
+        reviewed_rulings(accepted)
+        executable = {
+            "format": input_format,
+            "rulings": accepted,
+            "discovery_entry_ids": list(discovery),
+            "audit_entry_ids": list(audit),
+            "entries": entries,
+            "relations": relation_records(relations),
+        }
+        for key in ("candidates", "guarded_candidates"):
+            if key in selection:
+                executable[key] = selection[key]
+        if history is not None:
+            bindings = []
+            for accepted_record in accepted:
+                key = receipt_binding_key(accepted_record["receipt"])
+                if key in history["bindings"]:
+                    entry_id, version = history["bindings"][key]
+                    bindings.append(
+                        {
+                            "request_id": key[0],
+                            "entry_id": entry_id,
+                            "version": version,
+                            "receipt_sha256": key[1],
+                        }
+                    )
+            if bindings:
+                current_version = digest(relation_records(relations))
+                needed = {current_version, *(record["version"] for record in bindings)}
+                executable["rule_history"] = {
+                    "format": "GSE.reviewed-pattern-history/2"
+                    if history["allow_revisions"]
+                    else "GSE.reviewed-pattern-history/1",
+                    "current_version": current_version,
+                    "versions": [
+                        {"version": version, "relations": relation_records(history["versions"][version])}
+                        for version in sorted(needed)
+                    ],
+                    "bindings": sorted(bindings, key=lambda record: record["request_id"]),
+                }
+        return {
+            "format": EXPORT_FORMAT,
+            "candidate": str(path),
+            "lexicon_writes": False,
+            "model_calls": 0,
+            "selected_provenance": "REPLAY_VALIDATED",
+            "input": executable,
+            "input_sha256": _request_id(executable),
+            "selection_sha256": _request_id(selection),
+            "inventory": inventory,
+            "review_outcomes": dict(Counter(item["review_status"] for item in inventory)),
+            "authority": "EXPLICIT_REVIEWS_ONLY_EXPORT_DOES_NOT_REVIEW_OR_APPROVE",
+        }
+    finally:
+        conn.close()
+CAPTURED_BYTES 0
+HASHES 91068d70bdabd8c84e3778bd884fd0dba5396561cd7fd19be80a76d18459e154 df78aa9fde0c3ecec12595c66ddbca6065432032a54e073c09295131ca34eaae
+RAW_KEYS ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'format', 'guarded_candidates', 'relations', 'rulings']
+FRESH_KEYS ['format', 'candidate', 'lexicon_writes', 'model_calls', 'selected_provenance', 'input', 'input_sha256', 'selection_sha256', 'inventory', 'review_outcomes', 'authority']
+FRESH_SCHEMA {'format': {'type': 'str', 'length': 29, 'keys': None}, 'candidate': {'type': 'str', 'length': 114, 'keys': None}, 'lexicon_writes': {'type': 'bool', 'length': None, 'keys': None}, 'model_calls': {'type': 'int', 'length': None, 'keys': None}, 'selected_provenance': {'type': 'str', 'length': 16, 'keys': None}, 'input': {'type': 'dict', 'length': 7, 'keys': ['format', 'rulings', 'discovery_entry_ids', 'audit_entry_ids', 'entries', 'relations', 'guarded_candidates']}, 'input_sha256': {'type': 'str', 'length': 64, 'keys': None}, 'selection_sha256': {'type': 'str', 'length': 64, 'keys': None}, 'inventory': {'type': 'list', 'length': 1, 'keys': None}, 'review_outcomes': {'type': 'dict', 'length': 1, 'keys': ['EXPLICIT_REVIEW_SUPPLIED']}, 'authority': {'type': 'str', 'length': 55, 'keys': None}}
+CANDIDATE fresh missing ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'guarded_candidates', 'relations', 'rulings'] extra ['authority', 'candidate', 'input', 'input_sha256', 'inventory', 'lexicon_writes', 'model_calls', 'review_outcomes', 'selected_provenance', 'selection_sha256']
+UNEQUAL_FIELDS ['format']
+CANDIDATE input missing [] extra []
+UNEQUAL_FIELDS ['entries']
+CANDIDATE review_outcomes missing ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'format', 'guarded_candidates', 'relations', 'rulings'] extra ['EXPLICIT_REVIEW_SUPPLIED']
+UNEQUAL_FIELDS []
+CAPTURED_BYTES 0
+HASHES 17675f6d7078205f1c241d6dcf07af8c33a8a158ffde274bed4699acc01866f5 17675f6d7078205f1c241d6dcf07af8c33a8a158ffde274bed4699acc01866f5
+RAW_KEYS ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'format', 'guarded_candidates', 'relations', 'rulings']
+FRESH_KEYS ['format', 'candidate', 'lexicon_writes', 'model_calls', 'selected_provenance', 'input', 'input_sha256', 'selection_sha256', 'inventory', 'review_outcomes', 'authority']
+FRESH_SCHEMA {'format': {'type': 'str', 'length': 29, 'keys': None}, 'candidate': {'type': 'str', 'length': 114, 'keys': None}, 'lexicon_writes': {'type': 'bool', 'length': None, 'keys': None}, 'model_calls': {'type': 'int', 'length': None, 'keys': None}, 'selected_provenance': {'type': 'str', 'length': 16, 'keys': None}, 'input': {'type': 'dict', 'length': 7, 'keys': ['format', 'rulings', 'discovery_entry_ids', 'audit_entry_ids', 'entries', 'relations', 'guarded_candidates']}, 'input_sha256': {'type': 'str', 'length': 64, 'keys': None}, 'selection_sha256': {'type': 'str', 'length': 64, 'keys': None}, 'inventory': {'type': 'list', 'length': 1, 'keys': None}, 'review_outcomes': {'type': 'dict', 'length': 1, 'keys': ['EXPLICIT_REVIEW_SUPPLIED']}, 'authority': {'type': 'str', 'length': 55, 'keys': None}}
+CANDIDATE fresh missing ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'guarded_candidates', 'relations', 'rulings'] extra ['authority', 'candidate', 'input', 'input_sha256', 'inventory', 'lexicon_writes', 'model_calls', 'review_outcomes', 'selected_provenance', 'selection_sha256']
+UNEQUAL_FIELDS ['format']
+CANDIDATE input missing [] extra []
+UNEQUAL_FIELDS []
+CANDIDATE review_outcomes missing ['audit_entry_ids', 'discovery_entry_ids', 'entries', 'format', 'guarded_candidates', 'relations', 'rulings'] extra ['EXPLICIT_REVIEW_SUPPLIED']
+UNEQUAL_FIELDS []

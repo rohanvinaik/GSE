@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-facts-units -- .venv/bin/python - <<'PY'\nimport json,datetime\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint(datetime.datetime.now(datetime.timezone.utc).isoformat())\nfor name in ['ssl-root-reference-audit.json','ssl-api-coverage-prime-demand-crosswalk.json','ssl-api-runtime-result.json','ssl-responses-controller-steering.json']:\n q=p/name\n print('\\n###',name)\n if not q.exists(): print('NOT PRESENT'); continue\n d=json.loads(q.read_text()); print('KEYS',list(d))\n for k,v in d.items():\n  if len(json.dumps(v))<18000: print(k,json.dumps(v,indent=2))\n  else: print(k,'FULL UNIT LENGTH',len(json.dumps(v)), 'TYPE',type(v).__name__)\nprint('\\n### coverage result');print((p/'ssl-api-coverage-result.md').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-frequency-contract -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,sqlite3,json\np=Path('GSE/curation/lexicon_builder/completion.py');s=p.read_text().splitlines();t=ast.parse(p.read_text())\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(w in n.name for w in ('frequen','Frequency','priority')):print('\\n'.join(s[n.lineno-1:n.end_lineno]))\nc=sqlite3.connect('file:data/lexicon_builder/2026-11-12/sparse-release-021.db?mode=ro',uri=True)\nr=json.loads(c.execute(\"select value from builder_metadata where key='last_completion_report'\").fetchone()[0]);print(r['priority'])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

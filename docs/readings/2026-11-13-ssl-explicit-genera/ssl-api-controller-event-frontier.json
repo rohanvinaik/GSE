@@ -1,0 +1,173 @@
+{
+  "HAPPEN_domains": {
+    "[-1, 0, 1]": 9253,
+    "[1]": 167
+  },
+  "bank_writes": 0,
+  "baseline_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "family": {
+    "absent_evidence": [],
+    "antecedent": null,
+    "consequent": [
+      "HAPPEN",
+      1
+    ],
+    "guards": [
+      [
+        "pos",
+        "noun"
+      ],
+      [
+        "wordnet_native_lemma",
+        "true"
+      ],
+      [
+        "wordnet_ancestor:event.n.01",
+        "true"
+      ]
+    ],
+    "warrant": {
+      "kind": "DEFINITIONAL_DERIVATION",
+      "review_id": "checkpoint:native-event-defining-genus-review",
+      "reviewer": "Exact native defining-genus review; independent audits pending",
+      "source_refs": [
+        "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-event-genus-warrant.md",
+        "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "statement": "The exact native event.n.01 genus is something that happens at a given place and time. A witnessed IS-A path establishes the noun definition as an event-kind rather than a participant, capacity or merely associated object. Its own occurrence content warrants HAPPEN=+1 only when the stored native identity and native lemma are both exact. Taxonomy proposal labels and frequencies are not semantic authority; inherited scope must withstand independent held-out counterexamples before admission.",
+      "warrant_id": "checkpoint:native-own-event-happen"
+    }
+  },
+  "format": "GSE.ssl-checkpoint-source-frontier/1",
+  "gold_used_as_warrant": false,
+  "holdout_separation": "Distinct exact senses and spellings; different immediate native event branches; final benchmark examples excluded from new teaching and audits.",
+  "new_model_calls": 0,
+  "scope_definitions": 9420,
+  "selected_independent_native_branches": [
+    {
+      "branch": [
+        "social_event.n.01"
+      ],
+      "definition": "an uproarious party",
+      "domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:do:bash.n.02",
+      "frequency": 312915,
+      "lemma": "do",
+      "paths": [
+        [
+          "entity.n.01",
+          "abstraction.n.06",
+          "psychological_feature.n.01",
+          "event.n.01",
+          "social_event.n.01",
+          "affair.n.03",
+          "party.n.04",
+          "bash.n.02"
+        ]
+      ],
+      "source_sha256": "c75d933273b1b51b5ad2df64d0af99fba7f4def052264a9f710aedbf5a4fb6c5"
+    },
+    {
+      "branch": [
+        "act.n.02"
+      ],
+      "definition": "a negative",
+      "domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:no:no.n.01",
+      "frequency": 304549,
+      "lemma": "no",
+      "paths": [
+        [
+          "entity.n.01",
+          "abstraction.n.06",
+          "psychological_feature.n.01",
+          "event.n.01",
+          "act.n.02",
+          "speech_act.n.01",
+          "denial.n.01",
+          "negative.n.01",
+          "no.n.01"
+        ]
+      ],
+      "source_sha256": "9dfcd878292f79e1b75a9c6479334fbef5be0f6df7e382c8e5c6f197248f4a3c"
+    },
+    {
+      "branch": [
+        "happening.n.01"
+      ],
+      "definition": "euphemistic expressions for death",
+      "domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:going:passing.n.02",
+      "frequency": 108288,
+      "lemma": "going",
+      "paths": [
+        [
+          "entity.n.01",
+          "abstraction.n.06",
+          "psychological_feature.n.01",
+          "event.n.01",
+          "happening.n.01",
+          "change.n.01",
+          "death.n.01",
+          "passing.n.02"
+        ]
+      ],
+      "source_sha256": "ef7c875c678476ba1ffd93d4635a828f8df910d4eed53d9ef2915f3ab6095c06"
+    },
+    {
+      "branch": [
+        "act.n.02",
+        "group_action.n.01"
+      ],
+      "definition": "a brief social visit",
+      "domain": [
+        -1,
+        0,
+        1
+      ],
+      "entry_id": "wordnet:call:call.n.06",
+      "frequency": 43931,
+      "lemma": "call",
+      "paths": [
+        [
+          "entity.n.01",
+          "abstraction.n.06",
+          "psychological_feature.n.01",
+          "event.n.01",
+          "act.n.02",
+          "group_action.n.01",
+          "assembly.n.06",
+          "meeting.n.04",
+          "visit.n.01",
+          "call.n.06"
+        ],
+        [
+          "entity.n.01",
+          "abstraction.n.06",
+          "psychological_feature.n.01",
+          "event.n.01",
+          "group_action.n.01",
+          "assembly.n.06",
+          "meeting.n.04",
+          "visit.n.01",
+          "call.n.06"
+        ]
+      ],
+      "source_sha256": "9551b283c6bfa2d3abee4cbba19b6f4770d609abdc775043a7352fa81d9d37af"
+    }
+  ],
+  "status": "UNADMITTED_GENUS_HYPOTHESIS_AWAITING_DEFINITIONAL_BOUNDARY_AUDITS"
+}

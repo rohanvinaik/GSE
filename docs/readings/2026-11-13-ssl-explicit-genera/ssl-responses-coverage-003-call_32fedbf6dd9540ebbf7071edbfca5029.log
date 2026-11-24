@@ -1,0 +1,772 @@
+## Mandatory SSL execution and measurement contract
+
+**Contract ID: `GSE.ssl-construction/2` (2026-11-23).** Rohan's instruction is to make common sense computable as justified exclusions, preserve the coupled representation space, and learn reusable semantic constraints. This section is normative for construction, teaching, discovery, revision, replay, scheduling and experiment reporting. A singleton-only teaching/propagation loop does not satisfy this contract. Earlier coverage experiments retain their original measurements and are not retrospective demonstrations of this complete loop.
+
+1. **SSL-01 — One constrained state.** The current state consists of exact definition identities, source/role bindings, applicable versioned laws, admissible coordinate domains and their joint constraints. Both within-definition bank relations and population-level rule applications participate. Reading eligibility is checked before frequency or similarity can select a reading; parser labels are evidence, not an exemption from contradictory contextual evidence. Reuse the existing GSE grounding and constraint machinery. Distinct definitions may share coordinates; vector equality does not establish identity.
+2. **SSL-02 — Closure before questions.** Apply all warranted source projections and admitted applicable laws, including exclusions, conjunctions, exhaustive obligations and inverse support, to closure. Preserve removed values, surviving combinations, causes and guards. Unknown is never zero. A two-value domain is genuine progress; a joint exclusion is genuine progress even when no marginal domain changes. Solver limits are operational limits, not semantic uncertainty or zero gain.
+3. **SSL-03 — Learn the rule calculus.** Reviewed Zipf-aware teaching and independent native evidence inform explicit candidate relations over allowed/forbidden tuples, not only predetermined single-sign implications. Retain positive and MUST-NOT witnesses, scope, source lineage, counterexamples and definitional warrant. Candidate rules cannot validate themselves. A correlation, repeated model answer or legacy vector is a hypothesis source, not authority to assign signs. Discover complementary conditions even when neither has useful isolated gain.
+4. **SSL-04 — Decide from the surviving alternatives.** Simulate the legal answers and their downstream closure before selecting the next question. Report the per-answer effects, remaining hypotheses and discriminating cases; do not invent an answer distribution. Recompute marginal reach and question priorities after each accepted answer, admission, exception, specialization or retraction. Zipf supplies application importance only after exact reading eligibility, and spelling frequency must never be presented as a measured sense frequency.
+5. **SSL-05 — No singleton-only gate.** Discovery, ranking, audit eligibility and admission must retain justified constraint-only progress. Neither zero newly filled cells nor unchanged marginal domains establishes zero information. Bridges are evaluated through the existing joint solver, including effects of interacting laws; a fixed two-rule look-ahead is a declared bounded approximation, not the full SSL controller. A resource-limited forecast remains explicitly unavailable and must not sort as proven zero.
+6. **SSL-06 — Typed surprise and refinement.** Every contradiction retains the exact definition, source/role bindings, banks, rival values/combinations, guards and derivations. Classify wrong identity, unsupported projection, missing condition, genuine scoped exception or unresolved disagreement. Refine or retract the responsible application/rule, replay dependents and the full eligible population, and learn from the result. Do not silently discard counterexamples or replace them with per-word patches. The bounded typed model adjudicates only the specific surviving questions and explicit abstentions.
+7. **SSL-07 — Specification-space measurement.** For each definition w let Ω_t(w) be its complete bank assignments satisfying the actual admitted constraints at epoch t. Report N_t(w)=|Ω_t(w)| and σ_GSE,t(w)=log2 N_t(w) when exact counting is justified. This is the lexicon's declared specification-space complexity measure, not a claim that it equals every program-specification σ defined in the SSL papers. Compute the corpus log-size as Σ_w σ_GSE,t(w), equivalent to the log of the product of per-definition spaces under the declared factorization. Do not substitute the sum of candidate counts or the product of marginal domain sizes for the joint feasible space. Factor disconnected components and free coordinates; count only complete joint witnesses. Report exact subtotals and coverage, upper bounds and unavailable counts separately when any component is limited. A conflict receives no numerical completion reward.
+8. **SSL-08 — Parallel progress signals.** At baseline, after direct teaching under the old laws, and after each rule revision/closure, record filled banks (including explicit zero), unresolved banks, marginal domain potential Σ log2|D|, exact joint specification complexity where available, contraction, reopened cells and contradictions. Separate direct teaching from structural propagation and newly learned-rule amplification. Keep audit outcomes and actual question/review budgets beside these measurements. Semantic validity is not established by contraction alone.
+9. **SSL-09 — Whole-lexicon frequency buckets.** Pin the complete definition cohort and the local frequency-source digest. Rank distinct normalized spellings by descending frequency with a deterministic spelling tie-break; use disjoint ranks 1–500, 501–1500, 1501–5000 and 5001+, plus a separate absent/zero-frequency group. Retain all senses. For each bucket report spelling count, definition count, filled/unresolved totals, average remaining banks per definition, and a spelling-weighted average of each spelling's per-sense average. These are spelling-frequency strata, not measured sense-use frequencies. Exclude sentence-only constructions from lexical denominators and report them separately. No unresolved definitions may disappear from the denominator.
+10. **SSL-10 — Reproducible epochs and publication.** Every measured learning round pins its evidence/rule versions, baseline cohort, curriculum, hypothesis language, measurement version and budgets. Persist one current candidate and one rolling rollback with compact audit records; do not multiply corpus checkpoints. An epoch must expose teaching → candidate rules → counterexamples/refinement → independent audit → revision → full replay → recomputed metrics/next questions. Publish a sparse successor only after the full publication validation passes, preserving its unknowns. Sparse publication is not lexical completion.
+11. **SSL-11 — Executable anti-regression obligations.** Tests must demonstrate: a 3→2 domain narrowing earns progress; a 9→3 joint reduction with unchanged marginals earns progress; one answer can force another bank; complementary laws alter subsequent priorities; an unsupported guard removes nothing; retraction reopens only unsupported conclusions; conflicts and limits do not earn completion credit; unknown is never zero; and frequency buckets preserve the full lexical cohort. The public learning/report entry points must consume these signals. A helper passing tests while the production path still uses singleton-only gain fails this contract.
+
+The formal contract is binding immediately; implementation status is established by executable receipts, not by this declaration. Record remaining failures explicitly in the experiment notebook. The reference operations are TrialLedger's finite-domain closure, joint satisfiability and survivor-discriminating evidence requests; its clinical rules and any unfinished significance orchestration are not imported as GSE laws.
+
+### Engineering execution: one checkpoint and a continuing learner
+
+**GSE-01 execution delta, 2026-11-23.** This is the implementation sequence for SSL-01–SSL-11, not another constructor or a declaration that the sequence has run. The bounded change and executable checklist live in `openspec/changes/lexicon-symbolic-foundation/`. `BUILD_SPEC.md#gse-01` owns the program milestone; this document owns lexical semantics and the execution contract; that OpenSpec change owns the engineering delta; computed receipts and the living experiment draft own observed results. These are views of one build, not alternative authorities.
+
+#### Production composition and the second constructor
+
+The production construction/state owner is `GSE/curation/lexicon_builder/`, called by `GSE.curation.cli.commands` and `scripts/run_lexicon_epochs.py`. The public consumer is `GSEEncoder` through the active sparse resource. Keep this producer → stored state → consumer chain intact. The historical constructor, now archived at `GSE/_archive/lexicon_builder/` (formerly `GSE/lexicon_builder/`), contains native-role, joint-support and provenance work; its 58-coordinate authored-silence contract is not interchangeable with the production 56-ordinary-bank contract. Reuse compatible mechanisms through explicit tested adapters. Do not create a third builder, alternate grounding table, second rule registry or alternate release pointer. No adaptation may turn upstream authored silence into an ordinary zero or inherit a prime-only one-hot boundary for ordinary words.
+
+The checkpoint and subsequent corpus learning use the **same** evidence, rule history, controller, resolver, runtime and publication path. A checkpoint pins a validated usable state and its rules. Continuing the learner expands that state under the same contracts; it does not start a less constrained or separately maintained build.
+
+#### Dependency-ordered engineering work
+
+All IDs below belong to GSE-01. A row closes from its consumer receipt, not from the existence of its producer.
+
+| ID | Change in the existing system | Produced state and consuming decision | Acceptance witness |
+|---|---|---|---|
+| CP-01 | Restore a valid opening candidate using `validation.py`, the native reference adapters and existing catalogue operation. Reconcile namespace aliases without rewriting original evidence/request identities. Upgrade reduced test fixtures to include the native reference banks they consume. | Replayed candidate, representation/basis pin, source/link pins and opening measurement; consumed by every model writer and migration preflight. | Complete full-cohort replay, catalogue consistency and repository gate. A catalogue repair may rebuild derived metadata from pinned inputs; it must not bypass provenance or rewrite semantic cells to make replay pass. |
+| CP-02 | Extend `epoch.py` with one durable hypothesis/surprise work ledger. Consume `grounded_rules.py`, native discovery, reviewed export, source-backed continuations and existing `mine_scope_chains` outputs **during** execution. | Versioned unapproved candidates with evidence, scope, warrant status, parent/counterexample links and next action; consumed by scheduling and audit. | A useful candidate absent from the opening family list is discovered, audited and considered in a later epoch without a hand-written replacement plan. A proposal lacking a warrant remains pending and writes nothing. |
+| CP-03 | Route scope challenges and independent audit outcomes through existing refinement, `rule_revisions.py`, reservations and `rule_migration.migrate_revision`. | Reviewed child guards, retained counterexamples, exact exceptions/reservations, additions and retirements in one transition; consumed by replay and the next epoch. | A real in-scope counterexample causes an evidenced refinement, fresh audit and whole-scope replay; an unseen near miss remains protected. Abstention is not a signed exception, and a model disagreement alone does not establish the correct revision. |
+| CP-04 | Recompute eligible questions, source strata and interacting candidate reach after teaching or revision. Extend the candidate language through the existing `Relation` boundary where pair/unary templates cannot express an allowed/forbidden joint tuple. | Per-legal-answer closure, exact joint deltas where available, portfolio/bridge effects, typed unavailable outcomes and refreshed priorities; consumed by `choose` and subsequent candidate generation. | A constraint-only rule and a complementary multi-rule chain change the next decision. Unknown guards do not activate rules; resource-limited search is unavailable, never zero gain or exhausted semantic structure. |
+| CP-05 | Make the comparison and reporting consumers use `specification.py` and epoch phase measurements. Retain singleton and marginal-domain measures as separate diagnostics. | Fixed-cohort baseline/post-teaching/post-revision H, signed changes, budgets, bucket tables and joint interactions; consumed by equal-budget comparison and the notebook. | Equal-budget comparison detects a joint 9→3 reduction with unchanged marginal domains and zero new cells. It refuses changed cohorts, evidence, model/protocol, missing exact counts or unequal actual budgets as a completed comparison. |
+| CP-06 | Make resume and retention operate on one current working head and compact transition records rather than retained teaching/candidate DBs for every epoch. Reuse existing receipt deduplication, transactional migration, snapshot and retention code. | Durable head/transition identities, unfinished work and archived evidence; consumed by interruption recovery and the next epoch. | Resume after teaching, audit, migration or publication neither repeats accepted questions nor depends on deleted intermediate DBs. Working DB count is bounded independently of epoch count. Active and previous releases, source data and audit records remain protected. |
+| CP-07 | Enforce exact reading/role eligibility on the real encoder path, including closed-class selection, using existing grammar/grounding and source witnesses. Connect sentence/corpus demand reports to the checkpoint gate. | A selected exact identity or named abstention plus preserved domains/signs and grammatical structure; consumed by actual NLP tasks and the release gate. | Pronoun “He” and chemical-symbol “He” cannot silently share a pronoun decision. Test real parsing, contextual evidence, unresolved ambiguity, negation/degree scope, duration and preservation of independently correct readings. A parser POS label alone cannot overrule contradictory evidence. |
+| CP-08 | Run the connected loop against the declared common-sense workload, then publish through existing `publication.py` and `publish_round`. | Pinned sparse checkpoint, acceptance report, rule/source/benchmark/representation digests and rolling rollback; consumed by normal GSE and the next learning round. | Full replay plus the workload, semantic and runtime gates below; atomic activation only on success. Continue from the installed successor with the same controller and retained unresolved tail. |
+
+CP-01 precedes semantic writes. CP-02–CP-06 form the connected learning implementation and must be verified together; CP-07 can be repaired against the existing active snapshot. CP-08 depends on those mechanisms and the declared workload audit. The first checkpoint does not wait for every tail definition or every bank in the dictionary to resolve, and it does not waive the rigorous loop for the common-word work that constructs it.
+
+The catalogue failure has a traced producer/consumer cause: `refresh_catalog` calls `_replay`
+with proposed links, but `_replay` unconditionally checks the saved derived catalogue through
+`_catalog_integrity` before producing its replacement. A stale cache therefore blocks its own
+refresh. CP-01 must separate full authoritative-state validation from the cached-catalogue
+comparison for this explicit repair operation. Ordinary validation still checks the saved
+catalogue. The repair must refuse every noncatalogue mismatch, preserve all dictionary states and
+original evidence, recompute from explicit validated links, and prove subsequent ordinary replay
+passes. Tests must distinguish a stale derived catalogue from tampered source/bank/link evidence.
+
+#### Persistent feedback and admission protocol
+
+The controller has one durable state model in the current working store. Extend its versioned
+schema with normalized records and compact exported receipts; do not add a second lexical store:
+
+| Record | Required fields | Consumer |
+|---|---|---|
+| Learning head | Run/epoch ID, current candidate digest, published-baseline identity and pointer digest, cohort/basis/source/rule/curriculum/search-language pins, remaining execution budgets | Resume, scheduler, writer preflight and atomic publication |
+| Candidate mechanism | Canonical relation/guard contract digest, source and teaching witnesses, warrant/review state, parent/refinement IDs, counterexamples, dependency versions and named disposition | Forecast, next-work selection, independent audit and admission |
+| Surprise work | Exact definition/role/source IDs, affected bank or joint tuple, expected and observed alternatives, rival derivations, challenge classification, proposed remedy and resolution | Existing refinement/projector/identity repair, reservation or bounded semantic review |
+| Next work | Operation kind, target identities, prerequisites and their digests, priority components, request/attempt references, unfinished/completed/refused state | Existing teaching/audit/revision operations; refreshed after dependency changes |
+| Transition | Prior/new head, evidence/rule delta, archived request contexts, full replay and stage-versus-committed joint/domain deltas, phase measurements | Head installation, reporting, retention and the next cycle |
+
+Separate the **published baseline** from an **unpublished working head**. The current foundation
+candidate is not release 021 merely because its plan pins the 021 pointer. Preserve its actual
+migration lineage and rebase receipt. The present runner permits `--publish-sparse-to` only with
+an active-path baseline; the new head/resume protocol must make this relationship explicit rather
+than relabel a candidate or silently discard its intervening work. Publication still compares and
+swaps against the pinned active pointer and validates the complete successor lineage/cohort.
+
+The next controller schema must version the curriculum and hypothesis language explicitly and preserve historical fixed-plan replay. The current `GSE.lexicon-epoch-plan/1` plans are frozen evidence, not files to silently rewrite after a catalogue, source or representation change. A rebase records what changed, what remained identical, the new pins and the validity of any reused exact requests.
+
+Each cycle reads the validated working head, closes admitted constraints, measures remaining alternatives, updates reusable examples and candidate mechanisms, stages useful interacting proposals, selects an informative question or audit, processes the resulting surprise, and commits a warranted revision before selecting again. Discoveries and refinements are inputs to this cycle, not merely final JSON exports. Preserve a candidate whose value appears only jointly; neither singleton gain nor strong pair correlation is a prerequisite. Candidate guards may be extended only through reviewed native feature/projector contracts shared by ingestion, staging, requests, migration and replay.
+
+**A teaching question is not a rule hypothesis.** The versioned curriculum must permit an
+unresolved definition–bank question even when no opening family proposes a sign for that bank.
+Use the existing source-aware scheduler and per-legal-answer closure on a declared bounded
+Zipf frontier; retain the frontier/search limits explicitly. Neither the proposed answer nor an
+expected sign enters the model request. Every legal answer goes through the same typed writer,
+including answers that contradict a proposed rule. A null answer remains unknown. Teaching may
+nominate a new scoped relation for semantic review, but cannot authorize that relation. A durable
+review intake must let the same controller audit and replay such a newly discovered mechanism
+without replacing its frozen plan. Its audit senses and spellings must be disjoint from teaching.
+The acceptance test starts with no proposal for the taught bank, discovers a candidate from that
+answer, pauses only the dependent work for warrant review, then resumes its independent audit
+and full replay under the original curriculum. A fixed family list with a durable log does not
+satisfy CP-02 or CP-04.
+
+The work ledger distinguishes at least: awaiting evidence/warrant, awaiting independent audit, counterexample/scope challenge, unresolved audit reservation, operational refusal/solver limit, already entailed, rejected, refined, admitted and retired. These are named dispositions with different next actions, not one failure boolean or a permanent visited bit. Changes in source, rule, guard or dependent domains invalidate the appropriate queued work; they do not license repeating an unchanged request indefinitely. A bounded semantic review may remain pending while independent work proceeds.
+
+A composed shortcut already entailed by admitted rules carries no new information merely because it has a new name. Its scheduling or execution benefit is separate from actual reduction of the legal configuration space. A genuinely new constraint still requires its own semantic warrant and independent evidence. Legacy generated vectors and pattern frequency can propose investigations but cannot validate them. An audit receives the unstaged baseline, excluding the proposed answer and its descendants. Preserve discovery/audit separation by native sense and evidence lineage as well as spelling.
+
+Candidate generation consumes four existing evidence channels: native cross-source contingency
+and joint-condition diagnostics; `discover_reviewed_groundings`/`observed_conjunctions` over
+reviewed and independently rooted source conclusions; newly grounded rule chains; and recurring
+surprise/residual patterns eligible for guard imputation. Keep word-level discovery observations
+when exact alignment is not yet established; they nominate work but cannot write every sense of
+the word. Group open workload questions by native features, current domains and competing
+mechanisms to select distinguishing cases, rather than independently filling every blank.
+Retain disjoint-source/family/contrast strata and candidate populations outside the opening scope.
+Any newly needed native predicate follows the existing source-enrichment and context/replay
+contracts. Discovery output lacks semantic authority until its own warrant is established.
+
+Counterexamples must retain their parent rule and full source/role context. Reuse existing guard imputation and revision machinery; do not replace a failed generalization with an unexplained list of word patches. An independently justified exact exception is allowed, with its scope and proof retained, while a reusable distinguishing condition is investigated. Model abstentions retain their surviving domain through reservations. A revised rule needs a fresh audit of the changed boundary and full replay of every eligible definition. Related additions, retirements and exceptions can share one reviewed atomic revision; per-rule full DB snapshots are not the unit of learning.
+
+#### Checkpoint workload and acceptance
+
+Before teaching against a checkpoint target, freeze an acceptance manifest containing:
+
+1. The fixed ordinary-bank basis and hierarchy convention, full definition/word cohort, source/rule versions, and the already pinned frequency bytes.
+2. The common-form cohort meeting the existing GSE-01 **90% eligible token-mass requirement in both the frequency source and an independent real-text corpus**, with genre slices and all denominator/exclusion rules. Retain every sense and every out-of-cohort definition; spelling frequency is not sense-use frequency.
+3. The actual NLP operations the checkpoint promises: exact lexical/sense selection, required bank queries, grammar/reference binding and composed sentence outputs. Inventory which cells and structures those operations require. Homing or recognizing 90% of tokens is not a 90% semantic-accuracy acceptance rule.
+4. Source-warranted positive and MUST-NOT cases for those operations, including ordinary/function-word ambiguity, he/He, first-/second-person boundaries, WANT polarity, BE own-state content, constitutive anatomy, negation, VERY scope and unspecified/long duration. Gold and expected answers stay outside construction requests and rule-warrant evidence.
+5. Separate development and final evaluation cases. Earlier sentence benchmarks used to choose teaching or refine rules are development diagnostics, not untouched final holdouts. Freeze a separate final audit with lineage-separated senses/families and corpus/genre coverage. A subsequently inspected holdout becomes development evidence and needs a replacement final slice.
+6. Explicit pass/abstention/partial/unavailable outcomes per class. Every promised acceptance-critical answer needs its warranted expected result; a critical abstention or resource refusal blocks that promise. No known wrong assertion, missing required component or failed negative witness is accepted. Unclaimed/unlabelled banks remain declared unknown or unverified rather than acquiring credit from the tested subset.
+7. Full-cohort solver/provenance/catalogue replay, changed-cell and reopened-cell accounting, real runtime tests and applicable repository checks. Sparse publication's finite label/runtime checks are necessary mechanics, not sufficient evidence of this usable-checkpoint milestone.
+
+The checkpoint is complete **for that declared and passed workload**, with its sparse limitations published. It is not a complete 56-bank assignment for every dictionary definition. Do not narrow a workload or remove a failing sense after seeing the result to manufacture a pass. A material scope change is a new version with the old failure retained. No new percentage or task waiver is authorized by this engineering section.
+
+#### Learning evidence, stopping and storage
+
+Use H for the exact corpus sum of log feasible joint assignments, keeping the existing declared `sigma_GSE` report meaning explicit and separate from a computed minimum teaching set. Record direct teaching under old laws, propagation from those facts, and the additional effect of each admitted rule revision, including reopened cells and overlap. Use controlled counterfactual replay to attribute effects; do not add isolated rule gains as if they were independent. Record actual teaching/audit/review budgets, operational failures, exact-count coverage and the SSL-09 frequency buckets with fixed denominators.
+
+The skeleton's bulk prediction concerns decay of remaining H when amplification is proportional to H; the identity that each bit halves a count is not evidence of that dynamic. Compare successive rounds at equal actual question budgets and report the observed amplification curve. Fixed-coverage greedy results and another experiment's knee/constants do not certify a growing rule graph with complementary bridges. Evidence or hypothesis-language changes start a separately accounted phase rather than an unexplained jump in the learning curve.
+
+Stop for a declared execution budget, a pending semantic decision or an explicitly exhausted **searched** rule language; do not call these the irreducible tail. Teaching continues on the informative residual, and each accepted residual ruling can reveal a new broad rule. A useful checkpoint may be pinned while that work continues.
+
+Keep the active release, one previous release and one current working head, with only bounded owned staging files during an atomic transition. Preserve compact source/evidence objects, model journals, historical rule contracts, review/exception records and replay receipts; they must suffice to reproduce the transition without retaining every whole-corpus DB. The epoch head/resume logic and retention logic must agree before removing old working files. Never purge source data or another session's files as part of this change.
+
+The writer trace also matters here: `teach` currently invokes `complete_dictionary` once per
+question, and each invocation runs `validate_build` before writing. The existing sustained-cohort
+mode shares a validated connection and replay across bounded work. CP-06 must reuse that
+mechanism for explicitly selected definition–bank questions and compose it with the working-head
+protocol. It must not introduce a blind skip-validation switch. A changed source/rule version,
+stale connection or altered request must invalidate the relevant work; full rule-revision replay
+and publication validation remain mandatory. Preserve the same typed acceptance/journal path for
+single and batch requests.
+
+#### Dated engineering audit, not a completion receipt
+
+The 2026-11-23 read of production code found: `run_arm` fixes its candidate families at plan load and emits newly mined chains at the end; `run_epoch` withholds challenged proposals without invoking a refinement cycle; `scripts/run_lexicon_epochs.compare` still bases its acceptance decision on singleton/interaction counts; and per-epoch teaching/candidate DBs are retired only after publication. These are CP-02–CP-06 integration obligations despite the existence of the underlying components.
+
+The recorded full candidate replay validates all 401,596 entries with complete search but fails catalogue metadata. The attempted catalogue refresh also refuses that mismatch, so CP-01 is open. The recorded full repository test run has 45 `UNKNOWN_BANK:YOU` failures in two reduced-basis fixture modules; this is a failed gate, not a passed production release. The current active pointer still names sparse release 021. The 50,526 additional singleton assignments remain a staged, unadmitted forecast. None of these facts is a new admitted SSL learning result. Receipts are under `docs/readings/2026-11-13-ssl-explicit-genera/`; the living draft records their experimental meaning.
+
+**Implementation follow-up, same date:** catalogue repair and subsequent ordinary replay now
+validate all 401,596 entries with zero mismatches and no solver limits. The catalogue-only rebase
+preserves every measured bank/joint-space total and permits exact reuse of the journaled water/I
+question. Open-bank teaching, durable warrant intake, model-audit guard imputation, fresh child
+audits and replay have synthetic integration witnesses; they do not close the remaining generic
+surprise, joint-language, storage or usable-workload obligations. The current maintained-suite
+gate passes 7,520 tests with 66 skips and zero failures/errors. Whole-project ty has 216 advisory
+diagnostics; scoped checks of the changed controller files pass. See
+`docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-controller-verification.json` and
+`ssl-v2-catalogue-rebase.json` in the same directory. No new production linguistic law or release
+has been admitted by this engineering stage.
+
+
+--- SOURCE COMPETENCE ---
+## Source evidence and competence
+
+Sources enter through the existing parser/integrator architecture. A source exposes native records and justified `to_primitives` projections; its assertion scope is explicit. Native records retain full available content and exact identifiers. WordNet, the existing grammatical catalogs, the native English Wiktionary dump, the pinned primary NSM chart, and an explicitly retained historical Webster entry now supply definitions. Exact VerbNet sense links can support event assertions; unresolved ratings and frame links remain evidence.
+
+The prime catalog now links all 65 primary units explicitly: 36 use existing grammatical, WordNet, or authored identities; 29 use native chart-scoped identities. The chart adapter preserves exponent forms, complete chart frames, lexical/construction classification, and source revision. Frames describe allowable combinations, not extra assertions about the head word. These new source entries provide no automatic bank assignments. A complete identity mapping is not a complete bank matrix. The historical `auf` entry likewise retains its full native definition and source snapshot without inheriting the values of modern `oaf`.
+
+Native Wiktionary ingestion uses the existing `WiktionaryParser` and integrator registration. A parent sense ID can label several distinct leaf definitions, so the stored identity combines that native ID with a digest of the complete leaf and its record context. Original spelling/case, all glosses, native relations, source occurrence, and dump identity are retained. This identifies a source-snapshot leaf; it does not establish equivalence to a WordNet sense or a future dump's leaf. A form-of or alternative-spelling relation is evidence, not permission to copy every bank. Missing glosses remain named source gaps.
+
+The native definition adapter can project SOMEONE=+1 when a single noun gloss identifies its genus as a person through the explicit relative-clause construction “a person who …” or “a person that …”. Coordination, native references, and multi-gloss definitions remain open to separate scope review. Replay checks the complete native witness against the stored definition. The legacy Wiktionary word adapter has an empty assertion scope.
+
+WordNet's expression ancestry supports SAY in senses that encode expression in words. Exact reviews of the reins-response, lease-state, and summary-relation senses withdraw the inherited SAY assertion for those definitions. Their original observations remain available as evidence, and their SAY domains reopen pending justification. [Continuation source scope](../readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md)
+
+Every projection must distinguish the definition's own content from participants, embedded evaluations, examples, world facts, and associations. A verb taking a body argument does not thereby denote a body. World facts remain on the separate sparse-wiki leg. DeepNSM remains silver material for anchors/evaluation only and is not baked into the shipped lexicon.
+
+An assertion requires an exact definition link and source competence. An unresolved candidate link cannot assert a sign, but it can prevent an absence claim while its relevant evidence remains unresolved. Source disagreement is retained. A large, optionally Zipf-weighted population tests proposed causal structure; its frequency does not establish that structure's truth.
+
+### Relevance is not a value
+
+An observation may carry `features.bank_relevance = {code: CLASSIFIED, banks: [...], provenance: [...]}`. This annotation names canonical coordinates the record can inform, without assigning their values. Empty banks means an explicitly justified classification as irrelevant to word-coordinate assignment. Missing classification means UNCLASSIFIED, conservatively potentially relevant to all coordinates. Malformed annotations fail ingestion/replay.
+
+Source competence is an upper bound on what may be asserted, not a complete relevance classification for an individual record. Existing `SOURCE_PRIMITIVE_SCOPE`, native parser fields and projections are the starting machinery for this interpretation. The new builder's relevance annotations are an integration boundary, not a demand for a separate grounding system or manual classification of every record. A projection that emits no BIG assertion does not prove that its full native definition contains no size information. Unclassified records therefore continue to block absence defaults until their typed interpretation justifies a narrower relevance set.
+
+The native collector now accepts an explicit adapter-owned `bank_relevance_for_entry` classification. SentiWordNet's exact six-field sentiment record is classified as relevant to GOOD; its identity fields introduce no additional measurement. This does not assert a positive, negative or zero lexical sign. Extra fields, malformed ratings, and unrecognized record shapes remain unclassified, and existing explicit annotations are preserved. Native record identity is computed before adding derived relevance. WordNet's unrestricted definition text remains potentially relevant to every bank; the bridge does not remove that separate blocker.
+
+### Audited source-integration deficits
+
+The audited collector in `GSE/curation/lexicon_builder/evidence.py` emits exact source assertions from WordNet, linked VerbNet, and the scoped native Wiktionary projection above. The remaining source integrations require definition-scoped warrants:
+
+* `external_sources/integrator.py` obtains per-source projections before aggregation. Its subsequent voting and bipolar exclusion discard alternatives. `constraint_aggregation/engine.py` also drops zeros and loses native sense identity. Candidate ingestion must preserve native record identity, applicable definition candidates and competing signs before those reductions; their final aggregates cannot be treated as exact-definition truth.
+* FrameNet provides native lexical-unit/frame identities and frame projections. Participant-role projections are not the lexical object's own bank content. PropBank retains rolesets and VerbNet links, but its old projector uses spelling-based mappings and a default DO assignment; those outputs are not exact sense proofs.
+* SentiWordNet retains exact synset identities, but its old projector averages senses. NRC Emotion can discard an opposing equal-strength mapping. Record-level candidates can preserve this evidence without authorizing a lexical sign. A rating's neutral range or an inactive emotion label does not establish a zero bank value. NRC VAD scale handling is being corrected; its integration and verification are work in progress, not a completed semantic validation.
+* Native Wiktionary definitions and full source records are now ingested directly from the local Kaikki dump; the absent historical `data/definitions.db` and empty legacy SQLite file are no longer ingestion blockers. Definition-operation projection remains separate. `decomposition/definition_structure.py` and `definitional_decomposer.py` expose typed operations, but their legacy linker selects first senses, reduces operands by spelling and discards zeros. Applying these operations still requires scoped operand identities and preservation of alternatives, negation and explicit zeros; importing their old final signatures would not satisfy this contract.
+* `build_clean_closed_class.py`, `lexicon/pronouns.py` and `tier_0_dispatch.py` contain existing catalog content, but spelling is not a sufficient identity adapter. WordNet's “he” entries denote helium and a Hebrew letter; its “might” entry denotes physical strength. Pronoun and modal catalog definitions must not be attached to those entries. Empty catalog dictionaries and omitted coordinates are not explicit zeros. The inspected catalogs do not establish a complete prime-by-bank matrix.
+
+Association projections remain evidence to test against the basis, rules and exact definition context. Their disagreement is retained for symbolic resolution and, where necessary, the bounded model tail. No source's availability, record count, legacy confidence label or statistical concurrence automatically admits its projection as lexical truth. These audit findings describe the inspected integration state; subsequent repairs require their own replay and semantic receipts.
+
+## Category content
+
+The following additional category content is approved. Specific coordinates remain present; no identity is replaced by a superclass.
+
+| Antecedent | Consequent | Scope |
+|---|---|---|
+| I=+1, YOU=+1 | SOMEONE=+1 | Own lexical component |
+| BODY=+1 | SOMETHING=+1 | Body-denoting noun |
+| ONE=+1, TWO=+1 | QUANTITY=+1 | Cardinal component; no magnitude inferred |
+| MOVE=+1, DO=+1, CAUSE=+1 | HAPPEN=+1 | Own event component; no agent inferred |
+| THEN, BEFORE, LONG_TIME nonzero; MOMENT=+1 | WHEN=+1 | Own temporal content |
+| ABOVE, FAR, OUTSIDE, TOWARD nonzero; HERE, SIDE=+1 | WHERE=+1 | Own literal spatial content |
+
+These eighteen relations are approved GSE representational conventions, not a claim that the NSM chart independently proves every table. They are stored as conditional compatibility relations with provenance and explicit scope. Their relational tables support constraint propagation in either direction; an unresolved value is not an asserted inverse fact. Direct hard evidence survives a locally contradicted conditional, with a named exception receipt. New typed specialization requires an independently justified distinction.
+
+## Evidence-conditioned absence
+
+Rohan's decision: evaluatives are assumed BIG=0 only conditional on there being no encoding information relevant to size; this is an iff eligibility condition, not an inference followed by contradiction fallback.
+
+For an adjectival definition `d`, let `R_b(d)` mean that any admitted or potentially applicable encoding information is relevant to bank `b`. The evaluation default is licensed exactly when `GOOD(d)` is nonzero and `not R_BIG(d)`. The reciprocal size default is licensed when `BIG(d)` is nonzero and `not R_GOOD(d)`. The respective licensed conclusions are BIG=0 and GOOD=0. This specifies when these defaults supply zero; an independently evidenced zero can of course exist while relevant evidence exists.
+
+Relevance includes explicit assertions of any sign (including zero), unresolved source evidence, candidate-linked evidence, and ordinary rule deductions that narrow the bank's domain. Unclassified evidence blocks the default. No model ruling is required merely to decide that an unresolved signal exists.
+
+Implementation order:
+
+1. Resolve source/anchor assertions and ordinary relations to a local fixed point.
+2. Form the relevance set from declared observation relevance, assertion banks and narrowed ordinary domains.
+3. Evaluate every absence guard against this same baseline. Defaults cannot authorize one another.
+4. Admit only eligible defaults to further closure. Record ELIGIBLE or BLOCKED with witnesses.
+
+`Relation.absent_evidence` makes the condition explicit. Direct low-level propagation skips an unevaluated absence guard. Build, model completion and replay share `resolve_dictionary`. A blocked default never enters contradiction handling. Explicit size and evaluation can coexist; the broad defaults do not forbid that combination.
+
+The earlier two unconditional GOOD/BIG tables were the same exclusion relation with columns reversed. Those proposals are superseded by two separately conditioned defaults; they must not be admitted as unconditional exclusions.
+
+## WANT polarity
+
+The approved coordinate is exactly: −1 = NOT WANT, 0 = orthogonal to wanting, +1 = WANT. Zero does not mean weak desire or lack of evidence. This polarity concerns the component; sentence negation still obeys grammatical scope.
+
+`LEXICON_APPROVED_ANCHORS_2026-10-29.json` anchors NOT WANT as an explicit authored definition and anchors WANT=+1 only on `wordnet:want:desire.v.01`, whose full native gloss denotes desire. It does not modify the noun “want” meaning deprivation or other senses. The desire gloss includes “strongly”; no arbitrary intensity is inferred and it is not declared a complete exact NSM-prime signature. The explicit THIS and NOT WANT definitions are linked to their chart units, with remaining cells unresolved.
+
+## BE stative-content scope
+
+The first frequency-prioritized run assigned BE=+1 to `gse_closed_class:pronoun:you`. An isolated repeat with the target answer withheld and the registry gloss included returned the same sign. These are model rulings, not independent source validation. The exact retained grammar record supplies SOMEONE=+1, person 2, nominative case and animacy; its other retained records are candidate-linked concreteness and sensorimotor ratings. The separate noun definition of “you” in this batch denotes the letter U, so its different answer does not by itself contradict the pronoun answer.
+
+The code calls BE “Stative existence” and EXIST “Ontological status.” The saved primary NSM v20 chart distinguishes BE (SOMEWHERE), BE (SOMEONE/SOMETHING), and THERE IS, and describes its examples as combinatorial possibilities. Wierzbicka's 2022 *I and Thou* introduction treats I/YOU as argument primitives rather than predicates. These sources do not themselves specify a complete GSE cross-bank signature or settle YOU/BE by a one-hot assumption.
+
+Rohan approved this scope convention on 2026-10-29: **“Yes—require the definition’s own stative content.”** Accordingly, **BE=+1 requires stative content belonging to the lexical definition itself; entity reference alone is insufficient evidence for BE=+1.** This adds no blanket pronoun-zero rule. A zero still needs its own definition-scoped justification; unsupported values remain unresolved. The convention does not change EXIST or declare a negative BE pole. Disputed prior model rulings and dependent rulings require explicit reconsideration with their original provenance retained, rather than a silent overwrite.
+
+On 2026-11-18 Rohan approved the sufficient condition: **“Yes—own state denotation is sufficient for BE=+1.”** The question explicitly included the noun *order* defined as “the state of being well arranged” and excluded a grammatical copula alone. A noun whose own meaning denotes a state of being in a condition therefore carries BE=+1, including relational and resultative conditions. This does not assert ontological existence, alter EXIST, introduce a negative BE pole, or supply any zero.
+
+The first operational subset requires an exact verified WordNet or Wiktionary noun leaf whose complete defining genus is *a/the state of being* followed by a lexical condition. Alternate genera, multiple glosses, bare existence and unsupported native identities remain outside that parser's scope. A separate SOMETHING assignment is not required by this sufficient condition; its missing domain stays unknown. This is a founder-approved representation convention. Earlier model nulls and the order zero remain audit history; the convention supplies the new positive justification. The broader *state of/in which* population still needs its own scope review. [Exact approval and operational binding](../readings/2026-11-13-ssl-explicit-genera/019-approved-be-convention.json)
+
+Admission version 2 binds the explicit founder question/reply, coordinate, premises, guards and source warrant to the candidate. It replays the original typed audits, retains dissent and abstentions, and records normative authority separately from empirical confirmation. Its admitted rule is foundational within the witnessed scope. Empirical rule admission still requires model agreement. Corpus staging, complete migration replay, runtime and semantic validation remain required before publication. Typed residual protocol 13 carries the sufficient condition as BE metadata while retaining all three signs, null, and the distinct zero-justification obligation.
+
+Single-question protocol version 8 carries this approved BE-only scope as typed coordinate metadata: the positive sign requires the definition's own stative content, entity reference alone is insufficient, and zero requires independent definition-scoped justification. The protocol identity changes; original saved request identities remain unchanged. This metadata does not itself assign any bank or supply a broad zero rule.
+
+The direct protocol-8 probe still returned BE=+1 for the original YOU question. `scope_admission.model_scope_admission` therefore enforces the approved boundary in the existing bank-admission path. Its narrow classification requires complete exact native records matching the existing grammatical pronoun catalog, PRON role, and only declared reference components. Additional exact lexical sources, non-reference components, or unrecognized records prevent that classification. Association/world records do not establish the definition's own stative content. A positive BE answer classified as reference-only returns `SCOPE_UNJUSTIFIED`, no assertion, and unchanged domains. This is neither a spelling exception nor a zero-fill rule.
+
+`scripts/reconsider_lexicon_model.py` implements explicit reconsideration of an accepted model question. After full preflight replay, it archives that receipt and every later model receipt for the same definition, because those questions used the preceding values as context. Original requests, assertions, ordinals and the reason/convention survive in a hashed append-only archive. Earlier independent model rulings, native assertions, anchors, domain restrictions, other definitions, and original attempt history remain. The existing resolver recomputes the definition from retained evidence; a withdrawn value becomes unknown unless independent evidence still resolves it. Archive, withdrawal, recomputation and local provenance replay commit atomically. Concurrent changes, stale plans, or hierarchy metadata losing its justified base are refused rather than patched with invented values.
+
+Publication readiness separately checks every active model receipt through the same current scope-admission function, even when the candidate is incomplete. `MODEL_SCOPE_UNJUSTIFIED` blocks publication; malformed receipt evidence has a distinct blocker. Archived receipts are historical evidence and are excluded from active authority. `NOT_APPLICABLE` means the narrow check supplies no verdict, not that the ruling is semantically validated. Historical structural replay remains distinct so superseded rulings can still be inspected and safely reconsidered under a newly approved convention.
+
+Evidence: `data/external/references/nsm-primes-chart-v20-2022.txt` (whole chart), `data/external/references/wierzbicka-2022-i-and-thou.txt` (complete section 1), and the saved `first-zipf-you-be-review.json` / `you-be-direct-protocol7.json` review receipts under `docs/readings/2026-10-29-lexicon-coherence/`.
+
+## BODY reference-content scope
+
+The November 1 YOU/BODY ruling prompted a source-backed review of Goddard (2012), especially the complete semantic-molecules section, Wierzbicka (2022) *I and Thou* §§1 and 3, the complete GSE sentence-architecture document and the current pronoun catalog. The review is recorded in `docs/readings/2026-11-01-lexicon-you-body/you-body-reading.md`. It is an implementation interpretation of the existing definitional boundary, not a new founder-supplied signature or independent semantic gold.
+
+**Entity reference and grammatical animacy alone do not justify BODY=+1.** Goddard's bodily explications explicitly distinguish a person argument from bodily components. Wierzbicka distinguishes pronoun meaning from physical pointing and role-shifted referents; she does not reduce YOU to a reference index or SOMEONE. GSE's word-scale projection is correspondingly distinguished from its full grammatical representation. None of these sources supplies a complete GSE prime vector, and none licenses complement zeros.
+
+The source-scope check is limited to complete exact native reference-only pronoun records, verified against the existing catalog. It refuses an unsupported positive BODY ruling with `SCOPE_UNJUSTIFIED` and `ENTITY_REFERENCE_ALONE_DOES_NOT_JUSTIFY_POSITIVE_BODY`. Additional exact lexical evidence or non-reference content prevents that narrow classification. This is not a spelling mask, a general pronoun rule, a negative BODY assertion, or a zero assignment. The current domains remain unchanged.
+
+Protocol 9 adds this scope as typed BODY metadata with authority `SOURCE_BACKED_DESIGN_INTERPRETATION`, while preserving the separately founder-approved BE convention. Live completion and publication use the same admission check. Reconsideration archived exactly the disputed YOU/BODY receipt, retained its three earlier model receipts, and reclosed the definition through the existing resolver. BODY returned to `[-1, 0, 1]`; no zero was supplied. Full preflight replay validated 401,596 definitions with no mismatches, and the changed definition passed local replay. See `docs/readings/2026-11-01-lexicon-you-body/you-body-reconsideration.json`, archive event `b1442da5df03d13689fdf2422a967b732cf6a21d60f0ea9c0762f6a2cf754db2`. A subsequent BODY sign still requires an accepted bounded ruling and its own review. Excluding the old warrant alone does not settle that replacement sign.
+
+The subsequent `body-zipf-005` checkpoint returned a fresh BODY=0 ruling for the exact curated YOU definition, request `37ba074cf5e6b039577907cc6e3f3e1f446d65dbd3922fbab539ac7bc7cf637d`. Its separate source-backed review justifies component orthogonality from the addressee-role meaning and GSE's separation of lexical reference from the referent's bodily properties. The role remains the same under changes in those properties; an anatomical description requires additional content. This is not the complement of the withdrawn +1, a blanket remaining-bank zero, or a founder-authored complete prime signature. The review is bound to the exact receipt in `docs/readings/2026-11-01-lexicon-you-body/body-zipf-005-source-review.json`.
+
+The native Wiktionary adapter can supply BODY=+1 for a noun whose single anatomy gloss explicitly identifies an anatomical genus. A determiner, optional modifiers, and a recognized noun head establish the opening phrase. A bounded disjunction requires an anatomical genus in each alternative. The source adapter also recognizes postnominal *having* and *forming* phrases, the exact tissue, ending, and fibre compounds in the reviewed scope, and a fold explicitly made of skin. Figurative senses, native references, and attachments outside these constructions leave the projection open. Replay checks the same matcher against the exact stored definition and its linked source record. SOMETHING=+1 follows through the existing BODY-to-SOMETHING noun rule. See `docs/readings/2026-11-12-ssl-continuation/SOURCE_SCOPE.md` for the active-snapshot scope and audit.
+
+## WORDS defining-genus scope
+
+The NSM WORDS prime admits singular uses such as *one word* alongside plural uses. An exact noun definition that explicitly identifies its referent as a word supplies own lexical WORDS content. The defining restriction identifies which kind of word it is. The Wiktionary noun sense of *negative*, “A word that indicates negation,” therefore supports WORDS=+1. A photographic negative and a negative quantity are distinct lexical identities.
+
+Protocol 12 exposes this source-backed scope in the typed WORDS contract. A word mentioned in an example or in the definition of another genus supplies no assignment by itself. Alternate genera such as *a word or phrase* fall outside the reviewed single-genus projection. The contract supplies no automatic sign for reserved senses. Exact native identity, the source guard, independent audits and complete replay still govern population admission.
+
+## Constitutive anatomy and defining genus
+
+Rohan approved the following convention on November 19, 2026: “Yes, constitutive anatomy, including verified defining-genus content, warrants BODY=+1.” The complete instruction and claim ledger are preserved in `docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json`.
+
+A literal organism-kind definition has BODY=+1 when bodily structure is constitutive of its own meaning. The content may occur explicitly in the definition or follow through a verified defining genus. The inherited case requires exact native identity, source-verified IS-A ancestry and the genus's actual defining content. A category spelling, candidate identity or biological association alone supplies no such proof. Reference-only grammatical roles, observer reactions and optional participant properties do not acquire BODY through this convention. An unresolved witness leaves the bank unresolved; no complement zero follows. No other bank is assigned by this convention.
+
+The typed model protocol version 14 records this positive sufficiency condition with founder authority. Single and bounded-batch writers consume the same coordinate contract. Older replies retain their original request and protocol identities; the prior vertebrate diagnostics are not silently reinterpreted or admitted.
+
+The existing WordNet definition-identity context can additionally carry a version 2 packet with all native hypernym paths and complete synset witnesses. It remains context-only, selects no sense and assigns no bank. The enrichment path reconstructs the packet from the pinned local WordNet parser and compares it with the original exact root. Structural validation binds every path to that root and accounts for every witness. Native regeneration, not a caller-supplied digest, certifies the definitions. The existing evidence view passes the complete packet to both writers. The version 1 constructor remains unchanged for historical replay.
+
+Any population rule still requires exact scope, independently justified premises, new teaching, disjoint audit senses and source review. If the earlier diagnostic cases inform the revised condition, they cannot also serve as its held-out confirmations. Full-corpus replay, runtime and cumulative semantic validation remain publication prerequisites. The approved convention does not itself activate the staged vertebrate rule.
+
+## Native identity guard for population rules
+
+Exact definition identity and source ancestry do not by themselves establish that a derived spelling legitimately has the recorded sense. The linear-unit inventory contains 133 definition entries across 56 native senses, but only 100 spellings occur explicitly in the corresponding synset's native `lemma_names`. The other 33 include ordinary plurals and uncertain abbreviation expansions such as `as`→angstrom, `ms`→metre and `mis`→mile. Their exclusion from a new rule is an identity abstention, not a claim that all such forms are invalid.
+
+The additive `wordnet_native_lemma=true` guard requires a complete exact native WordNet witness and membership of the definition spelling in that same witness's nonempty, valid `lemma_names`. Comparison permits case folding and underscore/space normalization only. It does not stem, pluralize, consult a model, or assign a bank. A missing or malformed witness leaves the guard absent. The context exposes this predicate only when the current rule version requests it, preserving historical ancestry-only request identities and replay. Native-lemma-only rules must fetch the exact observation through the existing build and replay loaders as well.
+
+The proposed linear-unit QUANTITY=+1 rule requires this guard in addition to noun POS and exact native linear-unit ancestry. Its warrant concerns quantitative magnitude in each inspected definition, not the frequency of a spelling or mere membership in the broader measurement category. Discovery, disjoint held-out model audit, explicit review, migration and outside-scope comparison remain required. The broader measurement ancestor also contains disk partitions and stored bit strings; it is not admitted by this proposal.
+
+The existing WANT rule's wider identity scope is retained as historical authority, not silently rewritten. Its 33 derived-spelling cases require separate identity review before final semantic certification. Ordinary verified inflections should eventually reuse the established identity/morphology machinery; this guard is a conservative source-attestation boundary for the present population rule, not a replacement spelling system. Current execution and admission status are carried by the receipts under `docs/readings/2026-11-01-lexicon-you-body/`.
+
+Epoch plans accept a witnessed unary ancestry rule as well as a bank-pair or conjunctive rule. The ancestry and native-lemma guards must both be present; unrelated bank premises must not be invented merely to satisfy orchestration. The existing reviewed exporter, audit, admission and resolver retain their separate obligations. Cross-source native noun frames use `native_frame_source` to require the same exact WordNet or Wiktionary witness throughout construction, model context, migration and replay.
+
+## Native reference and derived identity context
+
+The approved person-reference boundary is now implemented in the registered
+`GSEClosedClassParser`: a native nominative first-person singular pronoun
+warrants I=+1, and the reviewed second-person nominative pronoun warrants
+YOU=+1. The source catalog currently yields exactly the I and YOU definitions
+under these guards. The full native catalog row must witness the grammatical
+features; a submitted `person` field alone is insufficient. This does not
+project BODY, ALIVE, possession, opposite-person zeros, plural first-person
+forms, or unreviewed case variants. Original definitions and source records
+remain unchanged. The historical pronoun module's claim that I/YOU differ only
+at sentence scale is superseded for this projection by Rohan's approved bank
+meanings; grammatical reference binding still belongs to sentence composition.
+
+Replay independently reconstructs these derived reference signs from the
+stored native witness. Source competence alone cannot certify a sign. The
+known `gse` to `GSE` module rename may be normalized when comparing this
+witness; the stored observation, identifier and digest are preserved. A
+changed definition, native row or unwarranted sign is refused.
+
+Before adding source proofs to a previously model-filled definition,
+`reconsider_many` retires the affected model suffixes through the same shared
+implementation as single-request reconsideration. One complete preflight
+precedes one transaction; multiple roots on a definition coalesce to the
+earliest requested suffix. Every original receipt survives in the append-only
+archive. A missing root, changed snapshot or failure on any entry rolls back
+the whole batch. Withdrawn values reopen under retained evidence, never as
+complement zeros. The CLI accepts repeated `--request-id` arguments. The
+[checkpoint transition](../readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py)
+uses one working clone and performs full post-projection replay. Its success
+does not authorize activation without the practical common-language gate.
+
+The existing Wiktionary parser follows one explicit `alt_of` or `form_of` hop. It preserves the complete original leaf, link, source snapshot and every matching target leaf. Matching requires the existing spelling normalization and the same lexical type; other-type targets remain separate diagnostic evidence. Missing targets, other-type-only targets, multiple target senses and targets that are themselves references have distinct outcomes. No first-sense choice, recursive alias collapse or bank transfer occurs.
+
+WordNet-derived spellings retain their original exact definition and original source observation. An additional identity packet records the selected native synset, all matching morphological alternatives, native base records, source version, and either explicit exception evidence or the actual suffix substitutions. An explicit exception such as `is`→`be` supplies identity evidence within the already selected sense; it does not select that sense from all meanings of `be`. Generic suffix analyses remain candidates, including the questionable abbreviation-derived forms. Neither class supplies a bank value or relaxes the native-lemma population guard.
+
+Both additions flow through the existing evidence collector as separate, exact-definition lexical observations under the existing source families. Original definition IDs, source IDs and native records remain unchanged. The typed model view retains reference targets, statuses and identity evidence, with explicit context-only semantics. Native fields omitted from the compact view remain in the full request with named omissions and hashes. The evidence-view version changes the transport protocol identity. The output remains limited to each requested missing bank.
+
+`python -m scripts.enrich_lexicon_sources` adds these records to a new candidate. It reconstructs the supplied packets from the pinned local sources rather than trusting a self-consistent submitted digest, checks the original root against the candidate, and refuses affected active model receipts or rule-migration archives. Existing reconsideration must first archive any active dependent model chain and restore its unresolved cells. Enrichment performs full pre/post replay and compares every preexisting table and schema object; it adds context only, with zero bank changes. Failed checks leave no published successor. The source candidate and active pointer remain unchanged.
+
+Reference lookup failure is an evidence gap, not a zero. An external dictionary reading can support a separately recorded semantic review without being silently converted into a native source assertion. A complete lexical candidate still requires every residual cell to be resolved and the publication validation to pass.
+
+Population-rule audits distinguish a sign table from its scope. A preexisting rule with the same table but a disjoint, unmet guard does not reveal the held-out answer. An applicable equivalent table or an exact rule-ID collision still refuses the audit. A target already resolved through other baseline constraints is reported separately and cannot count as direct model confirmation. No change to this audit scope check alters production bank assignments.
+
+
+--- BUILDER FILES ---
+GSE/curation/lexicon_builder/catalog.py
+GSE/curation/lexicon_builder/batching.py
+GSE/curation/lexicon_builder/learning_curriculum.py
+GSE/curation/lexicon_builder/residual.py
+GSE/curation/lexicon_builder/grounded_rules.py
+GSE/curation/lexicon_builder/completion.py
+GSE/curation/lexicon_builder/discovery.py
+GSE/curation/lexicon_builder/model_evidence.py
+GSE/curation/lexicon_builder/rule_admission.py
+GSE/curation/lexicon_builder/evaluation.py
+GSE/curation/lexicon_builder/scope_admission.py
+GSE/curation/lexicon_builder/rule_migration.py
+GSE/curation/lexicon_builder/reviewed_patterns.py
+GSE/curation/lexicon_builder/__init__.py
+GSE/curation/lexicon_builder/foundation.py
+GSE/curation/lexicon_builder/__pycache__
+GSE/curation/lexicon_builder/learning_state.py
+GSE/curation/lexicon_builder/rule_reservations.py
+GSE/curation/lexicon_builder/learning_refinement.py
+GSE/curation/lexicon_builder/model_receipts.py
+GSE/curation/lexicon_builder/reconsideration.py
+GSE/curation/lexicon_builder/learning_questions.py
+GSE/curation/lexicon_builder/source_enrichment.py
+GSE/curation/lexicon_builder/engine.py
+GSE/curation/lexicon_builder/wordnet_identity.py
+GSE/curation/lexicon_builder/epoch.py
+GSE/curation/lexicon_builder/pipeline.py
+GSE/curation/lexicon_builder/interchange.py
+GSE/curation/lexicon_builder/retention.py
+GSE/curation/lexicon_builder/sqlite_snapshot.py
+GSE/curation/lexicon_builder/specification.py
+GSE/curation/lexicon_builder/publication.py
+GSE/curation/lexicon_builder/storage.py
+GSE/curation/lexicon_builder/scheduling.py
+GSE/curation/lexicon_builder/reviewed_export.py
+GSE/curation/lexicon_builder/definition_frames.py
+GSE/curation/lexicon_builder/model_batch.py
+GSE/curation/lexicon_builder/rule_revisions.py
+GSE/curation/lexicon_builder/resolution.py
+GSE/curation/lexicon_builder/rule_history.py
+GSE/curation/lexicon_builder/evidence.py
+GSE/curation/lexicon_builder/learning_feedback.py
+GSE/curation/lexicon_builder/model_protocol.py
+GSE/curation/lexicon_builder/relevance.py
+GSE/curation/lexicon_builder/validation.py
+--- RECEIPT INVENTORY ---
+docs/readings/2026-11-13-ssl-explicit-genera/022-publication-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-implementation-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/state-preview-016.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-space-after-refresh.log
+docs/readings/2026-11-13-ssl-explicit-genera/019-candidate-states.json
+docs/readings/2026-11-13-ssl-explicit-genera/audit-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-reserved-body-audits.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-joint-information-witness.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-engineering-audit.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-convention-forecast-metrics.json
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-checks.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-candidate-sentences.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-convention-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-migration-current.sample.txt
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-cli-bank-stderr.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-final-source-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/diagnose_vertebrate_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-composed-consumer-probe.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-coherence-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-pass2.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-source-review.md
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-common-handoff.md
+docs/readings/2026-11-13-ssl-explicit-genera/frontier-fixture-check.log
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_scope_probe.py
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-warrant.md
+docs/readings/2026-11-13-ssl-explicit-genera/019-grounding-contrasts.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-claim-crosshair.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-copy-retirement.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-baseline.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-collision-touch-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-prefetch-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/stative.py
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-5.log
+docs/readings/2026-11-13-ssl-explicit-genera/020-writer-preflight.sample.txt
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_foundation_review.py
+docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-candidate.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-enrichment.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-stative-parent-preview.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-repeated-light-contact-touch-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-rule-validation-before.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl_responses_worker.py
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-replay-stack-stderr.log
+docs/readings/2026-11-13-ssl-explicit-genera/022-active-census.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-literal-genus-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-release-helper-history.json
+docs/readings/2026-11-13-ssl-explicit-genera/023-person-reference-stage-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-hypotheses-joint-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-writer-native.sample.txt
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-controller-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-retention-check-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-integration-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-018-gold.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/018-active-consumer-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-first-teaching.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-contraction.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-space-021.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-reference-migration.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-body-reconciliation.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-prepublication-validation.json
+docs/readings/2026-11-13-ssl-explicit-genera/plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-normal-postflight.log
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-normal-postflight-stderr.log
+docs/readings/2026-11-13-ssl-explicit-genera/018-stative-diagnostic-cases.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-body-convention-approval.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-fable-body-reading.md
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-catalog-refresh.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-state-grounding-diagnostic.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4-2.log
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-proposal-review-queue-v2.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-contract-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/023-person-reference-population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-source-projection-warrants.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-018-activation.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-continuation-failure-before-retention-recovery.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-candidate-state-corpus.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-normal-postflight.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-curriculum-history-audit.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4-3.log
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-full-gate-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudicated-notebook-update.json
+docs/readings/2026-11-13-ssl-explicit-genera/rollback-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-scope-profile.pstats
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-cli-bank-metadata.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-implementation-validation.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-020-gold.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-unchanged-prime-links.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-desire-want-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-local-questions.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-rebased-population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-literal-genus-inventory.json
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-learning-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/022-release-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-refined-rule-withheld.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-refined-forecast-metrics.json
+docs/readings/2026-11-13-ssl-explicit-genera/023-person-reference-scope.json
+docs/readings/2026-11-13-ssl-explicit-genera/prefetch_vertebrate_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/018-rollback-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-pass2-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-and-legacy-hypotheses.md
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-public-api-probe.json
+docs/readings/2026-11-13-ssl-explicit-genera/vertebrate_021_approved.py
+docs/readings/2026-11-13-ssl-explicit-genera/finish_vertebrate_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-initial-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-retention-check-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-implementation-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-body-reconciliation-notebook-update.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-pass2-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-reporting-detective-900.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-release-helper-v1.txt
+docs/readings/2026-11-13-ssl-explicit-genera/020-publication.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prompt.md
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py
+docs/readings/2026-11-13-ssl-explicit-genera/020-expression-audit-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-checkpoint-identity-probe.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-019-activation.json
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-catalog-refresh.log
+docs/readings/2026-11-13-ssl-explicit-genera/019-reservation-contract-check.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-epoch-01-candidate-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-pass2-2.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-cli-bank-input.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-baseline-inventory.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-current-source-replay.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-initial-coherence-screen.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-publication.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-blockers.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass3.xml
+docs/readings/2026-11-13-ssl-explicit-genera/022-controller-final-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-candidate-state-corpus.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-012-gold.json
+docs/readings/2026-11-13-ssl-explicit-genera/coherence_022.py
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-checks.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-019-gold.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-input-budget.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-hypotheses-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-concrete-or-abstract-possession-have-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-retirement-ready.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-active-consumer-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-joint-support-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-body-projection-reconciliation.md
+docs/readings/2026-11-13-ssl-explicit-genera/020-work-snapshot-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-candidate-preflight-final.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-retirement-coherence-021-approved-enriched.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-baseline-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/persistent-learning-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-check-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/teaching-counterexample-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-contraction.json
+docs/readings/2026-11-13-ssl-explicit-genera/state_corpus.py
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-check-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/joint-comparison-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-project-gate-final.log
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-space-candidate-baseline.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-catalogue-rebase.json
+docs/readings/2026-11-13-ssl-explicit-genera/recover_coherence_020.py
+docs/readings/2026-11-13-ssl-explicit-genera/020-boundary-audit-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-dispatch-intent.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-grounding-sentences.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-fable-order-reading.md
+docs/readings/2026-11-13-ssl-explicit-genera/018-grounded-benchmark.json
+docs/readings/2026-11-13-ssl-explicit-genera/finish_coherence_020.py
+docs/readings/2026-11-13-ssl-explicit-genera/021-independent-body-reading.md
+docs/readings/2026-11-13-ssl-explicit-genera/__pycache__
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudication-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-input-budget-81920.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-candidate-contrasts.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-project-gate.log
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-implementation-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/note_coherence_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/020-epoch-02-teaching-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-published-consumer-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-dispatch-blocker.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-audit-contract-check.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-stabilize-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-021-gold.json
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_review_queue.py
+docs/readings/2026-11-13-ssl-explicit-genera/020-final-consumer-confirmation.json
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-full-gate.log
+docs/readings/2026-11-13-ssl-explicit-genera/gap-physical-contact-touch-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-notebook-start.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-native-transition-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-fable-order-metadata.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-release-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-teaching-order-check.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-route-correction.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-refined-audit-contract-check.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-dispatch-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-2.log
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-pass2.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-notebook-update.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudication-manifest.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-foundation-review.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-candidate-preflight.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_audit_020.py
+docs/readings/2026-11-13-ssl-explicit-genera/022-retention-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-seeded-audit-contract-check.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-release-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-context.json
+docs/readings/2026-11-13-ssl-explicit-genera/coherence_020.py
+docs/readings/2026-11-13-ssl-explicit-genera/019-seeded-rule-withheld.json
+docs/readings/2026-11-13-ssl-explicit-genera/state-refined-preview-016.json
+docs/readings/2026-11-13-ssl-explicit-genera/stative_transfer.py
+docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-baseline-opportunity.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-project-gate-final-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-proposal-review-queue.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-fable-order-result.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-checkpoint-demand.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/continue_coherence_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/020-status-writer-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/stage_gap_hypotheses.py
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-replay-process.sample
+docs/readings/2026-11-13-ssl-explicit-genera/020-retention-recovery.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass3.log
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-live-model-runtime.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-convention-implementation-validation.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-events.jsonl
+docs/readings/2026-11-13-ssl-explicit-genera/020-support-count-derivation.md
+docs/readings/2026-11-13-ssl-explicit-genera/022-native-scope-inventory.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/020-rollback-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-baseline-replay-integrity.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-retirement-019.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-convention-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-approved-be-convention.json
+docs/readings/2026-11-13-ssl-explicit-genera/finish_coherence_022.py
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/020-prepublication-coverage-census.json
+docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/gap-hypotheses-expanded-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-021-activation.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-publication.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/023-approved-person-reference-boundary.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-active-baseline-post-change-replay.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-head-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-rule-withheld.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-auditor-calibration.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_probe.py
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-candidate-sentences.json
+docs/readings/2026-11-13-ssl-explicit-genera/controller-full-gate-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-fable-body-result.json
+docs/readings/2026-11-13-ssl-explicit-genera/population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-retirement-adjudicated-candidate.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-boundary-audit-results.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prompt.md
+docs/readings/2026-11-13-ssl-explicit-genera/020-candidate-states.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-fable-order-stderr.log
+docs/readings/2026-11-13-ssl-explicit-genera/022-first-epoch-replay-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-hypotheses-expanded-joint-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-care-abstention-request.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-candidate-state-corpus.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-candidate-contrasts.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-construction-audit-summary.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-explicit-human-person-genus-body-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-epoch-01-teaching-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-order-reconciliation.md
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-reference-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-checks.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-focused-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-proof-and-retirement-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-notebook-start.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-prefetch-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-release-verification-v2.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-source-review.json
+docs/readings/2026-11-13-ssl-explicit-genera/adjudicate_vertebrate_021.py
+docs/readings/2026-11-13-ssl-explicit-genera/stage_person_reference_023.py
+docs/readings/2026-11-13-ssl-explicit-genera/021-fable-body-metadata.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-scope-denominators.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-source-adjudication.json
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-020-activation.json
+docs/readings/2026-11-13-ssl-explicit-genera/verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-independent-order-reading.md
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-catalog-before-refresh.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_dispatch.py
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-events.jsonl
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-space-after-refresh.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-round-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-status.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-coherence-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/legacy-discovery-inventory.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-joint-support.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-constitutive-human-person-body-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-free-coordinate-support-proof.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-candidate-sentences.json
+docs/readings/2026-11-13-ssl-explicit-genera/frontier-fixture-check.xml
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-adjudicated-result.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-token-demand.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-possess-have-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/gap-emotion-feel-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-candidate-states.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-coherence-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-retirement-epoch-01-teaching.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-open-learning-progress.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-cli-bank-result.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-fable-body-prompt.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-5.xml
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-check-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-implementation-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-stative-being-preview.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-retirement-ready.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-candidate-contrasts.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-implementation-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-joint-support-validation.json
+docs/readings/2026-11-13-ssl-explicit-genera/question-archive-check-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/019-state-corpus-grounding.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-prefetch-contract.json
+docs/readings/2026-11-13-ssl-explicit-genera/learning-preflight-4.xml
+docs/readings/2026-11-13-ssl-explicit-genera/sparse-release-012-activation.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-reporting-detective.log
+docs/readings/2026-11-13-ssl-explicit-genera/020-finisher-failure-before-retention-recovery.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-foundation-census.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-coherence-plan.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-retirement-preparation.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-notebook-update.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-v2-project-format-diagnostics.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-molecule-research-notes.md
+docs/readings/2026-11-13-ssl-explicit-genera/018-grounded-contrasts.json
+docs/readings/2026-11-13-ssl-explicit-genera/SOURCE_SCOPE.md
+docs/readings/2026-11-13-ssl-explicit-genera/018-publication.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-vertebrate-source-review.json
+docs/readings/2026-11-13-ssl-explicit-genera/019-fable-order-prompt.json
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-pass2-2.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-population-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-reporting-diagnose.log
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-prompt.md
+docs/readings/2026-11-13-ssl-explicit-genera/021-fable-body-stderr.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-release-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-cli-bank-intent.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-support-measurement-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/020-status-writer-verification.json
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-pass2-0.log
+docs/readings/2026-11-13-ssl-explicit-genera/021-approved-release-adjudication-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-refined-stage.json
+docs/readings/2026-11-13-ssl-explicit-genera/018-retirement-ready.json
+docs/readings/2026-11-13-ssl-explicit-genera/020-epoch-contract-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/cp01-replay-stack.json
+docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-feedback-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/020-biological-body-opportunity.json
+docs/readings/2026-11-13-ssl-explicit-genera/022-controller-tests.xml
+docs/readings/2026-11-13-ssl-explicit-genera/019-rollback-retention.json
+docs/readings/2026-11-13-ssl-explicit-genera/open-bank-pass2-1.log
+docs/readings/2026-11-13-ssl-explicit-genera/checkpoint-exact-definition-probe.json
+--- FREQUENCY FILES ---
+data/benchmarks/wordsim353.csv
+--- ACTIVE ---
+{"format": "gse.active-lexicon/1", "path": "lexicon_builder/2026-11-12/sparse-release-021.db"}
+

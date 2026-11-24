@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-process-and-source-tools -- .venv/bin/python - <<'PY'\nimport subprocess,ast\nfrom pathlib import Path\nprint(subprocess.run(['ps','-axo','pid,ppid,etime,pcpu,command'],capture_output=True,text=True).stdout)\nfor q in Path('GSE/curation/lexicon_builder').glob('*.py'):\n t=q.read_text();tree=ast.parse(t)\n for n in tree.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and (('anchor' in n.name or 'projection' in n.name) and q.name not in ['validation.py','reviewed_patterns.py']):print(q,n.name,n.lineno,n.end_lineno)\nprint('BASE RULE PLAN');print(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-rebased-plan.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

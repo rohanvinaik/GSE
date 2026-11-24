@@ -1,0 +1,76 @@
+{
+  "format": "GSE.source-projection-review/1",
+  "status": "ROOT_REVIEWED_DEFINITIONAL_DERIVATION_REQUIRES_ORDINARY_ADMISSION_AND_REPLAY",
+  "reviewer": "Root implementation review of complete saved primary NSM chart and complete GSE bipolar declarations",
+  "is_new_founder_convention": false,
+  "is_full_signature_approval": false,
+  "bank_writes": 0,
+  "source_pins": {
+    "data/external/references/nsm-primes-chart-v20-2022.txt": "5847b39219381181f98a2afbfc57b149ad16cd77157ca0d205b341d1466cf732",
+    "GSE/primitives_v2.py": "ad14c3e4348e453124b3d8904d94266570916b6902009b69a23350ce971556de",
+    "GSE/curation/schema.py": "f5eb1b758eccde2c6653c4b4e214d38c9834ba34ec320588e4eacf9ff704de55",
+    "GSE/curation/lexicon_builder/catalog.py": "08151fa4d5386249b3d478535778610cd3b94a85518bee678dbe0775eab2d20c",
+    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md": "cbc188ab55c0d654f25b632819e75440d26f2644e6949f054c06ea217fcf1bf6"
+  },
+  "warrant": {
+    "kind": "DEFINITIONAL_DERIVATION",
+    "warrant_id": "nsm-v20:canonical-evaluation-size-poles",
+    "review_id": "root:primary-chart-and-existing-gse-bipolar-declarations:2026-11-24",
+    "reviewer": "Root source/representation review; not presented as a new founder ruling",
+    "source_refs": [
+      "data/external/references/nsm-primes-chart-v20-2022.txt",
+      "GSE/primitives_v2.py",
+      "GSE/curation/schema.py",
+      "GSE/curation/lexicon_builder/catalog.py",
+      "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+    ],
+    "statement": "The primary chart explicitly declares GOOD, BAD, BIG and SMALL as their respective elementary NSM meanings. GSE already declares GOOD/BAD as the EVALUATION antipodes and BIG/SMALL as the SIZE antipodes in both live registry and curation schema. For these exact monosemantic primary units, mapping the declared positive/negative pole supplies only the corresponding scalar sign. It supplies no orthogonal zero, complete signature, ordinary-English word-sense selection, or new bank meaning."
+  },
+  "claims": [
+    {
+      "unit_id": "nsm:v20:good",
+      "entry_id": "nsm_chart:v20:good",
+      "bank": "GOOD",
+      "value": 1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:bad",
+      "entry_id": "nsm_chart:v20:bad",
+      "bank": "GOOD",
+      "value": -1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:big",
+      "entry_id": "nsm_chart:v20:big",
+      "bank": "BIG",
+      "value": 1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    },
+    {
+      "unit_id": "nsm:v20:small",
+      "entry_id": "nsm_chart:v20:small",
+      "bank": "BIG",
+      "value": -1,
+      "required_native_source": "nsm_primary_chart",
+      "scope": "EXACT_CANONICAL_UNIT_ONLY"
+    }
+  ],
+  "preserve": [
+    "Every other unresolved coordinate remains unresolved absent independent justification.",
+    "NSM combinatorial frame participants are not copied as own-unit bank content.",
+    "No same-spelled ordinary dictionary sense receives these signs without its own proven semantic alignment.",
+    "Hierarchy level and ordinal metadata remain separate from base sign.",
+    "Existing metadata-only correspondence flags do not themselves authorize lexical writes; this explicit source-derived warrant must be consumed by ordinary tested projection/admission/migration."
+  ],
+  "must_not_examples": [
+    "wordnet:good:commodity.n.01 is not the canonical NSM GOOD unit.",
+    "wordnet:bad:bad.s.01 (very intense) cannot inherit GOOD=-1 by spelling.",
+    "A positive GOOD projection cannot fill BIG=0 unless the existing iff absence guard independently licenses it."
+  ],
+  "experimental_scope": "Independent source review, not a final held-out semantic score or observed corpus gain."
+}

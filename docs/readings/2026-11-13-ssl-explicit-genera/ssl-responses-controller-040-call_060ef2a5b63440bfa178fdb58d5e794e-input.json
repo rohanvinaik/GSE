@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-time-boundary -- date -u; /Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label ssl-controller-peer-receipt-boundary -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-api-runtime-demand.json','ssl-api-coverage-checkpoint-facts.json']:\n f=p/name\n if f.exists(): print('\\n===',f,'===\\n'+f.read_text())\nprint('controller first receipt UTC',__import__('datetime').datetime.fromtimestamp((p/'ssl-responses-controller-001-call_64bfc129ccbb47e3ba2891d40c8e9c10.log').stat().st_mtime,__import__('datetime').timezone.utc).isoformat())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

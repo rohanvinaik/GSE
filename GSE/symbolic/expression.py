@@ -23,6 +23,7 @@ from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 
 from GSE.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace
+from GSE.lexicon.function_words import get_preposition_encoding
 from GSE.primitives_v2 import get_hierarchy_encoding
 from GSE.symbolic.duration import Duration, split_duration, temporal_offset
 from GSE.symbolic.modality import modal_primes
@@ -602,6 +603,20 @@ def _try_copula_type_assertion(tokens: Sequence[TokenTrace], signs: Optional[Sig
     # and (as a `because` cause clause) silently defeats rule learning. Build an
     # EVENT keyed on the adjective so ADJ(X, Y) survives with both arguments.
     after = [t for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"]
+    # A native spatial PP is a relation, not a kind nominal. Reuse the
+    # existing relation/event roleframe so resolution, queries, claim identity
+    # and emission all retain the actual preposition and its two arguments.
+    if after and after[0].pos == "ADP":
+        encoding = get_preposition_encoding(after[0].lemma) or {}
+        anchor = after[1:]
+        if encoding.get("spatial_type") and anchor and any(t.pos in _PP_OBJECT_POS for t in anchor):
+            relation = Op(
+                primitive=after[0].lemma,
+                operation="EVENT",
+                arity=2,
+                args=[Phrase(atoms=subject_atoms), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+            )
+            return Negation(operand=relation) if negated else relation
     adj_i = next((i for i, t in enumerate(after) if t.pos == "ADJ"), None)
     if adj_i is not None:
         rest = after[adj_i + 1 :]
@@ -941,6 +956,54 @@ def operator_composition_plan(
     return "operand"
 
 
+def _nominal_temporal_attachment(tokens):
+    """A native temporal preposition + time-typed nominal is an event setting.
+
+    The native closed-class source supplies the relation; WordNet time-period
+    or clock-time ancestry supplies grammatical anchor eligibility, not a
+    selected lexical sense or bank assignment. Clausal anchors stay on the
+    existing clause-linker path; a spatial anchor cannot become a time merely
+    because the same preposition also has a temporal reading.
+    """
+    from nltk.corpus import wordnet as wn
+
+    for index, token in enumerate(tokens):
+        encoding = get_preposition_encoding(token.lemma) or {}
+        if token.pos not in {"ADP", "SCONJ"} or encoding.get("temporal_type") not in {"ANTERIOR", "POSTERIOR"}:
+            continue
+        before = tokens[:index]
+        anchor = [t for t in tokens[index + 1 :] if t.pos != "PUNCT"]
+        if (
+            not any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in before)
+            or not anchor
+            or any(t.pos not in {"DET", "ADJ", "NOUN", "PROPN"} for t in anchor)
+            or anchor[-1].pos not in {"NOUN", "PROPN"}
+        ):
+            continue
+        head = anchor[-1]
+        senses = wn.synsets(head.lemma, pos="n")
+        time_readings = [
+            sense.name()
+            for sense in senses
+            if {node.name() for node in (sense, *sense.closure(lambda n: n.hypernyms()))}
+            & {"time_period.n.01", "clock_time.n.01", "beginning.n.01"}
+        ]
+        unambiguous = bool(senses) and len(time_readings) == len(senses)
+        token.lexical_evidence["nominal_preposition_reading"] = {
+            "code": "NATIVE_TEMPORAL_ANCHOR" if unambiguous else "UNRESOLVED_PREPOSITION_ANCHOR_ROLE",
+            "source": "GSE.lexicon.function_words:PREPOSITION_ENCODINGS",
+            "anchor_position": head.position,
+            "native_noun_readings": [sense.name() for sense in senses],
+            "temporal_readings": time_readings,
+            "alternatives": ["TEMPORAL"] if unambiguous else ["TEMPORAL", "SPATIAL"],
+        }
+        # A surviving non-time reading (spring, punctuation period, etc.) is
+        # not erased by the existence of a time sense. Preserve the original
+        # relation and nominal without claiming a Temporal or a patient role.
+        return before, token, anchor, "TEMPORAL" if unambiguous else "EVENT"
+    return None
+
+
 def _clause_core(tokens, shared_subject, signs):
     """Build the recoverable clause before a qualifying operator is attached."""
     content, duration = split_duration(tokens)
@@ -949,6 +1012,15 @@ def _clause_core(tokens, shared_subject, signs):
         core, negations = _unwrap_negations(qualified)
         if isinstance(core, Op) and core.operation in {"EVENT", "TYPE_ASSERT"}:
             return _rewrap_negations(replace(core, duration=duration), negations)
+    temporal = _nominal_temporal_attachment(tokens)
+    if temporal is not None:
+        content, linker, anchor, operation = temporal
+        return Op(
+            primitive=linker.lemma.upper() if operation == "TEMPORAL" else linker.lemma,
+            operation=operation,
+            arity=2,
+            args=[_clause_core(content, shared_subject, signs), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+        )
     copula = _try_copula_type_assertion(tokens, signs)
     if copula is not None:
         return _with_clause_modal(copula, tokens)

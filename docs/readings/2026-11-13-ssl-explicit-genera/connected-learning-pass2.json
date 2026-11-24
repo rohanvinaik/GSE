@@ -1,0 +1,44 @@
+[
+  {
+    "command": [
+      "uvx",
+      "ruff@0.16.10",
+      "check",
+      "GSE/curation/lexicon_builder/learning_curriculum.py",
+      "GSE/curation/lexicon_builder/learning_refinement.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "scripts/run_lexicon_epochs.py",
+      "tests/test_lexicon_epoch.py",
+      "tests/test_lexicon_learning_state.py"
+    ],
+    "exit_code": 0,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-0.log"
+  },
+  {
+    "command": [
+      "ty",
+      "check",
+      "GSE/curation/lexicon_builder/learning_curriculum.py",
+      "GSE/curation/lexicon_builder/learning_refinement.py",
+      "GSE/curation/lexicon_builder/learning_state.py",
+      "GSE/curation/lexicon_builder/epoch.py",
+      "scripts/run_lexicon_epochs.py"
+    ],
+    "exit_code": 0,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-1.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_lexicon_epoch.py",
+      "-k",
+      "open_bank or learning_review or real_guard_imputer or old_fixed_plan",
+      "--junitxml=docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-tests.xml"
+    ],
+    "exit_code": 1,
+    "log": "docs/readings/2026-11-13-ssl-explicit-genera/connected-learning-pass2-2.log"
+  }
+]

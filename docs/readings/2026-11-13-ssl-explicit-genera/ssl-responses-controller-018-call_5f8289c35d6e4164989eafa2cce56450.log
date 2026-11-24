@@ -1,0 +1,512 @@
+"""Exercise two real epoch transitions and recover their persistent journals."""
+
+import json
+import sqlite3
+from dataclasses import replace
+
+import pytest
+
+from GSE.curation.lexicon_builder.definition_frames import native_noun_frames, wiktionary_anatomy_frame
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.epoch import (
+    EpochTransportRefusal,
+    JournaledTransport,
+    census,
+    choose,
+    fingerprint,
+    parse_plan,
+    record,
+    run_arm,
+)
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation, _record_id
+from GSE.curation.lexicon_builder.grounded_rules import observed_conjunctions
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.sqlite_snapshot import copy_database
+from scripts.run_lexicon_epochs import compare
+
+
+class Rulings:
+    identity = "synthetic-epoch-fixture"
+
+    def __init__(self):
+        self.calls = []
+
+    def __call__(self, payload, schema):
+        bank = payload["bank"]
+        assert set(schema["properties"]) == {bank}
+        assert bank not in payload["known"]
+        self.calls.append((payload["entry_id"], bank))
+        return json.dumps({bank: 1 if bank == "QUANTITY" else 0})
+
+
+
+def native(lemma, ancestor):
+    synset = lemma + ".n.01"
+    identity = f"wordnet:{lemma}:{synset}"
+    definition = Definition(identity, lemma, "noun", f"Synthetic measurement {lemma}.")
+    observation = Observation(
+        identity,
+        "wordnet_hierarchy",
+        identity,
+        "wordnet",
+        {
+            "lemma": lemma,
+            "pos": "noun",
+            "definition": definition.definition,
+            "synset_name": synset,
+            "lemma_names": [lemma],
+            "hypernym_paths": [["entity.n.01", ancestor, synset]],
+        },
+        "lexical",
+        (identity,),
+    )
+    return definition, observation
+
+
+def family(name, ancestor, left, right, audit):
+    return {
+        "id": name,
+        **({"premises": left} if isinstance(left[0], list) else {"antecedent": left}),
+        "consequent": right,
+        "guards": [["pos", "noun"], ["wordnet_native_lemma", "true"], [f"wordnet_ancestor:{ancestor}", "true"]],
+        "holdouts": [f"wordnet:{audit}:{audit}.n.01"],
+        "warrant": {
+            "kind": "DEFINITIONAL_DERIVATION",
+            "warrant_id": name,
+            "review_id": name,
+            "reviewer": "synthetic-test",
+            "source_refs": ["synthetic:epoch"],
+            "statement": "Synthetic assignments establish the workflow contract.",
+        },
+    }
+
+
+def test_two_generations_replay_and_resume_at_equal_budget(tmp_path):
+    base, active = tmp_path / "base.db", tmp_path / "active.json"
+    active.write_text("{}")
+    durations = [native(word, "time_unit.n.01") for word in ("day", "minute", "hour", "second")]
+    areas = [native(word, "area_unit.n.01") for word in ("are", "acre")]
+    definitions, observations = zip(*durations, *areas)
+    assertions = tuple(
+        Assertion("SOMETHING", 1, "wordnet_hierarchy", definition.entry_id, "wordnet") for definition in definitions
+    )
+    manifest = tmp_path / "rules.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "format": "GSE.lexicon-rules/1",
+                "relations": [
+                    {
+                        "rule_id": "synthetic-area-quantity",
+                        "banks": ["QUANTITY"],
+                        "allowed_rows": [[1]],
+                        "provenance": ["synthetic:epoch"],
+                        "authority": "conditional",
+                        "approved": True,
+                        "guards": [["wordnet_ancestor:area_unit.n.01", "true"]],
+                    }
+                ],
+            }
+        )
+    )
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base, manifest=manifest)
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/1",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(active),
+        "epochs": 2,
+        "audits_per_epoch": 1,
+        "families": [
+            family("duration-quantity", "time_unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "second"),
+            family("duration-want", "time_unit.n.01", [["QUANTITY", 1], ["SOMETHING", 1]], ["WANT", 0], "hour"),
+            family("area-body", "area_unit.n.01", ["QUANTITY", 1], ["BODY", 0], "acre"),
+        ],
+    }
+    population = census(base, parse_plan(plan))
+    record(tmp_path / "inventory.json", population)
+    arms = {}
+    for policy in ("closure", "zipf"):
+        model = Rulings()
+        args = (plan, base, active, tmp_path / policy, population, policy, model, tmp_path / "model.lock")
+        arms[policy] = run_arm(*args)
+        assert arms[policy]["typed_questions_used"] == 4 == len(model.calls)
+        assert arms[policy]["replay"]["code"] == "REPLAY_VALIDATED"
+        assert run_arm(*args) == arms[policy]
+        assert len(model.calls) == 4
+    assert [e["selected"]["family"] for e in arms["closure"]["epochs"]] == ["duration-quantity", "duration-want"]
+    assert [e["selected"]["family"] for e in arms["zipf"]["epochs"]] == ["area-body", "duration-quantity"]
+    assert arms["closure"]["epochs"][1]["premise_depends_on"] == arms["closure"]["admitted"][:1]
+    assert arms["closure"]["new_cells"] == 8
+    assert arms["zipf"]["new_cells"] == 6
+    result = compare(tmp_path, plan)
+    assert result["code"] == "EQUAL_BUDGET_FEEDBACK_VALIDATED"
+    assert result["closure_minus_zipf_new_cells"] == 2
+    assert result["second_generation_rules"][0]["interactions"][0]["joint_only"] == 4
+    grounding = json.loads((tmp_path / "closure" / "grounded-chains-final.json").read_text())
+    assert any(
+        len(rule["rule_ids"]) == 2 and rule["consequent"] == ["WANT", 0] and len(rule["witnesses"]) == 4
+        for rule in grounding["proposals"]
+    )
+    assert fingerprint(base) == plan["baseline_sha256"]
+    assert fingerprint(active) == plan["active_pointer_sha256"]
+
+
+def open_curriculum_inputs(tmp_path, *, resolved_alpha=False):
+    from GSE.curation.lexicon_builder.learning_curriculum import plan_inventory
+
+    base, pointer = tmp_path / "open-base.db", tmp_path / "pointer.json"
+    pointer.write_text("{}")
+    definitions, observations = zip(*(native(word, "time_unit.n.01") for word in ("alpha", "beta", "gamma", "delta")))
+    assertions = tuple(Assertion("SOMETHING", 1, "wordnet_hierarchy", d.entry_id, "wordnet") for d in definitions)
+    manifest = None
+    if resolved_alpha:
+        manifest = tmp_path / "known-alpha.json"
+        manifest.write_text(
+            json.dumps(
+                {
+                    "format": "GSE.lexicon-rules/1",
+                    "relations": [
+                        {
+                            "rule_id": "synthetic-known-alpha",
+                            "banks": ["QUANTITY"],
+                            "allowed_rows": [[1]],
+                            "provenance": ["synthetic:scheduling-control"],
+                            "authority": "conditional",
+                            "approved": True,
+                            "guards": [["wordnet_native_lemma", "true"], ["wordnet_ancestor:alpha.n.01", "true"]],
+                        }
+                    ],
+                }
+            )
+        )
+    build_dictionary(EvidenceBundle(definitions, observations, assertions, ()), base, manifest=manifest)
+    plan = {
+        "format": "GSE.lexicon-epoch-plan/2",
+        "baseline_sha256": fingerprint(base),
+        "active_pointer_sha256": fingerprint(pointer),
+        "epochs": 3,
+        "audits_per_epoch": 2,
+        "families": [],
+        "teaching_entry_ids": ["wordnet:alpha:alpha.n.01"],
+        "curriculum": {
+            "banks": ["QUANTITY"],
+            "frontier_limit": 4,
+            "banks_per_entry": 1,
+            "candidate_limit": 1,
+            "audit_entry_ids": ["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"],
+            "scopes": [
+                {
+                    "id": "curriculum:units",
+                    "guards": [
+                        ["pos", "noun"],
+                        ["wordnet_native_lemma", "true"],
+                        ["wordnet_ancestor:time_unit.n.01", "true"],
+                    ],
+                }
+            ],
+        },
+    }
+    return base, pointer, plan, plan_inventory(base, plan)
+
+
+def test_open_bank_discovery_review_audit_and_replay_resume_under_the_same_plan(tmp_path):
+    from GSE.curation.lexicon_builder.learning_curriculum import REVIEW_FORMAT
+    from GSE.curation.lexicon_builder.learning_state import LearningState
+
+    base, pointer, plan, inventory = open_curriculum_inputs(tmp_path)
+    directory, model = tmp_path / "learner", Rulings()
+    args = (plan, base, pointer, directory, inventory, "closure", model, tmp_path / "model.lock")
+    first = run_arm(*args)
+    assert first["code"] == "LEARNING_REVIEW_REQUIRED"
+    assert first["typed_questions_used"] == 1 == len(model.calls)
+    [epoch] = first["epochs"]
+    assert epoch["selected"]["task"] == "OPEN_BANK_TEACHING" and epoch["selected"]["family"] is None
+    assert epoch["teaching"]["proposal_outcome"] == "NO_PROPOSED_ANSWER"
+    assert first["admitted"] == [] and first["new_cells"] == 1
+    [pending] = first["learning_state"]["pending"]
+    assert pending["disposition"] == "AWAITING_WARRANT"
+    assert pending["contract"]["banks"] == ["QUANTITY"]
+    assert not (directory / "arm-result.json").exists()
+    assert run_arm(*args) == first and len(model.calls) == 1
+    item = family("learned-unit-quantity", "time_unit.n.01", ["SOMETHING", 1], ["QUANTITY", 1], "beta")
+    item.update(antecedent=None, holdouts=["wordnet:beta:beta.n.01", "wordnet:gamma:gamma.n.01"])
+    (directory / "reviews.json").write_text(
+        json.dumps(
+            {
+                "format": REVIEW_FORMAT,
+                "records": [{"mechanism_id": pending["mechanism_id"], "family": item}],
+            }
+        )
+    )
+    result = run_arm(*args)
+    assert result["epochs"][1]["code"] == "RULE_ADMITTED"
+    assert result["epochs"][1]["selected"]["task"] == "AUDIT_DISCOVERED_MECHANISM"
+    assert result["typed_questions_used"] == len(model.calls) == 3
+    assert model.calls.count(("wordnet:alpha:alpha.n.01", "QUANTITY")) == 1
+    assert result["new_cells"] == 4 and result["reopened_cells"] == 0
+    assert result["replay"]["code"] == "REPLAY_VALIDATED" and result["replay"]["complete_search"]
+    assert result["epochs"][1]["specification_learning"]["rule_revision"]["lexicon"]["specification_gain_bits"] > 0
+    with sqlite3.connect(result["candidate"]) as conn:
+        for (encoded,) in conn.execute("SELECT domains FROM definition_states"):
+            domains = json.loads(encoded)
+            assert domains["QUANTITY"] == [1] and domains["THINK"] == [-1, 0, 1]
+    assert result["learning_state"]["pending"] == []
+    (directory / "reviews.json").unlink()  # Durable reviews are independent of the intake file.
+    assert run_arm(*args) == result and len(model.calls) == 3
+    state = LearningState(directory / "learning.sqlite", json.loads((directory / "arm.json").read_text()))
+    assert state.reviewed()[0]["disposition"] == "ADMITTED"
+    assert fingerprint(base) == plan["baseline_sha256"]
+    assert fingerprint(pointer) == plan["active_pointer_sha256"]
+
+
+"""Count the actual factorized specification space, alongside lexical coverage.
+
+The existing solver supplies exhaustive component witness counts. Marginal
+domains alone cannot recover those counts. This module never supplies signs,
+approves rules, or treats an unfinished search as an empty/settled space.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import sqlite3
+import unicodedata
+from collections import Counter, defaultdict
+from contextlib import closing
+from pathlib import Path
+
+from GSE.namespace import identity_form
+
+FORMAT = "GSE.specification-space/1"
+CONTRACT = "GSE.ssl-construction/2"
+BUCKETS = ("1-500", "501-1500", "1501-5000", "5001+", "unranked")
+
+
+def measure_space(domains, trace, *, conflicted=False):
+    """Count complete bank assignments from disjoint, exhaustively solved factors."""
+    if not isinstance(domains, dict) or not domains:
+        raise ValueError("SPECIFICATION_DOMAINS_REQUIRED")
+    for name, values in domains.items():
+        if not isinstance(name, str) or not name or not isinstance(values, (list, tuple, set, frozenset)):
+            raise ValueError("INVALID_SPECIFICATION_DOMAIN")
+        if any(type(value) is not int or value not in (-1, 0, 1) for value in values):
+            raise ValueError("INVALID_SPECIFICATION_TRIT")
+        if len(set(values)) != len(values):
+            raise ValueError("DUPLICATE_SPECIFICATION_TRIT")
+    conflict = conflicted or any(not values for values in domains.values())
+    filled = sum(len(values) == 1 for values in domains.values())
+    result = {
+        "code": "CONFLICT" if conflict else "EXACT",
+        "banks": len(domains),
+        "filled_banks": filled,
+        "explicit_zero_banks": sum(list(values) == [0] for values in domains.values()),
+        "unresolved_banks": sum(len(values) > 1 for values in domains.values()),
+        "possible_assignments": None,
+        "specification_bits": None,
+        "domain_potential_bits": None if conflict else math.fsum(math.log2(len(v)) for v in domains.values()),
+        "upper_bound_bits": None,
+        "limited_components": 0,
+    }
+    if conflict:
+        result["possible_assignments"] = 0
+        return result
+    scopes = [row for row in trace if row.get("kind") == "INFERENCE_SCOPE"]
+    if len(scopes) != 1:
+        result["code"] = "MISSING_SOLVER_CERTIFICATE"
+        result["upper_bound_bits"] = result["domain_potential_bits"]
+        return result
+    covered, factors = set(), []
+    limited = 0
+    for receipt in trace:
+        if receipt.get("kind") not in ("JOINT_CHECK", "SOLVER_LIMIT"):
+            continue
+        names = receipt["banks"]
+        if len(set(names)) != len(names) or not set(names) <= domains.keys() or covered.intersection(names):
+            raise ValueError("SPECIFICATION_FACTORS_NOT_DISJOINT")
+        covered.update(names)
+        upper = math.prod(len(domains[name]) for name in names)
+        if receipt["kind"] == "SOLVER_LIMIT":
+            limited += 1
+            factors.append(upper)
+        else:
+            count = receipt["witnesses"]
+            if type(count) is not int or not 1 <= count <= upper:
+                raise ValueError("INVALID_SPECIFICATION_WITNESS_COUNT")
+            factors.append(count)
+    factors.extend(len(values) for name, values in domains.items() if name not in covered)
+    count = math.prod(factors)
+    result["upper_bound_bits"] = math.log2(count)
+    result["limited_components"] = limited
+    if limited or not scopes[0].get("complete_search") or scopes[0].get("satisfiability") != "SATISFIABLE":
+        result["code"] = "SOLVER_LIMIT" if limited else "INCOMPLETE_SOLVER_CERTIFICATE"
+    else:
+        result["possible_assignments"] = count
+        result["specification_bits"] = math.log2(count)
+    return result
+
+
+def measure_resolution(resolution):
+    """Consume the production resolver's domains and proof, without re-solving."""
+    return measure_space(resolution.domains, resolution.trace, conflicted=resolution.code == "CONFLICT")
+
+
+def space_delta(before, after):
+    """Keep exact contraction, marginal narrowing, reopening and limits distinct."""
+    exact = before["code"] == after["code"] == "EXACT"
+    bits = before["specification_bits"] - after["specification_bits"] if exact else None
+    return {
+        "code": "CONTRACTION"
+        if bits is not None and bits > 0
+        else "EXPANSION"
+        if bits is not None and bits < 0
+        else "UNCHANGED"
+        if exact
+        else "UNAVAILABLE",
+        "specification_gain_bits": bits,
+        "removed_assignments": before["possible_assignments"] - after["possible_assignments"] if exact else None,
+        "domain_potential_gain_bits": (
+            before["domain_potential_bits"] - after["domain_potential_bits"]
+            if before["domain_potential_bits"] is not None and after["domain_potential_bits"] is not None
+            else None
+        ),
+        "net_filled_banks": after["filled_banks"] - before["filled_banks"],
+    }
+
+
+def normalized_spelling(word):
+    """Share canonical spelling identity without claiming same-sense identity."""
+    return unicodedata.normalize("NFC", word).strip().casefold()
+
+
+def frequency_buckets(spellings, frequencies):
+    """Rank corpus spellings, retaining zero/absent-frequency words separately."""
+    words = {normalized_spelling(word) for word in spellings}
+    ranked = sorted(
+        (word for word in words if frequencies.get(word, 0) > 0), key=lambda word: (-frequencies[word], word)
+    )
+    result = dict.fromkeys(words, "unranked")
+    for rank, word in enumerate(ranked, 1):
+        result[word] = (
+            "1-500" if rank <= 500 else "501-1500" if rank <= 1500 else "1501-5000" if rank <= 5000 else "5001+"
+        )
+    return result
+
+
+def _aggregate(records):
+    counts = Counter(
+        dict.fromkeys(
+            ("definitions", "filled_banks", "explicit_zero_banks", "unresolved_banks", "banks", "limited_components"), 0
+        )
+    )
+    exact_bits, marginal, upper = [], [], []
+    spellings = defaultdict(lambda: [0, 0])
+    histogram = Counter()
+    for spelling, state in records:
+        counts["definitions"] += 1
+        counts[state["code"]] += 1
+        for key in ("filled_banks", "explicit_zero_banks", "unresolved_banks", "banks", "limited_components"):
+            counts[key] += state[key]
+        spellings[spelling][0] += state["unresolved_banks"]
+        spellings[spelling][1] += 1
+        if state["specification_bits"] is not None:
+            exact_bits.append(state["specification_bits"])
+            histogram[str(state["possible_assignments"])] += 1
+        if state["domain_potential_bits"] is not None:
+            marginal.append(state["domain_potential_bits"])
+        if state["upper_bound_bits"] is not None:
+            upper.append(state["upper_bound_bits"])
+    n = counts["definitions"]
+    return {
+        **dict(counts),
+        "spellings": len(spellings),
+        "mean_unresolved_banks_per_definition": counts["unresolved_banks"] / n if n else None,
+        "spelling_weighted_mean_unresolved_banks": math.fsum(total / senses for total, senses in spellings.values())
+        / len(spellings)
+        if spellings
+        else None,
+        "specification_bits": math.fsum(exact_bits) if counts["EXACT"] == n and n else None,
+        "exact_subset_specification_bits": math.fsum(exact_bits),
+        "exact_definitions": counts["EXACT"],
+        "domain_potential_bits": math.fsum(marginal),
+        "upper_bound_bits": math.fsum(upper) if len(upper) == n and n else None,
+        "assignment_count_histogram": dict(sorted(histogram.items(), key=lambda item: int(item[0]))),
+        "joint_assignment_count_representation": "PRODUCT_OF_EACH_HISTOGRAM_BASE_RAISED_TO_ITS_COUNT",
+        "joint_assignment_product_complete": counts["EXACT"] == n and n > 0,
+    }
+
+
+def measure_dictionary(path, frequency_path=None):
+    """Read one consistent whole-corpus snapshot; write no database or checkpoint."""
+    from .catalog import SENTENCE_DURATION_SOURCE_RECORD
+    from .completion import _priority_source
+
+    path = Path(path).resolve(strict=True)
+    frequency, frequencies = _priority_source("zipf", frequency_path)
+    groups = defaultdict(list)
+    cohort = hashlib.sha256()
+    with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
+        conn.execute("BEGIN")
+        metadata = dict(conn.execute("SELECT key,value FROM builder_metadata WHERE key IN ('rule_version','format')"))
+        names = [
+            row[0]
+            for row in conn.execute(
+                "SELECT DISTINCT l.lemma FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id WHERE d.entry_id != ?",
+                (SENTENCE_DURATION_SOURCE_RECORD,),
+            )
+        ]
+        buckets = frequency_buckets(names, frequencies)
+        query = "SELECT d.entry_id,l.lemma,l.pos,d.code,d.domains,d.trace FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id ORDER BY d.entry_id"
+        for identity, lemma, pos, code, domains, trace in conn.execute(query):
+            cohort.update(json.dumps(identity, ensure_ascii=False).encode() + b"\n")
+            spelling = normalized_spelling(lemma)
+            state = measure_space(json.loads(domains), json.loads(trace), conflicted=code == "CONFLICT")
+            groups[
+                "sentence_constructions" if identity == SENTENCE_DURATION_SOURCE_RECORD else buckets[spelling]
+            ].append((spelling, state))
+    lexical = [record for name in BUCKETS for record in groups[name]]
+    return {
+        "format": FORMAT,
+        "contract": CONTRACT,
+        "path": str(path),
+        "cohort_sha256": cohort.hexdigest(),
+        "rule_version": metadata.get("rule_version"),
+        "frequency": frequency,
+        "frequency_semantics": "SPELLING_RANK_NOT_SENSE_FREQUENCY",
+        "count_semantics": "PRODUCT_OF_EXHAUSTIVE_COMPONENT_COUNTS_AND_FREE_DOMAINS",
+        "measurement_scope": "PERSISTED_SOLVER_RECEIPTS_NOT_A_NEW_SEMANTIC_VALIDATION",
+        "lexicon": _aggregate(lexical),
+        "buckets": {name: _aggregate(groups[name]) for name in BUCKETS},
+        "sentence_constructions": _aggregate(groups["sentence_constructions"]),
+    }
+
+
+def compare_measurements(before, after):
+    """Compare a fixed cohort and frequency policy; never reward a changed target."""
+    if any(
+        identity_form(before.get(key)) != identity_form(after.get(key))
+        for key in ("format", "contract", "cohort_sha256", "frequency")
+    ):
+        raise ValueError("SPECIFICATION_MEASUREMENT_POPULATION_CHANGED")
+
+    def difference(left, right):
+        if left["definitions"] != right["definitions"] or left["banks"] != right["banks"]:
+            raise ValueError("SPECIFICATION_MEASUREMENT_BASIS_CHANGED")
+        exact = left["specification_bits"] is not None and right["specification_bits"] is not None
+        return {
+            "net_filled_banks": right["filled_banks"] - left["filled_banks"],
+            "unresolved_banks_reduction": left["unresolved_banks"] - right["unresolved_banks"],
+            "specification_gain_bits": left["specification_bits"] - right["specification_bits"] if exact else None,
+            "domain_potential_gain_bits": left["domain_potential_bits"] - right["domain_potential_bits"],
+            "joint_count_comparison": "EXACT" if exact else "UNAVAILABLE",
+        }
+
+    return {
+        "lexicon": difference(before["lexicon"], after["lexicon"]),
+        "buckets": {name: difference(before["buckets"][name], after["buckets"][name]) for name in BUCKETS},
+        "sentence_constructions": difference(before["sentence_constructions"], after["sentence_constructions"]),
+    }
+
+{"format": "gse.active-lexicon/1", "path": "lexicon_builder/2026-11-12/sparse-release-021.db"}
+

@@ -1,0 +1,1377 @@
+
+FILE GSE/api/__init__.py
+"""
+GSE API - Encoding and Decoding natural language to HDC vectors.
+
+Usage:
+    from GSE.api import GSEEncoder, GSEDecoder
+
+    # Encode
+    encoder = GSEEncoder()
+    trace = encoder.encode("The dog is cuter than the cat")
+    print(trace.to_json())
+
+    # Decode
+    decoder = GSEDecoder()
+    semantics = decoder.decode(trace.vector)
+    print(semantics.to_json())
+
+    # Compare
+    similarity = decoder.similarity(trace1.vector, trace2.vector)
+    print(similarity.cosine)
+
+    # Strict mode (raises exceptions instead of silent fallbacks)
+    encoder = GSEEncoder(strict=True)
+    try:
+        trace = encoder.encode("xyzzy flurble")  # OOV words
+    except OOVError as e:
+        print(f"Unknown word: {e.word}")
+"""
+
+from GSE.api.decoder import GSEDecoder
+from GSE.api.encoder import GSEEncoder
+from GSE.api.errors import (
+    DecodingError,
+    EncodingError,
+    GSEError,
+    OOVError,
+    OperatorError,
+    PrimitiveError,
+)
+from GSE.api.trace import (
+    AttributeExtraction,
+    DecodedSemantics,
+    EntityExtraction,
+    OperationTrace,
+    OperatorTrace,
+    RelationExtraction,
+    SimilarityResult,
+    TokenTrace,
+)
+
+__all__ = [
+    # Core classes
+    "GSEEncoder",
+    "GSEDecoder",
+    # Trace types
+    "TokenTrace",
+    "OperatorTrace",
+    "OperationTrace",
+    "EntityExtraction",
+    "AttributeExtraction",
+    "RelationExtraction",
+    "DecodedSemantics",
+    "SimilarityResult",
+    # Error types
+    "GSEError",
+    "OOVError",
+    "EncodingError",
+    "PrimitiveError",
+    "OperatorError",
+    "DecodingError",
+]
+
+
+FILE tests/test_complete_document_reading.py
+"""Intent at the document intake/profile/cassette boundary, including refusals."""
+
+import time
+from types import SimpleNamespace
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.api.trace import OperationTrace, TokenTrace
+from GSE.cassettes.deck import CassetteDeck
+from GSE.cassettes.entity_identity import EntityIdentity, IdentityGap
+from GSE.cassettes.multiscale import Mention, MultiScaleDoc
+from GSE.cassettes.relational_identity import RelationalIdentity
+from GSE.discourse.intake import SourceSentence, document_sentences, split_paragraphs
+from GSE.discourse.profile import PROFILE_FIELDS, text_profile
+from GSE.discourse.speech import encode_document_utterance_events, encode_document_utterances_traced, segment_document
+from GSE.structure import (
+    clause_depth,
+    clause_head_evidence,
+    entity_source_evidence,
+    operation_counts,
+    structural_loss_evidence,
+    verb_head_evidence,
+)
+from GSE.symbolic.expression import Atom
+from GSE.symbolic.predicates import Event
+from GSE.symbolic.resolution import Entity
+
+
+class Encoder:
+    word_basis = SimpleNamespace(primitives={"GOOD": object(), "BAD": object()})
+
+    def __init__(self, fail=(), lookup_fail=False):
+        self.fail = fail
+        self.lookup_fail = lookup_fail
+        self.calls = []
+
+    def encode(self, text):
+        self.calls.append(text)
+        if text in self.fail:
+            raise ValueError("intentional encode failure")
+        tokens = [
+            TokenTrace("Alice", "alice", "PROPN", 0, {}, {}, 0, 0, 0),
+            TokenTrace("runs", "run", "VERB", 1, {"GOOD": 1, "BAD": 1}, {}, 0, 0, 0),
+        ]
+        return OperationTrace(text, tokens, [], 0, 1.0, {"GOOD": 1.0, "BAD": 1.0}, {}, "test")
+
+    def _lookup_lexeme(self, lemma):
+        if self.lookup_fail and lemma == "run":
+            raise ValueError("late lookup failure")
+        return ({"GOOD": 1, "BAD": 1}, {}, {})
+
+
+@pytest.fixture
+def simple_pipeline(monkeypatch):
+    import GSE.symbolic
+
+    alice = Entity(Atom("alice", {}, position=0, pos="PROPN"), entity_id="alice")
+    tree = Event("run", alice)
+    monkeypatch.setattr(GSE.symbolic, "from_trace", lambda trace: tree)
+    monkeypatch.setattr(GSE.symbolic, "resolve", lambda node: node)
+    monkeypatch.setattr(GSE.symbolic, "evaluate_tree", lambda node: node)
+    return tree
+
+
+def test_manifest_precedes_results_and_failures_do_not_renumber(simple_pipeline):
+    enc = Encoder(fail=("bad",))
+    events = list(
+        encode_document_utterance_events(
+            enc, [{"id": "original-4", "text": "bad"}, {"id": "original-9", "text": "good"}]
+        )
+    )
+    assert events[0]["type"] == "manifest"
+    assert events[0]["sentences"][0]["expected_utterance_ids"] == ["original-4:u0"]
+    assert [event["utterance_id"] for event in events[1:-1]] == ["original-4:u0", "original-9:u0"]
+    assert [event["state"] for event in events[1:-1]] == ["unread", "read"]
+    assert events[1]["error"]["code"] == "encode_error"
+    assert events[-1]["reason"] == "complete"
+
+
+def test_deadline_accounts_for_all_expected_ids_without_encoding(simple_pipeline):
+    enc = Encoder()
+    events = list(encode_document_utterance_events(enc, [("a", "one"), ("b", "two")], time.monotonic() - 1))
+    assert [event["utterance_id"] for event in events[1:-1]] == ["a:u0", "b:u0"]
+    assert all(event["error"]["code"] == "deadline" for event in events[1:-1])
+    assert enc.calls == []
+    assert events[-1]["reason"] == "deadline"
+
+
+def test_empty_manifest_is_explicit(simple_pipeline):
+    events = list(encode_document_utterance_events(Encoder(), []))
+    assert [event["type"] for event in events] == ["manifest", "end"]
+    assert events[0]["utterances"] == []
+    assert events[-1]["expected"] == 0
+
+
+def test_deixis_failure_is_a_located_outcome(simple_pipeline, monkeypatch):
+    import GSE.discourse.speech as speech
+
+    def fail(tree, utterance):
+        raise ValueError("deixis failed")
+
+    monkeypatch.setattr(speech, "_apply_deixis", fail)
+    events = list(encode_document_utterance_events(Encoder(), [("fixed", "good")]))
+    assert events[1]["error"]["code"] == "deixis_error"
+    assert events[1]["utterance_id"] == "fixed:u0"
+    assert events[1]["tree"] is None
+    assert encode_document_utterances_traced(Encoder(), ["good"]) == []
+
+
+@pytest.mark.parametrize("phase", ["construction", "evaluation"])
+def test_construction_and_evaluation_failures_are_named(simple_pipeline, monkeypatch, phase):
+    import GSE.symbolic
+
+    def fail(node):
+        raise ValueError("phase failed")
+
+    monkeypatch.setattr(GSE.symbolic, "from_trace" if phase == "construction" else "evaluate_tree", fail)
+    events = list(encode_document_utterance_events(Encoder(), [("fixed", "good")]))
+    assert events[1]["error"]["code"] == f"{phase}_error"
+
+
+def test_malformed_source_ids_are_refused_before_manifest():
+    with pytest.raises(ValueError, match="duplicate"):
+        list(encode_document_utterance_events(Encoder(), [("same", "one"), ("same", "two")]))
+    with pytest.raises(ValueError, match="string text"):
+        list(encode_document_utterance_events(Encoder(), [{"id": "a", "text": None}]))
+
+
+def test_quote_attribution_keeps_supplied_source_ids():
+    utterances = segment_document([SourceSentence("first", '"I ran.'), SourceSentence("last", 'I left," said Bob.')])
+    assert [item.source_sentence_id for item in utterances] == ["first", "last"]
+    assert all(item.speaker == "bob" for item in utterances)
+
+
+def test_paragraphs_preserve_text_and_document_units_keep_paragraph_ids():
+    assert split_paragraphs("one\r\nwrapped\r\n\r\nsecond") == ["one\r\nwrapped", "second"]
+    assert [unit.paragraph_id for unit in document_sentences("One.\n\nTwo. Three.")] == ["p0", "p1", "p1"]
+
+
+def test_all_unread_profile_never_claims_measured_neutrality(simple_pipeline):
+    profile = text_profile(Encoder(fail=("bad.",)), "bad.")
+    assert profile.state == "unread" and profile.n_read == 0
+    assert profile.affect["valence_mean"] is None
+    assert profile.coherence["degraded_rate"] is None
+    assert profile.populations["structure"]["state"] == "unread"
+    assert len(profile.failures) == 1
+    assert all(value == 0.0 for value in profile.legacy_vector())
+
+
+def test_late_profile_failure_cannot_leave_partial_observation(simple_pipeline):
+    profile = text_profile(Encoder(lookup_fail=True), "good.")
+    assert profile.n_read == 0
+    assert profile.register["mean_lemma_len"] is None
+    assert profile.operator_mix["EVENT"] is None
+    assert profile.operations["EVENT"] == 0
+
+
+def test_balanced_measured_zero_and_legacy_layout(simple_pipeline):
+    profile = text_profile(Encoder(), "good.")
+    assert profile.affect["valence_mean"] == 0.0
+    assert profile.populations["affect"]["state"] == "measured"
+    assert len(profile.legacy_vector()) == len(PROFILE_FIELDS) + 2
+    assert profile.operations["EVENT"] == 1
+
+
+def test_empty_profile_has_absent_populations(simple_pipeline):
+    profile = text_profile(Encoder(), "")
+    assert profile.state == "empty" and profile.n_sentences == 0
+    assert profile.populations["structure"]["state"] == "absent"
+    assert profile.complexity["tokens_per_sent"] is None
+
+
+def test_structural_measurements_retain_temporal_and_nested_boundaries():
+    tree = {
+        "_kind": "Temporal",
+        "setting": {"_kind": "Atom", "lemma": "today"},
+        "event": {
+            "_kind": "Control",
+            "controller": {},
+            "inner": {
+                "_kind": "RelativeRestriction",
+                "head": {},
+                "restriction": {"_kind": "Control", "controller": {}, "inner": {"_kind": "Event", "verb": "run"}},
+            },
+        },
+    }
+    assert operation_counts(tree)["TEMPORAL"] == 1
+    assert operation_counts(tree)["CONTROL"] == 2
+    assert clause_depth(tree) == 3
+    assert clause_depth({"arbitrary": {"deep": {"dict": {"value": 1}}}}) == 0
+    assert clause_depth({"_kind": "Event", "patient": {"_kind": "Event", "patient": {"_kind": "Event"}}}) == 2
+
+
+def test_swallowed_verb_and_empty_operand_cannot_look_preserved():
+    trace = {"tokens": [{"pos": "VERB", "lemma": "run", "position": 2}]}
+    tree = {"_kind": "Op", "operation": "CONTRAST", "arity": 2, "args": [{"_kind": "Phrase", "atoms": []}]}
+    findings = structural_loss_evidence(trace, tree, utterance_id="fixed:u0")
+    assert {finding["code"] for finding in findings} >= {"missing_predicate", "empty_operand", "operand_arity_mismatch"}
+    assert all(finding["utterance_id"] == "fixed:u0" for finding in findings)
+    assert structural_loss_evidence(trace, {"_kind": "Event", "verb": "run"}) == []
+    assert (
+        structural_loss_evidence(
+            trace, {"_kind": "Op", "operation": "EVENT", "primitive": "run", "arity": 0, "args": []}
+        )
+        == []
+    )
+
+
+def test_head_positions_refuse_guessed_repeated_verb_alignment():
+    trace = {"tokens": [{"pos": "VERB", "lemma": "run", "position": 2}, {"pos": "VERB", "lemma": "run", "position": 5}]}
+    heads = verb_head_evidence(trace, {"_kind": "Event", "verb": "run"})
+    assert heads == [{"path": [], "verb": "run", "positions": [2, 5], "state": "ambiguous"}]
+    assert verb_head_evidence(trace, {"_kind": "Event", "verb": "swim"})[0]["state"] == "absent"
+
+
+def test_clause_heads_are_local_and_mismatched_antecedent_coordinates_are_unsupported():
+    trace = {"tokens": [{"position": 0, "lemma": "alice"}, {"position": 2, "lemma": "bob"}]}
+    tree = {
+        "_kind": "Event",
+        "agent": {"_kind": "Entity", "head": {"lemma": "alice", "position": 0}},
+        "patient": {"_kind": "Entity", "head": {"lemma": "bob", "position": 2}},
+    }
+    row = clause_head_evidence(trace, tree)[0]
+    assert row["state"] == "supported" and row["subject_positions"] == [0] and row["object_positions"] == [2]
+    tree["agent"]["head"]["lemma"] = "earlier_antecedent"
+    assert clause_head_evidence(trace, tree)[0]["state"] == "unsupported"
+
+
+def test_person_evidence_is_three_way_and_never_truthy():
+    doc = MultiScaleDoc.__new__(MultiScaleDoc)
+    doc.by_id = {}
+    assert doc.is_person(Mention("paris", "paris", "PROPN", 0, ("Place", "City"))).code == "non_person"
+    assert doc.is_person(Mention("london", "london", "PROPN", 0, ("location",))).code == "non_person"
+    assert doc.is_person(Mention("alice", "alice", "PROPN", 0, ("Person",))).code == "person"
+    unknown = doc.is_person(Mention("zorb", "zorb", "PROPN", 0))
+    assert unknown.code == "unknown"
+    with pytest.raises(TypeError, match="explicit"):
+        bool(unknown)
+
+
+def test_cassette_deck_cannot_merge_role_to_city_or_unknown():
+    for thread in [("Place", "City"), ()]:
+        doc = MultiScaleDoc.__new__(MultiScaleDoc)
+        role = Mention(
+            "husband", "husband", "NOUN", 0, ("person",), possessor_eid="wife", possessor_span=("lady", "paris")
+        )
+        name = Mention("paris", "paris", "PROPN", 0, thread)
+        doc.by_id = {"husband": [role], "paris": [name]}
+        result = CassetteDeck([RelationalIdentity()]).resolve(doc)
+        assert result.merges == {}
+
+
+def test_supported_person_survives_cassette_deck():
+    doc = MultiScaleDoc.__new__(MultiScaleDoc)
+    role = Mention("husband", "husband", "NOUN", 0, ("person",), possessor_eid="wife", possessor_span=("lady", "alice"))
+    name = Mention("alice", "alice", "PROPN", 0, ("Person",))
+    doc.by_id = {"husband": [role], "alice": [name]}
+    result = CassetteDeck([RelationalIdentity()]).resolve(doc)
+    assert result.merges == {"husband": "alice"}
+
+
+def test_entity_identity_split_requires_positive_person_evidence():
+    doc = MultiScaleDoc.__new__(MultiScaleDoc)
+    doc.by_id = {}
+    member = Mention("unknown", "zorb", "PROPN", 0)
+    gap = IdentityGap("split", "unknown", member)
+    assert EntityIdentity().ground({"a": [member], "b": [member]}, gap, doc) is False
+
+
+def test_multiscale_resolution_failure_keeps_sentence_success(simple_pipeline, monkeypatch):
+    import GSE.cassettes.multiscale as multiscale
+
+    def fail(*args, **kwargs):
+        raise ValueError("resolution failed")
+
+    monkeypatch.setattr(multiscale, "resolve_document", fail)
+    doc = MultiScaleDoc("good.", Encoder(), object())
+    assert len(doc.sentence_trees) == 1
+    assert doc.tree_sources == [{"tree_index": 0, "utterance_id": "s0:u0", "source_sentence_id": "s0"}]
+    assert doc.phases["intake"]["state"] == "read"
+    assert doc.phases["resolution"]["state"] == "unread"
+    assert doc.phases["fold"]["state"] == "unread"
+    assert doc.phases["graph"]["state"] == "unread"
+
+
+def test_fold_failure_does_not_destroy_resolved_document(simple_pipeline, monkeypatch):
+    import GSE.cassettes.multiscale as multiscale
+
+    monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
+
+    def fail(*args, **kwargs):
+        raise ValueError("fold failed")
+
+    monkeypatch.setattr(multiscale, "read_fold", fail)
+    doc = MultiScaleDoc("good.", Encoder(), object())
+    assert doc.phases["resolution"]["state"] == "read"
+    assert doc.phases["fold"]["state"] == "unread"
+    assert doc.resolved == doc.sentence_trees
+    assert len(doc.mentions) == 1
+
+
+def test_graph_failure_is_independent_of_successful_fold(simple_pipeline, monkeypatch):
+    import GSE.cassettes.multiscale as multiscale
+    from GSE.symbolic.narrative import NarrativeGraph
+
+    monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
+
+    def fail(*args, **kwargs):
+        raise ValueError("graph failed")
+
+    monkeypatch.setattr(NarrativeGraph, "from_document", fail)
+    doc = MultiScaleDoc("good.", Encoder(), object())
+    assert doc.phases["fold"]["state"] == "read"
+    assert doc.phases["graph"]["state"] == "unread"
+    assert len(doc.sentence_trees) == 1
+
+
+def test_paragraph_view_keeps_whole_document_referent_and_antecedent(simple_pipeline, monkeypatch):
+    import GSE.cassettes.multiscale as multiscale
+
+    monkeypatch.setattr(multiscale, "resolve_document", lambda trees, *args, **kwargs: trees)
+    encoder = Encoder()
+    doc = MultiScaleDoc("first.\n\nsecond.", encoder, object())
+    calls = list(encoder.calls)
+    view = doc.unit_view(paragraph_id="p1")
+    assert view["source_sentence_ids"] == ["s1"]
+    assert view["mentions"][0].eid == view["supporting_mentions"][0].eid == "alice"
+    assert view["supporting_mentions"][0].source_sentence_id == "s0"
+    assert encoder.calls == calls
+
+
+def test_real_document_context_keeps_cross_paragraph_antecedent(monkeypatch):
+    import GSE.cassettes.multiscale as multiscale
+
+    monkeypatch.setattr(multiscale, "_safe_store", lambda: None)
+    doc = MultiScaleDoc("A woman smiled.\n\nShe ran.", GSEEncoder())
+    view = doc.unit_view(paragraph_id="p1")
+    assert doc.phases["resolution"]["state"] == "read"
+    assert view["mentions"][0].eid == view["supporting_mentions"][0].eid
+    assert view["supporting_mentions"][0].source_sentence_id == "s0"
+
+
+def test_real_event_construction_witness_must_not_report_surviving_verb_lost():
+    events = list(encode_document_utterance_events(GSEEncoder(), [("fixed", "Alice can run.")]))
+    assert events[1]["state"] == "read"
+    assert events[1]["structural_loss"] == []
+    assert events[1]["verb_heads"][0]["state"] == "unique"
+    assert events[1]["verb_heads"][0]["positions"] == [2]
+
+
+@pytest.mark.parametrize(
+    "text", ["A woman smiled.", "A woman smiled because she ran.", "Her dog barked.", "Alice and Bob ran."]
+)
+def test_source_resolution_preserves_default_bound_tree(text):
+    from GSE.symbolic import evaluate_tree, from_trace, resolve, resolve_with_sources
+    from GSE.symbolic.serialization import to_dict
+
+    expression = from_trace(GSEEncoder().encode(text))
+    pair = resolve_with_sources(expression)
+    assert to_dict(evaluate_tree(pair["bound"])) == to_dict(evaluate_tree(resolve(expression)))
+
+
+def test_source_entity_join_retains_local_pronoun_with_document_identity():
+    from GSE.symbolic import resolve_document
+
+    outcomes = [
+        event
+        for event in encode_document_utterance_events(GSEEncoder(), [("a", "A woman smiled."), ("b", "She ran.")])
+        if event["type"] == "utterance"
+    ]
+    resolved = resolve_document([event["tree"] for event in outcomes], None)
+    origin = entity_source_evidence(outcomes[1]["trace"], outcomes[1]["source_tree"], resolved[1])["mentions"][0]
+    assert origin["state"] == "read"
+    assert origin["source_head"]["lemma"] == "she"
+    assert origin["source_head"]["pos"] == "PRON"
+    assert origin["source_head"]["position"] == 0
+    assert origin["resolved_head"]["lemma"] == "woman"
+    assert origin["entity_id"] is not None
+
+
+def test_source_entity_join_retains_within_sentence_pronoun_before_binding():
+    event = next(
+        event
+        for event in encode_document_utterance_events(GSEEncoder(), [("fixed", "A woman smiled because she ran.")])
+        if event["type"] == "utterance"
+    )
+    origins = entity_source_evidence(event["trace"], event["source_tree"], event["tree"])
+    assert origins["state"] == "read"
+    pronouns = [row for row in origins["mentions"] if row["source_head"]["pos"] == "PRON"]
+    assert len(pronouns) == 1
+    assert pronouns[0]["source_head"]["lemma"] == "she"
+    assert pronouns[0]["source_head"]["position"] == 4
+    assert pronouns[0]["resolved_head"]["lemma"] == "woman"
+
+
+def test_source_origin_failure_does_not_erase_primary_reading(simple_pipeline, monkeypatch):
+    import GSE.symbolic
+
+    calls = []
+
+    def evaluate(node):
+        calls.append(node)
+        if len(calls) == 2:
+            raise ValueError("auxiliary source evaluation failed")
+        return node
+
+    monkeypatch.setattr(GSE.symbolic, "evaluate_tree", evaluate)
+    event = list(encode_document_utterance_events(Encoder(), [("fixed", "good")]))[1]
+    assert event["state"] == "read" and event["tree"] is not None and event["error"] is None
+    assert event["source_tree"] is None
+    assert event["source_origins"] == {
+        "state": "unread",
+        "reason": "source_evaluation_error",
+        "error_type": "ValueError",
+    }
+
+
+def test_source_entity_join_refuses_changed_path_and_does_not_count_copied_antecedent_children():
+    trace = {"tokens": [{"position": 0, "lemma": "she", "token": "She"}]}
+    source = {"_kind": "Event", "agent": {"_kind": "Entity", "head": {"lemma": "she", "position": 0}}}
+    bound = {
+        "_kind": "Event",
+        "agent": {
+            "_kind": "Entity",
+            "head": {"lemma": "woman", "position": 1},
+            "entity_id": "e0",
+            "possessor": {"_kind": "Entity", "head": {"lemma": "bob"}},
+        },
+    }
+    evidence = entity_source_evidence(trace, source, bound)
+    assert evidence["state"] == "read" and len(evidence["mentions"]) == 1
+    assert evidence["mentions"][0]["entity_id"] == "e0"
+    changed = entity_source_evidence(trace, source, {"_kind": "Event", "patient": bound["agent"]})
+    assert changed["state"] == "partial"
+    assert changed["mentions"][0]["reason"] == "source_entity_path_changed"
+    assert changed["mentions"][0]["entity_id"] is None
+
+
+FILE tests/test_claim_semantics.py
+"""Two signs of the shared claim contract, including the real public KB door."""
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.symbolic import evaluate_tree, from_trace, resolve
+from GSE.symbolic.claims import claim_key, commitment, commitment_modes, identity, polarity, scope_signature
+from GSE.symbolic.emit import emit_contract
+from GSE.symbolic.expression import Atom, Negation
+from GSE.symbolic.inference import KnowledgeBase
+from GSE.symbolic.narrative import NarrativeGraph, _collect_predicates, _trace_key
+from GSE.symbolic.predicates import ClauseCoordination, Conditional, Event, Temporal, TypeAssertion
+from GSE.symbolic.propositions import Proposition, propositions
+from GSE.symbolic.resolution import Entity
+
+
+@pytest.fixture(scope="module")
+def encoder():
+    with GSEEncoder() as enc:
+        yield enc
+
+
+def _entity(lemma, eid=None):
+    return Entity(Atom(lemma), entity_id=eid)
+
+
+@pytest.mark.parametrize(
+    "modes,expected",
+    [
+        ((), "committed"),
+        (("negated",), "committed"),
+        (("negated", "possible"), "non_committed"),
+        (("epistemic", "negated"), "committed"),
+        (("belief",), "non_committed"),
+        (("asserted", "belief"), "non_committed"),
+        (("conditional",), "non_committed"),
+        (("irrealis",), "non_committed"),
+        (("necessary",), "non_committed"),
+        (("negated", "epistemic"), "abstained"),
+        (("negated", "belief"), "abstained"),
+        (("abstained",), "abstained"),
+        (("question",), "in_question"),
+        (("in_question",), "in_question"),
+        (("unrecognized",), "non_committed"),
+    ],
+)
+def test_flat_scope_decision_has_both_signs(modes, expected):
+    assert commitment_modes(modes) == expected
+
+
+def test_structural_invalidity_and_interrogative_evidence_have_named_decisions():
+    assert commitment_modes(("negated",), valid=False) == "unresolved"
+    assert commitment_modes(("negated", "epistemic"), interrogative=True) == "in_question"
+    assert commitment(None) == "unresolved"
+    assert polarity(Proposition(Event("", None))).state == "unresolved"
+
+
+def test_possible_negative_is_not_a_committed_negative(encoder):
+    possible = evaluate_tree(resolve(from_trace(encoder.encode("He might not leave."))))
+    definite = evaluate_tree(resolve(from_trace(encoder.encode("He did not leave."))))
+    (p,) = propositions(possible)
+    (q,) = propositions(definite)
+    assert p.status == q.status == "negated"  # legacy status cannot decide commitment
+    assert commitment(p) == "non_committed"
+    assert commitment(q) == "committed"
+    assert polarity(p).sign == polarity(q).sign == -1
+
+
+def test_belief_and_denied_knowing_do_not_admit_their_content(encoder):
+    belief = evaluate_tree(resolve(from_trace(encoder.encode("She believes that he left."))))
+    denied = evaluate_tree(resolve(from_trace(encoder.encode("She does not know that he left."))))
+    assert commitment(propositions(belief)[-1]) == "non_committed"
+    assert commitment(propositions(denied)[-1]) == "abstained"
+    assert polarity(propositions(denied)[-1]).clause_sign == 1
+
+
+def test_source_question_cannot_become_a_fact():
+    event = Event("bark", _entity("rex"))
+    (question,) = propositions(event, source_text="Rex barks?")
+    assert commitment(question) == "in_question"
+    assert commitment(Proposition(event), interrogative=True) == "in_question"
+    kb = KnowledgeBase.from_trees([event], source_texts=["Rex barks?"])
+    assert kb.event("bark", "rex").state == "not_entailed"
+    assert kb.admissions[0].commitment == "in_question"
+
+
+def test_negation_must_not_distribute_over_conjunction():
+    first = Event("bark", _entity("rex"))
+    second = Event("leave", _entity("mike"))
+    readings = propositions(Negation(ClauseCoordination(first, second)))
+    assert all(commitment(item) == "non_committed" for item in readings)
+    kb = KnowledgeBase.from_trees([Negation(ClauseCoordination(first, second))])
+    assert kb._neg_facts == set()
+    assert not kb.event("bark", "rex").holds
+
+
+def test_verified_prefix_and_clause_signs_compose_without_erasure(encoder):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode("The knight is not disloyal."))))
+    (reading,) = propositions(tree)
+    result = polarity(reading)
+    assert commitment(reading) == "committed"
+    assert (result.state, result.clause_sign, result.lexical_sign, result.sign, result.base) == (
+        "read",
+        -1,
+        -1,
+        1,
+        "loyal",
+    )
+
+
+def test_negative_primitive_content_is_not_a_denied_clause():
+    event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
+    assert polarity(Proposition(event)).sign == 1
+    key = claim_key(Proposition(event), {"DO": 1, "GOOD": -1})
+    assert key.state == "supported"
+    assert ("GOOD", -1) in key.key[1][1][1]
+
+
+def test_identity_never_certifies_a_lemma_fallback():
+    result = identity(_entity("cell"))
+    assert result.state == "unresolved"
+    assert result.reason == "missing_resolved_referent"
+    assert identity(_entity("cell", "c1")).key != identity(_entity("cell", "c2")).key
+    assert identity(_entity("it", "c1")).key == identity(_entity("cell", "c1")).key
+
+
+def test_same_primitive_form_meets_only_with_the_same_resolved_roles():
+    hurt = Proposition(Event("hurt", _entity("guard", "g"), _entity("prisoner", "p")))
+    wound = Proposition(Event("wound", _entity("he", "g"), _entity("him", "p")))
+    swapped = Proposition(Event("hurt", _entity("prisoner", "p"), _entity("guard", "g")))
+    signature = {"DO": 1, "GOOD": -1}
+    assert claim_key(hurt, signature).key == claim_key(wound, signature).key
+    assert claim_key(hurt, signature).key != claim_key(swapped, signature).key
+    assert claim_key(hurt, signature, namespace="doc1").key != claim_key(hurt, signature, namespace="doc2").key
+
+
+def test_same_lemma_different_referents_and_themes_do_not_collapse():
+    a = Proposition(Event("hurt", _entity("cell", "c1"), _entity("cell", "c2")))
+    b = Proposition(Event("hurt", _entity("cell", "c1"), _entity("cell", "c3")))
+    c = Proposition(Event("hurt", _entity("cell", "c1"), _entity("cell", "c2"), themes=(_entity("tool", "t"),)))
+    signature = {"DO": 1, "GOOD": -1}
+    assert claim_key(a, signature).key != claim_key(b, signature).key
+    assert claim_key(a, signature).key != claim_key(c, signature).key
+
+
+def test_generic_unresolved_and_malformed_keys_abstain():
+    exact = Proposition(Event("do", _entity("cell", "c")))
+    unresolved = Proposition(Event("hurt", _entity("cell")))
+    assert claim_key(exact, {"DO": 1}).reason == "generic_relation"
+    assert claim_key(exact, {"DO": 1, "HIER_PLUS": 1}).reason == "generic_relation"
+    assert claim_key(exact).reason == "missing_relation_primitive_evidence"
+    assert claim_key(unresolved, {"GOOD": -1}).state == "unresolved"
+    assert claim_key(exact, {"GOOD": float("nan")}).reason == "malformed_relation_primitives"
+    assert claim_key(exact, {"GOOD": True}).reason == "malformed_relation_primitives"
+    assert claim_key(exact, {"not_a_prime": 1}).reason == "unknown_relation_primitives"
+    assert claim_key(Proposition(TypeAssertion(_entity("it", "c"), Atom("thing")))).reason == "generic_kind"
+
+
+def test_duration_qualifies_exact_claims_and_temporal_scope():
+    from dataclasses import replace
+
+    from GSE.symbolic.duration import Duration
+
+    event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
+    signature = {"GOOD": -1}
+    qualified = replace(event, duration=Duration("unspecified", "during"))
+    long = replace(event, duration=Duration("long", "during"))
+    assert len({claim_key(Proposition(node), signature).key for node in (event, qualified, long)}) == 3
+    after = Temporal(Event("arrive", _entity("warden", "w")), event, "after")
+    offset = replace(after, duration=Duration("unspecified", "after"))
+    assert scope_signature(propositions(after)[-1]) != scope_signature(propositions(offset)[-1])
+
+
+def test_temporal_context_is_preserved_and_is_not_a_missing_qualifier_match():
+    event = Event("hurt", _entity("guard", "g"), _entity("prisoner", "p"))
+    context = Temporal(Event("arrive", _entity("warden", "w")), event, "after")
+    contextual = propositions(context)[-1]
+    assert commitment(contextual) == "committed"
+    assert scope_signature(contextual)
+    assert claim_key(contextual, {"GOOD": -1}).key != claim_key(Proposition(event), {"GOOD": -1}).key
+    kb = KnowledgeBase.from_trees([context], relation_primitives={"GOOD": -1})
+    assert kb.event("hurt", "guard", "prisoner").holds  # explicitly documented lexical projection
+    assert kb.claim(contextual).state == "entailed"
+
+
+@pytest.mark.parametrize(
+    "sentence,verb,agent",
+    [
+        ("He might leave.", "leave", "he"),
+        ("He should leave.", "leave", "he"),
+        ("He might not leave.", "leave", "he"),
+    ],
+)
+def test_modal_events_never_become_categorical_facts(encoder, sentence, verb, agent):
+    tree = evaluate_tree(resolve(from_trace(encoder.encode(sentence))))
+    kb = KnowledgeBase.from_trees([tree])
+    assert kb.event(verb, agent).state == "not_entailed"
+    assert kb._facts == kb._neg_facts == set()
+    assert any(record.commitment == "non_committed" for record in kb.admissions)
+
+
+def test_modal_type_is_withheld_but_a_plain_type_still_lands(encoder):
+    modal = evaluate_tree(resolve(from_trace(encoder.encode("This should be clear."))))
+    plain = evaluate_tree(resolve(from_trace(encoder.encode("The door is open."))))
+    kb = KnowledgeBase.from_trees([modal, plain])
+    assert not kb.is_a("this", "clear").holds
+    assert kb.is_a("door", "open").holds
+
+
+def test_negative_type_and_negative_event_stay_separate(encoder):
+    trees = [
+        evaluate_tree(resolve(from_trace(encoder.encode(sentence))))
+        for sentence in ("Rex did not bark.", "The knight is disloyal.")
+    ]
+    kb = KnowledgeBase.from_trees(trees)
+    assert not kb.event("bark", "rex").holds
+    assert ("bark", "rex", None) in kb._neg_facts
+    assert not kb.is_a("knight", "loyal").holds
+    assert ("knight", "loyal") in kb._neg_types
+
+
+def test_compound_rule_arms_are_withheld_whole():
+    bark = Event("bark", _entity("rex"))
+    leave = Event("leave", _entity("mike"))
+    smile = Event("smile", _entity("spot"))
+    kb = KnowledgeBase.from_trees([Conditional(ClauseCoordination(bark, smile), leave), bark])
+    assert not kb.event("leave", "mike").holds
+    assert any(item.state == "unsupported_rule_structure" for item in kb.admissions)
+    kb = KnowledgeBase.from_trees([Conditional(bark, ClauseCoordination(leave, smile)), bark])
+    assert not kb.event("leave", "mike").holds
+
+
+def test_modal_and_secondary_argument_rules_are_withheld():
+    bark = Event("bark", _entity("rex"))
+    modal = Event("leave", _entity("mike"), modal=("MAYBE",))
+    themes = Event("leave", _entity("mike"), themes=(_entity("tool"),))
+    kb = KnowledgeBase.from_trees([Conditional(bark, modal), Conditional(bark, themes), bark])
+    assert not kb.event("leave", "mike").holds
+    assert {item.state for item in kb.admissions} >= {"unsupported_rule_scope", "unsupported_rule_arguments"}
+
+
+def test_supported_rule_still_derives_with_actual_source_ids(encoder):
+    sentences = ["If Rex barks, Mike leaves.", "Rex barks."]
+    trees = [evaluate_tree(resolve(from_trace(encoder.encode(sentence)))) for sentence in sentences]
+    kb = KnowledgeBase.from_trees(trees, source_ids=["rule-source", "fact-source"])
+    result = kb.event("leave", "mike")
+    assert result.state == "entailed"
+    assert result.source_ids == ("fact-source", "rule-source")
+    assert any(step.startswith("rule:") for step in result.chain)
+    assert not kb.event("bark", "mike").holds
+
+
+def test_exact_claim_query_never_uses_lemma_fallback_or_opposite_sign():
+    event = Event("hurt", _entity("cell", "c1"), _entity("cell", "c2"))
+    kb = KnowledgeBase.from_trees([event], source_ids=["s1"], relation_primitives={"GOOD": -1})
+    assert kb.claim(Proposition(event)).state == "entailed"
+    other = Event("hurt", _entity("cell", "c1"), _entity("cell", "c3"))
+    assert kb.claim(Proposition(other)).state == "not_entailed"
+    assert kb.claim(Proposition(Event("hurt", _entity("cell"), _entity("cell")))).state == "unresolved"
+    (negative,) = propositions(Negation(event))
+    assert kb.claim(negative).state == "not_entailed"
+
+
+def test_certified_claim_derivation_keeps_supported_rule_sources():
+    rex, mike = _entity("rex", "r"), _entity("mike", "m")
+    rule = Conditional(Event("bark", rex), Event("leave", mike))
+    fact = Event("bark", rex)
+    kb = KnowledgeBase.from_trees([rule, fact], source_ids=["rule", "fact"], relation_primitives={"MOVE": 1})
+    result = kb.claim(Proposition(Event("leave", mike)))
+    assert result.state == "entailed"
+    assert result.source_ids == ("fact", "rule")
+    assert any(step.startswith("rule:") for step in result.rule_chain)
+    other_mike = _entity("mike", "other-mike")
+    assert kb.claim(Proposition(Event("leave", other_mike))).state == "not_entailed"
+
+
+def test_certified_type_chain_refuses_a_same_lemma_alias_collision():
+    alice, member = _entity("alice", "a"), _entity("member", "member")
+    facts = [TypeAssertion(alice, Atom("member")), TypeAssertion(member, Atom("person"))]
+    kb = KnowledgeBase.from_trees(facts, source_ids=["type1", "type2"])
+    result = kb.claim(Proposition(TypeAssertion(alice, Atom("person"))))
+    assert result.state == "entailed"
+    assert result.source_ids == ("type1", "type2")
+    collision = TypeAssertion(_entity("alice", "other-alice"), Atom("visitor"))
+    kb = KnowledgeBase.from_trees([*facts, collision])
+    assert kb.claim(Proposition(TypeAssertion(alice, Atom("person")))).state == "not_entailed"
+
+
+def test_matrix_negation_stays_in_context_and_never_becomes_content_sign():
+    subject, object_ = _entity("she", "she"), _entity("he", "he")
+    content = Event("leave", object_)
+    affirmative = propositions(Event("know", subject, content))[-1]
+    denied = propositions(Negation(Event("know", subject, content)))[-1]
+    assert polarity(affirmative).sign == polarity(denied).sign == 1
+    assert scope_signature(affirmative) != scope_signature(denied)
+    assert commitment(affirmative) == "committed"
+    assert commitment(denied) == "abstained"
+
+
+def test_source_sequences_must_not_shift_or_silently_truncate():
+    with pytest.raises(ValueError, match="one-to-one"):
+        KnowledgeBase.from_trees([Event("bark", _entity("rex"))], source_texts=[])
+    with pytest.raises(ValueError, match="one-to-one"):
+        KnowledgeBase.from_trees([Event("bark", _entity("rex"))], source_ids=[])
+
+
+def test_atomic_premise_ids_are_not_replaced_by_their_conjunction_container():
+    rex, mike = _entity("rex", "r"), _entity("mike", "m")
+    facts = ClauseCoordination(Event("sleep", rex), Event("bark", rex))
+    rule = Conditional(Event("bark", rex), Event("leave", mike))
+    kb = KnowledgeBase.from_trees(
+        [facts, rule],
+        source_ids=["fact-container", "rule-container"],
+        source_claim_ids=[
+            ["coordination-claim", "sleep-claim", "bark-claim"],
+            ["rule-claim", "antecedent-claim", "consequent-claim"],
+        ],
+        relation_primitives=lambda verb: {"THINK": 1} if verb == "sleep" else {"MOVE": 1},
+    )
+    result = kb.claim(Proposition(Event("leave", mike)))
+    assert result.state == "entailed"
+    assert result.source_ids == ("bark-claim", "rule-claim")
+    assert kb.claim(Proposition(Event("sleep", rex))).source_ids == ("sleep-claim",)
+
+
+@pytest.mark.parametrize(
+    "mapping",
+    [[], [["only-one"]], [["container", "first", ""]], [["container", "first", 2]], ["abc"], [None], [2], "a", 2],
+)
+def test_atomic_premise_mapping_must_align_with_shared_extraction(mapping):
+    rex = _entity("rex", "r")
+    facts = ClauseCoordination(Event("sleep", rex), Event("bark", rex))
+    with pytest.raises(ValueError, match="source_claim_ids"):
+        KnowledgeBase.from_trees([facts], source_claim_ids=mapping)
+
+
+def test_narrative_spine_never_turns_modal_content_into_an_actual_event():
+    modal = Event("leave", _entity("mike", "m"), modal=("MAYBE",))
+    plain = Event("leave", _entity("mike", "m"))
+    assert _collect_predicates(modal) == []
+    assert _collect_predicates(plain) == [plain]
+    assert NarrativeGraph.from_document([modal]).edges == []
+    assert [edge.rel for edge in NarrativeGraph.from_document([plain]).edges] == ["leave"]
+    assert _collect_predicates(Negation(plain)) == [Negation(plain)]
+
+
+def test_narrative_compaction_never_merges_argument_swaps_or_modal_features():
+    first = {
+        "predicate": {"op": "EVENT", "args": [{"entity_id": "a"}, {"entity_id": "b"}], "features": {"verb": "hurt"}}
+    }
+    swapped = {
+        "predicate": {"op": "EVENT", "args": [{"entity_id": "b"}, {"entity_id": "a"}], "features": {"verb": "hurt"}}
+    }
+    modal = {
+        "predicate": {
+            "op": "EVENT",
+            "args": [{"entity_id": "a"}, {"entity_id": "b"}],
+            "features": {"verb": "hurt", "modal": ["MAYBE"]},
+        }
+    }
+    assert _trace_key(first) != _trace_key(swapped)
+    assert _trace_key(first) != _trace_key(modal)
+    assert _trace_key(first) == _trace_key(dict(first))
+
+
+def test_emit_semantics_uses_shared_commitment_without_changing_default_gold():
+    node = Negation(Event("leave", _entity("he", "h"), modal=("MAYBE",)))
+    legacy = emit_contract(node)
+    enriched = emit_contract(node, include_semantics=True, relation_primitives={"MOVE": 1})
+    assert set(legacy) == {"contract_version", "predicate"}
+    assert enriched["predicate"] == legacy["predicate"]
+    (reading,) = enriched["claim_semantics"]["claims"]
+    assert reading["commitment"] == "non_committed"
+    assert reading["polarity"]["sign"] == -1
+    questioned = emit_contract(node, include_semantics=True, source_text="He might not leave?")
+    assert questioned["claim_semantics"]["claims"][0]["commitment"] == "in_question"
+
+
+FILE tests/test_lexicon_builder_grammar_runtime.py
+"""Sentence operators remain available while lexical definitions abstain."""
+
+import sqlite3
+
+import pytest
+
+from GSE.api import GSEEncoder
+from GSE.api.errors import OOVError
+from GSE.curation.lexicon_builder.engine import Assertion, propagate
+from GSE.curation.lexicon_builder.evidence import Definition
+from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.discourse.speech import encode_document_utterance_events
+from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
+
+
+@pytest.fixture
+def dictionary_path(tmp_path):
+    path = tmp_path / "definitions.db"
+    connection = open_build(path)
+    try:
+        # Conflicting senses are distinct entries, never evidence to choose one.
+        for entry_id, lemma, value in (("only:one", "only", 1), ("only:two", "only", -1)):
+            assertions = (Assertion("GOOD", value, "fixture", entry_id, "dictionary"),)
+            store_entry(
+                connection,
+                Definition(entry_id, lemma, "adverb", entry_id),
+                propagate(("GOOD",), assertions, ()),
+                assertions,
+            )
+        connection.commit()
+    finally:
+        connection.close()
+    return path
+
+
+@pytest.fixture
+def encoder(dictionary_path):
+    with GSEEncoder(str(dictionary_path)) as instance:
+        yield instance
+
+
+@pytest.mark.parametrize(
+    "text,word,operation,selection,top",
+    [
+        ("Alice helps Bob because Bob helps Carol.", "because", "CAUSAL_SOURCE", "NOT_FOUND", "CAUSATION"),
+        ("Only the dog runs.", "only", "SET_RESTRICT", "AMBIGUOUS", "SET_RESTRICT"),
+        ("The dog is bigger than the cat.", "than", "SET_DIFF", "NOT_FOUND", "COMPARISON"),
+        ("Alice helps Bob and Carol helps Dave.", "and", "CLAUSE_COORD", "NOT_FOUND", "CLAUSE_COORD"),
+    ],
+)
+def test_public_encode_keeps_grammar_without_selecting_lexical_meaning(encoder, text, word, operation, selection, top):
+    trace = encoder.encode(text)
+    token = next(token for token in trace.tokens if token.lemma == word)
+    assert token.comp_operation == operation
+    assert token.is_operator
+    assert token.word_primitives == {}
+    assert token.word_vec_nnz == 0
+    assert token.lexical_evidence["selection_status"] == selection
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.lexical_evidence["sense_resolved"] is False
+    if selection == "AMBIGUOUS":
+        assert token.lexical_evidence["candidate_entry_ids"] == ["only:one", "only:two"]
+    assert emit_contract(evaluate_tree(resolve(from_trace(trace))))["predicate"]["op"] == top
+
+
+def test_document_intake_preserves_causal_arguments_and_coordination(encoder):
+    events = list(
+        encode_document_utterance_events(
+            encoder,
+            [
+                {"id": "cause", "text": "Alice helps Bob because Bob helps Carol."},
+                {"id": "coordinate", "text": "Alice helps Bob and Carol helps Dave."},
+            ],
+        )
+    )
+    outcomes = {event["source_sentence_id"]: event for event in events if event["type"] == "utterance"}
+    assert all(outcome["state"] == "read" for outcome in outcomes.values())
+    cause = emit_contract(outcomes["cause"]["tree"])["predicate"]
+    assert cause["op"] == "CAUSATION"
+    assert cause["args"] == [
+        {"op": "EVENT", "args": ["bob", "carol"], "features": {"verb": "help"}},
+        {"op": "EVENT", "args": ["alice", "bob"], "features": {"verb": "help"}},
+    ]
+    coordinate = emit_contract(outcomes["coordinate"]["tree"])["predicate"]
+    assert coordinate["op"] == "CLAUSE_COORD"
+    assert [argument["args"] for argument in coordinate["args"]] == [["alice", "bob"], ["carol", "dave"]]
+    assert events[-1]["failed"] == 0
+
+
+def test_document_intake_preserves_restriction_member_and_comparison_arguments(encoder):
+    outcomes = [
+        event
+        for event in encode_document_utterance_events(
+            encoder,
+            [
+                {"id": "restrict", "text": "Only the dog runs."},
+                {"id": "compare", "text": "The dog is bigger than the cat."},
+            ],
+        )
+        if event["type"] == "utterance"
+    ]
+    restriction, comparison = [emit_contract(event["tree"])["predicate"] for event in outcomes]
+    assert restriction["op"] == "SET_RESTRICT"
+    assert restriction["args"] == ["dog", {"op": "EVENT", "args": ["dog"], "features": {"verb": "run"}}]
+    assert comparison["op"] == "COMPARISON"
+    assert comparison["args"] == ["big dog", "cat"]
+
+
+def test_strict_mode_accepts_registered_grammar_but_rejects_unknown_content(dictionary_path):
+    with GSEEncoder(str(dictionary_path), strict=True) as strict:
+        token = strict.encode("because").tokens[0]
+        assert token.comp_operation == "CAUSAL_SOURCE"
+        assert token.lexical_evidence["selection_status"] == "NOT_FOUND"
+        assert token.word_primitives == {}
+        with pytest.raises(OOVError):
+            strict.encode("unlistedword")
+
+
+@pytest.mark.parametrize("operation,arity", [("CONSEQUENCE", 2), ("CAUSAL_SOURCE", 1)])
+def test_selected_definition_cannot_override_registered_grammar(encoder, operation, arity):
+    store_entry(
+        encoder.conn,
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "fixture"),
+        propagate(("GOOD",), (), ()),
+    )
+    encoder.conn.execute(
+        "UPDATE lexemes SET comp_primitive='COMP_BECAUSE',comp_operation=?,comp_arity=? WHERE lemma='because'",
+        (operation, arity),
+    )
+    encoder.conn.commit()
+    with pytest.raises(ValueError, match="^GRAMMATICAL_OPERATOR_METADATA_MISMATCH$"):
+        encoder.encode("because")
+
+
+def test_matching_metadata_and_known_content_are_preserved(encoder):
+    assertions = (Assertion("GOOD", 0, "fixture", "because", "dictionary"),)
+    store_entry(
+        encoder.conn,
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "fixture"),
+        propagate(("GOOD",), assertions, ()),
+        assertions,
+    )
+    encoder.conn.execute(
+        "UPDATE lexemes SET comp_primitive='COMP_BECAUSE',comp_operation='CAUSAL_SOURCE',comp_arity=2 "
+        "WHERE lemma='because'"
+    )
+    encoder.conn.commit()
+    token = encoder.encode("because").tokens[0]
+    assert token.comp_operation == "CAUSAL_SOURCE"
+    assert token.lexical_evidence["selection_status"] == "IDENTIFIED"
+    assert token.lexical_evidence["selected_record"]["assignments"] == {"GOOD": 0}
+    assert token.word_primitives == {}
+
+
+def test_conflicted_lexical_definition_does_not_disable_registered_grammar(encoder):
+    assertions = (
+        Assertion("GOOD", 1, "fixture", "positive", "dictionary"),
+        Assertion("GOOD", -1, "fixture", "negative", "dictionary"),
+    )
+    store_entry(
+        encoder.conn,
+        Definition("gse_closed_class:conjunction:because", "because", "conjunction", "conflicting lexical evidence"),
+        propagate(("GOOD",), assertions, ()),
+        assertions,
+    )
+    encoder.conn.commit()
+    token = encoder.encode("because").tokens[0]
+    assert token.comp_operation == "CAUSAL_SOURCE"
+    assert token.lexical_evidence["selection_status"] == "CONFLICT"
+    assert token.lexical_evidence["selected_record"] is None
+    assert token.word_primitives == {}
+    assert token.word_vec_nnz == 0
+
+
+def test_legacy_lookup_does_not_gain_new_registry_behavior(tmp_path):
+    path = tmp_path / "legacy.db"
+    connection = sqlite3.connect(path)
+    try:
+        connection.executescript("""
+            CREATE TABLE lexemes (id INTEGER PRIMARY KEY, lemma TEXT, pos TEXT,
+                comp_primitive TEXT, comp_arity INTEGER, comp_operation TEXT);
+            CREATE TABLE primitive_values (lexeme_id INTEGER, primitive TEXT, value INTEGER);
+            CREATE TABLE sentence_primitive_values (lexeme_id INTEGER, primitive TEXT, value INTEGER);
+            INSERT INTO lexemes(id,lemma,pos) VALUES (1,'seed','NOUN');
+        """)
+    finally:
+        connection.close()
+    with GSEEncoder(str(path)) as legacy:
+        token = legacy.encode("because").tokens[0]
+        assert token.comp_operation is None
+        assert token.lexical_evidence["state"] == "no_row"
+    with GSEEncoder(str(path), strict=True) as strict:
+        with pytest.raises(OOVError):
+            strict.encode("because")
+
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-workload-freeze.json
+{
+  "acceptance": "No known wrong assertion, missing required component, critical abstention or refusal; >=90% eligible token mass in both sources and genre slices is coverage, NOT semantic accuracy. Full replay, two-sided per-form/source/missing-sign audits, real runtime and repository gates required. Scope is not narrowed after failures.",
+  "authority": "LEXICON_CONSTRUCTION_DESIGN.md mandatory checkpoint-workload section; direct user checkpoint priority 2026-11-24",
+  "cohort_forms": 16692,
+  "coverage": {
+    "frequency": {
+      "eligible": 43062502,
+      "in_cohort": 42059249,
+      "meets_90_percent": true
+    },
+    "genres": {
+      "adventure": {
+        "eligible": 58372,
+        "in_cohort": 55182,
+        "meets_90_percent": true
+      },
+      "belles_lettres": {
+        "eligible": 151548,
+        "in_cohort": 142139,
+        "meets_90_percent": true
+      },
+      "editorial": {
+        "eligible": 54087,
+        "in_cohort": 51397,
+        "meets_90_percent": true
+      },
+      "fiction": {
+        "eligible": 58296,
+        "in_cohort": 55201,
+        "meets_90_percent": true
+      },
+      "government": {
+        "eligible": 61143,
+        "in_cohort": 58827,
+        "meets_90_percent": true
+      },
+      "hobbies": {
+        "eligible": 71552,
+        "in_cohort": 67539,
+        "meets_90_percent": true
+      },
+      "humor": {
+        "eligible": 18265,
+        "in_cohort": 17395,
+        "meets_90_percent": true
+      },
+      "learned": {
+        "eligible": 159940,
+        "in_cohort": 150574,
+        "meets_90_percent": true
+      },
+      "lore": {
+        "eligible": 96695,
+        "in_cohort": 91129,
+        "meets_90_percent": true
+      },
+      "mystery": {
+        "eligible": 48174,
+        "in_cohort": 46159,
+        "meets_90_percent": true
+      },
+      "news": {
+        "eligible": 87004,
+        "in_cohort": 81789,
+        "meets_90_percent": true
+      },
+      "religion": {
+        "eligible": 34308,
+        "in_cohort": 32855,
+        "meets_90_percent": true
+      },
+      "reviews": {
+        "eligible": 35088,
+        "in_cohort": 33056,
+        "meets_90_percent": true
+      },
+      "romance": {
+        "eligible": 58612,
+        "in_cohort": 55800,
+        "meets_90_percent": true
+      },
+      "science_fiction": {
+        "eligible": 12035,
+        "in_cohort": 11588,
+        "meets_90_percent": true
+      }
+    }
+  },
+  "final_holdout_policy": "New source-warranted final lexical labels are frozen separately before evaluation. Existing sentence/runtime cases and tests are development diagnostics. Any inspected final used to tune construction needs replacement, never relabeling.",
+  "format": "GSE.checkpoint-workload-scope-freeze/1",
+  "frequency_source": {
+    "excluded_count": 1,
+    "excluded_records": [
+      {
+        "code": "MISSING_WORD",
+        "count": 27,
+        "csv_line": 21732,
+        "record_number": 21731
+      }
+    ],
+    "frequency_column": "SUBTLEX",
+    "included_words": 39953,
+    "mode": "zipf",
+    "ordering": "DESCENDING_POSITIVE_COUNT_THEN_CONSTRAINT_PRIORITY_THEN_DEFINITION_ID",
+    "policy": "GSE.completion-priority/subtlex-count-order/2",
+    "ranked_words": 28902,
+    "rows": 39954,
+    "score": "MONOTONIC_ZIPF_ORDER_NOT_ABSOLUTE_ZIPF_SCORE",
+    "semantic_authority": "NONE_SCHEDULING_ONLY",
+    "sha256": "fa636292ba0b1b5cf4d6d335690ddcf3a162e4a8204124d95c64e795eb336226",
+    "source": "/Users/rohanvinaik/Projects/GSE/data/external/concreteness.csv",
+    "unranked": "ZERO_OR_ABSENT_FREQUENCY_LAST_NOT_SEMANTIC_ZERO",
+    "word_column": "Word",
+    "zero_count_words": 11051
+  },
+  "frozen_at": "2026-11-24T08:16:50.379804+00:00",
+  "independent_corpus": {
+    "genres": [
+      "adventure",
+      "belles_lettres",
+      "editorial",
+      "fiction",
+      "government",
+      "hobbies",
+      "humor",
+      "learned",
+      "lore",
+      "mystery",
+      "news",
+      "religion",
+      "reviews",
+      "romance",
+      "science_fiction"
+    ],
+    "path": "/Users/rohanvinaik/nltk_data/corpora/brown.zip",
+    "sha256": "9b275f9b3b95d7bd66ccfb7cd259f445a13bbe5d1f4107aba09fd3e8364bafa6"
+  },
+  "operations": {
+    "auxiliary": "GSEDecoder and GSEPipeline public vector APIs retain their existing semantic validation obligations; vector similarity is not an identity resolver or semantic correctness proof.",
+    "document": "encode_document_utterance_events -> MultiScaleDoc; cross-sentence reference, speech deixis, paragraph views, read_fold, narrative graph and cassette identity resolve-or-abstain.",
+    "inference": "KnowledgeBase public event/type queries and exact claim admission, source chains, conditional derivation, negation and noncommitted modal/reported content exclusions.",
+    "lexical": "Exact definition/source/role identity, signed ordinary-bank queries, per-target hierarchy, explicit zero versus unresolved domains, all competing senses retained.",
+    "orthogonal": "SymbolicSpellCheck spelling resource, SparseWiki world grounding and Regenesis reasoning retain their own resources; lexical checkpoint cannot certify missing world data.",
+    "profile": "text_profile structural/lexical/affect populations with explicit unavailable values; no unknown-to-neutral conversion.",
+    "queries": "entities, predicates, clauses, axis_of_comparison, is_argument_swap_of, is_logically_equal_to, propositions, polarity, commitment and claim_key.",
+    "sentence": "Public GSEEncoder trace -> from_trace -> resolve/evaluate_tree -> emit_contract; event/argument order, ordinary/function ambiguity, he/He, I/YOU, WANT, BE, anatomy, NOT/VERY and duration."
+  },
+  "runtime_development_cases": [
+    {
+      "expected_top_operation": "EVENT",
+      "id": "event",
+      "text": "Alice helps Bob."
+    },
+    {
+      "expected_top_operation": "CAUSATION",
+      "id": "causal",
+      "text": "Alice helps Bob because Bob helps Carol."
+    },
+    {
+      "expected_top_operation": "CLAUSE_COORD",
+      "id": "coordination",
+      "text": "Alice helps Bob and Carol helps Dave."
+    },
+    {
+      "expected_top_operation": "COMPARISON",
+      "id": "comparison",
+      "text": "The dog is bigger than the cat."
+    },
+    {
+      "expected_top_operation": "SET_RESTRICT",
+      "id": "restriction",
+      "text": "Only the dog runs."
+    },
+    {
+      "expected_top_operation": "CONTROL",
+      "id": "control",
+      "text": "Alice wants to leave."
+    },
+    {
+      "expected_top_operation": "TEMPORAL",
+      "id": "temporal",
+      "text": "When Alice leaves, Bob sleeps."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "demonstrative",
+      "text": "This is a dog."
+    },
+    {
+      "expected_top_operation": "NOT",
+      "id": "negation",
+      "text": "Alice does not help Bob."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "not_very_scope",
+      "text": "The dog is not very good."
+    },
+    {
+      "expected_top_operation": "NOT",
+      "id": "very_not_scope",
+      "text": "The dog is very not good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "single_degree",
+      "text": "The dog is very good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "repeated_degree",
+      "text": "The dog is very very good."
+    },
+    {
+      "expected_top_operation": "TYPE_ASSERT",
+      "id": "extreme_degree",
+      "text": "The dog is extremely good."
+    }
+  ],
+  "token_demand_sha256": "9c6d9f1e625b6aa5398bf2a60a8e10320783264f30f485b9179e96dc5010cbe4"
+}
+
+AST UNIT INVENTORY GSE/api/encoder.py
+105 108 CompositionalMetadata
+111 131 thatless_complement
+134 155 word_vector_plan
+158 165 GrammaticalDefinitionError
+168 1603 GSEEncoder
+161 165 __init__
+187 248 __init__
+250 259 _parse_repair
+261 265 lexical_lookup
+267 304 _grammatical_definition
+306 320 lookup_definition
+322 328 encode_definition
+330 820 encode
+822 824 encode_batch
+826 876 _syn_roles
+878 904 _extract_dynamic_primitives
+906 1020 _lookup_lexeme
+1022 1055 _encode_definition_primitives
+1057 1084 _encode_word_primitives
+1086 1096 _signed_vectors
+1098 1123 _encode_sent_primitives
+1125 1158 _clause_coordinator_positions
+1160 1186 _copula_clause_coordinator_positions
+1190 1205 _temporal_positions
+1207 1224 _conditional_positions
+1226 1292 _segment_clauses
+1294 1401 _detect_embedded_clauses
+1403 1459 _detect_embedded_clauses_arcs
+1461 1572 _resolve_operator
+1574 1587 _compute_primitive_activations
+1589 1593 _hash_vector
+1595 1597 close
+1599 1600 __enter__
+1602 1603 __exit__
+AST UNIT INVENTORY GSE/symbolic/lexical_grounding.py
+33 38 _anchors
+42 48 NativeSense
+51 58 _NativeThreads
+61 72 _unique_native_witness
+76 84 _gloss_content
+88 103 _verb_derivations
+107 112 _live_native_sense
+116 120 _noun_thread
+124 128 _noun_forms
+132 135 _catalog_reading
+139 159 _native_example_signature
+162 646 LexicalGrounding
+54 55 __init__
+57 58 candidates
+170 175 __init__
+177 216 _senses
+218 294 grammatical_eligibility
+296 318 select
+320 345 _native_example_support
+347 351 _bounds
+353 415 _nominal_support
+417 449 _construction_support
+451 499 _definition_predication
+502 519 _matches_definition_predication
+521 559 _construction_span
+561 607 _construction_type
+609 621 _matches_construction_type
+623 646 _derivation_support

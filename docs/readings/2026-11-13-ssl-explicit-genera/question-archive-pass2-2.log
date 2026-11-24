@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.7, pytest-9.1.0, pluggy-1.6.0
+rootdir: /Users/rohanvinaik/Projects/GSE
+configfile: pyproject.toml
+plugins: hypothesis-6.170.7, anyio-4.15.1
+collected 283 items
+
+tests/test_lexicon_learning_questions.py .......                         [  2%]
+tests/test_lexicon_learning_state.py ...........                         [  6%]
+tests/test_lexicon_epoch.py ............................................ [ 21%]
+........................................................................ [ 47%]
+...........................                                              [ 56%]
+tests/test_lexicon_builder_receipt_contexts.py ..................        [ 63%]
+tests/test_lexicon_builder_model_receipts.py .............               [ 67%]
+tests/test_lexicon_builder_batch_completion.py ......................... [ 76%]
+                                                                         [ 76%]
+tests/test_lexicon_builder_validation.py ............................... [ 87%]
+...................................                                      [100%]
+
+- generated xml file: /Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/question-archive-tests.xml -
+============================= 283 passed in 29.98s =============================

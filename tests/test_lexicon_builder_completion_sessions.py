@@ -89,6 +89,28 @@ def test_one_preflight_and_index_across_bounded_cohorts(tmp_path, monkeypatch):
     assert validate_build(path)["code"] == "REPLAY_VALIDATED"
 
 
+def test_explicit_entry_bank_questions_share_preflight_without_cross_product(tmp_path, monkeypatch):
+    path = dictionary(tmp_path, 3, ("GOOD", "WANT"))
+    actual_validate = completion.validate_build
+    validations = []
+
+    def validate(file):
+        validations.append(file)
+        return actual_validate(file)
+
+    monkeypatch.setattr(completion, "validate_build", validate)
+    transport = Transport()
+    questions = (("entry:0", "GOOD"), ("entry:1", "WANT"), ("entry:2", "GOOD"))
+    result = complete_dictionary(path, transport, 3, entry_bank_questions=questions, continue_cohorts=True)
+    assert len(validations) == 1
+    assert {(row["entry_id"], row["bank"]) for row in transport.requests} == set(questions)
+    assert result["remaining_selected_scope"]["cells"] == 0
+    assert result["dictionary_cells"]["unresolved"] == 3
+    assert assignment(path, "entry:0", "WANT") is None
+    assert assignment(path, "entry:1", "GOOD") is None
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
 def test_nulls_visit_every_bank_then_stop_without_consuming_huge_budget(tmp_path):
     path = dictionary(tmp_path, 5, ("GOOD", "WANT"))
     transport = Transport(None)
