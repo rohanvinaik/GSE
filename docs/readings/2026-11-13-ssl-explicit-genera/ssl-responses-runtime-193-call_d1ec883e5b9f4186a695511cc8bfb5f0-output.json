@@ -1,8 +1,0 @@
-{
-  "code": "COMMAND_COMPLETED",
-  "exit_code": 0,
-  "elapsed_seconds": 0.47079979185946286,
-  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-193-call_d1ec883e5b9f4186a695511cc8bfb5f0.log",
-  "output_characters": 1243,
-  "output": "GSE/symbolic/expression.py\nfrom __future__ import annotations\nfrom dataclasses import dataclass, field, replace\nfrom typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union\nfrom GSE.api.trace import ClauseSpan, OperationTrace, OperatorTrace, TokenTrace\nfrom GSE.lexicon.function_words import get_preposition_encoding\nfrom GSE.primitives_v2 import get_hierarchy_encoding\nfrom GSE.symbolic.duration import Duration, split_duration, temporal_offset\nfrom GSE.symbolic.modality import modal_primes\nGSE/primitives_v2.py\ndef get_hierarchy_encoding(modifier: str) -> Optional[Tuple[str, int, int]]:\n    \"\"\"\n    Get the hierarchy encoding for a modifier.\n\n    Returns:\n        (base_primitive, level, marker_count) or None\n\n    Example:\n        get_hierarchy_encoding(\"MANY\") -> (\"QUANTITY\", 2, 2)\n        Meaning: QUANTITY base + 2 positive markers\n    \"\"\"\n    if modifier not in ALL_HIERARCHY_LEVELS:\n        return None\n\n    hier_type, level = ALL_HIERARCHY_LEVELS[modifier]\n\n    if hier_type == HierarchyType.QUANTITY:\n        base = \"QUANTITY\"\n    elif hier_type == HierarchyType.INTENSITY:\n        base = \"INTENSITY\"\n    else:  # HierarchyType.CERTAINTY\n        base = \"CERTAINTY\"\n\n    return (base, level.level, level.markers)\n"
-}

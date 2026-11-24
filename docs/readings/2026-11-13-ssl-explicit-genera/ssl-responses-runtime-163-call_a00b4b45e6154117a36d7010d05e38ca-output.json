@@ -1,8 +1,0 @@
-{
-  "code": "COMMAND_COMPLETED",
-  "exit_code": 1,
-  "elapsed_seconds": 0.7691931249573827,
-  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-163-call_a00b4b45e6154117a36d7010d05e38ca.log",
-  "output_characters": 1279,
-  "output": "4 files reformatted, 14 files left unchanged\nI001 [*] Import block is un-sorted or un-formatted\n  --> GSE/symbolic/operators.py:17:1\n   |\n15 |   \"\"\"\n16 |\n17 | / from __future__ import annotations\n18 | |\n19 | | from dataclasses import replace\n20 | | from typing import Callable, Dict\n21 | |\n22 | | from GSE.symbolic.expression import Negation, Op, Operand\n23 | | from GSE.symbolic.resolution import Coordination\n24 | | from GSE.symbolic.predicates import (\n25 | |     BoundaryCase,\n26 | |     Causation,\n27 | |     ClauseCoordination,\n28 | |     Comparison,\n29 | |     Conditional,\n30 | |     Contrast,\n31 | |     Control,\n32 | |     DegreeQuery,\n33 | |     Equality,\n34 | |     Event,\n35 | |     MinimalSufficiency,\n36 | |     Predicate,\n37 | |     RelativeRestriction,\n38 | |     SetRestriction,\n39 | |     Temporal,\n40 | |     TypeAssertion,\n41 | |     TypeQuery,\n42 | | )\n   | |_^\nhelp: Organize imports\n   |\n22 | from GSE.symbolic.expression import Negation, Op, Operand\n   - from GSE.symbolic.resolution import Coordination\n23 | from GSE.symbolic.predicates import (\n--------------------------------------------------------------------------------\n41 | )\n42 + from GSE.symbolic.resolution import Coordination\n43 |\n   |\n\nFound 1 error.\n[*] 1 fixable with the `--fix` option.\n"
-}

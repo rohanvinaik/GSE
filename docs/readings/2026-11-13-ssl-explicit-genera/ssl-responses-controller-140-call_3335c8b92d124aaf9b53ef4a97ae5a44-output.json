@@ -1,8 +1,0 @@
-{
-  "code": "COMMAND_COMPLETED",
-  "exit_code": 1,
-  "elapsed_seconds": 0.5634115000721067,
-  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-140-call_3335c8b92d124aaf9b53ef4a97ae5a44.log",
-  "output_characters": 1360,
-  "output": "3 files reformatted, 1 file left unchanged\nI001 [*] Import block is un-sorted or un-formatted\n  --> tests/test_lexicon_builder_delayed_questions.py:3:1\n   |\n 1 |   \"\"\"Delayed exact wire authority uses ordinary writer/history, never answer rebinding.\"\"\"\n 2 |\n 3 | / import copy\n 4 | | import json\n 5 | | import sqlite3\n 6 | |\n 7 | | import pytest\n 8 | |\n 9 | | from GSE.curation.lexicon_builder import completion\n10 | | from GSE.curation.lexicon_builder.epoch import make_questions\n11 | | from GSE.curation.lexicon_builder.model_receipts import read_model_receipts\n12 | | from GSE.curation.lexicon_builder.rule_history import digest, relation_records\n13 | | from GSE.curation.lexicon_builder.rule_migration import migrate_rule\n14 | | from GSE.curation.lexicon_builder.validation import _metadata, _relations, validate_build\n15 | | from test_lexicon_builder_rule_migration import packet\n   | |______________________________________________________^\nhelp: Organize imports\n   |\n7  | import pytest\n8  + from test_lexicon_builder_rule_migration import packet\n9  |\n--------------------------------------------------------------------------------\n15 | from GSE.curation.lexicon_builder.validation import _metadata, _relations, validate_build\n   - from test_lexicon_builder_rule_migration import packet\n16 |\n   |\n\nFound 1 error.\n[*] 1 fixable with the `--fix` option.\n"
-}

@@ -78,3 +78,13 @@ docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-015-call_03c
 docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-native-equivalence.json
 docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-196-call_ccaaffaa5aa944c49f9061e0ea34bd34.log
 docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-complete-operation-observations-v2.json
+
+# Raw per-call model outputs and live process state of lexicon runs stay on disk, out of git
+# (owner, 2026-11-24). Each run's questions, answers, receipts, ledgers and reports are its
+# committed record; the per-call outputs they summarize are not, and git history keeps every byte.
+docs/readings/**/ssl-responses-*-call_*.log
+docs/readings/**/ssl-responses-*-call_*-output.json
+docs/readings/**/ssl-responses-*-response.json
+docs/readings/**/*.pid
+docs/readings/**/*.lock
+docs/readings/**/*.sample

@@ -1,9 +1,0 @@
-{"report": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-active-audit-v2.json", "by_class": {"causal": {"IDENTIFIED": 1}, "comparison": {"IDENTIFIED": 1}, "control": {"IDENTIFIED": 1}, "coordination": {"IDENTIFIED": 1}, "degree_scope_distinction": {"IDENTIFIED": 1}, "degree_vector_distinction": {"IDENTIFIED": 1}, "demonstrative": {"IDENTIFIED": 1}, "event": {"IDENTIFIED": 1}, "extreme_degree": {"IDENTIFIED": 1}, "extremely_degree": {"IDENTIFIED": 1}, "negation": {"IDENTIFIED": 1}, "not_very_scope": {"IDENTIFIED": 1}, "ordinal_distinction": {"IDENTIFIED": 1}, "other_very_senses_anchor_isolation": {"IDENTIFIED": 3}, "repeated_degree": {"IDENTIFIED": 1}, "repeated_extreme_equivalence": {"IDENTIFIED": 1}, "restriction": {"IDENTIFIED": 1}, "single_degree": {"IDENTIFIED": 1}, "temporal": {"IDENTIFIED": 1}, "this_object": {"IDENTIFIED": 1}, "very_degree": {"IDENTIFIED": 1}, "very_not_scope": {"IDENTIFIED": 1}, "want_negative": {"IDENTIFIED": 1}, "want_positive": {"IDENTIFIED": 1}}}
-error[not-callable]: Object of type `object` is not callable
-    --> GSE/symbolic/grounding.py:1211:44
-     |
-1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, "NOUN", False)]
-     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Found 1 diagnostic
-runtime_cli_exit=0 ty_advisory_exit=1

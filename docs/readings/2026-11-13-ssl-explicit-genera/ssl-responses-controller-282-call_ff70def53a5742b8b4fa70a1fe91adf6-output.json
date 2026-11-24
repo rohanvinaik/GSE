@@ -1,8 +1,0 @@
-{
-  "code": "COMMAND_COMPLETED",
-  "exit_code": 0,
-  "elapsed_seconds": 1.2131810830906034,
-  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-282-call_ff70def53a5742b8b4fa70a1fe91adf6.log",
-  "output_characters": 1342,
-  "output": "ssl-api-controller-self-boundary-phase.json {\n  \"status\": \"RUNNING\",\n  \"started_utc\": \"2026-11-24T19:35:54.879891+00:00\",\n  \"command\": [\n    \".venv/bin/python\",\n    \"-u\",\n    \"docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py\",\n    \"--candidate\",\n    \"data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db\",\n    \"--output\",\n    \"data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db\",\n    \"--manifest\",\n    \"docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-manifest.json\",\n    \"--warrant\",\n    \"docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-founder-decision.json\",\n    \"--baseline-replay\",\n    \"data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/postwriter-replay.json\",\n    \"--gold\",\n    \"docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-generic-self-development-gold.json\",\n    \"--result\",\n    \"data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/self-boundary-revision.json\"\n  ],\n  \"model_service_calls\": 0,\n  \"activation_performed\": false\n}\n\nssl-api-controller-self-boundary-exit.json PENDING\nssl-api-controller-self-boundary-job.log \nA_CODE_FREEZE_READY 52 pins; builder and typed protocol unchanged\nTY_ADVISORY_EXIT=1\n"
-}

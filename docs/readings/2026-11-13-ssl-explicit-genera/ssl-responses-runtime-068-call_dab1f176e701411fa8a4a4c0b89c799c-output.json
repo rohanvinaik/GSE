@@ -1,8 +1,0 @@
-{
-  "code": "COMMAND_COMPLETED",
-  "exit_code": 0,
-  "elapsed_seconds": 150.2885186248459,
-  "complete_output_path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-068-call_dab1f176e701411fa8a4a4c0b89c799c.log",
-  "output_characters": 435,
-  "output": "All checks passed!\n8 files already formatted\nerror[not-callable]: Object of type `object` is not callable\n    --> GSE/symbolic/grounding.py:1211:44\n     |\n1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, \"NOUN\", False)]\n     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFound 1 diagnostic\nty_advisory_exit=1\nactive_checkpoint_exit=2\nfoundation_checkpoint_exit=2\n"
-}
