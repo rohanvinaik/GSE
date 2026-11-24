@@ -944,9 +944,10 @@ def _replay(conn: sqlite3.Connection, relations: tuple[Relation, ...], *, catalo
     if convention is not None:
         expected_contract = representation_contract()
         if (
-            convention != expected_contract["version"]
-            or _optional_metadata(conn, "representation_contract", None) != expected_contract
-            or _optional_metadata(conn, "want_polarity", None) != expected_contract["want_polarity"]
+            identity_form(convention) != identity_form(expected_contract["version"])
+            or identity_form(_optional_metadata(conn, "representation_contract", None)) != identity_form(expected_contract)
+            or identity_form(_optional_metadata(conn, "want_polarity", None))
+            != identity_form(expected_contract["want_polarity"])
         ):
             mismatch(None, "REPRESENTATION_CONTRACT_MISMATCH")
             representation_verification = "MISMATCH"

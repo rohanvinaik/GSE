@@ -19,7 +19,7 @@ from contextlib import closing
 from pathlib import Path
 
 from GSE.lexicon_resource import ACTIVE_POINTER, POINTER_FORMAT, resolve_lexicon_path
-from GSE.namespace import current_id
+from GSE.namespace import current_id, identity_form
 
 from .catalog import (
     SENTENCE_DURATION_SOURCE_RECORD,
@@ -136,7 +136,7 @@ def publication_readiness(path: str | Path, gold_path: str | Path | None = None,
         conn.execute("BEGIN")
         if current_id(_metadata(conn, "format")) != VERSION:
             raise ValueError("UNSUPPORTED_BUILD_FORMAT")
-        if _metadata(conn, "representation_contract") != representation_contract():
+        if identity_form(_metadata(conn, "representation_contract")) != identity_form(representation_contract()):
             blockers.append("REPRESENTATION_CONTRACT_MISMATCH")
         words = _metadata(conn, "requested_words")
         requested_ids = _metadata(conn, "requested_definition_ids")
