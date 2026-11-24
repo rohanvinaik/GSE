@@ -442,7 +442,7 @@ class _Lexicon:
         from GSE.lexical_evidence import is_definition_database
 
         if is_definition_database(self.conn):
-            from GSE.curation.lexicon_builder.storage import runtime_lookup
+            from GSE.lexicon.definitions import runtime_lookup
 
             selected = runtime_lookup(self.conn, lemma.lower())["selected"]
             if selected is None:

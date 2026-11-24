@@ -309,7 +309,7 @@ class GSEEncoder:
             raise ValueError("DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE")
         if type(entry_id) is not str or not entry_id:
             raise ValueError("INVALID_DEFINITION_ID")
-        from GSE.curation.lexicon_builder.storage import runtime_lookup
+        from GSE.lexicon.definitions import runtime_lookup
 
         row = self.conn.execute(
             "SELECT l.lemma FROM lexemes l JOIN definition_states d ON l.id=d.lexeme_id WHERE d.entry_id=?",
@@ -920,7 +920,7 @@ class GSEEncoder:
         from lexical definition selection; their content can remain unresolved.
         """
         if self._definition_database:
-            from GSE.curation.lexicon_builder.storage import runtime_lookup
+            from GSE.lexicon.definitions import runtime_lookup
 
             primitive = f"COMP_{lemma.upper()}"
             registered = COMP_METADATA.get(primitive)

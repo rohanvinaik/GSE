@@ -83,7 +83,7 @@ def is_definition_database(conn: sqlite3.Connection) -> bool:
     """Recognize the versioned builder format; never downgrade unknown versions."""
     if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='builder_metadata'").fetchone() is None:
         return False
-    from GSE.curation.lexicon_builder.storage import VERSION
+    from GSE.lexicon.definitions import VERSION
 
     row = conn.execute("SELECT value FROM builder_metadata WHERE key='format'").fetchone()
     if row is None or current_id(json.loads(row[0])) != VERSION:
@@ -93,7 +93,7 @@ def is_definition_database(conn: sqlite3.Connection) -> bool:
 
 def _definition_evidence(conn: sqlite3.Connection, word: str, entry_id: str | None, out: dict) -> dict:
     """Keep ambiguity and residual domains visible without choosing a first row."""
-    from GSE.curation.lexicon_builder.storage import read_entries, runtime_lookup
+    from GSE.lexicon.definitions import read_entries, runtime_lookup
 
     selection = runtime_lookup(conn, word, entry_id)
     records = read_entries(conn, word, entry_id)

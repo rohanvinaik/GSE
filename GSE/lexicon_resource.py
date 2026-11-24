@@ -46,7 +46,7 @@ def _pointer_target(path: Path, signature: tuple[int, int, int]) -> Path:
 
 @lru_cache(maxsize=16)
 def _validate_active(path: Path, signature: tuple[int, int, int]) -> None:
-    from GSE.curation.lexicon_builder.storage import VERSION
+    from GSE.lexicon.definitions import VERSION
 
     try:
         with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
