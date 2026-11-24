@@ -369,3 +369,22 @@ Rule: a file is charged in full to every area it imports, so column sums exceed 
 - **pytest_deduplicate, jscpd, PyNose, TestIQ**: Not run (not requested). Coverage clustering was computed directly from the Coverage.py db.
 - **complete write check of the live data/**: The before/after check compared the pointer, its target db (mtime and size) and `find -L data -maxdepth 3 -newer marker`. Deeper paths were not scanned.
 - **outcome stability across orders/reruns**: Not measured (no randomized or repeated runs beyond the two cost runs).
+
+## 8. Decisions (2026-11-24)
+
+Labels follow the engineering workflow (§6): KEPT, CONSOLIDATED, REMOVED WITH VERIFIED OBLIGATIONS, UNRESOLVED.
+
+| Candidates | Decision | Evidence |
+|---|---|---|
+| `test_GSE_merkle_hash_chain.py::TestMembershipProof::test_valid_proof_verifies` | REMOVED WITH VERIFIED OBLIGATIONS | Body identical to `test_right_sibling_position` (exact AST) and in the same identical-reach cluster; the right-sibling test, beside `test_left_sibling_position`, keeps the obligation |
+| `test_GSE_parsing_graph.py::TestPrettyPrint::test_negation_marker` | REMOVED WITH VERIFIED OBLIGATIONS | Body identical to `TestPrettyPrintLiterals::test_negation_marker_exact` and in the same identical-reach cluster; the literals class, which exists to pin exact strings, keeps it |
+| `test_GSE_curation_frequency_integration.py::TestGetDefaultPath::test_returns_existing_gse_data_path` | KEPT, rewritten | It built a mock and ended in `pass` ("too complex to mock") without calling the function; it now asserts the default path is the repository's `data/frequency.db` when that file exists |
+| `test_GSE_cli_main.py::TestCmdInteractive::test_empty_line_continues` | KEPT, strengthened | Now asserts both inputs were read, nothing was run as a command, and both resources closed; fails when the empty-line skip is removed (checked) |
+| `test_GSE_curation_lexicon_db.py::TestUpdateLexeme::test_no_op_when_all_none` | KEPT, strengthened | Now asserts the row is unchanged against a seeded old timestamp; fails when an empty update still writes (checked) |
+| `test_GSE_curation_cli_commands.py::TestPrintStatus::test_no_rate_for_zero_total` | KEPT, strengthened | Took `capsys` and never read it; now asserts no rate line and a 0.0% total |
+| `test_GSE_curation_llm_batch_processor.py::TestLogProgress::test_calculates_percentage` | KEPT, strengthened | Now asserts the logged line, `Phase 1: 50/100 (50.0%) - Validated: 40 (80.0%)` |
+| `test_GSE_curation_pipeline_staged_builder.py::TestInit::test_default_freq_db_uses_helper` | KEPT, strengthened | Now asserts the helper is called and its path reaches the frequency database |
+| The other 14 assertion-free tests | KEPT | Each states a completes-without-raising or stays-JSON-safe obligation that pytest enforces by failing on an exception |
+| `test_GSE_curation_llm_batch_processor.py::TestLogProgress::test_zero_total_safe` | UNRESOLVED | Skip-marked since the initial commit; `_log_progress` divides by `processed`, which is 0 here, so the code, not the test, is at fault (card #31) |
+| The other 16 exact-duplicate-body groups | KEPT | Same shape, different subjects: each tests its own module's constant or helper, or a parametrized case with its own inputs |
+| 693 identical-reach clusters, 2,497 contained tests, 545 zero-reach tests | UNRESOLVED | Shared reach says nothing about inputs or assertions; each needs reading, and Detective's audit where its function contract applies, before any removal |

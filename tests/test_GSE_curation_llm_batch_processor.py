@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import sys
 from pathlib import Path
 from unittest.mock import MagicMock
@@ -99,11 +100,12 @@ class TestChunk:
 
 
 class TestLogProgress:
-    def test_calculates_percentage(self):
+    def test_calculates_percentage(self, caplog):
         p, _, _ = mk_processor()
-        # Just verify it doesn't raise
         stats = {"processed": 50, "validated": 40}
-        p._log_progress(stats, total=100, phase=1)
+        with caplog.at_level(logging.INFO):
+            p._log_progress(stats, total=100, phase=1)
+        assert "Phase 1: 50/100 (50.0%) - Validated: 40 (80.0%)" in caplog.text
 
     @pytest.mark.skip(
         reason="pre-existing failure since initial commit (9578764); code-only checkout — needs triage vs as-built progress-logging behavior"

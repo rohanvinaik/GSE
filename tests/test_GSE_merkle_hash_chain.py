@@ -96,18 +96,6 @@ class TestHashSortedDict:
 
 
 class TestMembershipProof:
-    def test_valid_proof_verifies(self):
-        leaf = MerkleHashChain.compute_hash(b"lexeme")
-        sibling = MerkleHashChain.compute_hash(b"sibling")
-        # Manual chain
-        level1 = MerkleHashChain.compute_hash(f"{leaf}|{sibling}".encode())
-        proof = MembershipProof(
-            lexeme_hash=leaf,
-            sibling_hashes=[(sibling, False)],
-            root_hash=level1,
-        )
-        assert proof.verify()
-
     def test_invalid_root_fails(self):
         leaf = MerkleHashChain.compute_hash(b"lexeme")
         sibling = MerkleHashChain.compute_hash(b"sibling")

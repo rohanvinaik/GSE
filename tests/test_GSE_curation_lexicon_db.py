@@ -170,8 +170,13 @@ class TestUpdateLexeme:
 
     def test_no_op_when_all_none(self, db):
         lex_id = db.add_lexeme(lemma="x", pos="n")
-        # All None → should not run UPDATE
+        # An old timestamp, so any UPDATE (which sets updated_at) would show.
+        db.conn.execute("UPDATE lexemes SET updated_at = '2000-01-01 00:00:00' WHERE id = ?", (lex_id,))
+        before = tuple(db.conn.execute("SELECT * FROM lexemes WHERE id = ?", (lex_id,)).fetchone())
         db.update_lexeme(lex_id)
+        after = tuple(db.conn.execute("SELECT * FROM lexemes WHERE id = ?", (lex_id,)).fetchone())
+        # No field given: the row, including updated_at, is unchanged.
+        assert after == before
         # No error
 
 

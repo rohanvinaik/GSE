@@ -121,14 +121,18 @@ class TestInit:
             b.close()
 
     def test_default_freq_db_uses_helper(self, lex_path):
-        with patch("GSE.curation.frequency_integration.get_default_frequency_db_path", return_value=lex_path):
-            # Get the real func to return something usable
-            with patch("GSE.curation.pipeline.staged_builder.FrequencyDatabase"):
+        with patch("GSE.curation.frequency_integration.get_default_frequency_db_path", return_value=lex_path) as helper:
+            with patch("GSE.curation.pipeline.staged_builder.FrequencyDatabase") as frequency_db:
                 b = StagedBuilder(
                     lexicon_db_path=lex_path,
                     use_mock_llm=True,
                 )
-                b.close()
+                try:
+                    helper.assert_called_once_with()
+                    assert b.freq_db_path == lex_path
+                    frequency_db.assert_called_once_with(lex_path)
+                finally:
+                    b.close()
 
 
 # ---------- close ----------

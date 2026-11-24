@@ -358,12 +358,6 @@ class TestPrettyPrint:
         output = g.pretty_print()
         assert "SUBJECT" in output
 
-    def test_negation_marker(self):
-        g = make_graph(1)
-        g.nodes[0].pending_sign = -1
-        output = g.pretty_print()
-        assert "[NEG]" in output
-
     def test_hierarchy_marker(self):
         g = make_graph(1)
         g.nodes[0].hierarchy_level = 2

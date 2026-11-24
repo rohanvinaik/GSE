@@ -76,6 +76,11 @@ class TestPrintStatus:
             "total": {"words": 0, "validated": 0, "validation_rate": 0},
         }
         _print_status(status)
+        out = capsys.readouterr().out
+        # A phase with no words reports no rate instead of dividing by zero.
+        assert "Total:     0" in out
+        assert "Rate:" not in out
+        assert "Validation rate: 0.0%" in out
         # Should not error on div-by-zero
 
 

@@ -332,9 +332,15 @@ class TestCmdInteractive:
         with (
             patch("GSE.cli.main.GSEEncoder", return_value=encoder_inst),
             patch("GSE.cli.main.GSEDecoder", return_value=decoder_inst),
-            patch("builtins.input", side_effect=["", "quit"]),
+            patch("builtins.input", side_effect=["", "quit"]) as prompt,
         ):
             cmd_interactive(argparse.Namespace())
+        # The empty line is skipped, neither run as a command nor read as an exit.
+        assert prompt.call_count == 2
+        assert "Unknown command" not in capsys.readouterr().out
+        encoder_inst.encode.assert_not_called()
+        encoder_inst.close.assert_called_once()
+        decoder_inst.close.assert_called_once()
 
     def test_encode_command(self, capsys):
         encoder_inst = MagicMock()

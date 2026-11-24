@@ -71,6 +71,9 @@ No task edits the owner's concurrent lexicon session's files (`GSE/curation/lexi
   - [x] Scoped runs without moving files: every test is marked with the GSE areas its file imports, derived at collection (`tests/conftest.py`), so `uv run pytest -m symbolic` runs one area; `pytest-testmon` runs only tests affected by changed code; both documented in the README (`351fce1`).
   - [ ] Test files move into `tests/<subsystem>/` with their modules (task 6), so they move once.
 - [ ] 7.2 Suite census: durations, overlap, stale and no-op tests, each candidate with its suite candidate record. Remove only what keeps every obligation, with Detective where its function contract applies.
+  - [x] Census measured and recorded (`docs/readings/2026-11-24-test-suite-census/`).
+  - [x] First decisions: two exact twins removed with their obligations kept, one empty test rewritten, five tests strengthened, 14 assertion-free tests kept with their stated obligations (census record §8).
+  - [ ] The 693 identical-reach clusters, 2,497 contained tests and 545 zero-reach tests: read each, with Detective's audit where its function contract applies, before any removal.
 - [ ] 7.3 Add obligations for the live modules no test executes (design.md, *Test suite*).
 
 ## 8. GSE-00 completion receipt

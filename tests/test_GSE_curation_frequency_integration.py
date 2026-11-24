@@ -5,7 +5,6 @@ from __future__ import annotations
 import sqlite3
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -233,17 +232,13 @@ class TestFrequencyIntegration:
 
 
 class TestGetDefaultPath:
-    def test_returns_existing_gse_data_path(self, tmp_path):
-        # Patch Path to make gse_data exist
-        with patch("GSE.curation.frequency_integration.Path") as MockPath:
-            mock_self_path = MagicMock()
-            # __file__ resolution
-            mock_self_path.parent.parent.parent.__truediv__.return_value = MagicMock(
-                exists=lambda: True, __str__=lambda self: "/found/freq.db"
-            )
-            MockPath.return_value = mock_self_path
-            # Skip — too complex to mock. Just verify the function exists
-            pass
+    def test_returns_existing_gse_data_path(self, monkeypatch):
+        import GSE.curation.frequency_integration as integration
+
+        expected = Path(integration.__file__).parent.parent.parent / "data" / "frequency.db"
+        real_exists = Path.exists
+        monkeypatch.setattr(Path, "exists", lambda path: path == expected or real_exists(path))
+        assert get_default_frequency_db_path() == str(expected)
 
     def test_raises_when_no_files_found(self, monkeypatch, tmp_path):
         # Make all candidate paths non-existent
