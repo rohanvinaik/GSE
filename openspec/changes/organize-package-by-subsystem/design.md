@@ -143,6 +143,8 @@ Coverage of the full suite puts the testing where it is least needed. Tests exec
 
 The census should add obligations for those before removing tests elsewhere.
 
+The suite census of 2026-11-24 (commit `8bfb980`) is recorded in [`docs/readings/2026-11-24-test-suite-census/`](../../../docs/readings/2026-11-24-test-suite-census/README.md): cost, per-test coverage clusters, containment, zero-reach tests, assertion-free and duplicate bodies, experiment-only files, fixtures, and what it could not measure. It is advisory; removals follow task 7.2.
+
 ## Interface shape (proposal for the owner's review)
 
 Status: proposal for task 5.2. Nothing here is built until the owner has reviewed it. It implements `specs/gse-interface/spec.md` and is derived from the call sites traced on 2026-11-24 (*Call sites and their kinds* below).
