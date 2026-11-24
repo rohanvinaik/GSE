@@ -1,0 +1,193 @@
+FILE GSE/symbolic/expression.py
+def _try_copula_type_assertion(tokens: Sequence[TokenTrace], signs: Optional[Signs] = None) -> Optional[Expression]:
+    """Synthesize a TYPE_ASSERT ``Op`` from a copula "X is a Y" / "X is ADJ" clause.
+
+    The encoder tags the subject (SYN_SUBJ), the copula "be" (SYN_PRED), and the
+    predicate complement (SYN_COMPL) but emits no COMP_* operator for "is", so no
+    predicate would otherwise be produced. When the full pattern is present with a
+    nominal OR adjective complement (:data:`_COMPLEMENT_POS`), build
+    ``Op("TYPE_ASSERT", args=[subject_span, complement_span])``; resolve() collapses
+    each span into an Entity. Only reached when the clause has NO operator (so
+    "X is taller than Y" stays a Comparison via COMP_THAN). A predicate adjective is
+    the same binding as a predicate nominal — the entity takes on the complement's
+    decomposition. Returns ``None`` when the pattern does not hold.
+    """
+    copula = next(
+        (t for t in tokens if _COPULA_PREDICATE in t.sent_primitives and t.lemma == _COPULA_LEMMA),
+        None,
+    )
+    if copula is None:
+        return None
+    # SYN_SUBJ marks the subject in a main clause. In a subordinate clause
+    # ("…because Doran is loyal to Maeve") the encoder may tag that subject
+    # SYN_OBJ instead, so also accept any entity token before the copula — the
+    # same positional subject the spans below already build from. Without this
+    # the subordinate copula bails here and collapses to a demi-word nominal.
+    has_subject = any(_COPULA_SUBJECT in t.sent_primitives for t in tokens) or any(
+        t.position < copula.position and t.pos in _PP_OBJECT_POS for t in tokens
+    )
+    has_complement = any(_COPULA_COMPLEMENT in t.sent_primitives and t.pos in _COMPLEMENT_POS for t in tokens)
+    if not (has_subject and has_complement):
+        return None
+
+    # PASSIVE / progressive "be": a content VERB after the copula ("was taken",
+    # "are decaying", "was viewed as …") is an EVENT — the surface subject is a
+    # participant in an action — NOT a type assertion "X IS take". Without this bail
+    # the participle is swept into the TYPE_ASSERT complement (line ~290) and the whole
+    # event is destroyed (a major source of the "destroyed structure" residual: every
+    # passive collapsed to a non-event). Bail so _try_event recovers the event. True
+    # copulas ("X is a king", "X is callous", "loyal to Y") have no post-copula VERB
+    # and are untouched. (GSE-native structural fix, 2026-06-24.)
+    if any(
+        t.position > copula.position
+        and t.pos == "VERB"
+        and t.lemma != _COPULA_LEMMA
+        and not getattr(t, "is_operator", False)
+        for t in tokens
+    ):
+        return None
+
+    # Negated type assertion ("X is not a Y"): drop the marker, wrap in Negation — when the sign lands on this
+    # assertion's own content, not on an intensifier ("not very good" stays GOOD, one step down) or on another verb.
+    negated = _takes_sign(tokens, _sign_owners(tokens) if signs is None else signs)
+    subject_atoms = [
+        _atom_from_token(t) for t in tokens if t.position < copula.position and t.lemma not in _NEGATION_LEMMAS
+    ]
+    if not subject_atoms:
+        return None
+
+    # Relational predicate adjective — "X is ADJ ADP Y" ("loyal to Y", "angry
+    # at Y"). The PP complement makes this a RELATION between X and the PP's
+    # object, not the bare property attribution decision A handles: folding
+    # "loyal to Corwin" into one kind nominal drops both the preposition and Y,
+    # and (as a `because` cause clause) silently defeats rule learning. Build an
+    # EVENT keyed on the adjective so ADJ(X, Y) survives with both arguments.
+    after = [t for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS and t.pos != "PUNCT"]
+    # A native spatial PP is a relation, not a kind nominal. Reuse the
+    # existing relation/event roleframe so resolution, queries, claim identity
+    # and emission all retain the actual preposition and its two arguments.
+    if after and after[0].pos == "ADP":
+        encoding = get_preposition_encoding(after[0].lemma) or {}
+        anchor = after[1:]
+        if encoding.get("spatial_type") and anchor and any(t.pos in _PP_OBJECT_POS for t in anchor):
+            relation = Op(
+                primitive=after[0].lemma,
+                operation="EVENT",
+                arity=2,
+                args=[Phrase(atoms=subject_atoms), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+            )
+            return Negation(operand=relation) if negated else relation
+    adj_i = next((i for i, t in enumerate(after) if t.pos == "ADJ"), None)
+    if adj_i is not None:
+        rest = after[adj_i + 1 :]
+        if rest and rest[0].pos == "ADP":
+            pp_object = [t for t in rest[1:] if t.pos in _PP_OBJECT_POS]
+            if pp_object:
+                event = Op(
+                    primitive=after[adj_i].lemma,
+                    operation="EVENT",
+                    arity=2,
+                    args=[
+                        Phrase(atoms=subject_atoms),
+                        Phrase(atoms=[_atom_from_token(t) for t in pp_object]),
+                    ],
+                )
+                return Negation(operand=event) if negated else event
+
+    complement_atoms = [
+        _atom_from_token(t) for t in tokens if t.position > copula.position and t.lemma not in _NEGATION_LEMMAS
+    ]
+    if not complement_atoms:
+        return None
+    assertion = Op(
+        primitive="COPULA",
+        operation="TYPE_ASSERT",
+        arity=2,
+        args=[Phrase(atoms=subject_atoms), Phrase(atoms=complement_atoms)],
+    )
+    return Negation(operand=assertion) if negated else assertion
+def _nominal_temporal_attachment(tokens):
+    """A native temporal preposition + time-typed nominal is an event setting.
+
+    The native closed-class source supplies the relation; WordNet time-period
+    or clock-time ancestry supplies grammatical anchor eligibility, not a
+    selected lexical sense or bank assignment. Clausal anchors stay on the
+    existing clause-linker path; a spatial anchor cannot become a time merely
+    because the same preposition also has a temporal reading.
+    """
+    from nltk.corpus import wordnet as wn
+
+    for index, token in enumerate(tokens):
+        encoding = get_preposition_encoding(token.lemma) or {}
+        if token.pos not in {"ADP", "SCONJ"} or encoding.get("temporal_type") not in {"ANTERIOR", "POSTERIOR"}:
+            continue
+        before = tokens[:index]
+        anchor = [t for t in tokens[index + 1 :] if t.pos != "PUNCT"]
+        if (
+            not any(t.pos == "VERB" or (t.pos == "AUX" and t.lemma == "be") for t in before)
+            or not anchor
+            or any(t.pos not in {"DET", "ADJ", "NOUN", "PROPN"} for t in anchor)
+            or anchor[-1].pos not in {"NOUN", "PROPN"}
+        ):
+            continue
+        head = anchor[-1]
+        senses = wn.synsets(head.lemma, pos="n")
+        time_readings = [
+            sense.name()
+            for sense in senses
+            if {node.name() for node in (sense, *sense.closure(lambda n: n.hypernyms()))}
+            & {"time_period.n.01", "clock_time.n.01", "beginning.n.01"}
+        ]
+        unambiguous = bool(senses) and len(time_readings) == len(senses)
+        token.lexical_evidence["nominal_preposition_reading"] = {
+            "code": "NATIVE_TEMPORAL_ANCHOR" if unambiguous else "UNRESOLVED_PREPOSITION_ANCHOR_ROLE",
+            "source": "GSE.lexicon.function_words:PREPOSITION_ENCODINGS",
+            "anchor_position": head.position,
+            "native_noun_readings": [sense.name() for sense in senses],
+            "temporal_readings": time_readings,
+            "alternatives": ["TEMPORAL"] if unambiguous else ["TEMPORAL", "SPATIAL"],
+        }
+        # A surviving non-time reading (spring, punctuation period, etc.) is
+        # not erased by the existence of a time sense. Preserve the original
+        # relation and nominal without claiming a Temporal or a patient role.
+        return before, token, anchor, "TEMPORAL" if unambiguous else "EVENT"
+    return None
+def _clause_core(tokens, shared_subject, signs):
+    """Build the recoverable clause before a qualifying operator is attached."""
+    content, duration = split_duration(tokens)
+    if duration is not None and split_duration(content)[1] is None:
+        qualified = _clause_core(content, shared_subject, signs)
+        core, negations = _unwrap_negations(qualified)
+        if isinstance(core, Op) and core.operation in {"EVENT", "TYPE_ASSERT"}:
+            return _rewrap_negations(replace(core, duration=duration), negations)
+    temporal = _nominal_temporal_attachment(tokens)
+    if temporal is not None:
+        content, linker, anchor, operation = temporal
+        return Op(
+            primitive=linker.lemma.upper() if operation == "TEMPORAL" else linker.lemma,
+            operation=operation,
+            arity=2,
+            args=[_clause_core(content, shared_subject, signs), Phrase(atoms=[_atom_from_token(t) for t in anchor])],
+        )
+    copula = _try_copula_type_assertion(tokens, signs)
+    if copula is not None:
+        return _with_clause_modal(copula, tokens)
+    event = _try_event(tokens, shared_subject=shared_subject, signs=signs)
+    if event is not None:
+        return event
+    atoms = [_atom_from_token(t) for t in tokens if t.lemma not in _NEGATION_LEMMAS or t.pos in {"NOUN", "PRON"}]
+    core = atoms[0] if len(atoms) == 1 else Phrase(atoms=atoms)
+    return Negation(operand=core) if _takes_sign(tokens, signs) else core
+FILE tests/test_symbolic_expression.py
+import pytest
+from GSE.api import GSEEncoder
+from GSE.api.parse_repair import verbs_to_promote
+from GSE.symbolic.expression import (
+    Atom,
+    Negation,
+    Op,
+    Phrase,
+    _select_clause_verb,
+    from_trace,
+)
+from GSE.symbolic.operators import evaluate_tree

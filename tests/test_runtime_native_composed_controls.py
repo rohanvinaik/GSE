@@ -60,6 +60,28 @@ def test_non_time_anchor_cannot_become_temporal_from_preposition_alone(encoder):
     assert not isinstance(compose(encoder, "Alice stood before the king."), Temporal)
 
 
+@pytest.mark.parametrize("anchor", ["spring", "period"])
+def test_possible_time_sense_does_not_erase_other_anchor_readings(encoder, anchor):
+    trace = encoder.encode(f"Alice stood before the {anchor}.")
+    tree = evaluate_tree(resolve(from_trace(trace)))
+    assert isinstance(tree, Event) and tree.verb == "before"
+    assert isinstance(tree.agent, Event) and tree.agent.verb == "stand"
+    assert tree.agent.patient is None and tree.patient.head.lemma == anchor
+    linker = next(t for t in trace.tokens if t.lemma == "before")
+    witness = linker.lexical_evidence["nominal_preposition_reading"]
+    assert witness["code"] == "UNRESOLVED_PREPOSITION_ANCHOR_ROLE"
+    assert witness["alternatives"] == ["TEMPORAL", "SPATIAL"]
+    assert len(witness["native_noun_readings"]) > len(witness["temporal_readings"])
+
+
+@pytest.mark.parametrize("text,head", [("He is a very strict judge.", "judge"), ("He is a very inert gas.", "gas")])
+def test_degree_modified_copular_nominal_keeps_its_head(encoder, text, head):
+    trace = encoder.encode(text)
+    token = next(t for t in trace.tokens if t.lemma == head)
+    assert token.pos == "NOUN" and "SYN_COMPL" in token.sent_primitives
+    assert isinstance(evaluate_tree(resolve(from_trace(trace))), TypeAssertion)
+
+
 def test_native_chemical_identity_survives_nominal_copula_and_emission(encoder):
     trace = encoder.encode("He is an inert gas.")
     assert trace.tokens[0].lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"

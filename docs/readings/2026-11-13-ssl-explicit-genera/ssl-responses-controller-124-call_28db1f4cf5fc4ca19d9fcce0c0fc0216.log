@@ -1,0 +1,440 @@
+{
+  "configuration": {
+    "model": "qwen3.8:27b-q4_K_M",
+    "context_tokens": 98304,
+    "thinking": false,
+    "output_tokens": 256,
+    "timeout_seconds": 600,
+    "identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+    "artifact": {
+      "model": "qwen3.8:27b-q4_K_M",
+      "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e"
+    }
+  },
+  "reason": "Measured largest complete typed wire81148UTF8bytes;65Kconservativebound rejectedbeforeinference.96Kfits all original requestswithoutdroppinganywirecontext.",
+  "installed_supported_context_tokens": 262144,
+  "original_failure_preserved": true,
+  "new_semantic_calls_during_configuration": 0
+}
+ROOT HELPER docs/readings/2026-11-13-ssl-explicit-genera/ssl_root_reference_audit.py
+ROOT HELPER docs/readings/2026-11-13-ssl-explicit-genera/checkpoint_reference_migration.py
+ROOT HELPER docs/readings/2026-11-13-ssl-explicit-genera/ssl_root_prime_audit.py
+ROOT HELPER docs/readings/2026-11-13-ssl-explicit-genera/stage_person_reference_023.py
+
+### GSE/curation/lexicon_builder/residual.py OllamaTransport
+class OllamaTransport:
+    """Explicit local model selection with typed input and constrained generation."""
+
+    def __init__(
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434",
+        timeout: float = 120,
+        *,
+        context_tokens: int = 32768,
+        thinking: bool = True,
+        output_tokens: int | None = None,
+    ):
+        if type(model) is not str or not model.strip():
+            raise ValueError("model_required")
+        if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("invalid_timeout")
+        if type(base_url) is not str:
+            raise ValueError("invalid_base_url")
+        parsed = urlsplit(base_url)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc or parsed.query or parsed.fragment:
+            raise ValueError("invalid_base_url")
+        self.model = model
+        self.base_url = base_url.rstrip("/")
+        self.timeout = float(timeout)
+        if type(context_tokens) is not int or context_tokens < 2048:
+            raise ValueError("invalid_context_tokens")
+        self.context_tokens = context_tokens
+        if type(thinking) is not bool:
+            raise ValueError("invalid_thinking_mode")
+        self.thinking = thinking
+        self.output_tokens = (1024 if thinking else 128) if output_tokens is None else output_tokens
+        if (
+            type(self.output_tokens) is not int
+            or not 1 <= self.output_tokens <= 32768
+            or self.output_tokens + 1024 >= context_tokens
+        ):
+            raise ValueError("invalid_output_tokens")
+        from .model_protocol import protocol_contract
+
+        digest = _request_id(
+            {
+                "protocol": protocol_contract(),
+                "thinking": thinking,
+                "context_tokens": context_tokens,
+                "output_tokens": self.output_tokens,
+                "temperature": 0,
+            }
+        )
+        self._protocol_digest = digest
+        self.model_digest: str | None = None
+        self.identity = f"{model}@{digest}"
+
+    def _request_json(self, request: Request, malformed_code: str) -> Any:
+        try:
+            with urlopen(request, timeout=self.timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            raise ModelTransportError("MODEL_HTTP_ERROR") from exc
+        except TimeoutError as exc:
+            raise ModelTransportError("MODEL_TIMEOUT") from exc
+        except URLError as exc:
+            code = "MODEL_TIMEOUT" if isinstance(exc.reason, TimeoutError) else "MODEL_CONNECTION_ERROR"
+            raise ModelTransportError(code) from exc
+        except (ValueError, UnicodeError) as exc:
+            raise ModelTransportError(malformed_code) from exc
+
+    def _installed_digest(self) -> str:
+        request = Request(f"{self.base_url}/api/tags", method="GET")
+        envelope = self._request_json(request, "INVALID_MODEL_IDENTITY_RESPONSE")
+        if type(envelope) is not dict or type(envelope.get("models")) is not list:
+            raise ModelTransportError("INVALID_MODEL_IDENTITY_RESPONSE")
+        matches = [item for item in envelope["models"] if isinstance(item, dict) and item.get("name") == self.model]
+        if len(matches) != 1:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_FOUND_OR_AMBIGUOUS")
+        digest = matches[0].get("digest")
+        if type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ModelTransportError("INVALID_MODEL_DIGEST")
+        return digest
+
+    def pin(self) -> dict[str, str]:
+        """Resolve the installed artifact explicitly; never repin a changed tag."""
+        digest = self._installed_digest()
+        if self.model_digest is not None and digest != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+        self.model_digest = digest
+        self.identity = f"{self.model}#{digest}@{self._protocol_digest}"
+        return {"model": self.model, "digest": digest}
+
+    def _verify_pin(self) -> None:
+        if self.model_digest is None:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_PINNED")
+        if self._installed_digest() != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+
+    def __call__(self, payload: dict, schema: dict) -> str:
+        from .model_protocol import model_input
+
+        try:
+            prompt = _canonical_json(model_input(_json_copy(payload)))
+        except ValueError as exc:
+            raise ModelTransportError("INVALID_MODEL_INPUT") from exc
+        # UTF-8 byte count is a conservative bound for byte-backed tokenizers.
+        # Reserve template/output space; refusal is preferable to silent loss
+        # of a contradictory observation near the start of a long request.
+        if len(prompt.encode("utf-8")) > self.context_tokens - self.output_tokens - 1024:
+            raise ModelTransportError("MODEL_CONTEXT_EXCEEDED")
+        self._verify_pin()
+        body = {
+            "model": self.model,
+            "prompt": prompt,
+            "format": _json_copy(schema),
+            "stream": False,
+            "think": self.thinking,
+            "options": {"temperature": 0, "num_predict": self.output_tokens, "num_ctx": self.context_tokens},
+        }
+        request = Request(
+            f"{self.base_url}/api/generate",
+            data=_canonical_json(body).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        envelope = self._request_json(request, "INVALID_OLLAMA_RESPONSE")
+        self._verify_pin()
+        if type(envelope) is not dict or type(envelope.get("response")) is not str:
+            raise ModelTransportError("INVALID_OLLAMA_RESPONSE")
+        if envelope.get("done_reason") == "length":
+            raise ModelTransportError("INCOMPLETE_MODEL_OUTPUT")
+        from GSE.curation.llm.ollama_client import register_model
+
+        register_model(self.model, self.base_url)
+        return envelope["response"]
+
+### GSE/curation/lexicon_builder/epoch.py JournaledTransport
+class JournaledTransport:
+    """Charge a typed question before execution, then replay the recorded reply."""
+
+    def __init__(self, transport, directory, label, limit, lock_path, *, context_store=None):
+        self.transport = transport
+        self.identity = transport.identity
+        self.directory = directory
+        self.label = label
+        self.limit = limit
+        self.lock_path = lock_path
+        self.context_store = context_store
+
+    def __call__(self, payload, schema):
+        request_id = _request_id(payload)
+        stem = self.label + "-" + request_id
+        intent, result = (self.directory / (stem + suffix + ".json") for suffix in (".intent", ".result"))
+        expected = {"request_id": request_id, "transport": self.identity, "schema": schema}
+        if intent.exists():
+            saved = read(intent)
+            if (
+                type(saved) is not dict
+                or set(saved) not in (set(expected), set(expected) | {"request_archive"})
+                or {key: saved[key] for key in expected} != expected
+            ):
+                raise ValueError("EPOCH_QUESTION_IDENTITY_CHANGED")
+            if "request_archive" in saved:
+                if self.context_store is None:
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_REQUIRED")
+                archived = self.context_store.request(saved["request_archive"])
+                if (
+                    archived["request_id"] != request_id
+                    or archived["transport"] != self.identity
+                    or archived["schema"] != schema
+                ):
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_CHANGED")
+            elif self.context_store is not None:
+                raise ValueError("EPOCH_QUESTION_ARCHIVE_MISSING")
+        elif result.exists():
+            raise ValueError("EPOCH_QUESTION_INTENT_MISSING")
+        if result.exists():
+            response = read(result)
+            if "raw_output" not in response:
+                raise ModelTransportError(response["code"])
+            return response["raw_output"]
+        if intent.exists():
+            raise EpochTransportRefusal("EPOCH_INTERRUPTED_MODEL_ATTEMPT")
+        if self.count() >= self.limit:
+            raise EpochTransportRefusal("EPOCH_MODEL_BUDGET_EXHAUSTED")
+        with self.lock_path.open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            if self.context_store is not None:
+                expected = {
+                    **expected,
+                    "request_archive": self.context_store.archive_request(payload, schema, self.identity),
+                }
+            record(intent, expected)
+            try:
+                raw = self.transport(payload, schema)
+            except ModelTransportError as error:
+                record(result, {"code": error.code})
+                raise
+            record(result, {"raw_output": raw})
+        return raw
+
+    def count(self):
+        return sum(1 for _ in self.directory.glob(self.label + "-*.intent.json"))
+
+### GSE/curation/lexicon_builder/model_batch.py OllamaBatchTransport
+class OllamaBatchTransport:
+    """Reuse an explicitly configured Ollama transport, including its model pin.
+
+    ``prepare`` performs no network calls and is suitable before journaling.
+    ``callable_batch`` returns single-bank JSON strings in input order only
+    after validating the complete slot-keyed output. Each slot is bound to its
+    full request hash in the input. ``__call__`` supports the
+    existing one-cell callable contract by sending a one-item batch.
+    """
+
+    def __init__(self, transport: OllamaTransport, *, max_items: int = 8, max_input_bytes: int | None = None):
+        if not isinstance(transport, OllamaTransport):
+            raise ValueError("batch_requires_ollama_transport")
+        if type(max_items) is not int or max_items < 1:
+            raise ValueError("invalid_batch_item_budget")
+        if max_input_bytes is None:
+            max_input_bytes = transport.context_tokens - transport.output_tokens - 1024
+        if type(max_input_bytes) is not int or max_input_bytes < 1:
+            raise ValueError("invalid_batch_byte_budget")
+        self.transport = transport
+        self.max_items = max_items
+        self.max_input_bytes = max_input_bytes
+        self.last_metrics: dict[str, int | float] | None = None
+        self._configuration = self._current_configuration()
+        self._protocol_digest = _request_id(
+            {
+                "batch": batch_contract(),
+                "single_protocol_digest": transport._protocol_digest,
+                "configuration": self._configuration,
+            }
+        )
+
+    @property
+    def model(self) -> str:
+        return self.transport.model
+
+    @property
+    def identity(self) -> str:
+        return f"{self.transport.identity}:batch@{self._protocol_digest}"
+
+    def _current_configuration(self) -> dict:
+        return {
+            "model": self.transport.model,
+            "base_url": self.transport.base_url,
+            "timeout": self.transport.timeout,
+            "context_tokens": self.transport.context_tokens,
+            "output_tokens": self.transport.output_tokens,
+            "thinking": self.transport.thinking,
+            "temperature": 0,
+            "single_protocol_digest": self.transport._protocol_digest,
+            "max_items": self.max_items,
+            "max_input_bytes": self.max_input_bytes,
+            "protocol": protocol_contract(),
+        }
+
+    def _verify_configuration(self) -> None:
+        if self._current_configuration() != self._configuration:
+            raise ModelTransportError("BATCH_CONFIGURATION_CHANGED")
+
+    def pin(self) -> dict[str, str]:
+        self._verify_configuration()
+        return {**self.transport.pin(), "batch_protocol_digest": self._protocol_digest}
+
+    def prepare(self, items: tuple[tuple[dict, dict], ...]) -> PreparedBatch:
+        """Validate all questions and budgets without mutation or model access."""
+        self._verify_configuration()
+        if type(items) is not tuple or not items:
+            raise ModelTransportError("INVALID_MODEL_INPUT")
+        if len(items) > self.max_items:
+            raise ModelTransportError("BATCH_ITEM_LIMIT_EXCEEDED")
+        ids, slots, banks, domains, questions, schemas = [], [], [], [], [], {}
+        entries = set()
+        shared = None
+        for item in items:
+            if type(item) is not tuple or len(item) != 2:
+                raise ModelTransportError("INVALID_MODEL_INPUT")
+            try:
+                payload, schema = _json_copy(item)
+                bank, allowed, entry_id = payload["bank"], payload["allowed_values"], payload["entry_id"]
+                if (
+                    type(entry_id) is not str
+                    or not entry_id.strip()
+                    or type(bank) is not str
+                    or type(allowed) is not list
+                    or len(allowed) not in (2, 3)
+                    or any(type(value) is not int or value not in (-1, 0, 1) for value in allowed)
+                    or allowed != [value for value in (-1, 0, 1) if value in allowed]
+                    or payload.get("fill") != {bank: None}
+                ):
+                    raise ValueError("invalid_question")
+                expected_schema = {
+                    "type": "object",
+                    "properties": {bank: {"type": ["integer", "null"], "enum": [*allowed, None]}},
+                    "required": [bank],
+                    "additionalProperties": False,
+                }
+                if _canonical_json(identity_form(schema)) != _canonical_json(identity_form(expected_schema)):
+                    raise ValueError("invalid_single_bank_schema")
+                wire = model_input(payload)
+                coordinate, data = wire.pop("coordinate"), wire.pop("input")
+            except (ValueError, TypeError, KeyError, RecursionError) as exc:
+                raise ModelTransportError("INVALID_MODEL_INPUT") from exc
+            request_id = _request_id(payload)
+            if request_id in ids:
+                raise ModelTransportError("BATCH_DUPLICATE_REQUEST")
+            if entry_id in entries:
+                raise ModelTransportError("BATCH_DEPENDENT_REQUESTS")
+            if shared is not None and shared != wire:
+                raise ModelTransportError("BATCH_CONFIGURATION_CHANGED")
+            shared = wire
+            slot = f"q{len(ids)}"
+            entries.add(entry_id)
+            ids.append(request_id)
+            slots.append(slot)
+            banks.append(bank)
+            domains.append(tuple(allowed))
+            schemas[slot] = schema
+            questions.append({"slot": slot, "request_id": request_id, "coordinate": coordinate, "input": data})
+        prompt = _canonical_json({**batch_contract(), "shared_protocol": shared, "items": questions})
+        schema = {"type": "object", "properties": schemas, "required": slots, "additionalProperties": False}
+        body = _canonical_json(
+            {
+                "model": self.transport.model,
+                "prompt": prompt,
+                "format": schema,
+                "stream": False,
+                "think": self.transport.thinking,
+                "options": {
+                    "temperature": 0,
+                    "num_predict": self.transport.output_tokens,
+                    "num_ctx": self.transport.context_tokens,
+                },
+            }
+        ).encode("utf-8")
+        # One token per UTF-8 byte is conservative for the same byte-backed
+        # tokenizer assumption as the single-item transport. Include schema and
+        # body overhead too; never truncate an observation or silently drop an item.
+        input_bytes = len(body)
+        if (
+            input_bytes > self.max_input_bytes
+            or input_bytes + self.transport.output_tokens + 1024 > self.transport.context_tokens
+        ):
+            raise ModelTransportError("BATCH_INPUT_TOO_LARGE")
+        output_bound = len(_canonical_json({slot: {bank: None} for slot, bank in zip(slots, banks)}).encode("utf-8"))
+        if output_bound > self.transport.output_tokens:
+            raise ModelTransportError("BATCH_OUTPUT_BUDGET_EXCEEDED")
+        return PreparedBatch(
+            tuple(ids), tuple(slots), tuple(banks), tuple(domains), body, input_bytes, input_bytes, output_bound
+        )
+
+    def _answers(self, raw: str, prepared: PreparedBatch) -> tuple[str, ...]:
+        if len(raw.encode("utf-8")) > self.transport.output_tokens:
+            raise ModelTransportError("BATCH_OUTPUT_BUDGET_EXCEEDED")
+        try:
+            output = json.loads(raw, object_pairs_hook=_output_object)
+        except ModelTransportError:
+            raise
+        except (ValueError, TypeError, RecursionError) as exc:
+            raise ModelTransportError("BATCH_INVALID_OUTPUT") from exc
+        if type(output) is not dict:
+            raise ModelTransportError("BATCH_INVALID_OUTPUT")
+        expected = set(prepared.slots)
+        if output.keys() - expected:
+            raise ModelTransportError("BATCH_EXTRA_OUTPUT_ID")
+        if expected - output.keys():
+            raise ModelTransportError("BATCH_MISSING_OUTPUT_ID")
+        answers = []
+        for slot, bank, allowed in zip(prepared.slots, prepared.banks, prepared.allowed_values):
+            item = output[slot]
+            if type(item) is not dict or set(item) != {bank}:
+                raise ModelTransportError("BATCH_INVALID_OUTPUT")
+            value = item[bank]
+            if value is not None and (type(value) is not int or value not in allowed):
+                raise ModelTransportError("BATCH_INVALID_OUTPUT")
+            answers.append(_canonical_json(item))
+        return tuple(answers)
+
+    def callable_batch(self, items: tuple[tuple[dict, dict], ...]) -> tuple[str, ...]:
+        self.last_metrics = None
+        prepared = self.prepare(items)
+        self.transport._verify_pin()
+        request = Request(
+            f"{self.transport.base_url}/api/generate",
+            data=prepared.body,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        envelope = self.transport._request_json(request, "INVALID_OLLAMA_RESPONSE")
+        self.transport._verify_pin()
+        self._verify_configuration()
+        if type(envelope) is not dict or type(envelope.get("response")) is not str:
+            raise ModelTransportError("INVALID_OLLAMA_RESPONSE")
+        if envelope.get("done") is not True or envelope.get("done_reason") == "length":
+            raise ModelTransportError("INCOMPLETE_MODEL_OUTPUT")
+        answers = self._answers(envelope["response"], prepared)
+        self.last_metrics = {"input_bytes": prepared.input_bytes, "item_count": len(prepared.request_ids)}
+        for key in ("prompt_eval_count", "eval_count", "prompt_eval_duration", "eval_duration", "total_duration"):
+            value = envelope.get(key)
+            if type(value) in (int, float) and value >= 0 and math.isfinite(value):
+                self.last_metrics[key] = value
+        from GSE.curation.llm.ollama_client import register_model
+
+        register_model(self.transport.model, self.transport.base_url)
+        return answers
+
+    def __call__(self, payload: dict, schema: dict) -> str:
+        return self.callable_batch(((payload, schema),))[0]
+JOB LOG
+........................                                                 [100%]
+24 passed in 6.41s
+All checks passed!
+2 files already formatted
+
+ANSWERS False

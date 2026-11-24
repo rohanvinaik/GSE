@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-resume-state -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-joint-job.json','ssl-api-controller-joint-exit.json','ssl-api-controller-prime-answers.json','ssl-api-controller-child-answers.json','ssl-api-runtime-result.json','ssl-api-controller-root-handoff.json']:\n f=p/name\n print('\\nFILE',name,'exists',f.exists())\n if f.exists():\n  x=json.loads(f.read_text())\n  if 'answers' in name: print('keys',list(x),'size',f.stat().st_size)\n  else: print(json.dumps(x,indent=2))\nprint('\\nJOURNAL\\n'+(p/'ssl-api-controller-joint-job.log').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -1,0 +1,109 @@
+...........F............................................................ [ 33%]
+........................................................................ [ 67%]
+......................................................................   [100%]
+=================================== FAILURES ===================================
+____ test_native_expansion_name_and_type_thread_identify_symbol_not_person _____
+
+encoder = <GSE.api.encoder.GSEEncoder object at 0x10b11b0e0>
+
+    def test_native_expansion_name_and_type_thread_identify_symbol_not_person(encoder):
+>       token = next(t for t in encoder.encode("The chemical symbol He denotes helium.").tokens if t.token == "He")
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_runtime_native_identity_controls.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+GSE/api/encoder.py:423: in encode
+    eligibility = grounding.grammatical_eligibility(i, lookup_form, entry_id)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GSE/symbolic/lexical_grounding.py:273: in grammatical_eligibility
+    self.select(position, lemma, alternatives) if alternatives else {"code": "NO_EXACT_WORDNET_WITNESS"}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GSE/symbolic/lexical_grounding.py:319: in select
+    nominal = self._nominal_support(lemma, senses, start, end)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <GSE.symbolic.lexical_grounding.LexicalGrounding object at 0x11879fd40>
+lemma = 'he'
+senses = {'wordnet:he:he.n.02': NativeSense(synset='he.n.02', nodes=frozenset({'communication.n.02', 'symbol.n.01', 'he.n.02', ... 'most', 'natural', 'as', 'and', 'found', 'that'}), names=frozenset({'He', 'helium', 'atomic_number_2'}), examples=())}
+start = -1, end = 6
+
+    def _nominal_support(self, lemma, senses, start, end):
+        context = {
+            token.lemma_.casefold()
+            for token in self.doc[start + 1 : end]
+            if token.pos_ == "NOUN" and token.lemma_.casefold() != lemma
+        }
+        if not context:
+            return {"code": "NO_NOMINAL_CONTEXT"}
+        context_nodes = set()
+        witnessed_words = set()
+        context_senses = {}
+        for word in sorted(context):
+            alternatives = self._senses(word)
+            if len(alternatives) == 1:
+                native_sense = next(iter(alternatives.values()))
+                context_senses[word] = native_sense
+                context_nodes.update(native_sense.nodes)
+                witnessed_words.add(word)
+        # An independently unambiguous context noun can name the very same
+        # native synset (a symbol and its expanded name, for example). This is
+        # native lexical identity, not mere ancestry or a first-sense guess.
+        # Keep the ordinary production type-thread agreement check below.
+        synonym_support = {
+            key: sorted(word for word, native in context_senses.items() if native.synset == sense.synset)
+            for key, sense in senses.items()
+            if any(native.synset == sense.synset for native in context_senses.values())
+        }
+        support = {
+            key: sorted((sense.anchors & witnessed_words) | set(synonym_support.get(key, ())))
+            for key, sense in senses.items()
+            if sense.anchors & witnessed_words or key in synonym_support
+        }
+        common = set.intersection(*(set(sense.nodes) for sense in senses.values())) if len(senses) > 1 else set()
+        scores = sorted(
+            (
+                (_jaccard(set(sense.nodes) - common, context_nodes), key)
+                for key, sense in senses.items()
+                if (sense.nodes - common) & context_nodes
+            ),
+            reverse=True,
+        )
+        thread = (
+            scores[0][1]
+            if scores and scores[0][0] > (scores[1][0] if len(scores) > 1 else 0) + _COHERENCE_MARGIN
+            else None
+        )
+        if thread:
+            # Eligibility and lexical witnesses are established above. The
+            # production coherence selector, not a parallel similarity resolver,
+            # then consumes the native type threads. Common nodes carry no WSD
+            # signal and are removed on both sides, as in the diagnostics.
+            ordered = sorted(senses)
+            threads = {lemma: [tuple(sorted(senses[key].nodes - common)) for key in ordered]}
+            threads.update(
+                (word, [tuple(sorted(next(iter(self._senses(word).values())).nodes))])
+                for word in sorted(witnessed_words)
+            )
+            entities = [Entity(Atom(word, pos="NOUN")) for word in threads]
+            chosen = _select_by_coherence(entities, _NativeThreads(threads), native_only=True)
+            selected_thread = chosen.get(_signature(entities[0]), ())
+            if selected_thread != threads[lemma][ordered.index(thread)]:
+                thread = None
+        anchor = next(iter(support)) if len(support) == 1 else None
+        evidence = {"native_anchor_support": support, "type_coherence": dict((key, score) for score, key in scores)}
+        if synonym_support:
+            evidence["native_synonym_support"] = {
+                key: {
+                    "synset": senses[key].synset,
+>                   "context_entry_ids": {word: context_senses[word].entry_id for word in words},
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                }
+                for key, words in synonym_support.items()
+            }
+E           AttributeError: 'NativeSense' object has no attribute 'entry_id'
+
+GSE/symbolic/lexical_grounding.py:436: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_runtime_native_identity_controls.py::test_native_expansion_name_and_type_thread_identify_symbol_not_person
+1 failed, 213 passed in 26.51s

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label coverage-native-projector-units -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('GSE/curation/external_sources/verbnet.py');text=p.read_text();tree=ast.parse(text)\nfor node in tree.body:\n if isinstance(node,ast.ClassDef) and node.name=='VerbNetEntry':print(ast.get_source_segment(text,node))\nfor node in ast.walk(tree):\n if isinstance(node,ast.FunctionDef) and node.name in {'projection_diagnostics_for_entry','__init__'}:print(ast.get_source_segment(text,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

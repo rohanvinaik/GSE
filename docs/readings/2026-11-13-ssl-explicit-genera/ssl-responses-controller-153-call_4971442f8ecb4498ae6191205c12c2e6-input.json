@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-integration-consumers -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name in ['GSE/curation/lexicon_builder/completion.py','GSE/curation/lexicon_builder/reviewed_patterns.py','GSE/curation/lexicon_builder/reviewed_export.py','GSE/curation/lexicon_builder/reviewed_history.py','docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py']:\n p=Path(name);print('\\nFILE',name);print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

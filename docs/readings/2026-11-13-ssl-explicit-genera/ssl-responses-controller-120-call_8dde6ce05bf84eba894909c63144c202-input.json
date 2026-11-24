@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-child-guard-trace -- .venv/bin/python - <<'PY'\nimport ast,pathlib,json\nfor file,names in [('GSE/curation/lexicon_builder/epoch.py',{'census'}),('GSE/curation/lexicon_builder/foundation.py',{'lexical_context'}),('GSE/curation/lexicon_builder/model_protocol.py',{'coordinate_contract'}),('GSE/curation/lexicon_builder/completion.py',{'complete_dictionary'})]:\n s=pathlib.Path(file).read_text(); t=ast.parse(s);print('\\n###',file)\n if file.endswith('foundation.py'):\n  for n in t.body:\n   if isinstance(n,(ast.Assign,ast.AnnAssign)) and any(isinstance(x,ast.Name) and x.id in {'WORDNET_ANCESTRY_GUARD_PREFIXES','WORDNET_OTHER_SYNSET_PREFIX'} for x in ast.walk(n)): print(ast.get_source_segment(s,n))\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(s,n))\np=pathlib.Path('docs/readings/2026-11-13-ssl-explicit-genera');print('\\n### HEAD HANDOFF');print((p/'ssl-api-controller-root-handoff.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

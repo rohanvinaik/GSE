@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-final-receipt-inputs -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,subprocess\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nj=json.loads((p/'ssl-api-runtime-result.json').read_text())\nfor k in ['verification','test_junit','implementation','actual_corpus_changes','remaining_cp_ids','tooling']:\n print(k,json.dumps(j.get(k),indent=2))\nprint('demand keys',list(json.loads((p/'ssl-api-runtime-checkpoint-demand.json').read_text())))\nfor name in ['ssl-api-runtime-active-checkpoint-v4.json','ssl-api-runtime-foundation-checkpoint-v4.json']:\n a=json.loads((p/name).read_text()); print(name,'snapshot_pins',json.dumps(a['snapshot_pins'],indent=2))\nprint('last head');subprocess.run(['git','rev-parse','HEAD'],check=True)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

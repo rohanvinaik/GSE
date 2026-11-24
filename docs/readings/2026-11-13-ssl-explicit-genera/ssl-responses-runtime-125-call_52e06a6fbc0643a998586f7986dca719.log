@@ -1,0 +1,94 @@
+FILE GSE/symbolic/resolution.py
+Entity 73 110
+Coordination 114 129
+ArgSplit 133 146
+_is_entity_atom 154 155
+_is_possessive_marker 158 159
+_first_adj_or_adv 162 167
+_is_np_starter 170 176
+_split_into_np_segments 179 203
+_collapse_phrase_to_entity 206 309
+_is_pronoun_atom 317 318
+_bind_pronouns 321 411
+resolve 419 434
+resolve_with_sources 437 449
+_refine 452 482
+FILE GSE/symbolic/operators.py
+UnknownOperation 44 45
+_require_arity 48 50
+_require_min_arity 53 59
+set_diff 67 74
+bind_eq 77 84
+degree_query 87 95
+type_query 98 105
+type_assert 108 117
+card_lower 120 128
+set_restrict 131 145
+scalar_extreme 148 161
+contrast 164 172
+clause_coordination 175 184
+consequence 187 193
+rel_restrict 196 204
+control 207 224
+event 227 248
+causal_source 251 258
+conditional 261 270
+temporal 273 288
+evaluate 317 322
+evaluate_tree 325 346
+FILE GSE/symbolic/expression.py
+Atom 36 74
+  __hash__ 72 74
+Phrase 78 88
+  __hash__ 87 88
+Negation 92 100
+Op 104 122
+sign_uptake 155 188
+_starts_comparative 191 200
+_bound_intensifier 203 211
+_unbound_intensifier 214 218
+_uptake_kinds 221 253
+_sign_owners 263 285
+DegreeScopeError 288 291
+bind_degree_modifiers 294 364
+node_negation_count 367 373
+node_polarity 376 385
+_takes_sign 388 402
+_negated_operators 405 411
+_atom_from_token 414 438
+_promote_nominalized_adjective_subject 441 467
+_build_arg_expression 470 521
+_try_copula_type_assertion 542 648
+_appositive_positions 651 673
+_leading_adjunct_positions 676 701
+_select_clause_verb 709 733
+_try_event 736 860
+_with_clause_modal 863 873
+_operator_primitive 876 881
+_build_operator_op 884 907
+_left_fold_operators 910 938
+operator_composition_plan 941 956
+_nominal_temporal_attachment 959 1004
+_clause_core 1007 1032
+_build_clause_expr 1035 1143
+_is_relativizer 1151 1152
+_wrap_antecedent 1155 1197
+_is_all_punct 1200 1207
+_unwrap_negations 1210 1215
+_rewrap_negations 1218 1221
+_build_control 1224 1297
+_attach_complement 1300 1345
+_build_complement 1348 1383
+_build_relative_restriction 1386 1430
+prepare_degree_modifiers 1433 1457
+from_trace 1460 1490
+_event_subject_atoms 1493 1502
+_from_trace_segmented 1505 1591
+DEFINITION AND CALL SITES
+GSE/symbolic/operators.py clause_coordination 175 184
+GSE/symbolic/resolution.py _collapse_phrase_to_entity 206 309
+GSE/symbolic/expression.py _build_relative_restriction 1386 1430
+GSE/api/encoder.py _clause_coordinator_positions 1125 1158
+GSE/api/encoder.py _copula_clause_coordinator_positions 1160 1186
+GSE/api/encoder.py _detect_embedded_clauses 1294 1401
+GSE/api/encoder.py _detect_embedded_clauses_arcs 1403 1459

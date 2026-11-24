@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-local-transport-trace -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor f,names in [('GSE/curation/lexicon_builder/epoch.py',{'JournaledTransport'}),('GSE/curation/lexicon_builder/learning_state.py',{'LearningState'}),('GSE/curation/lexicon_builder/residual.py',{'OllamaTransport','_read_value'})]:\n s=Path(f).read_text(); t=ast.parse(s)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names: print('\\nUNIT',f,n.name,'\\n',ast.get_source_segment(s,n))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-api-controller-root-handoff.json','ssl-root-prime-transport.json','ssl-api-controller-happening-child.json']:\n print('\\nARTIFACT',n,'\\n',(p/n).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

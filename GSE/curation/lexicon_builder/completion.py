@@ -20,6 +20,7 @@ from .model_receipts import append_model_receipt, migrate_model_receipts
 from .relevance import observation_relevance
 from .residual import build_request, complete_bank
 from .resolution import resolve_dictionary
+from .rule_history import digest, read_history, receipt_binding_key, relation_records, version_relations
 from .scheduling import pending_banks, question_order_policy, spelling_cohort
 from .storage import _json, store_entry
 from .validation import _assertions, _domain_restrictions, _read_json, _relations, validate_build
@@ -486,6 +487,41 @@ class _JournaledTransport:
         return self.raw
 
 
+def _historical_request(
+    raw, definition, bank, assertions, restrictions, observations, evidence_banks, relations, history
+):
+    """Reconstruct exact original wire authority from today's verified sources.
+
+    Matching entry/bank or unchanged marginals alone is insufficient. Changed
+    rule scopes are refused, and the complete original payload and schema must
+    equal a fresh reconstruction at the original immutable rule version.
+    """
+    original = version_relations(
+        raw["rule_version"], relations, None, history, definition=definition, observations=observations
+    )
+    context = lexical_context(definition, observations, original)
+    before = resolve_dictionary(
+        BANKS, assertions, original, context, evidence_banks=evidence_banks, domain_restrictions=restrictions
+    )
+    request = build_request(
+        definition.entry_id,
+        bank,
+        before,
+        tuple(observations),
+        definition=definition,
+        relations=original,
+        context=context,
+        request_format=raw["request"]["format"],
+    )
+    if (
+        request.request_id != raw["request_id"]
+        or request.payload() != raw["request"]
+        or request.output_schema() != raw["schema"]
+    ):
+        raise ValueError("HISTORICAL_MODEL_REQUEST_MISMATCH")
+    return request, original, context
+
+
 def complete_dictionary(
     path,
     transport,
@@ -504,6 +540,7 @@ def complete_dictionary(
     cohort_policy="definition",
     bank_priority="constraint",
     entry_bank_questions=None,
+    historical_questions=None,
 ):
     """Complete only explicitly budgeted residual cells, with durable resumption.
 
@@ -523,6 +560,10 @@ def complete_dictionary(
     round. Optional evidence bank ordering uses typed hints and active rule
     connectivity only to choose questions. Both policies have separate durable
     visit scopes; earlier exact request journals remain authoritative.
+    Delayed exact questions may name a verified historical rule version only
+    outside every changed rule scope. They retain their original wire, schema,
+    model identity and append-only receipt binding; current closure is stored.
+    This does not bypass the full version-boundary replay preflight.
     """
     explicit_questions = None
     if entry_bank_questions is not None:
@@ -550,6 +591,26 @@ def complete_dictionary(
             explicit_questions.setdefault(identity, []).append(bank)
         entry_ids = tuple(explicit_questions)
         banks = tuple(sorted({bank for _, bank in entry_bank_questions}))
+    if historical_questions is not None and (
+        type(historical_questions) is not dict
+        or explicit_questions is None
+        or set(historical_questions) != set(entry_bank_questions)
+        or any(
+            type(raw) is not dict
+            or set(raw) != {"rule_version", "request_id", "request", "schema"}
+            or type(raw["rule_version"]) is not str
+            or type(raw["request_id"]) is not str
+            or type(raw["request"]) is not dict
+            or type(raw["schema"]) is not dict
+            or raw["request"].get("entry_id") != pair[0]
+            or raw["request"].get("bank") != pair[1]
+            or type(raw["request"].get("format")) is not str
+            for pair, raw in historical_questions.items()
+        )
+    ):
+        raise ValueError("INVALID_HISTORICAL_COMPLETION_QUESTIONS")
+    if historical_questions is not None:
+        historical_questions = {pair: _read_json(_json(raw)) for pair, raw in historical_questions.items()}
     if type(max_model_calls) is not int or max_model_calls <= 0:
         raise ValueError("INVALID_MODEL_BUDGET")
     if type(max_calls_per_entry) is not int or max_calls_per_entry <= 0:
@@ -641,6 +702,7 @@ def complete_dictionary(
             raise ValueError("BUILD_CHANGED_DURING_PREFLIGHT")
         relations = _relations(_metadata(conn, "relations"))
         validate_lexical_guards(relations)
+        history = read_history(conn, relations) if historical_questions is not None else None
         schedule = (
             _schedule(conn, model, chosen_banks, priority_identity, order_identity) if requested is None else None
         )
@@ -777,6 +839,22 @@ def complete_dictionary(
                             relations=relations,
                             context=context,
                         )
+                        request_relations, request_context = relations, context
+                        historical = (
+                            historical_questions.get((entry, bank)) if historical_questions is not None else None
+                        )
+                        if historical is not None:
+                            request, request_relations, request_context = _historical_request(
+                                historical,
+                                definition,
+                                bank,
+                                assertions,
+                                restrictions,
+                                observations[entry],
+                                evidence_banks,
+                                relations,
+                                history,
+                            )
                         previous = conn.execute(
                             "SELECT code FROM completion_attempts WHERE entry_id=? AND bank=? AND request_id=? AND model=?",
                             (entry, bank, request.request_id, model),
@@ -798,9 +876,9 @@ def complete_dictionary(
                             request,
                             BANKS,
                             assertions,
-                            relations,
+                            request_relations,
                             wrapped,
-                            context,
+                            request_context,
                             evidence_banks=evidence_banks,
                             domain_restrictions=restrictions,
                         )
@@ -817,8 +895,24 @@ def complete_dictionary(
                             if not changed and code == "ASSIGNED":
                                 if result.assertion is None or result.resolution is None:
                                     raise ValueError("INVALID_COMPLETION_RECEIPT")
-                                assertions += (result.assertion,)
-                                resolution = result.resolution
+                                accepted = assertions + (result.assertion,)
+                                current_result = result.resolution
+                                if historical is not None:
+                                    current_result = resolve_dictionary(
+                                        BANKS,
+                                        accepted,
+                                        relations,
+                                        context,
+                                        evidence_banks=evidence_banks,
+                                        domain_restrictions=restrictions,
+                                    )
+                                    if (
+                                        current_result.domains != result.resolution.domains
+                                        or current_result.code != result.resolution.code
+                                    ):
+                                        raise ValueError("HISTORICAL_MODEL_CURRENT_CLOSURE_MISMATCH")
+                                assertions = accepted
+                                resolution = current_result
                                 store_entry(
                                     conn,
                                     definition,
@@ -827,17 +921,23 @@ def complete_dictionary(
                                     hierarchy,
                                     domain_restrictions=restrictions,
                                 )
-                                append_model_receipt(
-                                    conn,
-                                    {
-                                        "entry_id": entry,
-                                        "assertion": asdict(result.assertion),
-                                        "request_id": request.request_id,
-                                        "code": code,
-                                        "request": request.payload(),
-                                        "schema": request.output_schema(),
-                                    },
-                                )
+                                receipt = {
+                                    "entry_id": entry,
+                                    "assertion": asdict(result.assertion),
+                                    "request_id": request.request_id,
+                                    "code": code,
+                                    "request": request.payload(),
+                                    "schema": request.output_schema(),
+                                }
+                                append_model_receipt(conn, receipt)
+                                if historical is not None and historical["rule_version"] != digest(
+                                    relation_records(relations)
+                                ):
+                                    request_key, receipt_hash = receipt_binding_key(receipt)
+                                    conn.execute(
+                                        "INSERT INTO model_rule_versions VALUES (?,?,?,?)",
+                                        (request_key, entry, historical["rule_version"], receipt_hash),
+                                    )
                             _journal(conn, request, model, code, details)
                             if wrapped.called:
                                 if continue_cohorts:

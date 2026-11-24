@@ -1,0 +1,757 @@
+
+FILE GSE/curation/lexicon_builder/rule_migration.py
+def _apply_copy(conn, admission=None, *, revision=None):
+    old = _relations(_metadata(conn, "relations"))
+    if revision is None:
+        if admission is None:
+            raise ValueError("MIGRATION_REQUIRES_REVIEW")
+        if admission["warrant"].get("required_exception_ids") or admission["warrant"].get("required_reservation_ids"):
+            raise ValueError("RULE_REQUIRES_JOINT_EXCEPTION_REVIEW")
+        if digest(relation_records(old)) != admission["baseline_version"]:
+            raise ValueError("MIGRATION_BASELINE_VERSION_MISMATCH")
+        addition = _relations([json.loads(_json(admission["relation"]))])[0]
+        if any(rule.rule_id == addition.rule_id for rule in old):
+            raise ValueError("MIGRATION_RULE_ALREADY_PRESENT")
+        new = old + (addition,)
+    else:
+        new = revision_relations(conn, old, revision)
+    removed, added = rule_changes(old, new)
+    shared = tuple(rule for rule in old if rule not in removed)
+    local_reviews = defaultdict(list)
+    reservation_reviews = defaultdict(list)
+    if revision is not None:
+        for review in revision["exceptions"]:
+            local_reviews[review["entry_id"]].append(review)
+        for review in revision.get("reservations", ()):
+            reservation_reviews[review["entry_id"]].append(review)
+    preflight = _replay(conn, old)
+    if preflight["code"] != "REPLAY_VALIDATED" or not preflight["complete_search"]:
+        raise ValueError("MIGRATION_REQUIRES_COMPLETE_REPLAY")
+    entries = tuple(row[0] for row in conn.execute("SELECT entry_id FROM definition_states ORDER BY entry_id"))
+    _, models = _authorities(conn)
+    failures = []
+    native, _, relevance = _observations(conn, set(entries), lambda *a, **kw: failures.append((a, kw)), models)
+    if failures:
+        raise ValueError("MIGRATION_SOURCE_INVALID")
+    history = read_history(conn, old)
+    install_history(conn)
+    old_version, new_version = _put_version(conn, old), _put_version(conn, new)
+    archived, retained, changed, narrowed = [], 0, 0, 0
+    known_changes, exception_checks = [], []
+    reservation_checks = []
+    for entry_id in entries:
+        definition, assertions, restrictions, hierarchy = _entry(conn, entry_id)
+        old_context = _stored_context(conn, definition, old)
+        new_context = _stored_context(conn, definition, new)
+        evidence_banks = tuple(sorted(relevance.get(entry_id, ())))
+        receipts = models.get(entry_id, ())
+        reviews = local_reviews.get(entry_id, ())
+        withdrawn = reviewed_model_withdrawals(reviews, receipts)
+        for receipt in receipts:
+            request_id, receipt_hash = receipt_binding_key(receipt)
+            if not conn.execute(
+                "SELECT 1 FROM model_rule_versions WHERE request_id=? AND receipt_sha256=?", (request_id, receipt_hash)
+            ).fetchone():
+                conn.execute(
+                    "INSERT INTO model_rule_versions VALUES (?,?,?,?)",
+                    (request_id, entry_id, old_version, receipt_hash),
+                )
+        # Matching the guard is deliberately conservative, even if the premise
+        # is currently unknown or an absence guard might block the new rule.
+        scope_affected = touches_scope(removed, old_context) or touches_scope(added, new_context)
+        first_affected = (
+            0
+            if scope_affected
+            else next((i for i, receipt in enumerate(receipts) if receipt["request_id"] in withdrawn), len(receipts))
+        )
+        prefix, dropped = receipts[:first_affected], receipts[first_affected:]
+        before = _read_json(
+            conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry_id,)).fetchone()[0]
+        )
+        if dropped:
+            archived.append(
+                {
+                    "definition": {key: getattr(definition, key) for key in ("entry_id", "lemma", "pos", "definition")},
+                    "assertions": [asdict(a) for a in assertions],
+                    "restrictions": [asdict(r) for r in restrictions],
+                    "receipts": dropped,
+                    **({"retained_prefix": prefix} if prefix else {}),
+                    "evidence_banks": evidence_banks,
+                    "reason": "REVIEWED_EXCEPTION_REQUIRES_MODEL_RECONSIDERATION"
+                    if withdrawn
+                    else "ADDED_RULE_SCOPE_REQUIRES_MODEL_CONTEXT_RECONSIDERATION"
+                    if revision is None
+                    else "REVISED_RULE_SCOPE_REQUIRES_MODEL_CONTEXT_RECONSIDERATION",
+                }
+            )
+            retired_assertions = {_json(r["assertion"]) for r in dropped}
+            assertions = tuple(a for a in assertions if _json(asdict(a)) not in retired_assertions)
+            deleted = conn.execute(
+                "DELETE FROM accepted_model_receipts WHERE entry_id=? AND ordinal>=?", (entry_id, first_affected)
+            ).rowcount
+            if deleted != len(dropped):
+                raise ValueError("MIGRATION_MODEL_RECEIPT_DELETE_MISMATCH")
+        retained += len(prefix)
+        baseline = resolve_dictionary(
+            BANKS, assertions, shared, old_context, evidence_banks=evidence_banks, domain_restrictions=restrictions
+        )
+        after = resolve_dictionary(
+            BANKS, assertions, new, new_context, evidence_banks=evidence_banks, domain_restrictions=restrictions
+        )
+        if (
+            baseline.code == "CONFLICT"
+            or any(r["kind"] == "SOLVER_LIMIT" for r in baseline.trace)
+            or after.code == "CONFLICT"
+            or any(r["kind"] == "SOLVER_LIMIT" for r in after.trace)
+            or _exception_keys(after) - _exception_keys(baseline)
+        ):
+            raise ValueError("MIGRATION_RULE_SCOPE_COUNTEREXAMPLE:" + entry_id)
+        if any(after.assignments.get(bank) != value for bank, value in baseline.assignments.items()):
+            raise ValueError("MIGRATION_CHANGED_RETAINED_KNOWN:" + entry_id)
+        if any(after.assignments.get(bank) not in {-1, 1} for bank in hierarchy):
+            raise ValueError("MIGRATION_HIERARCHY_REQUIRES_REVIEW:" + entry_id)
+        after_domains = {bank: sorted(values) for bank, values in after.domains.items()}
+        changed += before != after_domains
+        narrowed += sum(len(after.domains[b]) < len(baseline.domains[b]) for b in BANKS)
+        if revision is not None and before != after_domains:
+            known_changes.extend(
+                {"entry_id": entry_id, "bank": bank, "before": before[bank], "after": values}
+                for bank, values in after_domains.items()
+                if len(before[bank]) == 1 and before[bank] != values
+            )
+        for review in reviews:
+            if any(value not in baseline.domains[bank] for bank, value in review["counterexample"].items()):
+                raise ValueError("REVISION_EXCEPTION_CONFLICTS_WITH_RETAINED_EVIDENCE:" + entry_id)
+            if any(value not in after.domains[bank] for bank, value in review["counterexample"].items()):
+                raise ValueError("REVISION_EXCEPTION_NOT_HONORED:" + entry_id)
+            exception_checks.append(
+                {
+                    "entry_id": entry_id,
+                    "rule_id": review["rule_id"],
+                    "code": "REVIEWED_LOCAL_EXCEPTION",
+                    "reviewed_model_withdrawals": list(withdrawn),
+                    "baseline_domains": {bank: sorted(baseline.domains[bank]) for bank in review["counterexample"]},
+                    "after_domains": {bank: after_domains[bank] for bank in review["counterexample"]},
+                }
+            )
+        for review in reservation_reviews.get(entry_id, ()):
+            bank = review["bank"]
+            expected = review["audit"]["request"]["allowed_values"]
+            if (
+                before[bank] != expected
+                or sorted(baseline.domains[bank]) != expected
+                or after_domains[bank] != expected
+            ):
+                raise ValueError("REVISION_RESERVATION_NOT_HONORED:" + entry_id)
+            reservation_checks.append(
+                {
+                    "code": "REVIEWED_UNRESOLVED_RESERVATION",
+                    "entry_id": entry_id,
+                    "rule_id": review["rule_id"],
+                    "bank": bank,
+                    "baseline_domain": expected,
+                    "after_domain": after_domains[bank],
+                    "audit_request_id": review["audit"]["request_id"],
+                }
+            )
+        store_entry(conn, definition, after, assertions, hierarchy, domain_restrictions=restrictions)
+    event = {
+        "format": "GSE.rule-migration-event/1",
+        "from_version": old_version,
+        "to_version": new_version,
+        "created_utc": datetime.now(UTC).isoformat(),
+        "admission": admission,
+        "archived": archived,
+    }
+    if (
+        revision is not None
+        or history
+        and any(current_id(item["format"]) == "GSE.rule-migration-event/2" for item in history["events"])
+    ):
+        del event["admission"]
+        event.update(
+            format="GSE.rule-migration-event/2",
+            previous_event=history["head"] if history else None,
+            revision=revision
+            if revision is not None
+            else {
+                "format": REVISION_FORMAT,
+                "baseline_version": old_version,
+                "admissions": [admission],
+                "retirements": [],
+                "exceptions": [],
+            },
+        )
+    event_id = digest(event)
+    conn.execute("INSERT INTO rule_migrations VALUES (?,?)", (event_id, _json(event)))
+    for key, value in (("relations", relation_records(new)), ("rule_version", new_version)):
+        conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES (?,?)", (key, _json(value)))
+    coverage = _refresh_catalog(conn, new, native, relevance)
+    verified = _replay(conn, new)
+    if verified["code"] != "REPLAY_VALIDATED" or not verified["complete_search"]:
+        raise ValueError("MIGRATION_POST_REPLAY_FAILED:" + _json(verified["mismatch_counts"]))
+    return {
+        "format": "GSE.rule-migration/1" if revision is None else "GSE.rule-migration/2",
+        "code": "MIGRATED_CANDIDATE",
+        "event_id": event_id,
+        "from_version": old_version,
+        "to_version": new_version,
+        "entries_reclosed": len(entries),
+        "entries_changed_domains": changed,
+        "cells_symbolically_narrowed": narrowed,
+        "archived_model_receipts": sum(len(e["receipts"]) for e in archived),
+        "retained_model_receipts": retained,
+        "preflight": preflight,
+        "postflight": verified,
+        "coverage": {key: coverage[key] for key in ("definitions", "outcomes", "cells")},
+        "active_pointer_changed": False,
+        "model_calls": 0,
+        **(
+            {
+                "revised_scope_changes": {
+                    "old_rule_ids": [rule.rule_id for rule in removed],
+                    "new_rule_ids": [rule.rule_id for rule in added],
+                },
+                "known_domain_changes": known_changes,
+                "reviewed_exceptions": exception_checks,
+                **({"reviewed_reservations": reservation_checks} if reservation_checks else {}),
+            }
+            if revision is not None
+            else {}
+        ),
+    }
+def migrate_revision(source, output, revision):
+    """Apply the complete reviewed delta as one atomic, replayed transition."""
+    validate_revision_shape(revision)
+    return _migrate(source, output, revision=revision)
+def _migrate_snapshot(source, temporary, output, admissions, admission, revision):
+    conn = sqlite3.connect(temporary)
+    try:
+        from .residual import _request_id
+        from .reviewed_export import export_reviewed_input
+
+        for reviewed in admissions:
+            raw = reviewed["input"]
+            selection = {
+                "format": "GSE.reviewed-pattern-selection/1",
+                "discovery_entry_ids": raw["discovery_entry_ids"],
+                "audit_entry_ids": raw["audit_entry_ids"],
+                "reviews": [{"request_id": r["receipt"]["request_id"], "review": r["review"]} for r in raw["rulings"]],
+                **{key: raw[key] for key in ("candidates", "guarded_candidates") if key in raw},
+            }
+            fresh = export_reviewed_input(temporary, selection, input_format=raw["format"])
+            if fresh["input_sha256"] != _request_id(raw):
+                raise ValueError("MIGRATION_AUDITED_SNAPSHOT_CHANGED")
+        conn.row_factory = sqlite3.Row
+        _schema(conn)
+        conn.execute("BEGIN IMMEDIATE")
+        report = _apply_copy(conn, admission, revision=revision)
+        conn.commit()
+        conn.close()
+        # link is a no-clobber atomic install on the same filesystem.
+        os.link(temporary, output)
+        report.update(source=str(source), candidate=str(output))
+        return report
+    except BaseException:
+        conn.close()
+        raise
+TOPLEVEL SYMBOLS [('_put_version', 50, 55), ('_refresh_catalog', 58, 81), ('_exception_keys', 84, 91), ('_apply_copy', 94, 313), ('migrate_rule', 316, 322), ('migrate_revision', 325, 328), ('_migrate', 331, 353), ('_migrate_snapshot', 356, 386)]
+
+FILE GSE/curation/lexicon_builder/reviewed_patterns.py
+def audit_pattern(pattern, entry, relations, rulings, transport=None, *, allow_call=False):
+    """Ask only the withheld target using baseline closure, never staged answers."""
+    if entry.definition.entry_id not in pattern.audit_entry_ids:
+        raise ValueError("AUDIT_DEFINITION_NOT_HELD_OUT")
+    baseline, assertions, code = _antecedent_state(pattern, entry, relations, rulings)
+    result = {
+        "entry_id": entry.definition.entry_id,
+        "bank": pattern.consequent[0],
+        "code": code,
+        "model_calls": 0,
+        "comparison_authority": "UNAPPROVED_PATTERN_NOT_GOLD",
+    }
+    if code != "READY":
+        return result
+    bank, expected = pattern.consequent
+    if bank in baseline.assignments:
+        return {**result, "code": "SYMBOLICALLY_RESOLVED_PREEXISTING", "value": baseline.assignments[bank]}
+    request = build_request(
+        entry.definition.entry_id,
+        bank,
+        baseline,
+        entry.observations,
+        definition=entry.definition,
+        relations=relations,
+        context=entry.context,
+    )
+    result.update(request=request.payload(), schema=request.output_schema(), request_id=request.request_id)
+    if not allow_call or transport is None:
+        return {**result, "code": "AUDIT_CALL_BUDGET_EXHAUSTED"}
+    captured = _CapturedTransport(transport)
+    completion = complete_bank(
+        request,
+        BANKS,
+        assertions,
+        relations,
+        captured,
+        entry.context,
+        evidence_banks=entry.evidence_banks,
+        domain_restrictions=entry.restrictions,
+    )
+    if completion.code == "ASSIGNED":
+        assert completion.assertion is not None
+        value = completion.assertion.value
+        code = "MODEL_AGREEMENT" if value in (pattern.allowed_values or (expected,)) else "MODEL_COUNTEREXAMPLE"
+        result["value"] = value
+        result["accepted_assertion"] = asdict(completion.assertion)
+    else:
+        code = {"ABSTAINED": "MODEL_ABSTAINED", "CONTRADICTION": "MODEL_CONFLICT"}.get(completion.code, completion.code)
+    return {
+        **result,
+        "code": code,
+        "model_calls": captured.calls,
+        "details": completion.details,
+        "raw_output": captured.raw,
+        "transport_identity": captured.identity,
+        "proposed_value": expected,
+        **({"proposed_allowed_values": list(pattern.allowed_values)} if pattern.allowed_values else {}),
+        "writes": False,
+    }
+def run_workflow_input(raw: dict, transport=None, *, max_calls=0):
+    """Run the same strict workflow over an embedded input without filesystem I/O."""
+    if type(max_calls) is not int or max_calls < 0:
+        raise ValueError("INVALID_PATTERN_CALL_BUDGET")
+    _fields(
+        raw,
+        ("format", "rulings", "discovery_entry_ids", "audit_entry_ids", "entries", "relations"),
+        ("candidates", "guarded_candidates", "rule_history"),
+    )
+    if (
+        type(raw["format"]) is not str
+        or current_id(raw["format"]) not in {INPUT_FORMAT, LEGACY_INPUT_FORMAT}
+        or type(raw["entries"]) is not list
+        or type(raw["relations"]) is not list
+    ):
+        raise ValueError("INVALID_PATTERN_INPUT_FORMAT")
+    native_premises = current_id(raw["format"]) == INPUT_FORMAT
+    rulings = reviewed_rulings(raw["rulings"])
+    relations = tuple(_relation(record) for record in raw["relations"])
+    entries = {}
+    for record in raw["entries"]:
+        entry = _definition_input(record, relations)
+        if entry.definition.entry_id in entries:
+            raise ValueError("DUPLICATE_PATTERN_DEFINITION")
+        entries[entry.definition.entry_id] = entry
+    baselines = (
+        {
+            key: resolve_dictionary(
+                BANKS,
+                entry.assertions,
+                relations,
+                entry.context,
+                evidence_banks=entry.evidence_banks,
+                domain_restrictions=entry.restrictions,
+            )
+            for key, entry in entries.items()
+        }
+        if native_premises
+        else None
+    )
+    patterns = propose_patterns(
+        rulings,
+        discovery_entry_ids=raw["discovery_entry_ids"],
+        audit_entry_ids=raw["audit_entry_ids"],
+        candidates=raw.get("candidates", [] if "guarded_candidates" in raw else None),
+        baselines=baselines,
+        relations=relations,
+    )
+    requested = set(raw["discovery_entry_ids"]) | set(raw["audit_entry_ids"])
+    if not requested <= entries.keys() or any(row.entry_id not in requested for row in rulings):
+        raise ValueError("UNKNOWN_PATTERN_DEFINITION")
+    history = _input_rule_history(raw.get("rule_history"), relations, rulings, entries)
+    if history is not None:
+        entries = {key: replace(entry, rule_history=history) for key, entry in entries.items()}
+    patterns += guarded_patterns(
+        raw.get("guarded_candidates", []),
+        discovery_entry_ids=raw["discovery_entry_ids"],
+        audit_entry_ids=raw["audit_entry_ids"],
+        entries=entries,
+        rulings=rulings,
+        relations=relations,
+        native_premises=native_premises,
+    )
+    for row in rulings:
+        definition = entries[row.entry_id].definition
+        exact = {key: getattr(definition, key) for key in ("entry_id", "lemma", "pos", "definition")}
+        if row.receipt["request"]["definition"] != exact:
+            raise ValueError("REVIEWED_RULING_DEFINITION_MISMATCH")
+    for entry in entries.values():
+        resolve_dictionary(
+            BANKS,
+            entry.assertions,
+            relations,
+            entry.context,
+            evidence_banks=entry.evidence_banks,
+            domain_restrictions=entry.restrictions,
+        )
+    calls, reports = 0, []
+    for pattern in patterns:
+        stages, audits = [], []
+        for entry_id in pattern.audit_entry_ids:
+            entry = entries[entry_id]
+            stages.append(stage_pattern(pattern, entry, relations, rulings))
+            audit = audit_pattern(pattern, entry, relations, rulings, transport, allow_call=calls < max_calls)
+            calls += audit["model_calls"]
+            audits.append(audit)
+        reports.append(
+            {
+                "relation": asdict(pattern.relation),
+                "antecedent": pattern.antecedent,
+                **({"premises": pattern.premises} if pattern.premises else {}),
+                "consequent": pattern.consequent,
+                "proposal_kind": "GUARDED_WARRANTED_PROPOSAL" if pattern.warrant else "OBSERVED_PAIR",
+                "warrant": pattern.warrant,
+                "warrant_sha256": _request_id(pattern.warrant) if pattern.warrant else None,
+                "discovery_entry_ids": pattern.discovery_entry_ids,
+                "audit_entry_ids": pattern.audit_entry_ids,
+                "discovery": pattern.records,
+                "discovery_outcomes": dict(Counter(record["code"] for record in pattern.records)),
+                "staging": stages,
+                "audits": audits,
+                "audit_outcomes": dict(Counter(record["code"] for record in audits)),
+                "admission": "UNAPPROVED_CANDIDATE",
+            }
+        )
+    audit_requests = defaultdict(list)
+    for report in reports:
+        for audit in report["audits"]:
+            if "request_id" in audit:
+                audit_requests[audit["request_id"]].append((report["relation"]["rule_id"], audit["model_calls"]))
+    guards = {key for rule in (*relations, *(p.relation for p in patterns)) for key, _ in rule.guards}
+    if any(key.startswith(NATIVE_FRAME_PREFIX) for key in guards):
+        context_limit = "CONTEXT_BEYOND_POS_AND_EXACT_NATIVE_DEFINITION"
+    elif guards - {"pos"}:
+        context_limit = "CONTEXT_BEYOND_DEFINITION_POS_AND_EXACT_WORDNET_ANCESTRY"
+    else:
+        context_limit = "CONTEXT_BEYOND_DEFINITION_POS"
+    return {
+        "format": REPORT_FORMAT if native_premises else LEGACY_REPORT_FORMAT,
+        "input_sha256": _request_id(raw),
+        "model_calls": calls,
+        "max_model_calls": max_calls,
+        "discovery_entry_ids": raw["discovery_entry_ids"],
+        "audit_entry_ids": raw["audit_entry_ids"],
+        "candidates": reports,
+        "repeated_audit_requests": [
+            {
+                "code": "REPEATED_AUDIT_REQUEST",
+                "request_id": request_id,
+                "candidate_rule_ids": [rule for rule, _ in items],
+                "evaluations": len(items),
+                "model_calls": sum(calls for _, calls in items),
+            }
+            for request_id, items in sorted(audit_requests.items())
+            if len(items) > 1
+        ],
+        "lexicon_writes": False,
+        "authority": (
+            "REPLAYED_BASELINE_AND_EXPLICIT_REVIEWED_MODEL_RULINGS_NOT_INDEPENDENT_GOLD"
+            if native_premises
+            else "EXPLICIT_REVIEWED_MODEL_RULINGS_NOT_NATIVE_SOURCE_OR_INDEPENDENT_GOLD"
+        ),
+        "unsupported": [
+            "UNREVIEWED_PRIOR_MODEL_DEPENDENCIES",
+            context_limit,
+            "AUTOMATIC_RULE_PROMOTION",
+            "PRODUCTION_RULE_REPLAY_MIGRATION",
+        ],
+    }
+TOPLEVEL SYMBOLS [('ReviewedRuling', 37, 48), ('DefinitionInput', 52, 59), ('Pattern', 63, 72), ('_fields', 75, 77), ('_ids', 80, 85), ('reviewed_rulings', 88, 145), ('_ruling_reference', 148, 149), ('_baseline_witness', 152, 159), ('propose_patterns', 162, 263), ('_relation', 266, 283), ('_discovery_consequent', 286, 307), ('guarded_patterns', 310, 506), ('_applicability', 509, 515), ('_definition_input', 518, 586), ('_same_table', 589, 593), ('_input_rule_history', 596, 662), ('_baseline', 665, 683), ('_antecedent_state', 686, 719), ('_replay_prefix', 722, 827), ('_ReviewedAnswer', 830, 838), ('stage_pattern', 841, 877), ('_CapturedTransport', 880, 888), ('audit_pattern', 891, 949), ('run_workflow', 952, 956), ('run_workflow_input', 959, 1107)]
+
+FILE docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py
+def execute(*, retained_only=False, teaching_only=False):
+    plan = read(PLAN)
+    if fingerprint(BASE) != plan["baseline_sha256"] or fingerprint(ACTIVE_POINTER) != plan["active_pointer_sha256"]:
+        raise ValueError("CHECKPOINT_PINNED_INPUT_CHANGED")
+    model = RetainedTransport()
+    result_path = WORK / "result.json"
+    if result_path.exists():
+        result = read(result_path)
+        if fingerprint(Path(result["candidate"])) != result["candidate_sha256"]:
+            raise ValueError("CHECKPOINT_COMPLETED_CANDIDATE_CHANGED")
+        return
+    coordinates = model.packet["coordinates"][: 1 if retained_only else 2]
+    if not retained_only and PRIME_QUESTIONS.exists():
+        prime_packet = read(PRIME_QUESTIONS)
+        if prime_packet["baseline_sha256"] != plan["baseline_sha256"]:
+            raise ValueError("CHECKPOINT_PRIME_BASELINE_CHANGED")
+        coordinates = [*coordinates, *prime_packet["coordinates"]]
+    required = {
+        row["request_id"]
+        for row in model.packet["questions"][: 1 if retained_only or teaching_only else len(model.packet["questions"])]
+    }
+    if not required <= model.answers.keys():
+        missing = sorted(required - model.answers.keys())
+        record(
+            WORK / ("pending-answers-" + digest(missing) + ".json"),
+            {
+                "code": "FRESH_LOCAL_ANSWERS_REQUIRED",
+                "missing_request_ids": missing,
+                "new_model_calls": 0,
+                "bank_writes": 0,
+            },
+        )
+        raise ValueError("CHECKPOINT_FRESH_INDEPENDENT_LOCAL_ANSWERS_REQUIRED:" + ",".join(missing))
+    fresh = make_questions(BASE, coordinates)
+    all_requests = {
+        **model.requests,
+        **({row["request_id"]: row for row in read(PRIME_QUESTIONS)["questions"]} if PRIME_QUESTIONS.exists() else {}),
+    }
+    for request in fresh:
+        original = all_requests[request.request_id]
+        if request.payload() != original["request"] or request.output_schema() != original["schema"]:
+            raise ValueError("CHECKPOINT_FRESH_QUESTION_MISMATCH")
+    working = WORK / "teaching.db"
+    snapshot_copy(BASE, working)
+    baseline_path = WORK / "space-baseline.json"
+    if not baseline_path.exists():
+        record(baseline_path, measure_dictionary(BASE))
+    if BASIS_MANIFEST.exists():
+        record(WORK / "basis-stage.json", stage_basis_projection(working))
+        source_space = WORK / "space-post-source.json"
+        if not source_space.exists():
+            record(source_space, measure_dictionary(working))
+    teaching_path = WORK / ("typed-writer-retained.json" if retained_only else "typed-writer.json")
+    if not teaching_path.exists():
+        result = complete_dictionary(
+            working,
+            model,
+            len(coordinates),
+            entry_bank_questions=tuple(tuple(pair) for pair in coordinates),
+            continue_cohorts=True,
+            max_calls_per_entry=1,
+            max_entries_per_pass=len(coordinates),
+            priority="zipf",
+            progress=lambda row: print(json.dumps(row), flush=True),
+        )
+        record(teaching_path, result)
+    # An unavailable retained-answer file is a transport failure, not a model
+    # abstention. Resume only those failed exact prime requests once their
+    # pinned journals arrive; accepted questions are never retried.
+    recovered_prime_answers = False
+    if not retained_only and PRIME_QUESTIONS.exists() and PRIME_ANSWERS.exists():
+        with closing(connect(working)) as conn:
+            failed = tuple(
+                (entry, bank)
+                for entry, bank in read(PRIME_QUESTIONS)["coordinates"]
+                if conn.execute(
+                    "SELECT 1 FROM completion_attempts WHERE entry_id=? AND bank=? AND model=? AND code='TRANSPORT_ERROR'",
+                    (entry, bank, model.identity),
+                ).fetchone()
+            )
+        if failed:
+            retry_result = complete_dictionary(
+                working,
+                model,
+                len(failed),
+                entry_bank_questions=failed,
+                continue_cohorts=True,
+                max_calls_per_entry=1,
+                max_entries_per_pass=len(failed),
+                priority="zipf",
+                retry=True,
+                progress=lambda row: print(json.dumps(row), flush=True),
+            )
+            record(WORK / ("typed-prime-recovery-" + digest(retry_result) + ".json"), retry_result)
+            recovered_prime_answers = True
+    after_teaching_path = WORK / ("space-post-retained-teaching.json" if retained_only else "space-post-teaching.json")
+    if recovered_prime_answers or (not retained_only and (WORK / "space-post-prime-recovery.json").exists()):
+        after_teaching_path = WORK / "space-post-prime-recovery.json"
+    if not after_teaching_path.exists():
+        record(after_teaching_path, measure_dictionary(working))
+    if retained_only:
+        record(
+            WORK / "retained-teaching-result.json",
+            {
+                "code": "RETAINED_WATER_I_WRITTEN_AUDITS_AND_POSTFLIGHT_PENDING",
+                "candidate": str(working),
+                "candidate_sha256": fingerprint(working),
+                "new_model_calls": 0,
+                "historical_questions_reused": 1,
+                "rule_admissions": 0,
+                "activation_performed": False,
+                "measurement": compare_measurements(read(baseline_path), read(after_teaching_path)),
+            },
+        )
+        return
+    if teaching_only:
+        with closing(connect(working)) as conn:
+            retained = read_model_receipts(conn)
+            confirmed = [
+                row["request_id"]
+                for entry, bank in coordinates
+                for row in retained.get(entry, ())
+                if row["assertion"]["bank"] == bank and row["request_id"] in all_requests
+            ]
+        record(
+            WORK / "teaching-result.json",
+            {
+                "code": "EXACT_TYPED_TEACHING_COMMITTED_AUDITS_AND_REVISION_PENDING",
+                "candidate": str(working),
+                "candidate_sha256": fingerprint(working),
+                "accepted_request_ids": confirmed,
+                "unassigned_coordinates_remain_unknown": len(coordinates) - len(confirmed),
+                "new_model_service_calls_by_this_script": 0,
+                "historical_water_I_question_cost": 1,
+                "activation_performed": False,
+                "measurement": compare_measurements(read(baseline_path), read(after_teaching_path)),
+            },
+        )
+        return
+    admissions, reservations = [], []
+    with closing(connect(working)) as conn:
+        indexed = read_model_receipts(conn)
+        receipts = {entry: indexed.get(entry, ()) for entry, _ in coordinates}
+    for index, family in enumerate(parse_plan(plan).values()):
+        entry, bank = coordinates[index]
+        receipt = next(row for row in receipts[entry] if row["assertion"]["bank"] == bank)
+        taught = {
+            "request_id": receipt["request_id"],
+            "receipt_sha256": _request_id(receipt),
+            "value": receipt["assertion"]["value"],
+        }
+        raw = reviewed_input(working, family, {"entry_id": entry}, taught)
+        record(WORK / (family.id + "-input.json"), raw)
+        audited = run_workflow_input(raw, model, max_calls=3)
+        record(WORK / (family.id + "-audit.json"), audited)
+        [candidate] = audited["candidates"]
+        abstentions = [audit for audit in candidate["audits"] if audit["code"] == "MODEL_ABSTAINED"]
+        if abstentions:
+            # Preserve the complete parent audit, then explicitly withhold only
+            # its unresolved exact definitions. Null is never an opposing sign.
+            reserved = {audit["entry_id"] for audit in abstentions}
+            parent_hash = _request_id(raw)
+            raw = reserved_reviewed_input(working, raw, reserved)
+            audited = run_workflow_input(raw, model, max_calls=3)
+            [candidate] = audited["candidates"]
+            record(WORK / (family.id + "-reserved-reexport-input.json"), raw)
+            record(WORK / (family.id + "-reserved-reexport-audit.json"), audited)
+            record(
+                WORK / (family.id + "-reserved-reexport-lineage.json"),
+                {
+                    "code": "EXPLICIT_CHILD_COHORT_REEXPORT",
+                    "parent_input_sha256": parent_hash,
+                    "child_input_sha256": _request_id(raw),
+                    "source_database_sha256": fingerprint(working),
+                    "reserved_entry_ids": sorted(reserved),
+                    "historical_invalid_child_preserved": str(WORK / (family.id + "-reserved-input.json")),
+                    "reason": "The earlier manually selected child retained an unselected parent definition. Re-export through the ordinary provenance-checked exporter; no definition, source, bank value or model answer is changed.",
+                },
+            )
+            with closing(connect(working)) as conn:
+                for audit in abstentions:
+                    reservations.append(
+                        {
+                            "rule_id": candidate["relation"]["rule_id"],
+                            "entry_id": audit["entry_id"],
+                            "source_sha256": digest(reservation_source(conn, audit["entry_id"])),
+                            "bank": audit["bank"],
+                            "audit": audit,
+                            "review_id": "checkpoint-unresolved-reservation:" + family.id,
+                            "reviewer": family.warrant["reviewer"],
+                            "source_refs": family.warrant["source_refs"],
+                            "rationale": "Exact independent audit abstained; withhold this definition, assign no opposing sign, and retain the parent audit and native source.",
+                        }
+                    )
+        review = {
+            "rule_id": candidate["relation"]["rule_id"],
+            "warrant_sha256": candidate["warrant_sha256"],
+            "review_id": "checkpoint-admission:" + family.id,
+            "reviewer": family.warrant["reviewer"],
+            "decision": "APPROVE_DEFINITIONAL_RULE",
+            "source_refs": family.warrant["source_refs"],
+            "rationale": family.warrant["statement"],
+        }
+        admissions.append(admit_records(raw, audited, review))
+    inventory = read(WORK / "inventory.json")
+    members = {
+        row["entry_id"]: row for key, rows in inventory.items() if not key.startswith("curriculum:") for row in rows
+    }
+    rules, rows = scope_rows(working, members.values())
+    proposals = list(_relations(json.loads(json.dumps([admission["relation"] for admission in admissions]))))
+    with closing(connect(working)) as conn:
+        for index, proposal in enumerate(proposals):
+            for reservation in reservations:
+                if reservation["rule_id"] == proposal.rule_id:
+                    proposal = reserve_relation(conn, proposal, reservation, rules)
+            proposals[index] = proposal
+    staged = forecast(rows, rules, tuple(proposals))
+    record(WORK / "joint-stage.json", staged)
+    if staged["contradictions"] or staged["progress_code"] != "CONTRACTION":
+        raise ValueError("CHECKPOINT_SCOPE_CHALLENGE_OR_NO_EXACT_CONTRACTION")
+    revision = {
+        "format": REVISION_FORMAT,
+        "baseline_version": admissions[0]["baseline_version"],
+        "admissions": admissions,
+        "retirements": [],
+        "exceptions": [],
+        "reservations": reservations,
+    }
+    record(WORK / "joint-revision-reexport.json", revision)
+    output = WORK / "candidate.db"
+    migration_path = WORK / "migration.json"
+    if not output.exists():
+        record(migration_path, migrate_revision(working, output, revision))
+    if migration_path.exists():
+        migration = read(migration_path)
+    else:
+        # Atomic migration may have installed output just before interruption.
+        # Reconstruct authority from its exact reviewed history, never adopt an
+        # arbitrary preexisting output on the strength of a filename.
+        from GSE.curation.lexicon_builder.rule_history import read_history
+        from GSE.curation.lexicon_builder.validation import validate_build
+
+        replay = validate_build(output)
+        with closing(connect(output)) as conn:
+            history = read_history(conn, _relations(_metadata(conn, "relations")))
+        if not history or digest(history["events"][-1].get("revision")) != digest(revision):
+            raise ValueError("CHECKPOINT_RECOVERED_MIGRATION_IDENTITY_CHANGED")
+        migration = {"postflight": replay, "recovered_from_exact_revision": digest(revision)}
+        record(migration_path, migration)
+    if migration["postflight"]["code"] != "REPLAY_VALIDATED" or not migration["postflight"]["complete_search"]:
+        raise ValueError("CHECKPOINT_POSTFLIGHT_FAILED")
+    count, changed = exact_delta(working, output)
+
+    def by_cell(items):
+        return {(row["entry_id"], row["bank"]): row for row in items}
+
+    if by_cell(changed) != by_cell(staged["changes"]):
+        raise ValueError("CHECKPOINT_STAGE_COMMIT_DELTA_MISMATCH")
+    after = measure_dictionary(output)
+    record(WORK / "space-post-revision.json", after)
+    record(
+        WORK / "result.json",
+        {
+            "code": "JOINT_REFERENCE_REVISION_REPLAYED_WORKLOAD_GATE_PENDING",
+            "candidate": str(output),
+            "candidate_sha256": fingerprint(output),
+            "definitions_replayed": count,
+            "replay": migration["postflight"],
+            "new_model_calls_by_this_script": 0,
+            "external_local_questions_replayed": len(set(model.replayed) - {fresh[0].request_id}),
+            "historical_water_I_question_cost": 1,
+            "source_projection": compare_measurements(read(baseline_path), read(WORK / "space-post-source.json"))
+            if (WORK / "space-post-source.json").exists()
+            else None,
+            "teaching": compare_measurements(
+                read(WORK / "space-post-source.json")
+                if (WORK / "space-post-source.json").exists()
+                else read(baseline_path),
+                read(after_teaching_path),
+            ),
+            "rule_revision": compare_measurements(read(after_teaching_path), after),
+            "total": compare_measurements(read(baseline_path), after),
+            "activation_performed": False,
+        },
+    )
+TOPLEVEL SYMBOLS [('basis_assertion', 61, 94), ('stage_basis_projection', 97, 187), ('RetainedTransport', 190, 257), ('prepare', 260, 308), ('reserved_reviewed_input', 311, 338), ('execute', 341, 625)]

@@ -1,0 +1,556 @@
+ M .claude/rules/lg_focus.md
+ M .claude/rules/lg_session.md
+ M GSE/nlp/native.py
+ M GSE/symbolic/expression.py
+ M GSE/symbolic/lexical_grounding.py
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-root-handoff.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-blockers.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-steering.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-last-message.md
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-status.json
+ M docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-status.json
+ M tests/test_runtime_native_composed_controls.py
+ M tests/test_runtime_native_identity_controls.py
+ M tests/test_symbolic_expression.py
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-questions.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-child-warrant.md
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-child.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-answers.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-native-equivalence.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-native-equivalence.md
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-refreeze-tests-v3.xml
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-unfreeze-focused-tests-v3.xml
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-119-call_d0c784b88cc4441bbf234a1912b1c736-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-119-call_d0c784b88cc4441bbf234a1912b1c736-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-119-call_d0c784b88cc4441bbf234a1912b1c736.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-119-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-120-call_8dde6ce05bf84eba894909c63144c202-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-120-call_8dde6ce05bf84eba894909c63144c202-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-120-call_8dde6ce05bf84eba894909c63144c202.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-120-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-121-call_04f65db4510a438793247842ff260923-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-121-call_04f65db4510a438793247842ff260923-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-121-call_04f65db4510a438793247842ff260923.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-121-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-122-call_ee73bb8509d146489b604128992ab6ed-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-122-call_ee73bb8509d146489b604128992ab6ed-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-122-call_ee73bb8509d146489b604128992ab6ed.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-122-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-123-call_6904b125bdd748b8859ab55f39e28bcb-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-123-call_6904b125bdd748b8859ab55f39e28bcb-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-123-call_6904b125bdd748b8859ab55f39e28bcb.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-123-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-124-call_28db1f4cf5fc4ca19d9fcce0c0fc0216-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-124-call_28db1f4cf5fc4ca19d9fcce0c0fc0216-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-124-call_28db1f4cf5fc4ca19d9fcce0c0fc0216.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-124-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-125-call_2f5eea343e8e42e3a107354298e87e25-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-125-call_2f5eea343e8e42e3a107354298e87e25-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-125-call_2f5eea343e8e42e3a107354298e87e25.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-125-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-126-call_8c0469e917b84b8282939b9cfa0be642-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-126-call_8c0469e917b84b8282939b9cfa0be642-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-126-call_8c0469e917b84b8282939b9cfa0be642.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-126-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-127-call_0acd61932286417a8c6a4f46811ee9b7-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-127-call_0acd61932286417a8c6a4f46811ee9b7-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-127-call_0acd61932286417a8c6a4f46811ee9b7.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-127-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-128-call_2f63cf7f71b74f3a8c7c6e055e444a68-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-128-call_2f63cf7f71b74f3a8c7c6e055e444a68-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-128-call_2f63cf7f71b74f3a8c7c6e055e444a68.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-128-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-129-call_16d7575de2034f85872797d36a10eb56-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-129-call_16d7575de2034f85872797d36a10eb56-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-129-call_16d7575de2034f85872797d36a10eb56.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-129-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-130-call_095ab07958964b52bbec20a599aeb292-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-130-call_095ab07958964b52bbec20a599aeb292-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-130-call_095ab07958964b52bbec20a599aeb292.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-130-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-131-call_a6d0042ab50d4de193b4e2e5ec656284-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-131-call_a6d0042ab50d4de193b4e2e5ec656284-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-131-call_a6d0042ab50d4de193b4e2e5ec656284.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-131-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-132-call_9ccad97b71294e8094d990577439c377-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-132-call_9ccad97b71294e8094d990577439c377-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-132-call_9ccad97b71294e8094d990577439c377.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-132-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-133-call_17ecbf28abcf44a0865f7be6de2f91a1-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-133-call_17ecbf28abcf44a0865f7be6de2f91a1-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-133-call_17ecbf28abcf44a0865f7be6de2f91a1.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-controller-133-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-036-call_6e756fe259444c49ab26198ac2a54460-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-036-call_6e756fe259444c49ab26198ac2a54460-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-036-call_6e756fe259444c49ab26198ac2a54460.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-036-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-037-call_824cd35cab4149e4ac3bf55ff020a26b-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-037-call_824cd35cab4149e4ac3bf55ff020a26b-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-037-call_824cd35cab4149e4ac3bf55ff020a26b.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-037-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-038-call_9e49fb3a4a4848eabb43a94d042b531a-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-038-call_9e49fb3a4a4848eabb43a94d042b531a-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-038-call_9e49fb3a4a4848eabb43a94d042b531a.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-038-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-039-call_e947c2397b434826a5316a36a21ba115-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-039-call_e947c2397b434826a5316a36a21ba115-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-039-call_e947c2397b434826a5316a36a21ba115.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-039-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-040-call_4e641a1a7dfc4c11b5ffde66ded6f339-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-040-call_4e641a1a7dfc4c11b5ffde66ded6f339-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-040-call_4e641a1a7dfc4c11b5ffde66ded6f339.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-040-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-041-call_b3fd228a2da4438ba467f0257e6660e7-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-041-call_b3fd228a2da4438ba467f0257e6660e7-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-041-call_b3fd228a2da4438ba467f0257e6660e7.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-041-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-042-call_20cb085e184544c8969e308c93bc59ac-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-042-call_20cb085e184544c8969e308c93bc59ac-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-042-call_20cb085e184544c8969e308c93bc59ac.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-042-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-043-call_e0bc32b5eee94c02a2990fd6a9143316-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-043-call_e0bc32b5eee94c02a2990fd6a9143316-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-043-call_e0bc32b5eee94c02a2990fd6a9143316.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-043-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-044-call_a9c6bf513ff24d81baf071cb9abd3d61-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-044-call_a9c6bf513ff24d81baf071cb9abd3d61-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-044-call_a9c6bf513ff24d81baf071cb9abd3d61.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-044-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-045-call_9196ff2e376240d8a849f3752d36087e-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-045-call_9196ff2e376240d8a849f3752d36087e-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-045-call_9196ff2e376240d8a849f3752d36087e.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-045-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-046-call_9df27cc47cad41118f685daaf7a987e7-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-046-call_9df27cc47cad41118f685daaf7a987e7-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-046-call_9df27cc47cad41118f685daaf7a987e7.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-046-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-047-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-111-call_8b11961c43be414bb4155c65d677578e-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-111-call_8b11961c43be414bb4155c65d677578e-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-111-call_8b11961c43be414bb4155c65d677578e.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-111-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-112-call_0c808fe829c14685b79b4804d6e12bbf-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-112-call_0c808fe829c14685b79b4804d6e12bbf-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-112-call_0c808fe829c14685b79b4804d6e12bbf.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-112-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-113-call_11b56027d15043a9b6de30e55f07ea15-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-113-call_11b56027d15043a9b6de30e55f07ea15-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-113-call_11b56027d15043a9b6de30e55f07ea15.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-113-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-114-call_73d39260547f43c09158f4d0d7da74a0-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-114-call_73d39260547f43c09158f4d0d7da74a0-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-114-call_73d39260547f43c09158f4d0d7da74a0.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-114-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-115-call_8f5bf875733444eca334674bf90c19ff-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-115-call_8f5bf875733444eca334674bf90c19ff-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-115-call_8f5bf875733444eca334674bf90c19ff.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-115-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-116-call_64e8afe62e2d4ad88bb1607390d5cf3d-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-116-call_64e8afe62e2d4ad88bb1607390d5cf3d-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-116-call_64e8afe62e2d4ad88bb1607390d5cf3d.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-116-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-117-call_94f1e81afc40408ca4078b035a0e73ce-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-117-call_94f1e81afc40408ca4078b035a0e73ce-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-117-call_94f1e81afc40408ca4078b035a0e73ce.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-117-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-118-call_779dafaaebf74dc1a03ec7312a1fc7d7-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-118-call_779dafaaebf74dc1a03ec7312a1fc7d7-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-118-call_779dafaaebf74dc1a03ec7312a1fc7d7.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-118-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-119-call_e194273b643943a4b4b0f86f4b53aadb-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-119-call_e194273b643943a4b4b0f86f4b53aadb-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-119-call_e194273b643943a4b4b0f86f4b53aadb.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-119-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-120-call_bdb5c558564d4431a90f8b3942e6fdf2-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-120-call_bdb5c558564d4431a90f8b3942e6fdf2-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-120-call_bdb5c558564d4431a90f8b3942e6fdf2.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-120-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-121-call_99b78fd993a94901941a815efeadfec8-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-121-call_99b78fd993a94901941a815efeadfec8-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-121-call_99b78fd993a94901941a815efeadfec8.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-121-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-122-call_fd93dc9f427e4372b2224bcba0470fa4-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-122-call_fd93dc9f427e4372b2224bcba0470fa4-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-122-call_fd93dc9f427e4372b2224bcba0470fa4.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-122-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-123-call_f2c0af28379949d7a2a8c076314a4f85-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-123-call_f2c0af28379949d7a2a8c076314a4f85-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-123-call_f2c0af28379949d7a2a8c076314a4f85.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-123-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-124-call_26c648b97842493cb18d120d48609ac2-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-124-call_26c648b97842493cb18d120d48609ac2-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-124-call_26c648b97842493cb18d120d48609ac2.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-124-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-125-call_52e06a6fbc0643a998586f7986dca719-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-125-call_52e06a6fbc0643a998586f7986dca719-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-125-call_52e06a6fbc0643a998586f7986dca719.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-125-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-126-call_b80a04a44d9a4a3aa8f59a86b9f05c8d-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-126-call_b80a04a44d9a4a3aa8f59a86b9f05c8d-output.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-126-call_b80a04a44d9a4a3aa8f59a86b9f05c8d.log
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-126-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-127-call_35e7be15beb5401fbb504005636a04ef-input.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-runtime-127-response.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-audit.json
+?? docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_packets.py
+ssl-responses-runtime-steering.json
+{
+  "authority": "NEW_DIRECT_USER_INSTRUCTION_OVERRIDES_EARLIER_JOB_PRIORITIES",
+  "user_words_verbatim": "I need a working lexicon checkpoint done yesterday. I was willing to humor your slow and charming refusal to follow directions while I was doing other things, but the time has come where I need to use GSE, and I can't do that without a working lexicon checkpoint. Follow the plan, get the base established as we agreed upon over the past day, and provide me with a working lexicon checkpoint ASAP. The full learning loop can keep iterating in the fullness of time. But I need a working lexicon that can power the full repertoire of GSE tools for the majority of sane uses, and I need it by tomorrow morning, in the next 6-8 hours",
+  "received_utc": "2026-11-24T08:09:27Z",
+  "target_activation_utc": "2026-11-24T14:09:27Z",
+  "latest_requested_window_utc": "2026-11-24T16:09:27Z",
+  "priority": "ESTABLISH_VALIDATE_AND_ACTIVATE_USABLE_CHECKPOINT_FIRST",
+  "contract": "Existing formal usable-workload and source/semantic/replay/runtime gates apply. Unknown remains unknown; rigor is not waived. Full generic learning-loop completion is explicitly deferred until after the usable checkpoint.",
+  "coordination": "These are the same two API worker conversations, resumed from completed tool outcomes. Your prior code, tests, evidence and context remain. Read any new peer coordination message in ssl-responses-ROLE-steering.json via the parent driver. No repeat of old model or completed tool requests.",
+  "scope_control": "Do not create a replacement constructor, alternate lexicon or alternate runtime. Use existing foundation candidate, approved rules and ordinary admission/migration/replay/publication path. Keep active and rollback protected. Do not spend the checkpoint window completing general controller features that do not block the checkpoint.",
+  "source_freeze_target_utc": "2026-11-24T10:09:27Z",
+  "replay_budget": "Reserve substantial time for the existing full-cohort replay (previously roughly two hours wall). Start final replay promptly once actual code/rule revisions settle. Full repository gate after both worker code scopes finish; unchanged passing checks need no gratuitous repeats.",
+  "reporting": "A running job or passing toy fixture is not the deliverable. Required deliverable is a validated activated usable checkpoint with workload outcomes and exact source/rule pins. Never call the 50526 forecast committed unless migration and replay actually deliver it. Report real blockers promptly in ssl-api-ROLE-blockers.json, with exact failed outcomes, while continuing independent checkpoint work.",
+  "role": "runtime",
+  "next_execution": "Finish existing critical runtime identity/grammar edits and focused tests promptly. Freeze the usable checkpoint acceptance manifest NOW against the agreed full GSE repertoire and >=90% eligible token mass in frequency source AND independent real text. Inventory actual public GSE tasks and required bank/sense/grammar demands; compute present failures and send actionable compact missing-cell/rule populations to controller via ssl-api-runtime-checkpoint-demand.json. Use original founder-approved checkpoint scope, no narrowing after failures. Validate ordinary/function ambiguity, he/He, speaker/addressee, WANT, BE, anatomy, NOT/VERY scope and duration plus real sentence/tool operations. Produce real source-warranted held-out positive/MUST-NOT expected outcomes outside construction requests. Once your code edits pass their appropriate tests, write ssl-api-runtime-result.json early as CODE_FREEZE_READY even if the evolving lexicon still fails workload; tell controller exactly what remains. You may continue read-only demand audits afterward without changing pinned runtime source. Do not wait for generic learner completion. Coordinate final runtime/workload proof and usable sparse publication with controller.",
+  "parallel_factual_census": "A third read-only API worker is producing ssl-api-coverage-checkpoint-facts.json (and result.json) on approved source/rule applications and common-form blind spots beyond the known I/YOU forecast. Consume checked exact evidence as useful, but do not wait for it. It writes no code or lexical data.",
+  "root_independent_runtime_counterexamples": {
+    "code": "CONFIRMED_PUBLIC_ENCODER_REGRESSION_REQUIRES_REPAIR",
+    "evidence_file": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-identity-probes.json",
+    "observed": "On actual active021 GSEEncoder.encode, He is an entity / He is a thing / He is an organism / He is an animal all yield pronoun CONFLICT and empty banks. He is happy / He is a person preserve correct pronoun. He is an inert gas already computes contextual_grounding EXACT_WORDNET_SENSE wordnet:he:helium.n.01 but encode drops that exact result and emits unread.",
+    "cause_to_verify": "grammatical_eligibility treats absence of person.n.01 among an asserted type ancestry as explicit non-person exclusion. Broad ancestor types entity/organism legitimately include people. This is unknown/comparability being mistaken for disjointness. Use actual native constraints; do not patch a list of words. Consume exact independently grounded contextual identity where legitimately established rather than computing and then ignoring it.",
+    "acceptance": "Add positive/MUST-NOT tests through actual encoder for broad generic types and unrelated substance mentions, maintain specific chemical challenges, preserve legitimate pronoun readings; no release with this regression. Root report is development evidence; do not relabel it untouched final holdout."
+  },
+  "root_prime_operation_demand": {
+    "evidence": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-prime-demand-probes.json",
+    "measurement": "Actual GSEEncoder on active021, 19 elementary contexts: only DO and CAN emitted the probed literal prime sign. This is emission availability, NOT a semantic accuracy score; all original source hashes are pinned and unchanged during the probe.",
+    "exact_observed_gap": "want/think/know/see/hear/feel/say/happen/move/good/bad/big/small/have/here all remain AMBIGUOUS with empty word primitives; above and before select curated grammatical rows but have no ABOVE/BEFORE lexical component. Ordinary primitive usage is consequently not powered by the current checkpoint.",
+    "checked_consumer_fact": "Current GSEEncoder.encode only invokes contextual grounding for NOUN/PROPN tokens after grammatical lookup fails; VERB/ADJ/ADV ambiguity never reaches that selector. It also selects curated grammatical rows ahead of ordinary source candidates, so missing lexical components in those exact rows need source-aligned projection, not blanket lookup.",
+    "required_action": "Use these as DEVELOPMENT demand to establish the common-word/prime base and actual runtime access as the user requested. Separate missing lexical evidence from unresolved identity; extend/reuse existing typed source/role/construction grounding and correct source integration. Do not bolt on word->prime lookup, silently zero domains, force a sense contradicted by context, or call these untouched final holdouts. Where a sentence truly remains ambiguous, record it and verify a sufficiently specified variant rather than forcing its annotated literal intent.",
+    "coordination": "Runtime worker owns the consumer/eligibility path; controller owns justified bank/source projections and corpus revisions. Coverage worker supplies factual source/rule reach. This is a checkpoint-critical observed failure, not optional broad learner research. Source freeze waits for the corrected base path and proper tests."
+  },
+  "completed_root_and_coverage_evidence": {
+    "reference_audit_receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-reference-audit.json",
+    "reference_audit_fact": "All7 fresh typed local requests finished, plus exact original water/I reused. RockYOU0; doorI0; treeI0; catYOU0; houseYOU0; glassYOU0. DogI explicitlyNULL remainsunknown. No lexical cellswritten byroot. Original raw journal/model/schema identities and interned contexts are retained. Do not repeat these questions. Process audit null as explicit reservation/unknown, not zero or negative exception. If existing admission requires another signed animal audit, ask a fresh disjoint exact sense rather than repeatingdog.",
+    "coverage_census": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-result.md and .json",
+    "prime_crosswalk": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-coverage-prime-demand-crosswalk.json",
+    "facts": "Nine nonemitting prime lemmas already have signed same-POS candidates: runtime must access eligible exact identities. Eight lack requested signs on parsed-POS candidates: good,bad,big,small,have,here,above,before. Existing117779 native projectioncells alreadyapplied; no blanket missed-source flood found. Actual unadmitted rule reach includes physicalcontactTOUCH269, own/possessHAVE4, guardedpossessionHAVE181, humanpersonBODY9021 withtitlechallenges, explicitpersongenusBODY1453; scopesoverlap, notsummable. Prime catalogue16supported,42open,7construction/hierarchy. Read governingproofs beforeusing.",
+    "execution_authority_fixed": "New developer/tool scope explicitly authorizes controller local GSE/Ollama. Temporary TPM429 handling now bounded and coordinated; existing completed tool outputs replayed exactly, not rerun. Server-side context compaction enabled; original owner intent, checkpointpriority and sourcecontracts remain authoritative. After compaction re-ground required obligations, do not restart archaeology or rewrite the plan."
+  },
+  "word_sentence_boundary_check": "Root re-read the WHOLE formal Word and sentence boundary section. Do NOT turn the19 raw word-bank emission probes into a demand to duplicate meaning already correctly carried by sentence geometry/operator/grammar structures. Above/before have native spatial/temporal metadata: verify the actual composed relation before calling absence of a raw lexical sign a task failure. The observed noun-only contextual-selection branch and unreachable signed verb candidates remain concrete consumer gaps. For source-only holes such as good/bad/size, establish actual source-warranted lexical meaning and permitted construction. Check auxiliary-have/do versus main-verb roles under the existing contract; do not simply map lemma->bank to make probes pass. Preserve complete meaning across scales. Root probes are development diagnostics, not new universal word-level requirements.",
+  "root_exact_prime_warrant": "Root independently read the COMPLETE primary NSM chart and COMPLETE EVALUATION/SIZE bipolar declarations in both GSE/primitives_v2.py and curation/schema.py. Explicit scoped derivation review saved at ssl-root-canonical-prime-projection-review.json for canonical nsm_chart:v20:good/bad/big/small only. It supports only GOOD+1/-1 and BIG+1/-1, not a full signature, same-spelling ordinary senses, participant banks, hierarchy or zero defaults. It is a source-derived implementation review, not a new founder convention. Consume through the existing tested projection/admission/replay machinery; do not simply flip approval flags. Runtime must preserve exact source/role eligibility and composed scope.",
+  "owner_resume": "Continue, complete this task please",
+  "resume_priority": "Deliver usable rigorous checkpoint, not another generic learner infrastructure round. Existing receipt CODE_FREEZE_READY was not usable-checkpoint acceptance. Deadline already missed; execute shortest safe dependency chain now.",
+  "coordinated_unfreeze": {
+    "authorized": true,
+    "scope": "Existing real runtime/construction/resolution/evaluation/emission modules and associated tests, plus your previous owned paths. Do not touch builder or lexical DBs.",
+    "task": "Fix all three actual composed-tool defects in ssl-api-runtime-postfreeze-findings.json through the existing production seams. Above/below must retain distinct spatial relation; temporal preposition must retain anchor and not become patient; copular inert-gas sentence must be nominal type assertion, preserving native chemical identity. Then resolve exact common noun grounding gaps femur/teacher with actual source/context constraints. No tiny word lists, flat mappings, forced first senses or unknown->zero. Trace real consumers. Run focused/adversarial tests and re-freeze source pins promptly. Keep all failure classes visible; no false held-out claims. Controller is working on lexical source/rule migration separately. If existing independent runtime source machinery can fill genuine workload manifest evidence, run it; do not invent synthetic receipt booleans."
+  },
+  "root_acceptance_contract_trace": {
+    "formal_unit": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md / Checkpoint workload and acceptance (read whole by root)",
+    "code_units_read": "scripts.audit_lexicon_sentences.load_workload and checkpoint_result (whole bodies read by root)",
+    "concrete_overconstraints": [
+      {
+        "code": "WHOLE_COMMON_FORM_LABEL_REQUIREMENT_INVENTED",
+        "location": "load_workload two_sided_semantic_audit set(audited_forms)==set(common_forms)",
+        "formal": "Item2 specifies90% common-form cohort and retainingall senses; items3/4/5 specify actual operations, needed components, source-warranted positive/MUST-NOT cases and independent final cases. It does not require manually authoring two-sign semantic gold for every one of16692 spelling forms. Do not confuse cohort/sourcecoverage with semantic accuracy. Use all existing common-form demand inventory plus declared representative independent finite semantic cases across genres/tail and exact promised required operations. Preserve missing-sign and known-wrong checks; no fabricated gate booleans."
+      },
+      {
+        "code": "EACH_GENRE_90_THRESHOLD_INVENTED",
+        "location": "checkpoint_result token mass all(genres)>=90%",
+        "formal": "Item2 explicitly says90% in BOTH frequency source and an independent real-text corpus, WITH genre slices. Report each genre slice honestly; there is no specified independent90% threshold for everygenre. Keep aggregate two-source90% requirement. Do not narrowcohort or discard failedgenre aftermeasurement."
+      }
+    ],
+    "action": "Correct these new unapproved extra gates to match the established formal contract, preserving all actual failures and finite two-sided semantic validation. Explain exact before/after in receipt; this is removalof implementation drift, notwaivinguserrequirements. Root traced references beforethisrequestedchange."
+  },
+  "root_lint_preflight": "Root read-only Ruff preflight during your edits found definition_witnesses initialized in _native_example_support but used undefined in _construction_support. Likely transient patch placement; ensure correct scope before freeze. Formatter also flags native.py/new composed tests/audit script; you own those, root leaves them alone.",
+  "root_new_negative_witness": {
+    "development_not_final": true,
+    "source_read": "Whole new expression._nominal_temporal_attachment and tests.test_runtime_native_composed_controls read by root",
+    "specific_risk": "Current any WordNet sense time_period/clock_time check proves grammatical possibility, not uniquely time denotation. Existing negative king lacks any time sense and misses ambiguity. Probe Alice stood before the spring and Alice stood before the period: spring can mean mechanical object orseason; period can punctuationorinterval. Preserve unresolved role/anchor alternatives insteadof silentlyforcingtemporal merelybecauseonesenseistime. Useexisting source/grammarconstraints, no wordlistpatch.",
+    "additional_positive": "Check ordinary determined copula with degree-adverb modifiers (e.g. He is a very strict judge) preserves nominal head; noun/verb repair currently scans adjectivesonly. Fix if actual malformed event; do not use lexical rarity to force sense.",
+    "frozen_critical_reminder": "control-he-chemical original text The chemical symbol He denotes helium still requires exact native identity. Inert-gas positive fix by itselfdoesnotpassoriginalfrozencriticalcase. Originalcasesnowdevafterinspection; finalauditneedsfreshlineage-separatedcaseartifacts oncecodefreezes."
+  },
+  "process_inventory_safety": "Never print full ps command lines or full environment: some unrelated MCP launch commands contain credentials. Capture only the specific owned process subtree, and print pid/ppid/elapsed/CPU/RSS plus sanitized role labels, never command arguments. No credential discovery or inspection; do not read old full process listings. Do not include those logs in result prose or final commit."
+}
+ssl-api-runtime-blockers.json
+{
+  "format": "GSE.runtime-blockers/1",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "status": "SOURCE_EDITING_UNFROZEN",
+  "updated_utc": "2026-11-24T17:52:03.482435+00:00",
+  "identity_regression": {
+    "status": "REPAIRED_VERIFIED_REAL_ENCODER",
+    "evidence": "ssl-api-runtime-code-freeze-tests.xml",
+    "note": "Broad generic native ancestors preserve pronoun; inert-gas exact contextual identity consumed; unrelated/negated mentions do not force chemical reading."
+  },
+  "workload_scope": "ssl-api-runtime-workload-freeze.json",
+  "token_demand": "ssl-api-runtime-token-demand.json",
+  "checkpoint_demand": "ssl-api-runtime-checkpoint-demand.json",
+  "current_failures": [
+    {
+      "code": "CRITICAL_IDENTITY_ABSTENTIONS",
+      "cases": [
+        "final-femur-anatomy",
+        "final-teacher-person",
+        "control-he-chemical"
+      ],
+      "required_action": "Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification."
+    },
+    {
+      "code": "REQUIRED_BANKS_OPEN",
+      "cases": [
+        {
+          "id": "final-leap-event",
+          "definition_id": "wordnet:leap:leap.n.01",
+          "bank": "HAPPEN",
+          "required": 1,
+          "domain": [
+            -1,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "final-whisper-words",
+          "definition_id": "wordnet:whisper:whisper.n.01",
+          "bank": "SAY",
+          "required": 1,
+          "domain": [
+            -1,
+            0,
+            1
+          ]
+        }
+      ],
+      "required_action": "Controller source-warranted admission/migration and full replay; no inferred zero."
+    },
+    {
+      "code": "COMMON_OPERATION_IDENTITY_OPEN",
+      "observed": "Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.",
+      "required_action": "Retain full workload and establish independently justified construction/source eligibility for unresolved common operations."
+    },
+    {
+      "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
+      "scope_freeze": "ssl-api-runtime-workload-freeze.json",
+      "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
+    }
+  ],
+  "ongoing_runtime_repair": "Three original composed defects fixed with real public-path tests; adversarial anchor alternatives and chemical native alias identity repaired. Broad regression checking and re-freeze underway.",
+  "controller_source_demands": [
+    "Stored lexical bank holes leap.n.01 HAPPEN and whisper.n.01 SAY under existing source/competence contracts. Evaluation gold is not a rule warrant.",
+    "good/bad/big/small/have/here source/role lexical demand requires warranted projections; above/before must be checked at composed relation scale, not automatically missing from raw bank emission.",
+    "Full common-form bank/sense semantic workload validation not supplied; frozen frequency+Brown cohort is not itself semantic acceptance."
+  ],
+  "corpus_writes": 0,
+  "active_pointer_changed": false,
+  "source_freeze_receipt": "ssl-api-runtime-result.json",
+  "source_edits_finished": false,
+  "postfreeze_readonly_findings": {
+    "format": "GSE.runtime-postfreeze-readonly-findings/1",
+    "measured_at_utc": "2026-11-24T09:09:52.260842+00:00",
+    "source_freeze_receipt": "ssl-api-runtime-result.json",
+    "runtime_source_pins_unchanged": true,
+    "corpus_unchanged": true,
+    "evidence": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-composed-tools-readonly.json",
+    "evidence_sha256": "5a4a8ce029419ab6197c3b20e8556ab47450304ac4a1561d18adfcf48489b5b3",
+    "new_blockers": [
+      {
+        "code": "SPATIAL_COMPOSITION_COLLAPSES_OPPOSITES",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "The bird is above the tree.",
+          "The bird is below the tree."
+        ],
+        "observed": "Both real public encoder -> from_trace -> resolve -> evaluate_tree -> emit_contract yield identical TYPE_ASSERT(bird,tree), with no spatial relation in serialized evaluated tree. This is an actual composed meaning failure, not a raw lexical sign demand.",
+        "owner_action": "Coordinated runtime-source unfreeze needed to trace native spatial grammar metadata through existing construction/evaluation/emission; filling raw word ABOVE alone is not a remedy."
+      },
+      {
+        "code": "PREPOSITIONAL_TEMPORAL_ROLE_LOST",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "Alice arrived before dawn."
+        ],
+        "observed": "Composes EVENT arrive(alice,dawn), treating dawn as patient and dropping before; clausal before/after constructions correctly retain conjunction and must be preserved.",
+        "owner_action": "Coordinated runtime-source unfreeze needed for existing prepositional temporal construction/role path; not a lexical before-bank fill."
+      },
+      {
+        "code": "HELIUM_IDENTITY_FIXED_BUT_COPULA_CONSTRUCTION_WRONG",
+        "severity": "KNOWN_WRONG_BLOCKS_CHECKPOINT",
+        "texts": [
+          "He is an inert gas."
+        ],
+        "observed": "He token correctly identifies exact native helium and is NOUN, but grammar marks gas VERB and whole composed tree is EVENT gas(inert he), not copular type assertion. Token-level identity success does NOT certify sentence.",
+        "owner_action": "Coordinated runtime-source unfreeze needed for source/native witnessed copular nominal construction; preserve grammar/context proof and do not blanket override gas POS."
+      }
+    ],
+    "observed_controls": {
+      "before_after_clausal": "distinct TEMPORAL conjunction retained",
+      "not_very_very_not": "distinct scoped contracts retained",
+      "duration": "long versus short retained",
+      "queries": "axis big, swapped arguments true, swapped logical equal false, self equal true",
+      "inference": "conditional derives Mike leave with both source IDs; swapped agent, modal and negated positive queries withheld",
+      "document": "Real MultiScaleDoc with existing NullGenealogy: intake/resolution/fold/graph read; cross-paragraph she and supporting woman share e0; does not certify unavailable world resource",
+      "speech": "Quoted I ran attributed to Bob; source sentence and read state retained",
+      "profile": "read, affect unavailable None rather than measured zero for missing GOOD evidence",
+      "auxiliary_have_do": "Auxiliary versus main verb structurally distinct; auxiliary have emits stored HAVE1 at token scale, main have remains ambiguous. Existing source authority should review; do not manufacture full same-lemma mapping."
+    },
+    "coordination": "CODE_FREEZE_READY receipt remains an accurate source completion boundary, NOT checkpoint pass. No source edits after it. These read-only findings require explicit coordinated unfreeze before further runtime fixes."
+  },
+  "unfreeze_development_findings": {
+    "evidence": "ssl-responses-runtime-119-call_e194273b643943a4b4b0f86f4b53aadb.log",
+    "identity_repairs": [
+      "wordnet:femur:femur.n.01",
+      "wordnet:teacher:teacher.n.01",
+      "wordnet:he:helium.n.01"
+    ],
+    "remaining_whole_sentence_wrong": [
+      {
+        "text": "The teacher is a person whose occupation is teaching.",
+        "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
+        "code": "RELATIVE_COPULA_COMPOSITION_WRONG"
+      },
+      {
+        "text": "The femur is the longest and thickest bone of the human skeleton.",
+        "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
+        "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG"
+      }
+    ],
+    "note": "Development findings, not final holdout. Known wrong full-sentence cases cannot be hidden by token identity success; no checkpoint PASS."
+  }
+}
+
+STATUS
+RECEIPT KEYS
+['format', 'role_scope', 'status', 'source_edits_finished', 'frozen_at_utc', 'coordination', 'owned_files', 'implementation', 'verification', 'test_junit', 'real_results', 'frozen_workload', 'blockers', 'actual_corpus_changes', 'remaining_cp_ids', 'tooling', 'postfreeze_readonly_audit', 'freeze_lineage']
+status "SOURCE_EDITING_UNFROZEN"
+source_edits_finished false
+owned_files [
+  {
+    "path": "GSE/api/encoder.py",
+    "sha256": "a3905ffa912913bbfd21e81846bddf5861a3df5a77065524c9e196a250685dd4"
+  },
+  {
+    "path": "GSE/symbolic/lexical_grounding.py",
+    "sha256": "b7e2595f5fd0002277d9dc6951d46d95a3ce7e8fc24a32b43276842dffa06885"
+  },
+  {
+    "path": "GSE/symbolic/grounding.py",
+    "sha256": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7"
+  },
+  {
+    "path": "scripts/audit_lexicon_runtime.py",
+    "sha256": "9650b6d0545667764658d0e12fd00392fee27bb67f499cc52716cc6e65e189d3"
+  },
+  {
+    "path": "scripts/audit_lexicon_sentences.py",
+    "sha256": "5c9f040cce3dd8ac08c81aa7b480ea39ea8bac09434d72a83dd4e783bab18d1e"
+  },
+  {
+    "path": "tests/test_runtime_native_identity_controls.py",
+    "sha256": "aa66d06c6083b80ef37096e8074f0ccf323c69b6df07a01260f8ea9f424aea4e"
+  },
+  {
+    "path": "tests/test_lexicon_builder_grammatical_definitions.py",
+    "sha256": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903"
+  },
+  {
+    "path": "tests/test_audit_lexicon_sentences.py",
+    "sha256": "5a600feebc74567dc5ecbafbbdcd71d8b3c8e819a24ff87ef80f0ee4fb8bdf6d"
+  },
+  {
+    "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+    "sha256": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534"
+  }
+]
+blockers [
+  {
+    "code": "CRITICAL_IDENTITY_ABSTENTIONS",
+    "cases": [
+      "final-femur-anatomy",
+      "final-teacher-person",
+      "control-he-chemical"
+    ],
+    "required_action": "Independent exact native source/context identity witness; do not alter already-correct stored BODY/SOMEONE/SOMETHING to bypass selection. Chemical conflict safely abstains but does not fulfill exact identification."
+  },
+  {
+    "code": "REQUIRED_BANKS_OPEN",
+    "cases": [
+      {
+        "id": "final-leap-event",
+        "definition_id": "wordnet:leap:leap.n.01",
+        "bank": "HAPPEN",
+        "required": 1,
+        "domain": [
+          -1,
+          0,
+          1
+        ]
+      },
+      {
+        "id": "final-whisper-words",
+        "definition_id": "wordnet:whisper:whisper.n.01",
+        "bank": "SAY",
+        "required": 1,
+        "domain": [
+          -1,
+          0,
+          1
+        ]
+      }
+    ],
+    "required_action": "Controller source-warranted admission/migration and full replay; no inferred zero."
+  },
+  {
+    "code": "COMMON_OPERATION_IDENTITY_OPEN",
+    "observed": "Exact native attested predicate examples now reachable for WANT/THINK/KNOW/SEE/FEEL/SAY/HAPPEN/MOVE. Underspecified/novel clauses are not forced; literal HEAR lacks native example witnesses. Source-attested access is not broad held-out accuracy.",
+    "required_action": "Retain full workload and establish independently justified construction/source eligibility for unresolved common operations."
+  },
+  {
+    "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
+    "scope_freeze": "ssl-api-runtime-workload-freeze.json",
+    "required_action": "Full eight-operation inventory, all critical positive/MUST-NOT outcomes, common-form two-sided semantic audit, required-bank operation witnesses, >=90% eligible token mass in frequency and independent aggregate plus every genre, exact artifact/source/cohort pins, full replay and integrated repository gate receipts."
+  }
+]
+freeze_lineage [
+  {
+    "status": "CODE_FREEZE_READY",
+    "source_edits_finished": true,
+    "frozen_at_utc": "2026-11-24T09:07:17.601514+00:00",
+    "owned_files": [
+      {
+        "path": "GSE/api/encoder.py",
+        "sha256": "a3905ffa912913bbfd21e81846bddf5861a3df5a77065524c9e196a250685dd4"
+      },
+      {
+        "path": "GSE/symbolic/lexical_grounding.py",
+        "sha256": "b7e2595f5fd0002277d9dc6951d46d95a3ce7e8fc24a32b43276842dffa06885"
+      },
+      {
+        "path": "GSE/symbolic/grounding.py",
+        "sha256": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7"
+      },
+      {
+        "path": "scripts/audit_lexicon_runtime.py",
+        "sha256": "9650b6d0545667764658d0e12fd00392fee27bb67f499cc52716cc6e65e189d3"
+      },
+      {
+        "path": "scripts/audit_lexicon_sentences.py",
+        "sha256": "5c9f040cce3dd8ac08c81aa7b480ea39ea8bac09434d72a83dd4e783bab18d1e"
+      },
+      {
+        "path": "tests/test_runtime_native_identity_controls.py",
+        "sha256": "aa66d06c6083b80ef37096e8074f0ccf323c69b6df07a01260f8ea9f424aea4e"
+      },
+      {
+        "path": "tests/test_lexicon_builder_grammatical_definitions.py",
+        "sha256": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903"
+      },
+      {
+        "path": "tests/test_audit_lexicon_sentences.py",
+        "sha256": "5a600feebc74567dc5ecbafbbdcd71d8b3c8e819a24ff87ef80f0ee4fb8bdf6d"
+      },
+      {
+        "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py",
+        "sha256": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534"
+      }
+    ]
+  }
+]

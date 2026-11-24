@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-resume-inspect -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint(Path('AGENTS.md').read_text())\nprint(Path('tests/test_lexicon_builder_delayed_questions.py').read_text())\nfor n in ['ssl-responses-controller-steering.json','ssl-api-controller-joint-exit.json','ssl-api-controller-joint-job.json','ssl-api-runtime-result.json']:\n q=p/n\n print('\\nARTIFACT',n)\n print(q.read_text() if q.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

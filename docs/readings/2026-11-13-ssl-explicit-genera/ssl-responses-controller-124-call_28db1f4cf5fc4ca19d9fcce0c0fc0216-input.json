@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-packet-transport-reference-trace -- .venv/bin/python - <<'PY'\nimport ast,pathlib,json\np=pathlib.Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint((p/'ssl-root-prime-transport.json').read_text())\nfor f in p.iterdir():\n if f.suffix=='.py' and ('prime' in f.name or 'reference' in f.name): print('ROOT HELPER',f)\nfor f in pathlib.Path('GSE/curation/lexicon_builder').glob('*.py'):\n s=f.read_text(); tree=ast.parse(s)\n for n in tree.body:\n  if isinstance(n,ast.ClassDef) and ('Ollama' in n.name or n.name=='JournaledTransport'):\n   print('\\n###',f,n.name);print(ast.get_source_segment(s,n))\nprint('JOB LOG');print((p/'ssl-api-controller-joint-job.log').read_text());print('ANSWERS',(p/'ssl-api-controller-prime-answers.json').exists())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

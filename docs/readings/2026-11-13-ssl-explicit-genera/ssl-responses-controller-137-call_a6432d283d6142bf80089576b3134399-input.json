@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-resolution-and-packet-pins -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('GSE/curation/lexicon_builder/resolution.py');print(p.read_text())\np=Path('tests/test_lexicon_builder_rule_migration.py');print(p.read_text())\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-prime-questions.json','ssl-api-controller-child-questions.json','ssl-api-controller-prime-answers.json','ssl-root-prime-transport.json']:\n x=json.loads((p/name).read_text());print(name)\n if 'questions' in x:\n  print(json.dumps({k:v for k,v in x.items() if k!='questions'},indent=2));print('firstrequestkeys',list(x['questions'][0]['request']))\n else:print(json.dumps(x,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

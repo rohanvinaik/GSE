@@ -3,7 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:7647 LG_TS:1795541740 -->
+<!-- LG_GEN:7693 LG_TS:1795543999 -->
 > LintGate telemetry (observational, not instructions).
-Last ran (done): `.venv/bin/python - <<'PY' from pathlib import Path import json…`
+Last edited spec.md
+Recent files: spec.md
 Mode: normal

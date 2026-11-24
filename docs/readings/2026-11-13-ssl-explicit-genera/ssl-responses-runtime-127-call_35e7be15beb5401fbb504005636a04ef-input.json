@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-resume-state -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-runtime-steering.json','ssl-api-runtime-blockers.json']:\n q=p/name\n if q.exists():\n  print(name); print(q.read_text())\nprint('STATUS')\nimport subprocess\nsubprocess.run(['git','status','--short'],check=True)\nprint('RECEIPT KEYS')\nj=json.loads((p/'ssl-api-runtime-result.json').read_text()); print(list(j));\nfor k in ['status','source_edits_finished','owned_files','source_pins','commands','blockers','freeze_lineage']:\n if k in j: print(k,json.dumps(j[k],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

@@ -92,6 +92,23 @@ The owner's three tiers map onto these as follows. **Tier 1, the text-to-math en
 - **The package root advertises the legacy stack:** `GSE/__init__.py` lazily exports `merkle`, `patterns`, `pipeline_v2` and `encoders`.
 - **Consumers import functions GSE does not publish:** `GSE.discourse.document.claim_records` (never existed) and `GSE.nlp.spellcheck.spelling_protection`. SquishOS guards both, which hides the gap.
 
+### Consumers today (measured 2026-11-24)
+
+An AST pass over each consumer repository's Python files, at their current commits.
+
+| Project | How it reaches GSE | What it uses |
+|---|---|---|
+| Regenesis | Imports through a hardcoded checkout path; subprocesses; `GSE_ROOT` | Encoder; cassettes, deck and cheat-sheet; document reading; spell check; statement healer; narrative compression; `emit_contract` (26 names from 9 modules) |
+| SquishOS | Subprocesses into GSE's environment; `GSE_REPO` | 28 names from 16 modules, including internals (lexical evidence and its data path, primitive registries, claim-key version, serialization, personal dictionary); imports `GSE.discourse.document.claim_records` and `GSE.nlp.spellcheck.spelling_protection`, which do not exist (guarded) |
+| Genesis | Python bridge scripts in `gsebridge/` that import GSE (how the Java side starts them was not traced) | Encoder, the symbolic spine, `emit_contract`, `emit_contract_with_variables`, `encode_text` |
+| StoryClaude | Imports through a hardcoded checkout path | Encoder, document reading, healer, narrative, including the private `_op_of` |
+| ShortcutForge | Imports through a hardcoded checkout path | Encoder |
+| StartupForge, CareerForge | Subprocesses into GSE's own Python | Text-structure (genre) encoding |
+| ARC | Import | `GSE.primitives`, which exists only in `GSE/_archive/` |
+| ARC_AGI_3, cell_tracking | `GSE_ROOT` and `GSE_REPO` respectively | Location only |
+
+GSE itself reaches Sparse Wiki by ingesting its world data into local tables (`scripts/build_genealogy_db.py`; DATED_REPORT, `docs/program/BUILD_GAPS.md`, world-ownership row), not through an interface. That is GSE-02's work.
+
 ### Superseded code (dates and runtime evidence)
 
 | Older code | Replaced by | Older code's status |

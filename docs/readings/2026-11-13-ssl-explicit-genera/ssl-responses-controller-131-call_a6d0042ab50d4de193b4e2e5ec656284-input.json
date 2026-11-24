@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-writer-consumer-trace -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor file,names in [('validation.py',{'_provenance','_stored_context','_model_observations','refresh_catalog'}),('completion.py',None),('storage.py',{'store_entry'}),('residual.py',{'BankRequest'})]:\n p=Path('GSE/curation/lexicon_builder')/file;text=p.read_text();t=ast.parse(text);lines=text.splitlines()\n if names is None:\n  print('COMPLETION INDEX',[(n.name,n.lineno) for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))]); names={'_run','_write','_complete','_attempt','_complete_one','_complete_dictionary'}\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names: print('\\nUNIT',p,n.name,'\\n'+'\\n'.join(lines[n.lineno-1:n.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

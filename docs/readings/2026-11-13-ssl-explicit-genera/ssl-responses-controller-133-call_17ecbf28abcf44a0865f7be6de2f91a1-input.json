@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-history-fixture-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor filename in ['tests/test_lexicon_checkpoint_retained_transport.py','tests/test_lexicon_builder_completion.py','tests/test_lexicon_builder_rule_migration.py']:\n p=Path(filename)\n if p.exists():print('\\nWHOLE',p,'\\n'+p.read_text())\np=Path('GSE/curation/lexicon_builder/rule_revisions.py');text=p.read_text();lines=text.splitlines()\nfor n in ast.parse(text).body:\n if isinstance(n,ast.FunctionDef) and n.name in {'rule_changes','touches_scope'}:print('\\nUNIT',n.name,'\\n'+'\\n'.join(lines[n.lineno-1:n.end_lineno]))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

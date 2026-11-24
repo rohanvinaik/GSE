@@ -1,0 +1,62 @@
+{
+  "authority": "MODEL_PROPOSALS_REQUIRE_EXISTING_TYPED_WRITER_AND_REPLAY",
+  "bank_writes": 0,
+  "baseline_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "format": "GSE.checkpoint-prime-audit/1",
+  "fresh_attempts": 7,
+  "journal_directory": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01",
+  "questions_sha256": "74502331cc71288e0d97835bbf7f345c9163b7b3a486d5c4fbba7cb93ae43208",
+  "records": [
+    {
+      "bank": "GOOD",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:good:good.a.01",
+      "request_id": "a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d",
+      "value": 1
+    },
+    {
+      "bank": "GOOD",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:bad:bad.a.01",
+      "request_id": "d713521784c62cf943d387ec5e7ee033bbc6567624ec38d52f1434af6bf6c87f",
+      "value": -1
+    },
+    {
+      "bank": "BIG",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:big:large.a.01",
+      "request_id": "51f44aad7b3e000e507271c334424ff9cf1c797dadc4bb13fa703d42913218db",
+      "value": 1
+    },
+    {
+      "bank": "BIG",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:small:small.a.01",
+      "request_id": "1da4cf1cc20468bb64ff1b6c03c7a4cb057a2e09eef472e013ea718a58778d00",
+      "value": -1
+    },
+    {
+      "bank": "HAVE",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:have:have.v.01",
+      "request_id": "9d93a681c918f74086e15adf2d0291123b5ac916e5e3ab4a18d2aefc890a31bc",
+      "value": 1
+    },
+    {
+      "bank": "HAVE",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:have:own.v.01",
+      "request_id": "8aa4ee03cb3eee47198ad7684d4bedffc1b27e6e1986adb05b24103a71d46857",
+      "value": 1
+    },
+    {
+      "bank": "HERE",
+      "code": "TYPED_MODEL_PROPOSAL",
+      "entry_id": "wordnet:here:here.r.01",
+      "request_id": "cc26c477b424adb39407265f5b6894c7a7572831ef20522f7a4182ec2dce975d",
+      "value": 1
+    }
+  ],
+  "request_archive": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-v2-reference-current/closure/epoch-01/checkpoint-prime-98k-requests.sqlite",
+  "transport": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265"
+}

@@ -1,0 +1,224 @@
+def audit_sparse_runtime(lexicon_db):
+    """Check the production encoder's exact selection and abstention cases."""
+    from GSE.api.encoder import GrammaticalDefinitionError
+    from GSE.symbolic.expression import from_trace
+
+    report = audit_runtime(lexicon_db)
+    checks = (
+        ("The river rose above the bank.", "bank", "wordnet:bank:bank.n.01"),
+        ("A bank approved the mortgage.", "bank", "wordnet:bank:depository_financial_institution.n.01"),
+        ("I saw a bank.", "bank", None),
+        ("An electrician repaired the light.", "light", None),
+    )
+    results = []
+    with GSEEncoder(str(lexicon_db)) as encoder:
+        encoder.conn.execute("PRAGMA query_only=ON")
+        for text, lemma, expected in checks:
+            token = next((t for t in encoder.encode(text).tokens if t.lemma == lemma), None)
+            if token is None:
+                results.append({"text": text, "expected": expected, "code": "MISSING_TOKEN", "passed": False})
+                continue
+            evidence = token.lexical_evidence
+            observed = (evidence.get("selected_record") or {}).get("entry_id")
+            accepted = observed == expected and (
+                evidence.get("selection_status") == "AMBIGUOUS" and not token.word_primitives
+                if expected is None
+                else evidence.get("contextual_grounding", {}).get("code") == "EXACT_WORDNET_SENSE"
+            )
+            results.append({"text": text, "expected": expected, "observed": observed, "passed": accepted})
+        modal_text = "She might leave."
+        try:
+            modal = encoder.encode(modal_text)
+        except GrammaticalDefinitionError as error:
+            results.append(
+                {"text": modal_text, "code": "GRAMMATICAL_DEFINITION_ERROR", "error": str(error), "passed": False}
+            )
+        else:
+            modal_token = next((t for t in modal.tokens if t.lemma == "might"), None)
+            selected = modal_token.lexical_evidence.get("selected_record") if modal_token else None
+            observed = selected.get("entry_id") if selected else None
+            results.append(
+                {"text": modal_text, "observed": observed, "passed": observed == "gse_closed_class:modal:might"}
+            )
+        for text, expected in (("I waited for some time.", "unspecified"), ("I waited for a long time.", "long")):
+            expression = from_trace(encoder.encode(text))
+            duration = getattr(expression, "duration", None)
+            observed = (duration.extent, duration.relation) if duration is not None else None
+            results.append({"text": text, "observed": observed, "passed": observed == (expected, "during")})
+        for name, text, lemma, expected in (
+            ("pronoun_he", "He went home.", "he", "gse_closed_class:pronoun:he"),
+            ("chemical_symbol_he", "The chemical symbol He denotes helium.", "he", None),
+            ("nonperson_type_he", "He is a noble gas.", "he", None),
+            ("surname_he", "The surname He is common.", "he", None),
+            ("pronoun_chemical_context", "He studies helium.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_entity_type", "He is an entity.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_thing_type", "He is a thing.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_organism_type", "He is an organism.", "he", "gse_closed_class:pronoun:he"),
+            ("broad_animal_type", "He is an animal.", "he", "gse_closed_class:pronoun:he"),
+            ("native_inert_gas", "He is an inert gas.", "he", "wordnet:he:helium.n.01"),
+            ("negated_type_he", "He is not a gas.", "he", "gse_closed_class:pronoun:he"),
+            ("first_person", "I went home.", "i", "gse_closed_class:pronoun:i"),
+            ("second_person", "You went home.", "you", "gse_closed_class:pronoun:you"),
+        ):
+            token = next(t for t in encoder.encode(text).tokens if t.lemma == lemma)
+            evidence = token.lexical_evidence
+            observed = (evidence.get("selected_record") or {}).get("entry_id")
+            eligibility = evidence.get("reading_eligibility", {})
+            safe = (
+                observed is None
+                and evidence.get("selection_status") == "CONFLICT"
+                and eligibility.get("code") == "GRAMMATICAL_CONTEXT_CONFLICT"
+                and not token.word_primitives
+                and token.word_vec_nnz == 0
+                if expected is None
+                else observed == expected
+            )
+            results.append(
+                {
+                    "class": name,
+                    "text": text,
+                    "expected": expected,
+                    "observed": observed,
+                    "outcome": "ABSTAINED" if safe and expected is None else "IDENTIFIED" if safe else "WRONG",
+                    "reading_eligibility": eligibility,
+                    "passed": safe,
+                    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION",
+                }
+            )
+    with Path(lexicon_db).open("rb") as stream:
+        if hashlib.file_digest(stream, "sha256").hexdigest() != report["lexicon_sha256"]:
+            raise ValueError("RUNTIME_AUDIT_INPUT_CHANGED")
+    report["sparse_controls"] = results
+    report["code"] = (
+        "SPARSE_RUNTIME_VALIDATED"
+        if (
+            all(row["passed"] for row in results)
+            and all(set(group) == {"IDENTIFIED"} for group in report["by_class"].values())
+        )
+        else "SPARSE_RUNTIME_REJECTED"
+    )
+    return report
+
+FULL TEST UNIT
+"""Audit outcomes distinguish unknown evidence from observed contradictions."""
+
+import json
+
+import pytest
+
+from GSE.curation.lexicon_builder.evidence import EvidenceBundle, collect_evidence, load_local_sources
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from scripts.audit_lexicon_runtime import (
+    ORDINAL_ANCHOR_RECORD,
+    anchor_outcome,
+    audit_runtime,
+    main,
+    ordinal_anchor_isolation,
+)
+
+
+@pytest.mark.parametrize(
+    "assignments,hierarchy,expected",
+    [
+        ({}, {}, "ABSTAINED"),
+        ({"INTENSITY": 1}, {}, "ABSTAINED"),
+        ({"INTENSITY": 0}, {}, "WRONG"),
+        ({"INTENSITY": -1}, {"INTENSITY": 1}, "WRONG"),
+        ({}, {"INTENSITY": 2}, "WRONG"),
+        ({"INTENSITY": 1}, {"INTENSITY": 2}, "WRONG"),
+        ({"INTENSITY": 1}, {"INTENSITY": 1}, "IDENTIFIED"),
+    ],
+)
+def test_anchor_outcome_distinguishes_silence_zero_and_wrong_degree(assignments, hierarchy, expected):
+    selected = {"code": "IDENTIFIED", "selected": {"assignments": assignments, "hierarchy": hierarchy}}
+    assert anchor_outcome(selected, "INTENSITY", 1, 1) == expected
+
+
+@pytest.mark.parametrize("code", ["AMBIGUOUS", "NOT_FOUND", "CONFLICT"])
+def test_unselected_definition_is_reported_as_abstention(code):
+    assert anchor_outcome({"code": code, "selected": None}, "WANT", 1, None) == "ABSTAINED"
+
+
+def test_report_cannot_overwrite_the_input_database(tmp_path):
+    database = tmp_path / "lexicon.db"
+    database.write_bytes(b"preserve this file")
+    with pytest.raises(SystemExit):
+        main(["--lexicon-db", str(database), "--report", str(database)])
+    assert database.read_bytes() == b"preserve this file"
+
+
+def test_audit_exercises_approved_degree_vectors_and_leaves_database_unchanged(tmp_path):
+    from pathlib import Path
+
+    manifest = Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json"
+    path = tmp_path / "anchors.db"
+    parsers, diagnostics = load_local_sources(("gse_closed_class", "nsm_chart", "wordnet_hierarchy"))
+    assert all(record["code"] == "LOADED" for record in diagnostics)
+    native = collect_evidence(parsers, words=("extremely",))
+    build_dictionary(native, path, manifest=manifest)
+    before = path.read_bytes()
+    report = audit_runtime(path)
+    assert path.read_bytes() == before
+    assert report["scope"]["world_grounding"] == "UNVERIFIED"
+    for name in (
+        "want_positive",
+        "want_negative",
+        "this_object",
+        "very_degree",
+        "extremely_degree",
+        "degree_vector_distinction",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
+    assert report["by_class"]["other_very_senses_anchor_isolation"] == {"IDENTIFIED": 3}
+    for name in (
+        "not_very_scope",
+        "very_not_scope",
+        "repeated_extreme_equivalence",
+        "degree_scope_distinction",
+        "ordinal_distinction",
+    ):
+        assert report["by_class"][name] == {"IDENTIFIED": 1}
+    json.dumps(report, allow_nan=False)
+
+
+@pytest.mark.parametrize("value", [-1, 0, 1])
+def test_sense_isolation_allows_independent_completion_but_rejects_copied_anchor(value):
+    entry = {
+        "entry_id": "wordnet:very:very.r.02",
+        "assignments": {"INTENSITY": value},
+        "domains": {"INTENSITY": [value]},
+        "trace": [{"kind": "ASSERTION", "bank": "INTENSITY", "value": value, "record_id": "independent:exact-sense"}],
+    }
+    assert ordinal_anchor_isolation(entry)["outcome"] == "IDENTIFIED"
+    entry["trace"][0]["record_id"] = ORDINAL_ANCHOR_RECORD
+    assert ordinal_anchor_isolation(entry)["outcome"] == "WRONG"
+
+
+def test_runtime_audit_accepts_justified_this_have_zero(tmp_path):
+    from pathlib import Path
+
+    from GSE.curation.lexicon_builder.completion import complete_dictionary
+
+    manifest = json.loads(
+        (Path(__file__).resolve().parents[1] / "docs/program/LEXICON_APPROVED_ANCHORS_2026-10-29.json").read_text()
+    )
+    # A deliberately small fixture retains only the authored THIS definition.
+    manifest["definitions"] = [d for d in manifest["definitions"] if d["entry_id"] == "gse:prime:this"]
+    manifest["anchors"] = {"gse:prime:this": manifest["anchors"]["gse:prime:this"]}
+    manifest["prime_entries"] = {"nsm:v20:this": ["gse:prime:this"]}
+    manifest["hierarchy"] = {}
+    rules = tmp_path / "this-rules.json"
+    rules.write_text(json.dumps(manifest))
+    path = tmp_path / "this.db"
+    build_dictionary(EvidenceBundle((), (), (), ()), path, manifest=rules)
+    complete_dictionary(path, lambda payload, schema: '{"HAVE":0}', 1, entry_ids=("gse:prime:this",), banks=("HAVE",))
+    report = audit_runtime(path)
+    this = next(record for record in report["records"] if record["class"] == "this_object")
+    assert this["have_domain"] == [0]
+    assert this["outcome"] == "IDENTIFIED"
+
+
+REFERENCES
+scripts/audit_lexicon_sentences.py 526 audit_sparse_runtime
+scripts/revise_lexicon_wiktionary_anatomy.py 113 audit_sparse_runtime
+scripts/run_lexicon_epochs.py 318 audit_sparse_runtime

@@ -800,7 +800,11 @@ class NativeNLP:
             while (
                 j >= 0
                 and surfaces[j].lower() not in _STOP
-                and (wn.synsets(surfaces[j].lower(), pos="a") or wn.synsets(surfaces[j].lower(), pos="s"))
+                and (
+                    surfaces[j].lower() in _ADV_DEGREE
+                    or wn.synsets(surfaces[j].lower(), pos="a")
+                    or wn.synsets(surfaces[j].lower(), pos="s")
+                )
             ):
                 j -= 1
             if j < i - 1 and j >= 1 and surfaces[j].lower() in {"a", "an", "the"}:

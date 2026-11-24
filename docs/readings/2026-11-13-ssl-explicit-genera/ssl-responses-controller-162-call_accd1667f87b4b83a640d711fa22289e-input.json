@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-precheck-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name,names in [('GSE/curation/lexicon_builder/completion.py',{'_prepare_context_index','_contexts','_entry'}),('GSE/curation/lexicon_builder/epoch.py',{'make_questions'}),('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py',{'measure','exact_delta','execute','record'})]:\n p=Path(name);s=p.read_text();print('###',p)\n for n in ast.parse(s).body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

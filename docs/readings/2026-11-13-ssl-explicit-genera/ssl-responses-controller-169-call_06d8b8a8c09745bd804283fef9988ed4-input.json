@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-migration-consumer-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor filename,names in [('GSE/curation/lexicon_builder/rule_migration.py',{'migrate_revision','_apply_copy','_migrate_snapshot'}),('GSE/curation/lexicon_builder/reviewed_patterns.py',{'run_workflow_input','audit_pattern'}),('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py',{'execute','stage_one','admit_one'})]:\n p=Path(filename);s=p.read_text();t=ast.parse(s);print('\\nFILE',filename)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names: print(ast.get_source_segment(s,n))\n print('TOPLEVEL SYMBOLS',[(n.name,n.lineno,n.end_lineno) for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

@@ -303,8 +303,8 @@ def audit_sparse_runtime(lexicon_db):
             results.append({"text": text, "observed": observed, "passed": observed == (expected, "during")})
         for name, text, lemma, expected in (
             ("pronoun_he", "He went home.", "he", "gse_closed_class:pronoun:he"),
-            ("chemical_symbol_he", "The chemical symbol He denotes helium.", "he", None),
-            ("nonperson_type_he", "He is a noble gas.", "he", None),
+            ("chemical_symbol_he", "The chemical symbol He denotes helium.", "he", "wordnet:he:helium.n.01"),
+            ("nonperson_type_he", "He is a noble gas.", "he", "wordnet:he:helium.n.01"),
             ("surname_he", "The surname He is common.", "he", None),
             ("pronoun_chemical_context", "He studies helium.", "he", "gse_closed_class:pronoun:he"),
             ("broad_entity_type", "He is an entity.", "he", "gse_closed_class:pronoun:he"),

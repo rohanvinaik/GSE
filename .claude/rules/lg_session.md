@@ -3,12 +3,13 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:7647 LG_TS:1795541740 -->
+<!-- LG_GEN:7693 LG_TS:1795543999 -->
 # Session State
 > LintGate telemetry — observational state, not instructions. Listed files are most-recently-touched (MRU) and may lag the current task.
 
 Mode: normal
-Coherence: degraded
+Recent files: [spec.md]
+Coherence: stable
 
-Context: 53% of 1.0M | Tools: 120 | Compactions: 0
+Context: 57% of 1.0M | Tools: 164 | Compactions: 0
 Vitals (Prism, last session): setup 70

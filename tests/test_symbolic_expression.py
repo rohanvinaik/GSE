@@ -17,6 +17,7 @@ from GSE.symbolic.expression import (
     from_trace,
 )
 from GSE.symbolic.operators import evaluate_tree
+from GSE.symbolic.predicates import TypeAssertion
 
 
 @pytest.fixture(scope="module")
@@ -300,10 +301,18 @@ class TestPossessiveNounNotPromotedToVerb:
         assert amb not in verbs_to_promote(doc)  # "his ambition" -> ambition is a NOUN, not a verb
 
     def test_genuine_buried_verb_still_promotes(self, encoder):
-        # POSITIVE control: the guard must not neuter promotion — a real buried verb flanked by entities (no
-        # possessive) is still promoted ("Duncan is a king" promotes the copula, the module's own cited case).
+        # Positive mistag control: promotion still repairs a genuinely buried
+        # content verb. A correctly tagged copular AUX is not a mistag, and
+        # promoting it loses the matrix copula in sentences with relatives.
+        doc = encoder.nlp("Duncan names Macbeth.")
+        doc[1].pos_ = "NOUN"
+        assert verbs_to_promote(doc) == {1}
+
+    def test_native_copula_is_not_retyped_as_a_content_verb(self, encoder):
         doc = encoder.nlp("Duncan is a king.")
-        assert verbs_to_promote(doc)
+        assert not verbs_to_promote(doc)
+        tree = evaluate_tree(from_trace(encoder.encode("Duncan is a king.")))
+        assert isinstance(tree, TypeAssertion)
 
     def test_real_verb_and_subject_recovered_end_to_end(self, encoder):
         # both fixes compose: possessive-guard makes `murder` the verb, the leading-adjunct rule strips

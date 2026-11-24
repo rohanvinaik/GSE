@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-checkpoint-helper-tests-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nprint(Path('tests/test_lexicon_checkpoint_retained_transport.py').read_text())\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-api-controller-child-audit.json','ssl-api-controller-child-exit.json','ssl-api-controller-child-job.log','ssl-api-controller-continuation-job.log']:\n q=p/n;print('\\nFILE',n);print(q.read_text() if q.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

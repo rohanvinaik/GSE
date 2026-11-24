@@ -959,8 +959,8 @@ def operator_composition_plan(
 def _nominal_temporal_attachment(tokens):
     """A native temporal preposition + time-typed nominal is an event setting.
 
-    The native closed-class source supplies the relation; WordNet time-period
-    or clock-time ancestry supplies grammatical anchor eligibility, not a
+    The native closed-class source supplies the relation; WordNet time-period,
+    clock-time or event-beginning ancestry supplies grammatical eligibility, not a
     selected lexical sense or bank assignment. Clausal anchors stay on the
     existing clause-linker path; a spatial anchor cannot become a time merely
     because the same preposition also has a temporal reading.

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-refreeze-results -- .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-active-checkpoint-v4.json','ssl-api-runtime-foundation-checkpoint-v4.json']:\n j=json.loads((p/name).read_text());print(name, list(j))\n for k in ['lexicon','benchmark','summary','by_class','checkpoint','file_identity','cohort_digest','source_digest','rule_digest','representation_digest','resources']:\n  if k in j: print(k,json.dumps(j[k],indent=2))\n for row in j.get('records',j.get('cases',[])):\n  print('CASE',json.dumps(row,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

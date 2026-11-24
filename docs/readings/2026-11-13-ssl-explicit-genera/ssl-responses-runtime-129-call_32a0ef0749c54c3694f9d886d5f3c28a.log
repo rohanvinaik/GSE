@@ -1,0 +1,15 @@
+COMMAND env UV_OFFLINE=1 uvx ruff@0.16.10 format --check GSE/api/encoder.py GSE/api/parse_repair.py GSE/nlp/native.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py GSE/symbolic/expression.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py tests/test_runtime_native_identity_controls.py tests/test_runtime_native_composed_controls.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_audit_lexicon_sentences.py tests/test_symbolic_expression.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py
+14 files already formatted
+EXIT 0
+COMMAND env UV_OFFLINE=1 uvx ruff@0.16.10 check GSE/api/encoder.py GSE/api/parse_repair.py GSE/nlp/native.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py GSE/symbolic/expression.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py tests/test_runtime_native_identity_controls.py tests/test_runtime_native_composed_controls.py tests/test_lexicon_builder_grammatical_definitions.py tests/test_audit_lexicon_sentences.py tests/test_symbolic_expression.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py
+All checks passed!
+EXIT 0
+COMMAND env UV_OFFLINE=1 uvx ty check GSE/api/encoder.py GSE/api/parse_repair.py GSE/nlp/native.py GSE/symbolic/lexical_grounding.py GSE/symbolic/grounding.py GSE/symbolic/expression.py scripts/audit_lexicon_runtime.py scripts/audit_lexicon_sentences.py
+error[not-callable]: Object of type `object` is not callable
+    --> GSE/symbolic/grounding.py:1211:44
+     |
+1211 |                 cands = [tuple(t) for t in genealogy.candidates(appos, "NOUN", False)]
+     |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Found 1 diagnostic
+EXIT 1

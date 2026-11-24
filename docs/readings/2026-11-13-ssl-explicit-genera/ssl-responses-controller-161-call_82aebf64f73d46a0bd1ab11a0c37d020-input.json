@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-safe-progress -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,subprocess,datetime\np=Path('docs/readings/2026-11-13-ssl-explicit-genera');w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfiles=[]\nfor f in sorted(w.iterdir()):\n if f.name.startswith('.gse-migration-'):\n  files.extend({'path':str(x),'bytes':x.stat().st_size,'modified_utc':datetime.datetime.fromtimestamp(x.stat().st_mtime,datetime.timezone.utc).isoformat()} for x in f.iterdir() if x.is_file())\nfor n in ['candidate.db','migration.json','result.json']:\n f=w/n\n if f.exists():files.append({'path':str(f),'bytes':f.stat().st_size})\nprint(json.dumps(files,indent=2))\nfor n in ['ssl-api-controller-child-job.log','ssl-api-controller-child-exit.json','ssl-api-controller-child-audit.json']:\n f=p/n\n if f.exists():print(n,f.read_text())\nprint(subprocess.run(['ps','-p','75199,75256,79455','-o','pid=,ppid=,etime=,%cpu=,rss='],capture_output=True,text=True).stdout)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

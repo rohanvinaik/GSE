@@ -1,0 +1,707 @@
+
+UNIT GSE/curation/lexicon_builder/epoch.py JournaledTransport 
+ class JournaledTransport:
+    """Charge a typed question before execution, then replay the recorded reply."""
+
+    def __init__(self, transport, directory, label, limit, lock_path, *, context_store=None):
+        self.transport = transport
+        self.identity = transport.identity
+        self.directory = directory
+        self.label = label
+        self.limit = limit
+        self.lock_path = lock_path
+        self.context_store = context_store
+
+    def __call__(self, payload, schema):
+        request_id = _request_id(payload)
+        stem = self.label + "-" + request_id
+        intent, result = (self.directory / (stem + suffix + ".json") for suffix in (".intent", ".result"))
+        expected = {"request_id": request_id, "transport": self.identity, "schema": schema}
+        if intent.exists():
+            saved = read(intent)
+            if (
+                type(saved) is not dict
+                or set(saved) not in (set(expected), set(expected) | {"request_archive"})
+                or {key: saved[key] for key in expected} != expected
+            ):
+                raise ValueError("EPOCH_QUESTION_IDENTITY_CHANGED")
+            if "request_archive" in saved:
+                if self.context_store is None:
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_REQUIRED")
+                archived = self.context_store.request(saved["request_archive"])
+                if (
+                    archived["request_id"] != request_id
+                    or archived["transport"] != self.identity
+                    or archived["schema"] != schema
+                ):
+                    raise ValueError("EPOCH_QUESTION_ARCHIVE_CHANGED")
+            elif self.context_store is not None:
+                raise ValueError("EPOCH_QUESTION_ARCHIVE_MISSING")
+        elif result.exists():
+            raise ValueError("EPOCH_QUESTION_INTENT_MISSING")
+        if result.exists():
+            response = read(result)
+            if "raw_output" not in response:
+                raise ModelTransportError(response["code"])
+            return response["raw_output"]
+        if intent.exists():
+            raise EpochTransportRefusal("EPOCH_INTERRUPTED_MODEL_ATTEMPT")
+        if self.count() >= self.limit:
+            raise EpochTransportRefusal("EPOCH_MODEL_BUDGET_EXHAUSTED")
+        with self.lock_path.open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            if self.context_store is not None:
+                expected = {
+                    **expected,
+                    "request_archive": self.context_store.archive_request(payload, schema, self.identity),
+                }
+            record(intent, expected)
+            try:
+                raw = self.transport(payload, schema)
+            except ModelTransportError as error:
+                record(result, {"code": error.code})
+                raise
+            record(result, {"raw_output": raw})
+        return raw
+
+    def count(self):
+        return sum(1 for _ in self.directory.glob(self.label + "-*.intent.json"))
+
+UNIT GSE/curation/lexicon_builder/learning_state.py LearningState 
+ class LearningState:
+    """Bind control records to one frozen run, keeping original evidence intact."""
+
+    def __init__(self, path, identity):
+        self.path = Path(path)
+        if self.path.is_symlink() or not self.path.parent.is_dir() or not isinstance(identity, dict):
+            raise ValueError("INVALID_LEARNING_STATE_LOCATION_OR_IDENTITY")
+        self.identity = _json(identity)
+        with self._connect(initialize=True) as conn:
+            tables = {row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            if tables and "learning_metadata" not in tables:
+                raise ValueError("UNRELATED_DATABASE_IS_NOT_LEARNING_STATE")
+            if tables:
+                metadata = dict(conn.execute("SELECT key,payload FROM learning_metadata"))
+                if metadata.get("format") != _json(FORMAT) or metadata.get("identity") != self.identity:
+                    raise ValueError("LEARNING_RUN_IDENTITY_CHANGED")
+                if not {"mechanisms", "mechanism_evidence", "learning_events", "learning_epochs"} <= tables:
+                    raise ValueError("INCOMPLETE_LEARNING_SCHEMA")
+            for statement in SCHEMA:
+                conn.execute(statement)
+            from .learning_questions import initialize
+
+            initialize(conn)
+            for key, value in (("format", _json(FORMAT)), ("identity", self.identity)):
+                row = conn.execute("SELECT payload FROM learning_metadata WHERE key=?", (key,)).fetchone()
+                if row is not None and row[0] != value:
+                    raise ValueError("LEARNING_RUN_IDENTITY_CHANGED")
+                conn.execute("INSERT OR IGNORE INTO learning_metadata VALUES (?,?)", (key, value))
+
+    @contextmanager
+    def _connect(self, *, initialize=False):
+        if self.path.is_symlink() or not initialize and not self.path.is_file():
+            raise ValueError("LEARNING_STATE_MISSING_OR_REPLACED")
+        conn = sqlite3.connect(self.path, timeout=0)
+        try:
+            conn.execute("PRAGMA foreign_keys=ON")
+            conn.execute("BEGIN IMMEDIATE")
+            if not initialize:
+                metadata = dict(conn.execute("SELECT key,payload FROM learning_metadata"))
+                if metadata.get("format") != _json(FORMAT) or metadata.get("identity") != self.identity:
+                    raise ValueError("LEARNING_RUN_IDENTITY_CHANGED")
+            with conn:
+                yield conn
+        except sqlite3.DatabaseError as error:
+            if getattr(error, "sqlite_errorname", "") in {"SQLITE_BUSY", "SQLITE_LOCKED"}:
+                raise ValueError("LEARNING_STATE_BUSY") from error
+            raise ValueError("INVALID_LEARNING_STATE_DATABASE") from error
+        finally:
+            conn.close()
+
+    @staticmethod
+    def _event(conn, kind, subject, payload):
+        record = {"kind": kind, "subject": subject, "payload": payload}
+        identity, encoded = digest(record), _json(record)
+        previous = conn.execute("SELECT payload FROM learning_events WHERE event_sha256=?", (identity,)).fetchone()
+        if previous is not None and previous[0] != encoded:
+            raise ValueError("LEARNING_EVENT_HASH_COLLISION")
+        conn.execute("INSERT OR IGNORE INTO learning_events VALUES (?,?,?,?)", (identity, kind, subject, encoded))
+        return identity
+
+    def propose(self, relation, evidence, *, origin):
+        if not isinstance(evidence, dict) or not evidence or not isinstance(origin, str) or not origin:
+            raise ValueError("LEARNING_PROPOSAL_REQUIRES_EVIDENCE_REFERENCE")
+        contract = mechanism_contract(relation)
+        identity = digest(contract)
+        with self._connect() as conn:
+            previous = conn.execute("SELECT contract FROM mechanisms WHERE mechanism_id=?", (identity,)).fetchone()
+            if previous is not None and previous[0] != _json(contract):
+                raise ValueError("LEARNING_MECHANISM_HASH_COLLISION")
+            conn.execute(
+                "INSERT OR IGNORE INTO mechanisms VALUES (?,?,?,NULL)",
+                (identity, _json(contract), "AWAITING_WARRANT"),
+            )
+            witness = {"origin": origin, "evidence": evidence}
+            encoded, evidence_id = _json(witness), digest(witness)
+            existing = conn.execute(
+                "SELECT payload FROM mechanism_evidence WHERE mechanism_id=? AND evidence_sha256=?",
+                (identity, evidence_id),
+            ).fetchone()
+            if existing is not None and existing[0] != encoded:
+                raise ValueError("LEARNING_EVIDENCE_HASH_COLLISION")
+            conn.execute("INSERT OR IGNORE INTO mechanism_evidence VALUES (?,?,?)", (identity, evidence_id, encoded))
+            self._event(conn, "PROPOSAL_OBSERVED", identity, witness)
+        return identity
+
+    def review(self, identity, relation, family):
+        """Queue an externally warranted family; this does not admit its law."""
+        self.review_many(((identity, relation, family),))
+
+    def review_many(self, records):
+        """Validate the whole intake before installing any review atomically."""
+        with self._connect() as conn:
+            pending = {}
+            for identity, relation, family in records:
+                if identity != mechanism_id(relation) or not isinstance(family, dict):
+                    raise ValueError("LEARNING_REVIEW_MECHANISM_CHANGED")
+                encoded = _json(family)
+                row = conn.execute(
+                    "SELECT reviewed_family,disposition,contract FROM mechanisms WHERE mechanism_id=?", (identity,)
+                ).fetchone()
+                if row is None:
+                    raise ValueError("LEARNING_REVIEW_REQUIRES_OBSERVED_CANDIDATE")
+                if digest(json.loads(row[2])) != identity:
+                    raise ValueError("LEARNING_MECHANISM_HASH_MISMATCH")
+                previous = row[0] if row[0] is not None else pending.get(identity)
+                if previous is not None:
+                    if previous != encoded:
+                        raise ValueError("LEARNING_REVIEW_CHANGED_REQUIRES_VERSIONED_REVISION")
+                    continue
+                if row[1] != "AWAITING_WARRANT":
+                    raise ValueError("LEARNING_REVIEW_NOT_AWAITING_WARRANT")
+                pending[identity] = encoded
+            for identity, encoded in pending.items():
+                conn.execute(
+                    "UPDATE mechanisms SET reviewed_family=?,disposition=? WHERE mechanism_id=?",
+                    (encoded, "READY_FOR_TEACHING", identity),
+                )
+                self._event(conn, "WARRANT_REVIEW_RECEIVED", identity, json.loads(encoded))
+
+    def disposition(self, identity, state, reason):
+        if state not in DISPOSITIONS:
+            raise ValueError("INVALID_LEARNING_DISPOSITION")
+        with self._connect() as conn:
+            row = conn.execute("SELECT reviewed_family FROM mechanisms WHERE mechanism_id=?", (identity,)).fetchone()
+            if row is None:
+                raise ValueError("UNKNOWN_LEARNING_MECHANISM")
+            if state == "READY_FOR_TEACHING" and row[0] is None:
+                raise ValueError("LEARNING_WARRANT_REQUIRED")
+            conn.execute("UPDATE mechanisms SET disposition=? WHERE mechanism_id=?", (state, identity))
+            self._event(conn, "DISPOSITION", identity, {"state": state, "reason": reason})
+
+    def ready(self):
+        with self._connect() as conn:
+            return [
+                {"mechanism_id": identity, "family": json.loads(payload)}
+                for identity, payload in conn.execute(
+                    "SELECT mechanism_id,reviewed_family FROM mechanisms WHERE disposition='READY_FOR_TEACHING' ORDER BY mechanism_id"
+                )
+            ]
+
+    def witnesses(self, identity):
+        """Return original proposal evidence after checking its content address."""
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT evidence_sha256,payload FROM mechanism_evidence WHERE mechanism_id=? ORDER BY evidence_sha256",
+                (identity,),
+            ).fetchall()
+        result = []
+        for expected, encoded in rows:
+            value = json.loads(encoded)
+            if digest(value) != expected:
+                raise ValueError("LEARNING_EVIDENCE_HASH_MISMATCH")
+            result.append(value)
+        return result
+
+    def reviewed(self):
+        with self._connect() as conn:
+            return [
+                {"mechanism_id": identity, "family": json.loads(payload), "disposition": state}
+                for identity, payload, state in conn.execute(
+                    "SELECT mechanism_id,reviewed_family,disposition FROM mechanisms "
+                    "WHERE reviewed_family IS NOT NULL ORDER BY mechanism_id"
+                )
+            ]
+
+    def pending(self):
+        with self._connect() as conn:
+            return [
+                {"mechanism_id": identity, "disposition": state, "contract": json.loads(contract)}
+                for identity, state, contract in conn.execute(
+                    "SELECT mechanism_id,disposition,contract FROM mechanisms "
+                    "WHERE disposition NOT IN ('ADMITTED','REJECTED','RETIRED','ALREADY_ENTAILED') ORDER BY mechanism_id"
+                )
+            ]
+
+    def archive_request(self, payload, schema, transport):
+        from .learning_questions import archive_request
+
+        with self._connect() as conn:
+            return archive_request(conn, payload, schema, transport)
+
+    def retain_work(self, kind, payload, *, disposition="AWAITING_REVIEW"):
+        """Retain a typed surprise/task without interpreting it as lexical truth."""
+        if not isinstance(kind, str) or not kind or not isinstance(payload, dict) or not payload:
+            raise ValueError("INVALID_LEARNING_WORK")
+        if disposition not in {"AWAITING_REVIEW", "READY", "APPLIED", "UNAVAILABLE", "REJECTED"}:
+            raise ValueError("INVALID_LEARNING_WORK_DISPOSITION")
+        value = {"kind": kind, "payload": payload}
+        identity = digest(value)
+        with self._connect() as conn:
+            row = conn.execute("SELECT kind,payload FROM learning_work WHERE work_sha256=?", (identity,)).fetchone()
+            if row is not None and row != (kind, _json(payload)):
+                raise ValueError("LEARNING_WORK_CHANGED")
+            conn.execute(
+                "INSERT OR IGNORE INTO learning_work VALUES (?,?,?,?)",
+                (identity, kind, disposition, _json(payload)),
+            )
+            self._event(conn, "WORK_RETAINED", identity, value)
+        return identity
+
+    def work(self, *, kind=None, disposition=None):
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT work_sha256,kind,disposition,payload FROM learning_work ORDER BY work_sha256"
+            ).fetchall()
+        result = []
+        for identity, operation, state, encoded in rows:
+            payload = json.loads(encoded)
+            if digest({"kind": operation, "payload": payload}) != identity:
+                raise ValueError("LEARNING_WORK_HASH_MISMATCH")
+            if (kind is None or kind == operation) and (disposition is None or disposition == state):
+                result.append({"work_sha256": identity, "kind": operation, "disposition": state, "payload": payload})
+        return result
+
+    def finish_work(self, identity, outcome):
+        with self._connect() as conn:
+            if not conn.execute("SELECT 1 FROM learning_work WHERE work_sha256=?", (identity,)).fetchone():
+                raise ValueError("UNKNOWN_LEARNING_WORK")
+            conn.execute("UPDATE learning_work SET disposition='APPLIED' WHERE work_sha256=?", (identity,))
+            self._event(conn, "WORK_APPLIED", identity, outcome)
+
+    def request(self, identity):
+        from .learning_questions import read_request
+
+        with self._connect() as conn:
+            return read_request(conn, identity)
+
+    def record_epoch(self, epoch, outcome):
+        with self._connect() as conn:
+            self._record_epoch(conn, epoch, outcome)
+
+    def _record_epoch(self, conn, epoch, outcome):
+        if type(epoch) is not int or epoch < 1 or not isinstance(outcome, dict) or outcome.get("epoch") != epoch:
+            raise ValueError("INVALID_LEARNING_EPOCH")
+        encoded, identity = _json(outcome), digest(outcome)
+        previous = conn.execute("SELECT outcome_sha256,outcome FROM learning_epochs WHERE epoch=?", (epoch,)).fetchone()
+        if previous is not None and previous != (identity, encoded):
+            raise ValueError("LEARNING_EPOCH_CHANGED")
+        conn.execute("INSERT OR IGNORE INTO learning_epochs VALUES (?,?,?)", (epoch, identity, encoded))
+        self._event(conn, "EPOCH_COMPLETED", str(epoch), {"outcome_sha256": identity})
+
+    def initialize_head(self, candidate, candidate_sha256):
+        opening = {
+            "epoch": 0,
+            "candidate": str(Path(candidate).absolute()),
+            "candidate_sha256": candidate_sha256,
+            "transition_sha256": None,
+        }
+        with self._connect() as conn:
+            row = conn.execute("SELECT payload FROM learning_metadata WHERE key='opening_head'").fetchone()
+            if row is not None and row[0] != _json(opening):
+                raise ValueError("LEARNING_OPENING_HEAD_CHANGED")
+            if row is None:
+                if conn.execute("SELECT 1 FROM learning_epochs LIMIT 1").fetchone():
+                    raise ValueError("LEARNING_HEAD_REBASE_REQUIRED")
+                conn.execute("INSERT INTO learning_metadata VALUES ('opening_head',?)", (_json(opening),))
+                self._event(conn, "HEAD_OPENED", "0", opening)
+            return self._heads(conn)[0]
+
+    @staticmethod
+    def _heads(conn):
+        row = conn.execute("SELECT payload FROM learning_metadata WHERE key='opening_head'").fetchone()
+        if row is None:
+            raise ValueError("LEARNING_HEAD_NOT_INITIALIZED")
+        opening = json.loads(row[0])
+        head, history = opening, []
+        for epoch, identity, encoded in conn.execute(
+            "SELECT epoch,transition_sha256,payload FROM learning_heads ORDER BY epoch"
+        ):
+            transition = json.loads(encoded)
+            if digest(transition) != identity:
+                raise ValueError("LEARNING_HEAD_TRANSITION_HASH_MISMATCH")
+            if (
+                epoch != head["epoch"] + 1
+                or transition["epoch"] != epoch
+                or transition["prior_head"] != head
+                or transition["format"] != "GSE.lexicon-learning-transition/1"
+            ):
+                raise ValueError("LEARNING_HEAD_CHAIN_CHANGED")
+            outcome = conn.execute(
+                "SELECT outcome_sha256,outcome FROM learning_epochs WHERE epoch=?", (epoch,)
+            ).fetchone()
+            if (
+                outcome is None
+                or outcome[0] != transition["outcome_sha256"]
+                or digest(json.loads(outcome[1])) != outcome[0]
+            ):
+                raise ValueError("LEARNING_HEAD_OUTCOME_CHANGED")
+            head = {
+                "epoch": epoch,
+                "candidate": transition["candidate"],
+                "candidate_sha256": transition["candidate_sha256"],
+                "transition_sha256": identity,
+            }
+            history.append(transition)
+        return head, history
+
+    def head(self):
+        with self._connect() as conn:
+            return self._heads(conn)[0]
+
+    def head_history(self):
+        with self._connect() as conn:
+            return self._heads(conn)[1]
+
+    def advance_head(self, outcome, transition):
+        """Install the epoch and head in one transaction; never overwrite history."""
+        if (
+            not isinstance(transition, dict)
+            or transition.get("format") != "GSE.lexicon-learning-transition/1"
+            or type(transition.get("epoch")) is not int
+            or transition["epoch"] < 1
+            or transition.get("outcome_sha256") != digest(outcome)
+            or transition.get("candidate") != outcome.get("candidate")
+            or transition.get("candidate_sha256") != outcome.get("candidate_sha256")
+        ):
+            raise ValueError("INVALID_LEARNING_HEAD_TRANSITION")
+        epoch = transition["epoch"]
+        identity, encoded = digest(transition), _json(transition)
+        with self._connect() as conn:
+            current, _ = self._heads(conn)
+            previous = conn.execute(
+                "SELECT transition_sha256,payload FROM learning_heads WHERE epoch=?", (epoch,)
+            ).fetchone()
+            if previous is not None:
+                if previous != (identity, encoded):
+                    raise ValueError("LEARNING_HEAD_TRANSITION_CHANGED")
+                self._record_epoch(conn, epoch, outcome)
+                return current
+            if epoch != current["epoch"] + 1 or transition.get("prior_head") != current:
+                raise ValueError("LEARNING_HEAD_COMPARE_AND_SWAP_FAILED")
+            self._record_epoch(conn, epoch, outcome)
+            conn.execute("INSERT INTO learning_heads VALUES (?,?,?)", (epoch, identity, encoded))
+            self._event(conn, "HEAD_ADVANCED", str(epoch), {"transition_sha256": identity})
+            return self._heads(conn)[0]
+
+    def epochs(self):
+        with self._connect() as conn:
+            rows = conn.execute("SELECT outcome_sha256,outcome FROM learning_epochs ORDER BY epoch").fetchall()
+        result = []
+        for identity, encoded in rows:
+            outcome = json.loads(encoded)
+            if digest(outcome) != identity:
+                raise ValueError("LEARNING_EPOCH_HASH_MISMATCH")
+            result.append(outcome)
+        return result
+
+UNIT GSE/curation/lexicon_builder/residual.py _read_value 
+ def _read_value(raw: str, request: BankRequest) -> int | None:
+    if type(raw) is not str:
+        raise ValueError("response_not_string")
+    value = json.loads(raw, object_pairs_hook=_unique_object)
+    if type(value) is not dict or set(value) != {request.bank}:
+        raise ValueError("unexpected_output_fields")
+    answer = value[request.bank]
+    if answer is None:
+        return None
+    if type(answer) is not int or answer not in request.allowed_values:
+        raise ValueError("value_outside_domain")
+    return answer
+
+UNIT GSE/curation/lexicon_builder/residual.py OllamaTransport 
+ class OllamaTransport:
+    """Explicit local model selection with typed input and constrained generation."""
+
+    def __init__(
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434",
+        timeout: float = 120,
+        *,
+        context_tokens: int = 32768,
+        thinking: bool = True,
+        output_tokens: int | None = None,
+    ):
+        if type(model) is not str or not model.strip():
+            raise ValueError("model_required")
+        if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("invalid_timeout")
+        if type(base_url) is not str:
+            raise ValueError("invalid_base_url")
+        parsed = urlsplit(base_url)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc or parsed.query or parsed.fragment:
+            raise ValueError("invalid_base_url")
+        self.model = model
+        self.base_url = base_url.rstrip("/")
+        self.timeout = float(timeout)
+        if type(context_tokens) is not int or context_tokens < 2048:
+            raise ValueError("invalid_context_tokens")
+        self.context_tokens = context_tokens
+        if type(thinking) is not bool:
+            raise ValueError("invalid_thinking_mode")
+        self.thinking = thinking
+        self.output_tokens = (1024 if thinking else 128) if output_tokens is None else output_tokens
+        if (
+            type(self.output_tokens) is not int
+            or not 1 <= self.output_tokens <= 32768
+            or self.output_tokens + 1024 >= context_tokens
+        ):
+            raise ValueError("invalid_output_tokens")
+        from .model_protocol import protocol_contract
+
+        digest = _request_id(
+            {
+                "protocol": protocol_contract(),
+                "thinking": thinking,
+                "context_tokens": context_tokens,
+                "output_tokens": self.output_tokens,
+                "temperature": 0,
+            }
+        )
+        self._protocol_digest = digest
+        self.model_digest: str | None = None
+        self.identity = f"{model}@{digest}"
+
+    def _request_json(self, request: Request, malformed_code: str) -> Any:
+        try:
+            with urlopen(request, timeout=self.timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            raise ModelTransportError("MODEL_HTTP_ERROR") from exc
+        except TimeoutError as exc:
+            raise ModelTransportError("MODEL_TIMEOUT") from exc
+        except URLError as exc:
+            code = "MODEL_TIMEOUT" if isinstance(exc.reason, TimeoutError) else "MODEL_CONNECTION_ERROR"
+            raise ModelTransportError(code) from exc
+        except (ValueError, UnicodeError) as exc:
+            raise ModelTransportError(malformed_code) from exc
+
+    def _installed_digest(self) -> str:
+        request = Request(f"{self.base_url}/api/tags", method="GET")
+        envelope = self._request_json(request, "INVALID_MODEL_IDENTITY_RESPONSE")
+        if type(envelope) is not dict or type(envelope.get("models")) is not list:
+            raise ModelTransportError("INVALID_MODEL_IDENTITY_RESPONSE")
+        matches = [item for item in envelope["models"] if isinstance(item, dict) and item.get("name") == self.model]
+        if len(matches) != 1:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_FOUND_OR_AMBIGUOUS")
+        digest = matches[0].get("digest")
+        if type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ModelTransportError("INVALID_MODEL_DIGEST")
+        return digest
+
+    def pin(self) -> dict[str, str]:
+        """Resolve the installed artifact explicitly; never repin a changed tag."""
+        digest = self._installed_digest()
+        if self.model_digest is not None and digest != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+        self.model_digest = digest
+        self.identity = f"{self.model}#{digest}@{self._protocol_digest}"
+        return {"model": self.model, "digest": digest}
+
+    def _verify_pin(self) -> None:
+        if self.model_digest is None:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_PINNED")
+        if self._installed_digest() != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+
+    def __call__(self, payload: dict, schema: dict) -> str:
+        from .model_protocol import model_input
+
+        try:
+            prompt = _canonical_json(model_input(_json_copy(payload)))
+        except ValueError as exc:
+            raise ModelTransportError("INVALID_MODEL_INPUT") from exc
+        # UTF-8 byte count is a conservative bound for byte-backed tokenizers.
+        # Reserve template/output space; refusal is preferable to silent loss
+        # of a contradictory observation near the start of a long request.
+        if len(prompt.encode("utf-8")) > self.context_tokens - self.output_tokens - 1024:
+            raise ModelTransportError("MODEL_CONTEXT_EXCEEDED")
+        self._verify_pin()
+        body = {
+            "model": self.model,
+            "prompt": prompt,
+            "format": _json_copy(schema),
+            "stream": False,
+            "think": self.thinking,
+            "options": {"temperature": 0, "num_predict": self.output_tokens, "num_ctx": self.context_tokens},
+        }
+        request = Request(
+            f"{self.base_url}/api/generate",
+            data=_canonical_json(body).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        envelope = self._request_json(request, "INVALID_OLLAMA_RESPONSE")
+        self._verify_pin()
+        if type(envelope) is not dict or type(envelope.get("response")) is not str:
+            raise ModelTransportError("INVALID_OLLAMA_RESPONSE")
+        if envelope.get("done_reason") == "length":
+            raise ModelTransportError("INCOMPLETE_MODEL_OUTPUT")
+        from GSE.curation.llm.ollama_client import register_model
+
+        register_model(self.model, self.base_url)
+        return envelope["response"]
+
+ARTIFACT ssl-api-controller-root-handoff.json 
+ {
+  "code": "EXACT_PRIME_REMAINDER_PACKET_READY_FOR_EXISTING_LOCAL_TYPED_WRITER",
+  "instruction": "Root may execute these seven NEW exact native-sense questions under existing authorized local journal. Preserve all nulls. No lexical cells written by root. Do not repeat completed original eight. Controller will consume retained raw strings through same sustained ordinary writer; please emit ssl-api-controller-prime-answers.json with format GSE.ssl-checkpoint-local-answers/1, questions_sha256, transport, answers [request_id,raw_output].",
+  "original_reference_packet": "completed; dog/I will be required reservation not opposing sign",
+  "owned_production_code": "stopped; checkpoint orchestration helper still being stabilized",
+  "question_packet": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-questions.json",
+  "questions": 7,
+  "runtime_boundary": "above/before remain native sentence spatial/temporal metadata, not raw lexical-sign requirements",
+  "sha256": "74502331cc71288e0d97835bbf7f345c9163b7b3a486d5c4fbba7cb93ae43208",
+  "actual_execution": {
+    "full_writer_preflight": "REPLAY_VALIDATED",
+    "partial_source_anchors": 4,
+    "accepted_teaching_coordinates": 2,
+    "prime_retained_transport_errors": 7,
+    "new_model_service_calls_by_controller": 0,
+    "candidate": "teaching.db",
+    "rule_migration": "NOT_YET_COMPLETED"
+  },
+  "urgent": "Seven prime exact answers were missing at first sustained writer dispatch, so no signs fabricated. Please complete original NEW prime packet; failed-only retained replay is integrated. I/YOU parent audits completed, dog reservation retained, joint migration starts now.",
+  "snapshot_identity_diagnosis": {
+    "code": "CHILD_REEXPORT_FIX_24_TESTS_PASS",
+    "cause": "I parent dog null was removed from child audit IDs but retained among child entries. Fixed using ordinary provenance-checked exporter, preserved old parent and invalid child evidence and explicit child lineage.",
+    "builder_source_changed": false,
+    "helper_changed": true,
+    "next": "Running original model-identity joint reference revision with dog reservation; no lexical service calls duplicated.",
+    "prime_context_protocol": "Acknowledged separate 98K identity required; do not supply prime answers mislabeled as original 65K. Prime original packets remain historical and failures retained.",
+    "runtime": "Peer explicitly unfrozen by root; builder replay independent of runtime edits."
+  },
+  "joint_migration_job": {
+    "code": "RUNNING_NOT_A_DELIVERABLE",
+    "pid": 75199,
+    "started_utc": "2026-11-24T17:29:22.521081+00:00",
+    "command": "set +e\n.venv/bin/python -m pytest tests/test_lexicon_checkpoint_retained_transport.py tests/test_lexicon_builder_rule_reservations.py -q && uvx --offline ruff@0.16.10 check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py tests/test_lexicon_checkpoint_retained_transport.py && uvx --offline ruff@0.16.10 format --check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py tests/test_lexicon_checkpoint_retained_transport.py && PYTHONPATH=. .venv/bin/python docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py execute\ncode=$?\n.venv/bin/python -c 'import json,sys,datetime;from pathlib import Path;Path(sys.argv[1]).write_text(json.dumps({\"exit_code\":int(sys.argv[2]),\"finished_utc\":datetime.datetime.now(datetime.timezone.utc).isoformat()},indent=2)+\"\\n\")' '/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-exit.json' \"$code\"\nexit \"$code\"",
+    "log": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-job.log",
+    "exit_receipt": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-exit.json",
+    "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+    "active_pointer_changed": false,
+    "warning": "No activation: full runtime/workload/repository gates remain pending."
+  },
+  "prime_coordination": "Joint migration starting now per priority. Root 98K answers require their distinct actual identity and fresh request compatibility check before later writer use; do not duplicate any original I/YOU question. No root service calls by controller.",
+  "next_independent_packet": {
+    "path": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-child-questions.json",
+    "sha256": "a31c4c4cce79a610758277e53e8fd981c0b805892ce3f895924b66cf22d38ede",
+    "questions": 6,
+    "instruction": "After completing original seven prime requests, execute these six NEW exact typed questions serially with the actual 98K transport if context fits. First two are development residuals, next is source-child discovery, last three disjoint independent audit senses. No expected labels supplied. Preserve nulls and complete original journals. Please emit ssl-api-controller-child-answers.json with the same strict answer format and actual transport identity. Do not repeat any old request.",
+    "source_child": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-child.json",
+    "warrant": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-child-warrant.md",
+    "scope_definitions": 1289,
+    "domains": {
+      "[-1, 0, 1]": 1198,
+      "[1]": 91
+    }
+  },
+  "prime_receipt_strategy": "Distinct actual 98K packet transport will replay original exact questions through ordinary sustained writer on matching source/rule snapshot; do not rebind answers to post-revision payloads. Current joint migration is left running. If new revision changes request hashes, preserve old answers and their snapshot authority instead of relabeling."
+}
+
+
+ARTIFACT ssl-root-prime-transport.json 
+ {
+  "configuration": {
+    "model": "qwen3.8:27b-q4_K_M",
+    "context_tokens": 98304,
+    "thinking": false,
+    "output_tokens": 256,
+    "timeout_seconds": 600,
+    "identity": "qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+    "artifact": {
+      "model": "qwen3.8:27b-q4_K_M",
+      "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e"
+    }
+  },
+  "reason": "Measured largest complete typed wire81148UTF8bytes;65Kconservativebound rejectedbeforeinference.96Kfits all original requestswithoutdroppinganywirecontext.",
+  "installed_supported_context_tokens": 262144,
+  "original_failure_preserved": true,
+  "new_semantic_calls_during_configuration": 0
+}
+
+ARTIFACT ssl-api-controller-happening-child.json 
+ {
+  "HAPPEN_domains": {
+    "[-1, 0, 1]": 1198,
+    "[1]": 91
+  },
+  "bank_writes": 0,
+  "baseline_sha256": "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47",
+  "family": {
+    "absent_evidence": [],
+    "antecedent": null,
+    "consequent": [
+      "HAPPEN",
+      1
+    ],
+    "guards": [
+      [
+        "pos",
+        "noun"
+      ],
+      [
+        "wordnet_native_lemma",
+        "true"
+      ],
+      [
+        "wordnet_ancestor:happening.n.01",
+        "true"
+      ],
+      [
+        "wordnet_other_than_synset:passing.n.02",
+        "true"
+      ],
+      [
+        "wordnet_other_than_synset:elves.n.01",
+        "true"
+      ]
+    ],
+    "holdouts": [
+      "wordnet:collision:collision.n.01",
+      "wordnet:fall:fall.n.07",
+      "wordnet:outbreak:outbreak.n.01"
+    ],
+    "id": "native-own-happening-child",
+    "warrant": {
+      "kind": "DEFINITIONAL_DERIVATION",
+      "review_id": "checkpoint:native-own-happening-child-source-review",
+      "reviewer": "Native defining-genus source review; independent typed audit still required",
+      "source_refs": [
+        "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-happening-child-warrant.md",
+        "/Users/rohanvinaik/Projects/GSE/docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+        "/Users/rohanvinaik/Projects/GSE/data/external/references/nsm-primes-chart-v20-2022.txt"
+      ],
+      "statement": "Exact native happening.n.01 means an event that happens. A verified defining IS-A path and attested native lemma identify the noun as an occurrence-kind; this own occurrence content warrants HAPPEN=+1. Withhold passing.n.02 expression-genus and elves.n.01 acronym-genus challenges by exact native synset guards. No participant, source spelling, legacy prediction, missing evidence or audit answer supplies a zero or authorizes its own rule.",
+      "warrant_id": "checkpoint:native-own-happening-child"
+    }
+  },
+  "format": "GSE.ssl-checkpoint-source-frontier/1",
+  "new_model_calls": 0,
+  "parent": "ssl-api-controller-event-frontier.json",
+  "scope_definitions": 1289,
+  "scope_sha256": "2b04487cd1a5a2ea599797d6753b11813fa5e791b01e7cb733a402047d9aa4d9",
+  "status": "SOURCE_REVIEWED_CHILD_AWAITING_INDEPENDENT_DISCOVERY_AND_AUDITS"
+}
+

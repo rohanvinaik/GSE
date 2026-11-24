@@ -1,0 +1,3 @@
+{
+  "patch": "*** Begin Patch\n*** Update File: /Users/rohanvinaik/Projects/GSE/tests/test_symbolic_expression.py\n@@\n from GSE.symbolic.operators import evaluate_tree\n+from GSE.symbolic.predicates import TypeAssertion\n*** Update File: /Users/rohanvinaik/Projects/GSE/GSE/symbolic/expression.py\n@@\n-    The native closed-class source supplies the relation; WordNet time-period\n-    or clock-time ancestry supplies grammatical anchor eligibility, not a\n+    The native closed-class source supplies the relation; WordNet time-period,\n+    clock-time or event-beginning ancestry supplies grammatical eligibility, not a\n*** End Patch"
+}

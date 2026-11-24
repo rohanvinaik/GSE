@@ -45,7 +45,18 @@ def test_exact_native_context_is_consumed_not_dropped_after_pos_challenge(encode
     assert evidence["domains"]["WANT"] == [-1, 0, 1]
 
 
-@pytest.mark.parametrize("text", ["The chemical symbol He denotes helium."])
+def test_native_expansion_name_and_type_thread_identify_symbol_not_person(encoder):
+    token = next(t for t in encoder.encode("The chemical symbol He denotes helium.").tokens if t.token == "He")
+    evidence = token.lexical_evidence
+    assert evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    witness = evidence["contextual_grounding"]["native_synonym_support"]["wordnet:he:helium.n.01"]
+    assert witness["synset"] == "helium.n.01"
+    assert witness["context_entry_ids"] == {"helium": "wordnet:helium:helium.n.01"}
+    assert token.word_primitives.get("SOMEONE") != 1
+    assert evidence["domains"]["WANT"] == [-1, 0, 1]
+
+
+@pytest.mark.parametrize("text", ["The chemical symbol He was discussed."])
 def test_specific_unsupported_reading_remains_named_abstention_not_person(encoder, text):
     token = next(t for t in encoder.encode(text).tokens if t.token == "He")
     assert token.lexical_evidence["selection_status"] == "CONFLICT"

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-head-contract-review -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name in ['GSE/curation/lexicon_builder/completion.py','GSE/curation/lexicon_builder/rule_history.py','GSE/curation/lexicon_builder/rule_migration.py']:\n p=Path(name);t=p.read_text();tree=ast.parse(t);print('\\n###',name)\n if 'rule_history' in name: print(t)\n else:\n  for node in tree.body:\n   if isinstance(node,(ast.FunctionDef,ast.ClassDef)):\n    print('UNIT',node.name,'lines',node.lineno,node.end_lineno)\n    if node.name in {'_historical_request','complete_dictionary','_complete_dictionary','_apply_copy','_migrate_snapshot','migrate_revision'}: print(ast.get_source_segment(t,node))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-child-exit.json','ssl-api-controller-child-audit.json']:\n f=p/name\n if f.exists():print(name,f.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

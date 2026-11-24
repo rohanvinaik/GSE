@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-promoted-verb-witness -- .venv/bin/python - <<'PY'\nfrom GSE.api import GSEEncoder\nfrom GSE.api.parse_repair import verbs_to_promote\nfrom GSE.symbolic import from_trace,resolve,evaluate_tree,emit_contract\nfrom pathlib import Path\nimport ast\ns=Path('GSE/nlp/native.py').read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,ast.ClassDef) and n.name=='NativeToken': print(ast.get_source_segment(s,n))\nwith GSEEncoder() as e:\n e.conn.execute('PRAGMA query_only=ON')\n for text in ['Duncan is a king.','Duncan names Macbeth.','The teacher is a person whose occupation is teaching.','The femur is the longest and thickest bone of the human skeleton.','The chemical symbol He denotes helium.']:\n  doc=e.nlp(text); print(text,[(t.text,t.lemma_,t.pos_) for t in doc],verbs_to_promote(doc))\n  if text=='Duncan names Macbeth.':\n   v=doc[1]; v.pos_='NOUN'; print('native mistag witness',verbs_to_promote(doc))\n  trace=e.encode(text); print(emit_contract(evaluate_tree(resolve(from_trace(trace)))))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

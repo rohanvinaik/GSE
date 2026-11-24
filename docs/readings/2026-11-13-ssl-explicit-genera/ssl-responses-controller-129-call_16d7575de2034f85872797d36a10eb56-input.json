@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-receipt-authority-trace -- .venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nroot=Path('GSE/curation/lexicon_builder')\nnames={'complete_bank','validate_receipt','validate_build','validate_model_evidence','_validate_model_evidence','_model_authorities','ModelReceipts','_apply_copy'}\nfor p in root.glob('*.py'):\n t=ast.parse(p.read_text()); units=[]\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and (n.name in names or ('model' in n.name and 'valid' in n.name)):\n   units.append(n)\n if units:\n  lines=p.read_text().splitlines()\n  for n in units: print('\\nUNIT',p,n.name,'\\n'+'\\n'.join(lines[n.lineno-1:n.end_lineno]))\nprint('\\nPACKET WRITER\\n'+Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_packets.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

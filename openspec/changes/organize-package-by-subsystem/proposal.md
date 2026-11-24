@@ -12,7 +12,7 @@ USER_INTENT (2026-11-24, the owner's decisions on this change):
 
 1. `GSE/curation/lexicon_builder/` is the one lexicon builder; check that it is complete on its own and not a wrapper over the upstream constructor.
 2. Archive dead code only when it is certainly dead. Code not in active use is not dead; experiments the owner put off are kept.
-3. Consumers will reach GSE through one central interface on the cassette model, designed with the owner. Nothing here designs it before that.
+3. Everything and everyone uses GSE through one interface, agreed with the owner on 2026-11-24 (`specs/gse-interface/spec.md`): "a clean central bureaucracy for code. Input comes in, it's handed a slip and sent off to one department or another, where it is allowed to present its problem and have a formal, written response to take back to its own repo." Refusals are named. GSE and each consumer are severable both ways ("cassette" is relative: a project is a cassette in GSE when it asks for NLP work; GSE is a cassette in that project when it supplies the information an algorithm needs). Each project keeps its own calling code; GSE uses Sparse Wiki the same way.
 4. The owner's lexicon session (the `lexicon-symbolic-foundation` change) continues in this checkout. This change never edits that session's files.
 5. The custom-model-training work means both the trained register router and `curation/llm` (with the Qwen client); both are unfinished experiments.
 
@@ -46,7 +46,7 @@ GSE-00's completion receipt also requires fixtures that protect existing correct
 
 ### New Capabilities
 
-None yet. The consumer interface will add one, specified with the owner.
+- `gse-interface`: the one interface through which anything and anyone uses GSE, and through which GSE uses other projects. Its principles are agreed; the concrete request and response shape comes to the owner for review before any code.
 
 ### Modified Capabilities
 
@@ -59,5 +59,5 @@ Read in full: #152 (periphery: archived imports, shadowed CLI, dead daemon, demo
 ## Impact
 
 - `GSE-lexicon` runs the retained builder's CLI (`GSE.curation.cli.commands`).
-- Import paths used by Genesis, Regenesis, SquishOS, StartupForge, StoryClaude, CareerForge and ShortcutForge change only when the interface exists.
+- Every consumer's calling code moves to the interface: Genesis, Regenesis, SquishOS, StartupForge, StoryClaude, CareerForge, ShortcutForge and ARC (design.md, *Consumers today*). Responses are written data, not live GSE objects, so consumers that pass GSE objects around today (SquishOS, Regenesis, StoryClaude) change shape.
 - Detective certificates keyed by source path: the five entries for the archived constructor are stale until Detective's next run.

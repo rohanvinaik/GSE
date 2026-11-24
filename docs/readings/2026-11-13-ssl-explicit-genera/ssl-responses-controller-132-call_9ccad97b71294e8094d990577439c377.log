@@ -1,0 +1,815 @@
+
+UNIT GSE/curation/lexicon_builder/completion.py _contexts 
+def _contexts(conn, selected, *, indexed=False):
+    """Retain only selected payloads, with identical ordering on both paths."""
+    observations, relevance = defaultdict(list), defaultdict(set)
+    wanted = set(selected)
+    if not wanted:
+        return observations, relevance
+    if indexed:
+        parameters = ",".join("?" for _ in selected)
+        rows = conn.execute(
+            f"""SELECT observation.payload FROM source_observations observation
+                JOIN (
+                    SELECT record_id FROM source_observations WHERE entry_id IN ({parameters})
+                    UNION
+                    SELECT record_id FROM completion_context_targets WHERE entry_id IN ({parameters})
+                ) target ON target.record_id=observation.record_id
+                ORDER BY observation.record_id""",
+            (*selected, *selected),
+        )
+    else:
+        rows = conn.execute("SELECT payload FROM source_observations ORDER BY record_id")
+    for (payload,) in rows:
+        raw = _read_json(payload)
+        targets = (raw["entry_id"],) if raw["entry_id"] is not None else raw["candidate_entry_ids"]
+        matched = wanted.intersection(targets)
+        if not matched:
+            continue
+        observation = Observation(
+            raw["entry_id"],
+            raw["source"],
+            raw["record_id"],
+            raw["family"],
+            raw["features"],
+            raw["scope"],
+            tuple(raw["candidate_entry_ids"]),
+        )
+        relevant = observation_relevance(observation)
+        for entry in sorted(matched):
+            observations[entry].append(raw)
+            relevance[entry].update(relevant)
+    return observations, relevance
+
+UNIT GSE/curation/lexicon_builder/completion.py _entry 
+def _entry(conn, entry_id):
+    row = conn.execute(
+        "SELECT l.lemma,l.pos,l.gloss,d.hierarchy FROM definition_states d JOIN lexemes l ON d.lexeme_id=l.id WHERE d.entry_id=?",
+        (entry_id,),
+    ).fetchone()
+    if row is None:
+        raise ValueError("COMPLETION_DEFINITION_DISAPPEARED")
+    definition = Definition(entry_id, row[0], row[1], row[2])
+    assertions = _assertions(
+        conn.execute("SELECT ordinal,payload FROM builder_assertions WHERE entry_id=?", (entry_id,)).fetchall()
+    )
+    restrictions = _domain_restrictions(
+        conn.execute("SELECT ordinal,payload FROM builder_domain_restrictions WHERE entry_id=?", (entry_id,)).fetchall()
+    )
+    return definition, assertions, restrictions, _read_json(row[3])
+
+UNIT GSE/curation/lexicon_builder/completion.py _refresh_coverage 
+def _refresh_coverage(conn):
+    """Recompute actual dictionary coverage; retain native source/build metadata."""
+    outcomes, cells, per_pos = Counter(), Counter(), defaultdict(Counter)
+    count = 0
+    for code, payload, pos in conn.execute(
+        "SELECT d.code,d.domains,l.pos FROM definition_states d JOIN lexemes l ON d.lexeme_id=l.id"
+    ):
+        count += 1
+        domains = _read_json(payload)
+        outcomes[code] += 1
+        per_pos[definition_context(pos)["pos"]][code] += 1
+        cells["assigned"] += sum(len(values) == 1 for values in domains.values()) if code != "CONFLICT" else 0
+        cells["explicit_zero"] += sum(values == [0] for values in domains.values()) if code != "CONFLICT" else 0
+        cells["unresolved"] += sum(len(values) > 1 for values in domains.values())
+        cells["conflicted"] += sum(not values for values in domains.values())
+    report = _metadata(conn, "last_report", {})
+    report.update(
+        definitions=count,
+        outcomes=dict(outcomes),
+        cells=dict(cells),
+        per_pos={pos: dict(values) for pos, values in sorted(per_pos.items())},
+    )
+    # Original per-definition weights were not persisted, so old weighted
+    # outcomes cannot be represented as current after assignments change.
+    if report.get("weighted_outcomes") is not None:
+        report["weighted_outcomes"] = None
+        report["weighted_outcomes_status"] = "NOT_RECOMPUTED_WEIGHTS_NOT_PERSISTED"
+    _set_metadata(conn, "last_report", report)
+    return report
+
+UNIT GSE/curation/lexicon_builder/completion.py _JournaledTransport 
+class _JournaledTransport:
+    def __init__(self, conn, transport, model, request, state_key, revision, session):
+        self.conn, self.transport, self.model, self.request = conn, transport, model, request
+        self.identity = model
+        self.state_key, self.revision, self.session = state_key, revision, session
+        self.called = False
+        self.raw = None
+
+    def __call__(self, payload, schema):
+        if self.conn.execute("PRAGMA data_version").fetchone()[0] != self.revision:
+            raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+        with self.conn:
+            _journal(
+                self.conn, self.request, self.model, "RUNNING", {"state_key": self.state_key, "transport_started": True}
+            )
+            _account(self.conn, after="RUNNING", calls=1)
+        self.called = True
+        self.session["calls"] += 1
+        self.session["transport_invocations"] += 1
+        self.raw = self.transport(payload, schema)
+        return self.raw
+
+UNIT GSE/curation/lexicon_builder/completion.py complete_dictionary 
+def complete_dictionary(
+    path,
+    transport,
+    max_model_calls,
+    *,
+    entry_ids=None,
+    banks=None,
+    max_calls_per_entry=3,
+    max_entries_per_pass=64,
+    continue_cohorts=False,
+    retry=False,
+    progress=None,
+    batch_size=1,
+    priority="constraint",
+    frequency_path=None,
+    cohort_policy="definition",
+    bank_priority="constraint",
+    entry_bank_questions=None,
+):
+    """Complete only explicitly budgeted residual cells, with durable resumption.
+
+    The existing artifact is replay-validated before any write or model call.
+    Every accepted ruling and its proof receipt commit atomically. A RUNNING
+    journal record survives interruption and is skipped on resume unless retry
+    was explicitly selected. No native/anchor coordinate is overwritten. Each
+    invocation retains source contexts for at most max_entries_per_pass entries,
+    independently of its call budget. Automatic cohorts resume through the
+    durable fair cursor; oversized explicit scopes are refused, never truncated.
+    Optional sustained mode retains this connection and replay across bounded
+    cohorts. A full pass without new attempts stops; an explicit retry applies
+    at most once per unchanged request identity in this invocation.
+    Zipf priority uses pinned local SUBTLEX counts only for scheduling, never
+    for model answers or bank inference. Its cursor scope is source-specific.
+    Optional spelling cohorts take one definition per casefolded spelling per
+    round. Optional evidence bank ordering uses typed hints and active rule
+    connectivity only to choose questions. Both policies have separate durable
+    visit scopes; earlier exact request journals remain authoritative.
+    """
+    explicit_questions = None
+    if entry_bank_questions is not None:
+        if (
+            type(entry_bank_questions) is not tuple
+            or not entry_bank_questions
+            or any(
+                type(pair) is not tuple
+                or len(pair) != 2
+                or type(pair[0]) is not str
+                or not pair[0]
+                or type(pair[1]) is not str
+                or pair[1] not in BANKS
+                for pair in entry_bank_questions
+            )
+            or len(set(entry_bank_questions)) != len(entry_bank_questions)
+            or entry_ids is not None
+            or banks is not None
+            or batch_size != 1
+            or continue_cohorts is not True
+        ):
+            raise ValueError("INVALID_EXPLICIT_ENTRY_BANK_QUESTIONS")
+        explicit_questions = {}
+        for identity, bank in entry_bank_questions:
+            explicit_questions.setdefault(identity, []).append(bank)
+        entry_ids = tuple(explicit_questions)
+        banks = tuple(sorted({bank for _, bank in entry_bank_questions}))
+    if type(max_model_calls) is not int or max_model_calls <= 0:
+        raise ValueError("INVALID_MODEL_BUDGET")
+    if type(max_calls_per_entry) is not int or max_calls_per_entry <= 0:
+        raise ValueError("INVALID_PER_ENTRY_MODEL_BUDGET")
+    if type(max_entries_per_pass) is not int or max_entries_per_pass <= 0:
+        raise ValueError("INVALID_COMPLETION_ENTRY_LIMIT")
+    if type(batch_size) is not int or not 1 <= batch_size <= 64:
+        raise ValueError("INVALID_COMPLETION_BATCH_SIZE")
+    if batch_size > 1 and not callable(getattr(transport, "callable_batch", None)):
+        raise ValueError("BATCH_TRANSPORT_REQUIRED")
+    if (
+        type(retry) is not bool
+        or type(continue_cohorts) is not bool
+        or not callable(transport)
+        or (progress is not None and not callable(progress))
+    ):
+        raise ValueError("INVALID_COMPLETION_OPTIONS")
+    order_info = question_order_policy(cohort_policy, bank_priority)
+    order_identity = order_info if (cohort_policy, bank_priority) != ("definition", "constraint") else None
+    schedule_policy = QUESTION_ORDER_SCHEDULE_POLICY if order_identity is not None else SCHEDULE_POLICY
+    priority_info, frequencies = _priority_source(priority, frequency_path)
+    priority_identity = (
+        {"policy": priority_info["policy"], "sha256": priority_info["sha256"]}
+        if priority_info["mode"] == "zipf"
+        else None
+    )
+    requested = _selection(entry_ids, "COMPLETION_DEFINITIONS")
+    if requested is not None and len(requested) > max_entries_per_pass:
+        raise ValueError("EXPLICIT_SCOPE_EXCEEDS_ENTRY_LIMIT")
+    cohort_limit = min(max_model_calls, max_entries_per_pass)
+    chosen_banks = tuple(sorted(_selection(banks, "COMPLETION_BANKS", BANKS) or BANKS))
+    model = getattr(transport, "identity", getattr(transport, "model", "typed-residual"))
+    if not isinstance(model, str) or not model.strip():
+        raise ValueError("INVALID_COMPLETION_MODEL")
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    conn = sqlite3.connect(file.as_uri() + "?mode=rw", uri=True)
+    session = {"calls": 0, "transport_invocations": 0}
+    outcomes, skipped = Counter(), Counter()
+    selected = ()
+    started = False
+    phase = "PREFLIGHT"
+
+    def report_progress(**details):
+        if progress is not None:
+            progress(
+                {
+                    "format": "GSE.lexicon-completion-progress/1",
+                    "phase": phase,
+                    "model_calls": session["calls"],
+                    "transport_invocations": session["transport_invocations"],
+                    "max_model_calls": max_model_calls,
+                    "committed_outcomes": dict(outcomes),
+                    "dictionary_status": "NOT_RECOUNTED",
+                    **details,
+                }
+            )
+
+    def busy_receipt(failed_phase):
+        return {
+            "format": "GSE.lexicon-completion-failure/1",
+            "code": "COMPLETION_DATABASE_BUSY",
+            "phase": failed_phase,
+            "model": model,
+            "model_calls": session["calls"],
+            "transport_invocations": session["transport_invocations"],
+            "max_model_calls": max_model_calls,
+            "committed_outcomes": dict(outcomes),
+            "skipped_attempts": dict(skipped),
+            "selected_entry_ids": list(selected),
+            "selected_scope": "CURRENT_COHORT",
+            "banks": list(chosen_banks),
+            "continue_cohorts": continue_cohorts,
+            "priority": priority_info,
+            "question_order": order_info,
+            "coverage": "NOT_REFRESHED_AFTER_FAILURE",
+            "pending_attempts": "COMMITTED_RUNNING_JOURNAL_IS_AUTHORITATIVE",
+            "retry_policy": "EXPLICIT_RETRY_REQUIRED_FOR_UNCHANGED_REQUEST",
+        }
+
+    try:
+        report_progress()
+        revision = conn.execute("PRAGMA data_version").fetchone()[0]
+        validation = validate_build(file)
+        if validation["code"] != "REPLAY_VALIDATED":
+            raise ValueError("COMPLETION_REQUIRES_VALIDATED_BUILD")
+        if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+            raise ValueError("BUILD_CHANGED_DURING_PREFLIGHT")
+        relations = _relations(_metadata(conn, "relations"))
+        validate_lexical_guards(relations)
+        schedule = (
+            _schedule(conn, model, chosen_banks, priority_identity, order_identity) if requested is None else None
+        )
+        cursor_before = schedule["cursor"] if schedule else None
+        cohort, more_in_pass = _select_entries(
+            conn,
+            requested,
+            chosen_banks,
+            cohort_limit,
+            schedule["visited"] if schedule else frozenset(),
+            frequencies=frequencies,
+            cohort_policy=cohort_policy,
+        )
+        wrapped_pass = False
+        if schedule and not cohort and cursor_before is not None:
+            schedule["pass_number"] += 1
+            schedule["cursor"] = None
+            schedule["visited"] = frozenset()
+            wrapped_pass = True
+            cohort, more_in_pass = _select_entries(
+                conn, requested, chosen_banks, cohort_limit, frequencies=frequencies, cohort_policy=cohort_policy
+            )
+        selected = tuple(key[2] for key in cohort)
+        phase = "CONTEXT_PREPARATION"
+        report_progress()
+        if continue_cohorts:
+            _prepare_context_index(conn)
+            observations, relevance = _contexts(conn, selected, indexed=True)
+        else:
+            observations, relevance = _contexts(conn, selected)
+        if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+            raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+        # Add the optional empty restriction table for valid older snapshots.
+        # Keep this connection: data_version then detects any external writer.
+        phase = "JOURNAL_SETUP"
+        if not conn.execute("SELECT 1 FROM sqlite_master WHERE name='builder_domain_restrictions'").fetchone():
+            from .storage import DOMAIN_RESTRICTIONS_VERSION
+
+            with conn:
+                conn.execute(
+                    "CREATE TABLE builder_domain_restrictions (entry_id TEXT NOT NULL,ordinal INTEGER NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(entry_id,ordinal))"
+                )
+                _set_metadata(conn, "domain_restrictions_format", DOMAIN_RESTRICTIONS_VERSION)
+        conn.executescript(JOURNAL_SCHEMA)
+        with conn:
+            migrate_model_receipts(conn)
+        started = True
+        visited = []
+        visited_set = set()
+        selected_in_session = dict.fromkeys(selected)
+        cohort_count = 0
+        pass_start_calls = session["calls"]
+        full_pass = cursor_before is None or wrapped_pass
+        stop_reason = "SINGLE_COHORT"
+        while True:
+            if not cohort:
+                stop_reason = "NO_ELIGIBLE_ENTRIES"
+                break
+            cohort_count += 1
+            if batch_size > 1:
+                from .batching import run_batched_cohort
+
+                phase = "BATCH_DISPATCH_AND_ACCEPTANCE"
+                finished = run_batched_cohort(
+                    conn,
+                    transport,
+                    model,
+                    cohort,
+                    observations,
+                    relevance,
+                    relations,
+                    revision,
+                    session,
+                    outcomes,
+                    skipped,
+                    max_model_calls=max_model_calls,
+                    max_calls_per_entry=max_calls_per_entry,
+                    chosen_banks=chosen_banks,
+                    batch_size=batch_size,
+                    retry=retry,
+                    continue_cohorts=continue_cohorts,
+                    report_progress=report_progress,
+                    bank_priority=bank_priority,
+                )
+                for priority in finished:
+                    if schedule:
+                        _advance_schedule(conn, schedule, priority, revision)
+                    if priority[2] not in visited_set:
+                        visited.append(priority[2])
+                        visited_set.add(priority[2])
+            else:
+                for priority in cohort:
+                    entry = priority[2]
+                    if session["calls"] >= max_model_calls:
+                        break
+                    definition, assertions, restrictions, hierarchy = _entry(conn, entry)
+                    context = lexical_context(definition, observations[entry], relations)
+                    evidence_banks = tuple(sorted(relevance[entry]))
+                    resolution = resolve_dictionary(
+                        BANKS,
+                        assertions,
+                        relations,
+                        context,
+                        evidence_banks=evidence_banks,
+                        domain_restrictions=restrictions,
+                    )
+                    attempted_banks = set()
+                    entry_calls = 0
+                    entry_banks = explicit_questions[entry] if explicit_questions is not None else chosen_banks
+                    while (
+                        resolution.code == "PARTIAL"
+                        and session["calls"] < max_model_calls
+                        and entry_calls < max_calls_per_entry
+                    ):
+                        remaining = pending_banks(
+                            resolution,
+                            entry_banks,
+                            attempted_banks,
+                            policy=bank_priority,
+                            observations=observations[entry],
+                            relations=relations,
+                            context=context,
+                        )
+                        if not remaining:
+                            break
+                        bank = remaining[0]
+                        attempted_banks.add(bank)
+                        request = build_request(
+                            entry,
+                            bank,
+                            resolution,
+                            tuple(observations[entry]),
+                            definition=definition,
+                            relations=relations,
+                            context=context,
+                        )
+                        previous = conn.execute(
+                            "SELECT code FROM completion_attempts WHERE entry_id=? AND bank=? AND request_id=? AND model=?",
+                            (entry, bank, request.request_id, model),
+                        ).fetchone()
+                        attempted_in_session = (
+                            continue_cohorts
+                            and conn.execute(
+                                "SELECT 1 FROM completion_session_attempts WHERE entry_id=? AND bank=? AND request_id=?",
+                                (entry, bank, request.request_id),
+                            ).fetchone()
+                        )
+                        if previous and (not retry or attempted_in_session):
+                            skipped[previous[0]] += 1
+                            continue
+                        state_key = _state_key({bank: sorted(values) for bank, values in resolution.domains.items()})
+                        wrapped = _JournaledTransport(conn, transport, model, request, state_key, revision, session)
+                        phase = "REQUEST_AND_RUNNING_JOURNAL"
+                        result = complete_bank(
+                            request,
+                            BANKS,
+                            assertions,
+                            relations,
+                            wrapped,
+                            context,
+                            evidence_banks=evidence_banks,
+                            domain_restrictions=restrictions,
+                        )
+                        entry_calls += wrapped.called
+                        details = {**result.details, "state_key": state_key, "transport_started": wrapped.called}
+                        if isinstance(wrapped.raw, str):
+                            details["raw_output"] = wrapped.raw if len(wrapped.raw) <= 4096 else None
+                            details["raw_output_sha256"] = hashlib.sha256(wrapped.raw.encode()).hexdigest()
+                        phase = "ACCEPTANCE_COMMIT"
+                        conn.execute("BEGIN IMMEDIATE")
+                        try:
+                            changed = conn.execute("PRAGMA data_version").fetchone()[0] != revision
+                            code = "STALE_SNAPSHOT" if changed else result.code
+                            if not changed and code == "ASSIGNED":
+                                if result.assertion is None or result.resolution is None:
+                                    raise ValueError("INVALID_COMPLETION_RECEIPT")
+                                assertions += (result.assertion,)
+                                resolution = result.resolution
+                                store_entry(
+                                    conn,
+                                    definition,
+                                    resolution,
+                                    assertions,
+                                    hierarchy,
+                                    domain_restrictions=restrictions,
+                                )
+                                append_model_receipt(
+                                    conn,
+                                    {
+                                        "entry_id": entry,
+                                        "assertion": asdict(result.assertion),
+                                        "request_id": request.request_id,
+                                        "code": code,
+                                        "request": request.payload(),
+                                        "schema": request.output_schema(),
+                                    },
+                                )
+                            _journal(conn, request, model, code, details)
+                            if wrapped.called:
+                                if continue_cohorts:
+                                    conn.execute(
+                                        "INSERT OR IGNORE INTO completion_session_attempts VALUES (?,?,?)",
+                                        (entry, bank, request.request_id),
+                                    )
+                                _account(conn, before="RUNNING", after=code)
+                            conn.commit()
+                        except BaseException:
+                            conn.rollback()
+                            raise
+                        outcomes[code] += 1
+                        report_progress(entry_id=entry, bank=bank, code=code)
+                        if changed:
+                            raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+                    finished = (
+                        resolution.code != "PARTIAL"
+                        or entry_calls >= max_calls_per_entry
+                        or not any(
+                            len(resolution.domains[bank]) > 1 and bank not in attempted_banks for bank in entry_banks
+                        )
+                    )
+                    if finished:
+                        if schedule:
+                            phase = "SCHEDULE_COMMIT"
+                            _advance_schedule(conn, schedule, priority, revision)
+                        if entry not in visited_set:
+                            visited.append(entry)
+                            visited_set.add(entry)
+            if not continue_cohorts or schedule is None:
+                break
+            if session["calls"] >= max_model_calls:
+                stop_reason = "MODEL_BUDGET_EXHAUSTED"
+                break
+            schedule.update(_schedule(conn, model, chosen_banks, priority_identity, order_identity))
+            cohort, more_in_pass = _select_entries(
+                conn,
+                requested,
+                chosen_banks,
+                min(cohort_limit, max_model_calls - session["calls"]),
+                schedule["visited"],
+                frequencies=frequencies,
+                cohort_policy=cohort_policy,
+            )
+            if not cohort:
+                if full_pass and session["calls"] == pass_start_calls:
+                    stop_reason = "NO_NEW_ATTEMPTS_IN_PASS"
+                    break
+                schedule["pass_number"] += 1
+                schedule["cursor"] = None
+                schedule["visited"] = frozenset()
+                wrapped_pass = True
+                full_pass = True
+                pass_start_calls = session["calls"]
+                cohort, more_in_pass = _select_entries(
+                    conn,
+                    requested,
+                    chosen_banks,
+                    min(cohort_limit, max_model_calls - session["calls"]),
+                    frequencies=frequencies,
+                    cohort_policy=cohort_policy,
+                )
+                if not cohort:
+                    stop_reason = "NO_ELIGIBLE_ENTRIES"
+                    break
+            selected = tuple(key[2] for key in cohort)
+            selected_in_session.update(dict.fromkeys(selected))
+            observations.clear()
+            relevance.clear()
+            phase = "CONTEXT_PREPARATION"
+            observations, relevance = _contexts(conn, selected, indexed=True)
+            if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+                raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+        selected = tuple(selected_in_session)
+        if explicit_questions is None:
+            remaining = _scope_remaining(conn, selected, chosen_banks)
+        else:
+            scopes = [_scope_remaining(conn, (entry,), explicit_questions[entry]) for entry in selected]
+            remaining = {key: sum(row[key] for row in scopes) for key in ("entries", "cells", "conflicted_entries")}
+        unselected_residual = not selected and requested is None and _has_remaining(conn, chosen_banks)
+        code = (
+            "RESIDUAL_REMAINS"
+            if unselected_residual
+            else "SELECTED_SCOPE_RESOLVED"
+            if not remaining["entries"]
+            else "BUDGET_EXHAUSTED"
+            if session["calls"] >= max_model_calls
+            else "RESIDUAL_REMAINS"
+        )
+        result = {
+            "format": "GSE.lexicon-completion-report/1",
+            "code": code,
+            "model": model,
+            "model_calls": session["calls"],
+            "transport_invocations": session["transport_invocations"],
+            "max_model_calls": max_model_calls,
+            "max_calls_per_entry": max_calls_per_entry,
+            "max_entries_per_pass": max_entries_per_pass,
+            "batch_size": batch_size,
+            "continue_cohorts": continue_cohorts,
+            **(
+                {"entry_bank_questions": [list(pair) for pair in entry_bank_questions]}
+                if entry_bank_questions is not None
+                else {}
+            ),
+            "priority": priority_info,
+            "question_order": order_info,
+            "selected_entry_ids": list(selected),
+            "banks": list(chosen_banks),
+            "outcomes": dict(outcomes),
+            "skipped_attempts": dict(skipped),
+            "remaining_selected_scope": remaining,
+            "unselected_residual": unselected_residual,
+            "scheduling": {
+                "policy": schedule_policy,
+                "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+                "code": "EXPLICIT_SCOPE"
+                if schedule is None
+                else stop_reason
+                if continue_cohorts
+                else "NO_ELIGIBLE_ENTRIES"
+                if not selected
+                else "COHORT_PARTIAL"
+                if len(visited) < len(selected)
+                else "COHORT_EXHAUSTED"
+                if more_in_pass
+                else "PASS_EXHAUSTED",
+                "visited_entry_ids": visited,
+                "cohorts_processed": cohort_count,
+                "pass_number": schedule["pass_number"] if schedule else None,
+                "wrapped": wrapped_pass,
+                "cursor_before": list(cursor_before) if cursor_before is not None else None,
+                "cursor_after": list(schedule["cursor"]) if schedule and schedule["cursor"] is not None else None,
+            },
+            "preflight": "REPLAY_VALIDATED",
+            "semantic_gold": "NOT_CHECKED",
+        }
+        phase = "COVERAGE_COMMIT"
+        with conn:
+            coverage = _refresh_coverage(conn)
+            result["dictionary_outcomes"] = coverage["outcomes"]
+            result["dictionary_cells"] = coverage["cells"]
+            result["dictionary_status"] = (
+                "INCOMPLETE"
+                if coverage["cells"].get("unresolved", 0)
+                or coverage["cells"].get("conflicted", 0)
+                or coverage["outcomes"].get("CONFLICT", 0)
+                else "ALL_BANKS_ASSIGNED"
+            )
+            # Selected scope may be just one coordinate of one definition.
+            # Report the rest of the dictionary even when that scope is done.
+            result["outside_selected_scope"] = {
+                "unresolved_or_conflicted_cells": max(
+                    0,
+                    coverage["cells"].get("unresolved", 0)
+                    + coverage["cells"].get("conflicted", 0)
+                    - remaining["cells"],
+                )
+            }
+            _set_metadata(conn, "last_completion_report", result)
+        return result
+    except BaseException as error:
+        conn.rollback()
+        if _database_busy(error):
+            # A read transaction can block COMMIT. Preserve the last committed
+            # RUNNING/accepted records, and never mask this with another write.
+            raise CompletionDatabaseBusy(busy_receipt(phase)) from error
+        if started:
+            try:
+                with conn:
+                    _refresh_coverage(conn)
+            except sqlite3.DatabaseError as cleanup_error:
+                if _database_busy(cleanup_error):
+                    receipt = busy_receipt("COVERAGE_RECOVERY")
+                    receipt["original_error_type"] = type(error).__name__
+                    raise CompletionDatabaseBusy(receipt) from cleanup_error
+                raise
+        raise
+    finally:
+        conn.close()
+
+UNIT GSE/curation/lexicon_builder/residual.py OllamaTransport 
+class OllamaTransport:
+    """Explicit local model selection with typed input and constrained generation."""
+
+    def __init__(
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434",
+        timeout: float = 120,
+        *,
+        context_tokens: int = 32768,
+        thinking: bool = True,
+        output_tokens: int | None = None,
+    ):
+        if type(model) is not str or not model.strip():
+            raise ValueError("model_required")
+        if type(timeout) not in (int, float) or not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError("invalid_timeout")
+        if type(base_url) is not str:
+            raise ValueError("invalid_base_url")
+        parsed = urlsplit(base_url)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc or parsed.query or parsed.fragment:
+            raise ValueError("invalid_base_url")
+        self.model = model
+        self.base_url = base_url.rstrip("/")
+        self.timeout = float(timeout)
+        if type(context_tokens) is not int or context_tokens < 2048:
+            raise ValueError("invalid_context_tokens")
+        self.context_tokens = context_tokens
+        if type(thinking) is not bool:
+            raise ValueError("invalid_thinking_mode")
+        self.thinking = thinking
+        self.output_tokens = (1024 if thinking else 128) if output_tokens is None else output_tokens
+        if (
+            type(self.output_tokens) is not int
+            or not 1 <= self.output_tokens <= 32768
+            or self.output_tokens + 1024 >= context_tokens
+        ):
+            raise ValueError("invalid_output_tokens")
+        from .model_protocol import protocol_contract
+
+        digest = _request_id(
+            {
+                "protocol": protocol_contract(),
+                "thinking": thinking,
+                "context_tokens": context_tokens,
+                "output_tokens": self.output_tokens,
+                "temperature": 0,
+            }
+        )
+        self._protocol_digest = digest
+        self.model_digest: str | None = None
+        self.identity = f"{model}@{digest}"
+
+    def _request_json(self, request: Request, malformed_code: str) -> Any:
+        try:
+            with urlopen(request, timeout=self.timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            raise ModelTransportError("MODEL_HTTP_ERROR") from exc
+        except TimeoutError as exc:
+            raise ModelTransportError("MODEL_TIMEOUT") from exc
+        except URLError as exc:
+            code = "MODEL_TIMEOUT" if isinstance(exc.reason, TimeoutError) else "MODEL_CONNECTION_ERROR"
+            raise ModelTransportError(code) from exc
+        except (ValueError, UnicodeError) as exc:
+            raise ModelTransportError(malformed_code) from exc
+
+    def _installed_digest(self) -> str:
+        request = Request(f"{self.base_url}/api/tags", method="GET")
+        envelope = self._request_json(request, "INVALID_MODEL_IDENTITY_RESPONSE")
+        if type(envelope) is not dict or type(envelope.get("models")) is not list:
+            raise ModelTransportError("INVALID_MODEL_IDENTITY_RESPONSE")
+        matches = [item for item in envelope["models"] if isinstance(item, dict) and item.get("name") == self.model]
+        if len(matches) != 1:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_FOUND_OR_AMBIGUOUS")
+        digest = matches[0].get("digest")
+        if type(digest) is not str or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ModelTransportError("INVALID_MODEL_DIGEST")
+        return digest
+
+    def pin(self) -> dict[str, str]:
+        """Resolve the installed artifact explicitly; never repin a changed tag."""
+        digest = self._installed_digest()
+        if self.model_digest is not None and digest != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+        self.model_digest = digest
+        self.identity = f"{self.model}#{digest}@{self._protocol_digest}"
+        return {"model": self.model, "digest": digest}
+
+    def _verify_pin(self) -> None:
+        if self.model_digest is None:
+            raise ModelTransportError("MODEL_IDENTITY_NOT_PINNED")
+        if self._installed_digest() != self.model_digest:
+            raise ModelTransportError("MODEL_IDENTITY_CHANGED")
+
+    def __call__(self, payload: dict, schema: dict) -> str:
+        from .model_protocol import model_input
+
+        try:
+            prompt = _canonical_json(model_input(_json_copy(payload)))
+        except ValueError as exc:
+            raise ModelTransportError("INVALID_MODEL_INPUT") from exc
+        # UTF-8 byte count is a conservative bound for byte-backed tokenizers.
+        # Reserve template/output space; refusal is preferable to silent loss
+        # of a contradictory observation near the start of a long request.
+        if len(prompt.encode("utf-8")) > self.context_tokens - self.output_tokens - 1024:
+            raise ModelTransportError("MODEL_CONTEXT_EXCEEDED")
+        self._verify_pin()
+        body = {
+            "model": self.model,
+            "prompt": prompt,
+            "format": _json_copy(schema),
+            "stream": False,
+            "think": self.thinking,
+            "options": {"temperature": 0, "num_predict": self.output_tokens, "num_ctx": self.context_tokens},
+        }
+        request = Request(
+            f"{self.base_url}/api/generate",
+            data=_canonical_json(body).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        envelope = self._request_json(request, "INVALID_OLLAMA_RESPONSE")
+        self._verify_pin()
+        if type(envelope) is not dict or type(envelope.get("response")) is not str:
+            raise ModelTransportError("INVALID_OLLAMA_RESPONSE")
+        if envelope.get("done_reason") == "length":
+            raise ModelTransportError("INCOMPLETE_MODEL_OUTPUT")
+        from GSE.curation.llm.ollama_client import register_model
+
+        register_model(self.model, self.base_url)
+        return envelope["response"]
+
+UNIT GSE/curation/lexicon_builder/epoch.py make_questions 
+def make_questions(candidate, coordinates):
+    """Prepare independent questions from a single read snapshot and evidence scan."""
+    coordinates = tuple(coordinates)
+    requests = []
+    with closing(connect(candidate)) as conn:
+        conn.execute("BEGIN")
+        rules = _relations(_metadata(conn, "relations"))
+        observations, evidence = _contexts(conn, tuple(identity for identity, _ in coordinates))
+        for identity, bank in coordinates:
+            definition, assertions, restrictions, _ = _entry(conn, identity)
+            context = lexical_context(definition, observations[identity], rules)
+            state = resolve_dictionary(
+                BANKS,
+                assertions,
+                rules,
+                context,
+                evidence_banks=tuple(sorted(evidence[identity])),
+                domain_restrictions=restrictions,
+            )
+            requests.append(
+                build_request(
+                    identity,
+                    bank,
+                    state,
+                    tuple(observations[identity]),
+                    definition=definition,
+                    relations=rules,
+                    context=context,
+                )
+            )
+    return tuple(requests)

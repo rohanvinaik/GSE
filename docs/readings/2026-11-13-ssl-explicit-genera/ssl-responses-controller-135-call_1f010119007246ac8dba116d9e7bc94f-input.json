@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label controller-historical-writer-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor file,names in [('GSE/curation/lexicon_builder/completion.py',None),('GSE/curation/lexicon_builder/rule_history.py',None),('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_packets.py',None)]:\n p=Path(file);print('\\nFILE',file);print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

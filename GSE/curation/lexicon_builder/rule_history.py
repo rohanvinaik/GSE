@@ -255,6 +255,20 @@ def receipt_relations(receipt, current, context, history, *, definition=None, ob
     entry, version = binding
     if entry != receipt["entry_id"]:
         raise ValueError("MODEL_RULE_BINDING_MISMATCH")
+    return version_relations(version, current, context, history, definition=definition, observations=observations)
+
+
+def version_relations(version, current, context, history, *, definition=None, observations=()):
+    """Authorize an original rule context, never a rebased model question.
+
+    The ordinary writer uses this same conservative changed-scope test before
+    consuming a delayed answer; replay uses it again through receipt_relations.
+    Only a verified history (or the exact current version) supplies rules.
+    """
+    if version == digest(relation_records(current)):
+        return current
+    if history is None or version not in history["versions"]:
+        raise ValueError("UNKNOWN_HISTORICAL_MODEL_RULE_VERSION")
     original = history["versions"][version]
     from .foundation import lexical_context
     from .rule_revisions import rule_changes, touches_scope

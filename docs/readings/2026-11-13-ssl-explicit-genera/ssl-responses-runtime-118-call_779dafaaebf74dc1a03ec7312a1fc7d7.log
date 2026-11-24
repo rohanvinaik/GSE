@@ -1,0 +1,640 @@
+FILE GSE/api/parse_repair.py
+def verbs_to_promote(doc) -> Set[int]:
+    """Token indices of buried (mis-tagged) verbs to promote to ``pos == VERB``.
+
+    A buried verb is a non-VERB token whose lemma has a verb sense and whose
+    nearest *content* token on each side (determiners/punctuation skipped) is
+    entity-like — the transitive-mistag signature (subject before, object
+    after). WS1: the flanking signal is *positional* (the token stream), NOT
+    spaCy dependency arcs — ``children``/``head`` are never read. Validated to
+    match the arc version on the bounded register (``scripts/ws1_parity.py``);
+    the coherence gate flags any tail divergence.
+    """
+    toks = list(doc)
+
+    def _nearest_content(i: int, step: int):
+        j = i + step
+        while 0 <= j < len(toks):
+            if toks[j].pos_ not in _SKIP_FLANK_POS:
+                return toks[j]
+            j += step
+        return None
+
+    promote: Set[int] = set()
+    for i, t in enumerate(toks):
+        if t.pos_ in ("VERB", "AUX", "PUNCT"):
+            continue
+        if not _has_verb_sense(t.lemma_):
+            continue
+        if _in_hyphen_compound(toks, i):  # a hyphenated noun-compound member is a modifier, not a verb
+            continue
+        # In a governed counted NP, the cardinal belongs to the noun phrase.
+        # A clause-initial "one" can still serve as the subject of a real verb.
+        if t.pos_ == "NOUN" and i >= 2 and toks[i - 2].pos_ in {"ADP", "DET"}:
+            numeral = get_numeral_encoding(toks[i - 1].lemma_) or {}
+            if numeral.get("quantity_type") == "cardinal":
+                continue
+        left = _nearest_content(i, -1)
+        right = _nearest_content(i, +1)
+        # A possessive determiner on the left is NOT the subject — it governs the candidate as the
+        # possessed noun head ("his ambition, Macbeth murdered …" → ambition is a NOUN, murder the verb).
+        # Without this, the PRON-tagged possessive reads as an entity-like subject and buries the real verb.
+        if (
+            left is not None
+            and right is not None
+            and _entity_like(left)
+            and not _is_possessive_determiner(left)
+            and _entity_like(right)
+        ):
+            promote.add(t.i)
+    return promote
+FILE GSE/api/native_repair.py
+def _enumerate(self, doc) -> list:
+        toks = list(doc)
+
+        def nearest(i: int, step: int):
+            j = i + step
+            while 0 <= j < len(toks):
+                if toks[j].pos_ not in ("PUNCT", "DET"):
+                    return toks[j] if _entity_like(toks[j]) else None
+                j += step
+            return None
+
+        cands: list = []
+        seen: set = set()
+        for pivot in toks:
+            if pivot.pos_ == "PUNCT" or not _has_verb_sense(pivot.lemma_):
+                continue
+            pre, post = nearest(pivot.i, -1), nearest(pivot.i, +1)
+            is_copula = pivot.lemma_.lower() == "be"  # "be" is no content transitive verb
+            roles = {"SYN_PRED": pivot}
+            if pre is not None:
+                roles["SYN_SUBJ"] = pre
+            if post is not None:
+                roles["SYN_COMPL" if is_copula else "SYN_OBJ"] = post
+            rp = {r: self._prims(t.lemma_) for r, t in roles.items()}
+            for frame, shape, filler in self._score_against(rp):
+                key = (frame, tuple(sorted((r, t.i) for r, t in roles.items())))
+                if key in seen:
+                    continue
+                seen.add(key)
+                cands.append(Candidate(dict(roles), frame, shape, filler))
+        return cands
+def repair_syn_map(self, doc, syn_map: Dict[int, str]) -> Dict[int, str]:
+        """Encode-facing auto step: detect a degraded clause from its positional ``syn_map``
+        and, ONLY on a confident commit, return a patched map (token-index → role). A clean
+        parse, an ambiguous bifurcation, or a no-candidate degraded parse all pass through
+        unchanged — the repair never overrides a viable literal."""
+        # Tier-1 repair models a SINGLE clause (its prototypes are single-clause frames).
+        # A multi-clause sentence ("…because Doran is loyal to Maeve") carries one SYN_PRED
+        # per clause; scoring its cross-clause role bag mis-reads it as degraded, and a commit
+        # would replace the sentence-wide argument roles with one clause's frame — nulling every
+        # OTHER clause's roles (the copula-in-because regression). Out of scope for Tier-1: pass a
+        # multi-predicate sentence through untouched (per-clause repair is a later tier).
+        if sum(1 for r in syn_map.values() if r == "SYN_PRED") > 1:
+            return syn_map
+        toks = list(doc)
+        roles_tok: Dict[str, object] = {}
+        for i in sorted(syn_map):
+            if syn_map[i] in ARGUMENT_ROLES:
+                roles_tok.setdefault(syn_map[i], toks[i])
+        literal = {r: self._prims(t.lemma_) for r, t in roles_tok.items()}
+        lit_match = self._score_against(literal)
+        if lit_match and not self._false_clean_suspect(doc, lit_match[0][0], roles_tok):
+            return syn_map  # clean → untouched
+        cands = sorted(self._enumerate(doc), key=lambda c: -c.score)
+        if not cands:
+            return syn_map  # degraded, no candidate → literal
+        top = cands[0]
+        if [c for c in cands if top.score - c.score <= EPS and c.frame != top.frame]:
+            return syn_map  # bifurcate → don't override
+        patched = {i: r for i, r in syn_map.items() if r not in ARGUMENT_ROLES}
+        for r, t in top.roles.items():  # commit: install repaired roles
+            patched[t.i] = r
+        return patched
+FILE GSE/api/encoder.py
+def encode(self, text: str) -> OperationTrace:
+        """
+        Encode text to HDC vector with full operation trace.
+
+        Args:
+            text: Input text (sentence)
+
+        Returns:
+            OperationTrace with all encoding steps
+        """
+        from GSE.nlp.morphology import negation_admission, negation_evidence
+
+        # 1. Tokenize
+        doc = self.nlp(text)
+        head_position = next((i for i, token in enumerate(doc) if token.pos_ != "PUNCT"), None)
+        lexical_rows: Dict[str, Dict] = {}
+        grammatical_rows: Dict[Tuple[str, str, str], Optional[Tuple[str, str, Dict]]] = {}
+
+        # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
+        #     ("Macbeth murders Duncan"). Promote buried verbs to POS=VERB so the
+        #     position-based EVENT synthesis downstream finds a predicate.
+        promote_to_verb = verbs_to_promote(doc)
+
+        # 1c. Clause-coordinating "and"/"or": a coordinator with a predicate on
+        #     BOTH sides joins two CLAUSES (WS1 — derived from the verb-inventory,
+        #     no spaCy arcs), distinct from NP/VP coordination. Marked as the
+        #     clause-linking CLAUSE_COORD operator so it becomes a clause boundary.
+        clause_coords = self._clause_coordinator_positions(doc, promote_to_verb)
+        clause_coords |= self._copula_clause_coordinator_positions(doc)
+
+        # 1c'. Fronted conditional "if": a clause-initial "if" with a predicate in
+        #      its antecedent → the IMPLIES clause-linker. Not a lexicon operator
+        #      ("if" carries no comp_operation), so it is marked here like "and".
+        implies_positions = self._conditional_positions(doc, promote_to_verb)
+
+        # 1c''. Fronted temporal subordinator "when/while/after/before": a clause-initial
+        #       one with a predicate in its subordinate clause → the TEMPORAL clause-linker
+        #       (both clauses asserted). Like "if", carries no lexicon comp_operation.
+        temporal_positions = self._temporal_positions(doc, promote_to_verb)
+
+        # 1d. Arc-free core syntactic roles (positional), computed once for the
+        #     sentence. ``None`` falls the per-token extractor back to spaCy dep_.
+        syn_map = self._syn_roles(doc, promote_to_verb) if self._arcfree_syn else None
+        # 1d'. Parse-strand auto-repair: on a DEGRADED clause the native Tier-1 repair
+        #      re-assigns roles (commit only) before EVENT synthesis; clean parses pass
+        #      through untouched. Guarded so a repair failure never breaks encode.
+        if syn_map is not None and not getattr(self, "_in_repair", False):
+            try:
+                self._in_repair = True
+                syn_map = self._parse_repair().repair_syn_map(doc, syn_map)
+            except Exception:
+                pass
+            finally:
+                self._in_repair = False
+
+        # 2. Process each token
+        from GSE.symbolic.lexical_grounding import LexicalGrounding
+
+        grounding = (
+            LexicalGrounding(self.conn, doc, clause_coords | implies_positions | temporal_positions)
+            if self._definition_database
+            else None
+        )
+        token_traces: List[TokenTrace] = []
+        token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
+        operator_indices: List[int] = []
+        comp_meta: CompositionalMetadata
+
+        for i, tok in enumerate(doc):
+            # Lexicon lookup (static primitives from database)
+            lemma = tok.lemma_.lower()
+            lookup_form = lemma
+            grammatical = None
+            contextual_pos = None
+            if self._definition_database:
+                # Predicate promotion assigns a sentence role; an existing AUX
+                # reading still licenses its exact grammatical definition.
+                grammar_key = (tok.text.lower(), lemma, tok.pos_)
+                if grammar_key not in grammatical_rows:
+                    grammatical_rows[grammar_key] = self._grammatical_definition(*grammar_key)
+                grammatical = grammatical_rows[grammar_key]
+            if self._definition_database and grammatical is None and tok.text.lower() != lemma:
+                if lemma not in lexical_rows:
+                    lexical_rows[lemma] = self.lexical_lookup(lemma)
+                # Exact surface spelling can recover a missing lemma (tired ->
+                # tire), but never resolves an ambiguous lemma by substitution.
+                if lexical_rows[lemma].get("selection_status") == "NOT_FOUND":
+                    lookup_form = tok.text.lower()
+            lexical: Dict[str, Any]
+            if grammatical is not None:
+                lookup_form, entry_id, lexical = grammatical
+                if grounding is None:
+                    raise ValueError("GRAMMATICAL_SELECTION_REQUIRES_GROUNDING")
+                eligibility = grounding.grammatical_eligibility(i, lookup_form, entry_id)
+                if eligibility["code"] == "CONTEXTUAL_DEFINITION_SELECTED":
+                    entry_id = eligibility["entry_id"]
+                    lexical = {
+                        **self.lexical_lookup(lookup_form, entry_id=entry_id),
+                        "reading_eligibility": eligibility,
+                        "contextual_grounding": eligibility["contextual_grounding"],
+                    }
+                    # An exact source/role witness repairs this occurrence,
+                    # not every occurrence sharing the parser's POS/spelling.
+                    contextual_pos = "NOUN"
+                elif eligibility["code"] == "GRAMMATICAL_CONTEXT_CONFLICT":
+                    # POS is evidence, not a veto over native/context facts.
+                    # Retain both rivals, but publish neither reading nor banks.
+                    lexical = {
+                        **lexical,
+                        "state": "unread",
+                        "reason": eligibility["code"],
+                        "selection_status": "CONFLICT",
+                        "selected_record": None,
+                        "sense_resolved": False,
+                        "primitives": {},
+                        "domains": {},
+                        "hierarchy": {},
+                        "primitive_evidence": [],
+                        "reading_eligibility": eligibility,
+                    }
+                    entry_id = None
+                else:
+                    lexical = {**lexical, "reading_eligibility": eligibility}
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
+            else:
+                if lookup_form not in lexical_rows:
+                    lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
+                lexical = lexical_rows[lookup_form]
+                entry_id = None
+                if (
+                    grounding is not None
+                    and (tok.pos_ in {"NOUN", "PROPN", "VERB", "ADJ", "ADV"} or i in promote_to_verb)
+                    and lexical.get("selection_status") == "AMBIGUOUS"
+                ):
+                    alternatives = lexical["candidate_entry_ids"]
+                    eligible_pos = "VERB" if i in promote_to_verb else "NOUN" if tok.pos_ == "PROPN" else tok.pos_
+                    selection = grounding.select(i, lookup_form, alternatives, pos=eligible_pos)
+                    if selection["code"] == "EXACT_WORDNET_SENSE":
+                        entry_id = selection["entry_id"]
+                        lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
+                    lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
+                # The trace and vector must consume the same selected source row.
+                word_prims, sent_prims, comp_meta = self._lookup_lexeme(
+                    lookup_form, entry_id=entry_id, lexical_evidence=lexical
+                )
+            if self._definition_database:
+                lexical = {**lexical, "lookup_form": lookup_form, "parser_lemma": lemma}
+            negative = negation_evidence(lemma)
+
+            # Recognition does not authorize overriding a different selected
+            # lexical sense. Admit only a supported, compatible signed base.
+            if negative.get("feature") == NEGATION:
+                base_lemma = negative["base"]
+                if base_lemma not in lexical_rows:
+                    lexical_rows[base_lemma] = self.lexical_lookup(base_lemma)
+                admission: Dict[str, Any] = negation_admission(
+                    negative, lexical, lexical_rows[base_lemma], "VERB" if i in promote_to_verb else tok.pos_
+                )
+                if self._definition_database and admission["decision"] == "compose":
+                    selected = lexical.get("selected_record") or {}
+                    known = selected.get("assignments", {})
+                    candidate = admission["primitives"]
+                    if any(candidate.get(bank, 0) != value for bank, value in known.items()):
+                        admission.update(
+                            decision="preserve", code="selected_definition_assignment_conflict", primitives=None
+                        )
+                    elif selected and any(
+                        value not in selected["domains"].get(bank, []) for bank, value in candidate.items()
+                    ):
+                        admission.update(
+                            decision="preserve", code="selected_definition_domain_conflict", primitives=None
+                        )
+                negative = {**negative, "admission": admission}
+                if admission["decision"] == "compose":
+                    word_prims = admission["primitives"]
+
+            if i in clause_coords:
+                comp_meta = {"comp_primitive": "COMP_AND", "comp_operation": "CLAUSE_COORD", "comp_arity": 2}
+            if i in implies_positions:
+                comp_meta = {"comp_primitive": "COMP_IF", "comp_operation": "IMPLIES", "comp_arity": 2}
+            if i in temporal_positions:
+                comp_meta = {"comp_primitive": "COMP_WHEN", "comp_operation": "TEMPORAL", "comp_arity": 2}
+            head_operation = head_linker_operation(lemma, i == head_position)
+            if head_operation != "none":
+                primitive = {
+                    "CONTRAST": "COMP_BUT",
+                    "CONSEQUENCE": "COMP_SO",
+                    "CLAUSE_COORD": "COMP_AND",
+                    "TEMPORAL": "COMP_WHEN",
+                }[head_operation]
+                comp_meta = {"comp_primitive": primitive, "comp_operation": head_operation, "comp_arity": 2}
+
+            # DYNAMIC: Replace core syntactic role primitives based on dependency parsing
+            # This ensures argument order matters (dog as SUBJ vs dog as OBJ)
+            # The dynamic primitives OVERRIDE static ones for core roles
+            dynamic_sent_prims = self._extract_dynamic_primitives(tok, syn_map)
+
+            # Remove static core role primitives - dynamic parsing is authoritative
+            core_roles = {"SYN_SUBJ", "SYN_OBJ", "SYN_PRED", "SYN_COMPL"}
+            sent_prims = {k: v for k, v in sent_prims.items() if k not in core_roles}
+            sent_prims = {**sent_prims, **dynamic_sent_prims}
+
+            # Encode vectors
+            word_vec = (
+                self._encode_definition_primitives(word_prims, lexical.get("hierarchy", {}))
+                if self._definition_database
+                else self._encode_word_primitives(word_prims)
+            )
+            sent_vec = self._encode_sent_primitives(sent_prims)
+
+            # Compose: word_full = bundle([word_vec, sent_vec])
+            # Using bundle() instead of bind() to preserve both signals
+            # (bind() destroys signal when word-scale and sent-scale are orthogonal)
+            if word_vec.nnz > 0 and sent_vec.nnz > 0:
+                full_vec = bundle([word_vec, sent_vec])
+            elif word_vec.nnz > 0:
+                full_vec = word_vec
+            elif sent_vec.nnz > 0:
+                full_vec = sent_vec
+            else:
+                full_vec = SparseVector.zeros(self.word_basis.dimension)
+
+            # Create token trace
+            is_operator = bool(comp_meta.get("comp_primitive"))
+            token_trace = TokenTrace(
+                token=tok.text,
+                lemma=tok.lemma_.lower(),
+                pos=(contextual_pos or ("VERB" if i in promote_to_verb else tok.pos_)),
+                position=i,
+                word_primitives=word_prims,
+                sent_primitives=sent_prims,
+                word_vec_nnz=word_vec.nnz,
+                sent_vec_nnz=sent_vec.nnz,
+                full_vec_nnz=full_vec.nnz,
+                is_operator=is_operator,
+                comp_primitive=comp_meta.get("comp_primitive"),
+                comp_operation=comp_meta.get("comp_operation"),
+                comp_arity=comp_meta.get("comp_arity", 0),
+                lexicon_status={"primes": "found", "no_primes": "found", "no_row": "unknown", "unread": "unread"}[
+                    lexical["state"]
+                ],
+                lexical_evidence=lexical,
+                negation_evidence=negative,
+                operator_tier=(
+                    "discourse"
+                    if head_operation != "none"
+                    else "clause"
+                    if is_operator
+                    and (is_clause_linking(comp_meta.get("comp_operation") or "") or comp_meta.get("comp_arity") == 1)
+                    else "phrase"
+                )
+                if is_operator
+                else None,
+            )
+            token_traces.append(token_trace)
+            token_vectors.append((i, full_vec, comp_meta))
+
+            if is_operator:
+                operator_indices.append(i)
+
+        # Sentence degree is grammatical evidence even when lexical senses
+        # abstain. It never creates a base or selects a candidate definition.
+        from GSE.symbolic.expression import bind_degree_modifiers
+
+        bind_degree_modifiers(token_traces)
+        for token in token_traces:
+            if not token.degree and not token.degree_modifier:
+                continue
+            primitives = token.word_primitives
+            if token.degree_modifier and not self._definition_database:
+                primitives = {}
+                token.word_primitives = primitives
+            hierarchy = dict(token.lexical_evidence.get("hierarchy", {}))
+            bases = [bank for bank, value in primitives.items() if bank in BIPOLAR_PRIMITIVES and value]
+            if token.degree and len(bases) == 1:
+                target = bases[0]
+                if self._definition_database:
+                    hierarchy[target] = hierarchy.get(target, 0) + token.degree["level"]
+                else:
+                    level = primitives.get("HIER_PLUS", 0) - primitives.get("HIER_MINUS", 0) + token.degree["level"]
+                    primitives = {
+                        key: value for key, value in primitives.items() if key not in {"HIER_PLUS", "HIER_MINUS"}
+                    }
+                    if level:
+                        primitives["HIER_PLUS" if level > 0 else "HIER_MINUS"] = abs(level)
+                    token.word_primitives = primitives
+            word_vec = (
+                self._encode_definition_primitives(primitives, hierarchy)
+                if self._definition_database
+                else self._encode_word_primitives(primitives)
+            )
+            sent_vec = self._encode_sent_primitives(token.sent_primitives)
+            components = [vector for vector in (word_vec, sent_vec) if vector.nnz]
+            full_vec = bundle(components) if components else SparseVector.zeros(self.word_basis.dimension)
+            token.word_vec_nnz = word_vec.nnz
+            token.sent_vec_nnz = sent_vec.nnz
+            token.full_vec_nnz = full_vec.nnz
+            position, _, metadata = token_vectors[token.position]
+            token_vectors[token.position] = (position, full_vec, metadata)
+
+        # 3. Plan clauses (sequential because/so splits + embedded relative
+        #    clauses), then resolve operators within their innermost clause.
+        n_tokens = len(token_vectors)
+        op_meta = [(op_idx, token_vectors[op_idx][2].get("comp_operation")) for op_idx in operator_indices]
+        sequential = self._segment_clauses(token_traces, op_meta)
+        embedded = self._detect_embedded_clauses(doc, promote_to_verb)
+
+        # An embedded clause forces clause planning even without a sequential
+        # boundary: synthesize a single implicit main clause to hang it on.
+        if embedded and not sequential:
+            sequential = [(0, 0, n_tokens)]
+
+        # Unify into planned spans: (clause_id, start, end, kind, parent_id,
+        # attaches_to). Sequential clauses keep ids [0..k); embedded follow.
+        planned: List[Tuple[int, int, int, str, Optional[int], Optional[int]]] = [
+            (cid, s, e, "sequential", None, None) for cid, s, e in sequential
+        ]
+        next_id = len(sequential)
+        gap_roles: Dict[int, Optional[str]] = {}  # clause_id → relativizer gap role
+        for s, e, kind, attaches, gap_role in embedded:
+            parent = next(
+                (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= attaches < pe),
+                0,
+            )
+            # An embedded clause must not CROSS a sequential (clause-linking)
+            # boundary: spaCy sometimes spans an xcomp/relcl across a coordination
+            # or because/so split (e.g. it reads "Duncan and Macduff killed Macbeth"
+            # as an xcomp of "murdered"). If start and end-1 fall in different
+            # sequential clauses, drop the bogus embedding — the clause-linker owns it.
+            seq_start = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe), None)
+            seq_end = next((cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= e - 1 < pe), None)
+            if seq_start is not None and seq_start != seq_end:
+                continue
+            # A complement whose clause sits in a *different* sequential clause
+            # than its matrix verb is really a so/because-linked clause (spaCy
+            # tags the consequence verb as ccomp); the clause-linker owns it.
+            if kind == "complement":
+                span_clause = next(
+                    (cid for cid, ps, pe, k, _, _ in planned if k == "sequential" and ps <= s < pe),
+                    parent,
+                )
+                if span_clause != parent:
+                    continue
+            planned.append((next_id, s, e, kind, parent, attaches))
+            gap_roles[next_id] = gap_role
+            next_id += 1
+
+        def _innermost_of(pos: int) -> Optional[tuple]:
+            """Smallest planned span containing pos (embedded beats parent)."""
+            best = None
+            for span in planned:
+                _, s, e, _, _, _ = span
+                if s <= pos < e and (best is None or (e - s) < (best[2] - best[1])):
+                    best = span
+            return best
+
+        def _sequential_of(pos: int) -> Optional[Tuple[int, int, int]]:
+            for cid, s, e in sequential:
+                if s <= pos < e:
+                    return (cid, s, e)
+            return None
+
+        # Token positions inside any embedded clause — kept out of a parent
+        # operator's arguments (but an operator inside the embedded clause keeps
+        # its own tokens).
+        embedded_tokens_by_clause: Dict[int, set] = {
+            cid: set(range(s, e)) for cid, s, e, k, _, _ in planned if k != "sequential"
+        }
+        all_embedded_tokens = set().union(*embedded_tokens_by_clause.values()) if embedded_tokens_by_clause else set()
+
+        operator_traces: List[OperatorTrace] = []
+        operator_results: List[SparseVector] = []
+        op_trace_index: Dict[int, int] = {}  # op_idx → index in operator_traces
+        op_clause: Dict[int, int] = {}  # op_idx → innermost clause_id
+
+        for op_idx in operator_indices:
+            _, _, comp_meta = token_vectors[op_idx]
+            operation = comp_meta.get("comp_operation")
+            arg1_range: Optional[Tuple[int, int]] = None
+            arg2_range: Optional[Tuple[int, int]] = None
+
+            linking = (
+                operation
+                and is_clause_linking(operation)
+                and head_linker_operation(token_traces[op_idx].lemma, op_idx == head_position) == "none"
+            )
+            if planned and linking:
+                # Operands are the sequential clauses left/right of the
+                # connective — whole clauses, not raw token spans.
+                left = _sequential_of(op_idx - 1)
+                right = _sequential_of(op_idx + 1)
+                if left:
+                    arg1_range = (left[1], left[2])
+                if right:
+                    arg2_range = (right[1], right[2])
+            this_clause_id: Optional[int] = None
+            if planned:
+                inner = _innermost_of(op_idx)
+                if inner:
+                    this_clause_id = inner[0]
+            if planned and not linking:
+                # Within-clause operator: restrict args to its innermost clause
+                # (so a THAN inside a relative clause stays inside it).
+                c = _innermost_of(op_idx)
+                if c:
+                    op_clause[op_idx] = c[0]
+                    arg1_range = (c[1], op_idx)
+                    arg2_range = (op_idx + 1, c[2])
+
+            # Keep embedded-clause tokens out of this operator's args, except
+            # the operator's own embedded clause.
+            excluded = set(all_embedded_tokens)
+            if this_clause_id in embedded_tokens_by_clause:
+                excluded -= embedded_tokens_by_clause[this_clause_id]
+
+            op_trace, result_vec = self._resolve_operator(
+                op_idx,
+                comp_meta,
+                token_vectors,
+                token_traces,
+                arg1_range,
+                arg2_range,
+                excluded,
+            )
+            if op_trace:
+                op_trace_index[op_idx] = len(operator_traces)
+                operator_traces.append(op_trace)
+                if result_vec and result_vec.nnz > 0:
+                    operator_results.append(result_vec)
+
+        # Build the clause spans for the trace (only when actually planned).
+        clauses: List[ClauseSpan] = []
+        for cid, s, e, kind, parent_id, attaches in planned:
+            within = [
+                op_trace_index[oi] for oi in operator_indices if oi in op_trace_index and op_clause.get(oi) == cid
+            ]
+            clauses.append(
+                ClauseSpan(
+                    clause_id=cid,
+                    token_start=s,
+                    token_end=e,
+                    operator_indices=within,
+                    kind=kind,
+                    parent_id=parent_id,
+                    attaches_to_token=attaches,
+                    gap_role=gap_roles.get(cid),
+                )
+            )
+
+        # 4. Position encoding + bundling
+        components: List[SparseVector] = []
+
+        for i, (pos, full_vec, _) in enumerate(token_vectors):
+            if full_vec.nnz > 0:
+                # Apply positional permutation
+                positioned = permute(full_vec, shift=pos * 100)
+                components.append(positioned)
+
+        # Add operator results
+        components.extend(operator_results)
+
+        # Bundle all components
+        if components:
+            sentence_vec = bundle(components)
+        else:
+            sentence_vec = SparseVector.zeros(self.word_basis.dimension)
+
+        # 5. Compute primitive activations
+        word_activations = self._compute_primitive_activations(sentence_vec, self.word_basis)
+        sent_activations = self._compute_primitive_activations(sentence_vec, self.sent_basis)
+
+        # 6. Compute vector hash
+        vector_hash = self._hash_vector(sentence_vec)
+
+        # 7. Create trace
+        trace = OperationTrace(
+            input_text=text,
+            tokens=token_traces,
+            operators=operator_traces,
+            final_nnz=sentence_vec.nnz,
+            sparsity=sentence_vec.sparsity,
+            word_primitive_activations=word_activations,
+            sent_primitive_activations=sent_activations,
+            vector_hash=vector_hash,
+            clauses=clauses,
+        )
+        trace.vector = sentence_vec
+
+        return trace
+FILE tests/test_symbolic_expression.py
+class TestPossessiveNounNotPromotedToVerb:
+    """A verb-sense NOUN governed by a possessive determiner ("his ambition", "her plan") is the possessed
+    NOUN HEAD, not the clause verb. The native front-end tags a possessive as PRON, so the flank-skip missed
+    it and `verbs_to_promote` read it as an entity-like subject — burying the noun as a VERB ("his AMBITION,
+    Macbeth murdered …" picked `ambition` as the verb over `murder`, corrupting the whole clause). The guard
+    excludes a possessive determiner from being a subject flanker."""
+
+    def test_possessive_governed_noun_not_promoted(self, encoder):
+        doc = encoder.nlp("Consumed by his ambition, Macbeth murdered King Duncan.")
+        amb = next(t.i for t in doc if t.lemma_ == "ambition")
+        assert amb not in verbs_to_promote(doc)  # "his ambition" -> ambition is a NOUN, not a verb
+
+    def test_genuine_buried_verb_still_promotes(self, encoder):
+        # POSITIVE control: the guard must not neuter promotion — a real buried verb flanked by entities (no
+        # possessive) is still promoted ("Duncan is a king" promotes the copula, the module's own cited case).
+        doc = encoder.nlp("Duncan is a king.")
+        assert verbs_to_promote(doc)
+
+    def test_real_verb_and_subject_recovered_end_to_end(self, encoder):
+        # both fixes compose: possessive-guard makes `murder` the verb, the leading-adjunct rule strips
+        # "Consumed by his ambition," so the subject is Macbeth, not "consumed by".
+        ev = evaluate_tree(from_trace(encoder.encode("Consumed by his ambition, Macbeth murdered King Duncan.")))
+        assert ev.verb == "murder"
+        assert "macbeth" in _agent_lemmas(ev)
+        assert "ambition" not in _agent_lemmas(ev)
+
+    def test_possessive_np_stays_the_subject_when_it_is_the_subject(self, encoder):
+        # "His ambition drove the tyrant" — here the possessive NP IS the subject and `drive` the verb; the
+        # noun must NOT be promoted (which would leave the clause verbless / mis-read).
+        ev = evaluate_tree(from_trace(encoder.encode("His ambition drove the tyrant.")))
+        assert ev.verb == "drive"
+        assert "ambition" in _agent_lemmas(ev)
+HEAD 7773c72f6597f8f24e8b3094a2f112a63d2d543f

@@ -1,0 +1,806 @@
+
+### GSE/curation/lexicon_builder/epoch.py
+def census(baseline, families):
+    """Find all stored exact native witnesses for the declared scope language."""
+    by_id = {key: family.relation() for key, family in families.items()}
+    native_frames = {
+        key: rule
+        for key, rule in by_id.items()
+        if any(k.startswith((NATIVE_FRAME_PREFIX, WIKTIONARY_ANATOMY_FRAME_PREFIX)) for k, _ in rule.guards)
+    }
+    ancestry = {key: rule for key, rule in by_id.items() if key not in native_frames}
+    guards = tuple(ancestry.values())
+    ancestors = sorted(
+        {
+            k.removeprefix("wordnet_ancestor:")
+            for rule in guards
+            for k, _ in rule.guards
+            if k.startswith("wordnet_ancestor:")
+        }
+    )
+    result = {key: [] for key in families}
+    with closing(connect(baseline)) as conn:
+        for entry, lemma, pos, gloss, raw in conn.execute(
+            "SELECT d.entry_id,l.lemma,l.pos,l.gloss,o.payload FROM definition_states d "
+            "JOIN source_observations o ON o.record_id=d.entry_id "
+            "JOIN lexemes l ON l.id=d.lexeme_id "
+            "WHERE o.source='wordnet_hierarchy' AND o.scope='lexical' AND EXISTS ("
+            "SELECT 1 FROM json_tree(o.payload,'$.features.hypernym_paths') "
+            "WHERE type='text' AND atom IN (SELECT value FROM json_each(?))) ORDER BY d.entry_id",
+            (json.dumps(ancestors),),
+        ):
+            definition = {"entry_id": entry, "lemma": lemma, "pos": pos, "definition": gloss}
+            observation = json.loads(raw)
+            context = lexical_context(definition, (observation,), guards)
+            for identity, rule in ancestry.items():
+                if touches_scope((rule,), context):
+                    result[identity].append(
+                        {
+                            "entry_id": entry,
+                            "lemma": lemma,
+                            "synset": observation["features"]["synset_name"],
+                            "source_sha256": digest({"definition": definition, "observation": observation}),
+                        }
+                    )
+        _append_native_frame_scopes(conn, native_frames, result)
+    for key, family in families.items():
+        rows = {row["entry_id"]: row for row in result[key]}
+        if not set(family.holdouts) <= rows.keys():
+            raise ValueError("EPOCH_HOLDOUT_OUTSIDE_SCOPE:" + key)
+        if len({_sense_group(rows[i]) for i in family.holdouts}) != len(family.holdouts):
+            raise ValueError("EPOCH_HOLDOUT_ALIAS_OVERLAP:" + key)
+    return result
+
+### GSE/curation/lexicon_builder/foundation.py
+WORDNET_OTHER_SYNSET_PREFIX = "wordnet_other_than_synset:"
+WORDNET_ANCESTRY_GUARD_PREFIXES = (
+    _ANCESTOR_PREFIX,
+    WORDNET_OUTSIDE_ANCESTOR_PREFIX,
+    WORDNET_OTHER_SYNSET_PREFIX,
+)
+def lexical_context(definition, observations, relations) -> dict[str, str]:
+    """Add only requested predicates supported by exact native witnesses.
+
+    Accept typed Definition/Observation objects or their serialized dictionaries.
+    Missing witnesses remain absent, never false or a bank zero. With no source
+    guards, the result is byte-for-byte equivalent to the old POS-only context;
+    unrelated source context cannot perturb historical model request identities.
+    """
+    context = definition_context(_field(definition, "pos"))
+    requested = validate_lexical_guards(relations)
+    native_lemma_requested = any(key == "wordnet_native_lemma" for rule in relations for key, _ in rule.guards)
+    frame_guards = {key for rule in relations for key, _ in rule.guards if key.startswith(NATIVE_FRAME_PREFIX)}
+    gloss = _field(definition, "definition")
+    if frame_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        matched = frame_guards.intersection(NATIVE_FRAME_PREFIX + frame for frame in native_noun_frames(gloss))
+        if matched and any(native_frame_source(definition, row) for row in observations):
+            context.update(dict.fromkeys(sorted(matched), "true"))
+    anatomy_guards = {
+        key for rule in relations for key, _ in rule.guards if key.startswith(WIKTIONARY_ANATOMY_FRAME_PREFIX)
+    }
+    if anatomy_guards and context.get("pos") == "noun" and isinstance(gloss, str):
+        for observation in observations:
+            if _field(observation, "source") != "wiktionary" or not native_frame_source(definition, observation):
+                continue
+            frame = wiktionary_anatomy_frame(gloss, "noun", _field(observation, "features")["native_sense"])
+            if frame is not None and WIKTIONARY_ANATOMY_FRAME_PREFIX + frame in anatomy_guards:
+                context[WIKTIONARY_ANATOMY_FRAME_PREFIX + frame] = "true"
+    if requested or native_lemma_requested:
+        ancestors = set()
+        synsets = set()
+        for observation in observations:
+            witnessed = _exact_wordnet_ancestry(definition, observation)
+            ancestors.update(witnessed)
+            if witnessed:
+                synsets.add(_field(observation, "features")["synset_name"])
+            if native_lemma_requested and witnessed and _attested_wordnet_lemma(definition, observation):
+                context["wordnet_native_lemma"] = "true"
+        if ancestors:
+            for relation in relations:
+                for key, _ in relation.guards:
+                    if (
+                        key.startswith(_ANCESTOR_PREFIX)
+                        and key.removeprefix(_ANCESTOR_PREFIX) in ancestors
+                        or key.startswith(WORDNET_OUTSIDE_ANCESTOR_PREFIX)
+                        and key.removeprefix(WORDNET_OUTSIDE_ANCESTOR_PREFIX) not in ancestors
+                        or key.startswith(WORDNET_OTHER_SYNSET_PREFIX)
+                        and len(synsets) == 1
+                        and key.removeprefix(WORDNET_OTHER_SYNSET_PREFIX) not in synsets
+                    ):
+                        context[key] = "true"
+    for relation in relations:
+        exclusions = [key for key, _ in relation.guards if key.startswith(EXCEPTION_GUARD_PREFIX)]
+        if exclusions and all(context.get(key) == value for key, value in relation.guards if key not in exclusions):
+            identity = _field(definition, "entry_id")
+            if not isinstance(identity, str) or not identity:
+                continue
+            context.update(
+                {key: "false" if identity == key.removeprefix(EXCEPTION_GUARD_PREFIX) else "true" for key in exclusions}
+            )
+    return context
+
+### GSE/curation/lexicon_builder/model_protocol.py
+def coordinate_contract(bank: str) -> dict:
+    """Expose registry semantics without inventing a missing negative pole.
+
+    The glosses quote the registry's existing comments disambiguating
+    English homographs; they are not new lexical assignments. Ordinal tables
+    are deliberately not promoted into bank signs or full-vector defaults.
+    """
+    info = get_primitive_info(bank)
+    if bank not in BANKS or info is None:
+        raise ValueError("INVALID_MODEL_COORDINATE")
+    negative = {**dict(BIPOLAR_PAIRS), "WANT": "NOT_WANT"}.get(bank)
+    glosses = {
+        "KIND": "Category/type",
+        "LIKE": "Similarity",
+        "INFER": "Epistemic inference - draw conclusion from evidence",
+        "BE": "Stative existence",
+        "EXIST": "Ontological status",
+    }
+    coordinate = {
+        "positive_pole": bank,
+        "negative_pole": negative if negative is not None else {"code": "NOT_DECLARED"},
+        "negative_without_declared_pole": "REQUIRES_EXPLICIT_SOURCE_DEFINITION_ELSE_UNRESOLVED",
+        "zero": "JUSTIFIED_ORTHOGONALITY",
+        "null": "CANNOT_DETERMINE",
+        "scale": "WORD",
+        "category": info.bank.name,
+        "bipolar_dimension": info.bipolar_dim,
+        "families": sorted(
+            name
+            for name, family in PRIMITIVE_FAMILIES.items()
+            if isinstance(family["primitives"], list) and bank in family["primitives"]
+        ),
+        "registry_gloss": glosses.get(bank),
+        "registry_source": "GSE/primitives_v2.py",
+        "hierarchy_base": info.is_hierarchy_base,
+        "hierarchy_semantics": "ORDINAL_METADATA_SEPARATE_FROM_BASE_SIGN",
+        "polarity_source": "GSE/curation/lexicon_builder/foundation.py#WANT_POLARITY"
+        if bank == "WANT"
+        else "GSE/curation/schema.py#BIPOLAR_PAIRS",
+    }
+    if bank == "BE":
+        coordinate["scope_convention"] = {
+            "code": "DEFINITION_OWN_STATIVE_CONTENT_REQUIRED",
+            "positive_requires": "DEFINITION_OWN_STATIVE_CONTENT",
+            "positive_sufficient": "NOUN_DEFINITION_OWN_STATE_DENOTATION",
+            "grammatical_copula_alone": "INSUFFICIENT",
+            "insufficient_for_positive": ["ENTITY_REFERENCE_ALONE"],
+            "zero_requires": "INDEPENDENT_DEFINITION_SCOPED_JUSTIFICATION",
+            "unsupported_remains": "UNRESOLVED",
+            "authority": "FOUNDER_APPROVED",
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#be-stative-content-scope",
+        }
+    if bank == "BODY":
+        coordinate["examples"] = [
+            {"input": {"definition": "Delivered into a vein", "pos": "adj"}, "output": {"BODY": 1}},
+            {"input": {"definition": "Delivered into the chamber of a pump", "pos": "adj"}, "output": {"BODY": 0}},
+            {"input": {"definition": None, "pos": "adj"}, "output": {"BODY": None}},
+            {
+                "input": {"definition": "An organism with a segmented body and jointed appendages", "pos": "noun"},
+                "output": {"BODY": 1},
+            },
+            {
+                "input": {
+                    "definition": "An organism of a specified genus",
+                    "pos": "noun",
+                    "verified_defining_genus": {
+                        "relation": "EXACT_NATIVE_IS_A",
+                        "definition": "Organisms having an internal supporting skeleton",
+                    },
+                },
+                "output": {"BODY": 1},
+            },
+        ]
+        coordinate["scope_convention"] = {
+            "code": "DEFINITION_OWN_BODILY_CONTENT_REQUIRED",
+            "positive_requires": "DEFINITION_OWN_BODILY_CONTENT",
+            "positive_content": ["ANATOMICAL_STRUCTURE", "ANATOMICAL_SITE_REQUIRED_BY_DEFINITION"],
+            "positive_sufficient": {
+                "scope": "LITERAL_ORGANISM_KIND",
+                "content": "CONSTITUTIVE_ANATOMY",
+                "routes": ["EXPLICIT_OWN_DEFINITION", "VERIFIED_DEFINING_GENUS_CONTENT"],
+                "genus_requires": ["EXACT_NATIVE_IDENTITY", "SOURCE_VERIFIED_DEFINING_ANCESTRY", "GENUS_DEFINITION"],
+                "authority": "FOUNDER_APPROVED",
+                "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#constitutive-anatomy-and-defining-genus",
+            },
+            "insufficient_for_positive": ["ENTITY_REFERENCE_ALONE", "GRAMMATICAL_ANIMACY_ALONE"],
+            "zero_requires": "INDEPENDENT_DEFINITION_SCOPED_JUSTIFICATION",
+            "unsupported_remains": "UNRESOLVED",
+            "authority": "SOURCE_BACKED_DESIGN_INTERPRETATION",
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#body-reference-content-scope",
+        }
+    if bank == "WORDS":
+        coordinate["scope_convention"] = {
+            "code": "DEFINITION_OWN_WORD_CONTENT",
+            "positive_content": ["EXPLICIT_SINGULAR_WORD_AS_DEFINING_GENUS"],
+            "insufficient_for_positive": ["WORD_MENTIONED_IN_AN_EXAMPLE", "WORD_AS_ARGUMENT_OF_ANOTHER_GENUS"],
+            "zero_requires": "INDEPENDENT_DEFINITION_SCOPED_JUSTIFICATION",
+            "unsupported_remains": "UNRESOLVED",
+            "authority": "SOURCE_BACKED_DESIGN_INTERPRETATION",
+            "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#words-defining-genus-scope",
+        }
+        coordinate["examples"] = [
+            {"input": {"definition": "A word used to greet someone.", "pos": "noun"}, "output": {"WORDS": 1}},
+        ]
+    return coordinate
+
+### GSE/curation/lexicon_builder/completion.py
+def complete_dictionary(
+    path,
+    transport,
+    max_model_calls,
+    *,
+    entry_ids=None,
+    banks=None,
+    max_calls_per_entry=3,
+    max_entries_per_pass=64,
+    continue_cohorts=False,
+    retry=False,
+    progress=None,
+    batch_size=1,
+    priority="constraint",
+    frequency_path=None,
+    cohort_policy="definition",
+    bank_priority="constraint",
+    entry_bank_questions=None,
+):
+    """Complete only explicitly budgeted residual cells, with durable resumption.
+
+    The existing artifact is replay-validated before any write or model call.
+    Every accepted ruling and its proof receipt commit atomically. A RUNNING
+    journal record survives interruption and is skipped on resume unless retry
+    was explicitly selected. No native/anchor coordinate is overwritten. Each
+    invocation retains source contexts for at most max_entries_per_pass entries,
+    independently of its call budget. Automatic cohorts resume through the
+    durable fair cursor; oversized explicit scopes are refused, never truncated.
+    Optional sustained mode retains this connection and replay across bounded
+    cohorts. A full pass without new attempts stops; an explicit retry applies
+    at most once per unchanged request identity in this invocation.
+    Zipf priority uses pinned local SUBTLEX counts only for scheduling, never
+    for model answers or bank inference. Its cursor scope is source-specific.
+    Optional spelling cohorts take one definition per casefolded spelling per
+    round. Optional evidence bank ordering uses typed hints and active rule
+    connectivity only to choose questions. Both policies have separate durable
+    visit scopes; earlier exact request journals remain authoritative.
+    """
+    explicit_questions = None
+    if entry_bank_questions is not None:
+        if (
+            type(entry_bank_questions) is not tuple
+            or not entry_bank_questions
+            or any(
+                type(pair) is not tuple
+                or len(pair) != 2
+                or type(pair[0]) is not str
+                or not pair[0]
+                or type(pair[1]) is not str
+                or pair[1] not in BANKS
+                for pair in entry_bank_questions
+            )
+            or len(set(entry_bank_questions)) != len(entry_bank_questions)
+            or entry_ids is not None
+            or banks is not None
+            or batch_size != 1
+            or continue_cohorts is not True
+        ):
+            raise ValueError("INVALID_EXPLICIT_ENTRY_BANK_QUESTIONS")
+        explicit_questions = {}
+        for identity, bank in entry_bank_questions:
+            explicit_questions.setdefault(identity, []).append(bank)
+        entry_ids = tuple(explicit_questions)
+        banks = tuple(sorted({bank for _, bank in entry_bank_questions}))
+    if type(max_model_calls) is not int or max_model_calls <= 0:
+        raise ValueError("INVALID_MODEL_BUDGET")
+    if type(max_calls_per_entry) is not int or max_calls_per_entry <= 0:
+        raise ValueError("INVALID_PER_ENTRY_MODEL_BUDGET")
+    if type(max_entries_per_pass) is not int or max_entries_per_pass <= 0:
+        raise ValueError("INVALID_COMPLETION_ENTRY_LIMIT")
+    if type(batch_size) is not int or not 1 <= batch_size <= 64:
+        raise ValueError("INVALID_COMPLETION_BATCH_SIZE")
+    if batch_size > 1 and not callable(getattr(transport, "callable_batch", None)):
+        raise ValueError("BATCH_TRANSPORT_REQUIRED")
+    if (
+        type(retry) is not bool
+        or type(continue_cohorts) is not bool
+        or not callable(transport)
+        or (progress is not None and not callable(progress))
+    ):
+        raise ValueError("INVALID_COMPLETION_OPTIONS")
+    order_info = question_order_policy(cohort_policy, bank_priority)
+    order_identity = order_info if (cohort_policy, bank_priority) != ("definition", "constraint") else None
+    schedule_policy = QUESTION_ORDER_SCHEDULE_POLICY if order_identity is not None else SCHEDULE_POLICY
+    priority_info, frequencies = _priority_source(priority, frequency_path)
+    priority_identity = (
+        {"policy": priority_info["policy"], "sha256": priority_info["sha256"]}
+        if priority_info["mode"] == "zipf"
+        else None
+    )
+    requested = _selection(entry_ids, "COMPLETION_DEFINITIONS")
+    if requested is not None and len(requested) > max_entries_per_pass:
+        raise ValueError("EXPLICIT_SCOPE_EXCEEDS_ENTRY_LIMIT")
+    cohort_limit = min(max_model_calls, max_entries_per_pass)
+    chosen_banks = tuple(sorted(_selection(banks, "COMPLETION_BANKS", BANKS) or BANKS))
+    model = getattr(transport, "identity", getattr(transport, "model", "typed-residual"))
+    if not isinstance(model, str) or not model.strip():
+        raise ValueError("INVALID_COMPLETION_MODEL")
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    conn = sqlite3.connect(file.as_uri() + "?mode=rw", uri=True)
+    session = {"calls": 0, "transport_invocations": 0}
+    outcomes, skipped = Counter(), Counter()
+    selected = ()
+    started = False
+    phase = "PREFLIGHT"
+
+    def report_progress(**details):
+        if progress is not None:
+            progress(
+                {
+                    "format": "GSE.lexicon-completion-progress/1",
+                    "phase": phase,
+                    "model_calls": session["calls"],
+                    "transport_invocations": session["transport_invocations"],
+                    "max_model_calls": max_model_calls,
+                    "committed_outcomes": dict(outcomes),
+                    "dictionary_status": "NOT_RECOUNTED",
+                    **details,
+                }
+            )
+
+    def busy_receipt(failed_phase):
+        return {
+            "format": "GSE.lexicon-completion-failure/1",
+            "code": "COMPLETION_DATABASE_BUSY",
+            "phase": failed_phase,
+            "model": model,
+            "model_calls": session["calls"],
+            "transport_invocations": session["transport_invocations"],
+            "max_model_calls": max_model_calls,
+            "committed_outcomes": dict(outcomes),
+            "skipped_attempts": dict(skipped),
+            "selected_entry_ids": list(selected),
+            "selected_scope": "CURRENT_COHORT",
+            "banks": list(chosen_banks),
+            "continue_cohorts": continue_cohorts,
+            "priority": priority_info,
+            "question_order": order_info,
+            "coverage": "NOT_REFRESHED_AFTER_FAILURE",
+            "pending_attempts": "COMMITTED_RUNNING_JOURNAL_IS_AUTHORITATIVE",
+            "retry_policy": "EXPLICIT_RETRY_REQUIRED_FOR_UNCHANGED_REQUEST",
+        }
+
+    try:
+        report_progress()
+        revision = conn.execute("PRAGMA data_version").fetchone()[0]
+        validation = validate_build(file)
+        if validation["code"] != "REPLAY_VALIDATED":
+            raise ValueError("COMPLETION_REQUIRES_VALIDATED_BUILD")
+        if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+            raise ValueError("BUILD_CHANGED_DURING_PREFLIGHT")
+        relations = _relations(_metadata(conn, "relations"))
+        validate_lexical_guards(relations)
+        schedule = (
+            _schedule(conn, model, chosen_banks, priority_identity, order_identity) if requested is None else None
+        )
+        cursor_before = schedule["cursor"] if schedule else None
+        cohort, more_in_pass = _select_entries(
+            conn,
+            requested,
+            chosen_banks,
+            cohort_limit,
+            schedule["visited"] if schedule else frozenset(),
+            frequencies=frequencies,
+            cohort_policy=cohort_policy,
+        )
+        wrapped_pass = False
+        if schedule and not cohort and cursor_before is not None:
+            schedule["pass_number"] += 1
+            schedule["cursor"] = None
+            schedule["visited"] = frozenset()
+            wrapped_pass = True
+            cohort, more_in_pass = _select_entries(
+                conn, requested, chosen_banks, cohort_limit, frequencies=frequencies, cohort_policy=cohort_policy
+            )
+        selected = tuple(key[2] for key in cohort)
+        phase = "CONTEXT_PREPARATION"
+        report_progress()
+        if continue_cohorts:
+            _prepare_context_index(conn)
+            observations, relevance = _contexts(conn, selected, indexed=True)
+        else:
+            observations, relevance = _contexts(conn, selected)
+        if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+            raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+        # Add the optional empty restriction table for valid older snapshots.
+        # Keep this connection: data_version then detects any external writer.
+        phase = "JOURNAL_SETUP"
+        if not conn.execute("SELECT 1 FROM sqlite_master WHERE name='builder_domain_restrictions'").fetchone():
+            from .storage import DOMAIN_RESTRICTIONS_VERSION
+
+            with conn:
+                conn.execute(
+                    "CREATE TABLE builder_domain_restrictions (entry_id TEXT NOT NULL,ordinal INTEGER NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(entry_id,ordinal))"
+                )
+                _set_metadata(conn, "domain_restrictions_format", DOMAIN_RESTRICTIONS_VERSION)
+        conn.executescript(JOURNAL_SCHEMA)
+        with conn:
+            migrate_model_receipts(conn)
+        started = True
+        visited = []
+        visited_set = set()
+        selected_in_session = dict.fromkeys(selected)
+        cohort_count = 0
+        pass_start_calls = session["calls"]
+        full_pass = cursor_before is None or wrapped_pass
+        stop_reason = "SINGLE_COHORT"
+        while True:
+            if not cohort:
+                stop_reason = "NO_ELIGIBLE_ENTRIES"
+                break
+            cohort_count += 1
+            if batch_size > 1:
+                from .batching import run_batched_cohort
+
+                phase = "BATCH_DISPATCH_AND_ACCEPTANCE"
+                finished = run_batched_cohort(
+                    conn,
+                    transport,
+                    model,
+                    cohort,
+                    observations,
+                    relevance,
+                    relations,
+                    revision,
+                    session,
+                    outcomes,
+                    skipped,
+                    max_model_calls=max_model_calls,
+                    max_calls_per_entry=max_calls_per_entry,
+                    chosen_banks=chosen_banks,
+                    batch_size=batch_size,
+                    retry=retry,
+                    continue_cohorts=continue_cohorts,
+                    report_progress=report_progress,
+                    bank_priority=bank_priority,
+                )
+                for priority in finished:
+                    if schedule:
+                        _advance_schedule(conn, schedule, priority, revision)
+                    if priority[2] not in visited_set:
+                        visited.append(priority[2])
+                        visited_set.add(priority[2])
+            else:
+                for priority in cohort:
+                    entry = priority[2]
+                    if session["calls"] >= max_model_calls:
+                        break
+                    definition, assertions, restrictions, hierarchy = _entry(conn, entry)
+                    context = lexical_context(definition, observations[entry], relations)
+                    evidence_banks = tuple(sorted(relevance[entry]))
+                    resolution = resolve_dictionary(
+                        BANKS,
+                        assertions,
+                        relations,
+                        context,
+                        evidence_banks=evidence_banks,
+                        domain_restrictions=restrictions,
+                    )
+                    attempted_banks = set()
+                    entry_calls = 0
+                    entry_banks = explicit_questions[entry] if explicit_questions is not None else chosen_banks
+                    while (
+                        resolution.code == "PARTIAL"
+                        and session["calls"] < max_model_calls
+                        and entry_calls < max_calls_per_entry
+                    ):
+                        remaining = pending_banks(
+                            resolution,
+                            entry_banks,
+                            attempted_banks,
+                            policy=bank_priority,
+                            observations=observations[entry],
+                            relations=relations,
+                            context=context,
+                        )
+                        if not remaining:
+                            break
+                        bank = remaining[0]
+                        attempted_banks.add(bank)
+                        request = build_request(
+                            entry,
+                            bank,
+                            resolution,
+                            tuple(observations[entry]),
+                            definition=definition,
+                            relations=relations,
+                            context=context,
+                        )
+                        previous = conn.execute(
+                            "SELECT code FROM completion_attempts WHERE entry_id=? AND bank=? AND request_id=? AND model=?",
+                            (entry, bank, request.request_id, model),
+                        ).fetchone()
+                        attempted_in_session = (
+                            continue_cohorts
+                            and conn.execute(
+                                "SELECT 1 FROM completion_session_attempts WHERE entry_id=? AND bank=? AND request_id=?",
+                                (entry, bank, request.request_id),
+                            ).fetchone()
+                        )
+                        if previous and (not retry or attempted_in_session):
+                            skipped[previous[0]] += 1
+                            continue
+                        state_key = _state_key({bank: sorted(values) for bank, values in resolution.domains.items()})
+                        wrapped = _JournaledTransport(conn, transport, model, request, state_key, revision, session)
+                        phase = "REQUEST_AND_RUNNING_JOURNAL"
+                        result = complete_bank(
+                            request,
+                            BANKS,
+                            assertions,
+                            relations,
+                            wrapped,
+                            context,
+                            evidence_banks=evidence_banks,
+                            domain_restrictions=restrictions,
+                        )
+                        entry_calls += wrapped.called
+                        details = {**result.details, "state_key": state_key, "transport_started": wrapped.called}
+                        if isinstance(wrapped.raw, str):
+                            details["raw_output"] = wrapped.raw if len(wrapped.raw) <= 4096 else None
+                            details["raw_output_sha256"] = hashlib.sha256(wrapped.raw.encode()).hexdigest()
+                        phase = "ACCEPTANCE_COMMIT"
+                        conn.execute("BEGIN IMMEDIATE")
+                        try:
+                            changed = conn.execute("PRAGMA data_version").fetchone()[0] != revision
+                            code = "STALE_SNAPSHOT" if changed else result.code
+                            if not changed and code == "ASSIGNED":
+                                if result.assertion is None or result.resolution is None:
+                                    raise ValueError("INVALID_COMPLETION_RECEIPT")
+                                assertions += (result.assertion,)
+                                resolution = result.resolution
+                                store_entry(
+                                    conn,
+                                    definition,
+                                    resolution,
+                                    assertions,
+                                    hierarchy,
+                                    domain_restrictions=restrictions,
+                                )
+                                append_model_receipt(
+                                    conn,
+                                    {
+                                        "entry_id": entry,
+                                        "assertion": asdict(result.assertion),
+                                        "request_id": request.request_id,
+                                        "code": code,
+                                        "request": request.payload(),
+                                        "schema": request.output_schema(),
+                                    },
+                                )
+                            _journal(conn, request, model, code, details)
+                            if wrapped.called:
+                                if continue_cohorts:
+                                    conn.execute(
+                                        "INSERT OR IGNORE INTO completion_session_attempts VALUES (?,?,?)",
+                                        (entry, bank, request.request_id),
+                                    )
+                                _account(conn, before="RUNNING", after=code)
+                            conn.commit()
+                        except BaseException:
+                            conn.rollback()
+                            raise
+                        outcomes[code] += 1
+                        report_progress(entry_id=entry, bank=bank, code=code)
+                        if changed:
+                            raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+                    finished = (
+                        resolution.code != "PARTIAL"
+                        or entry_calls >= max_calls_per_entry
+                        or not any(
+                            len(resolution.domains[bank]) > 1 and bank not in attempted_banks for bank in entry_banks
+                        )
+                    )
+                    if finished:
+                        if schedule:
+                            phase = "SCHEDULE_COMMIT"
+                            _advance_schedule(conn, schedule, priority, revision)
+                        if entry not in visited_set:
+                            visited.append(entry)
+                            visited_set.add(entry)
+            if not continue_cohorts or schedule is None:
+                break
+            if session["calls"] >= max_model_calls:
+                stop_reason = "MODEL_BUDGET_EXHAUSTED"
+                break
+            schedule.update(_schedule(conn, model, chosen_banks, priority_identity, order_identity))
+            cohort, more_in_pass = _select_entries(
+                conn,
+                requested,
+                chosen_banks,
+                min(cohort_limit, max_model_calls - session["calls"]),
+                schedule["visited"],
+                frequencies=frequencies,
+                cohort_policy=cohort_policy,
+            )
+            if not cohort:
+                if full_pass and session["calls"] == pass_start_calls:
+                    stop_reason = "NO_NEW_ATTEMPTS_IN_PASS"
+                    break
+                schedule["pass_number"] += 1
+                schedule["cursor"] = None
+                schedule["visited"] = frozenset()
+                wrapped_pass = True
+                full_pass = True
+                pass_start_calls = session["calls"]
+                cohort, more_in_pass = _select_entries(
+                    conn,
+                    requested,
+                    chosen_banks,
+                    min(cohort_limit, max_model_calls - session["calls"]),
+                    frequencies=frequencies,
+                    cohort_policy=cohort_policy,
+                )
+                if not cohort:
+                    stop_reason = "NO_ELIGIBLE_ENTRIES"
+                    break
+            selected = tuple(key[2] for key in cohort)
+            selected_in_session.update(dict.fromkeys(selected))
+            observations.clear()
+            relevance.clear()
+            phase = "CONTEXT_PREPARATION"
+            observations, relevance = _contexts(conn, selected, indexed=True)
+            if conn.execute("PRAGMA data_version").fetchone()[0] != revision:
+                raise ValueError("COMPLETION_SNAPSHOT_CHANGED")
+        selected = tuple(selected_in_session)
+        if explicit_questions is None:
+            remaining = _scope_remaining(conn, selected, chosen_banks)
+        else:
+            scopes = [_scope_remaining(conn, (entry,), explicit_questions[entry]) for entry in selected]
+            remaining = {key: sum(row[key] for row in scopes) for key in ("entries", "cells", "conflicted_entries")}
+        unselected_residual = not selected and requested is None and _has_remaining(conn, chosen_banks)
+        code = (
+            "RESIDUAL_REMAINS"
+            if unselected_residual
+            else "SELECTED_SCOPE_RESOLVED"
+            if not remaining["entries"]
+            else "BUDGET_EXHAUSTED"
+            if session["calls"] >= max_model_calls
+            else "RESIDUAL_REMAINS"
+        )
+        result = {
+            "format": "GSE.lexicon-completion-report/1",
+            "code": code,
+            "model": model,
+            "model_calls": session["calls"],
+            "transport_invocations": session["transport_invocations"],
+            "max_model_calls": max_model_calls,
+            "max_calls_per_entry": max_calls_per_entry,
+            "max_entries_per_pass": max_entries_per_pass,
+            "batch_size": batch_size,
+            "continue_cohorts": continue_cohorts,
+            **(
+                {"entry_bank_questions": [list(pair) for pair in entry_bank_questions]}
+                if entry_bank_questions is not None
+                else {}
+            ),
+            "priority": priority_info,
+            "question_order": order_info,
+            "selected_entry_ids": list(selected),
+            "banks": list(chosen_banks),
+            "outcomes": dict(outcomes),
+            "skipped_attempts": dict(skipped),
+            "remaining_selected_scope": remaining,
+            "unselected_residual": unselected_residual,
+            "scheduling": {
+                "policy": schedule_policy,
+                "resume_frontier": "COMPLETED_OR_PER_ENTRY_LIMIT_VISITS",
+                "code": "EXPLICIT_SCOPE"
+                if schedule is None
+                else stop_reason
+                if continue_cohorts
+                else "NO_ELIGIBLE_ENTRIES"
+                if not selected
+                else "COHORT_PARTIAL"
+                if len(visited) < len(selected)
+                else "COHORT_EXHAUSTED"
+                if more_in_pass
+                else "PASS_EXHAUSTED",
+                "visited_entry_ids": visited,
+                "cohorts_processed": cohort_count,
+                "pass_number": schedule["pass_number"] if schedule else None,
+                "wrapped": wrapped_pass,
+                "cursor_before": list(cursor_before) if cursor_before is not None else None,
+                "cursor_after": list(schedule["cursor"]) if schedule and schedule["cursor"] is not None else None,
+            },
+            "preflight": "REPLAY_VALIDATED",
+            "semantic_gold": "NOT_CHECKED",
+        }
+        phase = "COVERAGE_COMMIT"
+        with conn:
+            coverage = _refresh_coverage(conn)
+            result["dictionary_outcomes"] = coverage["outcomes"]
+            result["dictionary_cells"] = coverage["cells"]
+            result["dictionary_status"] = (
+                "INCOMPLETE"
+                if coverage["cells"].get("unresolved", 0)
+                or coverage["cells"].get("conflicted", 0)
+                or coverage["outcomes"].get("CONFLICT", 0)
+                else "ALL_BANKS_ASSIGNED"
+            )
+            # Selected scope may be just one coordinate of one definition.
+            # Report the rest of the dictionary even when that scope is done.
+            result["outside_selected_scope"] = {
+                "unresolved_or_conflicted_cells": max(
+                    0,
+                    coverage["cells"].get("unresolved", 0)
+                    + coverage["cells"].get("conflicted", 0)
+                    - remaining["cells"],
+                )
+            }
+            _set_metadata(conn, "last_completion_report", result)
+        return result
+    except BaseException as error:
+        conn.rollback()
+        if _database_busy(error):
+            # A read transaction can block COMMIT. Preserve the last committed
+            # RUNNING/accepted records, and never mask this with another write.
+            raise CompletionDatabaseBusy(busy_receipt(phase)) from error
+        if started:
+            try:
+                with conn:
+                    _refresh_coverage(conn)
+            except sqlite3.DatabaseError as cleanup_error:
+                if _database_busy(cleanup_error):
+                    receipt = busy_receipt("COVERAGE_RECOVERY")
+                    receipt["original_error_type"] = type(error).__name__
+                    raise CompletionDatabaseBusy(receipt) from cleanup_error
+                raise
+        raise
+    finally:
+        conn.close()
+
+### HEAD HANDOFF
+{
+  "code": "EXACT_PRIME_REMAINDER_PACKET_READY_FOR_EXISTING_LOCAL_TYPED_WRITER",
+  "instruction": "Root may execute these seven NEW exact native-sense questions under existing authorized local journal. Preserve all nulls. No lexical cells written by root. Do not repeat completed original eight. Controller will consume retained raw strings through same sustained ordinary writer; please emit ssl-api-controller-prime-answers.json with format GSE.ssl-checkpoint-local-answers/1, questions_sha256, transport, answers [request_id,raw_output].",
+  "original_reference_packet": "completed; dog/I will be required reservation not opposing sign",
+  "owned_production_code": "stopped; checkpoint orchestration helper still being stabilized",
+  "question_packet": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-prime-questions.json",
+  "questions": 7,
+  "runtime_boundary": "above/before remain native sentence spatial/temporal metadata, not raw lexical-sign requirements",
+  "sha256": "74502331cc71288e0d97835bbf7f345c9163b7b3a486d5c4fbba7cb93ae43208",
+  "actual_execution": {
+    "full_writer_preflight": "REPLAY_VALIDATED",
+    "partial_source_anchors": 4,
+    "accepted_teaching_coordinates": 2,
+    "prime_retained_transport_errors": 7,
+    "new_model_service_calls_by_controller": 0,
+    "candidate": "teaching.db",
+    "rule_migration": "NOT_YET_COMPLETED"
+  },
+  "urgent": "Seven prime exact answers were missing at first sustained writer dispatch, so no signs fabricated. Please complete original NEW prime packet; failed-only retained replay is integrated. I/YOU parent audits completed, dog reservation retained, joint migration starts now.",
+  "snapshot_identity_diagnosis": {
+    "code": "CHILD_REEXPORT_FIX_24_TESTS_PASS",
+    "cause": "I parent dog null was removed from child audit IDs but retained among child entries. Fixed using ordinary provenance-checked exporter, preserved old parent and invalid child evidence and explicit child lineage.",
+    "builder_source_changed": false,
+    "helper_changed": true,
+    "next": "Running original model-identity joint reference revision with dog reservation; no lexical service calls duplicated.",
+    "prime_context_protocol": "Acknowledged separate 98K identity required; do not supply prime answers mislabeled as original 65K. Prime original packets remain historical and failures retained.",
+    "runtime": "Peer explicitly unfrozen by root; builder replay independent of runtime edits."
+  },
+  "joint_migration_job": {
+    "code": "RUNNING_NOT_A_DELIVERABLE",
+    "pid": 75199,
+    "started_utc": "2026-11-24T17:29:22.521081+00:00",
+    "command": "set +e\n.venv/bin/python -m pytest tests/test_lexicon_checkpoint_retained_transport.py tests/test_lexicon_builder_rule_reservations.py -q && uvx --offline ruff@0.16.10 check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py tests/test_lexicon_checkpoint_retained_transport.py && uvx --offline ruff@0.16.10 format --check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py tests/test_lexicon_checkpoint_retained_transport.py && PYTHONPATH=. .venv/bin/python docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py execute\ncode=$?\n.venv/bin/python -c 'import json,sys,datetime;from pathlib import Path;Path(sys.argv[1]).write_text(json.dumps({\"exit_code\":int(sys.argv[2]),\"finished_utc\":datetime.datetime.now(datetime.timezone.utc).isoformat()},indent=2)+\"\\n\")' '/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-exit.json' \"$code\"\nexit \"$code\"",
+    "log": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-job.log",
+    "exit_receipt": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-joint-exit.json",
+    "candidate": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+    "active_pointer_changed": false,
+    "warning": "No activation: full runtime/workload/repository gates remain pending."
+  },
+  "prime_coordination": "Joint migration starting now per priority. Root 98K answers require their distinct actual identity and fresh request compatibility check before later writer use; do not duplicate any original I/YOU question. No root service calls by controller."
+}
+

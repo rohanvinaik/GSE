@@ -1,0 +1,303 @@
+
+UNIT GSE/curation/lexicon_builder/validation.py _model_observations 
+def _model_observations(conn, record_ids):
+    """Load only the requested definition's already-validated native records."""
+    for record_id in record_ids:
+        rows = conn.execute("SELECT payload FROM source_observations WHERE record_id=?", (record_id,))
+        for row in rows:
+            yield _read_json(row[0])
+
+UNIT GSE/curation/lexicon_builder/validation.py _stored_context 
+def _stored_context(conn, definition, relations):
+    return lexical_context(
+        definition, _context_observations(conn, definition.entry_id, relations, definition), relations
+    )
+
+UNIT GSE/curation/lexicon_builder/validation.py _provenance 
+def _provenance(
+    entry_id,
+    assertions,
+    definition,
+    relations,
+    native,
+    relevant,
+    anchors,
+    models,
+    conn,
+    evidence_banks=(),
+    domain_restrictions=(),
+    *,
+    rule_history=None,
+):
+    """Check authority separately from whether an assertion changes a domain."""
+    remaining_anchors = Counter(anchors.get(entry_id, ()))
+    remaining_models = list(models.get(entry_id, ()))
+    prefix = ()
+    model_started = False
+    for assertion in assertions:
+        if remaining_anchors[assertion]:
+            if model_started:
+                raise ValueError("MODEL_BEFORE_SYMBOLIC_EVIDENCE")
+            remaining_anchors[assertion] -= 1
+        else:
+            matching = [record for record in remaining_models if record["assertion"] == asdict(assertion)]
+            if matching:
+                model_started = True
+                if len(matching) != 1:
+                    raise ValueError("AMBIGUOUS_MODEL_AUTHORITY")
+                receipt = matching[0]
+                from .rule_history import read_history, receipt_relations
+
+                if rule_history is None:
+                    rule_history = read_history(conn, relations)
+                payload = receipt["request"]
+                if not isinstance(payload, dict) or not isinstance(payload.get("observations"), list):
+                    raise ValueError("INVALID_MODEL_REQUEST")
+                if Counter(map(_canonical, payload["observations"])) != Counter(
+                    map(_canonical, _model_observations(conn, relevant[entry_id]))
+                ):
+                    raise ValueError("MODEL_OBSERVATIONS_MISMATCH")
+                request_relations = receipt_relations(
+                    receipt, relations, None, rule_history, definition=definition, observations=payload["observations"]
+                )
+                request_context = lexical_context(definition, payload["observations"], request_relations)
+                before = resolve_dictionary(
+                    BANKS,
+                    prefix,
+                    request_relations,
+                    request_context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
+                )
+                request = build_request(
+                    entry_id,
+                    assertion.bank,
+                    before,
+                    tuple(payload["observations"]),
+                    definition=definition,
+                    relations=request_relations,
+                    context=request_context,
+                    request_format=payload["format"],
+                )
+                if (
+                    request.request_id != receipt["request_id"]
+                    or _canonical(identity_form(request.payload())) != _canonical(identity_form(payload))
+                    or _canonical(identity_form(request.output_schema()))
+                    != _canonical(identity_form(receipt["schema"]))
+                    or assertion.value not in request.allowed_values
+                ):
+                    raise ValueError("MODEL_REQUEST_MISMATCH")
+                after = resolve_dictionary(
+                    BANKS,
+                    prefix + (assertion,),
+                    request_relations,
+                    request_context,
+                    evidence_banks=evidence_banks,
+                    domain_restrictions=domain_restrictions,
+                )
+                if after.code == "CONFLICT":
+                    raise ValueError("MODEL_ACCEPTED_CONTRADICTION")
+                previous_exceptions = {
+                    rule_id
+                    for record in before.trace
+                    if record["kind"] == "CONDITIONAL_EXCEPTION"
+                    for rule_id in record["rule_ids"]
+                }
+                if any(
+                    record["kind"] == "CONDITIONAL_EXCEPTION" and set(record["rule_ids"]) - previous_exceptions
+                    for record in after.trace
+                ):
+                    raise ValueError("MODEL_ADDED_CONDITIONAL_EXCEPTION")
+                if any(after.assignments.get(bank) != value for bank, value in before.assignments.items()):
+                    raise ValueError("MODEL_CHANGED_KNOWN_ASSIGNMENT")
+                remaining_models.remove(receipt)
+            else:
+                if model_started:
+                    raise ValueError("MODEL_BEFORE_SYMBOLIC_EVIDENCE")
+                validate_assertion_competence(assertion)
+                observation = native.get((assertion.source, assertion.record_id))
+                if (
+                    observation is None
+                    or observation.entry_id != entry_id
+                    or observation.family != assertion.family
+                    or observation.scope != "lexical"
+                ):
+                    raise ValueError("ASSERTION_PROVENANCE_MISMATCH")
+                if assertion.source == "wiktionary":
+                    from .evidence import wiktionary_definition_projection
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    projected = wiktionary_definition_projection(definition, features)
+                    if projected.get(assertion.bank) != assertion.value:
+                        genus = "PERSON" if assertion.bank == "SOMEONE" else "ANATOMY"
+                        raise ValueError(f"WIKTIONARY_{genus}_PROJECTION_WITNESS_MISMATCH")
+                if assertion.source == "gse_closed_class" and assertion.bank in {"I", "YOU"}:
+                    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+                    row = conn.execute(
+                        "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+                    ).fetchone()
+                    features = _read_json(row[0])["features"] if row is not None else {}
+                    if (
+                        features.get("entry_id") != entry_id
+                        or features.get("lemma") != definition.lemma
+                        or features.get("definition") != definition.definition
+                        or GSEClosedClassParser().reference_projection_for_observation(features).get(assertion.bank)
+                        != assertion.value
+                    ):
+                        raise ValueError("CLOSED_CLASS_REFERENCE_PROJECTION_WITNESS_MISMATCH")
+        prefix += (assertion,)
+    if any(remaining_anchors.values()) or remaining_models:
+        raise ValueError("UNCONSUMED_ASSERTION_AUTHORITY")
+
+UNIT GSE/curation/lexicon_builder/validation.py refresh_catalog 
+def refresh_catalog(path: str | Path, links_path: str | Path, *, apply_links: bool = False) -> dict:
+    """Replay authoritative state, rebuild the catalog, optionally install metadata.
+
+    The read snapshot's revision must survive obtaining the write lock. A busy
+    or changed database is refused, never retried against a different snapshot.
+    No source records, dictionary states, bank values or schema are rewritten.
+    """
+    if type(apply_links) is not bool:
+        raise ValueError("INVALID_CATALOG_APPLY_FLAG")
+    links = _prime_definition_links(links_path)
+    file = Path(path).expanduser().resolve()
+    if not file.is_file():
+        raise ValueError("BUILD_NOT_FOUND")
+    conn = sqlite3.connect(file.as_uri() + ("?mode=rw" if apply_links else "?mode=ro"), uri=True, timeout=0)
+    try:
+        conn.row_factory = sqlite3.Row
+        if not apply_links:
+            conn.execute("PRAGMA query_only=ON")
+        version = conn.execute("PRAGMA data_version").fetchone()[0]
+        conn.execute("BEGIN")
+        _schema(conn)
+        if current_id(_metadata(conn, "format")) != VERSION:
+            raise ValueError("UNSUPPORTED_BUILD_FORMAT")
+        revision = _catalog_revision(conn)
+        replay = _replay(conn, _relations(_metadata(conn, "relations")), catalog_links=links)
+        if replay["code"] != "REPLAY_VALIDATED":
+            raise ValueError("CATALOG_REQUIRES_VALID_REPLAY:" + _canonical(replay["mismatch_counts"]))
+        if not replay["complete_search"]:
+            raise ValueError("CATALOG_REQUIRES_COMPLETE_REPLAY")
+        catalog = replay.pop("proposed_catalog")
+        result = {
+            "format": "GSE.catalog-links-update/1",
+            "code": "CATALOG_LINKS_PREVIEW",
+            "link_semantics": "COMPLETE_REPLACEMENT",
+            "prime_entries": links,
+            "catalog": catalog,
+            "replay": replay,
+            "snapshot_metadata_sha256": revision,
+            "dictionary_states": "UNCHANGED",
+        }
+        if not apply_links:
+            return result
+        conn.commit()
+        conn.execute("BEGIN IMMEDIATE")
+        if conn.execute("PRAGMA data_version").fetchone()[0] != version or _catalog_revision(conn) != revision:
+            raise ValueError("CATALOG_CONCURRENT_MODIFICATION")
+        build_report = _optional_metadata(conn, "last_report", None)
+        if not isinstance(build_report, dict):
+            raise ValueError("CATALOG_BUILD_REPORT_UNAVAILABLE")
+        build_report["foundation_readiness"] = catalog["readiness"]
+        build_report["prime_coverage"] = catalog["coverage_counts"]
+        for key, value in (("prime_entries", links), ("catalog", catalog), ("last_report", build_report)):
+            conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES (?,?)", (key, _canonical(value)))
+        conn.commit()
+        result["code"] = "CATALOG_LINKS_APPLIED"
+        return result
+    except sqlite3.DatabaseError as error:
+        if getattr(error, "sqlite_errorname", "") in {"SQLITE_BUSY", "SQLITE_LOCKED"}:
+            raise ValueError("CATALOG_WRITER_BUSY") from error
+        raise ValueError("INVALID_BUILD_DATABASE") from error
+    finally:
+        conn.close()
+COMPLETION INDEX [('CompletionDatabaseBusy', 43), ('_database_busy', 51), ('_selection', 67), ('_metadata', 81), ('_set_metadata', 86), ('_state_key', 90), ('_priority_source', 94), ('_select_entries', 168), ('_schedule', 216), ('_advance_schedule', 282), ('_prepare_context_index', 307), ('_contexts', 331), ('_entry', 373), ('_journal', 390), ('_account', 397), ('_refresh_coverage', 413), ('_scope_remaining', 444), ('_has_remaining', 456), ('_JournaledTransport', 466), ('complete_dictionary', 489)]
+
+UNIT GSE/curation/lexicon_builder/storage.py store_entry 
+def store_entry(conn, definition, resolution, assertions=(), hierarchy=None, *, domain_restrictions=()) -> None:
+    """Replace one explicitly identified definition's complete build receipt."""
+    hierarchy = hierarchy or {}
+    if resolution.code == "CONFLICT":
+        hierarchy = {}
+    if any(bank not in resolution.assignments or resolution.assignments[bank] == 0 for bank in hierarchy):
+        raise ValueError("HIERARCHY_REQUIRES_NONZERO_BASE")
+    status = {"CONFLICT": "rejected", "PARTIAL": "partial", "RESOLVED": "validated"}[resolution.code]
+    conn.execute(
+        """INSERT INTO lexemes(lemma,pos,sense_id,gloss,source,validation_status)
+                    VALUES (?,?,?,?,?,?) ON CONFLICT(lemma,pos,sense_id)
+                    DO UPDATE SET gloss=excluded.gloss,validation_status=excluded.validation_status""",
+        (definition.lemma, definition.pos, definition.entry_id, definition.definition, VERSION, status),
+    )
+    lexeme_id = conn.execute(
+        "SELECT id FROM lexemes WHERE lemma=? AND pos=? AND sense_id=?",
+        (definition.lemma, definition.pos, definition.entry_id),
+    ).fetchone()[0]
+    conn.execute("DELETE FROM primitive_values WHERE lexeme_id=?", (lexeme_id,))
+    if resolution.code != "CONFLICT":
+        conn.executemany(
+            "INSERT INTO primitive_values(lexeme_id,primitive,value,source) VALUES (?,?,?,?)",
+            [(lexeme_id, bank, value, VERSION) for bank, value in sorted(resolution.assignments.items())],
+        )
+    conn.execute(
+        "INSERT OR REPLACE INTO definition_states VALUES (?,?,?,?,?,?,?)",
+        (
+            definition.entry_id,
+            lexeme_id,
+            resolution.code,
+            _json({b: sorted(v) for b, v in resolution.domains.items()}),
+            _json(resolution.conflicts),
+            _json(resolution.trace),
+            _json(hierarchy),
+        ),
+    )
+    conn.execute("DELETE FROM builder_assertions WHERE entry_id=?", (definition.entry_id,))
+    conn.executemany(
+        "INSERT INTO builder_assertions VALUES (?,?,?)",
+        [(definition.entry_id, i, _json(asdict(a))) for i, a in enumerate(assertions)],
+    )
+    conn.execute("DELETE FROM builder_domain_restrictions WHERE entry_id=?", (definition.entry_id,))
+    conn.executemany(
+        "INSERT INTO builder_domain_restrictions VALUES (?,?,?)",
+        [(definition.entry_id, i, _json(asdict(r))) for i, r in enumerate(domain_restrictions)],
+    )
+
+UNIT GSE/curation/lexicon_builder/residual.py BankRequest 
+class BankRequest:
+    entry_id: str
+    bank: str
+    allowed_values: tuple[int, ...]
+    known: dict[str, int]
+    observations: tuple[dict, ...]
+    request_id: str
+    definition: Definition
+    scaffold: dict | None = None
+    request_format: str = REQUEST_FORMAT
+
+    def payload(self) -> dict:
+        """Return independent JSON data; mutating it cannot alter the request."""
+        return _request_payload(
+            self.entry_id,
+            self.bank,
+            self.allowed_values,
+            self.known,
+            self.observations,
+            self.definition,
+            self.scaffold,
+            self.request_format,
+        )
+
+    def output_schema(self) -> dict:
+        """Restrict generation to the single requested bank or explicit null."""
+        return {
+            "type": "object",
+            "properties": {
+                self.bank: {"type": ["integer", "null"], "enum": [*self.allowed_values, None]},
+            },
+            "required": [self.bank],
+            "additionalProperties": False,
+        }

@@ -1,0 +1,950 @@
+
+FILE scripts/audit_lexicon_runtime.py
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lexicon-db", required=True, type=Path)
+    parser.add_argument("--report", type=Path, help="Save the JSON report; otherwise print it.")
+    parser.add_argument("--sparse", action="store_true", help="Include exact sense and ambiguity controls")
+    args = parser.parse_args(argv)
+    if args.report is not None and args.report.resolve() == args.lexicon_db.resolve():
+        parser.error("REPORT_MUST_NOT_REPLACE_LEXICON")
+    report = (audit_sparse_runtime if args.sparse else audit_runtime)(args.lexicon_db)
+    payload = json.dumps(report, indent=2, allow_nan=False) + "\n"
+    if args.report is None:
+        print(payload, end="")
+    else:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(payload)
+        print(json.dumps({"report": str(args.report.resolve()), "by_class": report["by_class"]}))
+    return 2 if report.get("code") == "SPARSE_RUNTIME_REJECTED" else 0
+
+FILE scripts/audit_lexicon_sentences.py
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lexicon", type=Path, required=True)
+    parser.add_argument("--benchmark", type=Path, required=True)
+    parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--baseline-report", type=Path)
+    parser.add_argument(
+        "--checkpoint", action="store_true", help="Run runtime controls and require full checkpoint acceptance"
+    )
+    parser.add_argument("--checkpoint-manifest", type=Path, help="Frozen workload with retained byte-pinned artifacts")
+    args = parser.parse_args(argv)
+    inputs = [args.lexicon, args.benchmark, args.baseline_report, args.checkpoint_manifest]
+    if any(
+        p is not None
+        and (args.report.resolve() == p.resolve() or (args.report.exists() and p.exists() and args.report.samefile(p)))
+        for p in inputs
+    ):
+        parser.error("REPORT_MUST_NOT_REPLACE_INPUT")
+    workload = load_workload(args.checkpoint_manifest) if args.checkpoint_manifest else None
+    if workload is not None:
+        for artifact in workload["artifacts"]:
+            target = args.checkpoint_manifest.parent / artifact["path"]
+            if args.report.resolve() == target.resolve() or (args.report.exists() and args.report.samefile(target)):
+                parser.error("REPORT_MUST_NOT_REPLACE_INPUT")
+    report = audit(args.lexicon.resolve(strict=True), args.benchmark)
+    if args.checkpoint or workload is not None:
+        from scripts.audit_lexicon_runtime import audit_sparse_runtime
+
+        runtime = audit_sparse_runtime(args.lexicon)
+        report["runtime"] = runtime
+        report["checkpoint"] = checkpoint_result(report, runtime, workload)
+        report["checkpoint"]["manifest_file_sha256"] = fingerprint(args.checkpoint_manifest) if workload else None
+    if args.baseline_report:
+        report["comparison"] = compare_reports(read(args.baseline_report), report)
+    record(args.report, report)
+    if report.get("comparison", {}).get("failures") or (
+        (args.checkpoint or workload is not None) and report["checkpoint"]["code"] == "CHECKPOINT_BLOCKED"
+    ):
+        raise SystemExit(2)
+ssl-api-runtime-active-audit-v3.json ['format', 'measured_at', 'lexicon_db', 'lexicon_sha256', 'file_identity', 'scope', 'by_class', 'records', 'sparse_controls', 'code']
+format "GSE.runtime-compatibility-audit/1"
+measured_at "2026-11-24T17:59:17.805489+00:00"
+lexicon_db "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-021.db"
+lexicon_sha256 "91e744cdb4012738d7c9c15929c39cd44211306f75613aeea8e4409708cc6e00"
+file_identity {
+  "size": 20108107776,
+  "mtime_ns": 1795121751065714618
+}
+scope {
+  "structure": "Fourteen hand-authored top-operation probes; degree cases also check emitted levels, scope and logical comparison. Not full semantic gold.",
+  "anchors": "Explicit founder-approved definition IDs, signed bases, ordinal 1/2, and sense isolation.",
+  "genealogy": "EXPLICIT_NULL_GENEALOGY",
+  "world_grounding": "UNVERIFIED",
+  "corpus_semantic_accuracy": "NOT_MEASURED",
+  "degree_composition": "Canonical adjective degree, signed scope, repeated-VERY/extremely equivalence and ordinal distinction; not exhaustive grammar coverage."
+}
+by_class {
+  "causal": {
+    "IDENTIFIED": 1
+  },
+  "comparison": {
+    "IDENTIFIED": 1
+  },
+  "control": {
+    "IDENTIFIED": 1
+  },
+  "coordination": {
+    "IDENTIFIED": 1
+  },
+  "degree_scope_distinction": {
+    "IDENTIFIED": 1
+  },
+  "degree_vector_distinction": {
+    "IDENTIFIED": 1
+  },
+  "demonstrative": {
+    "IDENTIFIED": 1
+  },
+  "event": {
+    "IDENTIFIED": 1
+  },
+  "extreme_degree": {
+    "IDENTIFIED": 1
+  },
+  "extremely_degree": {
+    "IDENTIFIED": 1
+  },
+  "negation": {
+    "IDENTIFIED": 1
+  },
+  "not_very_scope": {
+    "IDENTIFIED": 1
+  },
+  "ordinal_distinction": {
+    "IDENTIFIED": 1
+  },
+  "other_very_senses_anchor_isolation": {
+    "IDENTIFIED": 3
+  },
+  "repeated_degree": {
+    "IDENTIFIED": 1
+  },
+  "repeated_extreme_equivalence": {
+    "IDENTIFIED": 1
+  },
+  "restriction": {
+    "IDENTIFIED": 1
+  },
+  "single_degree": {
+    "IDENTIFIED": 1
+  },
+  "temporal": {
+    "IDENTIFIED": 1
+  },
+  "this_object": {
+    "IDENTIFIED": 1
+  },
+  "very_degree": {
+    "IDENTIFIED": 1
+  },
+  "very_not_scope": {
+    "IDENTIFIED": 1
+  },
+  "want_negative": {
+    "IDENTIFIED": 1
+  },
+  "want_positive": {
+    "IDENTIFIED": 1
+  }
+}
+sparse_controls [
+  {
+    "text": "The river rose above the bank.",
+    "expected": "wordnet:bank:bank.n.01",
+    "observed": "wordnet:bank:bank.n.01",
+    "passed": true
+  },
+  {
+    "text": "A bank approved the mortgage.",
+    "expected": "wordnet:bank:depository_financial_institution.n.01",
+    "observed": "wordnet:bank:depository_financial_institution.n.01",
+    "passed": true
+  },
+  {
+    "text": "I saw a bank.",
+    "expected": null,
+    "observed": null,
+    "passed": true
+  },
+  {
+    "text": "An electrician repaired the light.",
+    "expected": null,
+    "observed": null,
+    "passed": true
+  },
+  {
+    "text": "She might leave.",
+    "observed": "gse_closed_class:modal:might",
+    "passed": true
+  },
+  {
+    "text": "I waited for some time.",
+    "observed": [
+      "unspecified",
+      "during"
+    ],
+    "passed": true
+  },
+  {
+    "text": "I waited for a long time.",
+    "observed": [
+      "long",
+      "during"
+    ],
+    "passed": true
+  },
+  {
+    "class": "pronoun_he",
+    "text": "He went home.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "chemical_symbol_he",
+    "text": "The chemical symbol He denotes helium.",
+    "expected": null,
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "WRONG",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "DETERMINED_NOMINAL_NAME",
+        "tokens": [
+          0,
+          1,
+          2
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "entry_id": "wordnet:he:helium.n.01",
+        "native_anchor_support": {
+          "wordnet:he:helium.n.01": [
+            "helium"
+          ]
+        },
+        "type_coherence": {
+          "wordnet:he:helium.n.01": 1.0
+        },
+        "native_synonym_support": {
+          "wordnet:he:helium.n.01": {
+            "synset": "helium.n.01",
+            "context_entry_ids": {
+              "helium": "wordnet:helium:helium.n.01"
+            }
+          }
+        },
+        "type_thread_candidate": "wordnet:he:helium.n.01"
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": false,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "nonperson_type_he",
+    "text": "He is a noble gas.",
+    "expected": null,
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "WRONG",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "ASSERTED_NATIVE_READING_TYPE",
+        "tokens": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ],
+        "supported_entry_ids": [
+          "wordnet:he:helium.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        },
+        "entry_id": "wordnet:he:helium.n.01",
+        "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ]
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": false,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "surname_he",
+    "text": "The surname He is common.",
+    "expected": null,
+    "observed": null,
+    "outcome": "ABSTAINED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "grammar_roles": [
+        "PRON"
+      ],
+      "grammatical_features": {
+        "gram": {
+          "person": 3,
+          "number": "SINGULAR",
+          "gender": "MASC",
+          "case": "NOM"
+        },
+        "animacy": "ANIMATE"
+      },
+      "construction": {
+        "kind": "DETERMINED_NOMINAL_NAME",
+        "tokens": [
+          0,
+          1
+        ]
+      },
+      "contextual_grounding": {
+        "code": "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS",
+        "native_anchor_support": {},
+        "type_coherence": {
+          "wordnet:he:helium.n.01": 0.16666666666666666
+        },
+        "type_thread_candidate": "wordnet:he:helium.n.01",
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "pronoun_chemical_context",
+    "text": "He studies helium.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_entity_type",
+    "text": "He is an entity.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_thing_type",
+    "text": "He is a thing.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_organism_type",
+    "text": "He is an organism.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_animal_type",
+    "text": "He is an animal.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "native_inert_gas",
+    "text": "He is an inert gas.",
+    "expected": "wordnet:he:helium.n.01",
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "ASSERTED_NATIVE_READING_TYPE",
+        "tokens": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ],
+        "supported_entry_ids": [
+          "wordnet:he:helium.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        },
+        "entry_id": "wordnet:he:helium.n.01",
+        "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ]
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "negated_type_he",
+    "text": "He is not a gas.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "first_person",
+    "text": "I went home.",
+    "expected": "gse_closed_class:pronoun:i",
+    "observed": "gse_closed_class:pronoun:i",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "second_person",
+    "text": "You went home.",
+    "expected": "gse_closed_class:pronoun:you",
+    "observed": "gse_closed_class:pronoun:you",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  }
+]
+code "SPARSE_RUNTIME_REJECTED"
+ssl-api-runtime-foundation-audit-v3.json ['format', 'measured_at', 'lexicon_db', 'lexicon_sha256', 'file_identity', 'scope', 'by_class', 'records', 'sparse_controls', 'code']
+format "GSE.runtime-compatibility-audit/1"
+measured_at "2026-11-24T18:00:04.869115+00:00"
+lexicon_db "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/ssl-explicit-genera/checkpoint-foundation.db"
+lexicon_sha256 "0a1ddba83ccca919a810305fa609199e6aa0b1d0f3431e9a50fb039ea979cc47"
+file_identity {
+  "size": 20353929216,
+  "mtime_ns": 1795483642986458016
+}
+scope {
+  "structure": "Fourteen hand-authored top-operation probes; degree cases also check emitted levels, scope and logical comparison. Not full semantic gold.",
+  "anchors": "Explicit founder-approved definition IDs, signed bases, ordinal 1/2, and sense isolation.",
+  "genealogy": "EXPLICIT_NULL_GENEALOGY",
+  "world_grounding": "UNVERIFIED",
+  "corpus_semantic_accuracy": "NOT_MEASURED",
+  "degree_composition": "Canonical adjective degree, signed scope, repeated-VERY/extremely equivalence and ordinal distinction; not exhaustive grammar coverage."
+}
+by_class {
+  "causal": {
+    "IDENTIFIED": 1
+  },
+  "comparison": {
+    "IDENTIFIED": 1
+  },
+  "control": {
+    "IDENTIFIED": 1
+  },
+  "coordination": {
+    "IDENTIFIED": 1
+  },
+  "degree_scope_distinction": {
+    "IDENTIFIED": 1
+  },
+  "degree_vector_distinction": {
+    "IDENTIFIED": 1
+  },
+  "demonstrative": {
+    "IDENTIFIED": 1
+  },
+  "event": {
+    "IDENTIFIED": 1
+  },
+  "extreme_degree": {
+    "IDENTIFIED": 1
+  },
+  "extremely_degree": {
+    "IDENTIFIED": 1
+  },
+  "negation": {
+    "IDENTIFIED": 1
+  },
+  "not_very_scope": {
+    "IDENTIFIED": 1
+  },
+  "ordinal_distinction": {
+    "IDENTIFIED": 1
+  },
+  "other_very_senses_anchor_isolation": {
+    "IDENTIFIED": 3
+  },
+  "repeated_degree": {
+    "IDENTIFIED": 1
+  },
+  "repeated_extreme_equivalence": {
+    "IDENTIFIED": 1
+  },
+  "restriction": {
+    "IDENTIFIED": 1
+  },
+  "single_degree": {
+    "IDENTIFIED": 1
+  },
+  "temporal": {
+    "IDENTIFIED": 1
+  },
+  "this_object": {
+    "IDENTIFIED": 1
+  },
+  "very_degree": {
+    "IDENTIFIED": 1
+  },
+  "very_not_scope": {
+    "IDENTIFIED": 1
+  },
+  "want_negative": {
+    "IDENTIFIED": 1
+  },
+  "want_positive": {
+    "IDENTIFIED": 1
+  }
+}
+sparse_controls [
+  {
+    "text": "The river rose above the bank.",
+    "expected": "wordnet:bank:bank.n.01",
+    "observed": "wordnet:bank:bank.n.01",
+    "passed": true
+  },
+  {
+    "text": "A bank approved the mortgage.",
+    "expected": "wordnet:bank:depository_financial_institution.n.01",
+    "observed": "wordnet:bank:depository_financial_institution.n.01",
+    "passed": true
+  },
+  {
+    "text": "I saw a bank.",
+    "expected": null,
+    "observed": null,
+    "passed": true
+  },
+  {
+    "text": "An electrician repaired the light.",
+    "expected": null,
+    "observed": null,
+    "passed": true
+  },
+  {
+    "text": "She might leave.",
+    "observed": "gse_closed_class:modal:might",
+    "passed": true
+  },
+  {
+    "text": "I waited for some time.",
+    "observed": [
+      "unspecified",
+      "during"
+    ],
+    "passed": true
+  },
+  {
+    "text": "I waited for a long time.",
+    "observed": [
+      "long",
+      "during"
+    ],
+    "passed": true
+  },
+  {
+    "class": "pronoun_he",
+    "text": "He went home.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "chemical_symbol_he",
+    "text": "The chemical symbol He denotes helium.",
+    "expected": null,
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "WRONG",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "DETERMINED_NOMINAL_NAME",
+        "tokens": [
+          0,
+          1,
+          2
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "entry_id": "wordnet:he:helium.n.01",
+        "native_anchor_support": {
+          "wordnet:he:helium.n.01": [
+            "helium"
+          ]
+        },
+        "type_coherence": {
+          "wordnet:he:helium.n.01": 1.0
+        },
+        "native_synonym_support": {
+          "wordnet:he:helium.n.01": {
+            "synset": "helium.n.01",
+            "context_entry_ids": {
+              "helium": "wordnet:helium:helium.n.01"
+            }
+          }
+        },
+        "type_thread_candidate": "wordnet:he:helium.n.01"
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": false,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "nonperson_type_he",
+    "text": "He is a noble gas.",
+    "expected": null,
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "WRONG",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "ASSERTED_NATIVE_READING_TYPE",
+        "tokens": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ],
+        "supported_entry_ids": [
+          "wordnet:he:helium.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        },
+        "entry_id": "wordnet:he:helium.n.01",
+        "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ]
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": false,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "surname_he",
+    "text": "The surname He is common.",
+    "expected": null,
+    "observed": null,
+    "outcome": "ABSTAINED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_CONTEXT_CONFLICT",
+      "entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "grammar_roles": [
+        "PRON"
+      ],
+      "grammatical_features": {
+        "gram": {
+          "person": 3,
+          "number": "SINGULAR",
+          "gender": "MASC",
+          "case": "NOM"
+        },
+        "animacy": "ANIMATE"
+      },
+      "construction": {
+        "kind": "DETERMINED_NOMINAL_NAME",
+        "tokens": [
+          0,
+          1
+        ]
+      },
+      "contextual_grounding": {
+        "code": "TYPE_COHERENCE_WITHOUT_LEXICAL_WITNESS",
+        "native_anchor_support": {},
+        "type_coherence": {
+          "wordnet:he:helium.n.01": 0.16666666666666666
+        },
+        "type_thread_candidate": "wordnet:he:helium.n.01",
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        }
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "pronoun_chemical_context",
+    "text": "He studies helium.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_entity_type",
+    "text": "He is an entity.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_thing_type",
+    "text": "He is a thing.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_organism_type",
+    "text": "He is an organism.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "broad_animal_type",
+    "text": "He is an animal.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "native_inert_gas",
+    "text": "He is an inert gas.",
+    "expected": "wordnet:he:helium.n.01",
+    "observed": "wordnet:he:helium.n.01",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "CONTEXTUAL_DEFINITION_SELECTED",
+      "entry_id": "wordnet:he:helium.n.01",
+      "challenged_grammatical_entry_id": "gse_closed_class:pronoun:he",
+      "catalog_provenance": [
+        "GSE.lexicon.pronouns:PRONOUN_ENCODINGS:he"
+      ],
+      "construction": {
+        "kind": "ASSERTED_NATIVE_READING_TYPE",
+        "tokens": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ],
+        "supported_entry_ids": [
+          "wordnet:he:helium.n.01"
+        ]
+      },
+      "contextual_grounding": {
+        "code": "EXACT_WORDNET_SENSE",
+        "native_anchor_support": {},
+        "type_coherence": {},
+        "construction": {
+          "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+        },
+        "entry_id": "wordnet:he:helium.n.01",
+        "witness_kind": "ASSERTED_NATIVE_READING_TYPE",
+        "native_type_ids": [
+          "noble_gas.n.01"
+        ]
+      },
+      "considered_entry_ids": [
+        "wordnet:he:he.n.02",
+        "wordnet:he:helium.n.01"
+      ]
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "negated_type_he",
+    "text": "He is not a gas.",
+    "expected": "gse_closed_class:pronoun:he",
+    "observed": "gse_closed_class:pronoun:he",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "first_person",
+    "text": "I went home.",
+    "expected": "gse_closed_class:pronoun:i",
+    "observed": "gse_closed_class:pronoun:i",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  },
+  {
+    "class": "second_person",
+    "text": "You went home.",
+    "expected": "gse_closed_class:pronoun:you",
+    "observed": "gse_closed_class:pronoun:you",
+    "outcome": "IDENTIFIED",
+    "reading_eligibility": {
+      "code": "GRAMMATICAL_ROLE_ELIGIBLE"
+    },
+    "passed": true,
+    "scope": "READING_SAFETY_NOT_FULL_LEXICAL_COMPLETION"
+  }
+]
+code "SPARSE_RUNTIME_REJECTED"

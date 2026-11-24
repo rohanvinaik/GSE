@@ -1,8 +1,8 @@
 {
   "format": "GSE.runtime-blockers/1",
-  "role_scope": "B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
-  "status": "CODE_FREEZE_READY_CHECKPOINT_BLOCKED",
-  "updated_utc": "2026-11-24T09:07:17.601514+00:00",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "status": "SOURCE_EDITING_UNFROZEN",
+  "updated_utc": "2026-11-24T17:52:03.482435+00:00",
   "identity_regression": {
     "status": "REPAIRED_VERIFIED_REAL_ENCODER",
     "evidence": "ssl-api-runtime-code-freeze-tests.xml",
@@ -57,10 +57,10 @@
     {
       "code": "WORKLOAD_ACCEPTANCE_NOT_ESTABLISHED",
       "scope_freeze": "ssl-api-runtime-workload-freeze.json",
-      "required_action": "Full eight-operation inventory, all critical positive/MUST-NOT outcomes, common-form two-sided semantic audit, required-bank operation witnesses, >=90% eligible token mass in frequency and independent aggregate plus every genre, exact artifact/source/cohort pins, full replay and integrated repository gate receipts."
+      "required_action": "Full eight-operation inventory and actual finite representative source-warranted positive/MUST-NOT semantic cases across genres/tail; required-bank operation witnesses; >=90% eligible token mass in BOTH frequency and independent corpus aggregate, with genre slices reported; exact artifact/source/cohort pins; full replay and integrated gate. No all-common-form manual gold or per-genre 90% requirement."
     }
   ],
-  "ongoing_runtime_repair": "FINISHED; no source edits after runtime freeze without coordination.",
+  "ongoing_runtime_repair": "Three original composed defects fixed with real public-path tests; adversarial anchor alternatives and chemical native alias identity repaired. Broad regression checking and re-freeze underway.",
   "controller_source_demands": [
     "Stored lexical bank holes leap.n.01 HAPPEN and whisper.n.01 SAY under existing source/competence contracts. Evaluation gold is not a rule warrant.",
     "good/bad/big/small/have/here source/role lexical demand requires warranted projections; above/before must be checked at composed relation scale, not automatically missing from raw bank emission.",
@@ -69,7 +69,7 @@
   "corpus_writes": 0,
   "active_pointer_changed": false,
   "source_freeze_receipt": "ssl-api-runtime-result.json",
-  "source_edits_finished": true,
+  "source_edits_finished": false,
   "postfreeze_readonly_findings": {
     "format": "GSE.runtime-postfreeze-readonly-findings/1",
     "measured_at_utc": "2026-11-24T09:09:52.260842+00:00",
@@ -120,5 +120,26 @@
       "auxiliary_have_do": "Auxiliary versus main verb structurally distinct; auxiliary have emits stored HAVE1 at token scale, main have remains ambiguous. Existing source authority should review; do not manufacture full same-lemma mapping."
     },
     "coordination": "CODE_FREEZE_READY receipt remains an accurate source completion boundary, NOT checkpoint pass. No source edits after it. These read-only findings require explicit coordinated unfreeze before further runtime fixes."
+  },
+  "unfreeze_development_findings": {
+    "evidence": "ssl-responses-runtime-119-call_e194273b643943a4b4b0f86f4b53aadb.log",
+    "identity_repairs": [
+      "wordnet:femur:femur.n.01",
+      "wordnet:teacher:teacher.n.01",
+      "wordnet:he:helium.n.01"
+    ],
+    "remaining_whole_sentence_wrong": [
+      {
+        "text": "The teacher is a person whose occupation is teaching.",
+        "observed": "Composed EVENT teach(REL_RESTRICT(teacher,occupation)); exact teacher identity succeeds but matrix copular complement is lost.",
+        "code": "RELATIVE_COPULA_COMPOSITION_WRONG"
+      },
+      {
+        "text": "The femur is the longest and thickest bone of the human skeleton.",
+        "observed": "TYPE_ASSERT(femur,COORD(bone,skeleton)) with modifier long; adjective coordination wrongly becomes nominal coordination and of attachment is lost.",
+        "code": "COORDINATED_MODIFIER_NOMINAL_COMPOSITION_WRONG"
+      }
+    ],
+    "note": "Development findings, not final holdout. Known wrong full-sentence cases cannot be hidden by token identity success; no checkpoint PASS."
   }
 }

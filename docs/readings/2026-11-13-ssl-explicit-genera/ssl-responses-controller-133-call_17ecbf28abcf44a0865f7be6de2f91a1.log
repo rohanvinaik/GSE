@@ -1,0 +1,911 @@
+
+WHOLE tests/test_lexicon_checkpoint_retained_transport.py 
+"""The checkpoint orchestrator accepts only exact retained local wire journals."""
+
+import json
+import runpy
+from pathlib import Path
+
+import pytest
+
+from GSE.curation.lexicon_builder.epoch import fingerprint
+from GSE.curation.lexicon_builder.residual import _request_id
+
+
+def load_transport(tmp_path, monkeypatch):
+    path = Path(__file__).resolve().parents[1] / "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py"
+    module = runpy.run_path(str(path))
+    transport = module["RetainedTransport"]
+    globals_ = transport.__init__.__globals__
+    questions, answers = tmp_path / "questions.json", tmp_path / "answers.json"
+    monkeypatch.setitem(globals_, "NOTES", tmp_path)
+    monkeypatch.setitem(globals_, "QUESTIONS", questions)
+    monkeypatch.setitem(globals_, "ANSWERS", answers)
+    monkeypatch.setitem(globals_, "PRIME_QUESTIONS", tmp_path / "prime-questions.json")
+    monkeypatch.setitem(globals_, "PRIME_ANSWERS", tmp_path / "prime-answers.json")
+    payload = {"entry_id": "synthetic:retained", "bank": "I", "allowed_values": [-1, 0, 1]}
+    schema = {"properties": {"I": {"enum": [-1, 0, 1, None]}}}
+    identity = _request_id(payload)
+    questions.write_text(json.dumps({"questions": [{"request_id": identity, "request": payload, "schema": schema}]}))
+    (tmp_path / "ssl-v2-catalogue-rebase.json").write_text(
+        json.dumps(
+            {
+                "question_reuse": {
+                    "transport": "synthetic:pinned-local",
+                    "journal_directory": str(tmp_path),
+                    "original_request_id": identity,
+                }
+            }
+        )
+    )
+    (tmp_path / ("teach-" + identity + ".intent.json")).write_text(
+        json.dumps({"request_id": identity, "schema": schema, "transport": "synthetic:pinned-local"})
+    )
+    (tmp_path / ("teach-" + identity + ".result.json")).write_text(json.dumps({"raw_output": '{"I":0}'}))
+    return transport, questions, answers, payload, schema
+
+
+def test_retained_transport_never_calls_a_model_and_refuses_changed_question(tmp_path, monkeypatch):
+    cls, _, _, payload, schema = load_transport(tmp_path, monkeypatch)
+    model = cls()
+    assert model(payload, schema) == '{"I":0}'
+    with pytest.raises(ValueError, match="CHECKPOINT_RETAINED_QUESTION_CHANGED"):
+        model({**payload, "bank": "YOU"}, schema)
+    with pytest.raises(ValueError, match="CHECKPOINT_RETAINED_QUESTION_CHANGED"):
+        model(payload, {})
+    assert len(model.replayed) == 1
+
+
+@pytest.mark.parametrize("damage", ["packet", "model", "reply"])
+def test_supplied_answer_cannot_rebind_the_original_evidence(tmp_path, monkeypatch, damage):
+    cls, questions, answers, payload, _ = load_transport(tmp_path, monkeypatch)
+    answer = {
+        "format": "GSE.ssl-checkpoint-local-answers/1",
+        "questions_sha256": fingerprint(questions),
+        "transport": "synthetic:pinned-local",
+        "answers": [{"request_id": _request_id(payload), "raw_output": '{"I":0}'}],
+    }
+    if damage == "packet":
+        answer["questions_sha256"] = "0" * 64
+    elif damage == "model":
+        answer["transport"] = "synthetic:other"
+    else:
+        answer["answers"][0]["raw_output"] = '{"I":1}'
+    answers.write_text(json.dumps(answer))
+    with pytest.raises(
+        ValueError, match="CHECKPOINT_RETAINED_ANSWERS_IDENTITY_CHANGED|CHECKPOINT_ORIGINAL_REPLY_CHANGED"
+    ):
+        cls()
+
+
+def test_prime_reply_requires_exact_wire_packet_and_retains_null(tmp_path, monkeypatch):
+    cls, _, _, _, _ = load_transport(tmp_path, monkeypatch)
+    globals_ = cls.__init__.__globals__
+    payload = {"entry_id": "synthetic:prime", "bank": "GOOD"}
+    schema = {"properties": {"GOOD": {"enum": [-1, 0, 1, None]}}}
+    identity = _request_id(payload)
+    packet = globals_["PRIME_QUESTIONS"]
+    packet.write_text(json.dumps({"questions": [{"request_id": identity, "request": payload, "schema": schema}]}))
+    answer = {
+        "format": "GSE.ssl-checkpoint-local-answers/1",
+        "questions_sha256": fingerprint(packet),
+        "transport": "synthetic:pinned-local",
+        "answers": [{"request_id": identity, "raw_output": '{"GOOD":null}'}],
+    }
+    globals_["PRIME_ANSWERS"].write_text(json.dumps(answer))
+    model = cls()
+    assert model(payload, schema) == '{"GOOD":null}'
+    with pytest.raises(ValueError, match="CHECKPOINT_RETAINED_QUESTION_CHANGED"):
+        model(payload, {})
+    answer["transport"] = "other"
+    globals_["PRIME_ANSWERS"].write_text(json.dumps(answer))
+    with pytest.raises(ValueError, match="CHECKPOINT_PRIME_ANSWERS_IDENTITY_CHANGED"):
+        model(payload, schema)
+
+
+@pytest.mark.parametrize(
+    "key,bank,value", [("good", "GOOD", 1), ("bad", "GOOD", -1), ("big", "BIG", 1), ("small", "BIG", -1)]
+)
+def test_canonical_chart_projection_is_partial_and_identity_scoped(key, bank, value):
+    from GSE.curation.lexicon_builder.catalog import chart_definition_records
+    from GSE.curation.lexicon_builder.engine import propagate
+    from GSE.curation.lexicon_builder.foundation import BANKS
+
+    path = Path(__file__).resolve().parents[1] / "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py"
+    module = runpy.run_path(str(path))
+    entry = "nsm_chart:v20:" + key
+    features = next(row for row in chart_definition_records() if row["entry_id"] == entry)
+    observation = {
+        "entry_id": entry,
+        "candidate_entry_ids": [entry],
+        "source": "nsm_chart",
+        "family": "nsm_primary_chart",
+        "scope": "source_structure",
+        "features": features,
+    }
+    assertion = module["basis_assertion"](entry, bank, value, observation)
+    result = propagate(BANKS, (assertion,), ())
+    assert result.assignments == {bank: value}
+    assert all(values == frozenset((-1, 0, 1)) for name, values in result.domains.items() if name != bank)
+    with pytest.raises(ValueError, match="UNREVIEWED_CANONICAL_BASIS_PROJECTION"):
+        module["basis_assertion"]("wordnet:" + key + ":other.a.01", bank, value, observation)
+    with pytest.raises(ValueError, match="UNREVIEWED_CANONICAL_BASIS_PROJECTION"):
+        module["basis_assertion"](entry, bank, -value, observation)
+    with pytest.raises(ValueError, match="CANONICAL_BASIS_SOURCE_IDENTITY_CHANGED"):
+        module["basis_assertion"](entry, bank, value, {**observation, "scope": "lexical"})
+
+
+def test_reserved_child_is_reexported_without_unselected_parent_definitions(monkeypatch):
+    from copy import deepcopy
+
+    path = Path(__file__).resolve().parents[1] / "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint.py"
+    module = runpy.run_path(str(path))
+    parent = {
+        "format": "synthetic:input",
+        "discovery_entry_ids": ["water"],
+        "audit_entry_ids": ["dog", "door", "tree"],
+        "rulings": [{"receipt": {"request_id": "water-question"}, "review": {"source_refs": ["native"]}}],
+        "entries": [{"definition": {"entry_id": key}} for key in ("dog", "door", "tree", "water")],
+        "guarded_candidates": [{"warrant": {"statement": "reference only"}}],
+    }
+    unchanged = deepcopy(parent)
+    calls = []
+
+    def exporter(database, selection, *, input_format):
+        calls.append((database, selection, input_format))
+        child = deepcopy(parent)
+        child["audit_entry_ids"] = selection["audit_entry_ids"]
+        child["guarded_candidates"] = selection["guarded_candidates"]
+        selected = set(selection["discovery_entry_ids"]) | set(selection["audit_entry_ids"])
+        child["entries"] = [row for row in child["entries"] if row["definition"]["entry_id"] in selected]
+        return {"input": child, "input_sha256": _request_id(child)}
+
+    fn = module["reserved_reviewed_input"]
+    monkeypatch.setitem(fn.__globals__, "export_reviewed_input", exporter)
+    child = fn("owned.db", parent, {"dog"})
+    assert parent == unchanged
+    assert child["audit_entry_ids"] == ["door", "tree"]
+    assert {row["definition"]["entry_id"] for row in child["entries"]} == {"water", "door", "tree"}
+    assert child["guarded_candidates"][0]["warrant"]["required_reservation_ids"] == ["dog"]
+    assert len(calls) == 1
+    with pytest.raises(ValueError, match="CHECKPOINT_RESERVATION_NOT_IN_PARENT_AUDIT"):
+        fn("owned.db", parent, {"cat"})
+
+
+WHOLE tests/test_lexicon_builder_completion.py 
+"""Exercise durable, bounded post-build completion through real stored artifacts."""
+
+import json
+import sqlite3
+import sys
+from dataclasses import asdict
+
+import pytest
+
+from GSE.curation.cli import commands
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import DomainRestriction, Relation
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.foundation import BANKS
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.validation import validate_build
+
+
+class Transport:
+    model = "fixture-model"
+
+    def __init__(self, answer=None):
+        self.answer = answer
+        self.requests = []
+
+    def __call__(self, payload, schema):
+        self.requests.append((payload, schema))
+        if callable(self.answer):
+            return self.answer(payload, schema)
+        return self.answer if self.answer is not None else json.dumps({payload["bank"]: payload["allowed_values"][-1]})
+
+
+class VersionedTransport(Transport):
+    def __init__(self, identity, answer=None):
+        super().__init__(answer)
+        self.identity = identity
+
+
+def fixture_bundle(specs):
+    """Explicit synthetic restrictions are fixture data, never a production zero rule."""
+    definitions, observations, restrictions = [], [], []
+    for entry_id, unknown in specs.items():
+        definitions.append(Definition(entry_id, entry_id, "verb", "synthetic test definition"))
+        record_id = f"record:{entry_id}"
+        observations.append(Observation(entry_id, "fixture", record_id, "fixture", {}, "lexical"))
+        for bank in BANKS:
+            values = unknown.get(bank, (0,))
+            if len(values) < 3:
+                restrictions.append(DomainRestriction(bank, values, "fixture", record_id, "fixture"))
+    return EvidenceBundle(tuple(definitions), tuple(observations), (), (), tuple(restrictions))
+
+
+def built(tmp_path, specs=None, manifest=None):
+    path = tmp_path / "dictionary.db"
+    bundle = fixture_bundle(specs or {"d": {"GOOD": (-1, 1)}})
+    build_dictionary(bundle, path, manifest=manifest)
+    return path, bundle
+
+
+def metadata(path, key):
+    with sqlite3.connect(path) as conn:
+        return json.loads(conn.execute("SELECT value FROM builder_metadata WHERE key=?", (key,)).fetchone()[0])
+
+
+def state(path, entry="d"):
+    with sqlite3.connect(path) as conn:
+        return conn.execute(
+            "SELECT code,domains,trace,hierarchy FROM definition_states WHERE entry_id=?", (entry,)
+        ).fetchone()
+
+
+def test_acceptance_mutates_file_atomically_and_replays(tmp_path):
+    path, _ = built(tmp_path)
+    before = state(path)
+    transport = Transport()
+    report = complete_dictionary(path, transport, 1, banks=("GOOD",))
+    assert report["code"] == "SELECTED_SCOPE_RESOLVED"
+    assert report["model_calls"] == 1
+    assert report["dictionary_outcomes"] == {"RESOLVED": 1}
+    assert report["dictionary_status"] == "ALL_BANKS_ASSIGNED"
+    assert report["outside_selected_scope"] == {"unresolved_or_conflicted_cells": 0}
+    assert metadata(path, "last_completion_report") == report
+    assert metadata(path, "last_report")["model_calls"] == 1
+    assert state(path) != before
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    payload, schema = transport.requests[0]
+    assert payload["allowed_values"] == [-1, 1]
+    assert schema["properties"]["GOOD"]["enum"] == [-1, 1, None]
+    with sqlite3.connect(path) as conn:
+        assert conn.execute("SELECT value FROM primitive_values WHERE primitive='GOOD'").fetchone()[0] == 1
+        assert conn.execute("SELECT count(*) FROM builder_domain_restrictions").fetchone()[0] == len(BANKS)
+        assert conn.execute("SELECT code FROM completion_attempts").fetchone()[0] == "ASSIGNED"
+    again = complete_dictionary(
+        path, Transport(lambda *_: pytest.fail("assigned cell reasked")), 1, entry_ids=("d",), banks=("GOOD",)
+    )
+    assert again["model_calls"] == 0
+    assert again["code"] == "SELECTED_SCOPE_RESOLVED"
+
+
+@pytest.mark.parametrize(
+    "answer,code",
+    [
+        ('{"GOOD":null}', "ABSTAINED"),
+        ('{"GOOD":0}', "INVALID_OUTPUT"),
+        ('{"GOOD":true}', "INVALID_OUTPUT"),
+        ('{"GOOD":1,"WANT":1}', "INVALID_OUTPUT"),
+        ("not json", "INVALID_OUTPUT"),
+    ],
+)
+def test_rejected_or_abstained_output_keeps_original_dictionary(tmp_path, answer, code):
+    path, _ = built(tmp_path)
+    before = state(path)
+    report = complete_dictionary(path, Transport(answer), 1, banks=("GOOD",))
+    assert report["outcomes"] == {code: 1}
+    assert report["code"] == "BUDGET_EXHAUSTED"
+    assert state(path) == before
+    assert metadata(path, "model_completions") == []
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    resumed = complete_dictionary(
+        path, Transport(lambda *_: pytest.fail("unchanged attempt repeated")), 1, banks=("GOOD",)
+    )
+    assert resumed["code"] == "RESIDUAL_REMAINS"
+    assert resumed["skipped_attempts"] == {code: 1}
+    assert resumed["model_calls"] == 0
+
+
+def test_interruption_journal_is_durable_and_retry_is_explicit(tmp_path):
+    path, _ = built(tmp_path)
+
+    def interrupted(*_):
+        with sqlite3.connect(path) as conn:
+            assert conn.execute("SELECT code FROM completion_attempts").fetchone()[0] == "RUNNING"
+        raise KeyboardInterrupt()
+
+    with pytest.raises(KeyboardInterrupt):
+        complete_dictionary(path, Transport(interrupted), 1, entry_ids=("d",), banks=("GOOD",))
+    assert metadata(path, "last_report")["model_calls"] == 1
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    resumed = complete_dictionary(
+        path, Transport(lambda *_: pytest.fail("interrupted call repeated")), 1, entry_ids=("d",), banks=("GOOD",)
+    )
+    assert resumed["model_calls"] == 0
+    assert resumed["skipped_attempts"] == {"RUNNING": 1}
+    assert resumed["code"] == "RESIDUAL_REMAINS"
+    retried = complete_dictionary(path, Transport(), 1, entry_ids=("d",), banks=("GOOD",), retry=True)
+    assert retried["outcomes"] == {"ASSIGNED": 1}
+    assert metadata(path, "last_report")["model_calls"] == 2
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_changed_source_context_is_a_new_request_even_when_domains_match(tmp_path):
+    path, _ = built(tmp_path)
+    complete_dictionary(path, Transport('{"GOOD":null}'), 1, banks=("GOOD",))
+    with sqlite3.connect(path) as conn:
+        record = json.loads(conn.execute("SELECT payload FROM source_observations").fetchone()[0])
+        record["features"]["new_native_context"] = "fixture clarification"
+        conn.execute("UPDATE source_observations SET payload=?", (json.dumps(record),))
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+    report = complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    assert report["outcomes"] == {"ASSIGNED": 1}
+    with sqlite3.connect(path) as conn:
+        assert conn.execute("SELECT count(DISTINCT request_id) FROM completion_attempts").fetchone()[0] == 2
+
+
+def test_new_transport_protocol_identity_is_not_skipped(tmp_path):
+    path, _ = built(tmp_path)
+    first = VersionedTransport("fixture-model@protocol-one", '{"GOOD":null}')
+    complete_dictionary(path, first, 1, banks=("GOOD",))
+    second = VersionedTransport("fixture-model@protocol-two")
+    report = complete_dictionary(path, second, 1, banks=("GOOD",))
+    assert report["model_calls"] == 1
+    assert report["model"] == second.identity
+    with sqlite3.connect(path) as conn:
+        assert {row[0] for row in conn.execute("SELECT model FROM completion_attempts")} == {
+            first.identity,
+            second.identity,
+        }
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_no_eligible_entries_does_not_claim_conflicted_dictionary_resolved(tmp_path):
+    path, initial = built(tmp_path)
+    conflict = DomainRestriction("GOOD", (0,), "fixture", "record:d", "fixture")
+    bundle = EvidenceBundle(
+        initial.definitions, initial.observations, (), (), initial.domain_restrictions + (conflict,)
+    )
+    build_dictionary(bundle, path)
+    report = complete_dictionary(path, Transport(lambda *_: pytest.fail("conflict sent to model")), 1)
+    assert report["selected_entry_ids"] == []
+    assert report["unselected_residual"] is True
+    assert report["code"] == "RESIDUAL_REMAINS"
+
+
+def test_transport_error_stays_distinct_and_does_not_overwrite(tmp_path):
+    path, _ = built(tmp_path)
+    before = state(path)
+
+    def broken(*_):
+        raise OSError("fixture offline")
+
+    report = complete_dictionary(path, Transport(broken), 1)
+    assert report["outcomes"] == {"TRANSPORT_ERROR": 1}
+    assert state(path) == before
+
+
+def test_global_and_per_entry_limits_and_priority(tmp_path):
+    path, _ = built(
+        tmp_path,
+        {"wide": {"GOOD": (-1, 0, 1)}, "narrow": {"GOOD": (-1, 1), "WANT": (-1, 0, 1)}, "single": {"GOOD": (-1, 1)}},
+    )
+    transport = Transport()
+    report = complete_dictionary(path, transport, 2, max_calls_per_entry=1)
+    assert report["selected_entry_ids"] == ["single", "narrow"]
+    assert [p["entry_id"] for p, _ in transport.requests] == ["single", "narrow"]
+    assert len(transport.requests) == 2
+    assert report["code"] == "BUDGET_EXHAUSTED"
+    assert report["dictionary_outcomes"] == {"PARTIAL": 2, "RESOLVED": 1}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_per_entry_limit_leaves_partial_scope_without_using_global_budget(tmp_path):
+    path, _ = built(tmp_path, {"d": {"GOOD": (-1, 1), "WANT": (-1, 1)}})
+    report = complete_dictionary(path, Transport(), 10, max_calls_per_entry=1)
+    assert report["model_calls"] == 1
+    assert report["code"] == "RESIDUAL_REMAINS"
+    assert report["dictionary_outcomes"] == {"PARTIAL": 1}
+
+
+def test_candidate_observations_are_included_in_request_and_replay(tmp_path):
+    bundle = fixture_bundle({"d": {"GOOD": (-1, 1)}})
+    extra = Observation(None, "rating", "ambiguous:r", "rating", {"score": 0.5}, "lexical", ("d",))
+    bundle = EvidenceBundle(bundle.definitions, bundle.observations + (extra,), (), (), bundle.domain_restrictions)
+    path = tmp_path / "context.db"
+    build_dictionary(bundle, path)
+    transport = Transport()
+    complete_dictionary(path, transport, 1, entry_ids=("d",))
+    assert {r["record_id"] for r in transport.requests[0][0]["observations"]} == {"record:d", "ambiguous:r"}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_conditional_contradiction_does_not_replace_hard_values(tmp_path, monkeypatch):
+    from functools import partial
+
+    from GSE.curation.lexicon_builder.engine import propagate
+
+    # The all-negative assignment satisfies this cycle. A seven-combination
+    # search limit leaves the unsupported positive choice for the residual tail.
+    monkeypatch.setattr(
+        "GSE.curation.lexicon_builder.resolution.propagate", partial(propagate, max_joint_assignments=7)
+    )
+    names = ("GOOD", "WANT", "THINK")
+    relations = [
+        Relation(
+            f"cycle:{i}",
+            (names[i], names[(i + 1) % 3]),
+            ((-1, -1), (1, 1)) if i < 2 else ((-1, -1), (-1, 1), (1, -1)),
+            ("synthetic satisfiable cycle",),
+            approved=True,
+        )
+        for i in range(3)
+    ]
+    manifest = tmp_path / "rules.json"
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "relations": [asdict(r) for r in relations]}))
+    path, _ = built(tmp_path, {"d": {bank: (-1, 1) for bank in names}}, manifest)
+    before = state(path)
+    assert any(record["kind"] == "SOLVER_LIMIT" for record in json.loads(before[2]))
+    assert propagate(names, (), tuple(relations)).assignments == dict.fromkeys(names, -1)
+    report = complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    assert report["outcomes"] == {"CONTRADICTION": 1}
+    assert state(path) == before
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_preflight_rejects_corruption_before_any_model_call_or_journal_write(tmp_path):
+    path, _ = built(tmp_path)
+    with sqlite3.connect(path) as conn:
+        conn.execute("UPDATE primitive_values SET value=1 WHERE primitive='WANT'")
+    before = path.read_bytes()
+    with pytest.raises(ValueError, match="REQUIRES_VALIDATED_BUILD"):
+        complete_dictionary(path, Transport(lambda *_: pytest.fail("invalid artifact reached model")), 1)
+    assert path.read_bytes() == before
+
+
+def test_external_write_during_transport_cannot_be_overwritten(tmp_path):
+    path, _ = built(tmp_path)
+    before = state(path)
+
+    def other_writer(payload, _):
+        with sqlite3.connect(path) as conn:
+            conn.execute("INSERT INTO builder_metadata VALUES ('external-marker','1')")
+        return json.dumps({payload["bank"]: 1})
+
+    with pytest.raises(ValueError, match="SNAPSHOT_CHANGED"):
+        complete_dictionary(path, Transport(other_writer), 1)
+    assert state(path) == before
+    assert metadata(path, "external-marker") == 1
+    assert metadata(path, "model_completions") == []
+    with sqlite3.connect(path) as conn:
+        assert conn.execute("SELECT code FROM completion_attempts").fetchone()[0] == "STALE_SNAPSHOT"
+
+
+def test_rebuild_clears_old_attempts(tmp_path):
+    path, bundle = built(tmp_path)
+    complete_dictionary(path, Transport('{"GOOD":null}'), 1)
+    build_dictionary(bundle, path)
+    with sqlite3.connect(path) as conn:
+        assert conn.execute("SELECT count(*) FROM completion_attempts").fetchone()[0] == 0
+        assert conn.execute("SELECT count(*) FROM completion_schedule").fetchone()[0] == 0
+    assert complete_dictionary(path, Transport(), 1)["model_calls"] == 1
+
+
+def test_acceptance_transaction_failure_rolls_back_both_assignment_and_receipt(tmp_path, monkeypatch):
+    from GSE.curation.lexicon_builder import completion
+
+    path, _ = built(tmp_path)
+    before = state(path)
+    original = completion.store_entry
+
+    def fail_after_entry_write(*args, **kwargs):
+        original(*args, **kwargs)
+        raise OSError("fixture storage failure")
+
+    monkeypatch.setattr(completion, "store_entry", fail_after_entry_write)
+    with pytest.raises(OSError, match="storage failure"):
+        complete_dictionary(path, Transport(), 1)
+    assert state(path) == before
+    assert metadata(path, "model_completions") == []
+    with sqlite3.connect(path) as conn:
+        assert conn.execute("SELECT code FROM completion_attempts").fetchone()[0] == "RUNNING"
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_hierarchy_and_native_source_counts_survive_completion(tmp_path):
+    manifest = tmp_path / "hierarchy.json"
+    manifest.write_text(json.dumps({"format": "GSE.lexicon-rules/1", "hierarchy": {"d": {"INTENSITY": 2}}}))
+    path, _ = built(tmp_path, {"d": {"GOOD": (-1, 1), "INTENSITY": (1,)}}, manifest)
+    sources = metadata(path, "last_report")["source_observations"]
+    complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    assert json.loads(state(path)[3]) == {"INTENSITY": 2}
+    assert metadata(path, "last_report")["source_observations"] == sources
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_selected_bank_completion_does_not_claim_entire_dictionary_complete(tmp_path):
+    path, _ = built(tmp_path, {"d": {"GOOD": (-1, 1), "WANT": (-1, 1)}})
+    report = complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    assert report["code"] == "SELECTED_SCOPE_RESOLVED"
+    assert report["dictionary_outcomes"] == {"PARTIAL": 1}
+    assert report["dictionary_status"] == "INCOMPLETE"
+    assert report["dictionary_cells"]["unresolved"] == 1
+    assert report["outside_selected_scope"] == {"unresolved_or_conflicted_cells": 1}
+    assert metadata(path, "last_report")["cells"]["unresolved"] == 1
+
+
+def test_selected_definition_completion_reports_other_unfinished_definitions(tmp_path):
+    path, _ = built(tmp_path, {"a": {"GOOD": (-1, 1)}, "b": {"WANT": (-1, 1)}})
+    report = complete_dictionary(path, Transport(), 1, entry_ids=("a",), banks=("GOOD",))
+    assert report["code"] == "SELECTED_SCOPE_RESOLVED"
+    assert report["dictionary_status"] == "INCOMPLETE"
+    assert report["outside_selected_scope"] == {"unresolved_or_conflicted_cells": 1}
+
+
+def test_unfiltered_resume_advances_abstained_cohorts_then_wraps(tmp_path):
+    path, _ = built(tmp_path, {entry: {"GOOD": (-1, 1)} for entry in ("a", "b", "c")})
+    transport = Transport('{"GOOD":null}')
+    reports = [complete_dictionary(path, transport, 1, banks=("GOOD",)) for _ in range(3)]
+    assert [r["selected_entry_ids"] for r in reports] == [["a"], ["b"], ["c"]]
+    assert [r["scheduling"]["code"] for r in reports] == ["COHORT_EXHAUSTED", "COHORT_EXHAUSTED", "PASS_EXHAUSTED"]
+    wrapped = complete_dictionary(
+        path, Transport(lambda *_: pytest.fail("unchanged hash repeated")), 1, banks=("GOOD",)
+    )
+    assert wrapped["selected_entry_ids"] == ["a"]
+    assert wrapped["scheduling"]["wrapped"] is True
+    assert wrapped["scheduling"]["pass_number"] == 2
+    assert wrapped["model_calls"] == 0
+    # An unchanged skipped cohort must also advance, rather than pinning a pass.
+    next_cohort = complete_dictionary(path, transport, 1, banks=("GOOD",))
+    assert next_cohort["selected_entry_ids"] == ["b"]
+    assert next_cohort["model_calls"] == 0
+
+
+def test_cursor_wrap_rechecks_changed_full_request_context(tmp_path):
+    path, _ = built(tmp_path, {entry: {"GOOD": (-1, 1)} for entry in ("a", "b")})
+    complete_dictionary(path, Transport('{"GOOD":null}'), 1, banks=("GOOD",))
+    with sqlite3.connect(path) as conn:
+        raw = json.loads(conn.execute("SELECT payload FROM source_observations WHERE entry_id='a'").fetchone()[0])
+        raw["features"]["new_context"] = "clarification"
+        conn.execute("UPDATE source_observations SET payload=? WHERE entry_id='a'", (json.dumps(raw),))
+    assert complete_dictionary(path, Transport('{"GOOD":null}'), 1, banks=("GOOD",))["selected_entry_ids"] == ["b"]
+    wrapped = complete_dictionary(path, Transport(), 1, banks=("GOOD",))
+    assert wrapped["selected_entry_ids"] == ["a"]
+    assert wrapped["model_calls"] == 1
+    assert wrapped["outcomes"] == {"ASSIGNED": 1}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+def test_budget_does_not_advance_cursor_past_unvisited_selected_entries(tmp_path):
+    path, _ = built(tmp_path, {entry: {"GOOD": (-1, 1), "WANT": (-1, 1)} for entry in ("a", "b", "c")})
+    first = complete_dictionary(path, Transport(), 2, max_calls_per_entry=2)
+    assert first["selected_entry_ids"] == ["a", "b"]
+    assert first["scheduling"]["visited_entry_ids"] == ["a"]
+    assert first["scheduling"]["code"] == "COHORT_PARTIAL"
+    assert complete_dictionary(path, Transport(), 1)["selected_entry_ids"] == ["b"]
+
+
+def test_scheduling_scope_is_separate_for_protocol_and_bank_filters(tmp_path):
+    path, _ = built(tmp_path, {entry: {"GOOD": (-1, 1), "WANT": (-1, 1)} for entry in ("a", "b")})
+    first = VersionedTransport("protocol-one", '{"GOOD":null}')
+    complete_dictionary(path, first, 1, banks=("GOOD",))
+    different_bank = complete_dictionary(path, Transport('{"WANT":null}'), 1, banks=("WANT",))
+    assert different_bank["selected_entry_ids"] == ["a"]
+    different_protocol = complete_dictionary(
+        path, VersionedTransport("protocol-two", '{"GOOD":null}'), 1, banks=("GOOD",)
+    )
+    assert different_protocol["selected_entry_ids"] == ["a"]
+    assert complete_dictionary(path, first, 1, banks=("GOOD",))["selected_entry_ids"] == ["b"]
+
+
+def test_priority_changes_do_not_revisit_a_definition_before_untouched_entries(tmp_path):
+    path, _ = built(tmp_path, {"a": {"GOOD": (-1, 1), "WANT": (-1, 0, 1)}, "b": {"WANT": (-1, 0, 1)}})
+    first = complete_dictionary(path, Transport(), 1, max_calls_per_entry=1)
+    assert first["selected_entry_ids"] == ["a"]
+    second = complete_dictionary(path, Transport(), 1, max_calls_per_entry=1)
+    assert second["selected_entry_ids"] == ["b"]
+    third = complete_dictionary(path, Transport(), 1, max_calls_per_entry=1)
+    assert third["selected_entry_ids"] == ["a"]
+    assert third["scheduling"]["wrapped"] is True
+
+
+@pytest.mark.parametrize(
+    "options",
+    [
+        {"max_model_calls": 0},
+        {"max_model_calls": True},
+        {"max_calls_per_entry": 0},
+        {"entry_ids": ("missing",)},
+        {"banks": ("BAD",)},
+        {"banks": ()},
+        {"entry_ids": ["d"]},
+    ],
+)
+def test_invalid_selection_and_budgets_do_not_call_transport(tmp_path, options):
+    path, _ = built(tmp_path)
+    arguments = {"max_model_calls": 1, **options}
+    with pytest.raises(ValueError):
+        complete_dictionary(path, Transport(lambda *_: pytest.fail("invalid options reached transport")), **arguments)
+
+
+@pytest.mark.parametrize("timeout", [None, 300])
+def test_real_cli_parsing_and_completion_with_mocked_transport(tmp_path, monkeypatch, capsys, timeout):
+    from GSE.curation.lexicon_builder import residual
+
+    path, _ = built(tmp_path)
+    report = tmp_path / "report.json"
+    transport = Transport()
+    monkeypatch.setattr(transport, "pin", lambda: {"model": "fixture-model", "digest": "a" * 64}, raising=False)
+
+    def make_transport(model, **kwargs):
+        assert kwargs == ({"timeout": timeout} if timeout is not None else {})
+        return transport
+
+    monkeypatch.setattr(residual, "OllamaTransport", make_transport)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "GSE",
+            "--lexicon-db",
+            str(path),
+            "complete",
+            "--priority",
+            "constraint",
+            "--model",
+            "fixture-model",
+            "--max-model-calls",
+            "1",
+            "--max-calls-per-entry",
+            "1",
+            "--entry-id",
+            "d",
+            "--bank",
+            "GOOD",
+            "--report",
+            str(report),
+        ]
+        + (["--model-timeout", str(timeout)] if timeout is not None else []),
+    )
+    commands.main()
+    result = json.loads(capsys.readouterr().out)
+    assert result == json.loads(report.read_text())
+    assert result["outcomes"] == {"ASSIGNED": 1}
+    assert validate_build(path)["code"] == "REPLAY_VALIDATED"
+
+
+WHOLE tests/test_lexicon_builder_rule_migration.py 
+"""Real export/audit/admission/migration boundary; synthetic semantics only."""
+
+import json
+import sqlite3
+
+import pytest
+
+from GSE.curation.lexicon_builder.completion import complete_dictionary
+from GSE.curation.lexicon_builder.engine import Assertion
+from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle, Observation
+from GSE.curation.lexicon_builder.model_receipts import read_model_receipts
+from GSE.curation.lexicon_builder.pipeline import build_dictionary
+from GSE.curation.lexicon_builder.residual import _request_id
+from GSE.curation.lexicon_builder.reviewed_export import export_reviewed_input
+from GSE.curation.lexicon_builder.reviewed_patterns import run_workflow
+from GSE.curation.lexicon_builder.rule_admission import admit_rule
+from GSE.curation.lexicon_builder.rule_migration import migrate_rule
+from GSE.curation.lexicon_builder.storage import read_entries
+from GSE.curation.lexicon_builder.validation import validate_build
+from scripts.migrate_lexicon_rule import main
+
+
+class Transport:
+    identity = "synthetic-rule-migration-test"
+
+    def __init__(self, value=1):
+        self.value = value
+
+    def __call__(self, payload, schema):
+        return json.dumps({payload["bank"]: self.value})
+
+
+def packet(tmp_path):
+    path = tmp_path / "source.db"
+    definitions = tuple(
+        Definition(x, x, "noun" if x == "b" else "verb", "synthetic test definition") for x in ("a", "b", "c", "d", "h")
+    )
+    observations = tuple(
+        Observation(d.entry_id, "wordnet_hierarchy", d.entry_id, "taxonomy", {}, "lexical") for d in definitions
+    )
+    native = (Assertion("ALIVE", 0, "wordnet_hierarchy", "a", "taxonomy"),)
+    build_dictionary(EvidenceBundle(definitions, observations, native, ()), path)
+    for entry, bank, value in (("a", "WANT", -1), ("a", "BE", 0), ("b", "WANT", 0), ("d", "WANT", 1)):
+        report = complete_dictionary(path, Transport(value), 1, entry_ids=(entry,), banks=(bank,))
+        assert report["outcomes"] == {"ASSIGNED": 1}
+    with sqlite3.connect(path) as conn:
+        receipt = read_model_receipts(conn)["d"][0]
+    selection = {
+        "format": "GSE.reviewed-pattern-selection/1",
+        "discovery_entry_ids": ["d"],
+        "audit_entry_ids": ["h"],
+        "reviews": [
+            {
+                "request_id": receipt["request_id"],
+                "review": {
+                    "review_id": "synthetic-review",
+                    "reviewer": "test-fixture",
+                    "code": "ACCEPTED",
+                    "receipt_sha256": _request_id(receipt),
+                    "source_refs": ["synthetic:test-only"],
+                    "rationale": "Fixture authority, not linguistic gold.",
+                },
+            }
+        ],
+        "guarded_candidates": [
+            {
+                "antecedent": None,
+                "consequent": ["WANT", 1],
+                "guards": [["pos", "verb"]],
+                "absent_evidence": [],
+                "warrant": {
+                    "warrant_id": "synthetic-law",
+                    "kind": "DEFINITIONAL_DERIVATION",
+                    "source_refs": ["synthetic:test-only"],
+                    "statement": "Synthetic fixture only.",
+                    "review_id": "fixture-law-review",
+                    "reviewer": "test-fixture",
+                },
+            }
+        ],
+    }
+    exported = export_reviewed_input(path, selection)
+    input_path, audit_path = tmp_path / "input.json", tmp_path / "audit.json"
+    input_path.write_text(json.dumps(exported["input"]))
+    audit = run_workflow(input_path, Transport(), max_calls=1)
+    audit_path.write_text(json.dumps(audit))
+    candidate = audit["candidates"][0]
+    review = {
+        "rule_id": candidate["relation"]["rule_id"],
+        "warrant_sha256": candidate["warrant_sha256"],
+        "review_id": "synthetic-admission",
+        "reviewer": "test-fixture",
+        "decision": "APPROVE_DEFINITIONAL_RULE",
+        "rationale": "Synthetic migration fixture, not a real word rule.",
+        "source_refs": ["synthetic:test-only"],
+    }
+    return path, input_path, audit_path, review
+
+
+def entries(path):
+    with sqlite3.connect(path) as conn:
+        return {row["entry_id"]: row for row in read_entries(conn)}
+
+
+def test_real_cli_migration_archives_affected_chain_preserves_unaffected_and_unknown(tmp_path, monkeypatch):
+    path, input_path, audit_path, review = packet(tmp_path)
+    output, report_path, review_path = (tmp_path / name for name in ("migrated.db", "report.json", "review.json"))
+    review_path.write_text(json.dumps(review))
+    before = path.read_bytes()
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "migrate",
+            "--candidate",
+            str(path),
+            "--output",
+            str(output),
+            "--input",
+            str(input_path),
+            "--audit",
+            str(audit_path),
+            "--review",
+            str(review_path),
+            "--report",
+            str(report_path),
+        ],
+    )
+    assert main() == 0
+    result = json.loads(report_path.read_text())
+    assert result["archived_model_receipts"] == 3
+    assert result["retained_model_receipts"] == 1
+    assert result["postflight"]["code"] == "REPLAY_VALIDATED"
+    assert result["active_pointer_changed"] is False
+    assert path.read_bytes() == before
+    states = entries(output)
+    assert states["a"]["assignments"]["WANT"] == 1
+    assert states["a"]["assignments"]["ALIVE"] == 0
+    assert states["a"]["domains"]["BE"] == [-1, 0, 1]
+    assert states["a"]["domains"]["FEEL"] == [-1, 0, 1]
+    assert states["b"]["assignments"]["WANT"] == 0
+    with sqlite3.connect(output) as conn:
+        assert set(read_model_receipts(conn)) == {"b"}
+        event = json.loads(conn.execute("SELECT payload FROM rule_migrations").fetchone()[0])
+        assert [a["assertion"]["bank"] for a in event["archived"][0]["receipts"]] == ["WANT", "BE"]
+        for table in ("rule_versions", "model_rule_versions", "rule_migrations"):
+            with pytest.raises(sqlite3.IntegrityError, match="APPEND_ONLY"):
+                conn.execute(f"DELETE FROM {table}")
+    assert validate_build(output)["code"] == "REPLAY_VALIDATED"
+    complete_dictionary(output, Transport(0), 1, entry_ids=("a",), banks=("BE",))
+    assert validate_build(output)["code"] == "REPLAY_VALIDATED"
+
+
+@pytest.mark.parametrize("target", ["audit", "review", "input"])
+def test_tampered_admission_never_creates_output(tmp_path, target):
+    path, input_path, audit_path, review = packet(tmp_path)
+    if target == "review":
+        review["warrant_sha256"] = "0" * 64
+    else:
+        file = audit_path if target == "audit" else input_path
+        raw = json.loads(file.read_text())
+        if target == "audit":
+            raw["candidates"][0]["audits"][0]["raw_output"] = '{"WANT":0}'
+        else:
+            raw["entries"][0]["definition"]["definition"] = "tampered source"
+        file.write_text(json.dumps(raw))
+    output = tmp_path / "failed.db"
+    before = path.read_bytes()
+    with pytest.raises(ValueError):
+        migrate_rule(path, output, input_path, audit_path, review)
+    assert path.read_bytes() == before
+    assert not output.exists()
+
+
+def test_unreviewed_or_abstained_audit_cannot_be_admitted(tmp_path):
+    _, input_path, audit_path, review = packet(tmp_path)
+    audit_path.write_text(json.dumps(run_workflow(input_path, Transport(None), max_calls=1)))
+    with pytest.raises(ValueError, match="AUDIT_INCOMPLETE"):
+        admit_rule(input_path, audit_path, review)
+
+
+def test_corpus_counterexample_refuses_entire_migration(tmp_path):
+    path, input_path, audit_path, review = packet(tmp_path)
+    # New hard source evidence outside discovery/audit defeats the synthetic law.
+    with sqlite3.connect(path) as conn:
+        from GSE.curation.lexicon_builder.completion import _entry
+        from GSE.curation.lexicon_builder.foundation import BANKS, definition_context
+        from GSE.curation.lexicon_builder.resolution import resolve_dictionary
+        from GSE.curation.lexicon_builder.storage import store_entry
+        from GSE.curation.lexicon_builder.validation import _metadata, _relations
+
+        definition, assertions, restrictions, hierarchy = _entry(conn, "c")
+        assertions = assertions + (Assertion("WANT", -1, "wordnet_hierarchy", "c", "taxonomy"),)
+        resolved = resolve_dictionary(
+            BANKS,
+            assertions,
+            _relations(_metadata(conn, "relations")),
+            definition_context("verb"),
+            evidence_banks=BANKS,
+        )
+        store_entry(conn, definition, resolved, assertions, hierarchy, domain_restrictions=restrictions)
+    preflight = validate_build(path)
+    assert preflight["code"] == "REPLAY_VALIDATED", preflight["mismatches"]
+    output = tmp_path / "failed.db"
+    with pytest.raises(ValueError, match="SCOPE_COUNTEREXAMPLE"):
+        migrate_rule(path, output, input_path, audit_path, review)
+    assert not output.exists()
+    assert not list(tmp_path.glob(".gse-migration-*"))
+
+
+def test_existing_destination_and_missing_candidate_are_refused(tmp_path):
+    path, input_path, audit_path, review = packet(tmp_path)
+    with pytest.raises(ValueError, match="OUTPUT_MUST_BE_NEW"):
+        migrate_rule(path, path, input_path, audit_path, review)
+    with pytest.raises(ValueError, match="BUILD_NOT_FOUND"):
+        migrate_rule(tmp_path / "missing.db", tmp_path / "new.db", input_path, audit_path, review)
+
+
+def test_tampered_historical_rule_version_is_rejected(tmp_path):
+    path, input_path, audit_path, review = packet(tmp_path)
+    output = tmp_path / "new.db"
+    migrate_rule(path, output, input_path, audit_path, review)
+    with sqlite3.connect(output) as conn:
+        conn.execute("DROP TRIGGER rule_versions_no_update")
+        conn.execute("UPDATE rule_versions SET payload='[]'")
+    with pytest.raises(ValueError, match="VERSION_HASH_MISMATCH"):
+        validate_build(output)
+
+
+UNIT rule_changes 
+def rule_changes(before, after):
+    """Approved relations whose applicability or consequence may have changed."""
+    old = {rule.rule_id: rule for rule in before}
+    new = {rule.rule_id: rule for rule in after}
+    return (
+        tuple(rule for rule in before if rule.approved and new.get(rule.rule_id) != rule),
+        tuple(rule for rule in after if rule.approved and old.get(rule.rule_id) != rule),
+    )
+
+UNIT touches_scope 
+def touches_scope(relations, context):
+    return any(all(context.get(key) == value for key, value in rule.guards) for rule in relations)

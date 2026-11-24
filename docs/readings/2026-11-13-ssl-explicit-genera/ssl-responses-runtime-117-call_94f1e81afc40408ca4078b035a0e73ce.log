@@ -1,0 +1,27 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 34%]
+...............................................F........................ [ 45%]
+........................................................................ [ 57%]
+........................................................................ [ 68%]
+........................................................................ [ 80%]
+........................................................................ [ 91%]
+.....................................................                    [100%]
+=================================== FAILURES ===================================
+_ TestPossessiveNounNotPromotedToVerb.test_genuine_buried_verb_still_promotes __
+
+self = <test_symbolic_expression.TestPossessiveNounNotPromotedToVerb object at 0x112194550>
+encoder = <GSE.api.encoder.GSEEncoder object at 0x12f8381b0>
+
+    def test_genuine_buried_verb_still_promotes(self, encoder):
+        # POSITIVE control: the guard must not neuter promotion — a real buried verb flanked by entities (no
+        # possessive) is still promoted ("Duncan is a king" promotes the copula, the module's own cited case).
+        doc = encoder.nlp("Duncan is a king.")
+>       assert verbs_to_promote(doc)
+E       assert set()
+E        +  where set() = verbs_to_promote(<GSE.nlp.native.NativeDoc object at 0x126098d90>)
+
+tests/test_symbolic_expression.py:306: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_symbolic_expression.py::TestPossessiveNounNotPromotedToVerb::test_genuine_buried_verb_still_promotes
+1 failed, 628 passed in 73.36s (0:01:13)

@@ -375,15 +375,29 @@ class LexicalGrounding:
             return {"code": "NO_NOMINAL_CONTEXT"}
         context_nodes = set()
         witnessed_words = set()
+        context_senses = {}
+        context_entry_ids = {}
         for word in sorted(context):
             alternatives = self._senses(word)
             if len(alternatives) == 1:
-                context_nodes.update(next(iter(alternatives.values())).nodes)
+                native_sense = next(iter(alternatives.values()))
+                context_senses[word] = native_sense
+                context_entry_ids[word] = next(iter(alternatives))
+                context_nodes.update(native_sense.nodes)
                 witnessed_words.add(word)
-        support = {
-            key: sorted(sense.anchors & witnessed_words)
+        # An independently unambiguous context noun can name the very same
+        # native synset (a symbol and its expanded name, for example). This is
+        # native lexical identity, not mere ancestry or a first-sense guess.
+        # Keep the ordinary production type-thread agreement check below.
+        synonym_support = {
+            key: sorted(word for word, native in context_senses.items() if native.synset == sense.synset)
             for key, sense in senses.items()
-            if sense.anchors & witnessed_words
+            if any(native.synset == sense.synset for native in context_senses.values())
+        }
+        support = {
+            key: sorted((sense.anchors & witnessed_words) | set(synonym_support.get(key, ())))
+            for key, sense in senses.items()
+            if sense.anchors & witnessed_words or key in synonym_support
         }
         common = set.intersection(*(set(sense.nodes) for sense in senses.values())) if len(senses) > 1 else set()
         scores = sorted(
@@ -417,6 +431,14 @@ class LexicalGrounding:
                 thread = None
         anchor = next(iter(support)) if len(support) == 1 else None
         evidence = {"native_anchor_support": support, "type_coherence": dict((key, score) for score, key in scores)}
+        if synonym_support:
+            evidence["native_synonym_support"] = {
+                key: {
+                    "synset": senses[key].synset,
+                    "context_entry_ids": {word: context_entry_ids[word] for word in words},
+                }
+                for key, words in synonym_support.items()
+            }
         if thread:
             evidence["type_thread_candidate"] = thread
         if not support:

@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-composed-receipt-trace -- .venv/bin/python - <<'PY'\nfrom pathlib import Path\nprint(Path('tests/test_runtime_native_composed_controls.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}
