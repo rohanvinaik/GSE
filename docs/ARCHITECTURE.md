@@ -771,19 +771,32 @@ internals are out of scope for *using* GSE.
 ## 7. Drift map
 
 Per the working agreement, sources that contradict the functional core are
-drift. Confirmed drift / not on the functional path:
+drift. Re-verified on 2026-11-23 against an import graph and a runtime trace of
+consumer-style calls; the method and full evidence are in
+[`openspec/changes/organize-package-by-subsystem/design.md`](../openspec/changes/organize-package-by-subsystem/design.md).
+"Observed" means the module ran in that trace.
 
 | Item | Status | Why |
 |---|---|---|
 | `docs/THEORY.md` | **invalid** | Declared known-invalid; not a source. |
 | root `README.md` | **stale** | Claims 10,000-dim vectors, `GSE.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `GSE.api` core. |
-| `data/lexicon.db` + root `lexicon.db` | **purged 2026-06-20** | The degenerate bag-of-words DB (`dog≈murder`) and the 0-row stub were deleted. The live DB is `data/lexicon_clean.db` (sparse, definitional). |
-| `GSE/__init__.py` top-level exports | **misleading** | Re-exports `GSEPipeline`, `merkle`, `patterns`, etc. The functional `GSE.api`/`GSE.symbolic` core does **not** import these. Docstring says "~45 primitives / 8 banks" — banks correct, count understated (74 word-scale primitives live). |
+| `data/lexicon.db` | **purged 2026-06-20** | The degenerate bag-of-words DB (`dog≈murder`). The live lexicon is the one `data/lexicon_active.json` names. |
+| root `lexicon.db` | **stub, still tracked** | A 0-row database from the initial commit; old `GSE.curation` code (`curation/__init__.py`, `curation/cli/commands.py`) still defaults to it. |
+| `GSE/__init__.py` top-level exports | **misleading** | Lazily exports `GSEPipeline`, `merkle`, `patterns` and `encoders`; this is the only route by which the legacy stack is reachable. |
 | `GSE/_archive/` | **archived** | Self-evidently old. Exclude. |
-| `GSE/pipeline_v2.py` (`GSEPipeline`) | **older stack** | A separate entry point built on the Merkle lexicon + learning networks; not the path the positioning claims run through. |
-| `GSE/merkle/` | **older stack** | Merkle-tree lexicon. The functional encoder reads a flat SQLite lexicon instead. |
-| `GSE/patterns/` | **contradicts core** | Hebbian "learning networks" — adaptation conflicts with the determinism guarantee at the semantic layer. |
-| `GSE/encoders/`, `GSE/nlp/sentence_parser.py`, `GSE/scales/`, `GSE/composition/`, `GSE/parsing/`, `GSE/evaluation/`, `GSE/teaching/`, `GSE/profiles/`, `GSE/orchestration/`, `GSE/graph/` | **not on the spine** | None are imported by `GSE.api`/`GSE.symbolic`/`GSE.cli`. Older or auxiliary; treat as drift unless wired back in. |
+| `GSE/pipeline_v2.py`, `GSE/merkle/`, `GSE/patterns/`, `GSE/teaching/`, `GSE/profiles/` | **older stack, never observed** | The Hebbian learning-network design of the June 14 import; adaptation conflicts with the determinism guarantee. Last substantive change 2026-06-14 for nearly all modules. |
+| `GSE/parsing/`, `GSE/composition/` | **superseded, test-only** | Replaced by the native front end (`GSE/nlp/native.py`) and the encoder's own composition. |
+| `GSE/curation/llm/`, `decomposition/`, `constraint_aggregation/`, `pipeline/`, `validation/` | **superseded, test-only or unreferenced** | Replaced by `GSE/curation/lexicon_builder`; their only other consumer is the uninstalled `daemon/`. |
+| `GSE/evaluation/`, `GSE/verb_templates.py`, `GSE/benchmarks/`, `GSE/cache.py`, `GSE/orchestration/` | **not on any consumer path** | Tooling, test-only or unreferenced. |
+| `GSE/demo/` other than `reasoning.py` | **unreferenced** | |
+| `GSE/cli.py` | **dead** | The `GSE/cli/` package shadows it on import. |
+| `GSE/lexicon_builder/` and `GSE/curation/lexicon_builder/` | **two constructors, open decision** | Built in parallel (Oct 24–26 and Oct 29–Nov 23) with different record formats; see [`LEXICON_CONSTRUCTION_DESIGN.md`](program/LEXICON_CONSTRUCTION_DESIGN.md). Only the upstream release reader is on the product path. |
+| `GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection` | **imported by SquishOS, not published** | SquishOS guards both imports, so the gap is silent. |
+
+Corrections to the June version of this table: `GSE/encoders/`, `GSE/scales/` and
+`GSE/nlp/sentence_parser.py` are on consumer paths. The text-structure encoder and
+SoM genre detector serve StartupForge, CareerForge and register detection; the
+syntactic scale serves SquishOS; the sentence parser loads during encoding.
 
 The older planning docs (`UNIFIED_ARCHITECTURE.md`, `SYSTEM_SUMMARY.md`, `STATUS.md`,
 `GSE_implementation_spec.md`, `GSE_agent_instructions.md`, `GSE_otp_genomevault_synthesis.md`,
@@ -797,35 +810,26 @@ unverified) predate the current core — defer to this document and the code.
 
 ---
 
-## 8. Module reference (functional core only)
+## 8. Module reference (by subsystem)
 
-| Module | Responsibility |
-|---|---|
-| `GSE/primitives_v2.py` | Banks, dimensions, bipolar defs, primitive registries, the QUANTITY/INTENSITY/CERTAINTY hierarchies, `negate_decomposition` |
-| `GSE/vectors_v2.py` | `SparseVector`, Hadamard-OTP bases, `bind`/`bundle`/`permute`, `encode_hierarchy` |
-| `data/lexicon_clean.db` | Precompiled lemma → primitive decompositions (the live, default data) |
-| `GSE/nlp/native.py` | Deterministic front-end: tokenize + lemma + coarse-POS, arc-free clause structure, the `'s` voice-mode |
-| `GSE/nlp/morphology.py` · `GSE/nlp/contractions.py` | Word-scale operations: comparative/superlative + negation; the `'s`/contraction spell-check |
-| `GSE/nlp/spellcheck.py` · `spellcheck_context.py` · `spellcheck_repl.py` | **SymbolicSpellCheck** (Layer 5.5): noisy-channel corrector + grounding/shape gates + validity sources; context layer; REPL |
-| `GSE/mcp/spell_server.py` | SymbolicSpellCheck MCP server (tool `spell_suggest`) |
-| `GSE/nlp/data/` · `GSE/curation/build_misspellings.py` · `build_wordlist.py` | Spell-check data (committed allowlist + misspellings table) and offline builders |
-| `GSE/api/encoder.py` | `GSEEncoder`: text → `OperationTrace` |
-| `GSE/api/decoder.py` | `GSEDecoder`: vector → `DecodedSemantics`, similarity |
-| `GSE/api/trace.py` | `OperationTrace`/`TokenTrace`/`OperatorTrace` + decoded types |
-| `GSE/api/errors.py` | Exception hierarchy |
-| `GSE/symbolic/expression.py` | AST + `from_trace` |
-| `GSE/symbolic/resolution.py` | `resolve`: phrases → entities, pronoun binding |
-| `GSE/symbolic/operators.py` | Operator dispatch + `evaluate_tree` |
-| `GSE/symbolic/predicates.py` | Predicate dataclasses |
-| `GSE/symbolic/queries.py` | `entities`/`predicates`/`axis_of_comparison`/swap checks |
-| `GSE/symbolic/serialization.py` | Symbolic-tree JSON round-trip |
-| `GSE/symbolic/templating.py` | `substitute` |
-| `GSE/symbolic/coherence.py` | Coherence gate: degraded-clause / collapse detection (abstention + dogfooding signal) |
-| `GSE/discourse/**` | L2 register dispatcher: `registers` (taxonomy), `profile` (text features), `router`/`nested_router` (the SoM) |
-| `scripts/flywheel.py` · `audit_l2_parses.py` · `build_l2_corpus.py` | The dogfooding loop: rebuild corpus → train dispatcher → audit failure shapes |
-| `GSE/cli/main.py` | CLI over the API |
-| `GSE/verification/symbolic_proof_suite.py` | Line-154 end-to-end proofs |
-| `GSE/verification/proof_suite.py` | HDC-level proof suite (`GSEProofSuite`) |
-| `GSE/curation/**`, `scripts/**` | Offline lexicon construction (build-time only) |
-</content>
-</invoke>
+Verified 2026-11-23 by import graph and runtime trace. Per-module status, dependency
+problems and the proposed reorganization are in
+[`openspec/changes/organize-package-by-subsystem/design.md`](../openspec/changes/organize-package-by-subsystem/design.md).
+
+| Subsystem | Job | Where it lives today | Runtime status |
+|---|---|---|---|
+| substrate | Sparse vectors, Hadamard-OTP bases, primitive registry, scales | `vectors_v2.py`, `primitives_v2.py`, `scale_definition.py`, `prime_projection.py`, `scales/`, `namespace.py` | observed |
+| lexicon | Read the active lexicon and lexical facts | `lexicon_resource.py`, `lexical_evidence.py`, `frequency.py`, `lexicon/`, `curation/schema.py`, `curation/personal_dictionary.py`, `curation/frequency_integration.py` | observed |
+| parse | Deterministic front end: tokens, lemmas, POS, morphology, contractions, clause linkers | `nlp/native.py`, `morphology.py`, `contractions.py`, `linkers.py`, `sentence_parser.py`, `healing_resources.py` | observed |
+| encode | Text → `OperationTrace` and back; the CLI | `api/`, `structure.py`, `cli/` | observed |
+| symbolic | Trace → typed claims: expression, resolution, operators, modality, claims, inference, grounding | `symbolic/` (except the bridge modules) | observed |
+| document | Multi-sentence reading and multiscale grounding | `discourse/speech.py`, `intake.py`, `profile.py`; `cassettes/` | observed (`resolve_document` needs `data/genealogy.db`) |
+| spellcheck | SymbolicSpellCheck: correction, healing, keyboard HDC, MCP server, data builders | `nlp/spellcheck*.py`, `nlp/heal.py`, `nlp/hdc_speller.py`, `mcp/`, `curation/build_spell*`, `build_misspellings.py`, `build_hdc_speller.py`, `build_wordlist.py` | observed |
+| bridge | Genesis/Regenesis contracts: emit, variables, statement healer, narrative compression | `symbolic/emit.py`, `variables.py`, `healer/`, `narrative.py` | observed |
+| apps | Register/genre classification (trained SoM router), Janus figures, LSAT-style reasoning showcase | `discourse/registers.py`, `router.py`, `nested_router.py`, `infer.py`; `encoders/`; `pragmatics/`; `demo/reasoning.py` | observed |
+| verification | Proof suites | `verification/` | observed |
+| lexicon construction | Offline: sources → definition database → active pointer | `curation/lexicon_builder/`, `lexicon_builder/`, `curation/external_sources/`, `curation/cli/`, `curation/build_clean_*.py`, `curation/lexicon_db.py` | offline tooling |
+| legacy | The June 14 learning-network stack and superseded tools (§7) | see §7 | never observed |
+
+Data: `data/lexicon_active.json` names the active lexicon. As of 2026-11-23 that is
+`data/lexicon_builder/2026-11-12/sparse-release-021.db`, which replays 401,596 entries with 0 mismatches.
