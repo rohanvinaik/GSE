@@ -779,7 +779,7 @@ consumer-style calls; the method and full evidence are in
 | Item | Status | Why |
 |---|---|---|
 | `docs/THEORY.md` | **invalid** | Declared known-invalid; not a source. |
-| root `README.md` | **stale** | Claims 10,000-dim vectors, `GSE.pipeline.load_pipeline`, `data/basis.msgpack`, a Merkle-coherence `process()` pipeline. None match the 8192-dim `GSE.api` core. |
+| root `README.md` | **partly current** | Its builder section and default-lexicon sentence were corrected on 2026-11-23. It still presents `GSEPipeline` as a separate geometric interface; that stack is an unfinished experiment (below), not a supported interface. |
 | `data/lexicon.db` | **purged 2026-06-20** | The degenerate bag-of-words DB (`dog≈murder`). The live lexicon is the one `data/lexicon_active.json` names. |
 | root `lexicon.db` | **stub, still tracked** | A 0-row database from the initial commit; old `GSE.curation` code (`curation/__init__.py`, `curation/cli/commands.py`) still defaults to it. |
 | `GSE/__init__.py` top-level exports | **misleading** | Lazily exports `GSEPipeline`, `merkle`, `patterns` and `encoders`; this is the only route by which the legacy stack is reachable. |
@@ -788,10 +788,11 @@ consumer-style calls; the method and full evidence are in
 | `GSE/parsing/`, `GSE/composition/` | **off the live path, not confirmed dead** | The live path uses the native front end (`GSE/nlp/native.py`) and the encoder's own composition instead; nothing shows these were retired rather than set aside. Test-only. |
 | `GSE/curation/llm/` | **unfinished experiment, kept** | LLM-assisted decomposition and the Qwen client, part of the unfinished custom-model-training work (owner, 2026-11-23). `ollama_client.py` is also the current constructor's model transport. Test-only otherwise. |
 | `GSE/curation/decomposition/`, `pipeline/`, `validation/`, `constraint_aggregation/` | **old build tools** | Used only by the offline `build_clean_layer2.py`, the old curation CLI (`curation/cli/commands.py`), scripts and, for `constraint_aggregation`, the uninstalled `daemon/`. |
-| `GSE/evaluation/`, `GSE/verb_templates.py`, `GSE/benchmarks/`, `GSE/cache.py`, `GSE/orchestration/` | **not on any consumer path** | Tooling, test-only or unreferenced. |
+| `GSE/evaluation/`, `GSE/verb_templates.py`, `GSE/benchmarks/` | **not on any consumer path** | Tooling, test-only or unreferenced. |
 | `GSE/demo/` other than `reasoning.py` | **unreferenced** | |
-| `GSE/cli.py` | **dead, to archive** | The `pipeline_v2` CLI; the `GSE/cli/` package shadows it, so it can never be imported or run. |
-| `GSE/lexicon_builder/` | **retired by the owner (2026-11-23), to archive** | The upstream constructor (Oct 24–26). `GSE/curation/lexicon_builder/` is the one constructor: it imports nothing from the upstream package and shares no function with it (checked with names and literals stripped). No data in `data/` was built by the upstream constructor. Its contract stays in [`LEXICON_CONSTRUCTION_DESIGN.md`](program/LEXICON_CONSTRUCTION_DESIGN.md) Part II as a record. |
+| `GSE/cli.py` | **archived 2026-11-23** (`GSE/_archive/cli.py`) | The `pipeline_v2` CLI; the `GSE/cli/` package shadowed it, so it could never be imported, and five of its six commands were broken (card #152). |
+| Eight scripts importing archived modules (`apply_manual_fixes`, `deep_mind_analysis`, `enhance_from_frequency_list`, `import_decompositions`, `llm_decompose`, `semantic_playground`, `train_cascade`, `validate_lexicon`) | **archived 2026-11-23** (`scripts/_archive/`) | Each imported, at module level, a module that exists only in `GSE/_archive/`, so none could start (card #152). |
+| `GSE/lexicon_builder/` | **archived 2026-11-23 by the owner's decision** (`GSE/_archive/lexicon_builder/`) | The upstream constructor (Oct 24–26). `GSE/curation/lexicon_builder/` is the one constructor: it imported nothing from the upstream package and shared no function with it (checked with names and literals stripped). Its 32 tests, its gate (`scripts/lexicon_gate.sh`, `lexicon_frozen_build.py`) and its 7 Detective-generated tests moved to the archives with it. `GSE-lexicon` now runs the retained builder's CLI. Flat-format rows its `release` command wrote (`source = 'gse_symbolic_release'`) are refused as `RETIRED_RELEASE_FORMAT`, never read as ordinary rows; no lexicon in `data/` contains any. Its contract stays in [`LEXICON_CONSTRUCTION_DESIGN.md`](program/LEXICON_CONSTRUCTION_DESIGN.md) Part II as a record. |
 | `GSE/curation/build_clean_*.py`, `decomposition/`, `lexicon_db.py` | **a third constructor, open decision** | Builds the flat `data/lexicon_clean.db`, which the runtime falls back to without an active pointer, CI's tests use, and [`LEXICON_REBUILD.md`](LEXICON_REBUILD.md) documents. |
 | `GSE.discourse.document.claim_records`, `GSE.nlp.spellcheck.spelling_protection` | **imported by SquishOS, not published** | SquishOS guards both imports, so the gap is silent. |
 
@@ -830,7 +831,7 @@ problems and the proposed reorganization are in
 | bridge | Genesis/Regenesis contracts: emit, variables, statement healer, narrative compression | `symbolic/emit.py`, `variables.py`, `healer/`, `narrative.py` | observed |
 | apps | Register/genre classification (trained SoM router), Janus figures, LSAT-style reasoning showcase | `discourse/registers.py`, `router.py`, `nested_router.py`, `infer.py`; `encoders/`; `pragmatics/`; `demo/reasoning.py` | observed |
 | verification | Proof suites | `verification/` | observed |
-| lexicon construction | Offline: sources → definition database → active pointer | `curation/lexicon_builder/`, `lexicon_builder/`, `curation/external_sources/`, `curation/cli/`, `curation/build_clean_*.py`, `curation/lexicon_db.py` | offline tooling |
+| lexicon construction | Offline: sources → definition database → active pointer | `curation/lexicon_builder/` (the one builder), `curation/external_sources/`, `curation/cli/` (`GSE-lexicon`); the flat-lexicon `curation/build_clean_*.py` and `curation/lexicon_db.py` (§7) | offline tooling |
 | legacy | The June 14 learning-network stack and superseded tools (§7) | see §7 | never observed |
 
 Data: `data/lexicon_active.json` names the active lexicon. As of 2026-11-23 that is

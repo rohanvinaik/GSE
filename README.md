@@ -14,22 +14,18 @@ uv run python -m GSE.cli encode "The dog runs." --format json
 uv run python -m GSE.cli compare "big" "small" --format json
 ```
 
-The encoder's default lexicon is `data/lexicon_clean.db`, resolved relative to the checkout. Optional spelling, frequency and rating resources have independent availability states and are never downloaded during reading.
+The encoder's default lexicon is the build named by `data/lexicon_active.json`, resolved relative to that pointer; `data/lexicon_clean.db` is read only when the pointer is absent. Optional spelling, frequency and rating resources have independent availability states and are never downloaded during reading.
 
-## Symbolic lexicon builder
+## Lexicon builder
 
-The builder uses a fixed 72-prime, 58-coordinate basis. Ordinary builds call no model and preserve written zero, silence, unresolved domains and conflicts separately.
+GSE has one lexicon builder, `GSE/curation/lexicon_builder/`. Its command line is `GSE-lexicon` (the same as `python -m GSE.curation.cli.commands`); continuing learning runs through `scripts/run_lexicon_epochs.py`. The encoder reads a build by default only after `publish --destination … --gold …` validates a snapshot of it and writes the active pointer; an explicit `db_path` bypasses activation.
 
 ```bash
-uv run GSE-lexicon prime-proof --output /tmp/prime-proof.json
-uv run GSE-lexicon build --symbolic-only --all-source-words --output data/symbolic-build
-uv run GSE-lexicon release --input data/symbolic-build --output data/lexicon_symbolic.db
-uv run GSE-lexicon release-audit --build-dir data/symbolic-build --output data/symbolic-audit
+uv run GSE-lexicon --help
+uv run GSE-lexicon catalog --inventory    # the saved primary chart; no build needed
 ```
 
-Native resources are local inputs with independent availability and hash records. The SQLite release stores full partial definitions and construction homes. Consume it explicitly with `GSEEncoder(db_path="data/lexicon_symbolic.db")`; sense alternatives and unknown cells remain in lexical evidence. Model work requires an explicit diagnosed queue and a call budget.
-
-The [basis contract](docs/program/LEXICON_BASIS_CONTRACT.md) states the authored meanings and projection limits. The [execution packet](docs/verification/lexicon-rebuild/execution-2026-10-25/REPORT.md) records measured coverage, replay, gates and remaining work. A successful build does not certify that ordinary word definitions are complete.
+The construction contract is [`docs/program/LEXICON_CONSTRUCTION_DESIGN.md`](docs/program/LEXICON_CONSTRUCTION_DESIGN.md). The earlier upstream constructor is archived in `GSE/_archive/lexicon_builder/`; its contract is kept as Part II of that document. A successful build does not certify that ordinary word definitions are complete.
 
 ## Public Python paths
 

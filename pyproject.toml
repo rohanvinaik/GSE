@@ -6,9 +6,6 @@ build-backend = "setuptools.build_meta"
 include = ["GSE*"]
 exclude = ["tests*", "scripts*", "data*", "daemon*", "logs*", "prompts*"]
 
-[tool.setuptools.package-data]
-"GSE.lexicon_builder" = ["*.json"]
-
 [project]
 name = "GSE"
 version = "2.0.0"
@@ -42,7 +39,7 @@ spellcheck-mcp = [
 
 [project.scripts]
 GSE-spellcheck-mcp = "GSE.mcp.spell_server:main"
-GSE-lexicon = "GSE.lexicon_builder.cli:main"
+GSE-lexicon = "GSE.curation.cli.commands:main"  # the one lexicon builder (GSE/curation/lexicon_builder)
 
 [dependency-groups]
 dev = [

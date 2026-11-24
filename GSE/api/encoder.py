@@ -953,12 +953,6 @@ class GSEEncoder:
             else {}
         )
 
-        if selected.get("source") == "gse_symbolic_release":
-            # This is the validated projection from the same file identity as the
-            # trace, including after an atomic release replacement. Re-querying
-            # this encoder's older SQLite connection could pair different rows.
-            return dict(evidence["primitives"]), {}, comp_meta
-
         # Get word-scale primitives
         self.cursor.execute(
             """

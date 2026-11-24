@@ -25,6 +25,9 @@ from GSE.prime_projection import epa_projection
 
 DATA = Path(__file__).resolve().parents[1] / "data"
 POLICY = "GSE.lexical-evidence/1"
+# Rows the retired upstream constructor released into the flat format. They are
+# refused by name, never read as ordinary flat rows.
+RETIRED_RELEASE_SOURCE = "gse_symbolic_release"
 
 _tls = threading.local()
 
@@ -39,9 +42,6 @@ def close_lexical_connections() -> None:
             except Exception:
                 pass
         cache.clear()
-    readers = getattr(_tls, "release_readers", None)
-    if readers is not None:
-        readers.clear()
 
 
 @lru_cache(maxsize=32)
@@ -235,31 +235,11 @@ def lookup_lexeme(
                 ):
                     out["reason"] = "malformed_primitive_value"
                     return out
-                if selected.get("source") == "gse_symbolic_release":
-                    from GSE.lexicon_builder.runtime import ReleaseReader, read_released_reading
-
-                    try:
-                        readers = getattr(_tls, "release_readers", None)
-                        if readers is None:
-                            readers = _tls.release_readers = {}
-                        reader = readers.get(resolved_path)
-                        if reader is None or reader.conn is not conn:
-                            reader = readers[resolved_path] = ReleaseReader(conn)
-                        definition = read_released_reading(conn, selected["id"], reader=reader)
-                    except ValueError as error:
-                        out["reason"] = str(error)
-                        return out
-                    expected = {
-                        coordinate: cell["value"]
-                        for coordinate, cell in definition["cells"].items()
-                        if cell["written"] is True
-                    }
-                    if expected != {row["primitive"]: row["value"] for row in prime_rows}:
-                        out["reason"] = "RELEASE_COMPATIBILITY_PROJECTION_MISMATCH"
-                        return out
-                    out["definition"] = definition
-                    out["definition_status"] = selected["validation_status"]
-                    out["projection_code"] = "SETTLED_COMPONENTS_ONLY; UNKNOWN_CELLS_RETAINED_IN_DEFINITION"
+                if selected.get("source") == RETIRED_RELEASE_SOURCE:
+                    # Its compatibility rows were only valid against the release's own
+                    # definitions, whose reader retired with the upstream constructor.
+                    out["reason"] = "RETIRED_RELEASE_FORMAT"
+                    return out
                 out["primitives"] = {row["primitive"]: row["value"] for row in prime_rows if row["value"]}
                 out["state"] = "primes" if out["primitives"] else "no_primes"
 

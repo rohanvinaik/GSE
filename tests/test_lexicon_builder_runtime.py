@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from GSE.api.encoder import GSEEncoder
-from GSE.api.errors import OOVError
+from GSE.api.errors import EncodingError, OOVError
 from GSE.curation.lexicon_builder.engine import Assertion, Relation, propagate
 from GSE.curation.lexicon_builder.evidence import Definition, Observation
 from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
@@ -397,6 +397,34 @@ def test_legacy_dictionary_keeps_existing_selection_contract(tmp_path):
         assert evidence["ambiguous"] is True
         with pytest.raises(ValueError, match="DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"):
             legacy.lookup_definition("bank:any")
+
+
+def test_retired_release_rows_never_supply_an_encoding(tmp_path):
+    """MUST-NOT: a row released by the retired upstream constructor is read as an ordinary flat row."""
+    path = tmp_path / "retired-release.db"
+    with sqlite3.connect(path) as conn:
+        conn.executescript("""
+            CREATE TABLE lexemes (id INTEGER PRIMARY KEY, lemma TEXT, pos TEXT, source TEXT,
+              validation_status TEXT, comp_primitive TEXT, comp_arity INTEGER, comp_operation TEXT);
+            CREATE TABLE primitive_values (lexeme_id INTEGER, primitive TEXT, value INTEGER);
+            CREATE TABLE sentence_primitive_values (lexeme_id INTEGER, primitive TEXT, value INTEGER);
+            INSERT INTO lexemes(id,lemma,pos,source,validation_status)
+              VALUES (1,'vague','ADJ','gse_symbolic_release','symbolic_partial'), (2,'good','ADJ','wordnet','reviewed');
+            INSERT INTO primitive_values VALUES (1,'GOOD',1),(2,'GOOD',1);
+        """)
+    try:
+        refused = lookup_lexeme("vague", path)
+        assert refused["state"] == "unread"
+        assert refused["reason"] == "RETIRED_RELEASE_FORMAT"
+        assert refused["primitives"] == {}
+        assert lookup_lexeme("good", path)["primitives"] == {"GOOD": 1}  # ordinary flat rows are unaffected
+        with GSEEncoder(str(path)) as lenient:
+            assert lenient._lookup_lexeme("vague") == ({}, {}, {})
+        with GSEEncoder(str(path), strict=True) as strict:
+            with pytest.raises(EncodingError, match="RETIRED_RELEASE_FORMAT"):
+                strict.encode("vague")
+    finally:
+        close_lexical_connections()
 
 
 @pytest.mark.parametrize("empty_table", [False, True])
