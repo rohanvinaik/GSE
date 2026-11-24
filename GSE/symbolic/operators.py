@@ -235,6 +235,7 @@ def event(op: Op) -> Event:
     """
     if not op.args:
         raise ValueError(f"EVENT expects ≥1 arg, got {op.arity}")
+
     # Args beyond agent+patient are the SECONDARY constituents the role-split peeled off a
     # ditransitive / object+complement (resolution's ArgSplit flattened them in). Preserve
     # them as latent `themes` — the clean primary read (agent, patient) is unchanged; themes
