@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor f in ['GSE/discourse/profile.py','GSE/symbolic/lexical_grounding.py','tests/test_runtime_native_identity_controls.py','GSE/api/encoder.py']:\n p=Path(f);s=p.read_text();t=ast.parse(s);print('\\nFILE',f)\n if f.endswith('profile.py'):\n  for n in t.body:\n   if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and ('affect' in n.name or n.name in ['_content_tokens','text_profile','_sentence_profile']):print(ast.get_source_segment(s,n))\n elif f.endswith('lexical_grounding.py'):\n  for n in t.body:\n   if isinstance(n,ast.FunctionDef) and n.name in ['_gloss_content','_unique_native_witness','_native_ancestors']:print(ast.get_source_segment(s,n))\n elif f.endswith('encoder.py'):\n  for n in t.body:\n   if isinstance(n,ast.ClassDef):\n    for m in n.body:\n     if isinstance(m,ast.FunctionDef) and m.name in ['_lexical_lookup','lexical_lookup','encode']:print(ast.get_source_segment(s,m))\n else:print(s)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

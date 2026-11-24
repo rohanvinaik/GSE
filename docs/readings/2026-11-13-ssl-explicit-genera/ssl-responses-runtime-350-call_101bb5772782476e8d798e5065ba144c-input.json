@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md');s=p.read_text();a=s.index('## Recovery contract');b=s.find('\\n## ',a+4);print(s[a:b if b>=0 else None])\nfor n in ['ssl-responses-runtime-steering.json','ssl-api-controller-root-handoff.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json']:\n p=D/n\n if p.exists():\n  x=json.loads(p.read_text());print('\\nFILE',n)\n  if n.endswith('result.json'):print(json.dumps({k:v for k,v in x.items() if k not in ['source_pins','history','prior_results']},indent=2)[:18000])\n  else:print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

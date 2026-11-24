@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=json.loads((D/'ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json').read_text())\nfor c in r['operations']['sentence']:\n if c['id'] in ['want','want-negative','think','know','say','duration','not-very','very-not','above','before','teacher-relative','femur-modifier','see-qualified','do-main','aux-have-possession-leak','copula-be-state-leak','he-symbol']:\n  print(json.dumps(c,indent=2))\nprint('\\nALL IDS',[c['id'] for c in r['operations']['sentence']])\nprint('\\nQUERIES',json.dumps(r['operations']['queries'],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

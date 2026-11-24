@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor f in ['GSE/symbolic/lexical_grounding.py','GSE/nlp/native.py','tests/test_lexical_grounding_constructions.py']:\n t=Path(f).read_text(); tree=ast.parse(t); print('\\nFILE',f)\n if f.endswith('lexical_grounding.py'):\n  names={'_senses','select','_primary_frame_support','_nominal_support','_construction_support','_gloss_content','_unique_native_witness'}\n  for n in ast.walk(tree):\n   if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names: print(ast.get_source_segment(t,n))\n elif f.endswith('native.py'):\n  print([(n.name,n.lineno,n.end_lineno) for n in tree.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\n else: print(t)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-grouped-source-freeze.json','ssl-api-runtime-fourth-source-freeze.json','ssl-api-controller-root-handoff.json']:\n v=json.loads((n/name).read_text());print(name)\n if 'source_pins' in v:\n  v['source_pins_summary']={'count':len(v['source_pins']),'first':list(v['source_pins'].items())[:2]};del v['source_pins']\n print(json.dumps(v,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

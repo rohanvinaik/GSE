@@ -360,3 +360,67 @@ def test_chart_own_coordinate_uses_reviewed_structural_source_not_frame_values(t
             == native
         )
     assert validate_build(baseline)["code"] == "REPLAY_VALIDATED"
+
+
+@pytest.mark.parametrize("change", [None, "source", "family", "scope"])
+def test_wordnet_own_coordinate_uses_actual_native_producer_shape(tmp_path, change):
+    from GSE.curation.lexicon_builder.evidence import collect_evidence
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.validation import validate_build
+
+    # Exercise the real WordNet evidence adapter without loading or downloading
+    # a corpus. The stub supplies only native synset operations, not observations.
+    synset = SimpleNamespace(
+        name=lambda: "people.n.01",
+        definition=lambda: "(plural) any group of human beings collectively",
+        pos=lambda: "n",
+        hypernym_paths=lambda: [],
+        lexname=lambda: "noun.group",
+        examples=lambda: [],
+        lemma_names=lambda: ["people"],
+    )
+    parser = SimpleNamespace(_wn=SimpleNamespace(synsets=lambda word: [synset]), entries={})
+    baseline = tmp_path / "wordnet.db"
+    build_dictionary(collect_evidence({"wordnet_hierarchy": parser}, ("people",)), baseline)
+    entry, unit = "wordnet:people:people.n.01", "nsm:v20:people"
+    with sqlite3.connect(baseline) as conn:
+        conn.row_factory = sqlite3.Row
+        native = json.loads(
+            conn.execute("SELECT payload FROM source_observations WHERE entry_id=?", (entry,)).fetchone()[0]
+        )
+        assert (native["source"], native["family"], native["scope"]) == ("wordnet_hierarchy", "wordnet", "lexical")
+        if change:
+            native[change] = {"source": "wordnet", "family": "unreviewed", "scope": "source_structure"}[change]
+            conn.execute(
+                "UPDATE source_observations SET source=?, payload=? WHERE entry_id=?",
+                (native["source"], json.dumps(native), entry),
+            )
+        claim = {
+            "entry_id": entry,
+            "unit_id": unit,
+            "bank": "PEOPLE",
+            "value": 1,
+            "definition": native["features"]["definition"],
+            "pos": native["features"]["pos"],
+            "identity_link": {"entry_ids": [entry]},
+            "native_source": native["source"],
+            "native_record_id": native["record_id"],
+            "native_observation_sha256": MODULE.observation_digest(native),
+        }
+        MODULE._set_metadata(conn, "prime_entries", {unit: [entry]})
+        manifest = tmp_path / "reviewed-own-coordinate.json"
+        write(manifest, MODULE.manifest_payload([claim], "review-pin", "audit-pin"))
+        if change:
+            with pytest.raises(ValueError, match="CANONICAL_PROJECTION_SOURCE_CHANGED"):
+                MODULE.apply_projection(conn, [claim], manifest)
+            return
+        MODULE.apply_projection(conn, [claim], manifest)
+        domains = json.loads(
+            conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry,)).fetchone()[0]
+        )
+        assert domains["PEOPLE"] == [1]
+        assert (
+            json.loads(conn.execute("SELECT payload FROM source_observations WHERE entry_id=?", (entry,)).fetchone()[0])
+            == native
+        )
+    assert validate_build(baseline)["code"] == "REPLAY_VALIDATED"

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nN=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ('ssl-api-runtime-moral-source-demand.json','ssl-api-runtime-validity-source-demand.json'):\n print('\\n'+name+'\\n'+(N/name).read_text())\nd=json.loads((N/'ssl-api-runtime-result.json').read_text()); print('\\nRUNTIME CURRENT COORDINATION');print(json.dumps({k:v for k,v in d.items() if k in {'code','status','updated_utc','updated_at_utc','source_edits_finished','current_progress','source_freeze','current_source_freeze','controller_action_required','latest_source_demand','evaluation_spelling_source_demand','moral_source_demand','validity_source_demand','current_critical_cases'}},indent=2));print('keys',list(d))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

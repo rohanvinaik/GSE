@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-evaluation-spelling-source-audit.json'); x=json.loads(p.read_text()); out={k:v for k,v in x.items() if k!='evaluation'};out['evaluation']={}\nfor lemma,v in x['evaluation'].items():\n tokens=[]\n for t in v['tokens']:\n  e=t['evidence']; tokens.append({**{k:w for k,w in t.items() if k!='evidence'},'evidence_keys':list(e) if isinstance(e,dict) else str(type(e)), 'contextual_grounding':e.get('contextual_grounding') if isinstance(e,dict) else None})\n out['evaluation'][lemma]={'text':v['text'],'candidates':v['candidates'],'tokens':tokens}\nf=p.with_name('ssl-api-runtime-evaluation-spelling-source-demand.json');f.write_text(json.dumps(out,indent=2,sort_keys=True)+'\\n');print(json.dumps(out,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

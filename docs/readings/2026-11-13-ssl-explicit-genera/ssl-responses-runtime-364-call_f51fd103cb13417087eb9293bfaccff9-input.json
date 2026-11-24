@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera'); r=json.loads((D/'ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json').read_text())\nfor case in r['operations']['sentence']:\n print(json.dumps({'id':case['id'],'text':case['text'],'predicate':case['contract'].get('predicate'),'grammar':{k:v for k,v in case['contract'].items() if k not in {'predicate','claims','semantics'}}},sort_keys=True))\nfor op in ['queries','document']:\n v=r['operations'][op]\n if op=='queries':\n  for c in v['claims']:\n   print(json.dumps({'query':c['text'],'claims':[{k:v for k,v in x.items() if k!='claim_key'} for x in c['propositions']]}))\n else:\n  print('DOCUMENT keys',list(v));print(json.dumps({k:v[k] for k in ['source_sentences','mentions','supporting_mentions','tree_sources','phases']},indent=2))\nprint('\\nDEVELOPMENT ORIGINAL CASES\\n',(D/'ssl-api-runtime-complete-operation-cases-v1.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

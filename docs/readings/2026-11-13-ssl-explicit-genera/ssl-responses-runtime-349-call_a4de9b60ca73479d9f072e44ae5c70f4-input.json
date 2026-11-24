@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nfor f in ['GSE/curation/build_wordlist.py','GSE/nlp/spellcheck_context.py','GSE/nlp/healing_resources.py','tests/test_build_wordlist.py']:\n print('\\nFILE',f);print(Path(f).read_text())\ns=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md').read_text();heads=['## Identity and representation','## Word and sentence boundary','#### Two different uncertainty spaces','### 3. The state being computed','#### Checkpoint workload and acceptance']\nfor head in heads:\n start=s.index(head);level=len(head.split()[0]);import re;m=re.search(r'\\n#{1,'+str(level)+r'} ',s[start+len(head):]);end=start+len(head)+m.start() if m else len(s);print(s[start:end])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

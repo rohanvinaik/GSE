@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-eight-operation-progress.json','ssl-api-runtime-auxiliary-source-demand.json']:\n p=n/name;print(name);print(p.read_text())\np=Path('GSE/curation/lexicon_builder/specification.py');s=p.read_text()\nfor node in ast.parse(s).body:\n if isinstance(node,ast.FunctionDef) and node.name in ['space_delta','_aggregate']:print(ast.get_source_segment(s,node))\np=Path('GSE/curation/lexicon_builder/source_enrichment.py');s=p.read_text()\nfor node in ast.parse(s).body:\n if isinstance(node,ast.FunctionDef) and node.name=='revise_source_candidate':print(ast.get_source_segment(s,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

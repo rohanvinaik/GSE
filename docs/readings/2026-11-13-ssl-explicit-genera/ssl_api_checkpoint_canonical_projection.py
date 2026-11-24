@@ -403,7 +403,11 @@ def apply_projection(conn, claims, manifest):
             or native["entry_id"] != entry
             or native["record_id"] != claim["native_record_id"]
             or native["candidate_entry_ids"] != [entry]
-            or native["scope"] != {"wordnet": "lexical", "nsm_chart": "source_structure"}.get(claim["native_source"])
+            or (native["family"], native["scope"])
+            != {
+                "wordnet_hierarchy": ("wordnet", "lexical"),
+                "nsm_chart": ("nsm_primary_chart", "source_structure"),
+            }.get(claim["native_source"])
             or (
                 claim["native_source"] == "nsm_chart"
                 and (

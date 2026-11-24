@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,datetime\nN=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in sorted(N.iterdir(),key=lambda p:p.stat().st_mtime,reverse=True):\n if p.name.startswith('ssl-api-runtime') and p.suffix in {'.json','.py'} and p.stat().st_mtime>datetime.datetime.fromisoformat('2026-11-24T21:30:00+00:00').timestamp():\n  print(p.name,datetime.datetime.fromtimestamp(p.stat().st_mtime,datetime.timezone.utc).isoformat(),p.stat().st_size)\np=N/'ssl-api-controller-final-integrated-gate-v2.log'; print('\\nCIv2 whole small log:'); print(p.read_text() if p.exists() and p.stat().st_size<5000 else 'no bounded log')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

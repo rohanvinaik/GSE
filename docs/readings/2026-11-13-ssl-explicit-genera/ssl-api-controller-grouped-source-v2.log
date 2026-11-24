@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py", line 556, in <module>
+    run(**vars(parser.parse_args()))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py", line 517, in run
+    report = revise_source_candidate(
+        Path(review["baseline"]["path"]),
+    ...<8 lines>...
+        metadata_key="canonical_source_projection",
+    )
+  File "/Users/rohanvinaik/Projects/GSE/GSE/curation/lexicon_builder/source_enrichment.py", line 390, in revise_source_candidate
+    changes = apply_revision(conn)
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py", line 515, in apply_group
+    return {"auxiliary": auxiliary_changes, "canonical": apply_projection(conn, claims, manifest)}
+                                                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py", line 415, in apply_projection
+    raise ValueError("CANONICAL_PROJECTION_SOURCE_CHANGED:" + entry)
+ValueError: CANONICAL_PROJECTION_SOURCE_CHANGED:wordnet:people:people.n.01

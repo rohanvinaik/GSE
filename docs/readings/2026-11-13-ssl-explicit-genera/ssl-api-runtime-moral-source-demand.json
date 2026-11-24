@@ -1,0 +1,115 @@
+{
+  "at_utc": "2026-11-24T21:43:54.570430+00:00",
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "evidence": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-evaluation-spelling-source-audit.json",
+  "exact_missing_cell_population": [
+    {
+      "GOOD": [
+        -1,
+        0,
+        1
+      ],
+      "assignments": {
+        "SOMETHING": 0
+      },
+      "code": "PARTIAL",
+      "entry_id": "wordnet:bad:bad.s.10",
+      "gloss": "characterized by wickedness or immorality",
+      "pos": "adj"
+    },
+    {
+      "GOOD": [
+        -1,
+        0,
+        1
+      ],
+      "assignments": {
+        "SOMETHING": 0
+      },
+      "code": "PARTIAL",
+      "entry_id": "wordnet:good:good.a.03",
+      "gloss": "morally admirable",
+      "pos": "adj"
+    },
+    {
+      "GOOD": [
+        -1,
+        0,
+        1
+      ],
+      "assignments": {
+        "SOMETHING": 0
+      },
+      "code": "PARTIAL",
+      "entry_id": "wordnet:good:good.s.05",
+      "gloss": "of moral excellence",
+      "pos": "adj"
+    }
+  ],
+  "failed_operation_cases": [
+    {
+      "id": "dev-good",
+      "observed": "Type assertion preserved; valence_mean=None; GOOD bank unknown on moral WordNet candidates",
+      "required": "source-warranted positive evaluation; not forced canonical identity",
+      "text": "Kindness is morally good."
+    },
+    {
+      "id": "dev-bad",
+      "observed": "Type assertion preserved; valence_mean=None; GOOD bank unknown on moral WordNet candidate",
+      "required": "source-warranted negative evaluation; not forced canonical identity",
+      "text": "Cruelty is morally bad."
+    }
+  ],
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "runtime_access_obligation": "Even justified new cells do not on their own license English sense selection. Current selector accepts full native examples but not moral modifier context. B tracing source-qualified adjective eligibility; no frame-only or spelling-based canonical selection. Generic primary frame must not kill compatible ordinary senses.",
+  "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "source_edits_finished": true,
+  "source_freeze": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json",
+  "spelling_actual_cause": {
+    "grounds": true,
+    "membership": {
+      "allowlist": false,
+      "lex_vocab": false,
+      "validity_vocab": true,
+      "wn_vocab": false
+    },
+    "proposals": [
+      {
+        "score": 5.575,
+        "word": "acicle"
+      },
+      {
+        "score": 5.575,
+        "word": "bicycle"
+      },
+      {
+        "score": 5.575,
+        "word": "icicle"
+      },
+      {
+        "score": 5.575,
+        "word": "recicle"
+      }
+    ],
+    "rarity_evidence": {
+      "frequency": {
+        "source": "frequency.db combined_rank",
+        "state": "unread"
+      },
+      "policy": "GSE.rare-tail/2",
+      "reason": "usage_frequency_unread",
+      "state": "unread",
+      "word": "bycicle"
+    }
+  },
+  "spelling_next": "Validity-only Wiktionary broad-tail membership suppresses nonword corrector; actual proposal API already offers bicycle. Trace native attested misspelling/rarity/context recovery, not delete valid words or hardcode typo.",
+  "runtime_eligibility_followup": {
+    "at_utc": "2026-11-24T21:55:58.036661+00:00",
+    "actual_consumer": "Kindness is morally good. / Cruelty is morally bad. preserve TypeAssertion but text_profile valence_mean=None.",
+    "native_evidence": "good.a.03 morally admirable; good.s.05 of moral excellence; bad.s.10 characterized by wickedness or immorality. General quality good.a.01/bad.a.01 also possible; no modifier-qualified ADJ eligibility path exists.",
+    "guard_obligation": "A unique morally term match is positive compatibility, not exclusion of every ordinary candidate. Primary frame cannot resolve this. B will not force a fine WordNet identity or emit an all-candidates bank consensus while unknown alternatives survive.",
+    "requested_coordination": "Please provide actual admitted source/meaning eligibility warrant with the exact three moral cells if available, or identify composed qualified-predicate source constraint the current producer can export. This is a direct frozen critical profile failure, not optional generic learner work. Source definitions alone warrant signs for their own IDs, not arbitrary same-spelling contexts.",
+    "source_edits_finished": true,
+    "source_freeze": "ssl-api-runtime-fourth-source-freeze.json"
+  }
+}

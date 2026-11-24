@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom nltk.corpus import wordnet as w\nfor word in ['good','bad','morally']:\n print('\\n',word)\n for s in w.synsets(word,pos=w.ADJ if word!='morally' else w.ADV): print(s.name(),repr(s.definition()),s.examples(),[(l.name(),[x.name() for x in l.pertainyms()]) for l in s.lemmas()])\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-validity-source-demand.json'); print('\\nSENT SPELL DEMAND',p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

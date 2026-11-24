@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md');s=p.read_text();lines=s.splitlines();heads=[(i,l) for i,l in enumerate(lines) if l.startswith('#')];print('\\n'.join(f'{i+1}: {l}' for i,l in heads))\nfor p in [Path('GSE/nlp/spellcheck.py'),Path('GSE/api/parse_repair.py')]:\n s=p.read_text();t=ast.parse(s);print('\\nFILE',p)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)):\n   if p.name=='spellcheck.py' and n.name not in {'_Lexicon','correct','propose'}:continue\n   print(ast.get_source_segment(s,n))\nprint('\\nSPELLCHECK REFERENCES')\nfor root in ['GSE','tests']:\n for p in Path(root).rglob('*.py'):\n  if p.name=='spellcheck.py':continue\n  s=p.read_text()\n  if 'spellcheck' not in s and 'rarity_evidence' not in s:continue\n  t=ast.parse(s)\n  for n in ast.walk(t):\n   if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and any(term in ast.get_source_segment(s,n) for term in ['spellcheck','rarity_evidence']): print(str(p),n.name,n.lineno,n.end_lineno)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

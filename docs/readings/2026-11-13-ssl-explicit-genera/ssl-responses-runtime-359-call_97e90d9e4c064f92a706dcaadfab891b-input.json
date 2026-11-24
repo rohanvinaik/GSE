@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom nltk.corpus import wordnet as w\nfor name in ['good.a.01','good.a.03','good.s.05','bad.a.01','bad.s.10','morally.r.01','morally.r.02','moral.a.01','moral.a.02']:\n s=w.synset(name);print(name,s.definition())\n for relation in ['attributes','similar_tos','also_sees','topic_domains','usage_domains','region_domains']:\n  print(relation,[x.name() for x in getattr(s,relation)()])\n for l in s.lemmas():\n  print(l.name(),'deriv',[(x.name(),x.synset().name()) for x in l.derivationally_related_forms()],'ant',[(x.name(),x.synset().name()) for x in l.antonyms()])\nfrom pathlib import Path\nimport ast\nfor f in ['GSE/symbolic/lexical_grounding.py','GSE/symbolic/expression.py','GSE/api/encoder.py']:\n t=Path(f).read_text();tree=ast.parse(t); print('\\nINDEX',f)\n for n in ast.walk(tree):\n  if isinstance(n,(ast.ClassDef,ast.FunctionDef)) and (f.endswith('expression.py') or n.name in ['__init__','_matches_definition_predication','_definition_predication']): print(n.name,n.lineno,n.end_lineno)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}
