@@ -1,0 +1,219 @@
+{
+  "format": "GSE.runtime-eight-operation-progress/1",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "updated_utc": "2026-11-24T21:38:00.885979+00:00",
+  "status": "SOURCE_FROZEN_ACTUAL_WORKLOAD_FAILURES",
+  "source_edits_finished": true,
+  "source_freeze": "ssl-api-runtime-fourth-source-freeze.json",
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "actual_outcomes": "ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json",
+  "outcomes_sha256": "23867ae96f0a17183f02beab67a8354fdb9efbd61dc5a6313607e157222d3444",
+  "operations": {
+    "decoder_pipeline": {
+      "checks": 3,
+      "failed_ids": [],
+      "passed": 3,
+      "actual_scope": "Actual public pipeline equals direct production encoder trace/vector, unknown remains None, exact definition numeric decoder neighbors do not select identity."
+    },
+    "document": {
+      "checks": 3,
+      "failed_ids": [],
+      "passed": 3,
+      "actual_scope": "One actual document intake; cross-paragraph woman/she support, quoted I bound to Nora, source sentences retained; no ungrounded cassette merge. World resource absent is not certified."
+    },
+    "inference": {
+      "checks": 3,
+      "failed_ids": [],
+      "passed": 3,
+      "actual_scope": "Source-cited Lina animal and two-rule departure entailment; reverse/other-agent/modal/reported/negative exclusions pass in declared legacy lemma-query scope."
+    },
+    "integration": {
+      "checks": 3,
+      "failed_ids": [
+        "spellcheck-noisy-channel"
+      ],
+      "passed": 2,
+      "actual_scope": "Valid bicycle unchanged and code ZXQ9 not committed. bycicle incorrectly treated grounded; no bicycle candidate offered. SparseWiki genealogy resource absent, explicitly untested world answers."
+    },
+    "lexical": {
+      "checks": 12,
+      "failed_ids": [],
+      "passed": 12,
+      "actual_scope": "Exact definition queries include true zero water/I, signed leap/HAPPEN and whisper/SAY, canonical GOOD/BAD, retained ambiguous ordinary forms and unknown water/KNOW."
+    },
+    "profile": {
+      "checks": 4,
+      "failed_ids": [
+        "dev-good",
+        "dev-bad"
+      ],
+      "passed": 2,
+      "actual_scope": "Structural profile reads both sentences; quantity good does not invent evaluation. Moral positive and negative profiles remain unavailable."
+    },
+    "queries": {
+      "checks": 2,
+      "failed_ids": [],
+      "passed": 2,
+      "actual_scope": "Comparison axis/swap/equality pass. Commitment/polarity outcomes retained; exact unsupported event claim identity safely refuses rather than inventing source."
+    },
+    "sentence": {
+      "checks": 60,
+      "failed_ids": [
+        "have-aux-own-content",
+        "do-aux-own-content",
+        "inverted-do-own-content",
+        "aux-have-possession-leak-own-content",
+        "aux-be-state-leak-own-content",
+        "copula-be-state-leak-own-content"
+      ],
+      "passed": 54,
+      "actual_scope": "43 composed trees retained. 54/60 implemented checks pass; nonempty-read checks are NOT a semantic accuracy score. Main/imperative DO, inversion, topic ABOUT, qualified sensory fronted adjuncts, teacher relative and femur modifiers retained. Six unsupported auxiliary own-content assertions fail. Remaining full contracts under semantic review."
+    }
+  },
+  "exact_failed_checks": [
+    {
+      "actual": {
+        "valence_arc": null,
+        "valence_mean": null,
+        "valence_spread": null
+      },
+      "cause_if_failed": "contextual evaluative identity/source access",
+      "id": "dev-good",
+      "operation": "profile",
+      "passed": false,
+      "required": "source-warranted positive evaluative measurement, not unavailable",
+      "next_remedy": "B inspect concurrent source/context constraints and exact ordinary candidate domains; send exact source population to A; no primary-frame selection"
+    },
+    {
+      "actual": {
+        "valence_arc": null,
+        "valence_mean": null,
+        "valence_spread": null
+      },
+      "cause_if_failed": "contextual evaluative identity/source access",
+      "id": "dev-bad",
+      "operation": "profile",
+      "passed": false,
+      "required": "source-warranted negative evaluative measurement, not unavailable",
+      "next_remedy": "B inspect concurrent source/context constraints and exact ordinary candidate domains; send exact source population to A; no primary-frame selection"
+    },
+    {
+      "actual": [
+        {
+          "token": "has",
+          "word": {
+            "HAVE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "have-aux-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": [
+        {
+          "token": "did",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "do-aux-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": [
+        {
+          "token": "Does",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "inverted-do-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": [
+        {
+          "token": "have",
+          "word": {
+            "HAVE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "aux-have-possession-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": [
+        {
+          "token": "is",
+          "word": {
+            "BE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "aux-be-state-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": [
+        {
+          "token": "is",
+          "word": {
+            "BE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "copula-be-state-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
+      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
+    },
+    {
+      "actual": {
+        "committed": "bycicle",
+        "fired": false,
+        "note": "surface grounds",
+        "ranked": [],
+        "surface": "bycicle"
+      },
+      "id": "spellcheck-noisy-channel",
+      "operation": "integration",
+      "passed": false,
+      "required": "simple spelling error offers grounded bicycle",
+      "next_remedy": "B trace spellcheck grounding source; distinguish native typo entry from consumer overbroad grounding"
+    }
+  ],
+  "checkpoint_complete": false,
+  "independent_final": "Not run: these inspected cases are development; final manifest must pin settled runtime and controller grouped successor, not relabel these as untouched holdout.",
+  "production_writes": 0,
+  "lexicon_writes": 0,
+  "pointer_writes": 0
+}

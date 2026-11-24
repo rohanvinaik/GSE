@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in ['ssl-api-runtime-third-source-freeze.json','ssl-api-runtime-result.json','ssl-api-runtime-blockers.json','ssl-api-runtime-workload-freeze.json']:\n v=json.loads((D/f).read_text());print(f,'keys',list(v));\n if 'freeze' in f and 'workload' not in f:print(json.dumps(v,indent=2))\nr=json.loads((D/'ssl-api-runtime-pipeline-auxiliary-current.json').read_text())\nfor c in r['cases']:\n for t in c['tokens']:\n  if t['entry_id']:print(t['entry_id'],json.dumps(t['trace'],indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

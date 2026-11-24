@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera');v=json.loads((D/'ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json').read_text())\nprint('EIGHT OPERATIONS',json.dumps(v['summary'],indent=2))\nprint('SENTENCE CONTRACTS')\nfor c in v['operations']['sentence']: print(c['id'],c['text'],json.dumps(c['contract'],separators=(',',':')))\nfor op in ['integration','inference','document']:\n print(op,json.dumps(v['operations'][op],indent=2))\nprint('new controller artifacts',[(p.name,p.stat().st_size) for p in D.glob('ssl-api-controller*') if p.stat().st_mtime>0][-15:])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

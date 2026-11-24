@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-eight-op-lexical-preflight -- .venv/bin/python - <<'PY'\nimport json\nfrom GSE.api import GSEEncoder\np='data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db'\nwith GSEEncoder(p) as e:\n e.conn.execute('PRAGMA query_only=ON')\n for ident in ['wordnet:leap:leap.n.01','wordnet:whisper:whisper.n.01','wordnet:femur:femur.n.01','wordnet:teacher:teacher.n.01','wordnet:water:water.n.01','gse:prime:i','gse:prime:you','nsm_chart:v20:good','nsm_chart:v20:bad']:\n  r=e.lookup_definition(ident); print(ident,json.dumps({k:v for k,v in r.items() if k not in ['selected_record','provenance','resource','trace']},default=str));s=r.get('selected_record') or {}; print('selected',json.dumps({k:v for k,v in s.items() if k in ['entry_id','lemma','pos','primitives','hierarchy','domains','assignments','definition','features']},default=str))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 120
+}

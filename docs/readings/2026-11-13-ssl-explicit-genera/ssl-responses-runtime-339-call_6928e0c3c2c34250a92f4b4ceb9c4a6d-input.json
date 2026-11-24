@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md'); s=p.read_text(); lines=s.splitlines(); starts=[i for i,l in enumerate(lines) if l.startswith('#') and 'Recovery contract' in l]\nfor i in starts:\n level=len(lines[i])-len(lines[i].lstrip('#')); end=next((j for j in range(i+1,len(lines)) if lines[j].startswith('#') and len(lines[j])-len(lines[j].lstrip('#'))<=level),len(lines)); print('\\n'.join(lines[i:end]))\nd=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-responses-runtime-steering.json','ssl-api-runtime-blockers.json','ssl-api-controller-result.json','ssl-api-runtime-fourth-source-freeze.json']:\n p=d/n\n if p.exists(): print('\\nFILE',p,'\\n',p.read_text())\nprint('\\nRECENT COORDINATION FILES')\nfor p in sorted(d.glob('ssl-api-*'),key=lambda p:p.stat().st_mtime,reverse=True)[:25]: print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

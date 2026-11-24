@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor f in ['GSE/cassettes/deck.py','GSE/cassettes/base.py','GSE/nlp/spellcheck.py','GSE/api/decoder.py','GSE/symbolic/emit.py','GSE/symbolic/inference.py']:\n s=Path(f).read_text();t=ast.parse(s);print('\\nFILE',f)\n names={'deck.py':{'CassetteDeck','DeckResult'},'base.py':{'CassetteResult'},'spellcheck.py':{'Correction','Candidate','correct','_Lexicon'},'decoder.py':{'GSEDecoder'},'emit.py':{'emit_contract'},'inference.py':{'KnowledgeBase'}}[Path(f).name]\n for n in t.body:\n  if getattr(n,'name','') in names:\n   if n.name in {'KnowledgeBase','GSEDecoder'}:\n    keep={'__init__','decode','from_trees'}\n    for m in n.body:\n     if isinstance(m,ast.FunctionDef) and m.name in keep:print(ast.get_source_segment(s,m))\n   else:print(ast.get_source_segment(s,n))\nprint('world exists',Path('data/genealogy.db').exists())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

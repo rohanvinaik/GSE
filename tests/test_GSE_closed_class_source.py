@@ -46,9 +46,9 @@ from GSE.lexicon.pronouns import PRONOUN_ENCODINGS
         ("perhaps", "ADV", "modal", {"MAYBE": 1}),
         ("maybe", "ADV", "modal", {"MAYBE": 1}),
         ("cannot", "AUX", "modal", {"CAN": 1, "NOT": 1}),
-        ("are", "AUX", "auxiliary", {"BE": 1}),
-        ("did", "AUX", "auxiliary", {"DO": 1}),
-        ("has", "AUX", "auxiliary", {"HAVE": 1}),
+        ("are", "AUX", "auxiliary", {}),
+        ("did", "AUX", "auxiliary", {}),
+        ("has", "AUX", "auxiliary", {}),
         ("not", "PART", "negation", {"NOT": 1}),
         ("like", "ADP", "preposition", {"LIKE": 1}),
         ("will", "AUX", "modal", {}),
@@ -144,7 +144,30 @@ def test_reference_proof_passes_real_builder_replay(tmp_path):
             "SELECT d.entry_id,p.primitive,p.value FROM definition_states d "
             "JOIN primitive_values p ON p.lexeme_id=d.lexeme_id WHERE p.primitive IN ('I','YOU')"
         ).fetchall()
+        auxiliary = conn.execute(
+            "SELECT d.entry_id,d.domains FROM definition_states d WHERE d.entry_id LIKE 'gse_closed_class:auxiliary:%'"
+        ).fetchall()
     assert set(values) == {("gse_closed_class:pronoun:i", "I", 1), ("gse_closed_class:pronoun:you", "YOU", 1)}
+    assert len(auxiliary) == 19
+    assert all(all(domain == [-1, 0, 1] for domain in json.loads(raw).values()) for _, raw in auxiliary)
+
+
+def test_auxiliary_grammar_keeps_native_origins_without_main_verb_content():
+    parser = GSEClosedClassParser()
+    rows = [
+        entry for word in parser.get_all_words() for entry in parser.get_entries(word) if entry.catalog == "auxiliary"
+    ]
+    assert len(rows) == 19
+    assert {row.grammatical_features["lemma"] for row in rows} == {"be", "do", "have"}
+    for row in rows:
+        assert row.grammar_roles == ("AUX",) and row.pos == "auxiliary"
+        assert parser.to_primitives_for_entry(row) == {}
+        assert row.native_encodings and row.provenance
+        assert any(origin["value"] for origin in row.native_encodings)
+        assert grammatical_entry_ids(row.lemma, "AUX") == (row.entry_id,)
+        assert grammatical_entry_ids(row.lemma, "VERB") == ()
+    assert parser.to_primitives("can") == {"CAN": 1}
+    assert parser.to_primitives("not") == {"NOT": 1}
 
 
 def test_source_competence_cannot_certify_an_unwitnessed_reference_sign(tmp_path):

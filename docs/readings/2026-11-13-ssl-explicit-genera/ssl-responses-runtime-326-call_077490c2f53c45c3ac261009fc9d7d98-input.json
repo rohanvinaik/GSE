@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor file,names in {\n'GSE/api/lexical.py':[],\n'GSE/cassettes/multiscale.py':['MultiScaleDoc'],\n'GSE/symbolic/inference.py':['KnowledgeBase'],\n'GSE/discourse/profile.py':['TextProfile'],\n'GSE/api/decoder.py':['DecodedSemantics','decode'],\n}.items():\n p=Path(file)\n if not p.exists():continue\n t=ast.parse(p.read_text()); print('\\n',file)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:\n   if isinstance(n,ast.ClassDef):\n    print('class',n.name)\n    for child in n.body:\n     if isinstance(child,ast.FunctionDef):print(ast.unparse(child.args),child.name)\n     elif isinstance(child,ast.AnnAssign):print(ast.unparse(child))\n   else:print(ast.get_source_segment(p.read_text(),n))\nfor f in ['tests/test_pipeline_definition_checkpoint.py','tests/test_genealogy_grounding.py']:\n p=Path(f)\n if p.exists():print('\\nWHOLE',f,'\\n',p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

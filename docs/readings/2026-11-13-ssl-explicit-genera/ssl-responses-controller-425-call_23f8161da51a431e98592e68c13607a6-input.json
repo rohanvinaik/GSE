@@ -1,0 +1,5 @@
+{
+  "command": "pwd && .venv/bin/ruff format docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py tests/test_checkpoint_canonical_projection.py && .venv/bin/ruff check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py tests/test_checkpoint_canonical_projection.py && .venv/bin/python -m pytest -q tests/test_checkpoint_canonical_projection.py tests/test_checkpoint_canonical_audit.py tests/test_GSE_closed_class_source.py --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-grouped-source-tests-v2.xml",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

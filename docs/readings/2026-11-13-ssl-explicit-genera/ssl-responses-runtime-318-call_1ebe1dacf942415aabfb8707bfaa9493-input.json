@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera');p=D/'ssl_api_runtime_workload.py';s=p.read_text();print('FILE',p);print(s)\nfor folder in ['GSE/symbolic','GSE/discourse','GSE']:\n print('FILES',folder,[str(p) for p in Path(folder).glob('*.py')])\nprint('steering extra keys',list(json.loads((D/'ssl-responses-runtime-steering.json').read_text()))[-5:])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

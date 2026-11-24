@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\nfor name,selected in [('GSE/curation/external_sources/gse_closed_class.py',{'_entry','_auxiliary_entries','GSEClosedClassParser'}),('GSE/curation/lexicon_builder/completion.py',{'_contexts','complete_dictionary'}),('GSE/curation/lexicon_builder/source_enrichment.py',{'revise_source_candidate'}),('GSE/curation/lexicon_builder/reconsideration.py',{'_archive_schema','_apply_plan'}),('GSE/curation/lexicon_builder/evidence.py',{'_closed_class_definitions'})]:\n s=Path(name).read_text(); tree=ast.parse(s); print('\\nFILE',name)\n for node in tree.body:\n  if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in selected: print(ast.get_source_segment(s,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor p in Path('GSE/curation/lexicon_builder').glob('*.py'):\n t=ast.parse(p.read_text());names=[x.name for x in t.body if isinstance(x,(ast.FunctionDef,ast.ClassDef))];hit=[x for x in names if any(z in x for z in ['specification','space','complexity','contraction'])]\n if hit: print(p,hit)\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor name in ['space-post-self-boundary.json','self-boundary-space-delta.json']:\n d=json.loads((w/name).read_text());print(name,'keys',list(d));print('metadata',json.dumps({k:v for k,v in d.items() if k in {'format','source','candidate','candidate_sha256','configuration','method','baseline','bucket_boundaries','analysis_parameters','space','comparison'}},indent=2))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('B_RECEIPTS_NEW',*[str(p.name) for p in sorted(n.glob('ssl-api-runtime-*.json'),key=lambda p:p.stat().st_mtime,reverse=True)[:8]],sep='\\n')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

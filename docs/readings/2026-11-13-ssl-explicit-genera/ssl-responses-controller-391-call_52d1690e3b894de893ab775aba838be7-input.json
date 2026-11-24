@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor p in Path('GSE/curation/lexicon_builder').glob('*.py'):\n s=p.read_text();t=ast.parse(s)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(isinstance(x,ast.Constant) and isinstance(x.value,str) and 'completion_context_targets' in x.value for x in ast.walk(n)):\n   print(p);print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

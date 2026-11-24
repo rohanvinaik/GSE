@@ -27,7 +27,9 @@ Usage:
     decomp = pipeline.decompose_word("unhappiness", "n")
 """
 
+import sqlite3
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -124,6 +126,7 @@ class DecompositionResult:
     confidence: float = 0.0
     source: str = "inferred"  # 'lexicon', 'inferred', 'morphological'
     similar_words: List[Tuple[str, float]] = field(default_factory=list)
+    lexical_evidence: Dict[str, Any] = field(default_factory=dict)
 
 
 # =============================================================================
@@ -172,6 +175,8 @@ class GSEPipeline:
 
         # SQLite translator
         self.translator: Optional[SQLiteMerkleTranslator] = None
+        self._definition_encoder = None
+        self._definition_decoder = None
 
         # Load lexicon if provided
         if lexicon_path:
@@ -189,6 +194,24 @@ class GSEPipeline:
         Args:
             path: Path to SQLite database
         """
+        from GSE.lexical_evidence import is_definition_database
+
+        # The Merkle translator is a legacy mutable format adapter, not a
+        # definition-store reader. In particular, its constructor executes DDL.
+        # Inspect the format read-only before choosing the existing consumer.
+        resource = Path(path).resolve()
+        with sqlite3.connect(resource.as_uri() + "?mode=ro", uri=True) as conn:
+            definition_store = is_definition_database(conn)
+        self.close()
+        if definition_store:
+            from GSE.api import GSEEncoder
+
+            self._definition_encoder = GSEEncoder(resource)
+            self._definition_encoder.conn.execute("PRAGMA query_only=ON")
+            self.translator = None
+            self.router = self.decomposer = self.bridge = None
+            self.tree = MerkleLexiconTree()
+            return
         self.translator = SQLiteMerkleTranslator(path)
         self.tree = self.translator.import_to_tree()
 
@@ -202,6 +225,8 @@ class GSEPipeline:
         Args:
             path: Path to save (uses existing path if None)
         """
+        if self._definition_encoder is not None:
+            raise PermissionError("Definition checkpoints are read-only; use the ordinary revision/publication path")
         if path:
             self.translator = SQLiteMerkleTranslator(path)
 
@@ -222,6 +247,8 @@ class GSEPipeline:
         self,
         word: str,
         pos: Optional[str] = None,
+        *,
+        entry_id: Optional[str] = None,
     ) -> SparseVector:
         """
         Encode a word to its HDC vector.
@@ -233,6 +260,9 @@ class GSEPipeline:
         Returns:
             SparseVector encoding
         """
+        if self._definition_encoder is not None:
+            result = self.decompose_word(word, pos or "", entry_id=entry_id)
+            return result.vector if result.vector is not None else SparseVector(D)
         # Try to find in lexicon
         for sense_id in ["01", "02", "03"]:
             for p in [pos, "n", "v", "adj", "adv"] if pos else ["n", "v", "adj", "adv"]:
@@ -270,6 +300,8 @@ class GSEPipeline:
         Returns:
             Created LexemeNode
         """
+        if self._definition_encoder is not None:
+            raise PermissionError("Definition checkpoints are read-only; use the ordinary revision/publication path")
         # Generate vector
         vec = compose_decomposition(self.basis, decomposition)
 
@@ -299,6 +331,8 @@ class GSEPipeline:
         pos: str,
         context: Optional[str] = None,
         gloss: str = "",
+        *,
+        entry_id: Optional[str] = None,
     ) -> DecompositionResult:
         """
         Decompose a word into primitives.
@@ -313,6 +347,30 @@ class GSEPipeline:
             DecompositionResult with inferred decomposition
         """
         self._decomposition_count += 1
+
+        if self._definition_encoder is not None:
+            encoder = self._definition_encoder
+            evidence = encoder.lexical_lookup(word, pos, entry_id=entry_id)
+            # A context may ground an occurrence through the ordinary encoder;
+            # multiple matching occurrences are not collapsed into one reading.
+            if context is not None and entry_id is None:
+                tokens = [t for t in encoder.encode(context).tokens if t.lemma == word.lower()]
+                if len(tokens) == 1:
+                    evidence = tokens[0].lexical_evidence
+            record = evidence.get("selected_record")
+            if evidence.get("selection_status") != "IDENTIFIED" or record is None:
+                return DecompositionResult(word=word, pos=pos, source="unknown", lexical_evidence=evidence)
+            values = {p: v for p, v in record["assignments"].items() if v}
+            vector = encoder._encode_definition_primitives(values, record.get("hierarchy", {}))
+            return DecompositionResult(
+                word=word,
+                pos=record.get("pos") or pos,
+                decomposition=[(p, "", v) for p, v in values.items()],
+                vector=vector,
+                confidence=1.0,
+                source="lexicon",
+                lexical_evidence=evidence,
+            )
 
         # Check if in lexicon
         for sense_id in ["01", "02", "03"]:
@@ -373,6 +431,28 @@ class GSEPipeline:
             EncodingResult with sentence encoding (and trace if requested)
         """
         self._encoding_count += 1
+
+        if self._definition_encoder is not None:
+            trace = self._definition_encoder.encode(sentence)
+            vectors, decompositions = [], []
+            for token in trace.tokens:
+                evidence = token.lexical_evidence or {}
+                record = evidence.get("selected_record") or {}
+                vectors.append(
+                    self._definition_encoder._encode_definition_primitives(
+                        token.word_primitives, record.get("hierarchy", {})
+                    )
+                )
+                decompositions.append([(p, "", v) for p, v in token.word_primitives.items()])
+            return EncodingResult(
+                text=sentence,
+                vector=trace.vector.to_dense(),
+                words=[t.token for t in trace.tokens],
+                word_vectors=vectors if include_word_vectors else [],
+                decompositions=decompositions,
+                metadata={"n_words": len(trace.tokens), "consumer": "GSEEncoder", "definition_store": True},
+                trace=trace if with_trace else None,
+            )
 
         words = sentence.split()  # Simple tokenization
         n_words = len(words)
@@ -666,6 +746,33 @@ class GSEPipeline:
             query_str = "vector"
             query_vec = query
 
+        if self._definition_encoder is not None:
+            # Reuse the public decoder's numerical index, never its nearest
+            # neighbour as a lexical identity or a completion of unknown banks.
+            if query_vec.nnz == 0:
+                return SimilarityResult(
+                    query=query_str,
+                    query_vector=query_vec,
+                    route_info={"identity_selection": False, "unavailable_query": True},
+                )
+            if self._definition_decoder is None:
+                from GSE.api import GSEDecoder
+
+                self._definition_decoder = GSEDecoder(self._definition_encoder.db_path)
+                self._definition_decoder.conn.execute("PRAGMA query_only=ON")
+            decoder = self._definition_decoder
+            scores = [
+                (str(key), float(query_vec.cosine(vector)))
+                for key, (vector, tag) in decoder.lexeme_vectors.items()
+                if pos is None or tag == pos
+            ]
+            scores.sort(key=lambda item: (-item[1], item[0]))
+            return SimilarityResult(
+                query=query_str,
+                query_vector=query_vec,
+                matches=scores[: max(0, top_k)],
+                route_info={"consumer": "GSEDecoder", "match_keys": "lexeme_id", "identity_selection": False},
+            )
         # Route through tree
         if self.router:
             result = self.router.route(query_vec, top_k=top_k)
@@ -777,19 +884,46 @@ class GSEPipeline:
         if self.bridge:
             stats["networks"] = self.bridge.get_statistics()["networks"]
 
+        if self._definition_encoder is not None:
+            stats["lexicon"] = {
+                "total_lexemes": self._definition_encoder.conn.execute("SELECT COUNT(*) FROM lexemes").fetchone()[0],
+                "format": "definition_indexed",
+                "read_only": True,
+            }
+
         return stats
 
     def verify_integrity(self) -> Tuple[bool, List[str]]:
         """Verify lexicon integrity."""
+        if self._definition_encoder is not None:
+            rows = [row[0] for row in self._definition_encoder.conn.execute("PRAGMA quick_check")]
+            return rows == ["ok"], [row for row in rows if row != "ok"]
         return self.tree.verify_integrity()
 
-    def get_lexeme(self, key: str) -> Optional[LexemeNode]:
-        """Get lexeme by key."""
+    def close(self):
+        """Release read-only definition consumers, if loaded."""
+        for name in ("_definition_encoder", "_definition_decoder"):
+            consumer = getattr(self, name, None)
+            if consumer is not None:
+                consumer.close()
+                setattr(self, name, None)
+
+    def get_lexeme(self, key: str) -> Union[LexemeNode, Dict[str, Any], None]:
+        """Get a legacy node or an exact definition record (never a lemma's first sense)."""
+        if self._definition_encoder is not None:
+            return self._definition_encoder.lookup_definition(key)["selected"]
         return self.tree.get_lexeme(key)
 
     def iter_lexemes(self):
-        """Iterate over all lexemes."""
+        """Iterate legacy nodes or definition records with their exact identities."""
+        if self._definition_encoder is not None:
+            return self._iter_definitions()
         return self.tree.iter_lexemes()
+
+    def _iter_definitions(self):
+        cursor = self._definition_encoder.conn.execute("SELECT entry_id FROM definition_states ORDER BY entry_id")
+        for row in cursor:
+            yield self.get_lexeme(row[0])
 
 
 # =============================================================================

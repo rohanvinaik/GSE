@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('GSE/curation/lexicon_builder/specification.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,ast.FunctionDef) and n.name in {'measure_space','space_delta'}: print(ast.get_source_segment(s,n))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-runtime-status.json','ssl-api-controller-grouped-source-exit.json','ssl-api-controller-final-integrated-gate-exit.json']:\n p=n/name\n if p.exists():\n  d=json.loads(p.read_text()); print(name,json.dumps({k:v for k,v in d.items() if k not in {'last_response','response','output','input','messages','history'}},indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

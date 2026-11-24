@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,ast\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-api-controller-root-handoff.json','ssl-api-controller-blockers.json','ssl-api-controller-final-integrated-gate-exit.json','ssl_api_runtime_eight_operations.py']:\n p=D/n; print('\\nFILE',n); print(p.read_text())\np=D/'ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json'; r=json.loads(p.read_text()); print('\\nREPORT TOP KEYS',list(r));\nfor k,v in r.items():\n if k not in ('operations',): print(k, str(v)[:1500] if not isinstance(v,(list,dict)) else ('KEYS '+str(list(v)) if isinstance(v,dict) else 'LIST '+str(len(v))))\nops=r.get('operations',{}); print('OP KEYS', {k:list(v) if isinstance(v,dict) else type(v).__name__ for k,v in ops.items()})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

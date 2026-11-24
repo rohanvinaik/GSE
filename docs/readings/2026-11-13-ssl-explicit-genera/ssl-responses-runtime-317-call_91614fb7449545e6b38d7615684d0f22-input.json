@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor path in ['GSE/curation/external_sources/gse_closed_class.py','GSE/symbolic/queries.py','GSE/symbolic/knowledge.py','GSE/nlp/spellcheck.py','GSE/curation/external_sources/nsm_chart.py']:\n p=Path(path)\n if p.exists():\n  s=p.read_text();t=ast.parse(s);print('\\nFILE',path,'lines',len(s.splitlines()))\n  if path.endswith('gse_closed_class.py'):print(s)\n  else:print([(n.name,ast.unparse(n.args) if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) else '') for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))])\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nimport json\nf=json.loads((D/'ssl-api-runtime-workload-freeze.json').read_text()); print('OPS',json.dumps(f['operations'],indent=2))\nprint('Audit helper files', [p.name for p in D.glob('*runtime*.py')]);print('KB files',[str(p) for p in Path('GSE').rglob('*knowledge*')]);print('Integration files',[str(p) for p in Path('GSE/integrations').glob('*.py')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

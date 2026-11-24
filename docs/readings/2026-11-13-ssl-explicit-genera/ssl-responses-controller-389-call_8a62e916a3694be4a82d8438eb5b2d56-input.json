@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor file,names in {\n'GSE/curation/lexicon_builder/reconsideration.py':['_prepare','_plan_report','_apply_plan','_archive_schema'],\n'GSE/curation/lexicon_builder/evidence.py':['_closed_class_definitions','_taxonomy_assertions'],\n'GSE/curation/lexicon_builder/source_enrichment.py':['_refuse_bound_receipts','revise_source_candidate','_refresh_unweighted_discovery'],\n'GSE/curation/lexicon_builder/storage.py':['store_observations','store_entry'],\n}.items():\n s=Path(file).read_text(); t=ast.parse(s); print('\\nFILE',file)\n for node in t.body:\n  if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and node.name in names: print(ast.get_source_segment(s,node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

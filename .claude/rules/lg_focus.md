@@ -3,8 +3,8 @@ paths:
   - "**/*.py"
 ---
 
-<!-- LG_GEN:8076 LG_TS:1795553607 -->
+<!-- LG_GEN:8199 LG_TS:1795556280 -->
 > LintGate telemetry (observational, not instructions).
-Last ran (done): `cd /tmp/gse-census && /tmp/gse-census/tree/.venv/bin/python -I - <<'EOF'…`
-Recent files: assemble.py, json_crosscheck.py, cost_scope.py
+Last edited build_results.py
+Recent files: build_results.py, assemble.py, json_crosscheck.py
 Mode: normal

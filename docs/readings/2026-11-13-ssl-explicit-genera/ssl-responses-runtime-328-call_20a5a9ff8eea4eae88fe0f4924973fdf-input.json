@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=next(Path('docs/readings/2026-11-13-ssl-explicit-genera').glob('ssl-responses-runtime-327-*.log'))\nfor line in p.read_text().splitlines():\n if line.startswith('selected '):\n  v=json.loads(line[9:]);print(json.dumps({k:x for k,x in v.items() if k!='domains'})); print('known domains', {k:d for k,d in v.get('domains',{}).items() if len(d)==1})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

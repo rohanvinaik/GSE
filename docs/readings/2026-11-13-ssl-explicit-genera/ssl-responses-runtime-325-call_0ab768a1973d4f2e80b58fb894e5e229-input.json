@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-responses-runtime-steering.json','ssl-api-runtime-complete-operation-cases-v1.json','ssl-api-runtime-pre-eight-operation-blockers.json','ssl-api-runtime-checkpoint-demand.json']:\n p=D/n;v=json.loads(p.read_text());print('\\nFILE',n,'bytes',p.stat().st_size)\n if p.stat().st_size<24000: print(json.dumps(v,indent=2))\n else: print('keys',list(v));print(json.dumps({k:x for k,x in v.items() if k not in ['cases','entries','observations','history']},indent=2)[:4000])\nfor n in ['ssl-api-runtime-complete-operation-observations-v2.json','ssl-api-runtime-candidate-operation-probe-v3.json']:\n p=D/n;v=json.loads(p.read_text());print(n,'bytes',p.stat().st_size,'keys',list(v))\nprint('helpers', [str(p) for p in D.glob('*runtime*.py')])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport json,sqlite3,ast\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');print('STEERING', (n/'ssl-responses-controller-steering.json').read_text())\np=Path('/private/var/folders/y3/9hy3l65d7xvdl89kh19dnlf40000gp/T/pytest-of-rohanvinaik/pytest-55901/test_chart_own_coordinate_uses0/chart.db')\nwith sqlite3.connect(f'file:{p}?mode=ro',uri=True) as c:\n for t in ['definition_states','assertions']:\n  print(t,[d[1] for d in c.execute(f'pragma table_info({t})')]);print(c.execute(f'SELECT * FROM {t} WHERE entry_id=?',('nsm_chart:v20:now',)).fetchall())\np=n/'ssl_api_checkpoint_canonical_projection.py';s=p.read_text()\nfor v in ast.parse(s).body:\n if isinstance(v,ast.FunctionDef) and v.name in ['run','apply_projection','record']:print('\\nFUNCTION',ast.get_source_segment(s,v))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

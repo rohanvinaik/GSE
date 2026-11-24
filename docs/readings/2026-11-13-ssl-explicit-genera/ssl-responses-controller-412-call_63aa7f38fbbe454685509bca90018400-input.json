@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nd=json.loads((n/'ssl-api-controller-source-freeze.json').read_text());print('A_FREEZE',json.dumps({k:d[k] for k in d if k in {'format','role_scope','code','status','source_edits_finished','frozen_at_utc','owned_paths','source_head'}},indent=2));print('A_PIN_PATHS',list(d.get('source_pins',{})))\nprint('GATE_SOURCES',*[str(p) for p in n.glob('*.py') if any(x in p.name for x in ['gate','postwriter','continuation','measure'])],sep='\\n')\np=n/'ssl-api-runtime-auxiliary-source-demand.json';d=json.loads(p.read_text());print('RUNTIME_DEMAND_KEYS',list(d)); print('LATEST',json.dumps({k:v for k,v in d.items() if k in {'updated_utc','source_demand','required_changes','candidate','sha256','status','controller_action','evaluative_profile'}},indent=2))\nprint('CI_SCRIPT\\n',Path('scripts/ci_local.sh').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

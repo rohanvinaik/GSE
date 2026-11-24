@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json,sqlite3\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py');s=p.read_text();t=ast.parse(s)\nfor x in t.body:\n if isinstance(x,ast.FunctionDef) and x.name in {'apply_projection','full_observations','current_entry','manifest_payload'}:print(ast.get_source_segment(s,x))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');d=json.loads((n/'ssl-api-controller-canonical-source-review.json').read_text());c=next(c for c in d['claims'] if c['unit_id']=='now');print('REVIEW_CLAIM',json.dumps(c,indent=2))\nconn=sqlite3.connect('file:'+d['baseline']['path']+'?mode=ro',uri=True)\nfor table in ['source_observations','source_assertions','definitions']:print('SCHEMA',table,conn.execute('SELECT sql FROM sqlite_master WHERE name=?',(table,)).fetchone())\nprint('OBS',conn.execute(\"SELECT * FROM source_observations WHERE entry_id='nsm_chart:v20:now'\").fetchall());print('DEF',conn.execute(\"SELECT * FROM definitions WHERE entry_id='nsm_chart:v20:now'\").fetchall())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

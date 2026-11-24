@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nprint(Path('tests/test_audit_lexicon_runtime.py').read_text())\nimport ast\np=Path('GSE/lexicon/definitions.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.ClassDef,ast.FunctionDef)) and n.name in {'LexiconEntry','read_entries','runtime_lookup'}:print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

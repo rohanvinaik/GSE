@@ -209,6 +209,11 @@ def _auxiliary_entries() -> list[GSEClosedClassEntry]:
             if word in table:
                 origins.append(_origin(ORIGIN_NATIVE_FRONT_END, symbol, word, word))
         modal = word in _AUX_MODAL or bool(set(primitives) & MODAL_PRIMES)
+        # These exact rows describe grammatical auxiliaries, not an entity's
+        # own state, action or possession. Keep the legacy encodings as native
+        # provenance, but do not project their main-verb content into this use.
+        if not modal and lemma in {"be", "do", "have"}:
+            primitives = {}
         entries.append(
             _entry(
                 word, "modal" if modal else "auxiliary", "auxiliary", ("AUX",), primitives, {"lemma": lemma}, origins

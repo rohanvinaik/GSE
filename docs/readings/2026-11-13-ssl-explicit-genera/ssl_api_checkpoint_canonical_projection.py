@@ -11,24 +11,214 @@ import argparse
 import ast
 import hashlib
 import json
+import sqlite3
 import subprocess
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 
 from GSE.curation.lexicon_builder.completion import _contexts, _entry, _set_metadata
 from GSE.curation.lexicon_builder.epoch import fingerprint, make_questions, read, record
+from GSE.curation.lexicon_builder.evidence import _closed_class_definitions
 from GSE.curation.lexicon_builder.foundation import BANKS, load_manifest
+from GSE.curation.lexicon_builder.reconsideration import _apply_plan, _archive_schema, _plan_report, _prepare
 from GSE.curation.lexicon_builder.residual import _read_value
 from GSE.curation.lexicon_builder.resolution import resolve_dictionary
 from GSE.curation.lexicon_builder.rule_migration import _refresh_catalog
 from GSE.curation.lexicon_builder.source_enrichment import _refuse_bound_receipts, revise_source_candidate
-from GSE.curation.lexicon_builder.storage import store_entry
+from GSE.curation.lexicon_builder.storage import store_entry, store_observations
 from GSE.curation.lexicon_builder.validation import _metadata, _observations, _relations, _stored_context
 from GSE.lexicon_resource import ACTIVE_POINTER
+from GSE.namespace import identity_form
+
+HISTORICAL_STORAGE = "67c49b04ff01c6764c056b77b2678e8d3986ccf5"
 
 
 def observation_digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def auxiliary_review(candidate):
+    """Inventory the exact old/new native AUX rows; do not write lexical data."""
+    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+    definitions, observations, assertions = _closed_class_definitions(GSEClosedClassParser())
+    claims = []
+    with sqlite3.connect(candidate.resolve().as_uri() + "?mode=ro", uri=True) as conn:
+        for entry, definition in sorted(definitions.items()):
+            if not entry.startswith("gse_closed_class:auxiliary:"):
+                continue
+            old_definition, old_assertions, _, _ = _entry(conn, entry)
+            rows = conn.execute(
+                "SELECT payload FROM source_observations WHERE entry_id=? AND source='gse_closed_class'", (entry,)
+            ).fetchall()
+            if len(rows) != 1:
+                raise ValueError("AUXILIARY_REVISION_NATIVE_ROW_COUNT")
+            before = json.loads(rows[0][0])
+            after = asdict(observations[definition.source_ids[0]])
+            # JSON shapes, not tuple/list serialization, are the review boundary.
+            after = json.loads(json.dumps(after))
+            old_features, new_features = dict(before["features"]), dict(after["features"])
+            old_content = old_features.pop("primitives")
+            new_content = new_features.pop("primitives")
+            old_features.pop("definition")
+            new_features.pop("definition")
+            bank = {"be": "BE", "do": "DO", "have": "HAVE"}[new_features["grammatical_features"]["lemma"]]
+            if (
+                identity_form(old_features) != identity_form(new_features)
+                or old_content != {bank: 1}
+                or new_content != {}
+                or before["candidate_entry_ids"] != [entry]
+                or before["scope"] != "lexical"
+                or old_definition.definition != before["features"]["definition"]
+                or old_definition.pos != definition.pos
+                or old_definition.lemma != definition.lemma
+                or any(a.record_id == after["record_id"] for a in assertions)
+            ):
+                raise ValueError("AUXILIARY_REVISION_NOT_EXACT_GRAMMATICAL_RETRACTION:" + entry)
+            # Retain the original stored provenance bytes across the known
+            # namespace rename; only definition text and projected content change.
+            for key in ("native_encodings", "provenance"):
+                after["features"][key] = before["features"][key]
+            native_assertions = [asdict(a) for a in old_assertions if a.source == "gse_closed_class"]
+            if native_assertions != [
+                {
+                    "bank": bank,
+                    "value": 1,
+                    "source": "gse_closed_class",
+                    "record_id": before["record_id"],
+                    "family": "gse_curated_grammar",
+                    "scope": "lexical",
+                }
+            ]:
+                raise ValueError("AUXILIARY_REVISION_UNEXPECTED_SOURCE_ASSERTIONS:" + entry)
+            models = conn.execute(
+                "SELECT request_id FROM accepted_model_receipts WHERE entry_id=? ORDER BY ordinal", (entry,)
+            ).fetchall()
+            claims.append(
+                {
+                    "entry_id": entry,
+                    "before": before,
+                    "after": after,
+                    "retired_source_assertions": native_assertions,
+                    "retired_model_requests": [row[0] for row in models],
+                }
+            )
+    if len(claims) != 19:
+        raise ValueError("AUXILIARY_REVISION_INCOMPLETE_COHORT")
+    adapter = Path("GSE/curation/external_sources/gse_closed_class.py")
+    return {
+        "format": "GSE.auxiliary-own-content-source-review/1",
+        "baseline": {"path": str(candidate), "sha256": fingerprint(candidate)},
+        "adapter": {"path": str(adapter), "sha256": fingerprint(adapter)},
+        "scope": "EXACT_AUXILIARY_BE_DO_HAVE_NATIVE_DEFINITIONS_ONLY",
+        "warrant": "Grammatical auxiliary/copula operation is not own stative BE, action DO or possession HAVE. "
+        "Native role AUX and catalog auxiliary identify this use independently of spelling. "
+        "Legacy encoding origins remain provenance, not semantic authority for the different grammatical use.",
+        "unknown_policy": "Withdraw unsupported source assertions and reclose; no zero assertions or main-verb changes.",
+        "model_context_policy": "Archive all bound accepted rulings through existing reconsideration before replacing native context.",
+        "claims": claims,
+    }
+
+
+def apply_auxiliary_revision(conn, review, baseline_replay):
+    """Retire context-bound model receipts, then replace only reviewed native rows.
+
+    The caller's immutable, computed full baseline replay is the preflight. The
+    existing source revision transaction performs the mandatory full postflight;
+    the existing reconsideration mechanism archives/replays each retired suffix.
+    """
+    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
+
+    if (
+        review["scope"] != "EXACT_AUXILIARY_BE_DO_HAVE_NATIVE_DEFINITIONS_ONLY"
+        or fingerprint(Path(review["adapter"]["path"])) != review["adapter"]["sha256"]
+    ):
+        raise ValueError("AUXILIARY_REVISION_REVIEW_CHANGED")
+    definitions, native, _ = _closed_class_definitions(GSEClosedClassParser())
+    claims = review["claims"]
+    expected = {entry for entry in definitions if entry.startswith("gse_closed_class:auxiliary:")}
+    if len(claims) != len(expected) or {claim["entry_id"] for claim in claims} != expected:
+        raise ValueError("AUXILIARY_REVISION_COHORT_CHANGED")
+    retirements = []
+    for claim in claims:
+        entry = claim["entry_id"]
+        rows = conn.execute(
+            "SELECT request_id FROM accepted_model_receipts WHERE entry_id=? ORDER BY ordinal", (entry,)
+        ).fetchall()
+        if [row[0] for row in rows] != claim["retired_model_requests"]:
+            raise ValueError("AUXILIARY_REVISION_MODEL_SCOPE_CHANGED")
+        if rows:
+            plan = _prepare(conn, rows[0][0])
+            convention = "AUXILIARY_OWN_CONTENT_SOURCE_CORRECTION"
+            reason = "Native grammatical definition context changes; preserve original ruling only in its exact historical archive."
+            report = _plan_report(plan, convention, reason, baseline_replay, {})
+            _archive_schema(conn)
+            _apply_plan(conn, plan, report, convention, reason)
+            retirements.append(report)
+    _refuse_bound_receipts(conn, expected)
+    relations = _relations(_metadata(conn, "relations"))
+    prepared = []
+    for claim in claims:
+        entry = claim["entry_id"]
+        definition, assertions, restrictions, hierarchy = _entry(conn, entry)
+        new_definition = definitions[entry]
+        observation = native[new_definition.source_ids[0]]
+        rows = conn.execute(
+            "SELECT payload FROM source_observations WHERE entry_id=? AND source='gse_closed_class'", (entry,)
+        ).fetchall()
+        if (
+            len(rows) != 1
+            or json.loads(rows[0][0]) != claim["before"]
+            or identity_form(json.loads(json.dumps(asdict(observation)))) != identity_form(claim["after"])
+            or definition.definition != claim["before"]["features"]["definition"]
+            or definition.pos != new_definition.pos
+            or definition.lemma != new_definition.lemma
+        ):
+            raise ValueError("AUXILIARY_REVISION_SOURCE_CHANGED:" + entry)
+        retired = tuple(a for a in assertions if a.source == "gse_closed_class")
+        if [asdict(a) for a in retired] != claim["retired_source_assertions"] or len(retired) != 1:
+            raise ValueError("AUXILIARY_REVISION_ASSERTIONS_CHANGED:" + entry)
+        retained = tuple(a for a in assertions if a not in retired)
+        before = json.loads(
+            conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry,)).fetchone()[0]
+        )
+        observation = replace(observation, features=claim["after"]["features"])
+        conn.execute("DELETE FROM source_observations WHERE record_id=?", (claim["before"]["record_id"],))
+        store_observations(conn, (observation,))
+        prepared.append((claim, new_definition, retained, restrictions, hierarchy, before))
+    # Reconstruct every affected context in one complete source scan after all
+    # replacements, never from the obsolete entries' resolved vectors.
+    _, relevance = _contexts(conn, tuple(sorted(expected)))
+    changes = []
+    for claim, new_definition, retained, restrictions, hierarchy, before in prepared:
+        entry = claim["entry_id"]
+        resolution = resolve_dictionary(
+            BANKS,
+            retained,
+            relations,
+            _stored_context(conn, new_definition, relations),
+            evidence_banks=tuple(sorted(relevance[entry])),
+            domain_restrictions=restrictions,
+        )
+        if resolution.code == "CONFLICT":
+            raise ValueError("AUXILIARY_REVISION_RETAINED_CONFLICT")
+        store_entry(conn, new_definition, resolution, retained, hierarchy, domain_restrictions=restrictions)
+        changes.append(
+            {
+                "entry_id": entry,
+                "before_native": claim["before"],
+                "after_native": claim["after"],
+                "retired_source_assertions": claim["retired_source_assertions"],
+                "before_domains": before,
+                "after_domains": {bank: sorted(values) for bank, values in resolution.domains.items()},
+            }
+        )
+    return {
+        "source_changes": changes,
+        "model_reconsiderations": retirements,
+        "model_calls": 0,
+        "zero_assertions_added": 0,
+    }
 
 
 def checked_builder_pins(pins):
@@ -47,7 +237,7 @@ def checked_builder_pins(pins):
             continue
         if str(path) != "GSE/curation/lexicon_builder/storage.py":
             raise ValueError("CANONICAL_PROJECTION_BASELINE_BUILDER_CHANGED:" + str(path))
-        old = subprocess.check_output(["git", "show", "HEAD:" + str(path)])
+        old = subprocess.check_output(["git", "show", HISTORICAL_STORAGE + ":" + str(path)])
         if hashlib.sha256(old).hexdigest() != pin["sha256"]:
             raise ValueError("CANONICAL_PROJECTION_HISTORICAL_STORAGE_NOT_PINNED")
         old_tree, new_tree = ast.parse(old), ast.parse(path.read_text())
@@ -213,7 +403,14 @@ def apply_projection(conn, claims, manifest):
             or native["entry_id"] != entry
             or native["record_id"] != claim["native_record_id"]
             or native["candidate_entry_ids"] != [entry]
-            or native["scope"] != "lexical"
+            or native["scope"] != {"wordnet": "lexical", "nsm_chart": "source_structure"}.get(claim["native_source"])
+            or (
+                claim["native_source"] == "nsm_chart"
+                and (
+                    native["features"].get("definition_kind") != "LEXICAL_UNIT"
+                    or native["features"].get("unit_id") != claim["unit_id"]
+                )
+            )
         ):
             raise ValueError("CANONICAL_PROJECTION_SOURCE_CHANGED:" + entry)
         before = json.loads(
@@ -263,7 +460,16 @@ def apply_projection(conn, claims, manifest):
     return changes
 
 
-def run(review_path, directory, baseline_report, baseline_source_certificate, output, manifest, result):
+def run(
+    review_path,
+    directory,
+    baseline_report,
+    baseline_source_certificate,
+    output,
+    manifest,
+    result,
+    auxiliary_review_path=None,
+):
     review, claims, reservations = verify_witnesses(review_path, directory)
     if not claims:
         raise ValueError("CANONICAL_PROJECTION_NO_SIGNED_WITNESSES")
@@ -295,10 +501,19 @@ def run(review_path, directory, baseline_report, baseline_source_certificate, ou
             "builder_pins": builder_pins,
             "exact_reader_relocation_proofs": relocations,
             "manifest_sha256": fingerprint(manifest),
+            "auxiliary_review_sha256": fingerprint(auxiliary_review_path) if auxiliary_review_path else None,
             "reservations": reservations,
             "semantic_authority": "REVIEWED_EXACT_DEFINITION_BASIS_CORRESPONDENCE_NOT_MODEL_MAJORITY_OR_SPELLING",
         },
     )
+    auxiliary = read(auxiliary_review_path) if auxiliary_review_path else None
+    if auxiliary and auxiliary["baseline"] != review["baseline"]:
+        raise ValueError("AUXILIARY_REVISION_BASELINE_CHANGED")
+
+    def apply_group(conn):
+        auxiliary_changes = apply_auxiliary_revision(conn, auxiliary, baseline["replay"]) if auxiliary else None
+        return {"auxiliary": auxiliary_changes, "canonical": apply_projection(conn, claims, manifest)}
+
     report = revise_source_candidate(
         Path(review["baseline"]["path"]),
         output,
@@ -307,7 +522,7 @@ def run(review_path, directory, baseline_report, baseline_source_certificate, ou
             "active_pointer_sha256": fingerprint(ACTIVE_POINTER),
             "replay": baseline["replay"],
         },
-        lambda conn: apply_projection(conn, claims, manifest),
+        apply_group,
         format_tag="GSE.canonical-source-projection/1",
         metadata_key="canonical_source_projection",
     )
@@ -318,6 +533,7 @@ def run(review_path, directory, baseline_report, baseline_source_certificate, ou
             "manifest_sha256": fingerprint(manifest),
             "reservations": reservations,
             "is_final_holdout": False,
+            "auxiliary_review_sha256": fingerprint(auxiliary_review_path) if auxiliary_review_path else None,
         }
     )
     record(result, report)
@@ -336,4 +552,5 @@ if __name__ == "__main__":
         "result",
     ):
         parser.add_argument("--" + name.replace("_", "-"), required=True, type=Path)
+    parser.add_argument("--auxiliary-review-path", type=Path)
     run(**vars(parser.parse_args()))

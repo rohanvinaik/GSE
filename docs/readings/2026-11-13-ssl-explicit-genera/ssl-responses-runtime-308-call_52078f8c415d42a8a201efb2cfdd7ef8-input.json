@@ -1,0 +1,5 @@
+{
+  "command": "/Users/rohanvinaik/Projects/SquishOS/ops/agents/bin/owned-run --label runtime-pipeline-checkpoint-gate -- sh -c 'env UV_OFFLINE=1 uvx ruff@0.16.10 format GSE/pipeline_v2.py tests/test_pipeline_definition_checkpoint.py && env UV_OFFLINE=1 uvx ruff@0.16.10 check GSE/pipeline_v2.py tests/test_pipeline_definition_checkpoint.py && .venv/bin/python -m pytest tests/test_pipeline_definition_checkpoint.py tests/test_operation_trace.py -q --tb=short --junitxml=docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-pipeline-checkpoint-tests.xml'",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 600
+}

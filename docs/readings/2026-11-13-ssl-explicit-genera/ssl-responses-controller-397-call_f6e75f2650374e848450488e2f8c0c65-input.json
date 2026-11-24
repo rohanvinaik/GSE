@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport sqlite3,json\nfrom dataclasses import asdict\nfrom GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser\nfrom GSE.curation.lexicon_builder.evidence import _closed_class_definitions\nfrom GSE.namespace import identity_form\np='data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db'\nd,o,a=_closed_class_definitions(GSEClosedClassParser());e='gse_closed_class:auxiliary:%27m'\nwith sqlite3.connect('file:'+p+'?mode=ro',uri=True) as c:\n b=json.loads(c.execute('SELECT payload FROM source_observations WHERE entry_id=?',(e,)).fetchone()[0]);new=json.loads(json.dumps(asdict(o[d[e].source_ids[0]])))\n for key in set(b['features'])|set(new['features']):\n  if b['features'].get(key)!=new['features'].get(key):print(key,'OLD',b['features'].get(key),'NEW',new['features'].get(key))\n print('oldassert',c.execute('SELECT payload FROM builder_assertions WHERE entry_id=?',(e,)).fetchall());print('newasserts',[asdict(x) for x in a if x.record_id==new['record_id']])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

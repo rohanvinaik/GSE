@@ -1,0 +1,3 @@
+{
+  "patch": "*** Begin Patch\n*** Update File: /Users/rohanvinaik/Projects/GSE/tests/test_checkpoint_canonical_projection.py\n@@\n     entry, unit = \"nsm_chart:v20:now\", \"nsm:v20:now\"\n     with sqlite3.connect(baseline) as conn:\n+        conn.row_factory = sqlite3.Row\n         native = json.loads(\n*** End Patch"
+}

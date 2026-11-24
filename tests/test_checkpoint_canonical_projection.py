@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import sqlite3
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -159,7 +160,7 @@ def test_actual_pinned_storage_reader_relocation_is_exact():
 def test_relocation_does_not_authorize_other_changed_code(tmp_path, monkeypatch, change):
     storage = Path("GSE/curation/lexicon_builder/storage.py")
     reader = Path("GSE/lexicon/definitions.py")
-    old = MODULE.subprocess.check_output(["git", "show", "HEAD:" + str(storage)])
+    old = MODULE.subprocess.check_output(["git", "show", MODULE.HISTORICAL_STORAGE + ":" + str(storage)])
     current, moved = (ROOT / storage).read_text(), (ROOT / reader).read_text()
     monkeypatch.chdir(tmp_path)
     storage.parent.mkdir(parents=True)
@@ -176,3 +177,186 @@ def test_relocation_does_not_authorize_other_changed_code(tmp_path, monkeypatch,
         pin = {"path": str(reader), "sha256": "not-the-current-pin"}
     with pytest.raises(ValueError, match="CANONICAL_PROJECTION"):
         MODULE.checked_builder_pins([pin])
+
+
+def legacy_auxiliary_build(path):
+    """Build the real historical AUX producer and one context-bound ruling."""
+    from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser, _entry
+    from GSE.curation.lexicon_builder.completion import complete_dictionary
+    from GSE.curation.lexicon_builder.evidence import collect_evidence
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.validation import validate_build
+
+    parser = GSEClosedClassParser()
+    parser.load()
+    for word, entries in parser.entries.items():
+        for index, native in enumerate(entries):
+            if native.catalog != "auxiliary":
+                continue
+            bank = {"be": "BE", "do": "DO", "have": "HAVE"}[native.grammatical_features["lemma"]]
+            entries[index] = _entry(
+                word,
+                native.catalog,
+                native.pos,
+                native.grammar_roles,
+                {bank: 1},
+                native.grammatical_features,
+                list(native.native_encodings),
+            )
+    build_dictionary(collect_evidence({"gse_closed_class": parser}, ()), path)
+
+    class TypedFixture:
+        model = "typed-fixture-not-a-service"
+
+        def __call__(self, payload, schema):
+            return json.dumps({payload["bank"]: 0})
+
+    report = complete_dictionary(path, TypedFixture(), 1, entry_ids=("gse_closed_class:auxiliary:is",), banks=("BODY",))
+    assert report["outcomes"] == {"ASSIGNED": 1}
+    replay = validate_build(path)
+    assert replay["code"] == "REPLAY_VALIDATED"
+    return replay
+
+
+def test_real_auxiliary_source_transition_archives_model_context_and_replays(tmp_path):
+    from GSE.curation.lexicon_builder.source_enrichment import revise_source_candidate
+    from GSE.curation.lexicon_builder.validation import validate_build
+    from GSE.lexicon_resource import ACTIVE_POINTER
+
+    baseline, successor = tmp_path / "old.db", tmp_path / "new.db"
+    replay = legacy_auxiliary_build(baseline)
+    baseline_sha = MODULE.fingerprint(baseline)
+    review = MODULE.auxiliary_review(baseline)
+    assert len(review["claims"]) == 19
+    assert sum(len(c["retired_model_requests"]) for c in review["claims"]) == 1
+    manifest = tmp_path / "empty.json"
+    write(manifest, {"format": "GSE.lexicon-rules/1", "anchors": {}})
+
+    def apply(conn):
+        changes = MODULE.apply_auxiliary_revision(conn, review, replay)
+        MODULE.apply_projection(conn, [], manifest)
+        return changes
+
+    report = revise_source_candidate(
+        baseline,
+        successor,
+        {
+            "candidate_sha256": baseline_sha,
+            "active_pointer_sha256": MODULE.fingerprint(ACTIVE_POINTER),
+            "replay": replay,
+        },
+        apply,
+        format_tag="GSE.test-source-revision/1",
+        metadata_key="test_source_revision",
+    )
+    assert MODULE.fingerprint(baseline) == baseline_sha
+    assert report["replay"]["code"] == "REPLAY_VALIDATED"
+    assert report["changes"]["zero_assertions_added"] == 0
+    with sqlite3.connect(successor) as conn:
+        aux = conn.execute(
+            "SELECT domains FROM definition_states WHERE entry_id LIKE 'gse_closed_class:auxiliary:%'"
+        ).fetchall()
+        assert len(aux) == 19
+        assert all(all(d == [-1, 0, 1] for d in json.loads(row[0]).values()) for row in aux)
+        assert conn.execute("SELECT COUNT(*) FROM accepted_model_receipts").fetchone()[0] == 0
+        archive = json.loads(conn.execute("SELECT payload FROM model_reconsideration_archive").fetchone()[0])
+        assert archive["archived_receipts"][0]["receipt"]["request"]["entry_id"] == "gse_closed_class:auxiliary:is"
+        with pytest.raises(sqlite3.IntegrityError, match="APPEND_ONLY"):
+            conn.execute("DELETE FROM model_reconsideration_archive")
+        for claim in review["claims"]:
+            raw = json.loads(
+                conn.execute(
+                    "SELECT payload FROM source_observations WHERE entry_id=?", (claim["entry_id"],)
+                ).fetchone()[0]
+            )
+            assert raw == claim["after"]
+            assert raw["features"]["native_encodings"] == claim["before"]["features"]["native_encodings"]
+        assert (
+            conn.execute(
+                "SELECT value FROM primitive_values p JOIN definition_states d ON p.lexeme_id=d.lexeme_id "
+                "WHERE d.entry_id='gse_closed_class:modal:can' AND p.primitive='CAN'"
+            ).fetchone()[0]
+            == 1
+        )
+    assert validate_build(successor)["code"] == "REPLAY_VALIDATED"
+
+
+def test_changed_auxiliary_review_cannot_mutate_immutable_input(tmp_path):
+    from GSE.curation.lexicon_builder.source_enrichment import revise_source_candidate
+    from GSE.lexicon_resource import ACTIVE_POINTER
+
+    baseline, successor = tmp_path / "old.db", tmp_path / "refused.db"
+    replay = legacy_auxiliary_build(baseline)
+    before = MODULE.fingerprint(baseline)
+    review = MODULE.auxiliary_review(baseline)
+    review["claims"][-1]["before"]["features"]["definition"] = "unreviewed definition"
+    with pytest.raises(ValueError, match="SOURCE_CHANGED"):
+        revise_source_candidate(
+            baseline,
+            successor,
+            {"candidate_sha256": before, "active_pointer_sha256": MODULE.fingerprint(ACTIVE_POINTER), "replay": replay},
+            lambda conn: MODULE.apply_auxiliary_revision(conn, review, replay),
+            format_tag="GSE.test-source-revision/1",
+            metadata_key="test_source_revision",
+        )
+    assert MODULE.fingerprint(baseline) == before
+    assert not successor.exists()
+
+
+@pytest.mark.parametrize("change", [None, "scope", "construction"])
+def test_chart_own_coordinate_uses_reviewed_structural_source_not_frame_values(tmp_path, change):
+    from GSE.curation.external_sources.nsm_chart import NSMChartParser
+    from GSE.curation.lexicon_builder.evidence import collect_evidence
+    from GSE.curation.lexicon_builder.pipeline import build_dictionary
+    from GSE.curation.lexicon_builder.validation import validate_build
+
+    parser = NSMChartParser()
+    parser.load()
+    baseline = tmp_path / "chart.db"
+    build_dictionary(collect_evidence({"nsm_chart": parser}, ()), baseline)
+    entry, unit = "nsm_chart:v20:now", "nsm:v20:now"
+    with sqlite3.connect(baseline) as conn:
+        conn.row_factory = sqlite3.Row
+        native = json.loads(
+            conn.execute("SELECT payload FROM source_observations WHERE entry_id=?", (entry,)).fetchone()[0]
+        )
+        assert native["scope"] == "source_structure"
+        if change:
+            if change == "scope":
+                native["scope"] = "lexical"
+            else:
+                native["features"]["definition_kind"] = "SENTENCE_CONSTRUCTION"
+            conn.execute("UPDATE source_observations SET payload=? WHERE entry_id=?", (json.dumps(native), entry))
+        claim = {
+            "entry_id": entry,
+            "unit_id": unit,
+            "bank": "THEN",
+            "value": -1,
+            "definition": native["features"]["definition"],
+            "pos": native["features"]["pos"],
+            "identity_link": {"entry_ids": [entry]},
+            "native_source": "nsm_chart",
+            "native_record_id": native["record_id"],
+            "native_observation_sha256": MODULE.observation_digest(native),
+        }
+        MODULE._set_metadata(conn, "prime_entries", {unit: [entry]})
+        manifest = tmp_path / "reviewed-own-coordinate.json"
+        write(manifest, MODULE.manifest_payload([claim], "review-pin", "audit-pin"))
+        if change:
+            with pytest.raises(ValueError, match="CANONICAL_PROJECTION_SOURCE_CHANGED"):
+                MODULE.apply_projection(conn, [claim], manifest)
+            return
+        MODULE.apply_projection(conn, [claim], manifest)
+        domains = json.loads(
+            conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry,)).fetchone()[0]
+        )
+        assert domains["THEN"] == [-1]
+        # The one reviewed assertion also activates the existing temporal
+        # category law. This is justified closure, not imported frame content.
+        assert domains["WHEN"] == [1]
+        assert all(v == [-1, 0, 1] for b, v in domains.items() if b not in {"THEN", "WHEN"})
+        assert (
+            json.loads(conn.execute("SELECT payload FROM source_observations WHERE entry_id=?", (entry,)).fetchone()[0])
+            == native
+        )
+    assert validate_build(baseline)["code"] == "REPLAY_VALIDATED"

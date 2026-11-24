@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nfor name in ['GSE/merkle/translator.py','GSE/pipeline_v2.py','GSE/merkle/nodes.py','GSE/discourse/profile.py']:\n p=Path(name);t=p.read_text();a=ast.parse(t); print('\\nMODULE',name)\n if 'translator' in name: print(t)\n else:\n  for n in a.body:\n   if isinstance(n,(ast.ClassDef,ast.FunctionDef)):\n    print(n.name,n.lineno,n.end_lineno,[(m.name,m.lineno,m.end_lineno)for m in getattr(n,'body',[]) if isinstance(m,ast.FunctionDef)])\nfor root in ['tests','GSE']:\n hits=[]\n for p in Path(root).rglob('*.py'):\n  if 'curation' in p.parts:continue\n  t=p.read_text()\n  if any(x in t for x in ['SQLiteMerkleTranslator','GSEPipeline(','text_profile(']):hits.append(str(p))\n print('REFERENCES',root,hits)\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-third-integrated-controls.json');x=json.loads(p.read_text());print('CONTROL KEYS',list(x));\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in {'run','main','verify_witnesses'}: print(ast.get_source_segment(s,n))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-pre-eight-operation-blockers.json'); print('\\nRUNTIME_CURRENT\\n',p.read_text() if p.exists() else 'absent')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "git log -5 --format='%H %s' -- GSE/curation/lexicon_builder/storage.py && python3 - <<'PY'\nimport json,hashlib,importlib.util\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');p=n/'ssl_api_checkpoint_canonical_projection.py';sp=importlib.util.spec_from_file_location('projection',p);m=importlib.util.module_from_spec(sp);sp.loader.exec_module(m)\nb=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db')\ntry:\n r=m.auxiliary_review(b); m.record(n/'ssl-api-controller-auxiliary-source-review.json',r);print('auxreview',len(r['claims']),[(c['entry_id'],c['retired_model_requests']) for c in r['claims'] if c['retired_model_requests']])\nexcept Exception as e:print(type(e).__name__,str(e));raise\nfor name in ['ssl-api-controller-canonical-witness-exit.json','ssl-api-controller-canonical-witness-phase.json']:\n p=n/name;print(name,p.read_text() if p.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

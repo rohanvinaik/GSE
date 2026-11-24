@@ -1,0 +1,3 @@
+{
+  "patch": "*** Begin Patch\n*** Update File: /Users/rohanvinaik/Projects/GSE/tests/test_checkpoint_canonical_projection.py\n@@\n         )\n         assert domains[\"THEN\"] == [-1]\n-        assert all(v == [-1, 0, 1] for b, v in domains.items() if b != \"THEN\")\n+        # The one reviewed assertion also activates the existing temporal\n+        # category law. This is justified closure, not imported frame content.\n+        assert domains[\"WHEN\"] == [1]\n+        assert all(v == [-1, 0, 1] for b, v in domains.items() if b not in {\"THEN\", \"WHEN\"})\n*** End Patch"
+}

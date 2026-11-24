@@ -1,0 +1,5 @@
+{
+  "command": "pwd; python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md'); s=p.read_text(); lines=s.splitlines(); starts=[i for i,l in enumerate(lines) if l.startswith('#') and 'Recovery contract' in l];\nfor i in starts:\n j=next((k for k in range(i+1,len(lines)) if lines[k].startswith('#') and len(lines[k])-len(lines[k].lstrip('#'))<=len(lines[i])-len(lines[i].lstrip('#'))),len(lines)); print('\\n'.join(lines[i:j]))\nd=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor n in ['ssl-responses-runtime-steering.json','ssl-api-runtime-blockers.json','ssl-api-runtime-fourth-source-freeze.json','ssl-api-controller-result.json']:\n p=d/n\n if p.exists():\n  v=json.loads(p.read_text());print(n);print(json.dumps({k:x for k,x in v.items() if k in ['status','code','source_edits_finished','frozen_at','candidate','candidate_sha256','critical_cases','next_action','phase','role','current_source_freeze']},indent=2))\nprint('audit files', [p.name for p in d.iterdir() if 'eight' in p.name or 'operation' in p.name or 'steering' in p.name])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

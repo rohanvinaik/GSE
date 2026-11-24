@@ -1,0 +1,3298 @@
+{
+  "scope": "DEVELOPMENT actual immutable successor, not untouched final",
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "cases": [
+    {
+      "text": "I have eaten.",
+      "tokens": [
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "AUX",
+          "word": {
+            "HAVE": 1
+          },
+          "sentence": {},
+          "selection": "IDENTIFIED",
+          "entry_id": "gse_closed_class:auxiliary:have",
+          "assignments": {
+            "HAVE": 1
+          },
+          "trace": [
+            {
+              "bank": "HAVE",
+              "family": "gse_curated_grammar",
+              "kind": "ASSERTION",
+              "record_id": "gse_closed_class:have:446163076c9e622538a6064e52fdbfda4397e76a94bdb43bee1b21ecabef2652",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "gse_closed_class",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7ca9ff06b5f0bee5f1e50e023d0508de26cf529f4d3d21c41800c631d69fc1a4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+            },
+            {
+              "banks": [
+                "ABOVE",
+                "FAR",
+                "HERE",
+                "OUTSIDE",
+                "SIDE",
+                "TOWARD",
+                "WHERE"
+              ],
+              "domains_before": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 2187,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:above-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:far-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:here-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:outside-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:side-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:toward-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:above-where",
+                "founder:category:far-where",
+                "founder:category:here-where",
+                "founder:category:outside-where",
+                "founder:category:side-where",
+                "founder:category:toward-where"
+              ],
+              "witnesses": 737
+            },
+            {
+              "banks": [
+                "BEFORE",
+                "LONG_TIME",
+                "MOMENT",
+                "THEN",
+                "WHEN"
+              ],
+              "domains_before": {
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 243,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:before-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:long_time-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:moment-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:then-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:before-when",
+                "founder:category:long_time-when",
+                "founder:category:moment-when",
+                "founder:category:then-when"
+              ],
+              "witnesses": 85
+            },
+            {
+              "banks": [
+                "CAUSE",
+                "DO",
+                "HAPPEN",
+                "MOVE"
+              ],
+              "domains_before": {
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 81,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:cause-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:do-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:move-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:cause-happen",
+                "founder:category:do-happen",
+                "founder:category:move-happen"
+              ],
+              "witnesses": 43
+            },
+            {
+              "banks": [
+                "I",
+                "SOMEONE",
+                "YOU"
+              ],
+              "domains_before": {
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:i-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:you-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:i-someone",
+                "founder:category:you-someone"
+              ],
+              "witnesses": 17
+            },
+            {
+              "banks": [
+                "ONE",
+                "QUANTITY",
+                "TWO"
+              ],
+              "domains_before": {
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:one-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:two-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:one-quantity",
+                "founder:category:two-quantity"
+              ],
+              "witnesses": 17
+            },
+            {
+              "complete_search": true,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+              "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+              "satisfiability": "SATISFIABLE"
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "grammatical_selection": {
+            "code": "GRAMMATICAL_DEFINITION_SELECTED",
+            "pos": "AUX",
+            "entry_ids": [
+              "gse_closed_class:auxiliary:have"
+            ]
+          },
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:have"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['i'], 'features': {'verb': 'eat'}}}"
+    },
+    {
+      "text": "I have a bicycle.",
+      "tokens": [
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "entry_id": null,
+          "assignments": null,
+          "trace": null,
+          "grammatical_selection": null,
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:have",
+            "wiktionary:en-have-en-noun-IM0V81FN:58223268d56210aa3f52c65048d6619006ddce010f9733b21d2fbf448cb703ef",
+            "wiktionary:en-have-en-noun-h~brQ7sF:e093e37c5ac3c4d504de10d95f3c938e133e264b91f673a6ba050806bf00c210",
+            "wiktionary:en-have-en-noun-w1mdsS9R:871dbc5f92a1fa3cf43eb5c09a4d1e9a4e47fb2b0cdddddc96968e10e2b48ab4",
+            "wiktionary:en-have-en-verb-0qDNFFaS:4e3f27bd2c746da5588b6acee5dbace8ae056b23966e0386ef7e5935ea2bb594",
+            "wiktionary:en-have-en-verb-7uTPaOgp:64409d0563a16015f37e312824e52fd0699d3d4c7103e322c5fd6160d3523416",
+            "wiktionary:en-have-en-verb-7wKyYYVa:955c263eb79d61427eab65ce3948d4a1365a7c96f213b06eac96b916bc76ab95",
+            "wiktionary:en-have-en-verb-B61jiErM:f318f87bc83651620e740021acb00b0ceed68630246b5aa3de461199f80fba5d",
+            "wiktionary:en-have-en-verb-C3~aQbvC:b63884a3b091cab0bee9a7bbb5fe7238b803fe80d5c5f75f654e8fda6ef04204",
+            "wiktionary:en-have-en-verb-DZjXkm-H:81c99554a2f1e9cce5ac8421f0d7e818087eded94cd92fc1bd5e4f1080eedef9",
+            "wiktionary:en-have-en-verb-FH9x1qaq:160c28828602a01c70e9600acdb2dec655051dd833e2b5c1701e2da90151c4e9",
+            "wiktionary:en-have-en-verb-H42v7Lkx:65e2c87fff702cb1db89ae55c4e0b74c5ed64a2026c4b10d217f5d7fbfd2032c",
+            "wiktionary:en-have-en-verb-MsADUchx:194267d68a4d4ffd2d17aad9158fd57b71dcbf560becfe818384a83e6c3d479a",
+            "wiktionary:en-have-en-verb-NFZ3oIPb:14cf8e134bc01df5fbe04a4881a0aecd8b7cc3c45761f78b1f0b280de424e030",
+            "wiktionary:en-have-en-verb-NIkb5KgL:6fff0fd14e8ac1f2339e5b07321fca144c5a826b5b8d8257b0deb7115b034fcc",
+            "wiktionary:en-have-en-verb-NUkwGSmX:18e14e97ddb738c6f20218c6c8a0ab3a9fade9cf440bc98e7873266da302146f",
+            "wiktionary:en-have-en-verb-N~R7ELPT:33614cb4268770a354ed80e8cea30fac209f0e0f6be2cdefdb5485725ed5b299",
+            "wiktionary:en-have-en-verb-OhFGGrUp:cf69cf716710387d3bcbfb2c48ea34c5e150d07a51d0ad2eeb9e85808168a495",
+            "wiktionary:en-have-en-verb-Prxfv4AX:9f3e5d0c51f3b4632768df1fa31aa3e27e93a209afdd0697995b5c9900ae2998",
+            "wiktionary:en-have-en-verb-S-Nv2JU4:4b60352f8c6bde5c6f4660eb220401a1a4464fb57c2f240fc7083726a7e4ad9f",
+            "wiktionary:en-have-en-verb-S0Q5MhLb:81c16baf90234397d6da500f90764ca36149f1ccc05da0ab264ebfe63e6f12cb",
+            "wiktionary:en-have-en-verb-URfbF6f9:c70a22d8411818b9a85175b2e53b7f5abb6a4cd9ea336d1de8715357214972d0",
+            "wiktionary:en-have-en-verb-XvYeTaSF:c9aa3ea1ebfd0da8e156e473de2ec1f277523e0c4aaee41dda991c46781799a4",
+            "wiktionary:en-have-en-verb-YOKOL9PA:8e6564c1b8499aa1d2f5bd323ee16d148f04f28292a2b29aea331d99dcaaa08e",
+            "wiktionary:en-have-en-verb-d88FUSpD:03689ce86d4eb138c5e469c335e4b8ec4dc0be3c7a7daa050e72388c6dadecb2",
+            "wiktionary:en-have-en-verb-e6nqqqE1:574d17126b097f61c64cdf65e6f3dd6dc8501544323db847c5d2ae99ad844c75",
+            "wiktionary:en-have-en-verb-en:give_birth:c88e968d3ee637a45ed07d88c512588eba62f1f3011658c1b86f31c42afd1c79",
+            "wiktionary:en-have-en-verb-fUA-B2dY:cf2eae1f53f156a830b00c571eaea4021de5dea9449b9cc81ee278c916a4a2dd",
+            "wiktionary:en-have-en-verb-jlcUeD2o:49aeaf2f0901cca99ec1c1182281a65a16abded5e0e234a9fb2559936f63848f",
+            "wiktionary:en-have-en-verb-lar7pwky:42c33d297d48f2fad88c507f007b7e708f4654e8d817ec65caadf232ade4c624",
+            "wiktionary:en-have-en-verb-mmguqBWp:a1353f0fe852355e10c5dcf1e9d56a2e2142360405592c0a551ff1c352138d92",
+            "wiktionary:en-have-en-verb-prcyMOzX:057f353a38b6ecafd18b3dd5f3ed2fb880eeeed2fb28fee6d9c0572fa0266fd3",
+            "wiktionary:en-have-en-verb-qss~HyMS:a09fddf5893dc53d6e2f6583d395866c00bf051084eb09dbe41197fdf68f970d",
+            "wiktionary:en-have-en-verb-rmiDlNad:5cef245bd9892c4b9cad85e5ee039bf26df339fa2039aba46030bfb2be2b1ac6",
+            "wiktionary:en-have-en-verb-sA6p5oID:91901b8e698a4cb2d4f7e8e7721d9e6152835636c34cca67dfae7a6dfdfb9655",
+            "wiktionary:en-have-en-verb-tZ5585Np:a6d4da48d38848cc5cae54a99a32c5e908446494387ea018d1734644d64df0bb",
+            "wiktionary:en-have-en-verb-wxm0B3~W:f38d904f962f2329daaded1c3d052e4feff5d84090fcdb4640f770739d6b3bff",
+            "wordnet:have:accept.v.02",
+            "wordnet:have:consume.v.02",
+            "wordnet:have:experience.v.03",
+            "wordnet:have:get.v.03",
+            "wordnet:have:give_birth.v.01",
+            "wordnet:have:have.v.01",
+            "wordnet:have:have.v.02",
+            "wordnet:have:have.v.07",
+            "wordnet:have:have.v.09",
+            "wordnet:have:have.v.10",
+            "wordnet:have:have.v.11",
+            "wordnet:have:have.v.12",
+            "wordnet:have:have.v.17",
+            "wordnet:have:hold.v.03",
+            "wordnet:have:induce.v.02",
+            "wordnet:have:own.v.01",
+            "wordnet:have:receive.v.01",
+            "wordnet:have:rich_person.n.01",
+            "wordnet:have:suffer.v.02",
+            "wordnet:have:take.v.35"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['i', 'bicycle'], 'features': {'verb': 'have'}}}"
+    },
+    {
+      "text": "She is running.",
+      "tokens": [
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {
+            "BE": 1
+          },
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "entry_id": "gse_closed_class:auxiliary:is",
+          "assignments": {
+            "BE": 1,
+            "BODY": 0
+          },
+          "trace": [
+            {
+              "bank": "BE",
+              "family": "gse_curated_grammar",
+              "kind": "ASSERTION",
+              "record_id": "gse_closed_class:is:b76683cbdd304783871f8064f1e15a8e499098dc1f559749505c73b5c40b90a1",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "gse_closed_class",
+              "value": 1
+            },
+            {
+              "bank": "BODY",
+              "family": "model",
+              "kind": "ASSERTION",
+              "record_id": "ad08dc2bf2a4870311c9a2c4d9e9b9c425b45d5e2c08b10936044176ffd2def3",
+              "remaining": [
+                0
+              ],
+              "removed": [
+                -1,
+                1
+              ],
+              "scope": "lexical",
+              "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+              "value": 0
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7ca9ff06b5f0bee5f1e50e023d0508de26cf529f4d3d21c41800c631d69fc1a4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+            },
+            {
+              "banks": [
+                "ABOVE",
+                "FAR",
+                "HERE",
+                "OUTSIDE",
+                "SIDE",
+                "TOWARD",
+                "WHERE"
+              ],
+              "domains_before": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 2187,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:above-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:far-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:here-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:outside-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:side-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:toward-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:above-where",
+                "founder:category:far-where",
+                "founder:category:here-where",
+                "founder:category:outside-where",
+                "founder:category:side-where",
+                "founder:category:toward-where"
+              ],
+              "witnesses": 737
+            },
+            {
+              "banks": [
+                "BEFORE",
+                "LONG_TIME",
+                "MOMENT",
+                "THEN",
+                "WHEN"
+              ],
+              "domains_before": {
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 243,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:before-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:long_time-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:moment-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:then-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:before-when",
+                "founder:category:long_time-when",
+                "founder:category:moment-when",
+                "founder:category:then-when"
+              ],
+              "witnesses": 85
+            },
+            {
+              "banks": [
+                "CAUSE",
+                "DO",
+                "HAPPEN",
+                "MOVE"
+              ],
+              "domains_before": {
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 81,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:cause-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:do-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:move-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:cause-happen",
+                "founder:category:do-happen",
+                "founder:category:move-happen"
+              ],
+              "witnesses": 43
+            },
+            {
+              "banks": [
+                "I",
+                "SOMEONE",
+                "YOU"
+              ],
+              "domains_before": {
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:i-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:you-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:i-someone",
+                "founder:category:you-someone"
+              ],
+              "witnesses": 17
+            },
+            {
+              "banks": [
+                "ONE",
+                "QUANTITY",
+                "TWO"
+              ],
+              "domains_before": {
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:one-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:two-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:one-quantity",
+                "founder:category:two-quantity"
+              ],
+              "witnesses": 17
+            },
+            {
+              "complete_search": true,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+              "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+              "satisfiability": "SATISFIABLE"
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "grammatical_selection": {
+            "code": "GRAMMATICAL_DEFINITION_SELECTED",
+            "pos": "AUX",
+            "entry_ids": [
+              "gse_closed_class:auxiliary:is"
+            ]
+          },
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:is"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['she'], 'features': {'verb': 'run'}}}"
+    },
+    {
+      "text": "She is a person.",
+      "tokens": [
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {
+            "BE": 1
+          },
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "entry_id": "gse_closed_class:auxiliary:is",
+          "assignments": {
+            "BE": 1,
+            "BODY": 0
+          },
+          "trace": [
+            {
+              "bank": "BE",
+              "family": "gse_curated_grammar",
+              "kind": "ASSERTION",
+              "record_id": "gse_closed_class:is:b76683cbdd304783871f8064f1e15a8e499098dc1f559749505c73b5c40b90a1",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "gse_closed_class",
+              "value": 1
+            },
+            {
+              "bank": "BODY",
+              "family": "model",
+              "kind": "ASSERTION",
+              "record_id": "ad08dc2bf2a4870311c9a2c4d9e9b9c425b45d5e2c08b10936044176ffd2def3",
+              "remaining": [
+                0
+              ],
+              "removed": [
+                -1,
+                1
+              ],
+              "scope": "lexical",
+              "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+              "value": 0
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7ca9ff06b5f0bee5f1e50e023d0508de26cf529f4d3d21c41800c631d69fc1a4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+            },
+            {
+              "banks": [
+                "ABOVE",
+                "FAR",
+                "HERE",
+                "OUTSIDE",
+                "SIDE",
+                "TOWARD",
+                "WHERE"
+              ],
+              "domains_before": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 2187,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:above-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:far-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:here-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:outside-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:side-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:toward-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:above-where",
+                "founder:category:far-where",
+                "founder:category:here-where",
+                "founder:category:outside-where",
+                "founder:category:side-where",
+                "founder:category:toward-where"
+              ],
+              "witnesses": 737
+            },
+            {
+              "banks": [
+                "BEFORE",
+                "LONG_TIME",
+                "MOMENT",
+                "THEN",
+                "WHEN"
+              ],
+              "domains_before": {
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 243,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:before-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:long_time-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:moment-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:then-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:before-when",
+                "founder:category:long_time-when",
+                "founder:category:moment-when",
+                "founder:category:then-when"
+              ],
+              "witnesses": 85
+            },
+            {
+              "banks": [
+                "CAUSE",
+                "DO",
+                "HAPPEN",
+                "MOVE"
+              ],
+              "domains_before": {
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 81,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:cause-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:do-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:move-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:cause-happen",
+                "founder:category:do-happen",
+                "founder:category:move-happen"
+              ],
+              "witnesses": 43
+            },
+            {
+              "banks": [
+                "I",
+                "SOMEONE",
+                "YOU"
+              ],
+              "domains_before": {
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:i-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:you-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:i-someone",
+                "founder:category:you-someone"
+              ],
+              "witnesses": 17
+            },
+            {
+              "banks": [
+                "ONE",
+                "QUANTITY",
+                "TWO"
+              ],
+              "domains_before": {
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:one-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:two-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:one-quantity",
+                "founder:category:two-quantity"
+              ],
+              "witnesses": 17
+            },
+            {
+              "complete_search": true,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+              "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+              "satisfiability": "SATISFIABLE"
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "grammatical_selection": {
+            "code": "GRAMMATICAL_DEFINITION_SELECTED",
+            "pos": "AUX",
+            "entry_ids": [
+              "gse_closed_class:auxiliary:is"
+            ]
+          },
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:is"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'TYPE_ASSERT', 'args': ['she', 'person'], 'features': {}}}"
+    },
+    {
+      "text": "Does Nora repair the bicycle?",
+      "tokens": [
+        {
+          "token": "Does",
+          "lemma": "do",
+          "pos": "AUX",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "sentence": {
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "entry_id": "gse_closed_class:auxiliary:does",
+          "assignments": {
+            "DO": 1,
+            "HAPPEN": 1
+          },
+          "trace": [
+            {
+              "bank": "DO",
+              "family": "gse_curated_grammar",
+              "kind": "ASSERTION",
+              "record_id": "gse_closed_class:does:281ea9f3d93a517aec15021a99106ffd45d0848e5d03fd97231c3f5580f7370e",
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "scope": "lexical",
+              "source": "gse_closed_class",
+              "value": 1
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adjective-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:adverb-not-object"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:category:body-something"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "founder:noun-own-evaluation"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:0a91caaa3f362c403173bc2cfef6e7cb6e6a96800fab64197513c11fd3b4f684"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:12e4c4c3fe8dcc724c57608d440ea2246e3f09dd6a2954c1ecefbd9da0d03a71"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:15b623faa3a7f480ae4bb55b38b12330b19bc02a59404d2e312985d6c4d123d6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:1ad9148bf06029d4b0f49346585ddceff9ad4415005116d85ef1ef4544f3fc52"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:200bdf39463c0f8f44b33b44a74760b127d11e4b14b2fcd3ca510990178eb8a5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:275d72d2802ac76818610dcfd7c0e52aa0bf7b8675bf996759a83227a3cb674d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:281026a2d347619b2a5c6f301fdd70cde96d00fd9aca20333aff0496804888a8"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:39c7bb1a3376ab358c6deab977fa52b632a5adaf0aa06e93d994b522cf07fed5"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3a2f84cecc33494518217d2e6be7beaa687b05e2237b0d3691dc31cf4bf30e5c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:3bf66d8b1cf0cf629d8bd968d3a5e7cdcfee5b508d007afcd49793d8b4bbace1"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4020ffd7ce72eb23aea7686a62a21eaa2bdc974306586560d69cbc89a63853a7"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4d9f9f13721144cbba9db5d6a3e3343507e4222966fee5d50c4aaed0f6cfcb50"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:4e512ae007c8f10dc26ba11b34d4e538b3493f24bfa30c08ec701eef9ed3ae42"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5230a98014811920d6de934b3bac8359fad729ae3ad8220d587510895b8ff659"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5a4e1066e680a3654aba8780accd48eb50507d7b168a176537d78497b8ff9855"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:5c6806eb8bd28446fab5529e7ed01ef04aef6ef5511fc15383109415887ef271"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65152c2f326a1052e59b0a6fdd313ee3bebe908edb99e91edb78a67ea1d5856e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:65d16959c01e4411fe908f0a08ab3a0b130fa0cdf3095f20602b256862b56aa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:74df3f2544e155e28de0ff5fc018fe099672dfbd63579650151aab104ea4a7e0"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:75529e500654a013832858c8c49beff7b9344ea82b7738273ecb8013de419a90"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7c2e51d627e6816f13b3eca0abdf608621fab14b26eab1b8c0733e35e35ea03c"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7ca9ff06b5f0bee5f1e50e023d0508de26cf529f4d3d21c41800c631d69fc1a4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:7cbbaee934518a7032d8ecaff3ecb8127803896f1f9685b1d6fdb9a330f77e39"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:811c16ede9d6b68a78280795304591756df11517354a24f35a3a7a2c30d2227e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:82cac960b4a20869a408a2bd552a5163dc32874d0e966255769dcdb6d7846c13"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:88e422632c95cb57ab299331f6d64976af01384e880f98e9d22ad7868ea824bc"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8a5cc56466ae5b510886974e4ed2d95c78d1004992758db035dee2dee8b82832"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d1fe210c053571b631d01240ef7ee3f7b29d33b014c7bf4721f9e1f078aaaef"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:8d388f4033f939925a44eb20c7d09e833a9ee6af6102f382249bdef7adcb1810"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:907bc6895fc441905747d0316ccba11bea897a657bdf23d86c4b561330884322"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:92d646b88ee096a8a5f17765a3e27f866831147593329fe852cab0d663942bc4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:9d18932ec9f4583f7debecef1d3f5d662f5f4e7c71b069d8b91ed7b4df04a414"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b0330d58fba756e72154c845037780cfe858c06f328a73660b8707b2b8349c72"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:b8fa57ced713800c5f26b65d67ae5600e3b1d6f54bdb752151fb9dfcf0dcd71b"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:c55e01c1778f7a6872ced2f4cae6e90b344acb0f83135f08596e6dc90fdd580d"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d30431f3531032b0121f4e7bec3e84ab19914eb7ffe1599d33d7671b7535e744"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d5c74077e4237a30ca36de5ae0808fe2646ce7efd860ac2f9f999b8e80ccf634"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:d9adaf94c372dfe041e10f5b8625c0c183a05831c632a1573220275d899b0fe6"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:df78893e68c07101bdf4cc137d93472a9fe783dd96948f1cdfc4e561864d66e4"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:e0d5fced5d793a0da96ccc5a260eadc2c2134cfd1a82de5ed2c788a90a8f47a9"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f03108ad6d664f341966d19172d2d3230dd14e6e25da0f2d30fc17fdb39e1e8e"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f330b08035dd35d80260dbd27d28a0d96546504ada1b6b010c8d23951740faa2"
+            },
+            {
+              "kind": "RELATION_SKIPPED",
+              "reason": "GUARD_MISMATCH",
+              "rule_id": "reviewed-guarded-pattern:f4ff18466dbc0cfce0b075ac7dae052e0a42eee33e6ceebfb979c63f0cbbab37"
+            },
+            {
+              "bank": "HAPPEN",
+              "domains_before": {
+                "DO": [
+                  1
+                ],
+                "HAPPEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "kind": "RELATION",
+              "provenance": [
+                "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+              ],
+              "remaining": [
+                1
+              ],
+              "removed": [
+                -1,
+                0
+              ],
+              "rule_id": "founder:category:do-happen",
+              "support_rows": [
+                [
+                  1,
+                  1
+                ]
+              ]
+            },
+            {
+              "banks": [
+                "ABOVE",
+                "FAR",
+                "HERE",
+                "OUTSIDE",
+                "SIDE",
+                "TOWARD",
+                "WHERE"
+              ],
+              "domains_before": {
+                "ABOVE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "FAR": [
+                  -1,
+                  0,
+                  1
+                ],
+                "HERE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "OUTSIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SIDE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TOWARD": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHERE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 2187,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:above-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:far-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:here-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:outside-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:side-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:toward-where",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:above-where",
+                "founder:category:far-where",
+                "founder:category:here-where",
+                "founder:category:outside-where",
+                "founder:category:side-where",
+                "founder:category:toward-where"
+              ],
+              "witnesses": 737
+            },
+            {
+              "banks": [
+                "BEFORE",
+                "LONG_TIME",
+                "MOMENT",
+                "THEN",
+                "WHEN"
+              ],
+              "domains_before": {
+                "BEFORE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "LONG_TIME": [
+                  -1,
+                  0,
+                  1
+                ],
+                "MOMENT": [
+                  -1,
+                  0,
+                  1
+                ],
+                "THEN": [
+                  -1,
+                  0,
+                  1
+                ],
+                "WHEN": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 243,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:before-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:long_time-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:moment-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:then-when",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:before-when",
+                "founder:category:long_time-when",
+                "founder:category:moment-when",
+                "founder:category:then-when"
+              ],
+              "witnesses": 85
+            },
+            {
+              "banks": [
+                "CAUSE",
+                "DO",
+                "HAPPEN",
+                "MOVE"
+              ],
+              "domains_before": {
+                "CAUSE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "DO": [
+                  1
+                ],
+                "HAPPEN": [
+                  1
+                ],
+                "MOVE": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 9,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:cause-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:do-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:move-happen",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:cause-happen",
+                "founder:category:do-happen",
+                "founder:category:move-happen"
+              ],
+              "witnesses": 9
+            },
+            {
+              "banks": [
+                "I",
+                "SOMEONE",
+                "YOU"
+              ],
+              "domains_before": {
+                "I": [
+                  -1,
+                  0,
+                  1
+                ],
+                "SOMEONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "YOU": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:i-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:you-someone",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:i-someone",
+                "founder:category:you-someone"
+              ],
+              "witnesses": 17
+            },
+            {
+              "banks": [
+                "ONE",
+                "QUANTITY",
+                "TWO"
+              ],
+              "domains_before": {
+                "ONE": [
+                  -1,
+                  0,
+                  1
+                ],
+                "QUANTITY": [
+                  -1,
+                  0,
+                  1
+                ],
+                "TWO": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "joint_assignments": 27,
+              "kind": "JOINT_CHECK",
+              "max_joint_assignments": 100000,
+              "provenance": [
+                [
+                  "founder:category:one-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ],
+                [
+                  "founder:category:two-quantity",
+                  [
+                    "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#category-content"
+                  ]
+                ]
+              ],
+              "rule_ids": [
+                "founder:category:one-quantity",
+                "founder:category:two-quantity"
+              ],
+              "witnesses": 17
+            },
+            {
+              "complete_search": true,
+              "kind": "INFERENCE_SCOPE",
+              "method": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+              "partial_means": "AMBIGUOUS_JOINT_SUPPORTED_DOMAINS",
+              "satisfiability": "SATISFIABLE"
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "GOOD"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "BIG",
+                  "GOOD"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:big-good"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:big-good",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "GOOD",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            },
+            {
+              "context": {
+                "pos": "auxiliary"
+              },
+              "kind": "EVIDENCE_GUARD",
+              "reason": "GUARD_MISMATCH",
+              "relation": {
+                "absent_evidence": [
+                  "BIG"
+                ],
+                "allowed_rows": [
+                  [
+                    -1,
+                    0
+                  ],
+                  [
+                    0,
+                    -1
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "approved": true,
+                "authority": "conditional",
+                "banks": [
+                  "GOOD",
+                  "BIG"
+                ],
+                "guards": [
+                  [
+                    "pos",
+                    "adjective"
+                  ]
+                ],
+                "provenance": [
+                  "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#evidence-conditioned-absence"
+                ],
+                "rule_id": "founder:absence:good-big"
+              },
+              "relevance_basis": "ORDINARY_CLOSURE_BEFORE_ALL_DEFAULTS",
+              "rule_id": "founder:absence:good-big",
+              "status": "BLOCKED",
+              "witnesses": [
+                {
+                  "assertions": [],
+                  "bank": "BIG",
+                  "baseline_domain": [
+                    -1,
+                    0,
+                    1
+                  ],
+                  "baseline_narrowed": false,
+                  "baseline_rule_ids": [],
+                  "supplied_evidence": true
+                }
+              ]
+            }
+          ],
+          "grammatical_selection": {
+            "code": "GRAMMATICAL_DEFINITION_SELECTED",
+            "pos": "AUX",
+            "entry_ids": [
+              "gse_closed_class:auxiliary:does"
+            ]
+          },
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:does"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['nora', 'bicycle'], 'features': {'verb': 'repair'}}}"
+    },
+    {
+      "text": "Do it.",
+      "tokens": [
+        {
+          "token": "Do",
+          "lemma": "do",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "entry_id": null,
+          "assignments": null,
+          "trace": null,
+          "grammatical_selection": null,
+          "candidate_entry_ids": [
+            "gse_closed_class:auxiliary:do",
+            "wiktionary:en-DO-en-noun-6oe1B7NZ:b5ba06f5b842d5dedfb5242b5c38b9c04dc6c705b63bbfcf89e862398ce6e953",
+            "wiktionary:en-DO-en-noun-9N76I6~M:4b4ad1e180a912da351e74d24ffefee73ee4f69cd263eff4822602e213d2f423",
+            "wiktionary:en-DO-en-noun-Y8ak2LRN:6dc850bd9f6703a2a39c0afef377d0d05ac26b5d852d37be939d3bd146e4d722",
+            "wiktionary:en-DO-en-noun-eSR18Ovt:d74324183a2ad700b0080524f86fe47a509994e716286cd3b6c37edbc81d29c5",
+            "wiktionary:en-DO-en-noun-jG6utnB8:a16fc632a20f7dde90fed477b95ce4d8b6615af9d20344177a9cf350c422e5e1",
+            "wiktionary:en-do-en-adv-n9ZU7qDw:032ce2a6bac9b266efc797531be48d0ffa51bf9633deabfa8fd940c20f3dd8e3",
+            "wiktionary:en-do-en-noun-2Fw3ti3z:e70aaaa0ac38ca54cc0420338b1402ea45b2a3c933072b5d979608ebd5984158",
+            "wiktionary:en-do-en-noun-EPWSCaN8:8135f75b9fcbc20c088448d41fc60d61b11a6b38e100249d0ce4051152e958d5",
+            "wiktionary:en-do-en-noun-GxpeBYAb:01b50f5d8edef4f6c4095fabcf75fb2912ab332f56b4211d5ee28831cece13c7",
+            "wiktionary:en-do-en-noun-QdSqvUwU:1be25e561853e9cd6a93a3335f1d7e5c9280997d11eedb3d772dbd0fbeabef32",
+            "wiktionary:en-do-en-noun-c36mjTIw:afa141186d7c6bdcdf5648c9a8d65ebaf45101cc902f8d7649ae21719207ffe9",
+            "wiktionary:en-do-en-noun-dUr1QgJ1:093929bff547f125bcb20fc4babfe204910ca27676ecf7044dbd491117ed1a73",
+            "wiktionary:en-do-en-noun-en:hairdo:ac4e3957c9be5499d63a07447edefc77cd3638591a61bc34960c7841f1960bab",
+            "wiktionary:en-do-en-noun-en:music:7a0bb778bb614df4051875f6e06ffc0e9ec002a0e7813615886c48dbb6fad662",
+            "wiktionary:en-do-en-noun-oalkLvta:43d5a6cd9ac89e612ffde5df3abddc20867a1668fb6f030b49bf8f8721b6c1e5",
+            "wiktionary:en-do-en-num-rH5KySGF:83f8263a66b4f1f329ac991b948b68bc48b91e64fd14426b8f9661c0131cc2bc",
+            "wiktionary:en-do-en-verb--fUjGp26:221a3051246414f23447625116459a22c77a7fdae9462f8d9f355313346e24d2",
+            "wiktionary:en-do-en-verb-2R9CBCmO:a5cb753a8bfb5a38c6de5c65a3568709d146a57cfc494ff79f31ad3b296fea0c",
+            "wiktionary:en-do-en-verb-4hmBHIW7:9fe08a13326967f34df2b5eef9603f6b0964eb7ead22122e002d9b6f2b54a8c3",
+            "wiktionary:en-do-en-verb-5ccQDu4A:9f81ee6871dc26b9dcced48fece2f4969f0853ae1778e348c2edbe29c867cb9e",
+            "wiktionary:en-do-en-verb-8sgQYoZr:4d69a9c4214983fc7014dc41ea91e6930080ed2ba4600669f1ed6ceeaebe4f64",
+            "wiktionary:en-do-en-verb-FDJJqQQJ:afa6cfc2e3b5073f150715dc6141ee238bd5780bde36b5b1420d0d512915579d",
+            "wiktionary:en-do-en-verb-FVOl3pEC:92c1351dbf9fe472a4c5b3ff450a36ebb275cc71a3733e751456c5611f2f96c0",
+            "wiktionary:en-do-en-verb-GI0UywtX:14b2f2091e6bd97abadd58cf4ce7bd1318cccafcccebb1ff570f212621e17990",
+            "wiktionary:en-do-en-verb-GnDud7I3:e10e97cd637a10d12b939a3e95a6c2002f686f73ee5fcd99dac884e92a1569f6",
+            "wiktionary:en-do-en-verb-HgcD5W8d:964306c633a4cda2a679201ecb7f69147b39de965f4f35cfe052a44eb2c5af96",
+            "wiktionary:en-do-en-verb-IFvS5n~i:23309d38ce18720892e385523ce4a8b4861a4bb201cb36252ee3dd84b61cec6e",
+            "wiktionary:en-do-en-verb-In3WkWNU:cc646eb9d4e97fed784e306fc8ed0bc63c15037f3ef1e1f0cc138c013f09ebb4",
+            "wiktionary:en-do-en-verb-M92Bgmf9:c4903fe58b788ddaaa4af8b8dd558339e4648e45e9676769b8b06180f7b310a6",
+            "wiktionary:en-do-en-verb-NdyEIRUJ:5318588d6af3efc4793f0ab7b6ebcebad7aff4aae78ce213c100d4a29484acaa",
+            "wiktionary:en-do-en-verb-VNGLmdca:889dc95b5c670fff97ef37d6b1ecacb877c2dc051cc086f54d89549e10e8441f",
+            "wiktionary:en-do-en-verb-XnZxxKQv:1c4fdb04d28924c0dcc0778980c63df9bae2ffea85110b648e9185515da2c133",
+            "wiktionary:en-do-en-verb-YFBtrFbW:aa8e991fb8ddba34575c14e9fd51378d8695dc5c1d3c57aebd6b95836bfc843f",
+            "wiktionary:en-do-en-verb-YK4T9TYp:da39fb079d21c735c44211c5d3763e05addfe99e693c4c32ce9b1b2edbdd639b",
+            "wiktionary:en-do-en-verb-azk98m4X:cf136cfd22ceb864c79adc232a298fdb12f58fd8f3dcf26462ee502b8adb8615",
+            "wiktionary:en-do-en-verb-bntl4M9h:d10b488647786e5c6619b0de478253648aa078207ee204831f1ea6c39e71f065",
+            "wiktionary:en-do-en-verb-en:syntactic_marker1:09bc517defa9a64e16bb4ba2043118e5283198297b2070f725f32242ae511229",
+            "wiktionary:en-do-en-verb-en:syntactic_marker1:4aebd191b73107f632109e03f27bf574d213f5d6c877dbd15086750b1ad7af53",
+            "wiktionary:en-do-en-verb-en:syntactic_marker1:b6cda81b440a6727aabecd380ce4b8ac06696b4d72e873aed2cf284e8268a15b",
+            "wiktionary:en-do-en-verb-en:syntactic_marker1:ce263ee69f61296836c7b8acee64d12b9cfa682df6911e57a5d4101a43e928d0",
+            "wiktionary:en-do-en-verb-en:syntactic_marker1:fefd6b9905725f0ed7e3fb942312de44856df9439d9165b8219eae25f7be7beb",
+            "wiktionary:en-do-en-verb-en:syntactic_marker:9f5397a6df0d8fa8a1c256e0b83c87eac2484c7921629f982a131e3a324ce21c",
+            "wiktionary:en-do-en-verb-en:to_perform_or_execute:8a43eb9e6c1a15385ea2aaee6337c39db7f0e232eb4341e964bce772f44c91bc",
+            "wiktionary:en-do-en-verb-en:to_suffice:b8bd0a7b07538945a6e12916a938986b6f2b1aba7296ee8efa8b000bc74edc53",
+            "wiktionary:en-do-en-verb-fbpTzNfo:8b6addb5598ae77e79ee1d8c84bb9292a0beca0710e705b319775a410b9882d7",
+            "wiktionary:en-do-en-verb-l9UGcUHz:9bb28eb87a953e88da4b32bd631caaa7f307a55edf8a72f7ab1c4d51c2156794",
+            "wiktionary:en-do-en-verb-n-m3jXpY:d395f775dd58eb3233154c1bc3f6644b9ff621801f1acab61f5a6ca8d62a82b1",
+            "wiktionary:en-do-en-verb-nfwerXMh:4eded721b4f46e2d6cae3a78a6f88f26f290e9510b5cf6b1af18afc9003cf66d",
+            "wiktionary:en-do-en-verb-uXkuAmy-:af82f62512e094e8a27c3599bb91014760c81fe5efaa943017f50d2cd4dbed95",
+            "wiktionary:en-do-en-verb-z5J8Wye-:33ce889c495d22702fca4322bf7a520b01c4986a9ef7849c6fee3e3220ad8a22",
+            "wiktionary:en-do-en-verb-zPpgTwWT:5e97413973810445d95fdd8e3d5fec062abf3b180138b5512ae40fc7d27a5aa8",
+            "wiktionary:en-do-en-verb-zbpf7EYr:017154b133a34d2f4f4e9c1390ff6e78f4f2a8575eef280bf7efaa138b2bf23e",
+            "wiktionary:en-do-en-verb-zpAM-I97:6fd9b168654afa82b202e43841ea9795023e01371bc8da27959d2da7b09abc0f",
+            "wiktionary:en-do-en-verb-~bRd8zHG:6023e638e05712864fd7880664773fff00dd3db0771cee8de19d3665601f0b07",
+            "wordnet:do:act.v.02",
+            "wordnet:do:bash.n.02",
+            "wordnet:do:cause.v.01",
+            "wordnet:do:do.n.02",
+            "wordnet:do:do.v.03",
+            "wordnet:do:do.v.04",
+            "wordnet:do:do.v.08",
+            "wordnet:do:do.v.11",
+            "wordnet:do:do.v.13",
+            "wordnet:do:doctor_of_osteopathy.n.01",
+            "wordnet:do:dress.v.16",
+            "wordnet:do:make.v.01",
+            "wordnet:do:perform.v.01",
+            "wordnet:do:practice.v.01",
+            "wordnet:do:serve.v.09",
+            "wordnet:do:suffice.v.01"
+          ]
+        }
+      ],
+      "contract": "{'contract_version': '1.0', 'predicate': {'op': 'EVENT', 'args': ['you', 'it'], 'features': {'verb': 'do', 'modal': ['IMPERATIVE']}}}"
+    }
+  ],
+  "pipeline": {
+    "same_production_trace": true,
+    "same_vector": true,
+    "metadata": {
+      "n_words": 6,
+      "consumer": "GSEEncoder",
+      "definition_store": true
+    },
+    "statistics": {
+      "lexicon": {
+        "total_lexemes": 401596,
+        "format": "definition_indexed",
+        "read_only": true
+      },
+      "basis": {
+        "dimension": 8192,
+        "n_banks": 8,
+        "dims_per_bank": 1024,
+        "bipolar_pairs": 14
+      },
+      "usage": {
+        "encodings": 1,
+        "searches": 0,
+        "decompositions": 0
+      }
+    }
+  },
+  "sha256_after": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7"
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nfor f in ['GSE/symbolic/lexical_grounding.py','GSE/discourse/profile.py','GSE/api/encoder.py']:\n p=Path(f);s=p.read_text(); t=ast.parse(s);print('\\nFILE',f)\n if f.endswith('lexical_grounding.py'):\n  print('\\n'.join(s.splitlines()[:235]))\n  cls=next(n for n in t.body if isinstance(n,ast.ClassDef) and n.name=='LexicalGrounding')\n  for n in cls.body:\n   if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)): print('METHOD',n.name,n.lineno,n.end_lineno)\n  for n in cls.body:\n   if isinstance(n,ast.FunctionDef) and n.name in ['_construction_support','contextual_grounding','_primary_frame_support','_token_context','ground','lookup']:\n    print(ast.get_source_segment(s,n))\n elif f.endswith('profile.py'):print(s)\n else:\n  for cls in t.body:\n   if isinstance(cls,ast.ClassDef):\n    for n in cls.body:\n     if isinstance(n,ast.FunctionDef) and n.name in ['_encode_definition_token','encode','contextual_grounding']: print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,27 +1,27 @@
 {
   "state": "CONTINUING_AUTHORIZED_CHECKPOINT",
-  "at_utc": "2026-11-24T20:53:56.097423+00:00",
+  "at_utc": "2026-11-24T21:39:42.301161+00:00",
   "workers": {
     "controller": {
       "state": "RUNNING",
-      "turns": 376,
-      "response_id": "resp_02d2f1a2860b74e1006b05f8f21e0087d2b5cb38bb16b98582"
+      "turns": 433,
+      "response_id": "resp_02d2f1a2860b74e1006b0603d2d00887d2b470b88c3fa9048a"
     },
     "runtime": {
       "state": "RUNNING",
-      "turns": 294,
-      "response_id": "resp_0d66c4c7356128c8006b05f902c80887d291daa25874ccc828"
+      "turns": 342,
+      "response_id": "resp_0d66c4c7356128c8006b0603c510a087d29ee2926bd4c19ed5"
     }
   },
   "launches": {
-    "controller": 1,
-    "runtime": 1
+    "controller": 2,
+    "runtime": 2
   },
   "budget": {
     "format": "GSE.api-continuation-budget/1",
-    "at_utc": "2026-11-24T20:52:31.384232+00:00",
-    "completed_calls": 168,
-    "conservative_charge_usd": 14.570854800000005,
+    "at_utc": "2026-11-24T21:38:49.462162+00:00",
+    "completed_calls": 273,
+    "conservative_charge_usd": 25.213773500000002,
     "outstanding_reservations_usd": 0,
     "next_request_reserve_usd": 9.71152,
     "limit_usd": 80.0,

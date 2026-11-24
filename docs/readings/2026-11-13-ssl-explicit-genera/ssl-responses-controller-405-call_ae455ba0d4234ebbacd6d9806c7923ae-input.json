@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\np=Path('GSE/curation/lexicon_builder/reconsideration.py'); s=p.read_text();print('\\n'.join(ast.get_source_segment(s,n) for n in ast.parse(s).body if isinstance(n,(ast.Assign,ast.AnnAssign))))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json'); print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

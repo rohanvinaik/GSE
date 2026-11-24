@@ -1,0 +1,2173 @@
+{
+  "adapter": {
+    "path": "GSE/curation/external_sources/gse_closed_class.py",
+    "sha256": "edae2d9f61ebae4dcf657df3a5d1279d9f223320952ad804a7604ebb0ef156a9"
+  },
+  "baseline": {
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+    "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7"
+  },
+  "claims": [
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27m"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27m",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'m\". No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27m",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "'m",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "'m",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "'m",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "'m"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'m",
+            "gse.nlp.native:_AUX_BE:'m"
+          ]
+        },
+        "record_id": "gse_closed_class:%27m:920fccdc1c9c4a6d40a9682b268c596f852cc2bb7fa8e69ffaf91fb64d4570eb",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27m"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27m",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'m\". Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27m",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "'m",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "'m",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "'m",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "'m"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'m",
+            "gse.nlp.native:_AUX_BE:'m"
+          ]
+        },
+        "record_id": "gse_closed_class:%27m:1663ad98728e9c3f458f15a28bc3e046acaebbb3af93e09817f378b5d2734277",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:%27m",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:%27m:1663ad98728e9c3f458f15a28bc3e046acaebbb3af93e09817f378b5d2734277",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27re"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27re",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'re\". No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27re",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "'re",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "'re",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "'re",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "'re"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'re",
+            "gse.nlp.native:_AUX_BE:'re"
+          ]
+        },
+        "record_id": "gse_closed_class:%27re:0de16d28743d776b7aa3088c534eed8d83b7a7797822b935b2a98a5d074d9d6f",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27re"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27re",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'re\". Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27re",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "'re",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "'re",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "'re",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "'re"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'re",
+            "gse.nlp.native:_AUX_BE:'re"
+          ]
+        },
+        "record_id": "gse_closed_class:%27re:d04f761f9c4f8b61ddec8cab3a22e44ab84bb6aa773b83f1f82cf4d75ad1497e",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:%27re",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:%27re:d04f761f9c4f8b61ddec8cab3a22e44ab84bb6aa773b83f1f82cf4d75ad1497e",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27ve"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27ve",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'ve\". No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27ve",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "'ve",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "'ve",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'ve"
+          ]
+        },
+        "record_id": "gse_closed_class:%27ve:af44217cccc9712cd285a82c3bb32b6f3829c837ed5b9b332dde6e87431b397b",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:%27ve"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:%27ve",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of \"'ve\". Declared lexical components: HAVE=+1. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:%27ve",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "'ve",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "'ve",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "HAVE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:'ve"
+          ]
+        },
+        "record_id": "gse_closed_class:%27ve:225e4b36f55ac0f6eb98d46e22c4aa293b1422b9d9ea936f661c7fc88dd16f76",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:%27ve",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "HAVE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:%27ve:225e4b36f55ac0f6eb98d46e22c4aa293b1422b9d9ea936f661c7fc88dd16f76",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:am"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:am",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'am'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:am",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "am",
+          "native_encodings": [
+            {
+              "key": "am",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "am",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "am",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "am"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:am",
+            "gse.nlp.native:_IRREGULAR_LEMMA:am",
+            "gse.nlp.native:_AUX_BE:am"
+          ]
+        },
+        "record_id": "gse_closed_class:am:e0584e05d6d75ad1a8a84a4cb5e968a8cceb49ccba34b9f231e6078a2f6a2def",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:am"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:am",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'am'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:am",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "am",
+          "native_encodings": [
+            {
+              "key": "am",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "am",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "am",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "am"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:am",
+            "gse.nlp.native:_IRREGULAR_LEMMA:am",
+            "gse.nlp.native:_AUX_BE:am"
+          ]
+        },
+        "record_id": "gse_closed_class:am:27f4c1539926e24bcd8c855b8ff1cbeb4559672b4f4982de975c24415407f2c4",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:am",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:am:27f4c1539926e24bcd8c855b8ff1cbeb4559672b4f4982de975c24415407f2c4",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:are"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:are",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'are'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:are",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "are",
+          "native_encodings": [
+            {
+              "key": "are",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "are",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "are",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "are"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:are",
+            "gse.nlp.native:_IRREGULAR_LEMMA:are",
+            "gse.nlp.native:_AUX_BE:are"
+          ]
+        },
+        "record_id": "gse_closed_class:are:0f87bfc47f559ba2684bbc74941dd6fb94913a537bd860644b6ecffaf656b8f9",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:are"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:are",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'are'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:are",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "are",
+          "native_encodings": [
+            {
+              "key": "are",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "are",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "are",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "are"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:are",
+            "gse.nlp.native:_IRREGULAR_LEMMA:are",
+            "gse.nlp.native:_AUX_BE:are"
+          ]
+        },
+        "record_id": "gse_closed_class:are:fb90f5627189dedf723d22c28f402d7fb486da5ec329c8b14e8452ef476fd554",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:are",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:are:fb90f5627189dedf723d22c28f402d7fb486da5ec329c8b14e8452ef476fd554",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:be"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:be",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'be'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:be",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "be",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "be",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "be"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_AUX_BE:be"
+          ]
+        },
+        "record_id": "gse_closed_class:be:f821b9293da6e671b04229eb68b223a3c325a20f50c57381e9f707523fc040f8",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:be"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:be",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'be'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:be",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "be",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "be",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "be"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_AUX_BE:be"
+          ]
+        },
+        "record_id": "gse_closed_class:be:94d9d6a5d036d5bdea49daf386974edb3bbfdca20cceca720b10aed046bd4057",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:be",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:be:94d9d6a5d036d5bdea49daf386974edb3bbfdca20cceca720b10aed046bd4057",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:been"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:been",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'been'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:been",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "been",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "been",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "been",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "been"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:been",
+            "gse.nlp.native:_AUX_BE:been"
+          ]
+        },
+        "record_id": "gse_closed_class:been:b8f0eac4ec78d917a7628e369e55df48fe935aeab5fe7e24b78694e0dbd5f53d",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:been"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:been",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'been'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:been",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "been",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "been",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "been",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "been"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:been",
+            "gse.nlp.native:_AUX_BE:been"
+          ]
+        },
+        "record_id": "gse_closed_class:been:d4f97cfb6fcfe426ff45ed59dabdca9c3b15e660fcfc3dc0d59cc8539bf60745",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:been",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:been:d4f97cfb6fcfe426ff45ed59dabdca9c3b15e660fcfc3dc0d59cc8539bf60745",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:being"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:being",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'being'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:being",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "being",
+          "native_encodings": [
+            {
+              "key": "being",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "being",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "being",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "being"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:being",
+            "gse.nlp.native:_IRREGULAR_LEMMA:being",
+            "gse.nlp.native:_AUX_BE:being"
+          ]
+        },
+        "record_id": "gse_closed_class:being:baa559c20d88f3e21191a2ead204347359236ba896386310b347f047bd17f0a2",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:being"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:being",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'being'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:being",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "being",
+          "native_encodings": [
+            {
+              "key": "being",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "being",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "being",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "being"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:being",
+            "gse.nlp.native:_IRREGULAR_LEMMA:being",
+            "gse.nlp.native:_AUX_BE:being"
+          ]
+        },
+        "record_id": "gse_closed_class:being:356b3f53d88e284a0bc6288de89e98dd16849fadc7ca36ea3a284e8e580a3420",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:being",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:being:356b3f53d88e284a0bc6288de89e98dd16849fadc7ca36ea3a284e8e580a3420",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:did"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:did",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'did'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:did",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "did",
+          "native_encodings": [
+            {
+              "key": "did",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "did",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            },
+            {
+              "key": "did",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "did"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:did",
+            "gse.nlp.native:_IRREGULAR_LEMMA:did",
+            "gse.nlp.native:_AUX_DO:did"
+          ]
+        },
+        "record_id": "gse_closed_class:did:0d2668bda01ddf4097cb2c09df98940a4fd93d10d109c29b2070ec19df52ca04",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:did"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:did",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'did'. Declared lexical components: DO=+1. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:did",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "did",
+          "native_encodings": [
+            {
+              "key": "did",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "did",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            },
+            {
+              "key": "did",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "did"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "DO": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:did",
+            "gse.nlp.native:_IRREGULAR_LEMMA:did",
+            "gse.nlp.native:_AUX_DO:did"
+          ]
+        },
+        "record_id": "gse_closed_class:did:a4078d07f80e223062d5bf6e5d7ad447afde300552c66485a1c55d25d1312694",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:did",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "DO",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:did:a4078d07f80e223062d5bf6e5d7ad447afde300552c66485a1c55d25d1312694",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:do"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:do",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'do'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:do",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "do",
+          "native_encodings": [
+            {
+              "key": "do",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "do",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "do"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:do",
+            "gse.nlp.native:_AUX_DO:do"
+          ]
+        },
+        "record_id": "gse_closed_class:do:9c242047150f2b5e921f738a19cd46c20847a66fc8f074a8af30c7e268f073b5",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:do"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:do",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'do'. Declared lexical components: DO=+1. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:do",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "do",
+          "native_encodings": [
+            {
+              "key": "do",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "do",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "do"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "DO": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:do",
+            "gse.nlp.native:_AUX_DO:do"
+          ]
+        },
+        "record_id": "gse_closed_class:do:2607c907fbfd2ede57fd1cb03627e35f923db7e5b064ae28cc9e0e0bb7fdb81e",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:do",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "DO",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:do:2607c907fbfd2ede57fd1cb03627e35f923db7e5b064ae28cc9e0e0bb7fdb81e",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:does"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:does",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'does'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:does",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "does",
+          "native_encodings": [
+            {
+              "key": "does",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "does",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            },
+            {
+              "key": "does",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "does"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:does",
+            "gse.nlp.native:_IRREGULAR_LEMMA:does",
+            "gse.nlp.native:_AUX_DO:does"
+          ]
+        },
+        "record_id": "gse_closed_class:does:71665a72a93d9efd6412a570c4167baff909cf1f2c371ed258cccdc96ffa0936",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:does"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:does",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'does'. Declared lexical components: DO=+1. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:does",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "does",
+          "native_encodings": [
+            {
+              "key": "does",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "does",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            },
+            {
+              "key": "does",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_DO",
+              "value": "does"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "DO": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:does",
+            "gse.nlp.native:_IRREGULAR_LEMMA:does",
+            "gse.nlp.native:_AUX_DO:does"
+          ]
+        },
+        "record_id": "gse_closed_class:does:281ea9f3d93a517aec15021a99106ffd45d0848e5d03fd97231c3f5580f7370e",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:does",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "DO",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:does:281ea9f3d93a517aec15021a99106ffd45d0848e5d03fd97231c3f5580f7370e",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:doing"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:doing",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'doing'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:doing",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "doing",
+          "native_encodings": [
+            {
+              "key": "do",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "doing",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:do",
+            "gse.nlp.native:_IRREGULAR_LEMMA:doing"
+          ]
+        },
+        "record_id": "gse_closed_class:doing:90619b2d24b365a44c98881a754e83b26a66e3a761617a92f95fd05931105a7a",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:doing"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:doing",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'doing'. Declared lexical components: DO=+1. Grammatical features: {\"lemma\": \"do\"}.",
+          "entry_id": "gse_closed_class:auxiliary:doing",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "do"
+          },
+          "lemma": "doing",
+          "native_encodings": [
+            {
+              "key": "do",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "DO": 1
+              }
+            },
+            {
+              "key": "doing",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "do"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "DO": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:do",
+            "gse.nlp.native:_IRREGULAR_LEMMA:doing"
+          ]
+        },
+        "record_id": "gse_closed_class:doing:4291fc9de2580d8a4cf5f8729d63a75a40a8bc84ccbc93eba138d1119bee3afb",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:doing",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "DO",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:doing:4291fc9de2580d8a4cf5f8729d63a75a40a8bc84ccbc93eba138d1119bee3afb",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:had"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:had",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'had'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:had",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "had",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "had",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:had"
+          ]
+        },
+        "record_id": "gse_closed_class:had:86f41a83e093014b3e46ec1c08d0b91b8d8d1f1969315a5b39a566206e77c2d8",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:had"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:had",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'had'. Declared lexical components: HAVE=+1. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:had",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "had",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "had",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "HAVE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:had"
+          ]
+        },
+        "record_id": "gse_closed_class:had:e0def78b1188508dfe2fd626c68f6ce1996406a0881e6523825f82625ba77ab5",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:had",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "HAVE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:had:e0def78b1188508dfe2fd626c68f6ce1996406a0881e6523825f82625ba77ab5",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:has"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:has",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'has'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:has",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "has",
+          "native_encodings": [
+            {
+              "key": "has",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "has",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:has",
+            "gse.nlp.native:_IRREGULAR_LEMMA:has"
+          ]
+        },
+        "record_id": "gse_closed_class:has:86649989536d9b55b286e1a25876972d2e7d4b0f785da94ca9214893c4b5529e",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:has"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:has",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'has'. Declared lexical components: HAVE=+1. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:has",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "has",
+          "native_encodings": [
+            {
+              "key": "has",
+              "module": "gse.curation.build_clean_closed_class",
+              "symbol": "TIER0_FORMS",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "has",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "HAVE": 1
+          },
+          "provenance": [
+            "gse.curation.build_clean_closed_class:TIER0_FORMS:has",
+            "gse.nlp.native:_IRREGULAR_LEMMA:has"
+          ]
+        },
+        "record_id": "gse_closed_class:has:9000bd6398ba7f2f8b99539a1825176621f1952e8e539d0a960ebe225986b96f",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:has",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "HAVE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:has:9000bd6398ba7f2f8b99539a1825176621f1952e8e539d0a960ebe225986b96f",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:have"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:have",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'have'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:have",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "have",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have"
+          ]
+        },
+        "record_id": "gse_closed_class:have:7bb7c891150cec045f6e11b74a5dc3b515fb3c6c76f2d7b9a86cf9f81253b92d",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:have"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:have",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'have'. Declared lexical components: HAVE=+1. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:have",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "have",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "HAVE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have"
+          ]
+        },
+        "record_id": "gse_closed_class:have:446163076c9e622538a6064e52fdbfda4397e76a94bdb43bee1b21ecabef2652",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:have",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "HAVE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:have:446163076c9e622538a6064e52fdbfda4397e76a94bdb43bee1b21ecabef2652",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:having"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:having",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'having'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:having",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "having",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "having",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:having"
+          ]
+        },
+        "record_id": "gse_closed_class:having:692e20d64509dbb39c35d463642c604373d1c90b8a0a92cb61b0db5f73f1b37c",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:having"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:having",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'having'. Declared lexical components: HAVE=+1. Grammatical features: {\"lemma\": \"have\"}.",
+          "entry_id": "gse_closed_class:auxiliary:having",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "have"
+          },
+          "lemma": "having",
+          "native_encodings": [
+            {
+              "key": "have",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "HAVE": 1
+              }
+            },
+            {
+              "key": "having",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "have"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "HAVE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:have",
+            "gse.nlp.native:_IRREGULAR_LEMMA:having"
+          ]
+        },
+        "record_id": "gse_closed_class:having:eba7e3d6045b2d96fa6a4db9a99e187ede2ebf4f63086edfc7d9d0c599324e3c",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:having",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "HAVE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:having:eba7e3d6045b2d96fa6a4db9a99e187ede2ebf4f63086edfc7d9d0c599324e3c",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:is"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:is",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'is'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:is",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "is",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "is",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "is",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "is"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:is",
+            "gse.nlp.native:_AUX_BE:is"
+          ]
+        },
+        "record_id": "gse_closed_class:is:a7c889c688e0f4d76687ed10024988192cc261a5ef414858fea519cb5ad96922",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:is"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:is",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'is'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:is",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "is",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "is",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "is",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "is"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:is",
+            "gse.nlp.native:_AUX_BE:is"
+          ]
+        },
+        "record_id": "gse_closed_class:is:b76683cbdd304783871f8064f1e15a8e499098dc1f559749505c73b5c40b90a1",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:is",
+      "retired_model_requests": [
+        "ad08dc2bf2a4870311c9a2c4d9e9b9c425b45d5e2c08b10936044176ffd2def3"
+      ],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:is:b76683cbdd304783871f8064f1e15a8e499098dc1f559749505c73b5c40b90a1",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:was"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:was",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'was'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:was",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "was",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "was",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "was",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "was"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:was",
+            "gse.nlp.native:_AUX_BE:was"
+          ]
+        },
+        "record_id": "gse_closed_class:was:c42de3f7a5181fbd3d0db360ef392b5c89402d642c5261cc13c9f6aaa32fdb55",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:was"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:was",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'was'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:was",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "was",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "was",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "was",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "was"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:was",
+            "gse.nlp.native:_AUX_BE:was"
+          ]
+        },
+        "record_id": "gse_closed_class:was:86310f4d70ef9f50c45c26dcb75caeb3b87247b725295024b2d2e088eecb1104",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:was",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:was:86310f4d70ef9f50c45c26dcb75caeb3b87247b725295024b2d2e088eecb1104",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "after": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:were"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:were",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'were'. No lexical bank assignment is declared. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:were",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "were",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "were",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "were",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "were"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {},
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:were",
+            "gse.nlp.native:_AUX_BE:were"
+          ]
+        },
+        "record_id": "gse_closed_class:were:8b2a83a303881ace88d30a6dae75750237097726cd430751c898e814834cf2f6",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "before": {
+        "candidate_entry_ids": [
+          "gse_closed_class:auxiliary:were"
+        ],
+        "entry_id": "gse_closed_class:auxiliary:were",
+        "family": "gse_curated_grammar",
+        "features": {
+          "catalog": "auxiliary",
+          "cohort": "MANDATORY_FOUNDATION_COHORT",
+          "definition": "Curated GSE auxiliary use of 'were'. Declared lexical components: BE=+1. Grammatical features: {\"lemma\": \"be\"}.",
+          "entry_id": "gse_closed_class:auxiliary:were",
+          "grammar_roles": [
+            "AUX"
+          ],
+          "grammatical_features": {
+            "lemma": "be"
+          },
+          "lemma": "were",
+          "native_encodings": [
+            {
+              "key": "be",
+              "module": "gse.curation.external_sources.tier_0_dispatch",
+              "symbol": "canonical_decomposition",
+              "value": {
+                "BE": 1
+              }
+            },
+            {
+              "key": "were",
+              "module": "gse.nlp.native",
+              "symbol": "_IRREGULAR_LEMMA",
+              "value": "be"
+            },
+            {
+              "key": "were",
+              "module": "gse.nlp.native",
+              "symbol": "_AUX_BE",
+              "value": "were"
+            }
+          ],
+          "pos": "auxiliary",
+          "primitives": {
+            "BE": 1
+          },
+          "provenance": [
+            "gse.curation.external_sources.tier_0_dispatch:canonical_decomposition:be",
+            "gse.nlp.native:_IRREGULAR_LEMMA:were",
+            "gse.nlp.native:_AUX_BE:were"
+          ]
+        },
+        "record_id": "gse_closed_class:were:f57f03abc9c10c86963a2d4e197d859263a4c84b5ceb5fc283e6c0e3f367686b",
+        "scope": "lexical",
+        "source": "gse_closed_class"
+      },
+      "entry_id": "gse_closed_class:auxiliary:were",
+      "retired_model_requests": [],
+      "retired_source_assertions": [
+        {
+          "bank": "BE",
+          "family": "gse_curated_grammar",
+          "record_id": "gse_closed_class:were:f57f03abc9c10c86963a2d4e197d859263a4c84b5ceb5fc283e6c0e3f367686b",
+          "scope": "lexical",
+          "source": "gse_closed_class",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "format": "GSE.auxiliary-own-content-source-review/1",
+  "model_context_policy": "Archive all bound accepted rulings through existing reconsideration before replacing native context.",
+  "scope": "EXACT_AUXILIARY_BE_DO_HAVE_NATIVE_DEFINITIONS_ONLY",
+  "unknown_policy": "Withdraw unsupported source assertions and reclose; no zero assertions or main-verb changes.",
+  "warrant": "Grammatical auxiliary/copula operation is not own stative BE, action DO or possession HAVE. Native role AUX and catalog auxiliary identify this use independently of spelling. Legacy encoding origins remain provenance, not semantic authority for the different grammatical use."
+}

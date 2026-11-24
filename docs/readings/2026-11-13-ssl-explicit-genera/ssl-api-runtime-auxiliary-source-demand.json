@@ -1,0 +1,60 @@
+{
+  "format": "GSE.runtime-auxiliary-source-demand/1",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "at_utc": "2026-11-24T21:18:32.601543+00:00",
+  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "evidence": "ssl-api-runtime-pipeline-auxiliary-current.json",
+  "source_read": "Whole GSE/curation/external_sources/gse_closed_class.py; current producer now explicitly empties nonmodal auxiliary be/do/have own-content while retaining native grammar/provenance. Candidate predates this source change.",
+  "cases": [
+    {
+      "id": "aux-have-possession-leak",
+      "text": "I have eaten.",
+      "selected_id": "gse_closed_class:auxiliary:have",
+      "observed_word": {
+        "HAVE": 1
+      },
+      "observed_sentence": "EVENT eat(i)",
+      "required": "No unsupported own-possession bank from auxiliary role; retain perfect grammar."
+    },
+    {
+      "id": "aux-be-state-leak",
+      "text": "She is running. / She is a person.",
+      "selected_id": "gse_closed_class:auxiliary:is",
+      "observed_word": {
+        "BE": 1
+      },
+      "observed_sentence": "EVENT run / TYPE_ASSERT person",
+      "required": "No own-state lexical assertion solely from auxiliary/copula role; retain progressive/type assertion."
+    },
+    {
+      "id": "aux-do-action-leak",
+      "text": "Does Nora repair the bicycle?",
+      "selected_id": "gse_closed_class:auxiliary:does",
+      "observed_word": {
+        "DO": 1,
+        "HAPPEN": 1
+      },
+      "observed_sentence": "EVENT repair(nora,bicycle), question",
+      "required": "Do-support is not own DO event; retain question, main repair."
+    }
+  ],
+  "source_assertions": [
+    {
+      "bank": "HAVE",
+      "record_id": "gse_closed_class:have:446163076c9e622538a6064e52fdbfda4397e76a94bdb43bee1b21ecabef2652"
+    },
+    {
+      "bank": "BE",
+      "record_id": "gse_closed_class:is:b76683cbdd304783871f8064f1e15a8e499098dc1f559749505c73b5c40b90a1"
+    },
+    {
+      "bank": "DO",
+      "record_id": "gse_closed_class:does:281ea9f3d93a517aec15021a99106ffd45d0848e5d03fd97231c3f5580f7370e"
+    }
+  ],
+  "assertion_scope": "lexical; kind ASSERTION; family gse_curated_grammar; HAPPEN derived from DO by founder:category:do-happen",
+  "owner_remedy": "A existing source successor/migration/replay; B no DB writes or runtime value suppression. Current source appears repaired: coordinate successor digest for final audit.",
+  "controls": "Main DO imperative event retained; main HAVE possession structurally present though lexical identity ambiguous; own-state noun BE positives must remain. No unknown-to-zero.",
+  "source_edits_finished_B": true,
+  "freeze": "ssl-api-runtime-fourth-source-freeze.json"
+}

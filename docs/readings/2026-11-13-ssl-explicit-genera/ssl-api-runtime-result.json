@@ -1,9 +1,9 @@
 {
   "format": "GSE.runtime-worker-result/1",
   "role_scope": "ASSIGNMENT B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
-  "status": "CODE_FREEZE_READY",
+  "status": "CODE_FREEZE_READY_WORKLOAD_OPEN",
   "source_edits_finished": true,
-  "frozen_at_utc": "2026-11-24T20:45:44.153885+00:00",
+  "frozen_at_utc": "2026-11-24T21:13:52.849817+00:00",
   "coordination": "Worker B \u2014 CP-07 runtime source UNFROZEN; do not freeze source pins until updated CODE_FREEZE_READY receipt. Authorized repairs limited to actual structural failures and tests.",
   "owned_files": {
     "GSE/api/encoder.py": "ca377fa7d6d688d5f75deca3a074e18656131a92d878cc81004bb33b4f67f5f2",
@@ -1751,5 +1751,38 @@
     },
     "completion": false
   },
-  "checkpoint_complete": false
+  "checkpoint_complete": false,
+  "current_source_freeze": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json",
+  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "fourth_refreeze": {
+    "receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json",
+    "source_pins": {
+      "GSE/api/encoder.py": "ca377fa7d6d688d5f75deca3a074e18656131a92d878cc81004bb33b4f67f5f2",
+      "GSE/api/parse_repair.py": "768dc732ff0a26d0c8e1a208c9797b15b858e458420809dd4ae9dd70efe02d79",
+      "GSE/api/trace.py": "3f54ef54b91b6847bd3274db65ca8cca7f2d959e7ff3a93447042ba3d309f0b8",
+      "GSE/nlp/native.py": "285f39627a0d9f97287d7e0caebde82b6b0c3ecd0e8da536f6180e794a27054b",
+      "GSE/symbolic/lexical_grounding.py": "4657541171bd3c119791449ed23913e3c00981507973b965e4d78ecb8c6527a8",
+      "GSE/symbolic/grounding.py": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7",
+      "GSE/symbolic/expression.py": "9598b16f5390f4c1ec7417ecf594c4b0e4bf9752e30215d77ae60024d7cf8232",
+      "GSE/symbolic/resolution.py": "6cacc9813c800f540380b97b1c52f84cae68c0f1e397b813ab95390f439f1544",
+      "GSE/symbolic/operators.py": "f391767704c4f8bf3331cfb5d2fae01f6d42c9c47bdaa2bdaf283d3c5f80cd39",
+      "scripts/audit_lexicon_runtime.py": "587191c58a8a79a5df7c07c489540b5558333585ecba0b890241fa1ab1e31995",
+      "scripts/audit_lexicon_sentences.py": "50fdf281c906fdfabad02ac14f4877806d130f68fc350f19d1e64c43a41f341a",
+      "tests/test_runtime_native_identity_controls.py": "11dd802023e2c010e183e3bfe9e8242e8c3d02fcccc28c989f9b8ec0a671d4d5",
+      "tests/test_runtime_native_composed_controls.py": "a91f700ba4f598ddad438491bf951fbd2b032509b669dd5ab08ef71d74019b31",
+      "tests/test_audit_lexicon_runtime.py": "1f7c70c647b626323428a5398bf6b42ae0c87ff02d4f3e7a5409a9e06b78d88a",
+      "tests/test_lexicon_builder_grammatical_definitions.py": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903",
+      "tests/test_audit_lexicon_sentences.py": "86eb702c2554d89b3c06392f991d11f3ad06ed9c8a36471382205eb6a90b9f94",
+      "tests/test_symbolic_expression.py": "1886a1f01b9cf6050a3c71d4412a1531b7f6fde19c723a0bb91051a879b94928",
+      "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534",
+      "GSE/symbolic/modality.py": "ef69fa4f361bcba0a82e28c58830a5875b2d86c6549f3b45855ac306c460727d",
+      "GSE/discourse/profile.py": "0ff93ca2dc6836828193f7afaec7ed09eb60d728f5a8af739b597b25cf532599",
+      "tests/test_discourse_profile.py": "2ca4bbcd3994170a734e0935f98fa6c9fc445fd9e0d99dee5d619f91b3dc661d",
+      "tests/test_complete_document_reading.py": "82fbe4096150fdc7721bf94cfbe61354ebdd59186e3a6e23c2ad7104bb00870d",
+      "GSE/pipeline_v2.py": "c7c927b5764707aa752de4a4e15b44ea941c73c1e29bb8fd2daea939451d9d77",
+      "tests/test_pipeline_definition_checkpoint.py": "511b3a30e90b05ae4b638acd11d3957156871de5ab2fb9aacd2cdefb75ea29b6"
+    },
+    "pipeline_repair": "Existing definition-indexed encoder/decoder consumed read-only; legacy path retained; 23 tests passed",
+    "checkpoint_complete": false
+  }
 }

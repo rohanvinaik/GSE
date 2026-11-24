@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast\nfrom pathlib import Path\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py');s=p.read_text()\nfor v in ast.parse(s).body:\n if isinstance(v,ast.FunctionDef) and v.name in ['run','apply_projection','record']:print(ast.get_source_segment(s,v))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}
