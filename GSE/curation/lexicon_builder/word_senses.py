@@ -339,6 +339,25 @@ def _conflict_rules(resolution) -> list[str]:
     return sorted(rules)
 
 
+def rule_warrants(resolution, bank: str) -> list[str]:
+    """The rules the solver's trace names for fixing one bank: the warrant of a value from closure."""
+    named = {e["rule_id"] for e in resolution.trace if e.get("kind") == "RELATION" and e.get("bank") == bank}
+    if not named:
+        named = {
+            rule
+            for e in resolution.trace
+            if e.get("kind") == "JOINT_CHECK" and bank in e.get("banks", ())
+            for rule in e.get("rule_ids", ())
+        }
+    if not named:
+        named = {
+            e["rule_id"]
+            for e in resolution.trace
+            if e.get("kind") == "EVIDENCE_GUARD" and e.get("status") != "BLOCKED" and bank in e["relation"]["banks"]
+        }
+    return sorted(named)
+
+
 def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, code) -> dict:
     assignments = dict(resolution.assignments) if code != "MEMBERS_CONFLICT_UNDER_RULES" else dict(fixed)
     agreed_banks = {assertion.bank for assertion in kept}
@@ -350,7 +369,7 @@ def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, 
         elif bank in agreed_banks:
             provenance[bank] = {"from": "source-agreement"}
         else:
-            provenance[bank] = {"from": "rules"}
+            provenance[bank] = {"from": "rules", "rules": rule_warrants(resolution, bank)}
     open_domains = {
         bank: sorted(domain)
         for bank, domain in sorted(resolution.domains.items())
@@ -426,12 +445,17 @@ def build_word(
                 by_sign[sign] = by_sign.get(sign, frozenset()) | {family}
     rows = []
     for pos, definitions in sorted(by_pos.items()):
-        agreed = committed_signs(agree(votes_for_pos(votes, pos, pos == dominant)))
+        agreement = agree(votes_for_pos(votes, pos, pos == dominant))
+        agreed = committed_signs(agreement)
         anchor = settle_anchor(agreed, relations, pos)
         first = first_sense_entry(lemma, pos)
         for index, sense in enumerate(collapse(definitions, anchor, corroboration, first)):
             feeling = pos == "noun" and names_a_feeling(lemma, sense)
-            rows.append(close_sense(lemma, pos, index, sense, agreed, relations, feeling))
+            row = close_sense(lemma, pos, index, sense, agreed, relations, feeling)
+            for bank, origin in row["provenance"].items():
+                if origin["from"] == "source-agreement":  # name the agreeing measuring families
+                    origin["families"] = list(agreement[bank].measuring[row["assignments"][bank]])
+            rows.append(row)
     return rows
 
 
