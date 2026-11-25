@@ -111,6 +111,19 @@ satisfy three rules:
   words observed in each operator's argument slot (the comparative's operands, for example) over a
   pinned corpus. Admit the stable ones as sentence-time constraints by that criterion.
 
+## Structural propagation (founder correction 2, 2026-11-25; supersedes the WP order above)
+
+- [ ] SP-1 Identity roots. `wordnet_hierarchy.py` carries identity from each prime's own concept (gloss
+  or approved binding) to every kind; the substance branch is excluded from PART.
+  `scripts/revise_lexicon_wordnet_identity.py` adds the projected assertions to the release through
+  `revise_source_candidate` with full replay. Forecast: 30,466 definitions, about 42,000 signs, 0
+  conflicts in a 400-definition sample.
+- [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
+- [ ] SP-3 Adjective clusters and antonym pairs: satellites take their head's signs; a head pair on a
+  prime attribute takes opposite poles.
+- [ ] SP-4 Derivation by part-of-speech pair, verb entailment and cause.
+- [ ] SP-5 Measure H, C and L per channel after each round; rebuild senses; publish.
+
 ## Urgent checkpoint execution — 2026-11-24
 
 The direct user instruction now prioritizes a validated usable checkpoint before

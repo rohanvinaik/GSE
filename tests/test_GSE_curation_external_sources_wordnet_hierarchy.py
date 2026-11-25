@@ -316,8 +316,10 @@ class TestDefinitionProjection:
         assert p.to_primitives_for_definition("feeling.n.01")["FEEL"] == 1
         assert "FEEL" not in p.to_primitives_for_definition("psychological_feature.n.01")
 
-    def test_unreviewed_motion_root_abstains(self, p):
-        assert p.to_primitives_for_definition("run.v.01") == {}
+    def test_travel_identity_root_carries_motion(self, p):
+        # Founder correction 2 (2026-11-25): travel.v.01 ("change location; move, travel, or proceed")
+        # is a reviewed identity root, so running on foot is MOVE.
+        assert p.to_primitives_for_definition("run.v.01") == {"MOVE": 1}
 
     @pytest.mark.parametrize(
         "synset,bank",
@@ -345,7 +347,9 @@ class TestDefinitionProjection:
         assert p.to_primitives_for_definition("contemplate.v.02") == {"THINK": 1}
         assert p.to_primitives_for_definition("contemplate.v.01") == {}
         assert p.to_primitives_for_definition("shake.v.02") == {"MOVE": 1}
-        assert p.to_primitives_for_definition("shake.v.05") == {}
+        # The emotional sense keeps its own ancestry: change.v.01 ("cause to change") gives CAUSE,
+        # and the physical sense's MOVE does not leak to it.
+        assert p.to_primitives_for_definition("shake.v.05") == {"CAUSE": 1}
 
     @pytest.mark.parametrize("synset", ["bridle.v.03", "rent.v.04", "summarize.v.02"])
     def test_reviewed_own_content_exclusion_withdraws_say(self, p, synset):

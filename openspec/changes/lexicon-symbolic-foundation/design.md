@@ -159,6 +159,34 @@ becomes a lexical value (Rohan, 2026-11-25: "Just get it to run the analysis and
 inference-driven nonsense"). A teaching fact is an owner ruling or an admitted rule. Models are used
 only as agents that execute the deterministic packages and report.
 
+### Founder correction 2 (2026-11-25): positive identity, propagated through structure
+
+Rohan, 2026-11-25, after the build had settled 3.6% of the space: the lexicon is meant to be full, and
+"this is a constraint propagation problem, not a statistics one where you mine a database for a random
+match with a hand-tuned arbitrary filter." And, when the build swung to pure elimination: "You can't
+define a thing only by what it's not ... A thing is a thing because it's a thing, not because it's not
+not a thing."
+
+What the build is, therefore:
+
+- **Identity is positive.** Each definition's value is what it IS, stated by a source or carried through
+  structure from what is stated: a dog is an animal, so it is ALIVE; a minute is an amount of time, so it
+  is WHEN. Zeros are consequences of an established identity, never the identity itself.
+- **Structure carries identity (SSL's C(H)).** The release resolved every definition alone, so a fact on a
+  genus never reached its kinds and every round was linear (about 0.002% of the space per round). The
+  structural relations the sources already state are the coupling: IS-A (identity roots: a synset whose
+  own gloss is a prime's meaning, or the prime's approved binding, carries the prime to every kind),
+  synonymy, adjective clusters (a satellite refines its head), antonym pairs on an attribute that is a
+  prime (big/small on BIG), derivation (by part-of-speech pair), verb entailment and cause.
+- **One layer.** Word-level agreed signs (happy: FEEL+ GOOD+) attach to the definitions of the word's main
+  sense, so the structural channels carry them too; senses collapse from the propagated layer.
+- **No statistics decides a value.** No thresholds, recall tests or samples admit anything. A relation
+  either states the identity or it does not. A branch a source files wrongly (WordNet files all matter
+  under part.n.01) is a reviewed exclusion with its reason, as the SAY exclusions already are.
+- **Interference.** Agreement settles; a contradiction with existing evidence is recorded and the value is
+  not stored. No stored value is ever changed.
+- **Measure each round:** H = sum of log2 |domain|, the cells each channel settles (C), and L = C / H0.
+
 ### Superseded statements in `LEXICON_CONSTRUCTION_DESIGN.md`
 
 These lines conflict with the rules above and no longer govern:

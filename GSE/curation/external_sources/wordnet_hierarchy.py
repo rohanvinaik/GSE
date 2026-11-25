@@ -125,6 +125,24 @@ ROOT_CONCEPT_PRIMITIVES = {
     "happen.v.01": {"HAPPEN": 1},
     "feel.v.01": {"FEEL": 1},
     "move.v.03": {"MOVE": 1},
+    # Identity roots, 2026-11-25: each synset's own gloss is the prime's meaning, or it is the
+    # release's approved prime-unit binding (prime_entries). act.n.02 is already above.
+    "time_period.n.01": {"WHEN": 1},
+    "time_unit.n.01": {"WHEN": 1},
+    "people.n.01": {"PEOPLE": 1},
+    "social_group.n.01": {"PEOPLE": 1},
+    "word.n.01": {"WORDS": 1},
+    "kind.n.01": {"KIND": 1},
+    "part.n.01": {"PART": 1},
+    "body.n.01": {"BODY": 1},
+    "speech_act.n.01": {"SAY": 1},
+    "travel.n.01": {"MOVE": 1},
+    "motion.n.03": {"MOVE": 1},
+    "say.v.01": {"SAY": 1},
+    "travel.v.01": {"MOVE": 1},
+    "touch.v.01": {"TOUCH": 1},
+    "change.v.01": {"CAUSE": 1},
+    "change.v.02": {"HAPPEN": 1},
 }
 
 
@@ -159,6 +177,36 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "happen.v.01": frozenset({"HAPPEN"}),
     "feel.v.01": frozenset({"FEEL"}),
     "move.v.03": frozenset({"MOVE"}),
+    # Identity: what a kind of these IS. A gloss that is the prime's own meaning, or the approved
+    # prime-unit binding, carries the prime to every kind below it (a dog is an animal, a minute is an
+    # amount of time). Reviewed 2026-11-25 with the founder's correction: identity is positive.
+    "event.n.01": frozenset({"HAPPEN"}),  # "something that happens at a given place and time"
+    "act.n.02": frozenset({"DO"}),  # "something that people do or cause to happen"
+    "location.n.01": frozenset({"WHERE"}),  # "a point or extent in space"
+    "time_period.n.01": frozenset({"WHEN"}),  # "an amount of time"
+    "time_unit.n.01": frozenset({"WHEN"}),  # "a unit for measuring time periods"
+    "measure.n.02": frozenset({"QUANTITY"}),  # "how much there is or how many there are of something"
+    "people.n.01": frozenset({"PEOPLE"}),  # approved binding of PEOPLE
+    "social_group.n.01": frozenset({"PEOPLE"}),  # "people sharing some social relation"
+    "word.n.01": frozenset({"WORDS"}),  # approved binding of WORDS
+    "kind.n.01": frozenset({"KIND"}),  # approved binding of KINDS
+    "part.n.01": frozenset({"PART"}),  # approved binding of PARTS, less the reviewed substance branch
+    "body.n.01": frozenset({"BODY"}),  # approved binding of BODY
+    "speech_act.n.01": frozenset({"SAY"}),  # "the use of language to perform some act"
+    "travel.n.01": frozenset({"MOVE"}),  # "the act of going from one place to another"
+    "motion.n.03": frozenset({"MOVE"}),  # "a change of position that does not entail a change of location"
+    "say.v.01": frozenset({"SAY"}),  # "express in words"
+    "travel.v.01": frozenset({"MOVE"}),  # "change location; move, travel, or proceed"
+    "touch.v.01": frozenset({"TOUCH"}),  # "make physical contact with"
+    "change.v.01": frozenset({"CAUSE"}),  # "cause to change; make different"
+    "change.v.02": frozenset({"HAPPEN"}),  # "undergo a change; become different"
+}
+
+# A root whose WordNet subtree files a branch the prime does not describe: (root, bank) -> branch.
+# WordNet places all matter under part.n.01 ("the real physical matter of which a person or thing
+# consists"); matter is not a component, so whale oil and chlorophyll are not PART.
+REVIEWED_BRANCH_EXCLUSIONS = {
+    ("part.n.01", "PART"): "substance.n.01",
 }
 
 
@@ -308,6 +356,8 @@ class WordNetHierarchyParser(BaseExternalParser):
         for name in sorted(ancestors):
             for primitive in sorted(_WARRANTED_ROOT_PRIMITIVES.get(name, ())):
                 if (name, primitive) == excluded:
+                    continue
+                if REVIEWED_BRANCH_EXCLUSIONS.get((name, primitive)) in ancestors:
                     continue
                 if primitive in ROOT_CONCEPT_PRIMITIVES.get(name, {}):
                     value = ROOT_CONCEPT_PRIMITIVES[name][primitive]
