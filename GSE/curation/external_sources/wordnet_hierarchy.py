@@ -158,6 +158,8 @@ ROOT_CONCEPT_PRIMITIVES = {
 }
 
 
+# Withdrawn 2026-11-25: state.n.02 (BE) exceeded the approved convention, own state denotation (ledger cycle 2;
+# contexts, disturbances and degrees are not states); the reviewed stative rule keeps the explicit states.
 # Withdrawn 2026-11-25 after reading each root's members (their kinds are mostly not what the gloss
 # says): social_group (agencies, industries, dynasties are institutions, not people), part.n.01 (words
 # and titles are not parts), change.v.02 (unbutton, souse), make.v.03 (compose, try), be.v.01 (kneel,
@@ -217,7 +219,6 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "touch.v.01": frozenset({"TOUCH"}),  # "make physical contact with"
     "change.v.01": frozenset({"CAUSE"}),  # "cause to change; make different"
     # Round 2 (2026-11-25).
-    "state.n.02": frozenset({"BE"}),  # "the way something is"; Rohan: own state denotation suffices for BE
     "induce.v.02": frozenset({"CAUSE"}),  # "cause to do; cause to act in a specified manner"
     "leave.v.01": frozenset({"MOVE"}),  # "go away from a place"
 }
@@ -225,10 +226,7 @@ _WARRANTED_ROOT_PRIMITIVES = {
 # A root whose WordNet subtree files a branch the prime does not describe: (root, bank) -> branch.
 # WordNet places all matter under part.n.01 ("the real physical matter of which a person or thing
 # consists"); matter is not a component, so whale oil and chlorophyll are not PART.
-REVIEWED_BRANCH_EXCLUSIONS = {
-    # The nonbeing branch's BE polarity is Rohan's open decision (reserved in the explicit-state round).
-    ("state.n.02", "BE"): "nonbeing.n.01",
-}
+REVIEWED_BRANCH_EXCLUSIONS = {}
 
 
 REVIEWED_SAY_EXCLUSIONS = {

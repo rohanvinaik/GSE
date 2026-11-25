@@ -746,8 +746,6 @@ class TestRoundTwoIdentity:
     @pytest.mark.parametrize(
         "synset,bank,value",
         [
-            ("illness.n.01", "BE", 1),
-            ("poverty.n.01", "BE", 1),
             ("exit.v.01", "MOVE", 1),
             ("persuade.v.02", "CAUSE", 1),
         ],
@@ -838,3 +836,11 @@ def test_every_identity_root_is_named_by_its_canonical_synset():
         | set(wh.REVIEWED_BRANCH_EXCLUSIONS.values())
     )
     assert {name: wn.synset(name).name() for name in names if wn.synset(name).name() != name} == {}
+
+
+def test_state_branch_carries_no_be_identity():
+    """Withdrawn 2026-11-25: own state denotation is decided by the reviewed stative rule, not WordNet's branch."""
+    parser = WordNetHierarchyParser()
+    parser.load()
+    for synset in ("illness.n.01", "context.n.02", "earthquake.n.02"):
+        assert "BE" not in parser.to_primitives_for_definition(synset)

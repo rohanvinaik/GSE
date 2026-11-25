@@ -47,13 +47,11 @@ def _projected_additions(conn, parser):
            WHERE o.source=? AND o.scope='lexical' ORDER BY d.entry_id""",
         (SOURCE,),
     ):
-        new = {
-            bank: value
-            for bank, value in parser.to_primitives_for_definition(synset).items()
-            if (bank, value) not in held.get(entry_id, set())
-        }
-        if new:
-            additions[entry_id] = (synset, new)
+        projected = parser.to_primitives_for_definition(synset)
+        new = {bank: value for bank, value in projected.items() if (bank, value) not in held.get(entry_id, set())}
+        gone = {(bank, value) for bank, value in held.get(entry_id, set()) if projected.get(bank) != value}
+        if new or gone:
+            additions[entry_id] = (synset, new, gone)
     return additions
 
 
@@ -71,7 +69,7 @@ def revise_entries(conn):
         relevance.update(batch_relevance)
     rules = _relations(_metadata(conn, "relations"))
     changes, conflicts = [], []
-    for entry_id, (synset, new) in additions.items():
+    for entry_id, (synset, new, gone) in additions.items():
         if entry_id in bound:  # a model receipt was asked against the old evidence; leave it untouched
             conflicts.append({"entry_id": entry_id, "synset": synset, "added": new, "code": "MODEL_RECEIPT_BOUND"})
             continue
@@ -79,6 +77,8 @@ def revise_entries(conn):
         [raw] = conn.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry_id,)).fetchone()
         old = json.loads(raw)
         added = tuple(Assertion(bank, value, SOURCE, entry_id, FAMILY) for bank, value in sorted(new.items()))
+        # A withdrawn projection leaves; every other assertion is kept as stored.
+        assertions = tuple(a for a in assertions if not (a.source == SOURCE and (a.bank, a.value) in gone))
         state = resolve_dictionary(
             BANKS,
             assertions + added,
@@ -91,12 +91,14 @@ def revise_entries(conn):
         if state.code == "CONFLICT" or any(row["kind"] == "SOLVER_LIMIT" for row in state.trace):
             conflicts.append({"entry_id": entry_id, "synset": synset, "added": new, "code": state.code})
             continue
-        if any(len(old[name]) == 1 and old[name] != after[name] for name in BANKS):  # never destroy a value
+        withdrawn = {bank for bank, _value in gone}
+        if any(len(old[name]) == 1 and old[name] != after[name] and name not in withdrawn for name in BANKS):
             conflicts.append({"entry_id": entry_id, "synset": synset, "added": new, "code": "WOULD_CHANGE_SETTLED"})
             continue
         store_entry(conn, definition, state, assertions + added, hierarchy, domain_restrictions=restrictions)
         settled = {name: after[name][0] for name in BANKS if len(old[name]) > 1 and len(after[name]) == 1}
-        changes.append({"entry_id": entry_id, "synset": synset, "added": new, "settled": settled})
+        reopened = sorted(name for name in withdrawn if old[name] != after[name])
+        changes.append({"entry_id": entry_id, "synset": synset, "added": new, "settled": settled, "reopened": reopened})
     _recompute_catalog(conn, rules)
     return {"revised": len(changes), "conflicts": conflicts, "changes": changes}
 
