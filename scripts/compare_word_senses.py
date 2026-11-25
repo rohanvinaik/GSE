@@ -26,19 +26,21 @@ from pathlib import Path
 def readings(path: Path) -> dict[tuple[str, str], tuple[dict, dict]]:
     """(lemma, pos) -> the reading GSE takes for that part of speech (what every sense shares, as
     ``GSE.lexicon.senses`` reads it), with each agreed bank's provenance from the senses that hold it."""
-    from GSE.lexicon.senses import _agreement
+    from GSE.lexicon.senses import reading
 
     conn = sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)
-    rows = conn.execute("SELECT lemma, pos, assignments, open, provenance FROM word_senses ORDER BY lemma, pos, sense")
+    rows = conn.execute(
+        "SELECT lemma, pos, assignments, open, members, provenance FROM word_senses ORDER BY lemma, pos, sense"
+    )
     grouped: dict[tuple[str, str], list[tuple[dict, dict]]] = {}
-    for lemma, pos, a, o, p in rows:
+    for lemma, pos, a, o, m, p in rows:
         grouped.setdefault((lemma, pos), []).append(
-            ({"assignments": json.loads(a), "open": json.loads(o)}, json.loads(p))
+            ({"assignments": json.loads(a), "open": json.loads(o), "members": json.loads(m)}, json.loads(p))
         )
     conn.close()
     found = {}
     for key, senses in grouped.items():
-        agreed, _possible = _agreement([s for s, _ in senses])
+        agreed, _possible, _exceptions = reading([s for s, _ in senses])
         provenance = {
             bank: next(p[bank] for _s, p in senses if bank in p)
             for bank in agreed

@@ -46,6 +46,27 @@ def _agreement(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]]
     return agreed, possible
 
 
+def reading(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]], list[dict]]:
+    """Agreed values, possible signs, and out-of-variance exceptions for one part of speech's senses.
+
+    Rohan (2026-11-25): "If a single input completely destroys the coherence model, then that's an
+    out-of-variance exception that breaks coherence and should be handled thus." A sense of a single
+    definition is an exception when it breaks a value every multi-definition sense agrees on; it is
+    recorded and kept out of the reading. When every sense is a single definition, none is an exception.
+    """
+    base = [s for s in senses if len(s.get("members", ())) >= 2]
+    if not base:
+        return (*_agreement(senses), [])
+    base_agreed, _ = _agreement(base)
+    exceptions = [
+        s
+        for s in senses
+        if len(s.get("members", ())) < 2 and any(_possible(s, bank) != {value} for bank, value in base_agreed.items())
+    ]
+    kept = [s for s in senses if s not in exceptions]
+    return (*_agreement(kept), exceptions)
+
+
 def read_senses(
     conn: sqlite3.Connection, lemma: str, pos: str | None = None, entry_id: str | None = None
 ) -> dict | None:
@@ -101,7 +122,7 @@ def read_senses(
             "senses": [{"sense": core["sense"], "assignments": core["assignments"]}],
         }
     senses = by_pos[selected_pos]
-    agreed, possible = _agreement(senses)
+    agreed, possible, exceptions = reading(senses)
     return {
         "policy": POLICY,
         "pos": selected_pos,
@@ -109,5 +130,6 @@ def read_senses(
         "sense": None,
         "assignments": agreed,
         "open": possible,
-        "senses": [{"sense": s["sense"], "assignments": s["assignments"]} for s in senses],
+        "senses": [{"sense": s["sense"], "assignments": s["assignments"]} for s in senses if s not in exceptions],
+        "exceptions": [{"sense": s["sense"], "assignments": s["assignments"]} for s in exceptions],
     }

@@ -49,9 +49,11 @@ def _senses(lemma: str, pos: str) -> list[dict]:
 def test_obvious_word_carries_its_obvious_banks(word, pos):
     senses = _senses(word, pos)
     assert senses, f"{word} ({pos}) has no sense"
-    primary = senses[0]["assignments"]
-    for bank, value in EXPECTED[(word, pos)].items():
-        assert primary.get(bank) == value, f"{word} ({pos}) {bank}: {primary.get(bank)} != {value}"
+    # No sense is a default (design.md rule 3): the obvious meaning must be one of the word's coherent senses.
+    expected = EXPECTED[(word, pos)]
+    assert any(all(s["assignments"].get(bank) == value for bank, value in expected.items()) for s in senses), (
+        f"{word} ({pos}): no sense carries {expected}"
+    )
 
 
 def test_nouns_keep_the_founder_evaluation_zero():
