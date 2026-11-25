@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport json,hashlib\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nx=json.loads((w/'canonical-auxiliary-revision.json').read_text());print('REPLAY',json.dumps(x['replay'],indent=2)[:12000]);print('COVERAGE',x['coverage']);print('CHANGES',json.dumps(x['changes'],indent=2)[:10000])\nfor f in sorted((w/'moral-witness').glob('*.json')):\n print('MORAL FILE',f,f.stat().st_size)\n if 'answers' in f.name or 'audit' in f.name:\n  a=json.loads(f.read_text());print(json.dumps(a,indent=2) if f.stat().st_size<12000 else list(a))\nprint('CHECKPOINTCOPY EXISTS',(w/'checkpoint-teaching.db').exists())\nf=n/'ssl_api_checkpoint_packets.py';print(f.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

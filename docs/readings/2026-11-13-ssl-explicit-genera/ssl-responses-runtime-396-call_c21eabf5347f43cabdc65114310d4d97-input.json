@@ -1,0 +1,5 @@
+{
+  "command": "pwd; python3 - <<'PY'\nfrom pathlib import Path\nimport re\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md'); t=p.read_text(); headings=list(re.finditer(r'^#{1,6} .*$',t,re.M))\nfor i,h in enumerate(headings):\n if 'Recovery contract' in h.group():\n  level=len(h.group().split()[0]); end=len(t)\n  for n in headings[i+1:]:\n   if len(n.group().split()[0])<=level:end=n.start();break\n  print(t[h.start():end])\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-qualified-evaluation-source-review.json');print('\\nSOURCE REVIEW\\n'+p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

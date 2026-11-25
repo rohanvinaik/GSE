@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nf=n/'ssl-root-canonical-prime-projection-review.json';x=json.loads(f.read_text());print(json.dumps(x,indent=2) if f.stat().st_size<16000 else list(x))\nf=n/'ssl-api-controller-canonical-source-review.json';x=json.loads(f.read_text());print('CANONICAL KEYS',list(x));print('SOURCEPINS',x.get('source_pins'))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

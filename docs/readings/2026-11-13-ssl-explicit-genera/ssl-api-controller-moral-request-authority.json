@@ -1,0 +1,36 @@
+{
+  "format": "GSE.checkpoint-exact-residual-request-authority/1",
+  "baseline": {
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+    "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7"
+  },
+  "source_pins": {
+    "GSE/curation/lexicon_builder/model_protocol.py": "c64dfff853e9bd5524837f6ffd042deccba5bda722267d7793338879628f421a",
+    "GSE/curation/lexicon_builder/residual.py": "3d7de4d43d4bf400573eed6219c784924dcc96cffef904a1f8d3be3610d8037b"
+  },
+  "claims": [
+    {
+      "entry_id": "wordnet:bad:bad.s.10",
+      "bank": "GOOD",
+      "definition": "characterized by wickedness or immorality",
+      "pos": "adj",
+      "purpose": "EXACT_SOURCE_OWN_CONTENT_RESIDUAL_NOT_RUNTIME_IDENTITY_OR_FINAL_GOLD"
+    },
+    {
+      "entry_id": "wordnet:good:good.a.03",
+      "bank": "GOOD",
+      "definition": "morally admirable",
+      "pos": "adj",
+      "purpose": "EXACT_SOURCE_OWN_CONTENT_RESIDUAL_NOT_RUNTIME_IDENTITY_OR_FINAL_GOLD"
+    },
+    {
+      "entry_id": "wordnet:good:good.s.05",
+      "bank": "GOOD",
+      "definition": "of moral excellence",
+      "pos": "adj",
+      "purpose": "EXACT_SOURCE_OWN_CONTENT_RESIDUAL_NOT_RUNTIME_IDENTITY_OR_FINAL_GOLD"
+    }
+  ],
+  "teaching_input_policy": "No expected values in this authority or generated typed wire. Runtime demand chooses coordinates, never semantic warrant. Null remains null.",
+  "demand_sha256": "b06add3fd6180fc16a8fb27a25f46e0db8f3311e6035a8a2696322227c056d84"
+}

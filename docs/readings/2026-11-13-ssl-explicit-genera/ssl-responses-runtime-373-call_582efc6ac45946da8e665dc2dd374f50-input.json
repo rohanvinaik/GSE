@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/symbolic/lexical_grounding.py');s=p.read_text();t=ast.parse(s);wanted={'select','_native_example_support','_construction_support','_nominal_support','_type_evidence','_senses','_unique_native_witness'}\nfor n in ast.walk(t):\n if isinstance(n,ast.FunctionDef) and n.name in wanted: print('\\n'+ast.get_source_segment(s,n))\nprint('\\nROOT MODULES')\nprint('\\n'.join(str(p) for p in Path('GSE').iterdir() if p.is_file()))\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json');import json;r=json.loads(p.read_text()); print(json.dumps(r,indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

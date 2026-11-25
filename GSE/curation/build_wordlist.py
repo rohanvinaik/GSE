@@ -80,7 +80,7 @@ def build_from_kaikki(path: str | Path) -> dict:
     from GSE.nlp.spellcheck import _DEFAULT_LEXICON as LX
 
     source = Path(path).resolve()
-    words, excluded, rejected = set(), set(LX.confusions), set()
+    words, excluded, rejected, spelling_only = set(), set(LX.confusions), set(), set()
     digest = hashlib.sha256()
     records = 0
     with source.open("rb") as stream:
@@ -93,6 +93,23 @@ def build_from_kaikki(path: str | Path) -> dict:
             if record.get("lang_code") != "en":
                 continue
             word = record["word"].lower()
+            senses = record.get("senses", [])
+            if not isinstance(senses, list) or any(not isinstance(sense, dict) for sense in senses):
+                raise ValueError("INVALID_KAIKKI_SENSE_RECORD")
+            if any(
+                not isinstance(sense.get("tags", []), list)
+                or any(not isinstance(tag, str) for tag in sense.get("tags", []))
+                for sense in senses
+            ):
+                raise ValueError("INVALID_KAIKKI_SENSE_RECORD")
+            # The dump documents erroneous forms as entries too. Only an
+            # explicit misspelling tag on EVERY sense excludes this record.
+            # Other records/senses for the same spelling still establish
+            # ordinary membership; form-of/rare/archaic alone are not errors.
+            if senses and all("misspelling" in sense.get("tags", []) for sense in senses):
+                if _WORD.fullmatch(word):
+                    spelling_only.add(word)
+                continue
             if _WORD.fullmatch(word) and word in excluded:
                 rejected.add(word)
             if _WORD.fullmatch(word) and word not in excluded:
@@ -113,6 +130,9 @@ def build_from_kaikki(path: str | Path) -> dict:
         "records": records,
         "words": len(words),
         "known_misspellings_excluded": len(rejected),
+        "native_spelling_only_words_excluded": len(spelling_only - words),
+        "native_spelling_forms_with_independent_membership": len(spelling_only & words),
+        "native_membership_policy": "EXCLUDE_EXPLICIT_ALL_SENSE_MISSPELLING_RECORDS_RETAIN_INDEPENDENT_SENSES",
         "output": str(OUT.resolve()),
         "output_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest(),
         "storage": "TEXT_AND_TRIE" if TRIE.exists() else "TEXT",

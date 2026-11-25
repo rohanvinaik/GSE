@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom nltk.corpus import wordnet as wn\nfor lemma in ['good','bad','admirable','excellent','wicked','immoral','moral','morally']:\n print('\\n',lemma)\n for s in wn.synsets(lemma,pos=wn.ADJ if lemma!='morally' else wn.ADV):\n  print({'id':s.name(),'lemmas':s.lemma_names(),'definition':s.definition(),'examples':s.examples(),'attributes':[x.name() for x in s.attributes()],'similar':[x.name() for x in s.similar_tos()],'also':[x.name() for x in s.also_sees()],'derivations':[(l.name(),[x.synset().name() for x in l.derivationally_related_forms()]) for l in s.lemmas()]})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

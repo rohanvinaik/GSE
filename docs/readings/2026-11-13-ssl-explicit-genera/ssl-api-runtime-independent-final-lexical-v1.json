@@ -1,0 +1,61 @@
+{
+  "format": "GSE.lexicon-sentence-benchmark/1",
+  "cases": [
+    {
+      "id": "held-tibia-body",
+      "class": "constitutive-anatomy",
+      "text": "The tibia is a bone between the knee and ankle.",
+      "token": "tibia",
+      "lemma": "tibia",
+      "sense": "wordnet:tibia:tibia.n.01",
+      "banks": {
+        "BODY": 1
+      },
+      "basis": "Independent WordNet tibia.n.01 definition identifies the inner/thicker human leg bone between knee and ankle; constitutive anatomy under approved BODY convention. Novel tibia family, not a construction request or prior runtime repair."
+    },
+    {
+      "id": "held-educator-person",
+      "class": "person-identity",
+      "text": "The educator educates young people.",
+      "token": "educator",
+      "lemma": "educator",
+      "sense": "wordnet:educator:educator.n.01",
+      "banks": {
+        "SOMEONE": 1
+      },
+      "basis": "Independent complete WordNet educator.n.01 definition someone who educates young people: own person genus, not an argument participant. Novel educator morphological family; no stored-bank lookup used to set gold."
+    },
+    {
+      "id": "held-departure-event",
+      "class": "event-content",
+      "text": "The departure was the act of departing.",
+      "token": "departure",
+      "lemma": "departure",
+      "sense": "wordnet:departure:departure.n.01",
+      "banks": {
+        "HAPPEN": 1
+      },
+      "basis": "Independent WordNet departure.n.01 denotes an act of departing, an own occurrence, not its place/time/participant. Approved event-content scope. Novel departure family; source-derived explicit definition witness, not general natural-language accuracy."
+    },
+    {
+      "id": "held-ambiguous-light",
+      "class": "must-not-collapse",
+      "text": "They discussed the light.",
+      "token": "light",
+      "lemma": "light",
+      "sense": null,
+      "banks": {},
+      "basis": "Physical illumination, lighting device, viewpoint and other senses remain compatible. MUST-NOT first-sense selection, merged signature or ambiguity-to-zero."
+    },
+    {
+      "id": "held-ambiguous-charge",
+      "class": "must-not-collapse",
+      "text": "They discussed the charge.",
+      "token": "charge",
+      "lemma": "charge",
+      "sense": null,
+      "banks": {},
+      "basis": "Financial price, accusation, electrical amount and attack remain compatible with discussion. MUST-NOT pick a source ID by popularity or collapse senses."
+    }
+  ]
+}

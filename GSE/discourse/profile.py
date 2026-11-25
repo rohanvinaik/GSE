@@ -87,6 +87,7 @@ class TextProfile:
     operations: Dict[str, int] = field(default_factory=dict)
     embedding_depths: List[int] = field(default_factory=list)
     structural_loss: List[dict] = field(default_factory=list)
+    conditioned_affect: List[dict] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -104,6 +105,7 @@ class TextProfile:
             "complexity": self.complexity,
             "coherence": self.coherence,
             "affect": self.affect,
+            "conditioned_affect": self.conditioned_affect,
             "register": self.register,
             "primitives": self.primitives,
         }
@@ -150,6 +152,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
     prim_sums: Dict[str, float] = {p: 0.0 for p in prime_basis}
     per_sentence_valence: List[float] = []
     valences: List[int] = []
+    conditioned_affect: List[dict] = []
 
     for event in encode_document_utterance_events(encoder, units):
         if event["type"] != "utterance":
@@ -172,6 +175,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
             content = func = oov = 0
             lengths = []
             sent_val: List[int] = []
+            conditioned = []
             for t in tr.tokens:
                 if t.pos in _CONTENT_POS:
                     content += 1
@@ -185,6 +189,19 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
                     elif "GOOD" in wp or "BAD" in wp:
                         v = int(wp.get("GOOD", 0)) - int(wp.get("BAD", 0))
                         sent_val.append(v)
+                    for constraint in (getattr(t, "lexical_evidence", None) or {}).get("qualified_dimensions", ()):
+                        if (
+                            constraint.get("code") == "SOURCE_WARRANTED_CONDITIONAL_DIMENSION"
+                            and constraint.get("bank") == "GOOD"
+                            and constraint.get("domain") in ([1], [-1])
+                        ):
+                            conditioned.append(
+                                {
+                                    **constraint,
+                                    "utterance_id": event["utterance_id"],
+                                    "valence_mean": constraint["domain"][0],
+                                }
+                            )
                 elif t.pos != "PUNCT":
                     func += 1
             degraded_count = len(coherence_report(event["tree"], tr))
@@ -219,6 +236,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
         n_oov += oov
         lemma_lens.extend(lengths)
         valences.extend(sent_val)
+        conditioned_affect.extend(conditioned)
         if sent_val:
             per_sentence_valence.append(mean(sent_val))
         n_past += past
@@ -289,6 +307,7 @@ def text_profile(encoder, text: str, prime_basis: Sequence[str] | None = None) -
         operations=op_counts,
         embedding_depths=depths,
         structural_loss=losses,
+        conditioned_affect=conditioned_affect,
     )
 
 

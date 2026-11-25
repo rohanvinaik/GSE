@@ -1,0 +1,1001 @@
+{
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "checkpoint_complete": false,
+  "checks": [
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "work"
+        ],
+        "features": {
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "id": "do-main-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "do",
+        [
+          "nora",
+          "work"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "have"
+        },
+        "op": "EVENT"
+      },
+      "id": "have-main-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "have",
+        [
+          "nora",
+          "bicycle"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "repair"
+        },
+        "op": "EVENT"
+      },
+      "id": "have-aux-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "repair",
+        [
+          "nora",
+          "bicycle"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "you",
+          "work"
+        ],
+        "features": {
+          "modal": [
+            "IMPERATIVE"
+          ],
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "id": "imperative-main-do-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "do",
+        [
+          "you",
+          "work"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "you",
+          "it"
+        ],
+        "features": {
+          "modal": [
+            "IMPERATIVE"
+          ],
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "id": "imperative-pronoun-do-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "do",
+        [
+          "you",
+          "it"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "bicycle"
+        ],
+        "features": {
+          "verb": "repair"
+        },
+        "op": "EVENT"
+      },
+      "id": "inverted-do-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "repair",
+        [
+          "nora",
+          "bicycle"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "it"
+        ],
+        "features": {
+          "verb": "work"
+        },
+        "op": "EVENT"
+      },
+      "id": "inverted-pronoun-do-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "work",
+        [
+          "it"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "verb": "eat"
+        },
+        "op": "EVENT"
+      },
+      "id": "aux-have-possession-leak-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "eat",
+        [
+          "i"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "she"
+        ],
+        "features": {
+          "verb": "run"
+        },
+        "op": "EVENT"
+      },
+      "id": "aux-be-state-leak-roles",
+      "operation": "sentence",
+      "passed": true,
+      "required": [
+        "run",
+        [
+          "she"
+        ]
+      ]
+    },
+    {
+      "actual": {
+        "args": [
+          "you",
+          "work"
+        ],
+        "features": {
+          "modal": [
+            "IMPERATIVE"
+          ],
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "id": "imperative-main-do-directive",
+      "operation": "sentence",
+      "passed": true,
+      "required": "imperative, not asserted past fact"
+    },
+    {
+      "actual": {
+        "args": [
+          "you",
+          "it"
+        ],
+        "features": {
+          "modal": [
+            "IMPERATIVE"
+          ],
+          "verb": "do"
+        },
+        "op": "EVENT"
+      },
+      "id": "imperative-pronoun-do-directive",
+      "operation": "sentence",
+      "passed": true,
+      "required": "imperative, not asserted past fact"
+    },
+    {
+      "actual": [
+        "in_question"
+      ],
+      "id": "inverted-do-question",
+      "operation": "sentence",
+      "passed": true,
+      "required": "question, not asserted event"
+    },
+    {
+      "actual": [
+        "in_question"
+      ],
+      "id": "inverted-pronoun-do-question",
+      "operation": "sentence",
+      "passed": true,
+      "required": "question, not asserted event"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "args": [
+              "eagle"
+            ],
+            "features": {
+              "verb": "fly"
+            },
+            "op": "EVENT"
+          },
+          "cliff"
+        ],
+        "features": {
+          "verb": "above"
+        },
+        "op": "EVENT"
+      },
+      "id": "above-relation-anchor",
+      "operation": "sentence",
+      "passed": true,
+      "required": "distinct relation wraps intransitive event; anchor is not its patient"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "args": [
+              "eagle"
+            ],
+            "features": {
+              "verb": "fly"
+            },
+            "op": "EVENT"
+          },
+          "cliff"
+        ],
+        "features": {
+          "verb": "below"
+        },
+        "op": "EVENT"
+      },
+      "id": "below-relation-anchor",
+      "operation": "sentence",
+      "passed": true,
+      "required": "distinct relation wraps intransitive event; anchor is not its patient"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "args": [
+              "traveler"
+            ],
+            "features": {
+              "verb": "depart"
+            },
+            "op": "EVENT"
+          },
+          "sunrise"
+        ],
+        "features": {
+          "verb": "before"
+        },
+        "op": "EVENT"
+      },
+      "id": "before-relation-anchor",
+      "operation": "sentence",
+      "passed": true,
+      "required": "distinct relation wraps intransitive event; anchor is not its patient"
+    },
+    {
+      "actual": [
+        {
+          "args": [
+            {
+              "args": [
+                "eagle"
+              ],
+              "features": {
+                "verb": "fly"
+              },
+              "op": "EVENT"
+            },
+            "cliff"
+          ],
+          "features": {
+            "verb": "above"
+          },
+          "op": "EVENT"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "eagle"
+              ],
+              "features": {
+                "verb": "fly"
+              },
+              "op": "EVENT"
+            },
+            "cliff"
+          ],
+          "features": {
+            "verb": "below"
+          },
+          "op": "EVENT"
+        }
+      ],
+      "id": "opposite-spatial-relations",
+      "operation": "sentence",
+      "passed": true,
+      "required": "above and below remain distinct"
+    },
+    {
+      "actual": {
+        "args": [
+          "i"
+        ],
+        "features": {
+          "themes": [
+            "about the door"
+          ],
+          "verb": "think"
+        },
+        "op": "EVENT"
+      },
+      "id": "topic-not-event",
+      "operation": "sentence",
+      "passed": true,
+      "required": "think(i), about door as topic, no about event"
+    },
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "bright lamp"
+        ],
+        "features": {
+          "themes": [
+            "with her eyes open"
+          ],
+          "verb": "see"
+        },
+        "op": "EVENT"
+      },
+      "id": "see-qualified-adjunct-ownership",
+      "operation": "sentence",
+      "passed": true,
+      "required": "matrix sensory event retains patient and qualified adjunct"
+    },
+    {
+      "actual": {
+        "args": [
+          "nora",
+          "ringing bell"
+        ],
+        "features": {
+          "themes": [
+            "with both ear"
+          ],
+          "verb": "hear"
+        },
+        "op": "EVENT"
+      },
+      "id": "hear-qualified-adjunct-ownership",
+      "operation": "sentence",
+      "passed": true,
+      "required": "matrix sensory event retains patient and qualified adjunct"
+    },
+    {
+      "actual": {
+        "args": [
+          "child",
+          "tall"
+        ],
+        "features": {
+          "degree": [
+            {
+              "argument": 1,
+              "level": -1,
+              "scale": "INTENSITY",
+              "target": "tall"
+            }
+          ]
+        },
+        "op": "TYPE_ASSERT"
+      },
+      "id": "not-very-scope",
+      "operation": "sentence",
+      "passed": true,
+      "required": "degree scope differs from clause negation"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "args": [
+              "child",
+              "tall"
+            ],
+            "features": {
+              "degree": [
+                {
+                  "argument": 1,
+                  "level": 1,
+                  "scale": "INTENSITY",
+                  "target": "tall"
+                }
+              ]
+            },
+            "op": "TYPE_ASSERT"
+          }
+        ],
+        "features": {},
+        "op": "NOT"
+      },
+      "id": "very-not-scope",
+      "operation": "sentence",
+      "passed": true,
+      "required": "degree scope differs from clause negation"
+    },
+    {
+      "actual": {
+        "args": [
+          "mira",
+          "mira",
+          {
+            "args": [
+              "mira"
+            ],
+            "features": {
+              "verb": "rest"
+            },
+            "op": "EVENT"
+          }
+        ],
+        "features": {
+          "verb": "want"
+        },
+        "op": "CONTROL"
+      },
+      "id": "control-shared-subject",
+      "operation": "sentence",
+      "passed": true,
+      "required": "want controls Mira's rest, not occurrence of rest"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "args": [
+              "mira",
+              "mira",
+              {
+                "args": [
+                  "mira"
+                ],
+                "features": {
+                  "verb": "rest"
+                },
+                "op": "EVENT"
+              }
+            ],
+            "features": {
+              "verb": "want"
+            },
+            "op": "CONTROL"
+          }
+        ],
+        "features": {},
+        "op": "NOT"
+      },
+      "id": "negated-control-scope",
+      "operation": "sentence",
+      "passed": true,
+      "required": "negation scopes over WANT, not REST"
+    },
+    {
+      "actual": {
+        "args": [
+          "teacher",
+          {
+            "args": [
+              "person",
+              {
+                "args": [
+                  "person's occupation",
+                  "teaching"
+                ],
+                "features": {},
+                "op": "TYPE_ASSERT"
+              }
+            ],
+            "features": {},
+            "op": "REL_RESTRICT"
+          }
+        ],
+        "features": {},
+        "op": "TYPE_ASSERT"
+      },
+      "id": "teacher-matrix-relative",
+      "operation": "sentence",
+      "passed": true,
+      "required": "person is matrix complement; teaching belongs to person's occupation"
+    },
+    {
+      "actual": {
+        "args": [
+          "femur",
+          {
+            "args": [
+              {
+                "args": [
+                  "bone",
+                  {
+                    "args": [
+                      "bone",
+                      {
+                        "args": [
+                          "long",
+                          "thick"
+                        ],
+                        "features": {
+                          "conjunction": "and"
+                        },
+                        "op": "COORD"
+                      }
+                    ],
+                    "features": {},
+                    "op": "TYPE_ASSERT"
+                  }
+                ],
+                "features": {},
+                "op": "REL_RESTRICT"
+              },
+              {
+                "args": [
+                  "bone",
+                  "human skeleton"
+                ],
+                "features": {
+                  "verb": "of"
+                },
+                "op": "EVENT"
+              }
+            ],
+            "features": {},
+            "op": "REL_RESTRICT"
+          }
+        ],
+        "features": {},
+        "op": "TYPE_ASSERT"
+      },
+      "id": "femur-modifiers-attachment",
+      "operation": "sentence",
+      "passed": true,
+      "required": "long/thick modify bone; of human skeleton retained, not coordinate peers"
+    },
+    {
+      "actual": {
+        "args": [
+          "he",
+          "inert gas"
+        ],
+        "features": {},
+        "op": "TYPE_ASSERT"
+      },
+      "id": "chemical-copula-nominal",
+      "operation": "sentence",
+      "passed": true,
+      "required": "He asserted inert gas, not gas event"
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "committed",
+          1
+        ],
+        [
+          "TypeAssertion",
+          "non_committed",
+          1
+        ]
+      ],
+      "id": "commitment-polarity-0",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "committed",
+          1
+        ],
+        [
+          "TypeAssertion",
+          "non_committed",
+          1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "committed",
+          1
+        ],
+        [
+          "TypeAssertion",
+          "committed",
+          1
+        ]
+      ],
+      "id": "commitment-polarity-1",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "committed",
+          1
+        ],
+        [
+          "TypeAssertion",
+          "committed",
+          1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "committed",
+          -1
+        ],
+        [
+          "TypeAssertion",
+          "abstained",
+          1
+        ]
+      ],
+      "id": "commitment-polarity-2",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "committed",
+          -1
+        ],
+        [
+          "TypeAssertion",
+          "abstained",
+          1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "non_committed",
+          1
+        ]
+      ],
+      "id": "commitment-polarity-3",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "non_committed",
+          1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "committed",
+          -1
+        ]
+      ],
+      "id": "commitment-polarity-4",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "committed",
+          -1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        [
+          "Event",
+          "committed",
+          1
+        ]
+      ],
+      "id": "commitment-polarity-5",
+      "operation": "queries",
+      "passed": true,
+      "required": [
+        [
+          "Event",
+          "committed",
+          1
+        ]
+      ]
+    },
+    {
+      "actual": [
+        {
+          "entity_id": "e0",
+          "lemma": "woman",
+          "type_thread": []
+        },
+        {
+          "entity_id": "e0",
+          "lemma": "woman",
+          "type_thread": []
+        },
+        [
+          {
+            "eid": "e0",
+            "graded": false,
+            "is_agent": true,
+            "lemma": "woman",
+            "modifier": null,
+            "number": "sing",
+            "pos": "NOUN",
+            "possessor_eid": null,
+            "possessor_lemma": null,
+            "possessor_span": [],
+            "prims": {},
+            "sent": 0,
+            "source_sentence_id": "s0",
+            "span": [],
+            "type_thread": [],
+            "utterance_id": "s0:u0"
+          }
+        ]
+      ],
+      "id": "same-referent-across-paragraph",
+      "operation": "document",
+      "passed": true,
+      "required": "she and supporting woman have same exact document entity ID"
+    },
+    {
+      "actual": {
+        "args": [
+          {
+            "entity_id": "e3",
+            "lemma": "nora",
+            "type_thread": []
+          }
+        ],
+        "features": {
+          "themes": [
+            "here"
+          ],
+          "verb": "wait"
+        },
+        "op": "EVENT"
+      },
+      "id": "quoted-speaker-binding",
+      "operation": "document",
+      "passed": true,
+      "required": "quoted I waits here as Nora, not earlier woman"
+    },
+    {
+      "actual": [
+        "type-1",
+        "type-2",
+        "type-3"
+      ],
+      "id": "exact-type-source-set",
+      "operation": "inference",
+      "passed": true,
+      "required": "all three type premises cited, no invented source"
+    },
+    {
+      "actual": [
+        "premise-0",
+        "premise-2",
+        "premise-3",
+        "premise-4"
+      ],
+      "id": "exact-conditional-source-set",
+      "operation": "inference",
+      "passed": true,
+      "required": "both rules and only relevant member/fact premises cited"
+    }
+  ],
+  "failed_ids": [],
+  "format": "GSE.retained-semantic-development-checks/1",
+  "original_failed_checks": [
+    {
+      "actual": {
+        "valence_arc": null,
+        "valence_mean": null,
+        "valence_spread": null
+      },
+      "cause_if_failed": "contextual evaluative identity/source access",
+      "id": "dev-good",
+      "operation": "profile",
+      "passed": false,
+      "required": "source-warranted positive evaluative measurement, not unavailable"
+    },
+    {
+      "actual": {
+        "valence_arc": null,
+        "valence_mean": null,
+        "valence_spread": null
+      },
+      "cause_if_failed": "contextual evaluative identity/source access",
+      "id": "dev-bad",
+      "operation": "profile",
+      "passed": false,
+      "required": "source-warranted negative evaluative measurement, not unavailable"
+    },
+    {
+      "actual": [
+        {
+          "token": "has",
+          "word": {
+            "HAVE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "have-aux-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": [
+        {
+          "token": "did",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "do-aux-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": [
+        {
+          "token": "Does",
+          "word": {
+            "DO": 1,
+            "HAPPEN": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "inverted-do-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": [
+        {
+          "token": "have",
+          "word": {
+            "HAVE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "aux-have-possession-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": [
+        {
+          "token": "is",
+          "word": {
+            "BE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "aux-be-state-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": [
+        {
+          "token": "is",
+          "word": {
+            "BE": 1
+          }
+        }
+      ],
+      "cause_if_failed": "source projection; controller migration/replay required",
+      "id": "copula-be-state-leak-own-content",
+      "operation": "sentence",
+      "passed": false,
+      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary"
+    },
+    {
+      "actual": {
+        "committed": "bycicle",
+        "fired": false,
+        "note": "surface grounds",
+        "ranked": [],
+        "surface": "bycicle"
+      },
+      "id": "spellcheck-noisy-channel",
+      "operation": "integration",
+      "passed": false,
+      "required": "simple spelling error offers grounded bicycle"
+    }
+  ],
+  "outcomes": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json",
+  "outcomes_sha256": "23867ae96f0a17183f02beab67a8354fdb9efbd61dc5a6313607e157222d3444",
+  "passed": 37,
+  "production_or_lexical_writes": 0,
+  "scope": "POST_INSPECTION_DEVELOPMENT_NOT_FINAL_HOLDOUT",
+  "sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7"
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,ast\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md');s=p.read_text();lines=s.splitlines();print('NOTEBOOK',len(s));print('\\n'.join(z for z in lines if z.startswith('#'))[-10000:])\nf=n/'ssl-api-controller-moral-writer.log';print('WRITER COMPLETE LOG',f.read_text() if f.stat().st_size<8000 else 'large saved')\nf=n/'ssl-api-runtime-current-coordination.json';print('B',f.read_text())\nprint('NATIVE EXPORTS PUBLICATION')\np=Path('GSE/curation/lexicon_builder/publication.py');s=p.read_text();t=ast.parse(s);print([(x.name,x.lineno) for x in t.body if isinstance(x,(ast.FunctionDef,ast.ClassDef))])\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

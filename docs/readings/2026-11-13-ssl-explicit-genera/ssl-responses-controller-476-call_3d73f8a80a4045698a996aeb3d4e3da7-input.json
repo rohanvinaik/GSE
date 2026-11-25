@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in sorted(n.glob('*controller*moral*')):print(p.name)\nfor p in sorted(n.glob('ssl_api*py')):\n if any(s in p.name for s in ('postwriter','measure','publish','space','self_boundary','checkpoint_finalize')):print(p.name)\nf=Path('GSE/curation/lexicon_builder/validation.py');t=ast.parse(f.read_text());print('VALIDATION',[(z.name,z.lineno) for z in t.body if isinstance(z,(ast.FunctionDef,ast.ClassDef))])\nf=Path('GSE/curation/lexicon_builder/specification.py');t=ast.parse(f.read_text());print('SPEC',[(z.name,z.lineno) for z in t.body if isinstance(z,(ast.FunctionDef,ast.ClassDef))])\nf=n/'ssl-api-controller-moral-request-authority.json';x=json.loads(f.read_text());print('AUTHORITY KEYS',list(x));print('BASELINE',x.get('baseline'));print('TRANSPORTCONFIG',x.get('transport_configuration'))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

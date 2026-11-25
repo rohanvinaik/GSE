@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in ['ssl_api_checkpoint_packets.py','ssl-api-controller-moral-request-authority.json','ssl-api-runtime-moral-source-demand.json']:\n p=n/f;print('\\n===',f,'===');print(p.read_text())\nfor root in ['GSE/semantics','GSE/lexicon','GSE/curation/lexicon_builder']:\n for p in Path(root).rglob('*.py'):\n  try:t=ast.parse(p.read_text())\n  except SyntaxError:continue\n  for x in ast.walk(t):\n   if isinstance(x,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)) and any(z in x.name.lower() for z in ['qualif','semantic_domain','contextual_constraint','meaning_form']):print(p,x.name,x.lineno,x.end_lineno)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

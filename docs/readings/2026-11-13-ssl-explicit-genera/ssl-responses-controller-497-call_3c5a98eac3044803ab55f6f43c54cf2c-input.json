@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ('ssl_publish_immediate_checkpoint.py','ssl-root-immediate-publication-status.json','ssl-api-controller-common-base-exit.json'):\n p=n/name\n if p.exists(): print('\\nFILE',p,'\\n',p.read_text())\np=Path('/Users/rohanvinaik/Projects/rohan-vinaik.github.io/papers/Core Documents/Semantic_Specification_Learning/07_GSE_LEXICON_NSM_WORKING_DRAFT.md')\ns=p.read_text();start=s.index('#### Checkpoint-first execution and durable controller evidence');end=s.index('### 6. Linguistic and sociological implications',start)\nprint('\\nNOTEBOOK_WHOLE_CHECKPOINT_SECTION\\n',s[start:end])\np=Path('scripts/ci_local.sh');print('\\nFILE',p,'\\n',p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

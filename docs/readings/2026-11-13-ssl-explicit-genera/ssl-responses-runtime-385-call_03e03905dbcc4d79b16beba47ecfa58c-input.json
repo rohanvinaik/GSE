@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in Path('GSE/symbolic').glob('*.py'):\n s=p.read_text(); t=ast.parse(s)\n print(p.name, ', '.join(n.name for n in t.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))))\nprint('\\n### evidence.py')\nprint(Path('GSE/curation/lexicon_builder/evidence.py').read_text())\nPY\nUV_OFFLINE=1 uvx ruff@0.16.10 format docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_eight_operations.py\nUV_OFFLINE=1 uvx ruff@0.16.10 check docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_eight_operations.py docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_semantic_checks.py",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 20
+}

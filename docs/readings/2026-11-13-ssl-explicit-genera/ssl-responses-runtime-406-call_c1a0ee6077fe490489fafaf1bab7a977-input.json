@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nfor f,unit in [('GSE/api/encoder.py','encode'),('GSE/symbolic/lexical_grounding.py','bind_qualified_dimensions')]:\n s=Path(f).read_text();t=ast.parse(s)\n for n in ast.walk(t):\n  if isinstance(n,ast.FunctionDef) and n.name==unit:\n   if unit=='encode':\n    for x in n.body[-5:]:print(repr(ast.get_source_segment(s,x)))\n   else:print('PATCH_PRESENT',f,n.lineno,n.end_lineno)\np=Path('GSE/curation/lexicon_builder/catalog.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,ast.FunctionDef) and n.name=='qualified_dimension_frames':print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

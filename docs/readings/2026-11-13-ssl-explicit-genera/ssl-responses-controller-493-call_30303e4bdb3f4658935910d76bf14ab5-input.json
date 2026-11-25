@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\np=Path('GSE/curation/lexicon_builder/catalog.py');s=p.read_text();print('### CATALOG COMPLETE');print(s)\nprint('### BIND QUALIFIED COMPLETE AND REFERENCES')\nfor name in ['GSE/symbolic/lexical_grounding.py','tests/test_qualified_dimension_profile.py']:\n p=Path(name);s=p.read_text();t=ast.parse(s)\n if 'tests/' in name: print(s);continue\n for node in t.body:\n  if isinstance(node,(ast.FunctionDef,ast.ClassDef)) and ('qualified' in node.name.lower()):print(ast.get_source_segment(s,node))\nfor name in ['GSE/api/encoder.py','GSE/discourse/profile.py']:\n p=Path(name);s=p.read_text();t=ast.parse(s)\n for node in ast.walk(t):\n  if isinstance(node,ast.FunctionDef) and any(isinstance(x,ast.Name) and x.id=='bind_qualified_dimensions' for x in ast.walk(node)):print(name,ast.get_source_segment(s,node))\nprint('### REVIEW');print(Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-qualified-evaluation-source-review.json').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

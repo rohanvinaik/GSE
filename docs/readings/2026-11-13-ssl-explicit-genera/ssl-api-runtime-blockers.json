@@ -202,9 +202,9 @@
       "note": "Third unfreeze structural failures now have passing actual candidate controls and regression tests; historical source editing status is not current."
     }
   ],
-  "updated_at_utc": "2026-11-24T21:38:00.885979+00:00",
-  "current_source_freeze": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json",
-  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "updated_at_utc": "2026-11-24T22:47:48.846261+00:00",
+  "current_source_freeze": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fifth-source-freeze.json",
+  "candidate_sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e",
   "current_critical_cases": [
     {
       "actual": {
@@ -231,123 +231,11 @@
       "passed": false,
       "required": "source-warranted negative evaluative measurement, not unavailable",
       "next_remedy": "B inspect concurrent source/context constraints and exact ordinary candidate domains; send exact source population to A; no primary-frame selection"
-    },
-    {
-      "actual": [
-        {
-          "token": "has",
-          "word": {
-            "HAVE": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "have-aux-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": [
-        {
-          "token": "did",
-          "word": {
-            "DO": 1,
-            "HAPPEN": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "do-aux-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": [
-        {
-          "token": "Does",
-          "word": {
-            "DO": 1,
-            "HAPPEN": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "inverted-do-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": [
-        {
-          "token": "have",
-          "word": {
-            "HAVE": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "aux-have-possession-leak-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": [
-        {
-          "token": "is",
-          "word": {
-            "BE": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "aux-be-state-leak-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": [
-        {
-          "token": "is",
-          "word": {
-            "BE": 1
-          }
-        }
-      ],
-      "cause_if_failed": "source projection; controller migration/replay required",
-      "id": "copula-be-state-leak-own-content",
-      "operation": "sentence",
-      "passed": false,
-      "required": "no unsupported own lexical HAVE/BE/DO/HAPPEN on grammatical auxiliary",
-      "next_remedy": "A exact source retraction with existing migration/full replay; B recheck word-vs-grammar on successor"
-    },
-    {
-      "actual": {
-        "committed": "bycicle",
-        "fired": false,
-        "note": "surface grounds",
-        "ranked": [],
-        "surface": "bycicle"
-      },
-      "id": "spellcheck-noisy-channel",
-      "operation": "integration",
-      "passed": false,
-      "required": "simple spelling error offers grounded bicycle",
-      "next_remedy": "B trace spellcheck grounding source; distinguish native typo entry from consumer overbroad grounding"
     }
   ],
   "workload_status": "ACTUAL_EIGHT_OPERATION_DEVELOPMENT_AUDIT_COMPLETE_WITH_NAMED_FAILURES",
   "historical_current_fields_archive": "ssl-api-runtime-pre-eight-operation-blockers.json",
-  "frozen_at_utc": "2026-11-24T21:13:52.849817+00:00",
+  "frozen_at_utc": "2026-11-24T22:47:48.846261+00:00",
   "fourth_refreeze": {
     "receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fourth-source-freeze.json",
     "source_pins": {
@@ -379,5 +267,59 @@
     "pipeline_repair": "Existing definition-indexed encoder/decoder consumed read-only; legacy path retained; 23 tests passed",
     "checkpoint_complete": false
   },
-  "current_operation_progress": "ssl-api-runtime-eight-operation-progress.json"
+  "current_operation_progress": "ssl-api-runtime-eight-operation-progress.json",
+  "validity_repair_verified": {
+    "receipt": "ssl-api-runtime-validity-repair-regression.json",
+    "passed": true,
+    "case_id": "spellcheck-noisy-channel",
+    "actual": "Fresh validity process now fires and offers bicycle; abstains on tied candidates. Valid bicycle unchanged, ZXQ9 not committed.",
+    "not_final": true
+  },
+  "auxiliary_successor_verified": {
+    "receipt": "ssl-api-runtime-auxiliary-successor-audit.json",
+    "candidate_sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e",
+    "six_critical_cases_passed": true,
+    "actual": "All six AUX word banks empty; tense/aspect and main events/negation/copular type assertion preserved. Main have/do structures retained. No claim of unique lexical fine identity or raw possession bank."
+  },
+  "current_phase": "OWNER_IMMEDIATE_RELEASE_ROOT_POINTER_OWNER",
+  "current_editing_state_utc": "2026-11-24T22:38:10.599020+00:00",
+  "fifth_refreeze": {
+    "receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-fifth-source-freeze.json",
+    "source_pins": {
+      "GSE/api/encoder.py": "3b9b3c3b2fbaee95999090d4ef7bb626d60f9a0ceed30c28125ceca2367af5ae",
+      "GSE/api/parse_repair.py": "768dc732ff0a26d0c8e1a208c9797b15b858e458420809dd4ae9dd70efe02d79",
+      "GSE/api/trace.py": "3f54ef54b91b6847bd3274db65ca8cca7f2d959e7ff3a93447042ba3d309f0b8",
+      "GSE/nlp/native.py": "285f39627a0d9f97287d7e0caebde82b6b0c3ecd0e8da536f6180e794a27054b",
+      "GSE/symbolic/lexical_grounding.py": "6dc18bf199329f9259290caad56e5863a7a48ad064168b3e4d2da6d7a16adaa7",
+      "GSE/symbolic/grounding.py": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7",
+      "GSE/symbolic/expression.py": "9598b16f5390f4c1ec7417ecf594c4b0e4bf9752e30215d77ae60024d7cf8232",
+      "GSE/symbolic/resolution.py": "6cacc9813c800f540380b97b1c52f84cae68c0f1e397b813ab95390f439f1544",
+      "GSE/symbolic/operators.py": "f391767704c4f8bf3331cfb5d2fae01f6d42c9c47bdaa2bdaf283d3c5f80cd39",
+      "scripts/audit_lexicon_runtime.py": "587191c58a8a79a5df7c07c489540b5558333585ecba0b890241fa1ab1e31995",
+      "scripts/audit_lexicon_sentences.py": "50fdf281c906fdfabad02ac14f4877806d130f68fc350f19d1e64c43a41f341a",
+      "tests/test_runtime_native_identity_controls.py": "11dd802023e2c010e183e3bfe9e8242e8c3d02fcccc28c989f9b8ec0a671d4d5",
+      "tests/test_runtime_native_composed_controls.py": "a91f700ba4f598ddad438491bf951fbd2b032509b669dd5ab08ef71d74019b31",
+      "tests/test_audit_lexicon_runtime.py": "1f7c70c647b626323428a5398bf6b42ae0c87ff02d4f3e7a5409a9e06b78d88a",
+      "tests/test_lexicon_builder_grammatical_definitions.py": "f43a9db843f8c7d8b1b23a8841fde4fc2bcc9ee824b6e550c317ef956f444903",
+      "tests/test_audit_lexicon_sentences.py": "86eb702c2554d89b3c06392f991d11f3ad06ed9c8a36471382205eb6a90b9f94",
+      "tests/test_symbolic_expression.py": "1886a1f01b9cf6050a3c71d4412a1531b7f6fde19c723a0bb91051a879b94928",
+      "docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_workload.py": "11d42a1a1ce1a716bca0fcfbe76cdac9e950f088a1005402f81fec7ed527d534",
+      "GSE/symbolic/modality.py": "ef69fa4f361bcba0a82e28c58830a5875b2d86c6549f3b45855ac306c460727d",
+      "GSE/discourse/profile.py": "6a3a72d1879e6ecb620252231b6c16848fe476ebb749d45e17284c2ac47c2443",
+      "tests/test_discourse_profile.py": "2ca4bbcd3994170a734e0935f98fa6c9fc445fd9e0d99dee5d619f91b3dc661d",
+      "tests/test_complete_document_reading.py": "82fbe4096150fdc7721bf94cfbe61354ebdd59186e3a6e23c2ad7104bb00870d",
+      "GSE/pipeline_v2.py": "c7c927b5764707aa752de4a4e15b44ea941c73c1e29bb8fd2daea939451d9d77",
+      "tests/test_pipeline_definition_checkpoint.py": "511b3a30e90b05ae4b638acd11d3957156871de5ab2fb9aacd2cdefb75ea29b6",
+      "tests/test_qualified_dimension_profile.py": "bc13a46f004e7ecda0c34b8ed386354a0039e75f9db5c9ceedcc871257b8088f"
+    },
+    "checkpoint_complete": false
+  },
+  "owner_immediate_release_override": {
+    "at_utc": "2026-11-24T22:56:43.234623+00:00",
+    "code": "OWNER_IMMEDIATE_RELEASE_ACKNOWLEDGED_RUNTIME_FROZEN",
+    "live_closing_receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-live-closing.json",
+    "downstream_acceptance_not_release_blocker": true,
+    "full_consumer_completion_claimed": false,
+    "candidate_sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e"
+  }
 }

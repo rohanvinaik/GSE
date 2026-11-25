@@ -1,7 +1,7 @@
 {
   "format": "GSE.runtime-eight-operation-progress/1",
   "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
-  "updated_utc": "2026-11-24T21:38:00.885979+00:00",
+  "updated_utc": "2026-11-24T22:08:45.605026+00:00",
   "status": "SOURCE_FROZEN_ACTUAL_WORKLOAD_FAILURES",
   "source_edits_finished": true,
   "source_freeze": "ssl-api-runtime-fourth-source-freeze.json",
@@ -215,5 +215,21 @@
   "independent_final": "Not run: these inspected cases are development; final manifest must pin settled runtime and controller grouped successor, not relabel these as untouched holdout.",
   "production_writes": 0,
   "lexicon_writes": 0,
-  "pointer_writes": 0
+  "pointer_writes": 0,
+  "supplemental_semantic_checks": {
+    "receipt": "docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-semantic-development-v1.json",
+    "sha256": "f6d4ca354310f3bcdd846f17184371e5cbe7b5ed3ba7b3981a30d693da8a6e9a",
+    "passed": 37,
+    "failed_ids": [],
+    "scope": "POST_INSPECTION_DEVELOPMENT_NOT_FINAL_HOLDOUT",
+    "original_nine_failures_retained": true
+  },
+  "validity_repair_verified": {
+    "receipt": "ssl-api-runtime-validity-repair-regression.json",
+    "passed": true,
+    "case_id": "spellcheck-noisy-channel",
+    "actual": "Fresh validity process now fires and offers bicycle; abstains on tied candidates. Valid bicycle unchanged, ZXQ9 not committed.",
+    "not_final": true
+  },
+  "updated_at_utc": "2026-11-24T22:31:30.165252+00:00"
 }

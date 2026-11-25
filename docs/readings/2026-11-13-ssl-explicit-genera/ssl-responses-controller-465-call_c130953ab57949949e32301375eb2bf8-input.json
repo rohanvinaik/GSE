@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in n.glob('*.py'):\n if any(t in p.name for t in ('writer','finish','prime','postwriter','canonical','self_boundary','gate')):\n  print(p.name,[(x.name,x.lineno,x.end_lineno) for x in ast.parse(p.read_text()).body if isinstance(x,(ast.FunctionDef,ast.ClassDef))])\np=n/'ssl-api-controller-moral-witness-job.json';print('\\nMORAL JOB',p.read_text())\np=Path('GSE/curation/lexicon_builder/completion.py');print('\\nMODULE?',p.exists())\np=n/'ssl_api_checkpoint_canonical_audit.py';print('\\nAUDITOR',p.exists());\nif p.exists(): print(p.read_text())\np=Path('data/wordlist_wiktionary.receipt.json');print('\\nVALIDITY RECEIPT',p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

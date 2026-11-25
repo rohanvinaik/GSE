@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor p in [Path('GSE/lexicon/grounding.py'),Path('GSE/lexical_grounding.py')]:\n if p.exists():print(p)\nfor p in Path('GSE').rglob('*.py'):\n if any(k in p.name for k in ['grounding','meaning_form','qualif','profile','semantic_domain']):\n  print('\\nMODULE',p)\n  try:t=ast.parse(p.read_text())\n  except SyntaxError:continue\n  for x in t.body:\n   if isinstance(x,(ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)):print(type(x).__name__,x.name,x.lineno,x.end_lineno)\nprint('\\n=== fixed basis ===');p=Path('GSE/primitives_v2.py');t=ast.parse(p.read_text());\nfor node in t.body:\n if isinstance(node,ast.Assign) and any(isinstance(v,ast.Name) and any(s in v.id for s in ['EVALUATION','BIPOLAR','PRIMITIVE']) for v in node.targets):print(ast.get_source_segment(p.read_text(),node))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

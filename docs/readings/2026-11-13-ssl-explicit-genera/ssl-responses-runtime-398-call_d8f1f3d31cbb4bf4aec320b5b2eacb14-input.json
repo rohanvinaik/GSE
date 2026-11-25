@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast,json\nfrom pathlib import Path\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor f in ['ssl-api-controller-root-handoff.json','ssl-api-runtime-eight-operation-manifest-dev-current-v1.json']:\n x=json.loads((D/f).read_text());print(f)\n if 'handoff' in f:print(json.dumps({k:v for k,v in x.items() if k in {'status','code','at_utc','next_action','candidate','current_candidate','runtime_coordination','moral_writer','qualified_evaluation'}},indent=2));print('keys',list(x))\n else:print(json.dumps(x.get('operations',x.get('cases',{})),indent=2))\nfor f,names in [('GSE/api/encoder.py',{'encode','_lookup_lexeme'}),('GSE/symbolic/lexical_grounding.py',{'_bounds','_primary_records','_primary_frames'}),('GSE/api/trace.py',None)]:\n p=Path(f)\n if not p.exists():continue\n s=p.read_text();print('\\nFILE',f)\n if names is None:print(s)\n else:\n  for n in ast.walk(ast.parse(s)):\n   if isinstance(n,ast.FunctionDef) and n.name in names:print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

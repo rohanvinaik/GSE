@@ -1,0 +1,60 @@
+{
+  "format": "GSE.independent-consumer-final-freeze/1",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "frozen_at_utc": "2026-11-24T22:55:53.740436+00:00",
+  "runtime_source_freeze": "ssl-api-runtime-fifth-source-freeze.json",
+  "lexical_benchmark": "ssl-api-runtime-independent-final-lexical-v1.json",
+  "benchmark_sha256": "f4ab002756c039d767bd390d28b269f0a5e04a71290d5903d5755c20fe631742",
+  "split": "FINAL_UNEXPOSED",
+  "final_senses": [
+    "wordnet:tibia:tibia.n.01",
+    "wordnet:educator:educator.n.01",
+    "wordnet:departure:departure.n.01"
+  ],
+  "final_families": [
+    "tibia",
+    "educator",
+    "departure",
+    "light",
+    "charge"
+  ],
+  "development_senses": [
+    "wordnet:femur:femur.n.01",
+    "wordnet:teacher:teacher.n.01",
+    "wordnet:leap:leap.n.01",
+    "wordnet:whisper:whisper.n.01",
+    "wordnet:good:good.a.03",
+    "wordnet:good:good.s.05",
+    "wordnet:bad:bad.s.10",
+    "wordnet:he:helium.n.01"
+  ],
+  "development_families": [
+    "femur",
+    "teacher",
+    "leap",
+    "whisper",
+    "morally-qualified-evaluation",
+    "he-chemical",
+    "about-topic",
+    "do-support",
+    "auxiliary-have-be"
+  ],
+  "source_warrants": {
+    "tibia.n.01": {
+      "definition": "the inner and thicker of the two bones of the human leg between the knee and ankle",
+      "examples": [],
+      "source": "nltk WordNet live native source; evaluation-only, no construction request"
+    },
+    "educator.n.01": {
+      "definition": "someone who educates young people",
+      "examples": [],
+      "source": "nltk WordNet live native source; evaluation-only, no construction request"
+    },
+    "departure.n.01": {
+      "definition": "the act of departing",
+      "examples": [],
+      "source": "nltk WordNet live native source; evaluation-only, no construction request"
+    }
+  },
+  "boundary": "This is a finite lineage-separated lexical semantic slice plus independent novel operation cases to be frozen separately before execution; not whole-cohort semantic accuracy. Source-definition witnesses are declared as such. No claim that common grammar or all dictionary families were untouched in development."
+}

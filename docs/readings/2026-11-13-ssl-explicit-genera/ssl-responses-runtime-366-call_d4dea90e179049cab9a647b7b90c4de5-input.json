@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nd=Path('docs/readings/2026-11-13-ssl-explicit-genera');r=json.loads((d/'ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json').read_text())\nfor op in ['sentence','queries','document','inference']:\n v=r['operations'][op]\n if op=='sentence':\n  for c in v:\n   if c['id'] in ['want','want-negative','not-very','very-not','above','before','topic-about','teacher-relative','femur-modifier','temporal-ambiguous-spring']:\n    print(c['id'],json.dumps(c['contract']['predicate']));print('TREE',c['tree'] if 'temporal-ambiguous' in c['id'] else '')\n elif op=='queries':\n  for c in v['claims']:\n   print(c['text'],json.dumps([{k:p[k] for k in ['kind','commitment','polarity']} for p in c['propositions']]))\n elif op=='document':\n  print('doc keys',list(v));print('mentions',json.dumps(v['mentions']));print('support',json.dumps(v['supporting_mentions']));print('contracts',json.dumps([x['predicate'] for x in v['contracts']]))\n else:\n  print('INFERENCE',json.dumps(v))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

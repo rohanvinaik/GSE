@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport time,json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');deadline=time.monotonic()+600\nwhile time.monotonic()<deadline and not (n/'ssl-api-controller-moral-writer-exit.json').exists():time.sleep(20)\nfor name in ['ssl-api-controller-moral-writer-exit.json','ssl-api-controller-common-base-exit.json','ssl-api-runtime-current-coordination.json']:\n f=n/name;print('\\n'+name+'\\n'+(f.read_text() if f.exists() else 'NO EXIT RECEIPT YET'))\nf=n/'ssl-api-controller-moral-writer.log';print('\\nOWNED WRITER COMPLETE LOG\\n'+(f.read_text() if f.stat().st_size<12000 else 'Output retained in log; too large for status delivery'))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 630
+}

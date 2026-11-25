@@ -1,0 +1,107 @@
+{
+  "format": "GSE.qualified-evaluation-source-review/1",
+  "role_scope": "ASSIGNMENT A — COMPLETE AND EXECUTE THE CONNECTED SSL LEARNER (primary integration ownership)",
+  "status": "SOURCE_DERIVED_CONDITIONAL_WARRANT_REQUIRES_VERIFIED_RUNTIME_BINDING",
+  "is_new_founder_convention": false,
+  "is_final_holdout": false,
+  "database_writes_by_this_review": 0,
+  "warrant_id": "native-moral-quality:qualified-evaluation:2026-11-24:v1",
+  "basis": {
+    "bank": "GOOD",
+    "dimension": "EVALUATION",
+    "positive_pole": "nsm_chart:v20:good",
+    "negative_pole": "nsm_chart:v20:bad",
+    "definition": "BipolarDimension(\"EVALUATION\", \"GOOD\", \"BAD\", SemanticBank.EVALUATORS)",
+    "existing_review": "ssl-root-canonical-prime-projection-review.json",
+    "scope": "Evaluation of the predicate quality, not the qualifier's own lexical content or a complete signature."
+  },
+  "source_meaning_premises": [
+    {
+      "entry_id": "wordnet:morally:morally.r.01",
+      "native_definition": "with respect to moral principles",
+      "licensed_role": "Moral-domain restriction of an attached quality predicate.",
+      "does_not_license": "GOOD sign on the adverb itself, attachment inferred from proximity, or rejection of other native adverb senses."
+    },
+    {
+      "entry_id": "wordnet:good:good.a.03",
+      "native_definition": "morally admirable",
+      "quality_domain": "moral evaluation",
+      "bank": "GOOD",
+      "value": 1
+    },
+    {
+      "entry_id": "wordnet:good:good.s.05",
+      "native_definition": "of moral excellence",
+      "quality_domain": "moral evaluation",
+      "bank": "GOOD",
+      "value": 1
+    },
+    {
+      "entry_id": "wordnet:bad:bad.s.10",
+      "native_definition": "characterized by wickedness or immorality",
+      "quality_domain": "moral evaluation",
+      "bank": "GOOD",
+      "value": -1
+    }
+  ],
+  "independent_witnesses": {
+    "receipt": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/moral-witness/audit.json",
+    "answers_sha256": "f692e7131b8357c0a4dd515d180c3d389b7d817ecfdac17ddc25a85c0bb142b1",
+    "questions_sha256": "b6b60f92db10ad10f0a51b58c8c6fdd74d025ca4bd0f33cf35bdb40cb1e6b7a8",
+    "outcome": "Three signed exact-definition rulings agree with the independently read native quality meanings and the existing evaluation poles. Ordinary historical writer is separately required; this review does not install the rulings.",
+    "not_independent_final_gold": true
+  },
+  "conditional_derivation": {
+    "premises": [
+      "The actual parsed occurrence is a quality predicate, not a measure/quantity modifier, noun, interjection, or degree-only construction.",
+      "A semantic-domain qualifier has an independently verified native meaning restricting evaluation to moral principles and is structurally bound to this quality head.",
+      "The quality meaning in this qualified frame corresponds to one of the independently signed native moral-quality meanings above, with the exact canonical evaluation pole retained as provenance.",
+      "The contextual result records this frame assumption, the source identities, modifier/head positions and all surviving finer identity alternatives."
+    ],
+    "conclusion": "Within that explicitly licensed qualified frame, the quality occurrence has GOOD=+1 for the positive evaluation pole or GOOD=-1 for the negative evaluation pole. This is an additional contextual constraint, not selection of an unqualified fine dictionary ID.",
+    "identity_policy": "Generic quality identities may remain open and survive under this contextual constraint. Their unqualified stored banks are not rewritten; finer identity uncertainty does not itself invalidate a justified frame-conditioned scalar consequence.",
+    "failure_policy": "If attachment, domain interpretation or quality-pole correspondence is not established, retain an unresolved/conditional alternative rather than asserting an unconditional sign or deleting a rival."
+  },
+  "native_counterframes": [
+    {
+      "native_id": "en-morally-en-adv-H11TvmzC",
+      "definition": "To all intents and purposes; practically.",
+      "policy": "Retain as an alternative; do not silently assume a moral register solely from the spelling."
+    },
+    {
+      "native_id": "en-morally-en-adv-YaPWcvSZ",
+      "definition": "Used to clarify that a statement is made in analogy, and every detail may not be strictly true.",
+      "policy": "Retain the analogy interpretation where applicable; this review does not project moral evaluation from it."
+    },
+    {
+      "synset": "full.s.04",
+      "definition": "having the normally expected amount",
+      "native_example": "a good mile from here",
+      "policy": "Quantitative good is not an evaluation pole. A quantity construction such as good forty miles must not receive positive evaluation through this warrant."
+    }
+  ],
+  "consumer_contract": {
+    "owner": "B — CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+    "required": "Reuse the existing contextual grounding/trace and profile path; preserve unresolved fine identities, make frame-derived bank evidence distinct and inspectable, and propagate only correctly bound occurrence meaning to downstream consumers.",
+    "prohibited": [
+      "Flat surface-word to prime fallback or hardcoded complete sentences.",
+      "A chart syntax match or modifier token match as semantic authority.",
+      "Transfer of this sign to all ordinary same-spelled dictionary senses.",
+      "Claiming a chosen fine identity when only a qualified dimension consequence was established.",
+      "Using SentiWordNet association scores as own-content source authority.",
+      "Changing the inspected development labels or calling them untouched final holdouts."
+    ],
+    "negative_controls": [
+      "Quantitative good forty miles receives no positive evaluation from this warrant.",
+      "Generic see my doctor and court heard the case remain protected against primary-frame compatibility being promoted to identity.",
+      "Qualifier attachment to another predicate cannot constrain this quality occurrence.",
+      "Negation and degree scope remain explicit rather than changing stored lexical polarity."
+    ]
+  },
+  "evidence_records": {
+    "whole_native_records_and_current_consumer_trace": "ssl-api-coverage-qualified-frame-seam-facts.json",
+    "coverage_role": "Read-only factual corroboration, not semantic approval.",
+    "wiktionary_morally_record_sha256": "a6be623d650b420b692ee3144f593b34d2bb4559c53e0e4d1fa0d7c977d88cb8",
+    "wiktionary_source_sha256": "8f6814f7909bdf64106e7fe746a004526930bf698d7230ad212da545975c76a9"
+  }
+}

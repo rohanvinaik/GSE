@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport json,time\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nterminal=('ssl-api-checkpoint-delivery.json','ssl-root-immediate-publication-failure.json')\ndeadline=time.monotonic()+1500\nwhile time.monotonic()<deadline and not any((p/n).exists() for n in terminal):\n time.sleep(15)\nprint('collected_utc',datetime.now(timezone.utc).isoformat())\nfor n in ('ssl-root-immediate-publication-status.json','ssl-root-immediate-publication-result.json','ssl-root-immediate-publication-failure.json','ssl-api-checkpoint-delivery.json','ssl-api-controller-common-base-exit.json'):\n q=p/n; print('\\n###',n)\n if not q.exists(): print('NOT PRESENT'); continue\n d=json.loads(q.read_text())\n if q.stat().st_size<20000: print(json.dumps(d,indent=2))\n else:\n  print('bytes',q.stat().st_size,'keys',list(d))\n  for k,v in d.items():\n   s=json.dumps(v,indent=2)\n   print(k,s if len(s)<16000 else {'type':type(v).__name__,'count':len(v)})\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 1560
+}

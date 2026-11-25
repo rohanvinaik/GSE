@@ -1,0 +1,1430 @@
+{
+  "active_pointer_observed": {
+    "format": "gse.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-021.db"
+  },
+  "actual_changes": {
+    "activation": false,
+    "bank_rulings": 0,
+    "commits": 0,
+    "corpus_gain_claimed": false,
+    "database_writes": 0,
+    "gold_edits": 0,
+    "model_calls": 0,
+    "semantic_approvals": 0,
+    "snapshots": 0,
+    "source_edits": 0
+  },
+  "actual_dataclass_fields": {
+    "Atom": [
+      "lemma",
+      "word_primitives",
+      "role",
+      "position",
+      "pos",
+      "number",
+      "graded",
+      "apposition",
+      "degree",
+      "degree_modifier"
+    ],
+    "Entity": [
+      "head",
+      "possessor",
+      "role",
+      "modifier",
+      "entity_id",
+      "type_thread",
+      "span",
+      "apposition_thread"
+    ],
+    "TokenTrace": [
+      "token",
+      "lemma",
+      "pos",
+      "position",
+      "word_primitives",
+      "sent_primitives",
+      "word_vec_nnz",
+      "sent_vec_nnz",
+      "full_vec_nnz",
+      "is_operator",
+      "comp_primitive",
+      "comp_operation",
+      "comp_arity",
+      "lexicon_status",
+      "lexical_evidence",
+      "negation_evidence",
+      "operator_tier",
+      "degree_modifier",
+      "degree"
+    ],
+    "TypeAssertion": [
+      "entity",
+      "kind",
+      "modal",
+      "duration"
+    ]
+  },
+  "answer": "Existing source,occurrence evidence,typed copula,modifier,build-time relation and profile seams exist. In the inspected current consumer chain there is no completed source-warranted qualified-frame/domain plus canonical-pole channel that retains multiple fine dictionary identities. This identifies wiring boundaries only; it neither forbids justified contextual constraints nor supplies their warrant.",
+  "authority": "FACTS_ONLY_NO_MORAL_TO_GOOD_RULE_NO_SEMANTIC_APPROVAL",
+  "checks": [
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/encoder.py::GSEEncoder._grammatical_definition",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/encoder.py::GSEEncoder.encode",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/encoder.py::GSEEncoder._lookup_lexeme",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/encoder.py::GSEEncoder._encode_definition_primitives",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/api/encoder.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::NativeSense",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding._senses",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding.select",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_role",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_frame_support",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding._native_example_support",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/lexical_grounding.py::LexicalGrounding._nominal_support",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/lexical_grounding.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/trace.py::TokenTrace",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/trace.py::AttributeExtraction",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/api/trace.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/expression.py::Atom",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/expression.py::bind_degree_modifiers",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/expression.py::_atom_from_token",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/expression.py::_try_copula_type_assertion",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/expression.py::from_trace",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/expression.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/resolution.py::Entity",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/resolution.py::_collapse_phrase_to_entity",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/resolution.py::resolve_with_sources",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/resolution.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/predicates.py::TypeAssertion",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/predicates.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/operators.py::type_assert",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/operators.py::evaluate",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/operators.py::evaluate_tree",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/operators.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/discourse/speech.py::encode_document_utterance_events",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/discourse/speech.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/discourse/profile.py::text_profile",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/discourse/profile.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/evidence.py::_wordnet_relation_target",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/evidence.py::_wordnet_relations",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/evidence.py::_wordnet_definitions",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/curation/lexicon_builder/evidence.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/foundation.py::valid_lexical_guard",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/foundation.py::lexical_context",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/curation/lexicon_builder/foundation.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/definition_frames.py::native_noun_frames",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/curation/lexicon_builder/definition_frames.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/engine.py::Relation",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/lexicon_builder/engine.py::propagate",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/curation/lexicon_builder/engine.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/external_sources/wordnet_hierarchy.py::WordNetHierarchyEntry",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/curation/external_sources/wordnet_hierarchy.py::WordNetHierarchyParser.get_domain",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/curation/external_sources/wordnet_hierarchy.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/lexical_evidence.py::_definition_evidence",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/lexical_evidence.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/lexicon/definitions.py::runtime_lookup",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/lexicon/definitions.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/grounding.py::_select_by_coherence",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/grounding.py::resolve_references",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/grounding.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/queries.py::axis_of_comparison",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/queries.py::_first_adj_adv",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/queries.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/decoder.py::GSEDecoder.decode",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/api/decoder.py::GSEDecoder._extract_attributes",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/api/decoder.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/pipeline_v2.py::GSEPipeline.encode_word",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/pipeline_v2.py::GSEPipeline.encode_sentence",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/pipeline_v2.py",
+      "passed": true
+    },
+    {
+      "name": "whole_unit_matches_read_receipt:GSE/symbolic/serialization.py::to_dict",
+      "passed": true
+    },
+    {
+      "name": "all_requested_units_found:GSE/symbolic/serialization.py",
+      "passed": true
+    },
+    {
+      "name": "one_exact_native_record:wordnet:good:good.a.03",
+      "passed": true
+    },
+    {
+      "name": "one_exact_native_record:wordnet:good:good.s.05",
+      "passed": true
+    },
+    {
+      "name": "one_exact_native_record:wordnet:bad:bad.s.10",
+      "passed": true
+    },
+    {
+      "name": "one_exact_native_record:wordnet:morally:morally.r.01",
+      "passed": true
+    },
+    {
+      "name": "one_exact_native_record:wordnet:morally:morally.r.02",
+      "passed": true
+    },
+    {
+      "name": "synthetic_modifier_retention_without_invented_pole:kindness",
+      "passed": true
+    },
+    {
+      "name": "synthetic_modifier_retention_without_invented_pole:cruelty",
+      "passed": true
+    }
+  ],
+  "checks_summary": {
+    "failed": [],
+    "passed": 76,
+    "total": 76
+  },
+  "created_utc": "2026-11-24T22:28:25.358331+00:00",
+  "database_read": {
+    "bytes": 20654628864,
+    "mode": "ro&immutable=1",
+    "mtime_ns": 1795546734977986455,
+    "no_new_corpus_measurement": true,
+    "only_five_named_source_records_queried": true,
+    "path": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate.db",
+    "prior_same_artifact_full_sha256": "2f63c8647996ac4b89fdc41f9eb2c67c81079bed08dcf6499a80f462a8963952",
+    "sha256_recomputed_this_wiring_audit": false
+  },
+  "development_failure_provenance": {
+    "final_holdouts_inspected": false,
+    "reported_result": "TypeAssertion survives; profile valence_mean=None",
+    "sentences": [
+      "Kindness is morally good.",
+      "Cruelty is morally bad."
+    ],
+    "source": "root/B supplied development observation; not independently rerun on the moving checkpoint"
+  },
+  "format": "GSE.coverage-qualified-frame-seam-facts/1",
+  "handoff": {
+    "A": "implementation and semantic warrant/source integration/publication",
+    "B": "runtime consumer implementation and verification",
+    "coverage": "FACTUAL_PACKET_COMPLETE_STOPPED",
+    "not_run": [
+      "full CI gate",
+      "full replay",
+      "fresh actual encoder/profile workload",
+      "new final holdout"
+    ],
+    "remaining_CP": "CP-01 through CP-08 unchanged by this audit; no closure claimed"
+  },
+  "moving_version": {
+    "all_units_compared_to_whole_read_receipts": true,
+    "initial_encoder_sha256_call063": "ca377fa7d6d688d5f75deca3a074e18656131a92d878cc81004bb33b4f67f5f2",
+    "initial_lexical_grounding_sha256_call063": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7",
+    "note": "Concurrent edits are possible. Findings apply to pinned full units; whole-unit read receipts are compared at report assembly. No source freeze requested."
+  },
+  "native_source_observations": [
+    {
+      "candidate_entry_ids": [
+        "wordnet:good:good.a.03"
+      ],
+      "entry_id": "wordnet:good:good.a.03",
+      "family": "wordnet",
+      "features": {
+        "definition": "morally admirable",
+        "examples": [],
+        "hypernym_paths": [
+          [
+            "good.a.03"
+          ]
+        ],
+        "lemma": "good",
+        "lemma_names": [
+          "good"
+        ],
+        "lexname": "adj.all",
+        "native_records": [
+          {
+            "has_holonyms": false,
+            "has_meronyms": false,
+            "hypernym_depth": 1,
+            "hyponym_count": 0,
+            "lexname": "adj.all",
+            "pos": "adj",
+            "synset_name": "good.a.03",
+            "word": "good"
+          }
+        ],
+        "native_relations": {
+          "antonyms": {
+            "code": "READ",
+            "records": [
+              {
+                "source_key": "good%3:00:02::",
+                "source_lemma": "good",
+                "target": {
+                  "definition": "morally bad or wrong",
+                  "lemma_names": [
+                    "evil"
+                  ],
+                  "pos": "a",
+                  "synset_name": "evil.a.01"
+                },
+                "target_key": "evil%3:00:00::",
+                "target_lemma": "evil"
+              }
+            ]
+          },
+          "attributes": {
+            "code": "READ",
+            "records": [
+              {
+                "definition": "moral excellence or admirableness",
+                "lemma_names": [
+                  "good",
+                  "goodness"
+                ],
+                "pos": "n",
+                "synset_name": "good.n.02"
+              }
+            ]
+          },
+          "format": "gse.wordnet-native-relations/1",
+          "semantics": "NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS",
+          "similar_to": {
+            "code": "READ",
+            "records": [
+              {
+                "definition": "affectedly or smugly good or self-righteous",
+                "lemma_names": [
+                  "goody-goody"
+                ],
+                "pos": "s",
+                "synset_name": "goody-goody.s.01"
+              },
+              {
+                "definition": "benevolent; without malicious intent",
+                "lemma_names": [
+                  "white"
+                ],
+                "pos": "s",
+                "synset_name": "white.s.05"
+              },
+              {
+                "definition": "bringing about salvation or redemption from sin",
+                "lemma_names": [
+                  "redeeming",
+                  "redemptive",
+                  "saving"
+                ],
+                "pos": "s",
+                "synset_name": "redemptive.s.01"
+              },
+              {
+                "definition": "marked by utter benignity; resembling or befitting an angel or saint",
+                "lemma_names": [
+                  "angelic",
+                  "angelical",
+                  "beatific",
+                  "sainted",
+                  "saintlike",
+                  "saintly"
+                ],
+                "pos": "s",
+                "synset_name": "angelic.s.01"
+              }
+            ]
+          },
+          "source_synset": "good.a.03",
+          "wordnet_version": "3.0"
+        },
+        "pos": "adj",
+        "synset_name": "good.a.03",
+        "taxonomy_proposals": []
+      },
+      "record_id": "wordnet:good:good.a.03",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:good:good.s.05"
+      ],
+      "entry_id": "wordnet:good:good.s.05",
+      "family": "wordnet",
+      "features": {
+        "definition": "of moral excellence",
+        "examples": [
+          "a genuinely good person",
+          "a just cause",
+          "an upright and respectable man"
+        ],
+        "hypernym_paths": [
+          [
+            "good.s.05"
+          ]
+        ],
+        "lemma": "good",
+        "lemma_names": [
+          "good",
+          "just",
+          "upright"
+        ],
+        "lexname": "adj.all",
+        "native_records": [
+          {
+            "has_holonyms": false,
+            "has_meronyms": false,
+            "hypernym_depth": 1,
+            "hyponym_count": 0,
+            "lexname": "adj.all",
+            "pos": "adj",
+            "synset_name": "good.s.05",
+            "word": "good"
+          }
+        ],
+        "native_relations": {
+          "antonyms": {
+            "code": "READ",
+            "records": []
+          },
+          "attributes": {
+            "code": "READ",
+            "records": []
+          },
+          "format": "gse.wordnet-native-relations/1",
+          "semantics": "NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS",
+          "similar_to": {
+            "code": "READ",
+            "records": [
+              {
+                "definition": "characterized by or proceeding from accepted standards of morality or justice; - James 5:16",
+                "lemma_names": [
+                  "righteous"
+                ],
+                "pos": "a",
+                "synset_name": "righteous.a.01"
+              }
+            ]
+          },
+          "source_synset": "good.s.05",
+          "wordnet_version": "3.0"
+        },
+        "pos": "adj",
+        "synset_name": "good.s.05",
+        "taxonomy_proposals": []
+      },
+      "record_id": "wordnet:good:good.s.05",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:bad:bad.s.10"
+      ],
+      "entry_id": "wordnet:bad:bad.s.10",
+      "family": "wordnet",
+      "features": {
+        "definition": "characterized by wickedness or immorality",
+        "examples": [
+          "led a very bad life"
+        ],
+        "hypernym_paths": [
+          [
+            "bad.s.10"
+          ]
+        ],
+        "lemma": "bad",
+        "lemma_names": [
+          "bad"
+        ],
+        "lexname": "adj.all",
+        "native_records": [
+          {
+            "has_holonyms": false,
+            "has_meronyms": false,
+            "hypernym_depth": 1,
+            "hyponym_count": 0,
+            "lexname": "adj.all",
+            "pos": "adj",
+            "synset_name": "bad.s.10",
+            "word": "bad"
+          }
+        ],
+        "native_relations": {
+          "antonyms": {
+            "code": "READ",
+            "records": []
+          },
+          "attributes": {
+            "code": "READ",
+            "records": []
+          },
+          "format": "gse.wordnet-native-relations/1",
+          "semantics": "NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS",
+          "similar_to": {
+            "code": "READ",
+            "records": [
+              {
+                "definition": "morally bad or wrong",
+                "lemma_names": [
+                  "evil"
+                ],
+                "pos": "a",
+                "synset_name": "evil.a.01"
+              }
+            ]
+          },
+          "source_synset": "bad.s.10",
+          "wordnet_version": "3.0"
+        },
+        "pos": "adj",
+        "synset_name": "bad.s.10",
+        "taxonomy_proposals": []
+      },
+      "record_id": "wordnet:bad:bad.s.10",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:morally:morally.r.01"
+      ],
+      "entry_id": "wordnet:morally:morally.r.01",
+      "family": "wordnet",
+      "features": {
+        "definition": "with respect to moral principles",
+        "examples": [
+          "morally unjustified"
+        ],
+        "hypernym_paths": [
+          [
+            "morally.r.01"
+          ]
+        ],
+        "lemma": "morally",
+        "lemma_names": [
+          "morally"
+        ],
+        "lexname": "adv.all",
+        "native_records": [
+          {
+            "has_holonyms": false,
+            "has_meronyms": false,
+            "hypernym_depth": 1,
+            "hyponym_count": 0,
+            "lexname": "adv.all",
+            "pos": "adv",
+            "synset_name": "morally.r.01",
+            "word": "morally"
+          }
+        ],
+        "pos": "adv",
+        "synset_name": "morally.r.01",
+        "taxonomy_proposals": []
+      },
+      "record_id": "wordnet:morally:morally.r.01",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    },
+    {
+      "candidate_entry_ids": [
+        "wordnet:morally:morally.r.02"
+      ],
+      "entry_id": "wordnet:morally:morally.r.02",
+      "family": "wordnet",
+      "features": {
+        "definition": "in a moral manner",
+        "examples": [
+          "he acted morally under the circumstances"
+        ],
+        "hypernym_paths": [
+          [
+            "morally.r.02"
+          ]
+        ],
+        "lemma": "morally",
+        "lemma_names": [
+          "morally",
+          "virtuously"
+        ],
+        "lexname": "adv.all",
+        "native_records": [
+          {
+            "has_holonyms": false,
+            "has_meronyms": false,
+            "hypernym_depth": 1,
+            "hyponym_count": 0,
+            "lexname": "adv.all",
+            "pos": "adv",
+            "synset_name": "morally.r.02",
+            "word": "morally"
+          }
+        ],
+        "pos": "adv",
+        "synset_name": "morally.r.02",
+        "taxonomy_proposals": []
+      },
+      "record_id": "wordnet:morally:morally.r.02",
+      "scope": "lexical",
+      "source": "wordnet_hierarchy"
+    }
+  ],
+  "owner_recovery_contract_read_full": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md:Recovery contract \u2014 usable checkpoint and the SSL learning mechanism",
+  "receipts": [
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-062-call_cef3334aa0694b38a31bdc3004fc52ee.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-063-call_dc6a86f38992422981fe7ad0d4e23f55.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-064-call_c0dc8bbb67f04aa79ea7fc544258e516.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-065-call_d69d9f5510cb49d7b97f97a791b012fd.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-066-call_bb8498a7a3814a9698d0cfb2736db56b.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-067-call_abf9518d5beb4416975aba2b3e7b6a96.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-068-call_2db12719ca8846f7ae0bed399b93d9ee.log",
+    "docs/readings/2026-11-13-ssl-explicit-genera/ssl-responses-coverage-069-call_38e79ec1c55c412b85f2cf1a3b787f6b.log"
+  ],
+  "reused_reports": [
+    "ssl-api-coverage-canonical-reconciliation.json",
+    "ssl-api-coverage-prime-demand-crosswalk.json",
+    "ssl-api-coverage-source-scope.json"
+  ],
+  "role_scope": "coverage: read-only code/warrant wiring audit",
+  "seams": [
+    {
+      "facts": [
+        "Encoder calls select for AMBIGUOUS non-grammatical NOUN/PROPN/VERB/ADJ/ADV or promoted predicates. Exact grammatical rows take their own eligibility path.",
+        "Only EXACT_WORDNET_SENSE causes an explicit dictionary entry selection and bank reload. Other grounding results remain contextual_grounding evidence beside the unresolved original candidate IDs.",
+        "This return handling has no current distinct frame-domain plus canonical-pole projection branch retaining multiple fine identities."
+      ],
+      "name": "contextual_grounding_entry",
+      "symbols": [
+        "GSE/api/encoder.py::GSEEncoder.encode",
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding.select"
+      ]
+    },
+    {
+      "facts": [
+        "Joins exact definition and same-entry WordNet observation; checks PARTIAL/RESOLVED status, POS compatibility, complete native ancestry identity and attested native lemma.",
+        "NativeSense retains synset,nodes,gloss,anchors,names,examples. It does not retain source native_relations,lexname,attribute targets,topic domains,pertainyms,or modifier-binding proof as typed fields."
+      ],
+      "name": "native_source_verification_and_field_reduction",
+      "symbols": [
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding._senses",
+        "GSE/symbolic/lexical_grounding.py::NativeSense"
+      ]
+    },
+    {
+      "facts": [
+        "Primary frames are chart-pin checked and catalogue-linked; role substitutions require exact independently attested curated pronoun records and eligible grammar. Arbitrary nouns are not wildcard people.",
+        "A unique matched frame returns PRIMARY_FRAME_COMPATIBLE_NOT_IDENTIFYING,compatible_entry_id,identity_scope UNRESOLVED,missing_witness INDEPENDENT_MEANING_DISCRIMINATION,and unresolved_ordinary_entry_ids.",
+        "This is compatibility-only source evidence,not an independently warranted bank constraint or finer-sense selector. A morally qualified generic assertion is not supplied by this code."
+      ],
+      "name": "existing_primary_frame_warrant_boundary",
+      "symbols": [
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_frame_support",
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_role"
+      ]
+    },
+    {
+      "facts": [
+        "VERB/ADJ/ADV first use complete native-example construction matches; competing senses abstain. Only independently attested personal-subject substitution is allowed.",
+        "Qualifiers,arguments,valency and operators are not erased. Source examples are positive attestations,not exhaustive exclusion rules.",
+        "No adjective semantic-domain/attribute classifier is called on this branch; native nominal support is a different branch."
+      ],
+      "name": "non_nominal_exact_example_path",
+      "symbols": [
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding.select",
+        "GSE/symbolic/lexical_grounding.py::LexicalGrounding._native_example_support"
+      ]
+    },
+    {
+      "facts": [
+        "Versioned runtime_lookup requires exactly one retained identity or an exact entry_id. More than one is AMBIGUOUS even for equal assignments.",
+        "_definition_evidence retains all candidates/domains but has no selected_record or primitives when selection is unresolved.",
+        "_lookup_lexeme returns empty word/sentence banks on non-IDENTIFIED selection (registered grammatical operator metadata can survive). For IDENTIFIED it emits stored nonzero assignments.",
+        "Thus occurrence word_primitives is the existing encoder/vector/profile value carrier,but an independently warranted coarse frame constraint without arbitrary fine ID has no separate admission branch here. No constraint is authorized by this audit."
+      ],
+      "name": "stored_identity_gate",
+      "symbols": [
+        "GSE/lexicon/definitions.py::runtime_lookup",
+        "GSE/lexical_evidence.py::_definition_evidence",
+        "GSE/api/encoder.py::GSEEncoder._lookup_lexeme"
+      ]
+    },
+    {
+      "facts": [
+        "Copular nominal/adjective complements become TYPE_ASSERT unless event/spatial/relational adjective constructions take their existing branches.",
+        "An ADV+ADJ complement with no entity remains a Phrase of both content atoms. Their order and positions survive evaluation.",
+        "Entity.modifier is a single first ADJ/ADV compatibility axis when the phrase has an entity head; it is not a general qualified-predicate scope graph.",
+        "Atom copies word_primitives and grammatical metadata,not TokenTrace.lexical_evidence. TypeAssertion stores entity,kind,modal,duration only. No explicit source-bound semantic-domain/canonical-pole constraint field exists on these dataclasses."
+      ],
+      "name": "copula_and_modifier_structure",
+      "symbols": [
+        "GSE/symbolic/expression.py::_try_copula_type_assertion",
+        "GSE/symbolic/expression.py::_atom_from_token",
+        "GSE/symbolic/resolution.py::_collapse_phrase_to_entity",
+        "GSE/symbolic/operators.py::type_assert"
+      ]
+    },
+    {
+      "facts": [
+        "Degree grammar binds supported INTENSITY adverbs and scoped signs without choosing lexical identity or creating a missing base. It does not bind arbitrary domain qualifiers such as morally.",
+        "Comparison/Equality/DegreeQuery can store axis,otherwise recover the first ADJ/ADV lemma; this is not a source-verified moral-domain assignment. TypeAssertion has no axis field."
+      ],
+      "name": "existing_orthogonal_modifier_and_axis_paths",
+      "symbols": [
+        "GSE/symbolic/expression.py::bind_degree_modifiers",
+        "GSE/symbolic/queries.py::axis_of_comparison"
+      ]
+    },
+    {
+      "facts": [
+        "Actual path is enc.encode -> from_trace -> resolve_with_sources -> evaluate_tree -> deixis; profile consumes these events.",
+        "text_profile affect reads explicit GOOD/BAD on each content token.word_primitives; valence is GOOD minus BAD. With no qualifying tokens valence_mean is None,not zero.",
+        "It does not infer affect from TypeAssertion.kind,source gloss,Entity.type_thread,compatible_entry_id,or vector-probed activations. Primitive aggregation separately reads trace activations.",
+        "Consequently a future warranted tree-only frame constraint is not currently consumed by affect. A profile-only lookup would discard occurrence eligibility and is explicitly rejected by the existing profile test."
+      ],
+      "name": "real_document_profile_boundary",
+      "symbols": [
+        "GSE/discourse/speech.py::encode_document_utterance_events",
+        "GSE/discourse/profile.py::text_profile"
+      ]
+    },
+    {
+      "facts": [
+        "Stored adjective native_relations preserves versioned similar_to,attributes and lemma-sense antonyms with full target definitions. Governing semantics is NATIVE_RELATIONS_NOT_LEXICAL_ASSIGNMENTS.",
+        "Adverb observations preserve native gloss/examples/lemma_names but this adapter does not export adverb pertainym or topic-domain links. Adjective topic_domains are also not exported here.",
+        "WordNetHierarchyEntry.lexname is called Semantic domain but adj.all/adv.all do not distinguish the inspected moral readings. get_domain(word) returns entries[0].lexname,not a contextual native sense; it is not called by encoder,lexical_grounding,or profile."
+      ],
+      "name": "source_relation_evidence_not_assignment",
+      "symbols": [
+        "GSE/curation/lexicon_builder/evidence.py::_wordnet_definitions",
+        "GSE/curation/lexicon_builder/evidence.py::_wordnet_relations"
+      ]
+    },
+    {
+      "facts": [
+        "Relation carries banks,allowed_rows,provenance,approval,guards,absent_evidence and propagation preserves joint support and typed conflicts. Unapproved/unknown or mismatched guards do not narrow.",
+        "Registered lexical contexts support POS,exact native lemma,ancestry/outside ancestry/other synset,explicit exceptions,and registered native noun/anatomy frames. No moral semantic-domain or sentence modifier-attachment guard is registered.",
+        "Real callers include build_dictionary,complete_dictionary,reviewed_patterns stage/replay,epoch _resolve,and validation _stored_context. Encoder does not call lexical_context or propagate on sentence occurrences. These are existing construction/replay seams,not an already wired qualified runtime frame calculus."
+      ],
+      "name": "build_time_constraint_seam_not_sentence_runtime_frame",
+      "symbols": [
+        "GSE/curation/lexicon_builder/foundation.py::lexical_context",
+        "GSE/curation/lexicon_builder/foundation.py::valid_lexical_guard",
+        "GSE/curation/lexicon_builder/engine.py::Relation",
+        "GSE/curation/lexicon_builder/engine.py::propagate"
+      ]
+    },
+    {
+      "facts": [
+        "Definition-store GSEPipeline.encode_sentence delegates to the same GSEEncoder; it is not a second qualified-predicate resolver. Legacy non-definition branches exist but do not establish source-qualified frame constraints.",
+        "resolve_references annotates Entity IDs/type threads; the generic coherence selector reranks genealogy threads and can retain frequency-primary defaults. Exact lexical nominal grounding instead calls native_only=True after independent native witnesses. Neither path installs a qualified pole on an ambiguous ADJ occurrence.",
+        "Decoder AttributeExtraction derives polarity/intensity from numeric primitive activations; no source identity/domain/modifier warrant channel is returned. This is not an independent semantic warrant or an encoder-side coarse constraint path."
+      ],
+      "name": "second_consumer_paths_checked",
+      "symbols": [
+        "GSE/pipeline_v2.py::GSEPipeline.encode_sentence",
+        "GSE/api/decoder.py::GSEDecoder._extract_attributes",
+        "GSE/symbolic/grounding.py::resolve_references",
+        "GSE/symbolic/grounding.py::_select_by_coherence"
+      ]
+    }
+  ],
+  "source_evidence_boundary": "Exact native glosses/edges nominate semantic review; neither raw gloss keywords nor attribute/similar/antonym edges authorize pole inheritance. morally has two native readings; no first-sense selection performed.",
+  "source_pins_sha256": {
+    "GSE/api/decoder.py": "68ebb58a208de9e6aba53a511a82ee5af75125bc55448d441315d71974b56267",
+    "GSE/api/encoder.py": "ca377fa7d6d688d5f75deca3a074e18656131a92d878cc81004bb33b4f67f5f2",
+    "GSE/api/trace.py": "3f54ef54b91b6847bd3274db65ca8cca7f2d959e7ff3a93447042ba3d309f0b8",
+    "GSE/curation/external_sources/wordnet_hierarchy.py": "51acfeb0970c7e5cd45496a6d9220dd225182763662a56d4c4cf0f8c50e8b25e",
+    "GSE/curation/lexicon_builder/definition_frames.py": "f15e0f8ae5094439700cdcef270031d9dd37881febb4ad25eb37e91bcbb4145d",
+    "GSE/curation/lexicon_builder/engine.py": "1f53a4f63103694824696bdc63af6d17d4415764360cf276b0eaa09f452c4b9f",
+    "GSE/curation/lexicon_builder/evidence.py": "65305a543bf43e263607556735a3545fb6bb69174f99dd384b01a0d2517c7663",
+    "GSE/curation/lexicon_builder/foundation.py": "0b913ff69f986387e2d15387141189ccc896b520be5f54f807e94e7dbd966c43",
+    "GSE/discourse/profile.py": "0ff93ca2dc6836828193f7afaec7ed09eb60d728f5a8af739b597b25cf532599",
+    "GSE/discourse/speech.py": "3ecef21c439853d0898786b8996130328fc22cb72f3176010c74c875de2bcf02",
+    "GSE/lexical_evidence.py": "a5f3b91abe2d2f5defde34db9baa4c345f5e04882bc1b579292653021ab09318",
+    "GSE/lexicon/definitions.py": "5c704100f38bb074f6cd06266bcd4c5f66313b1ee102884dcd388431b4763e53",
+    "GSE/pipeline_v2.py": "c7c927b5764707aa752de4a4e15b44ea941c73c1e29bb8fd2daea939451d9d77",
+    "GSE/symbolic/expression.py": "9598b16f5390f4c1ec7417ecf594c4b0e4bf9752e30215d77ae60024d7cf8232",
+    "GSE/symbolic/grounding.py": "e0a2563378597d72488fb60ff1b1fd3cd332f5c4af02658cf4ec57674dd54da7",
+    "GSE/symbolic/lexical_grounding.py": "4657541171bd3c119791449ed23913e3c00981507973b965e4d78ecb8c6527a8",
+    "GSE/symbolic/operators.py": "f391767704c4f8bf3331cfb5d2fae01f6d42c9c47bdaa2bdaf283d3c5f80cd39",
+    "GSE/symbolic/predicates.py": "7aff8933b50891551e57a9cde89f5312c4f77b4b26e22615c16496f6c25e2c6c",
+    "GSE/symbolic/queries.py": "20dbaa91be34ec19a7375195565f9c0f2ebed9d821e81f5486e8454ebdc7102c",
+    "GSE/symbolic/resolution.py": "6cacc9813c800f540380b97b1c52f84cae68c0f1e397b813ab95390f439f1544",
+    "GSE/symbolic/serialization.py": "41a728892d3804d0dc8a1d2ebc1e46853bbe6641753e360e5ec91738a5e4dc2d"
+  },
+  "symbol_contracts": {
+    "GSE/api/decoder.py::GSEDecoder._extract_attributes": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 262,
+      "path": "GSE/api/decoder.py",
+      "start_line": 239,
+      "symbol": "GSEDecoder._extract_attributes",
+      "whole_unit_sha256": "34590eb299ef3ae7d09a39ef58302a4e0dd33cbe4aaaf980f805cf838c4884d0"
+    },
+    "GSE/api/decoder.py::GSEDecoder.decode": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 178,
+      "path": "GSE/api/decoder.py",
+      "start_line": 142,
+      "symbol": "GSEDecoder.decode",
+      "whole_unit_sha256": "015e1d687dbf754d3b2472ef2c461f4afc6fd5aa0f4985153649c08293ada8f3"
+    },
+    "GSE/api/encoder.py::GSEEncoder._encode_definition_primitives": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 1055,
+      "path": "GSE/api/encoder.py",
+      "start_line": 1022,
+      "symbol": "GSEEncoder._encode_definition_primitives",
+      "whole_unit_sha256": "0fce013d06e148b1b5e87359f69dab0a1bb5a72b5937a2ed2e022928968aeab9"
+    },
+    "GSE/api/encoder.py::GSEEncoder._grammatical_definition": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 304,
+      "path": "GSE/api/encoder.py",
+      "start_line": 267,
+      "symbol": "GSEEncoder._grammatical_definition",
+      "whole_unit_sha256": "94091ddf3e898b6a5b0cbcb73766d710741841f9c2e16e1557677b413a9e712b"
+    },
+    "GSE/api/encoder.py::GSEEncoder._lookup_lexeme": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 1020,
+      "path": "GSE/api/encoder.py",
+      "start_line": 906,
+      "symbol": "GSEEncoder._lookup_lexeme",
+      "whole_unit_sha256": "c37b035f6ebf4b740b22379068d6f09e94566038e6ca17ce4abf85f51ebeda17"
+    },
+    "GSE/api/encoder.py::GSEEncoder.encode": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 820,
+      "path": "GSE/api/encoder.py",
+      "start_line": 330,
+      "symbol": "GSEEncoder.encode",
+      "whole_unit_sha256": "e31576ef18da741f857312e8bb30f861cf0c27b4b43972e21c4a1046cc17318c"
+    },
+    "GSE/api/trace.py::AttributeExtraction": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 303,
+      "path": "GSE/api/trace.py",
+      "start_line": 294,
+      "symbol": "AttributeExtraction",
+      "whole_unit_sha256": "bb31a5bcc320c1f76c0198c559a8a0b13693de5c39e098e76e2e39f6721dc76e"
+    },
+    "GSE/api/trace.py::TokenTrace": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 49,
+      "path": "GSE/api/trace.py",
+      "start_line": 15,
+      "symbol": "TokenTrace",
+      "whole_unit_sha256": "2e5f8bba2322cd05d7f727b335e654e077e93e1ae144132fa682e43e0faa45ee"
+    },
+    "GSE/curation/external_sources/wordnet_hierarchy.py::WordNetHierarchyEntry": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 28,
+      "path": "GSE/curation/external_sources/wordnet_hierarchy.py",
+      "start_line": 18,
+      "symbol": "WordNetHierarchyEntry",
+      "whole_unit_sha256": "341a9c18484ad880b6701f3723619c7ef7b76c01c8f2158f420c32a780bef595"
+    },
+    "GSE/curation/external_sources/wordnet_hierarchy.py::WordNetHierarchyParser.get_domain": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 415,
+      "path": "GSE/curation/external_sources/wordnet_hierarchy.py",
+      "start_line": 407,
+      "symbol": "WordNetHierarchyParser.get_domain",
+      "whole_unit_sha256": "ea3071c7bc6fb525c1a4d853fc2085077021e09104a2fc951ad5fae61b745d41"
+    },
+    "GSE/curation/lexicon_builder/definition_frames.py::native_noun_frames": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 165,
+      "path": "GSE/curation/lexicon_builder/definition_frames.py",
+      "start_line": 116,
+      "symbol": "native_noun_frames",
+      "whole_unit_sha256": "09b4918ec0df77ea24e9345ef9e9effeeba7ac567a734fe785f78db57dbc4f1a"
+    },
+    "GSE/curation/lexicon_builder/engine.py::Relation": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 129,
+      "path": "GSE/curation/lexicon_builder/engine.py",
+      "start_line": 73,
+      "symbol": "Relation",
+      "whole_unit_sha256": "a3cfbac6abfa3eb4800ddf3df6c77a6f4c096dce8ed326bdc342c79ea3eb4473"
+    },
+    "GSE/curation/lexicon_builder/engine.py::propagate": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 496,
+      "path": "GSE/curation/lexicon_builder/engine.py",
+      "start_line": 335,
+      "symbol": "propagate",
+      "whole_unit_sha256": "5209af4f2169df1670af21054440eaa4024b72b43df2e918f66ff01cbecd7415"
+    },
+    "GSE/curation/lexicon_builder/evidence.py::_wordnet_definitions": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 450,
+      "path": "GSE/curation/lexicon_builder/evidence.py",
+      "start_line": 371,
+      "symbol": "_wordnet_definitions",
+      "whole_unit_sha256": "34fc8be6b97fa30721cd18840233ccf7e65e761b029dc01929aae68a69d0121a"
+    },
+    "GSE/curation/lexicon_builder/evidence.py::_wordnet_relation_target": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 327,
+      "path": "GSE/curation/lexicon_builder/evidence.py",
+      "start_line": 320,
+      "symbol": "_wordnet_relation_target",
+      "whole_unit_sha256": "11e71b1de3339a7f306e2b3384685b90e24f9b2236a81d418e681c9dd3a0ea14"
+    },
+    "GSE/curation/lexicon_builder/evidence.py::_wordnet_relations": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 368,
+      "path": "GSE/curation/lexicon_builder/evidence.py",
+      "start_line": 330,
+      "symbol": "_wordnet_relations",
+      "whole_unit_sha256": "6450d25c6b7641decec4429848a3d69ff3d9de0363cc4d93e84a539e4f6af988"
+    },
+    "GSE/curation/lexicon_builder/foundation.py::lexical_context": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 292,
+      "path": "GSE/curation/lexicon_builder/foundation.py",
+      "start_line": 233,
+      "symbol": "lexical_context",
+      "whole_unit_sha256": "62eb79b7cf2327929d97955edaf3fb9cbaab6df730a20a5b9946f3ed506ffe42"
+    },
+    "GSE/curation/lexicon_builder/foundation.py::valid_lexical_guard": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 107,
+      "path": "GSE/curation/lexicon_builder/foundation.py",
+      "start_line": 89,
+      "symbol": "valid_lexical_guard",
+      "whole_unit_sha256": "6ce88a35ed6547f4482d2267dbbfaaa9e0633fffe65caead2ca011f4a1d3137c"
+    },
+    "GSE/discourse/profile.py::text_profile": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 292,
+      "path": "GSE/discourse/profile.py",
+      "start_line": 129,
+      "symbol": "text_profile",
+      "whole_unit_sha256": "3302eb11f6541e58b2b4662d96cc2fe69862a6e7059108f26ba17b513d61d363"
+    },
+    "GSE/discourse/speech.py::encode_document_utterance_events": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 648,
+      "path": "GSE/discourse/speech.py",
+      "start_line": 528,
+      "symbol": "encode_document_utterance_events",
+      "whole_unit_sha256": "870c4c095cec04cacd855f3219c32fda43633e34df133d38208188056b462373"
+    },
+    "GSE/lexical_evidence.py::_definition_evidence": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 137,
+      "path": "GSE/lexical_evidence.py",
+      "start_line": 94,
+      "symbol": "_definition_evidence",
+      "whole_unit_sha256": "56280505b877e7f25e59d206980de1e5b357d28c457d83d9ff8caa8bc7e1e354"
+    },
+    "GSE/lexicon/definitions.py::runtime_lookup": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 52,
+      "path": "GSE/lexicon/definitions.py",
+      "start_line": 42,
+      "symbol": "runtime_lookup",
+      "whole_unit_sha256": "a82762b6e0e3e3f1dcba86fe7c09d707d48497da61744b922a3d6ce1a080aa94"
+    },
+    "GSE/pipeline_v2.py::GSEPipeline.encode_sentence": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 530,
+      "path": "GSE/pipeline_v2.py",
+      "start_line": 415,
+      "symbol": "GSEPipeline.encode_sentence",
+      "whole_unit_sha256": "88b91b1f8ec91fcc7fbd2b87eec460b560099b3df14a0a47e0483706caa455fe"
+    },
+    "GSE/pipeline_v2.py::GSEPipeline.encode_word": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 280,
+      "path": "GSE/pipeline_v2.py",
+      "start_line": 246,
+      "symbol": "GSEPipeline.encode_word",
+      "whole_unit_sha256": "440b22c8ee8953aa77e909064abf75f0d69a832174bde0d13a6a41a706033c0a"
+    },
+    "GSE/symbolic/expression.py::Atom": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 74,
+      "path": "GSE/symbolic/expression.py",
+      "start_line": 36,
+      "symbol": "Atom",
+      "whole_unit_sha256": "d6082109708a84438ae00b72790a29bb5a9818e1111f63fd328a1cb8088ca86e"
+    },
+    "GSE/symbolic/expression.py::_atom_from_token": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 438,
+      "path": "GSE/symbolic/expression.py",
+      "start_line": 414,
+      "symbol": "_atom_from_token",
+      "whole_unit_sha256": "c09ea37a14979dfec460d667bf8ce598aa1e884dae451fc978fdf132d4bec8d5"
+    },
+    "GSE/symbolic/expression.py::_try_copula_type_assertion": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 648,
+      "path": "GSE/symbolic/expression.py",
+      "start_line": 542,
+      "symbol": "_try_copula_type_assertion",
+      "whole_unit_sha256": "1ecfc5e3d922b771d46e755fcc569a5bd658760e677293c61ceb0d4864597215"
+    },
+    "GSE/symbolic/expression.py::bind_degree_modifiers": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 364,
+      "path": "GSE/symbolic/expression.py",
+      "start_line": 294,
+      "symbol": "bind_degree_modifiers",
+      "whole_unit_sha256": "64176fd91e460dc774b3251c51b8ad7b8765204b85f7442570b6fbeb4db1d0a0"
+    },
+    "GSE/symbolic/expression.py::from_trace": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 1573,
+      "path": "GSE/symbolic/expression.py",
+      "start_line": 1543,
+      "symbol": "from_trace",
+      "whole_unit_sha256": "2a437c6180e02c6e1c6b6f1ec4d421625cb7ab2aa342800962ddb020efa9c355"
+    },
+    "GSE/symbolic/grounding.py::_select_by_coherence": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 339,
+      "path": "GSE/symbolic/grounding.py",
+      "start_line": 254,
+      "symbol": "_select_by_coherence",
+      "whole_unit_sha256": "4473dc198ba1a1fbc4de2bdc557a0abea4972efae654ec8e1964b6d122a01924"
+    },
+    "GSE/symbolic/grounding.py::resolve_references": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 697,
+      "path": "GSE/symbolic/grounding.py",
+      "start_line": 651,
+      "symbol": "resolve_references",
+      "whole_unit_sha256": "9ae03170a224b3e53a575240671a143754584adba54f2461865bd3f47ac4f54c"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding._native_example_support": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 612,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 558,
+      "symbol": "LexicalGrounding._native_example_support",
+      "whole_unit_sha256": "563caa91c800f153abc9b228e6249811513cfbc4f9c42293ad62d7298037582c"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding._nominal_support": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 704,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 620,
+      "symbol": "LexicalGrounding._nominal_support",
+      "whole_unit_sha256": "02cdeac818a89db6706bcac278950b344b107d1939ca2861952f6f452adcbe27"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_frame_support": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 556,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 447,
+      "symbol": "LexicalGrounding._primary_frame_support",
+      "whole_unit_sha256": "b2ec66acdad3084192bec261b5afc7c43c2a971b4462e0c2f46f4f58b81c4a8a"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding._primary_role": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 445,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 413,
+      "symbol": "LexicalGrounding._primary_role",
+      "whole_unit_sha256": "5eb42a27036679ee8116313e84e8a7a5bbdae872dfa8a8b984abecb890c93ea1"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding._senses": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 290,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 251,
+      "symbol": "LexicalGrounding._senses",
+      "whole_unit_sha256": "febbbda385e081c08048f03f6483ee4082885f32de69ba29b96a9cce4b39ccba"
+    },
+    "GSE/symbolic/lexical_grounding.py::LexicalGrounding.select": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 411,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 385,
+      "symbol": "LexicalGrounding.select",
+      "whole_unit_sha256": "f9b6a36d05f4397778691fa8e362ff177160490993174390789d0291d4f0487a"
+    },
+    "GSE/symbolic/lexical_grounding.py::NativeSense": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 51,
+      "path": "GSE/symbolic/lexical_grounding.py",
+      "start_line": 45,
+      "symbol": "NativeSense",
+      "whole_unit_sha256": "d394ab8ce4db3e653817453ebb01177b209390a413c59d27f1f3a225130476ca"
+    },
+    "GSE/symbolic/operators.py::evaluate": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 335,
+      "path": "GSE/symbolic/operators.py",
+      "start_line": 330,
+      "symbol": "evaluate",
+      "whole_unit_sha256": "770d7e948ec01914a227442784fb8a03c8ed013683fbfff5d114926b894d0ee1"
+    },
+    "GSE/symbolic/operators.py::evaluate_tree": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 361,
+      "path": "GSE/symbolic/operators.py",
+      "start_line": 338,
+      "symbol": "evaluate_tree",
+      "whole_unit_sha256": "a33e37767c148820c37116b1bd1dcfb61e5b8b6354201101f089d84c65f2a98c"
+    },
+    "GSE/symbolic/operators.py::type_assert": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 118,
+      "path": "GSE/symbolic/operators.py",
+      "start_line": 109,
+      "symbol": "type_assert",
+      "whole_unit_sha256": "cad8f9350a615242a6c13edebba77c597f4f73fe2acd21feab505935e992b019"
+    },
+    "GSE/symbolic/predicates.py::TypeAssertion": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 218,
+      "path": "GSE/symbolic/predicates.py",
+      "start_line": 198,
+      "symbol": "TypeAssertion",
+      "whole_unit_sha256": "ae94fed57e9871e2b8ed7a008cbe246abae441b24907edbea5676ac96610df7a"
+    },
+    "GSE/symbolic/queries.py::_first_adj_adv": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 359,
+      "path": "GSE/symbolic/queries.py",
+      "start_line": 324,
+      "symbol": "_first_adj_adv",
+      "whole_unit_sha256": "05ace3a470af1fee9d64acb3f88b07cd1724a6da5fe51b47ed714fb84405d61a"
+    },
+    "GSE/symbolic/queries.py::axis_of_comparison": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 321,
+      "path": "GSE/symbolic/queries.py",
+      "start_line": 295,
+      "symbol": "axis_of_comparison",
+      "whole_unit_sha256": "52fa937df2e53051bc1a0c5a1230218273dc4e6d1fb2a5008bea794e951c3432"
+    },
+    "GSE/symbolic/resolution.py::Entity": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 110,
+      "path": "GSE/symbolic/resolution.py",
+      "start_line": 73,
+      "symbol": "Entity",
+      "whole_unit_sha256": "011b27c64a5b0076aef1289017ff750e821f175bb49ad41202ff46ee881c9dfe"
+    },
+    "GSE/symbolic/resolution.py::_collapse_phrase_to_entity": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 366,
+      "path": "GSE/symbolic/resolution.py",
+      "start_line": 206,
+      "symbol": "_collapse_phrase_to_entity",
+      "whole_unit_sha256": "45f798af5a332de54196c6f28eb090e161240f02b2ea31996d7f8f40817344a5"
+    },
+    "GSE/symbolic/resolution.py::resolve_with_sources": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 508,
+      "path": "GSE/symbolic/resolution.py",
+      "start_line": 496,
+      "symbol": "resolve_with_sources",
+      "whole_unit_sha256": "1997a9141b2d298fcf035dd933c14751dd8f36a5ce9b4cd759a3924876f30259"
+    },
+    "GSE/symbolic/serialization.py::to_dict": {
+      "current_whole_unit_matches_read_receipt": true,
+      "end_line": 278,
+      "path": "GSE/symbolic/serialization.py",
+      "start_line": 86,
+      "symbol": "to_dict",
+      "whole_unit_sha256": "d8a3a6d758030ae0d56585bebe62741934d4e3903483fbb2b48bf5a3fa7fa4f5"
+    }
+  },
+  "synthetic_structural_checks": [
+    {
+      "scope": "SYNTHETIC_STRUCTURE_ONLY_NOT_ACTUAL_ENCODER_OR_SEMANTIC_VALIDATION",
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "kindness",
+            "number": "sing",
+            "pos": "NOUN",
+            "position": 0,
+            "role": null,
+            "word_primitives": {}
+          },
+          "modifier": null,
+          "possessor": null,
+          "role": null
+        },
+        "kind": {
+          "_kind": "Phrase",
+          "atoms": [
+            {
+              "_kind": "Atom",
+              "lemma": "morally",
+              "pos": "ADV",
+              "position": 2,
+              "role": null,
+              "word_primitives": {}
+            },
+            {
+              "_kind": "Atom",
+              "lemma": "good",
+              "pos": "ADJ",
+              "position": 3,
+              "role": null,
+              "word_primitives": {}
+            }
+          ]
+        }
+      }
+    },
+    {
+      "scope": "SYNTHETIC_STRUCTURE_ONLY_NOT_ACTUAL_ENCODER_OR_SEMANTIC_VALIDATION",
+      "tree": {
+        "_kind": "TypeAssertion",
+        "entity": {
+          "_kind": "Entity",
+          "head": {
+            "_kind": "Atom",
+            "lemma": "cruelty",
+            "number": "sing",
+            "pos": "NOUN",
+            "position": 0,
+            "role": null,
+            "word_primitives": {}
+          },
+          "modifier": null,
+          "possessor": null,
+          "role": null
+        },
+        "kind": {
+          "_kind": "Phrase",
+          "atoms": [
+            {
+              "_kind": "Atom",
+              "lemma": "morally",
+              "pos": "ADV",
+              "position": 2,
+              "role": null,
+              "word_primitives": {}
+            },
+            {
+              "_kind": "Atom",
+              "lemma": "bad",
+              "pos": "ADJ",
+              "position": 3,
+              "role": null,
+              "word_primitives": {}
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "unavailable_fields_in_inspected_chain": [
+    "No typed qualified_predicate/semantic_domain/meaning_form/frame_bank_constraint field on TokenTrace,Atom,Entity,TypeAssertion. TokenTrace.lexical_evidence is an extensible dict,not proof admission by itself.",
+    "No general source/type/domain-qualified ADV-to-ADJ binding field; degree/degree_modifier cover INTENSITY only. Phrase retains constituents but does not assert the domain relation.",
+    "No runtime NativeSense fields for native adjective attribute/similar/antonym edges despite their source observations being stored.",
+    "No distinct encoder output handling for constrained coarse bank meaning while fine identity is AMBIGUOUS.",
+    "No text_profile affect reader for tree-level qualified constraints."
+  ]
+}

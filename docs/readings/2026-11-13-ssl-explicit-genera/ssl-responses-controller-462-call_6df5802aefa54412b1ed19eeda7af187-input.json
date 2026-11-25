@@ -1,0 +1,5 @@
+{
+  "command": "pwd; .venv/bin/python - <<'PY'\nimport json\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md');s=p.read_text();lines=s.splitlines();start=next(i for i,l in enumerate(lines) if l.startswith('#') and 'Recovery contract' in l);level=len(lines[start])-len(lines[start].lstrip('#'));end=next((i for i in range(start+1,len(lines)) if lines[i].startswith('#') and len(lines[i])-len(lines[i].lstrip('#'))<=level),len(lines));print('\\n'.join(lines[start:end]))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-grouped-source-v3-exit.json','ssl-api-controller-moral-witness-exit.json','ssl-api-controller-validity-source-build-exit.json','ssl-api-runtime-moral-source-demand.json','ssl-api-runtime-validity-source-demand.json']:\n p=n/name;print('\\nARTIFACT',p)\n print(p.read_text() if p.exists() else 'NOT YET PRESENT')\nprint('\\nSTEERING FILES')\nfor p in n.glob('ssl-responses-*-steering.json'): print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

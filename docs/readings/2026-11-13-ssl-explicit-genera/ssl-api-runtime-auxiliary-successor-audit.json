@@ -1,0 +1,1798 @@
+{
+  "format": "GSE.runtime-successor-auxiliary-audit/1",
+  "at_utc": "2026-11-24T22:33:01.992080+00:00",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "scope": "DEVELOPMENT_NOT_FINAL",
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-canonical-auxiliary.db",
+  "candidate_sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e",
+  "cases": [
+    {
+      "id": "have-aux",
+      "text": "Nora has repaired a bicycle.",
+      "tokens": [
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        },
+        {
+          "token": "has",
+          "lemma": "have",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:has",
+          "context": null
+        },
+        {
+          "token": "repaired",
+          "lemma": "repair",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "wiktionary:en-repair-en-noun-1xduQBot:9d48d7490c2cedd59bbca3374a1db31e7bc7604068235cfc415e358b60019ed3",
+              "wiktionary:en-repair-en-noun-2SSwnnR6:b0e6c15e19354687192be5a9b6f109dd08bdf9a9eae021ee165c2c9a7a8abb0c",
+              "wiktionary:en-repair-en-noun-Upt7-UF4:3bb638aa8310f2d24aa2c923572d873252472db4065a1f4c291347ff38184dd2",
+              "wiktionary:en-repair-en-noun-eT9nc6QV:09cae6dafe78ee62d1bcfdefb29ae01460143395c7f7806ca31cc26df3e05bee",
+              "wiktionary:en-repair-en-noun-n3u8-MwY:8cebb6954aeb54442c3dbcfe1bb65b26f45fd16ca63decc6ba3ba1c252adf9ab",
+              "wiktionary:en-repair-en-noun-xl6~38tR:d06bf4446f3293a8a03b74b844c9b2853cb7686bdf5df4d41382b3626b98e348",
+              "wiktionary:en-repair-en-verb-8tvuNHmk:ff4c1e07408034627590c13646b113340ab7cb2d109a38d2b8057e433e82d166",
+              "wiktionary:en-repair-en-verb-en:pair_again:270238c206c990c9cee210e57033b1861bf8098fafe6751c75fd085cd617ab26",
+              "wiktionary:en-repair-en-verb-en:return:2d37d1b743e805aabbc4e474200a8554851911a53c11b276d52de1e21ed57e7a",
+              "wiktionary:en-repair-en-verb-nq2prjNn:df52c4787365a62339578b67cd012d92ac9824a29fc5b58e7fcc5b6819f61e56",
+              "wordnet:repair:animate.v.04",
+              "wordnet:repair:compensate.v.02",
+              "wordnet:repair:haunt.n.01",
+              "wordnet:repair:rectify.v.04",
+              "wordnet:repair:repair.n.01",
+              "wordnet:repair:repair.n.02",
+              "wordnet:repair:repair.v.01",
+              "wordnet:repair:repair.v.03"
+            ]
+          }
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:a",
+          "context": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_NOMINAL_CONTEXT",
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-bicycle-en-noun-JncX-7cd:713a9abd434453bda83a34a26d72048813ab43973f53eed2d8427b436366f6ce",
+              "wiktionary:en-bicycle-en-noun-WMFVGJNg:f15a1fc9c9e30263ae9764f2eb4c8524cee4f6b6d4f2280aea88d754f16e25a3",
+              "wiktionary:en-bicycle-en-noun-XPwkWmTY:6ed2e45b3410b0ed6d74c2587a5b7ec15f400ad9a9df73931862922df43c4c14",
+              "wiktionary:en-bicycle-en-noun-Zezx2TtE:a971715c543cb01abd47b90056bb8dd15688ee1a04735219cbce21849fcd3316",
+              "wiktionary:en-bicycle-en-noun-en:Q11442:f8f0ab2528a4b62f2b354b65048d4199c5da2f816691d87b930bc05d4a6da247",
+              "wiktionary:en-bicycle-en-noun-kF80rFVG:41471bf14b92b50287365363e005b20000a35cd08ef95359a290f36e7997171e",
+              "wiktionary:en-bicycle-en-noun-mYQ9cmoG:25cb0c6ebb0a0d5913647a57d7e0b0c120b3c6a05400dce6daade351574bae44",
+              "wiktionary:en-bicycle-en-noun-nBLmGPh-:6d82b3fc71022450118ab3e9957f0e438ff6fcd09e6aa256353c21818c48c191",
+              "wiktionary:en-bicycle-en-noun-r-yLbv0I:1191900a4699fc25ac836974d2b63cd15e88c4bd4bb8b38775576e2d79439c83",
+              "wiktionary:en-bicycle-en-noun-~Spajms7:b64f6b9a5111fdbc5f3a27f28c0a756853a9950d0738f195a60d7ebbecf92178",
+              "wiktionary:en-bicycle-en-verb-O~5MdwCN:f5845095de82dbb535063a7ae9bf356c8e0fa63f1419b4912396cc16e4600d3b",
+              "wiktionary:en-bicycle-en-verb-gmkOujd3:ef1aa14bacb2f2fb37890d07806a7ebef8f57cac34c4acbca4473b3e3e82dbb4",
+              "wordnet:bicycle:bicycle.n.01",
+              "wordnet:bicycle:bicycle.v.01"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "nora",
+            "bicycle"
+          ],
+          "features": {
+            "verb": "repair"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "do-aux",
+      "text": "Nora did not repair the bicycle.",
+      "tokens": [
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        },
+        {
+          "token": "did",
+          "lemma": "do",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_TENSE_PAST": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:did",
+          "context": null
+        },
+        {
+          "token": "not",
+          "lemma": "not",
+          "pos": "PART",
+          "word": {
+            "NOT": 1
+          },
+          "sentence": {
+            "SYN_ADV_MOD": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:negation:not",
+          "context": null
+        },
+        {
+          "token": "repair",
+          "lemma": "repair",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "wiktionary:en-repair-en-noun-1xduQBot:9d48d7490c2cedd59bbca3374a1db31e7bc7604068235cfc415e358b60019ed3",
+              "wiktionary:en-repair-en-noun-2SSwnnR6:b0e6c15e19354687192be5a9b6f109dd08bdf9a9eae021ee165c2c9a7a8abb0c",
+              "wiktionary:en-repair-en-noun-Upt7-UF4:3bb638aa8310f2d24aa2c923572d873252472db4065a1f4c291347ff38184dd2",
+              "wiktionary:en-repair-en-noun-eT9nc6QV:09cae6dafe78ee62d1bcfdefb29ae01460143395c7f7806ca31cc26df3e05bee",
+              "wiktionary:en-repair-en-noun-n3u8-MwY:8cebb6954aeb54442c3dbcfe1bb65b26f45fd16ca63decc6ba3ba1c252adf9ab",
+              "wiktionary:en-repair-en-noun-xl6~38tR:d06bf4446f3293a8a03b74b844c9b2853cb7686bdf5df4d41382b3626b98e348",
+              "wiktionary:en-repair-en-verb-8tvuNHmk:ff4c1e07408034627590c13646b113340ab7cb2d109a38d2b8057e433e82d166",
+              "wiktionary:en-repair-en-verb-en:pair_again:270238c206c990c9cee210e57033b1861bf8098fafe6751c75fd085cd617ab26",
+              "wiktionary:en-repair-en-verb-en:return:2d37d1b743e805aabbc4e474200a8554851911a53c11b276d52de1e21ed57e7a",
+              "wiktionary:en-repair-en-verb-nq2prjNn:df52c4787365a62339578b67cd012d92ac9824a29fc5b58e7fcc5b6819f61e56",
+              "wordnet:repair:animate.v.04",
+              "wordnet:repair:compensate.v.02",
+              "wordnet:repair:haunt.n.01",
+              "wordnet:repair:rectify.v.04",
+              "wordnet:repair:repair.n.01",
+              "wordnet:repair:repair.n.02",
+              "wordnet:repair:repair.v.01",
+              "wordnet:repair:repair.v.03"
+            ]
+          }
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:the",
+          "context": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_NOMINAL_CONTEXT",
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-bicycle-en-noun-JncX-7cd:713a9abd434453bda83a34a26d72048813ab43973f53eed2d8427b436366f6ce",
+              "wiktionary:en-bicycle-en-noun-WMFVGJNg:f15a1fc9c9e30263ae9764f2eb4c8524cee4f6b6d4f2280aea88d754f16e25a3",
+              "wiktionary:en-bicycle-en-noun-XPwkWmTY:6ed2e45b3410b0ed6d74c2587a5b7ec15f400ad9a9df73931862922df43c4c14",
+              "wiktionary:en-bicycle-en-noun-Zezx2TtE:a971715c543cb01abd47b90056bb8dd15688ee1a04735219cbce21849fcd3316",
+              "wiktionary:en-bicycle-en-noun-en:Q11442:f8f0ab2528a4b62f2b354b65048d4199c5da2f816691d87b930bc05d4a6da247",
+              "wiktionary:en-bicycle-en-noun-kF80rFVG:41471bf14b92b50287365363e005b20000a35cd08ef95359a290f36e7997171e",
+              "wiktionary:en-bicycle-en-noun-mYQ9cmoG:25cb0c6ebb0a0d5913647a57d7e0b0c120b3c6a05400dce6daade351574bae44",
+              "wiktionary:en-bicycle-en-noun-nBLmGPh-:6d82b3fc71022450118ab3e9957f0e438ff6fcd09e6aa256353c21818c48c191",
+              "wiktionary:en-bicycle-en-noun-r-yLbv0I:1191900a4699fc25ac836974d2b63cd15e88c4bd4bb8b38775576e2d79439c83",
+              "wiktionary:en-bicycle-en-noun-~Spajms7:b64f6b9a5111fdbc5f3a27f28c0a756853a9950d0738f195a60d7ebbecf92178",
+              "wiktionary:en-bicycle-en-verb-O~5MdwCN:f5845095de82dbb535063a7ae9bf356c8e0fa63f1419b4912396cc16e4600d3b",
+              "wiktionary:en-bicycle-en-verb-gmkOujd3:ef1aa14bacb2f2fb37890d07806a7ebef8f57cac34c4acbca4473b3e3e82dbb4",
+              "wordnet:bicycle:bicycle.n.01",
+              "wordnet:bicycle:bicycle.v.01"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "NOT",
+          "args": [
+            {
+              "op": "EVENT",
+              "args": [
+                "nora",
+                "bicycle"
+              ],
+              "features": {
+                "verb": "repair"
+              }
+            }
+          ],
+          "features": {}
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": -1,
+                "lexical_sign": 1,
+                "sign": -1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": -1,
+                  "lexical_sign": 1,
+                  "sign": -1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "inverted-do",
+      "text": "Does Nora repair the bicycle?",
+      "tokens": [
+        {
+          "token": "Does",
+          "lemma": "do",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:does",
+          "context": null
+        },
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        },
+        {
+          "token": "repair",
+          "lemma": "repair",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "wiktionary:en-repair-en-noun-1xduQBot:9d48d7490c2cedd59bbca3374a1db31e7bc7604068235cfc415e358b60019ed3",
+              "wiktionary:en-repair-en-noun-2SSwnnR6:b0e6c15e19354687192be5a9b6f109dd08bdf9a9eae021ee165c2c9a7a8abb0c",
+              "wiktionary:en-repair-en-noun-Upt7-UF4:3bb638aa8310f2d24aa2c923572d873252472db4065a1f4c291347ff38184dd2",
+              "wiktionary:en-repair-en-noun-eT9nc6QV:09cae6dafe78ee62d1bcfdefb29ae01460143395c7f7806ca31cc26df3e05bee",
+              "wiktionary:en-repair-en-noun-n3u8-MwY:8cebb6954aeb54442c3dbcfe1bb65b26f45fd16ca63decc6ba3ba1c252adf9ab",
+              "wiktionary:en-repair-en-noun-xl6~38tR:d06bf4446f3293a8a03b74b844c9b2853cb7686bdf5df4d41382b3626b98e348",
+              "wiktionary:en-repair-en-verb-8tvuNHmk:ff4c1e07408034627590c13646b113340ab7cb2d109a38d2b8057e433e82d166",
+              "wiktionary:en-repair-en-verb-en:pair_again:270238c206c990c9cee210e57033b1861bf8098fafe6751c75fd085cd617ab26",
+              "wiktionary:en-repair-en-verb-en:return:2d37d1b743e805aabbc4e474200a8554851911a53c11b276d52de1e21ed57e7a",
+              "wiktionary:en-repair-en-verb-nq2prjNn:df52c4787365a62339578b67cd012d92ac9824a29fc5b58e7fcc5b6819f61e56",
+              "wordnet:repair:animate.v.04",
+              "wordnet:repair:compensate.v.02",
+              "wordnet:repair:haunt.n.01",
+              "wordnet:repair:rectify.v.04",
+              "wordnet:repair:repair.n.01",
+              "wordnet:repair:repair.n.02",
+              "wordnet:repair:repair.v.01",
+              "wordnet:repair:repair.v.03"
+            ]
+          }
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:the",
+          "context": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+            "native_anchor_support": {},
+            "type_coherence": {},
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-bicycle-en-noun-JncX-7cd:713a9abd434453bda83a34a26d72048813ab43973f53eed2d8427b436366f6ce",
+              "wiktionary:en-bicycle-en-noun-WMFVGJNg:f15a1fc9c9e30263ae9764f2eb4c8524cee4f6b6d4f2280aea88d754f16e25a3",
+              "wiktionary:en-bicycle-en-noun-XPwkWmTY:6ed2e45b3410b0ed6d74c2587a5b7ec15f400ad9a9df73931862922df43c4c14",
+              "wiktionary:en-bicycle-en-noun-Zezx2TtE:a971715c543cb01abd47b90056bb8dd15688ee1a04735219cbce21849fcd3316",
+              "wiktionary:en-bicycle-en-noun-en:Q11442:f8f0ab2528a4b62f2b354b65048d4199c5da2f816691d87b930bc05d4a6da247",
+              "wiktionary:en-bicycle-en-noun-kF80rFVG:41471bf14b92b50287365363e005b20000a35cd08ef95359a290f36e7997171e",
+              "wiktionary:en-bicycle-en-noun-mYQ9cmoG:25cb0c6ebb0a0d5913647a57d7e0b0c120b3c6a05400dce6daade351574bae44",
+              "wiktionary:en-bicycle-en-noun-nBLmGPh-:6d82b3fc71022450118ab3e9957f0e438ff6fcd09e6aa256353c21818c48c191",
+              "wiktionary:en-bicycle-en-noun-r-yLbv0I:1191900a4699fc25ac836974d2b63cd15e88c4bd4bb8b38775576e2d79439c83",
+              "wiktionary:en-bicycle-en-noun-~Spajms7:b64f6b9a5111fdbc5f3a27f28c0a756853a9950d0738f195a60d7ebbecf92178",
+              "wiktionary:en-bicycle-en-verb-O~5MdwCN:f5845095de82dbb535063a7ae9bf356c8e0fa63f1419b4912396cc16e4600d3b",
+              "wiktionary:en-bicycle-en-verb-gmkOujd3:ef1aa14bacb2f2fb37890d07806a7ebef8f57cac34c4acbca4473b3e3e82dbb4",
+              "wordnet:bicycle:bicycle.n.01",
+              "wordnet:bicycle:bicycle.v.01"
+            ]
+          }
+        },
+        {
+          "token": "?",
+          "lemma": "?",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "nora",
+            "bicycle"
+          ],
+          "features": {
+            "verb": "repair"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "in_question",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [
+                [
+                  "question",
+                  "Event",
+                  "source",
+                  [
+                    "Event",
+                    [
+                      [
+                        "verb",
+                        "repair"
+                      ],
+                      [
+                        "agent",
+                        [
+                          "Entity",
+                          [
+                            "local",
+                            "nora",
+                            1
+                          ],
+                          null,
+                          null
+                        ]
+                      ],
+                      [
+                        "patient",
+                        [
+                          "Entity",
+                          [
+                            "local",
+                            "bicycle",
+                            4
+                          ],
+                          null,
+                          null
+                        ]
+                      ],
+                      [
+                        "themes",
+                        []
+                      ],
+                      [
+                        "modal",
+                        []
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "aux-have-possession-leak",
+      "text": "I have eaten.",
+      "tokens": [
+        {
+          "token": "I",
+          "lemma": "i",
+          "pos": "PRON",
+          "word": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:pronoun:i",
+          "context": null
+        },
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {},
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:have",
+          "context": null
+        },
+        {
+          "token": "eaten",
+          "lemma": "eat",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "wiktionary:en-eat-en-noun--B0mT5J4:441f35f0120ee2b3a4d2aea75e28fb2d752c4afd7ebe5ae2d487f9c05cf626c7",
+              "wiktionary:en-eat-en-verb-06HzF-m8:16288c5712a2db104f99117de3833965d3e5944c2207eacca1996c042afba51d",
+              "wiktionary:en-eat-en-verb-1xnFwHEL:ab7a9a97ebb547d80c2e0f42ee6b305b20ad4fb32f605d8db123c758ed5cbf8e",
+              "wiktionary:en-eat-en-verb-53TWU~HL:052cbb6a925cc18975d6de06d5fd44dedcc11f4ce7467fa9a6444f35f2ff40ec",
+              "wiktionary:en-eat-en-verb-7QQYlQsg:c49352017483c01ef39023cf710a61d8c9804886170d845fa5b5efae11541e1e",
+              "wiktionary:en-eat-en-verb-8M0G8Fos:15c33fddbde36edd545e8ff8446229a79e43e059fc768b04471996ea50af67bd",
+              "wiktionary:en-eat-en-verb-FFeTS2R8:3fd1bba38c97868bcc8750c79bcbbe719a7381121e9094d5e7bec20d51885689",
+              "wiktionary:en-eat-en-verb-GU075URU:acb18a9a8191dbf8770a0be95af7c9b56a4d4717a03dc6ca18c9528445e26439",
+              "wiktionary:en-eat-en-verb-Go9vkecG:4ed354a16441f6ddffd615f9787db5bbce1b6fddb754cc1ba4130c4c4072286a",
+              "wiktionary:en-eat-en-verb-LuJ7FBXG:0426510a171a99dda270cf580c3a8b72de5951001ee29d5e7f02df22971baf66",
+              "wiktionary:en-eat-en-verb-en:eat_a_meal:e38eab8d1741b1d0285419c52b4d987fbfde7d6785dbfae893bb997779dc886b",
+              "wiktionary:en-eat-en-verb-en:slay:cc9945d2955e8b26a986969872fcd86f205ebdd0a33c768b0666e7ef62c1d910",
+              "wiktionary:en-eat-en-verb-ljF6Dlx5:e7ff436ddb6caf6e2ec435ce1d67e9e1dd0770f66465e88584b6cf6713764bff",
+              "wiktionary:en-eat-en-verb-n0zuI7ON:5297bff82b46aff3c9d62835a72e4265c2faa7634b79b57976c808a1c6ad1d61",
+              "wiktionary:en-eat-en-verb-vPSlAE0Q:cd667564fe17b13ffbc90f78fa53ce33c4fefb9770fbadaa91f688ef9a772276",
+              "wiktionary:en-eat-en-verb-z4A9OxwN:def773c4929b6ca257328a48c5fc71f3c717d3c6900320a0c33e1273af072d56",
+              "wordnet:eat:consume.v.05",
+              "wordnet:eat:corrode.v.01",
+              "wordnet:eat:eat.v.01",
+              "wordnet:eat:eat.v.02",
+              "wordnet:eat:eat.v.04",
+              "wordnet:eat:feed.v.06"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "i"
+          ],
+          "features": {
+            "verb": "eat"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "aux-be-state-leak",
+      "text": "She is running.",
+      "tokens": [
+        {
+          "token": "She",
+          "lemma": "she",
+          "pos": "PRON",
+          "word": {
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:pronoun:she",
+          "context": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:is",
+          "context": null
+        },
+        {
+          "token": "running",
+          "lemma": "run",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_ASPECT_PROG": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "wiktionary:en-run-en-adj-7LI5jX2d:136394dfc3e7c3eb8cd827432ee428c9ad79ceef53808c763839e903c2a4b4f3",
+              "wiktionary:en-run-en-adj-X-u4KXIp:34d04ffd4dcd1a824ba7a6d224c598b3f0b147097aa4027e8374c213ed7cb17a",
+              "wiktionary:en-run-en-adj-rKc87iLJ:fde9e116c33b18b4d5a54ec364c89b814249a9e8cf4b026559220ee4e55b9efe",
+              "wiktionary:en-run-en-adj-rP5llx~q:7c51fc2cd4f9672dd793ff7e9c32ebe8a62ca4ce6140d53edd155f65bbbfa4cc",
+              "wiktionary:en-run-en-adj-xflqNXmc:53bdcada5671dc56c5451e84fe1f73182d46080133f029450f9e4e1d54708b92",
+              "wiktionary:en-run-en-noun--8Dx-PVS:5e47a03f42cdd41baf3b35c8936d17a2fb4a9eb7692ccd285a614788e0fefd30",
+              "wiktionary:en-run-en-noun--Yt2ekps:567e0cf03bd119642e2db0f1f78d2f78b2e6a34391f230b133c10a0e685b6868",
+              "wiktionary:en-run-en-noun-0NEtiVOv:7f5f75057698c014b90f53565277b6eec1a5f82283d39f8cdad26f970e66c7bc",
+              "wiktionary:en-run-en-noun-1yPtnPJ5:ecfc0f6d32350d8dcfcc1fc8dcd8ea098358d10c118d8fa4197267bebbb60849",
+              "wiktionary:en-run-en-noun-4KetV8CL:366e6a7542f34f7f37435d29cff610097c9e888b2d12a089b8b96f51361dc85b",
+              "wiktionary:en-run-en-noun-54Uf1Ac4:41731f7fb4e09e8ce50f69c13c7c23b8c91dabece5d3187fa7ad25b80e8c2f04",
+              "wiktionary:en-run-en-noun-68RZ3hO1:fd553c01b2d3f516854396701669db6b33c4b2450e14255d70e77c513bc5f385",
+              "wiktionary:en-run-en-noun-7eX2WdNN:16f72e19ca95bbcf0bc845a3775a645c5a5d94c4be9e3bf6973b3445d9e7cee2",
+              "wiktionary:en-run-en-noun-7pSp4bue:1e5ed5e1945f874d764cb29b7764c17cbd475c63b72c19fd995b58a51c1dfec2",
+              "wiktionary:en-run-en-noun-8gQjGbdg:7fdec36668a984dc175dd010fdf1ff2e74d5d22b15073022e267b4ea60a0dc1f",
+              "wiktionary:en-run-en-noun-92J6fKWx:5f58d4a75af07a567388d94518ef87d58c5b624b9af7d2b47f9919561282ce11",
+              "wiktionary:en-run-en-noun-9UXk0guf:42a28b6dea974c03f120be05005b5d1957d242405b6ab3c98a051f12c51c68d5",
+              "wiktionary:en-run-en-noun-9UoJOsBA:ad194d6fa7cea009798609ea2bc6f07a1a9aa21fbd3a6a2123046e44e8dc59ca",
+              "wiktionary:en-run-en-noun-CeapLUzp:2a13b7967aa14e38f8cf9b9653b669489e292f8364eea0f0980cce74f9a4e094",
+              "wiktionary:en-run-en-noun-CpX4Y9Je:86f2796697d312d75a3b1dc3fc4f12cafa90fab2156ebfc344bee484a82c07fd",
+              "wiktionary:en-run-en-noun-EXExfflN:af5530d1b501f8200708d8e8d613d5ee1b92b87c52108a0169e2343f6733cacb",
+              "wiktionary:en-run-en-noun-FO1N-d0f:3c1ce6914dd8d283f7e8e1f02a267e4517786cff325e1336344748b9b1226fe6",
+              "wiktionary:en-run-en-noun-FgK2FVVP:c9b1dde83472dce0c4195de7679579794ce7f0aff6fa03c77de5a5a8e09d6262",
+              "wiktionary:en-run-en-noun-FzjzYpwM:5962acf5feab34377dbe55174f854294fdd56dc3b3553a4151172835e943deca",
+              "wiktionary:en-run-en-noun-I6OE5ETo:3c4f67eb3d9068740c846e286df1befae1ebf12d28971e07659aab50175594ad",
+              "wiktionary:en-run-en-noun-JehhPsbJ:4dd04ee7178f7ff190285746abc08961a5d9616a0f2bd3f1c032601ca5c173d7",
+              "wiktionary:en-run-en-noun-MO6~UNjg:2572efc9361fa5ecb8a1907303be39b4bd62d99f3a010baca7cbedda420568d7",
+              "wiktionary:en-run-en-noun-MVmrwk8X:144a9a21a3949153c14e461050b2fc5d16cd4fcd31d6f789c3204742ddbf2f51",
+              "wiktionary:en-run-en-noun-OvjXvMAN:f3d50c4d5931412c3188e3ce54c966b55f0a4d8f2e2947c628f6536945fbe926",
+              "wiktionary:en-run-en-noun-RATvnbDq:200257ca4b08f0d6ef92e51ac412711bb39f77124804c112a55270fca5c281af",
+              "wiktionary:en-run-en-noun-STWrKhl-:a6a314da1aee162ef07c48fc6fde3c409d6e95c7798230e546ade2e9b48d6c3c",
+              "wiktionary:en-run-en-noun-UjEESEZo:31c318a2a759ab7d7b687b38d37efbdb4492269c554ed0e5376b50b8b2bec7f6",
+              "wiktionary:en-run-en-noun-WGq-HL9O:354a45f731c5fb8a03fd0d90d192143d66ede3da274041d7ca1b0e816e90fc47",
+              "wiktionary:en-run-en-noun-WctOLkMV:62a889d2c9cda6aace980f8cca5d62ecec6f59e245dcbdfcbc2e180703cf5915",
+              "wiktionary:en-run-en-noun-Xb74fHF7:2005107d212c136061cb1ff5f149b34c0109966f8ef70a4a1e742065cdc96e1f",
+              "wiktionary:en-run-en-noun-cqg-k7QX:ebc4fe0d0e312f420972b23d70d06324d92455090b6291d71f27f7ba43223c13",
+              "wiktionary:en-run-en-noun-diEfOsjI:5e5bf4549d69f728b92275f20b32be3f9d992ef681dcfa4de5a22728b62b792d",
+              "wiktionary:en-run-en-noun-en:knit:43878a25d605e436f60ccbf8509ac91b3ab2b4b558085a7c67493879aafc4d61",
+              "wiktionary:en-run-en-noun-en:landholding:ac4cfca120a4274e1444da93117efce295ff85b141e5b8cd85483d10c2f37af8",
+              "wiktionary:en-run-en-noun-en:liquid:791b7d0ec39fc28850318d2f00e4bcc3cdf25e64735da978ffd4706d3eade662",
+              "wiktionary:en-run-en-noun-en:stair:aed6b2aa95ba505786f6d6f81201a08a121c67447cf3ea92eb5e3151dd0c8bbc",
+              "wiktionary:en-run-en-noun-hfZUlCPH:0f44bae54709f39251d47c4aa2a8729f7a6ab55a710b6e6f26158590792fb328",
+              "wiktionary:en-run-en-noun-lQEeVMDo:f8ca823fff0cc42a5d24911b5f8da8070fb1b2d754adaca205e25e7474ccd67f",
+              "wiktionary:en-run-en-noun-lQwHZKQB:d901e099a059f57573cc73fa6e2cb8a1f28c6e562d8d5759fe71571a3fd172ef",
+              "wiktionary:en-run-en-noun-lb8-DCE-:5da2ad38311c753dc4211f1c03fca7a4e05164b755b725b3a94f91416853168e",
+              "wiktionary:en-run-en-noun-nupRRstH:4184d00f8763d206f40f246de209aebda77f29a52ea05f380f18da8458c6b303",
+              "wiktionary:en-run-en-noun-ozUwhIzj:04689efb6fc9919a30d0e2264adcbda7eeaf558364afce2822c3a3b7037723b7",
+              "wiktionary:en-run-en-noun-p33dUrGg:a15539ac9607ca46abc179dac6f36acd4cbfe1a0cbaf964d407ed56650e48ba8",
+              "wiktionary:en-run-en-noun-p5GaeifY:45b27bb31b8baa28603123b0144d12fce1e3b01d099048bfd47fbf390401824b",
+              "wiktionary:en-run-en-noun-tBMjNuzs:55e85b717cf93a4e181e90c941dce5a199d5760320588bc218a9c4ec017e9b71",
+              "wiktionary:en-run-en-noun-uj3eYROD:fa26c097a46ded89b08feac1bd040b9dee3d0bc977742104680dc6d8ab4e02a3",
+              "wiktionary:en-run-en-noun-vLakRnxy:c877b80c43643de11ed867d1456423b8fa601dfee20efaafc32ec5fd99fb734f",
+              "wiktionary:en-run-en-noun-~gKTQcXe:ec5a24db599dbebf4f1520521d34280da03832e6efa5679638edbd2665bdad2e",
+              "wiktionary:en-run-en-verb-2w3YpOU5:3cfea33ee7c5456193da0398523beeec1c6354760f3715c24162d05697a341d5",
+              "wiktionary:en-run-en-verb-3ynddvDR:7240ddc31e9fb9474f37a403871f9799a532d5e668891e996629effc586c7376",
+              "wiktionary:en-run-en-verb-45un6yWp:b882c9174d9577911a2c67c67214d9e88f5481a71dbc4e5b0db3795bfd78945c",
+              "wiktionary:en-run-en-verb-4MB41y5n:327e7a3e58bcaab6849e6d2203b78769694b13f720ff74b0e96d9b38c8c3bc6b",
+              "wiktionary:en-run-en-verb-4RqaFCeC:0b88c7d156ff44a7d064b909e43bb0ce3c45b154cf551677d47c28751a65ac51",
+              "wiktionary:en-run-en-verb-4acunXz3:7ff6bdd2079e9634b13e52887c744342b330f65c25056bf549a89a167d2281b6",
+              "wiktionary:en-run-en-verb-4msftJmO:9035e2053fc520dbd8a9fd30a1dcb851f79427287166c292c4287efce32f9c74",
+              "wiktionary:en-run-en-verb-4vDkwhs3:e0b56cf040235f7153263cf943b10c93fd4494a796effff40ea55a849e4c2d6e",
+              "wiktionary:en-run-en-verb-6BV0CFEl:55d081e13829fbd692ac4f1de07bce6cda70ccbb9e748249fd95d0db9566f6f3",
+              "wiktionary:en-run-en-verb-6lDuK7AI:2e270694442e9849a3b72e406b07303d972bdd22e691362c1bbec25be7c6c6c7",
+              "wiktionary:en-run-en-verb-8Z~L4EnO:1870f1e3a2b0d05ee1bad763ebc623233e65d3d14a7b173dcbe2149a6d42c562",
+              "wiktionary:en-run-en-verb-ANjUBGfv:712b4b2be7e75367c7558cd3972b58c9d01de90f89d853dcd38651a664f9563e",
+              "wiktionary:en-run-en-verb-BG~pgT7z:db3c15c325cc94215431f1f6df02fd761821a4f71901288747c192a3966a2121",
+              "wiktionary:en-run-en-verb-BwJMwIj5:cad0468351d712e452014c667b290d319401ec9fdff2b273d9067399b5fec9b5",
+              "wiktionary:en-run-en-verb-CSg84i78:4b97e6fcacc94edb4e967e04b61e75fbc4434a82b7867cded4cc504a96f8335b",
+              "wiktionary:en-run-en-verb-FtITr02P:8cd480d2f68aa5c7ff6e863df7c8817d8f3fbe33195b506a653595d9e07682b3",
+              "wiktionary:en-run-en-verb-GxUA~Sbw:264f0ac9df0c3a57e7741c691741468f2922c9dedbd4266bdbd7356329571b2b",
+              "wiktionary:en-run-en-verb-IOG~fXVM:02821dabd59920ca9fc4cd4254712a6feef65d5e8d5c3a428e5757dda4e882d3",
+              "wiktionary:en-run-en-verb-IlxDRyUZ:7306b51a1e461c39a2c4842d401a309f74d12979281dd801056d8dde60182d6c",
+              "wiktionary:en-run-en-verb-KbaxInZf:8861f59acfc517013c2e40653d20c5afb57dc5d48335c6dd98499c5eb09d087f",
+              "wiktionary:en-run-en-verb-MjFoR72V:8c9b964b244ecfc16e342e118df3672d70a85db43a7d05a7d008619d318122c3",
+              "wiktionary:en-run-en-verb-NodScxqX:b7a8ff4eb90e758427010bd0420ad5404b6f8e7a1eb997d88526526f113e9725",
+              "wiktionary:en-run-en-verb-NukXcLoh:7f0d31cd4392dcf7796d3786f33d6fb41a85a71d2308562b7300d47c578c9c20",
+              "wiktionary:en-run-en-verb-NzTg5QZq:e671ae758981b9114858697d17458753b40c530c8a2aa0bf7da652697b7be2a4",
+              "wiktionary:en-run-en-verb-Q-3UOhPy:4ef3797890b5aabc48e9974784232d4a0a177312991782f4ccc00edf080a5003",
+              "wiktionary:en-run-en-verb-Q-rKgtH3:1eaa3bc13effff0bd8b0868ce320ddafc63e8a632d84b0d5551c7523fe91f661",
+              "wiktionary:en-run-en-verb-Qp5CbcUj:9578b5d01989375d2b6643a95db223d8756c7a84df35b78d1f76266d4e07f9e8",
+              "wiktionary:en-run-en-verb-R0PFfMPE:1f0407d56606bc450d0269602686fef115371d24f88870774ecf6e57f5d45b8c",
+              "wiktionary:en-run-en-verb-Rr88QCx-:3e938442860e8d6daee2c23d72758222c925c6c02dacee8d63e524a949a5b3f3",
+              "wiktionary:en-run-en-verb-SjUnKO5M:6ed9803051a0a6e60ea7515fb4f0fa9f2adeeee0d5b264ac8fba8f9be2ccebdc",
+              "wiktionary:en-run-en-verb-Uj5tOl0g:5fcf123e2a94cb9bddeb2941051820a99184230a089fa760b53bf86ebe34f2e4",
+              "wiktionary:en-run-en-verb-WrWFx~Pp:ca5c52f59939cb04e23f3467fb2a2e501acf50b3ec12311e2c717b9bdaf693a0",
+              "wiktionary:en-run-en-verb-Y1n435NQ:70ea1030c120d55174c6a61a5b7f3c03f0e792d33755ad0d88e2c6a8b72d7829",
+              "wiktionary:en-run-en-verb-ZDbA-Azy:68bce7e981e2ee0a2fb0aaf2e254f561ee8732c2123b5c8d93f67cecd0c4eb05",
+              "wiktionary:en-run-en-verb-c-xO0ZFx:327b4f476fcf610d0b311d949948af56f3cf9ca4511fb2df6d3e67e186ff1ccd",
+              "wiktionary:en-run-en-verb-ch9Cs23C:714d9ec96b82298c3c1302bcab407ba489a366675c69f1d21257c69b449b6fe4",
+              "wiktionary:en-run-en-verb-d6XddzVf:b1513b5d2a7ddb9fa969b288bb52e7c42b749db902ea0e0400205f1ceb424bc7",
+              "wiktionary:en-run-en-verb-dDZ5v1n2:d8a0cccc1aff694bbcfa0932239738521367d2e81738ad4e37c76193e1598e2f",
+              "wiktionary:en-run-en-verb-dJnhSesI:f62f30939ea930dc803090d596bc83f5586456ecfe470cd6f97cd7e921529aa6",
+              "wiktionary:en-run-en-verb-e-TBK4ro:036559b7fe15c74a952274d734b12bba4d548328d1e18a43f9538747c77040b0",
+              "wiktionary:en-run-en-verb-en:be_candidate:d5891f1073887fae47cd1bf92a8f4a375c2f3febb3c0063c427ae04fd891c503",
+              "wiktionary:en-run-en-verb-en:flee:9319c176193a31c77bf33138b14fa19f79ee1ae0331f7e14c4fb98d950ace203",
+              "wiktionary:en-run-en-verb-en:go_at_a_fast_pace:ecde6acee8a2992793798fbdc12b53c3cd2c58e40e07545e746514d8b92b765b",
+              "wiktionary:en-run-en-verb-en:race:a15af8c537ee00a1f86aebbed6d0b3d705035cb89e884ecfcb0d66cdb53aa2f9",
+              "wiktionary:en-run-en-verb-gA1~oQTi:f81169cacdf1b0bf8fa4a3016c817d3d94537cd3aaaf374afed079f77bf7b461",
+              "wiktionary:en-run-en-verb-gNSD0Cjy:5c6ce1fdd15393d1493e06568104dcb9465e38fb981a637a2aaf8dc968f3f983",
+              "wiktionary:en-run-en-verb-h1gk9UHj:c0d5e9fc78c86923879f0de5b9a4ff72528855b9c0a46df25783fe00c75f131d",
+              "wiktionary:en-run-en-verb-htx1m~KA:8eecc195cf1f45b2ac2379b58e1871f2174ad2fd769ebc72e64020c1c367c0a9",
+              "wiktionary:en-run-en-verb-j3yElTXQ:fd04681a51b529b4348da81340d4837b14ae6e777d9e0f7f78248ce7b7de5186",
+              "wiktionary:en-run-en-verb-kTk4Cjrb:e5068c2cd7b2b0b55db46dc1d61e32b62d1bf544505e8e613601d8ab1d1d4c8b",
+              "wiktionary:en-run-en-verb-lHfjHZGy:02a03efc5563654a3dc8616c413c8b1f286e29f43ed912cabd49c5ced34763c9",
+              "wiktionary:en-run-en-verb-m7wFMBHO:8ddf46a1d2d4a50effd3bc903f958ae67da0776900eb53ace9751ee662c2cac4",
+              "wiktionary:en-run-en-verb-n9BROLz0:4c02bd697c44f2d5b3eb6d641f4d9a43624247b212ad273429685c4837a92769",
+              "wiktionary:en-run-en-verb-nKt8U30d:2388c5b609e432abe083ed147865a6e5140e63528892d8d4bde137c9c5e23e23",
+              "wiktionary:en-run-en-verb-nn2BKJLp:b8802dc2561c1f2e1479e1a6a61dad0a61c167d83387dabb46acae34ecdf939b",
+              "wiktionary:en-run-en-verb-s5A5YINb:834050a576213ac81e79630692c90f4bb0705d278c1567619bc0d2e7760d9f39",
+              "wiktionary:en-run-en-verb-skuIml3a:54bc4190da1e5900a1db57d41d3b9cc37684fdcc0333344f8c0690b9c0c48847",
+              "wiktionary:en-run-en-verb-t2XxCWy5:40affa955eccc3e270c4cda52edea128e726ca6da62dd808511de22a541057fc",
+              "wiktionary:en-run-en-verb-tL7-sssU:a3aa8a3f8f395bdd499a842f8be30b96819fe1ee6471d99f1620e5468fe54bf0",
+              "wiktionary:en-run-en-verb-wD80rPaB:6627b9d7e0a901a92407759ebead0f48204f03bffdf368e86814f5627b182a60",
+              "wiktionary:en-run-en-verb-xYhljNbc:fbe270a118db6580f4a3fd66a81fe749b6cc6cca5903e5ee10b2ee3ed571c76c",
+              "wiktionary:en-run-en-verb-yMSqGQkU:627f0a7d66498b7ce57a40edd3190515001707c9e992d34636ed9a4e6f8a2c4f",
+              "wiktionary:en-run-en-verb-z3Yhp3yb:998853a394ac34078d5c280884a825b491b8c89d7f9c03d3da3b2643349df5b4",
+              "wiktionary:en-run-en-verb-zhb4anb0:0809dc961314fa840fe1746226883344315016b99474b12dbf8aec2634909228",
+              "wiktionary:en-run-en-verb-~Hj7wpfX:64d937df4e66ba25c1b13bc230c45f50397238a4c4a4782688f4980429f9598a",
+              "wordnet:run:campaign.v.01",
+              "wordnet:run:carry.v.15",
+              "wordnet:run:discharge.n.06",
+              "wordnet:run:footrace.n.01",
+              "wordnet:run:function.v.01",
+              "wordnet:run:guide.v.05",
+              "wordnet:run:hunt.v.01",
+              "wordnet:run:ladder.v.01",
+              "wordnet:run:melt.v.01",
+              "wordnet:run:move.v.13",
+              "wordnet:run:operate.v.01",
+              "wordnet:run:play.v.18",
+              "wordnet:run:ply.v.03",
+              "wordnet:run:political_campaign.n.01",
+              "wordnet:run:prevail.v.03",
+              "wordnet:run:race.v.02",
+              "wordnet:run:range.v.01",
+              "wordnet:run:rivulet.n.01",
+              "wordnet:run:run.n.01",
+              "wordnet:run:run.n.05",
+              "wordnet:run:run.n.06",
+              "wordnet:run:run.n.07",
+              "wordnet:run:run.n.08",
+              "wordnet:run:run.n.09",
+              "wordnet:run:run.n.10",
+              "wordnet:run:run.n.13",
+              "wordnet:run:run.n.15",
+              "wordnet:run:run.n.16",
+              "wordnet:run:run.v.01",
+              "wordnet:run:run.v.03",
+              "wordnet:run:run.v.05",
+              "wordnet:run:run.v.06",
+              "wordnet:run:run.v.11",
+              "wordnet:run:run.v.13",
+              "wordnet:run:run.v.14",
+              "wordnet:run:run.v.15",
+              "wordnet:run:run.v.16",
+              "wordnet:run:run.v.18",
+              "wordnet:run:run.v.19",
+              "wordnet:run:run.v.21",
+              "wordnet:run:run.v.23",
+              "wordnet:run:run.v.24",
+              "wordnet:run:run.v.25",
+              "wordnet:run:run.v.26",
+              "wordnet:run:run.v.27",
+              "wordnet:run:run.v.28",
+              "wordnet:run:run.v.29",
+              "wordnet:run:run.v.30",
+              "wordnet:run:run.v.31",
+              "wordnet:run:run.v.32",
+              "wordnet:run:run.v.33",
+              "wordnet:run:run.v.34",
+              "wordnet:run:run.v.41",
+              "wordnet:run:scat.v.01",
+              "wordnet:run:streak.n.01",
+              "wordnet:run:tend.v.01",
+              "wordnet:run:test.n.05"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "she"
+          ],
+          "features": {
+            "verb": "run"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "copula-be-state-leak",
+      "text": "She is a person.",
+      "tokens": [
+        {
+          "token": "She",
+          "lemma": "she",
+          "pos": "PRON",
+          "word": {
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:pronoun:she",
+          "context": null
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:is",
+          "context": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:a",
+          "context": null
+        },
+        {
+          "token": "person",
+          "lemma": "person",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_COMPL": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_NOMINAL_CONTEXT",
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-Person-en-name-EMUC1F3L:43ab29c217391b9723fc50d96df9afad36b376daa47fbd0a85269ad51baa9a48",
+              "wiktionary:en-person-en-noun-2wmebBla:607fad92db02bfc4ccb94ad75aa1a576b5aac1d4bf05a0efaa5fc3caf51462e4",
+              "wiktionary:en-person-en-noun-6ijSYi4X:cf952b5518e25ba254c6ff458bbb30d1b1adf32805ad99e960fc4f92f0c9944f",
+              "wiktionary:en-person-en-noun-CiCg3~r8:151df6beb0cf76689b5ab50cd06e31804f523d4625d583cf8d4d21d7c544bb77",
+              "wiktionary:en-person-en-noun-OgqknJqI:8ccfde5fd20c8d5755db79749ff24b9042b32c44a06d3955f034170fc8eb1a48",
+              "wiktionary:en-person-en-noun-cHyCA0zw:7f8452d9d038f7470a5155e13797319786c27d96b66730baf67a191294fd8cc6",
+              "wiktionary:en-person-en-noun-gU3kY451:17976afd8150fd0f7a82c4934d94a7a5d46eb20047eaf3e3efca699db793c1e6",
+              "wiktionary:en-person-en-noun-um7lcc-i:6e7c5ae74b199092bcd1ae10b464e3c64b2cb07e71c45c2428e8c7d60e948078",
+              "wiktionary:en-person-en-noun-vZQJjNsJ:b7c61dd94d2741b2ec6cf7e7a660ebfadc3980343d2806dac4ebefaa88879c07",
+              "wiktionary:en-person-en-noun-w1xx8HaV:8b7ed3ae3620160562a2e5bdf7c9cbf5bcad44544f9f1a36ed361313dfb10dc0",
+              "wiktionary:en-person-en-noun-w30zhoXy:18f41c601a507b2d370ec88d51ba319c7f56757c2755116cbfb0d864418bae90",
+              "wiktionary:en-person-en-noun-xsc6Pxgc:0799ad6d3304b2eca001f82215b6ad688645071e5a97175320828e5a4926ae31",
+              "wiktionary:en-person-en-noun-zVGfK49-:0088a17a74c62f29fac390e67c79f9cf414da248bd829051338e1f95a9f026e9",
+              "wiktionary:en-person-en-noun-zzgM7UUQ:8a5a27ba7d45a6347efae46ab09eee710e5f760f2710b1a3035810a11acb5742",
+              "wiktionary:en-person-en-verb-gQnCwFvC:ba6d9910b4eff5ea79ed96704982aa1b1b24c93343a46ef7a1abd56038fc2211",
+              "wiktionary:en-person-en-verb-x4hKop3g:637acd34c622dd6cea69149c07f708268ceb572c95be68991034c5fefa4cafae",
+              "wordnet:person:person.n.01",
+              "wordnet:person:person.n.02",
+              "wordnet:person:person.n.03"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "she",
+            "person"
+          ],
+          "features": {}
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "TypeAssertion",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": "person",
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unresolved",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": "person",
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "unresolved_argument_identity"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "have-main",
+      "text": "I have a bicycle.",
+      "tokens": [
+        {
+          "token": "I",
+          "lemma": "i",
+          "pos": "PRON",
+          "word": {
+            "I": 1,
+            "SOMEONE": 1
+          },
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:pronoun:i",
+          "context": null
+        },
+        {
+          "token": "have",
+          "lemma": "have",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "gse_closed_class:auxiliary:have",
+              "wiktionary:en-have-en-noun-IM0V81FN:58223268d56210aa3f52c65048d6619006ddce010f9733b21d2fbf448cb703ef",
+              "wiktionary:en-have-en-noun-h~brQ7sF:e093e37c5ac3c4d504de10d95f3c938e133e264b91f673a6ba050806bf00c210",
+              "wiktionary:en-have-en-noun-w1mdsS9R:871dbc5f92a1fa3cf43eb5c09a4d1e9a4e47fb2b0cdddddc96968e10e2b48ab4",
+              "wiktionary:en-have-en-verb-0qDNFFaS:4e3f27bd2c746da5588b6acee5dbace8ae056b23966e0386ef7e5935ea2bb594",
+              "wiktionary:en-have-en-verb-7uTPaOgp:64409d0563a16015f37e312824e52fd0699d3d4c7103e322c5fd6160d3523416",
+              "wiktionary:en-have-en-verb-7wKyYYVa:955c263eb79d61427eab65ce3948d4a1365a7c96f213b06eac96b916bc76ab95",
+              "wiktionary:en-have-en-verb-B61jiErM:f318f87bc83651620e740021acb00b0ceed68630246b5aa3de461199f80fba5d",
+              "wiktionary:en-have-en-verb-C3~aQbvC:b63884a3b091cab0bee9a7bbb5fe7238b803fe80d5c5f75f654e8fda6ef04204",
+              "wiktionary:en-have-en-verb-DZjXkm-H:81c99554a2f1e9cce5ac8421f0d7e818087eded94cd92fc1bd5e4f1080eedef9",
+              "wiktionary:en-have-en-verb-FH9x1qaq:160c28828602a01c70e9600acdb2dec655051dd833e2b5c1701e2da90151c4e9",
+              "wiktionary:en-have-en-verb-H42v7Lkx:65e2c87fff702cb1db89ae55c4e0b74c5ed64a2026c4b10d217f5d7fbfd2032c",
+              "wiktionary:en-have-en-verb-MsADUchx:194267d68a4d4ffd2d17aad9158fd57b71dcbf560becfe818384a83e6c3d479a",
+              "wiktionary:en-have-en-verb-NFZ3oIPb:14cf8e134bc01df5fbe04a4881a0aecd8b7cc3c45761f78b1f0b280de424e030",
+              "wiktionary:en-have-en-verb-NIkb5KgL:6fff0fd14e8ac1f2339e5b07321fca144c5a826b5b8d8257b0deb7115b034fcc",
+              "wiktionary:en-have-en-verb-NUkwGSmX:18e14e97ddb738c6f20218c6c8a0ab3a9fade9cf440bc98e7873266da302146f",
+              "wiktionary:en-have-en-verb-N~R7ELPT:33614cb4268770a354ed80e8cea30fac209f0e0f6be2cdefdb5485725ed5b299",
+              "wiktionary:en-have-en-verb-OhFGGrUp:cf69cf716710387d3bcbfb2c48ea34c5e150d07a51d0ad2eeb9e85808168a495",
+              "wiktionary:en-have-en-verb-Prxfv4AX:9f3e5d0c51f3b4632768df1fa31aa3e27e93a209afdd0697995b5c9900ae2998",
+              "wiktionary:en-have-en-verb-S-Nv2JU4:4b60352f8c6bde5c6f4660eb220401a1a4464fb57c2f240fc7083726a7e4ad9f",
+              "wiktionary:en-have-en-verb-S0Q5MhLb:81c16baf90234397d6da500f90764ca36149f1ccc05da0ab264ebfe63e6f12cb",
+              "wiktionary:en-have-en-verb-URfbF6f9:c70a22d8411818b9a85175b2e53b7f5abb6a4cd9ea336d1de8715357214972d0",
+              "wiktionary:en-have-en-verb-XvYeTaSF:c9aa3ea1ebfd0da8e156e473de2ec1f277523e0c4aaee41dda991c46781799a4",
+              "wiktionary:en-have-en-verb-YOKOL9PA:8e6564c1b8499aa1d2f5bd323ee16d148f04f28292a2b29aea331d99dcaaa08e",
+              "wiktionary:en-have-en-verb-d88FUSpD:03689ce86d4eb138c5e469c335e4b8ec4dc0be3c7a7daa050e72388c6dadecb2",
+              "wiktionary:en-have-en-verb-e6nqqqE1:574d17126b097f61c64cdf65e6f3dd6dc8501544323db847c5d2ae99ad844c75",
+              "wiktionary:en-have-en-verb-en:give_birth:c88e968d3ee637a45ed07d88c512588eba62f1f3011658c1b86f31c42afd1c79",
+              "wiktionary:en-have-en-verb-fUA-B2dY:cf2eae1f53f156a830b00c571eaea4021de5dea9449b9cc81ee278c916a4a2dd",
+              "wiktionary:en-have-en-verb-jlcUeD2o:49aeaf2f0901cca99ec1c1182281a65a16abded5e0e234a9fb2559936f63848f",
+              "wiktionary:en-have-en-verb-lar7pwky:42c33d297d48f2fad88c507f007b7e708f4654e8d817ec65caadf232ade4c624",
+              "wiktionary:en-have-en-verb-mmguqBWp:a1353f0fe852355e10c5dcf1e9d56a2e2142360405592c0a551ff1c352138d92",
+              "wiktionary:en-have-en-verb-prcyMOzX:057f353a38b6ecafd18b3dd5f3ed2fb880eeeed2fb28fee6d9c0572fa0266fd3",
+              "wiktionary:en-have-en-verb-qss~HyMS:a09fddf5893dc53d6e2f6583d395866c00bf051084eb09dbe41197fdf68f970d",
+              "wiktionary:en-have-en-verb-rmiDlNad:5cef245bd9892c4b9cad85e5ee039bf26df339fa2039aba46030bfb2be2b1ac6",
+              "wiktionary:en-have-en-verb-sA6p5oID:91901b8e698a4cb2d4f7e8e7721d9e6152835636c34cca67dfae7a6dfdfb9655",
+              "wiktionary:en-have-en-verb-tZ5585Np:a6d4da48d38848cc5cae54a99a32c5e908446494387ea018d1734644d64df0bb",
+              "wiktionary:en-have-en-verb-wxm0B3~W:f38d904f962f2329daaded1c3d052e4feff5d84090fcdb4640f770739d6b3bff",
+              "wordnet:have:accept.v.02",
+              "wordnet:have:consume.v.02",
+              "wordnet:have:experience.v.03",
+              "wordnet:have:get.v.03",
+              "wordnet:have:give_birth.v.01",
+              "wordnet:have:have.v.01",
+              "wordnet:have:have.v.02",
+              "wordnet:have:have.v.07",
+              "wordnet:have:have.v.09",
+              "wordnet:have:have.v.10",
+              "wordnet:have:have.v.11",
+              "wordnet:have:have.v.12",
+              "wordnet:have:have.v.17",
+              "wordnet:have:hold.v.03",
+              "wordnet:have:induce.v.02",
+              "wordnet:have:own.v.01",
+              "wordnet:have:receive.v.01",
+              "wordnet:have:rich_person.n.01",
+              "wordnet:have:suffer.v.02",
+              "wordnet:have:take.v.35"
+            ]
+          }
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:a",
+          "context": null
+        },
+        {
+          "token": "bicycle",
+          "lemma": "bicycle",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_NOMINAL_CONTEXT",
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-bicycle-en-noun-JncX-7cd:713a9abd434453bda83a34a26d72048813ab43973f53eed2d8427b436366f6ce",
+              "wiktionary:en-bicycle-en-noun-WMFVGJNg:f15a1fc9c9e30263ae9764f2eb4c8524cee4f6b6d4f2280aea88d754f16e25a3",
+              "wiktionary:en-bicycle-en-noun-XPwkWmTY:6ed2e45b3410b0ed6d74c2587a5b7ec15f400ad9a9df73931862922df43c4c14",
+              "wiktionary:en-bicycle-en-noun-Zezx2TtE:a971715c543cb01abd47b90056bb8dd15688ee1a04735219cbce21849fcd3316",
+              "wiktionary:en-bicycle-en-noun-en:Q11442:f8f0ab2528a4b62f2b354b65048d4199c5da2f816691d87b930bc05d4a6da247",
+              "wiktionary:en-bicycle-en-noun-kF80rFVG:41471bf14b92b50287365363e005b20000a35cd08ef95359a290f36e7997171e",
+              "wiktionary:en-bicycle-en-noun-mYQ9cmoG:25cb0c6ebb0a0d5913647a57d7e0b0c120b3c6a05400dce6daade351574bae44",
+              "wiktionary:en-bicycle-en-noun-nBLmGPh-:6d82b3fc71022450118ab3e9957f0e438ff6fcd09e6aa256353c21818c48c191",
+              "wiktionary:en-bicycle-en-noun-r-yLbv0I:1191900a4699fc25ac836974d2b63cd15e88c4bd4bb8b38775576e2d79439c83",
+              "wiktionary:en-bicycle-en-noun-~Spajms7:b64f6b9a5111fdbc5f3a27f28c0a756853a9950d0738f195a60d7ebbecf92178",
+              "wiktionary:en-bicycle-en-verb-O~5MdwCN:f5845095de82dbb535063a7ae9bf356c8e0fa63f1419b4912396cc16e4600d3b",
+              "wiktionary:en-bicycle-en-verb-gmkOujd3:ef1aa14bacb2f2fb37890d07806a7ebef8f57cac34c4acbca4473b3e3e82dbb4",
+              "wordnet:bicycle:bicycle.n.01",
+              "wordnet:bicycle:bicycle.v.01"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "i",
+            "bicycle"
+          ],
+          "features": {
+            "verb": "have"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "main-do",
+      "text": "Nora did the work.",
+      "tokens": [
+        {
+          "token": "Nora",
+          "lemma": "nora",
+          "pos": "PROPN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        },
+        {
+          "token": "did",
+          "lemma": "do",
+          "pos": "VERB",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PAST": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_DEFINITION_CONSTRUCTION_WITNESS",
+            "considered_entry_ids": [
+              "gse_closed_class:auxiliary:do",
+              "wiktionary:en-DO-en-noun-6oe1B7NZ:b5ba06f5b842d5dedfb5242b5c38b9c04dc6c705b63bbfcf89e862398ce6e953",
+              "wiktionary:en-DO-en-noun-9N76I6~M:4b4ad1e180a912da351e74d24ffefee73ee4f69cd263eff4822602e213d2f423",
+              "wiktionary:en-DO-en-noun-Y8ak2LRN:6dc850bd9f6703a2a39c0afef377d0d05ac26b5d852d37be939d3bd146e4d722",
+              "wiktionary:en-DO-en-noun-eSR18Ovt:d74324183a2ad700b0080524f86fe47a509994e716286cd3b6c37edbc81d29c5",
+              "wiktionary:en-DO-en-noun-jG6utnB8:a16fc632a20f7dde90fed477b95ce4d8b6615af9d20344177a9cf350c422e5e1",
+              "wiktionary:en-do-en-adv-n9ZU7qDw:032ce2a6bac9b266efc797531be48d0ffa51bf9633deabfa8fd940c20f3dd8e3",
+              "wiktionary:en-do-en-noun-2Fw3ti3z:e70aaaa0ac38ca54cc0420338b1402ea45b2a3c933072b5d979608ebd5984158",
+              "wiktionary:en-do-en-noun-EPWSCaN8:8135f75b9fcbc20c088448d41fc60d61b11a6b38e100249d0ce4051152e958d5",
+              "wiktionary:en-do-en-noun-GxpeBYAb:01b50f5d8edef4f6c4095fabcf75fb2912ab332f56b4211d5ee28831cece13c7",
+              "wiktionary:en-do-en-noun-QdSqvUwU:1be25e561853e9cd6a93a3335f1d7e5c9280997d11eedb3d772dbd0fbeabef32",
+              "wiktionary:en-do-en-noun-c36mjTIw:afa141186d7c6bdcdf5648c9a8d65ebaf45101cc902f8d7649ae21719207ffe9",
+              "wiktionary:en-do-en-noun-dUr1QgJ1:093929bff547f125bcb20fc4babfe204910ca27676ecf7044dbd491117ed1a73",
+              "wiktionary:en-do-en-noun-en:hairdo:ac4e3957c9be5499d63a07447edefc77cd3638591a61bc34960c7841f1960bab",
+              "wiktionary:en-do-en-noun-en:music:7a0bb778bb614df4051875f6e06ffc0e9ec002a0e7813615886c48dbb6fad662",
+              "wiktionary:en-do-en-noun-oalkLvta:43d5a6cd9ac89e612ffde5df3abddc20867a1668fb6f030b49bf8f8721b6c1e5",
+              "wiktionary:en-do-en-num-rH5KySGF:83f8263a66b4f1f329ac991b948b68bc48b91e64fd14426b8f9661c0131cc2bc",
+              "wiktionary:en-do-en-verb--fUjGp26:221a3051246414f23447625116459a22c77a7fdae9462f8d9f355313346e24d2",
+              "wiktionary:en-do-en-verb-2R9CBCmO:a5cb753a8bfb5a38c6de5c65a3568709d146a57cfc494ff79f31ad3b296fea0c",
+              "wiktionary:en-do-en-verb-4hmBHIW7:9fe08a13326967f34df2b5eef9603f6b0964eb7ead22122e002d9b6f2b54a8c3",
+              "wiktionary:en-do-en-verb-5ccQDu4A:9f81ee6871dc26b9dcced48fece2f4969f0853ae1778e348c2edbe29c867cb9e",
+              "wiktionary:en-do-en-verb-8sgQYoZr:4d69a9c4214983fc7014dc41ea91e6930080ed2ba4600669f1ed6ceeaebe4f64",
+              "wiktionary:en-do-en-verb-FDJJqQQJ:afa6cfc2e3b5073f150715dc6141ee238bd5780bde36b5b1420d0d512915579d",
+              "wiktionary:en-do-en-verb-FVOl3pEC:92c1351dbf9fe472a4c5b3ff450a36ebb275cc71a3733e751456c5611f2f96c0",
+              "wiktionary:en-do-en-verb-GI0UywtX:14b2f2091e6bd97abadd58cf4ce7bd1318cccafcccebb1ff570f212621e17990",
+              "wiktionary:en-do-en-verb-GnDud7I3:e10e97cd637a10d12b939a3e95a6c2002f686f73ee5fcd99dac884e92a1569f6",
+              "wiktionary:en-do-en-verb-HgcD5W8d:964306c633a4cda2a679201ecb7f69147b39de965f4f35cfe052a44eb2c5af96",
+              "wiktionary:en-do-en-verb-IFvS5n~i:23309d38ce18720892e385523ce4a8b4861a4bb201cb36252ee3dd84b61cec6e",
+              "wiktionary:en-do-en-verb-In3WkWNU:cc646eb9d4e97fed784e306fc8ed0bc63c15037f3ef1e1f0cc138c013f09ebb4",
+              "wiktionary:en-do-en-verb-M92Bgmf9:c4903fe58b788ddaaa4af8b8dd558339e4648e45e9676769b8b06180f7b310a6",
+              "wiktionary:en-do-en-verb-NdyEIRUJ:5318588d6af3efc4793f0ab7b6ebcebad7aff4aae78ce213c100d4a29484acaa",
+              "wiktionary:en-do-en-verb-VNGLmdca:889dc95b5c670fff97ef37d6b1ecacb877c2dc051cc086f54d89549e10e8441f",
+              "wiktionary:en-do-en-verb-XnZxxKQv:1c4fdb04d28924c0dcc0778980c63df9bae2ffea85110b648e9185515da2c133",
+              "wiktionary:en-do-en-verb-YFBtrFbW:aa8e991fb8ddba34575c14e9fd51378d8695dc5c1d3c57aebd6b95836bfc843f",
+              "wiktionary:en-do-en-verb-YK4T9TYp:da39fb079d21c735c44211c5d3763e05addfe99e693c4c32ce9b1b2edbdd639b",
+              "wiktionary:en-do-en-verb-azk98m4X:cf136cfd22ceb864c79adc232a298fdb12f58fd8f3dcf26462ee502b8adb8615",
+              "wiktionary:en-do-en-verb-bntl4M9h:d10b488647786e5c6619b0de478253648aa078207ee204831f1ea6c39e71f065",
+              "wiktionary:en-do-en-verb-en:syntactic_marker1:09bc517defa9a64e16bb4ba2043118e5283198297b2070f725f32242ae511229",
+              "wiktionary:en-do-en-verb-en:syntactic_marker1:4aebd191b73107f632109e03f27bf574d213f5d6c877dbd15086750b1ad7af53",
+              "wiktionary:en-do-en-verb-en:syntactic_marker1:b6cda81b440a6727aabecd380ce4b8ac06696b4d72e873aed2cf284e8268a15b",
+              "wiktionary:en-do-en-verb-en:syntactic_marker1:ce263ee69f61296836c7b8acee64d12b9cfa682df6911e57a5d4101a43e928d0",
+              "wiktionary:en-do-en-verb-en:syntactic_marker1:fefd6b9905725f0ed7e3fb942312de44856df9439d9165b8219eae25f7be7beb",
+              "wiktionary:en-do-en-verb-en:syntactic_marker:9f5397a6df0d8fa8a1c256e0b83c87eac2484c7921629f982a131e3a324ce21c",
+              "wiktionary:en-do-en-verb-en:to_perform_or_execute:8a43eb9e6c1a15385ea2aaee6337c39db7f0e232eb4341e964bce772f44c91bc",
+              "wiktionary:en-do-en-verb-en:to_suffice:b8bd0a7b07538945a6e12916a938986b6f2b1aba7296ee8efa8b000bc74edc53",
+              "wiktionary:en-do-en-verb-fbpTzNfo:8b6addb5598ae77e79ee1d8c84bb9292a0beca0710e705b319775a410b9882d7",
+              "wiktionary:en-do-en-verb-l9UGcUHz:9bb28eb87a953e88da4b32bd631caaa7f307a55edf8a72f7ab1c4d51c2156794",
+              "wiktionary:en-do-en-verb-n-m3jXpY:d395f775dd58eb3233154c1bc3f6644b9ff621801f1acab61f5a6ca8d62a82b1",
+              "wiktionary:en-do-en-verb-nfwerXMh:4eded721b4f46e2d6cae3a78a6f88f26f290e9510b5cf6b1af18afc9003cf66d",
+              "wiktionary:en-do-en-verb-uXkuAmy-:af82f62512e094e8a27c3599bb91014760c81fe5efaa943017f50d2cd4dbed95",
+              "wiktionary:en-do-en-verb-z5J8Wye-:33ce889c495d22702fca4322bf7a520b01c4986a9ef7849c6fee3e3220ad8a22",
+              "wiktionary:en-do-en-verb-zPpgTwWT:5e97413973810445d95fdd8e3d5fec062abf3b180138b5512ae40fc7d27a5aa8",
+              "wiktionary:en-do-en-verb-zbpf7EYr:017154b133a34d2f4f4e9c1390ff6e78f4f2a8575eef280bf7efaa138b2bf23e",
+              "wiktionary:en-do-en-verb-zpAM-I97:6fd9b168654afa82b202e43841ea9795023e01371bc8da27959d2da7b09abc0f",
+              "wiktionary:en-do-en-verb-~bRd8zHG:6023e638e05712864fd7880664773fff00dd3db0771cee8de19d3665601f0b07",
+              "wordnet:do:act.v.02",
+              "wordnet:do:bash.n.02",
+              "wordnet:do:cause.v.01",
+              "wordnet:do:do.n.02",
+              "wordnet:do:do.v.03",
+              "wordnet:do:do.v.04",
+              "wordnet:do:do.v.08",
+              "wordnet:do:do.v.11",
+              "wordnet:do:do.v.13",
+              "wordnet:do:doctor_of_osteopathy.n.01",
+              "wordnet:do:dress.v.16",
+              "wordnet:do:make.v.01",
+              "wordnet:do:perform.v.01",
+              "wordnet:do:practice.v.01",
+              "wordnet:do:serve.v.09",
+              "wordnet:do:suffice.v.01"
+            ]
+          }
+        },
+        {
+          "token": "the",
+          "lemma": "the",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:the",
+          "context": null
+        },
+        {
+          "token": "work",
+          "lemma": "work",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_OBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "NO_NOMINAL_CONTEXT",
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-Work-en-name-EMUC1F3L:57ed995e4c729ff270a4476470f74f10817493aebd1ef59115b931153a0eb714",
+              "wiktionary:en-work-en-noun-6TQQVdTq:2f73ea26d29943427a254dd21cdc26f1da99bc3e5603d5af062a0acef88ec2ef",
+              "wiktionary:en-work-en-noun-84MxmwiD:622e4dc5cfee6c92f61f2462a1fc51eb67df935ec638255ec25a04629298919b",
+              "wiktionary:en-work-en-noun-FzM5rsTn:90346736e1a288782745699bcf917055ee91862b279337892793ff8002bbe1c0",
+              "wiktionary:en-work-en-noun-IjVtKTlh:d2c59379a7866b54d30543820a727ce7bbfdaec846e70c6d7e78054acadd24cc",
+              "wiktionary:en-work-en-noun-MTpA50gA:f4573ade7609d1c851d7df5bd8c63bf8a822f33c5f5c6ca86b1017ffbeb77146",
+              "wiktionary:en-work-en-noun-Pi~nRgR1:a8b181aee0ca2c2f92732a474259663eeed6cccc49c3e1e7a4bdebbd1d854201",
+              "wiktionary:en-work-en-noun-RZtKN4yL:9efcb49b4b023f2c99f7b83378c6608509a64d09bb2615b62fb068c4f63ca233",
+              "wiktionary:en-work-en-noun-T-oX3TQT:e2a8c870b4e0e38157110dd01809974b6672fbc2ec462230d3663620afa06035",
+              "wiktionary:en-work-en-noun-UXIYBbRL:14d0dc28d30cc93e1f60463125b9d4d52d8d05ed4bdd13799c58e474e0f0ab0b",
+              "wiktionary:en-work-en-noun-X4JHHavx:63dfc18d9ceb9c0e07b881ce79327b04e9c60662a300ed2822984771b2bbeb1b",
+              "wiktionary:en-work-en-noun-bFjxwNDY:f7f7c45ec824a9ae5c0199d96dbcee9219ef85dbfde88f6af0c444dabbeb8b68",
+              "wiktionary:en-work-en-noun-dLwY33AS:13b56119dcc35068a2c17680d28af6de1ede54f75641728e2049e04d29ebc0df",
+              "wiktionary:en-work-en-noun-en:Q3675172:b1a390286e545c24cef224165bd8819b93df470e5b8c3f0fbddc92fd1566fe41",
+              "wiktionary:en-work-en-noun-en:Q42213:7242985f45c45d79947ee71ed8dcf8bded0773fd05c4b40f3d083e24c282399e",
+              "wiktionary:en-work-en-noun-gy47Mtp0:2545e38a0830b6c4948a70df12c33e7bffcb8104777a94ea4ba2caf1f0d7b762",
+              "wiktionary:en-work-en-noun-hK6SnppJ:2f1e05490e9fa8f2bcc466f1ee92699bc760fa7cc222259552aa38f8d22586fc",
+              "wiktionary:en-work-en-noun-iaqD7glQ:f8f0908c35d1385b375dc29f81da08f57930af08d84e876a32dd5ff9ff470dd9",
+              "wiktionary:en-work-en-noun-lx2sw5Po:5773b451547998f4eceeb1d75db8b4d6dedba6c6c9df0073dda496fec14450a3",
+              "wiktionary:en-work-en-noun-u1wpgfCa:fbe5e292bc6381cb3d88ecb66e7f3978808ec3a9d788728e010b6dc29f32f85a",
+              "wiktionary:en-work-en-verb-1IKSYmOK:a9a1d5be7ce7df5b08b296a46182ccad4f12bb12265bae0942e256904c85c977",
+              "wiktionary:en-work-en-verb-5P6wTd5S:f08722bede5df5b8c9eade6ddc0d4378395208b4c8b757d876d8b6d9af9b946c",
+              "wiktionary:en-work-en-verb-5ow28IrA:714d6f48e1bf802077957417c496348b7b5d5049ad8ff1b4ec90ce1403cc7e65",
+              "wiktionary:en-work-en-verb-8wiXZ2k2:47d40b368077bab42f6ad709ccdb0dd6a22dd9b369ee22205b98dfb1fafbce17",
+              "wiktionary:en-work-en-verb-9HrizlUg:f26c942aa2a73585bff6e106affd5a5b04e57c4b973036a55abfb8e811c378a1",
+              "wiktionary:en-work-en-verb-AYKMJ3Kn:8c1d944a39e389943fafdfa92a129def817cd0799711ee60494a44eaf0938806",
+              "wiktionary:en-work-en-verb-BGfjQkhK:74f2e81289e4d0480686d1f5d824154c4b8f256a424d8d389abe2bddc689ce68",
+              "wiktionary:en-work-en-verb-DeI8GOlv:c5031fe90b7b42d9376ac47518bfdb4ca9950a706888dbc4ccb562e654f966a8",
+              "wiktionary:en-work-en-verb-El2ojj6g:cc0f31801f57665f5715e0b24ac7eb2b6b1eeedc30ce6e3e4c295b8ec792039b",
+              "wiktionary:en-work-en-verb-G2PeEita:4886eef1a70b6dd3de5fd30be34777daf07a3ba42520b2d1db8cf61c0bbd818d",
+              "wiktionary:en-work-en-verb-Hnhkc9b9:1bc9f3647ff9b02c4926d1d4af8f85237ffecb19e4ebb76eed41c276539c6679",
+              "wiktionary:en-work-en-verb-M2QhFd3t:11f21d6a6b4e1103141ae7e18aa37bc82e755d5f138371bc06723b4ab83d8c22",
+              "wiktionary:en-work-en-verb-OUxt7wzh:6ca76b16951dd9afb39629beba2b155838757551ecee3227a206bbc9ca8b297b",
+              "wiktionary:en-work-en-verb-RBx13p3G:c5d595f6cc803a75c4092a6b0e38969add34959ad641809d825678f67ede8c7e",
+              "wiktionary:en-work-en-verb-Ti3uuvp~:8b1b4c2d43ee53a21f42542db9d9fcbc9f4346ffa7dcae8c3d92c87aedb5fef0",
+              "wiktionary:en-work-en-verb-VenvCzw4:eff384e1b7aa0fc9b074fe78b0ac304036097750dff7ebb64bcfe5edfdceccd2",
+              "wiktionary:en-work-en-verb-YKmwFrtw:9eb144a008dc4b12b570715777c79725fc96c0e8d81c8150e863fe033cd23513",
+              "wiktionary:en-work-en-verb-d6u1AHog:a496d08b867f32d2a24460634993c598fcb001b5b3fba942bb93f4a95ffc9b10",
+              "wiktionary:en-work-en-verb-dtmwFYrk:04066e3c5775721958d18dd2f6f8f0a433920d1696589edea72b1c0072487f9f",
+              "wiktionary:en-work-en-verb-en:exhaust:070a0e4282bca16ae487dabbd0f068ca398aa39c6c1277fbf4b3c401df73ba83",
+              "wiktionary:en-work-en-verb-hUcpGiiZ:3e2d96e5a0fa4e5a3609fc6952f08573d846bd08aa4e2de9f1b410b5bc5f7f40",
+              "wiktionary:en-work-en-verb-hWPjM~rP:c0ced74aa264708e65e1ec86a76deeec995421c7cf534962f3e242efc39fc90a",
+              "wiktionary:en-work-en-verb-hyKrhw1z:dbc9b7016d40e5560dee49b3d4ea629301cf0d3232d871b329525821dc6116fa",
+              "wiktionary:en-work-en-verb-j44LSDmO:dbb22d2b942e5e5aefde1b14ec3a5e31389173f5b48fcc4b8af2ab367259993e",
+              "wiktionary:en-work-en-verb-jqNJVKHd:24142403947abdde88c32c000d54710dfda46c88a6a41484dfd0bd07e1380a0a",
+              "wiktionary:en-work-en-verb-mdQcTBNS:8d3c3226082134464bfd3f4f74c317ccff68e052712060094658577afddb56e1",
+              "wiktionary:en-work-en-verb-sDMrlGkm:d472068d5dc8158580a3683e0a69e892b486579139612bdd3923e1318746b8f7",
+              "wiktionary:en-work-en-verb-souw0a~s:66705e45b38521124195d16df667d19eb7dc15ac559db73c77c88638150eab53",
+              "wiktionary:en-work-en-verb-tRcKAJ5y:dc9bf7fcd258423a281cf34bf7e37bdb46acad310f8e4406b2fb31e7a102555f",
+              "wiktionary:en-work-en-verb-tvOV3p4m:120993dbe016c41f28ef6e5c9515d7b099b21a0c776e4c152b7b6b4d981f1fe2",
+              "wordnet:work:bring.v.03",
+              "wordnet:work:cultivate.v.02",
+              "wordnet:work:employment.n.02",
+              "wordnet:work:exercise.v.03",
+              "wordnet:work:exploit.v.01",
+              "wordnet:work:ferment.v.03",
+              "wordnet:work:function.v.01",
+              "wordnet:work:influence.v.01",
+              "wordnet:work:knead.v.01",
+              "wordnet:work:make.v.36",
+              "wordnet:work:oeuvre.n.01",
+              "wordnet:work:shape.v.02",
+              "wordnet:work:solve.v.01",
+              "wordnet:work:sour.v.01",
+              "wordnet:work:study.n.02",
+              "wordnet:work:work.n.01",
+              "wordnet:work:work.n.02",
+              "wordnet:work:work.n.05",
+              "wordnet:work:work.v.01",
+              "wordnet:work:work.v.02",
+              "wordnet:work:work.v.03",
+              "wordnet:work:work.v.05",
+              "wordnet:work:work.v.08",
+              "wordnet:work:work.v.09",
+              "wordnet:work:work.v.10",
+              "wordnet:work:work.v.12",
+              "wordnet:work:work.v.14",
+              "wordnet:work:work.v.16",
+              "wordnet:work:work.v.17",
+              "wordnet:work:work.v.18",
+              "wordnet:work:work.v.19",
+              "wordnet:work:work.v.21",
+              "wordnet:work:work.v.27",
+              "wordnet:work:workplace.n.01"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "EVENT",
+          "args": [
+            "nora",
+            "work"
+          ],
+          "features": {
+            "verb": "do"
+          }
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "Event",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": null,
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unsupported",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": null,
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "missing_relation_primitive_evidence"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    },
+    {
+      "id": "own-state",
+      "text": "A state is a condition.",
+      "tokens": [
+        {
+          "token": "A",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:a",
+          "context": null
+        },
+        {
+          "token": "state",
+          "lemma": "state",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_SUBJ": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+            "native_anchor_support": {},
+            "type_coherence": {},
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-State-en-name-ggQp0X8U:f667562587cc1ffd18d3267655388a43d8ddb758e000797b46901edc48d257ed",
+              "wiktionary:en-State-en-noun-IXQycrpY:d787fd9f4aa624f3885eabadb517da095c72e461aebc8c2b9ed828b3809f5563",
+              "wiktionary:en-State-en-noun-O6Itl5Ku:62cb59865c87ab32ed622c22939f0ac3479c0fa5eb3aa029eaba329f8dc76b65",
+              "wiktionary:en-state-en-adj-nKUg0uw-:0f193ab18f411e50e9421e96aed20adb0c50a1b48fbc866038ca64d8bf8334e2",
+              "wiktionary:en-state-en-noun-LKI0Bvok:393e4bef70c87c329e00d74c873035b291f9baa0fdd3eb18ffff2eaa69cec7f6",
+              "wiktionary:en-state-en-noun-SST4cb1n:1e1f4a4a4d9e6df15181d0dfd570e8997ea14c26a2e4171c8252e79f72a7e036",
+              "wiktionary:en-state-en-noun-VfaqgJf9:bc1a8f6a640c7accc4253cbc0bb02bcccb8fcd088e0daf56598feaf344586024",
+              "wiktionary:en-state-en-noun-en:condition1:217af6fa590119d720f9939522b06141c6b3356171b3e81bb0e1dfce25d552b5",
+              "wiktionary:en-state-en-noun-en:condition1:3b1bb6bc14f5db20b18bbee35a9e87805c9470d08f33c546341bc6eaff0f7bad",
+              "wiktionary:en-state-en-noun-en:condition1:744177a5a2add0cd3fee2854f0b56cabfa1bd8a8fcbb7110b7c1ae1c10a15a9d",
+              "wiktionary:en-state-en-noun-en:condition1:81601392735b9c70a4bf6186d35457a677c0757d8b31c5fe40360d8a1700c942",
+              "wiktionary:en-state-en-noun-en:condition1:a1816d806fd960363fc469ae782e93dc306549ea255fe35e4f76bf06d50bb973",
+              "wiktionary:en-state-en-noun-en:condition1:df27a4787d1cafcd93e223ab2a9a6800632ad3bfcf6b100aae3ae02fa0c6d954",
+              "wiktionary:en-state-en-noun-en:condition1:e1dea81df66598e681f843af160ca015ab54eb9f0fad56e4498e140c093482b0",
+              "wiktionary:en-state-en-noun-en:condition:5be511b31dcc7da725401f41607295b2cc356adcae75ecacec52e8908df46abf",
+              "wiktionary:en-state-en-noun-en:polity__community1:2d18bfad91eb38b3a85a7b322abaaf5ef04d48beaff233b9336c53d38a006f4f",
+              "wiktionary:en-state-en-noun-en:polity__community1:558556473dbfa5f809cd591087c7b02bb75ca0242668bcdf99ca8479b84276c8",
+              "wiktionary:en-state-en-noun-en:polity__community1:e2a4ed46d834b2c3a97729643a0d43a8220764b5e9006cd356b9b96e8f3b02ce",
+              "wiktionary:en-state-en-noun-en:polity__community:45f0ae36d8dca167d4fe7e6aa0ddc3a82db0602e826ed31ca6544765b51a5b2a",
+              "wiktionary:en-state-en-noun-kY1-hLcm:27d057cece6e025fc6dccd50723a83ef49e7a45d668d21617b8c94ff9003ae71",
+              "wiktionary:en-state-en-noun-pZ1yGFVB:985c594e82b33e9fc37e764dd9b798c66d547ca8e214a59a1953bd4bfec47d60",
+              "wiktionary:en-state-en-noun-ttHPWKVL:9908e811d4854613094af0d4e21c0cd94cadafeef4d1a7b932ad1c19fa0e2122",
+              "wiktionary:en-state-en-noun-yIJDeZOW:f6f0a5ff79a59035cb0167db429452e98e3bbdba42b3c7ae798195ecbd973867",
+              "wiktionary:en-state-en-noun-ySFdZJ45:f40363cccf9b28d1b7333c8db35138f279bdf20d6b52394fdbd8e778b40b4a65",
+              "wiktionary:en-state-en-verb-0T7379gH:776c85a0f9a23b22412b67bd57f16803529c555d82b173050542ccb0b2f77834",
+              "wiktionary:en-state-en-verb-84zj8dw8:ad08a578c36c8548809e0cfd38557b6d26a011b2cb6aaef4462ffb8d5d1fd8eb",
+              "wordnet:state:country.n.02",
+              "wordnet:state:department_of_state.n.01",
+              "wordnet:state:express.v.04",
+              "wordnet:state:state.n.01",
+              "wordnet:state:state.n.02",
+              "wordnet:state:state.n.03",
+              "wordnet:state:state.n.04",
+              "wordnet:state:state.n.06",
+              "wordnet:state:state.v.01",
+              "wordnet:state:state_of_matter.n.01",
+              "wordnet:state:submit.v.02"
+            ]
+          }
+        },
+        {
+          "token": "is",
+          "lemma": "be",
+          "pos": "AUX",
+          "word": {},
+          "sentence": {
+            "SYN_PRED": 1,
+            "SYN_TENSE_PRES": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:auxiliary:is",
+          "context": null
+        },
+        {
+          "token": "a",
+          "lemma": "a",
+          "pos": "DET",
+          "word": {},
+          "sentence": {
+            "SYN_DET": 1
+          },
+          "selection": "IDENTIFIED",
+          "selected_id": "gse_closed_class:determiner:a",
+          "context": null
+        },
+        {
+          "token": "condition",
+          "lemma": "condition",
+          "pos": "NOUN",
+          "word": {},
+          "sentence": {
+            "SYN_COMPL": 1
+          },
+          "selection": "AMBIGUOUS",
+          "selected_id": null,
+          "context": {
+            "code": "INSUFFICIENT_CONTEXTUAL_SUPPORT",
+            "native_anchor_support": {},
+            "type_coherence": {},
+            "construction": {
+              "code": "NO_DEFINITION_CONSTRUCTION_WITNESS"
+            },
+            "considered_entry_ids": [
+              "wiktionary:en-condition-en-noun-4aY6DJhl:bbaebe81b4b088dd23a6568149a34f97b05563d5aa37589b0e9c4f2365ba6356",
+              "wiktionary:en-condition-en-noun-5Mkq2gGd:dd3adf5940ac74a6f8117d745e4c4838072b94b627bed8ba2fd98accb25d3ad2",
+              "wiktionary:en-condition-en-noun-64L8a0ri:c651b1b97846299f6680a7c36c8dc8a471ec7aaf0d5d1eecf1be94f566c0e505",
+              "wiktionary:en-condition-en-noun-DNL2dJSf:fece46def3629077f1f9fbb3a700331d400fc2f1baa8cc351f299c5d539f63fa",
+              "wiktionary:en-condition-en-noun-K7h0eVn4:3d959b2056dec09877693555e33506cf340d2c67787fc3afa318dda31c76aad8",
+              "wiktionary:en-condition-en-noun-SLTvj2ij:771b880d8736daeee538f361e09727b564d838d238c0d814960fdb041510d788",
+              "wiktionary:en-condition-en-noun-Xn8FMeRP:27065e16c2b4903162e6e8f1f349d1ee8eb5afaec987d5da1496ffe00fdc65f9",
+              "wiktionary:en-condition-en-noun-sBFnZdX-:12ce8b4fdb275c7be9c0dd051798022482b444e991b06c1cf7092259d77c6db9",
+              "wiktionary:en-condition-en-verb-07aaYr4z:448f10f5b39b9a0df8bc152ec2a4a03ed5b1aef3b92af3d9cd6270dfd9b0d263",
+              "wiktionary:en-condition-en-verb-2sf3rcvv:cf779000e001f958abff094514dafd78d29a82750e1e2c9974a314a9c5eb4289",
+              "wiktionary:en-condition-en-verb-TOIHanIQ:529882822732f1d86b99a1492b02ee86a5b3bb8df9c8efe12b99358c765fe8b7",
+              "wiktionary:en-condition-en-verb-Ttn1nUC7:2bbbf4183cf0410fb8dee23da7889d658c879aaa4d2885368f03c6e80db91b72",
+              "wiktionary:en-condition-en-verb-VfqQCuhc:cdab818afcbe77f97cd42b13881b9db4d87e31120cd0ee3781a46af48220befe",
+              "wiktionary:en-condition-en-verb-aZSTuAhk:e86d3e790886b57cf94f7ffa1825327d682e7babc279e5ee5963f02b9fd9bbe8",
+              "wiktionary:en-condition-en-verb-jcE6Ddlq:f119b67e2054c218ede05ebf0c8449223ef8781123ab373dd83856c1037ccefb",
+              "wiktionary:en-condition-en-verb-rPTlFQ3Q:82738b28ce6e3a4d30a7d213e955064e7c264e38dab511423dca2d26506e6033",
+              "wiktionary:en-condition-en-verb-sSKRESpI:4c635c3ae1e6fe8ee42f9e4e64276f58b202a94782b9348751a2da1f1e63749f",
+              "wiktionary:en-condition-en-verb-~qjhC7X1:2101176cd43ccc023e7f4f03d42bf3ad6292a2a307c5ba43b7bcffabf1e95675",
+              "wordnet:condition:circumstance.n.03",
+              "wordnet:condition:condition.n.01",
+              "wordnet:condition:condition.n.02",
+              "wordnet:condition:condition.n.03",
+              "wordnet:condition:condition.n.05",
+              "wordnet:condition:condition.n.06",
+              "wordnet:condition:condition.n.07",
+              "wordnet:condition:condition.n.08",
+              "wordnet:condition:condition.v.01",
+              "wordnet:condition:condition.v.04",
+              "wordnet:condition:condition.v.05",
+              "wordnet:condition:discipline.v.01",
+              "wordnet:condition:stipulate.v.01"
+            ]
+          }
+        },
+        {
+          "token": ".",
+          "lemma": ".",
+          "pos": "PUNCT",
+          "word": {},
+          "sentence": {},
+          "selection": "NOT_FOUND",
+          "selected_id": null,
+          "context": null
+        }
+      ],
+      "contract": {
+        "contract_version": "1.0",
+        "predicate": {
+          "op": "TYPE_ASSERT",
+          "args": [
+            "state",
+            "condition"
+          ],
+          "features": {}
+        },
+        "claim_semantics": {
+          "version": "GSE.claim-semantics/1",
+          "claims": [
+            {
+              "kind": "TypeAssertion",
+              "commitment": "committed",
+              "polarity": {
+                "state": "read",
+                "clause_sign": 1,
+                "lexical_sign": 1,
+                "sign": 1,
+                "base": "condition",
+                "reason": ""
+              },
+              "scope_signature": [],
+              "comparison": {
+                "state": "unresolved",
+                "key": null,
+                "polarity": {
+                  "state": "read",
+                  "clause_sign": 1,
+                  "lexical_sign": 1,
+                  "sign": 1,
+                  "base": "condition",
+                  "reason": ""
+                },
+                "projection": "resolved_roles_signed_primitives_context/1",
+                "reason": "unresolved_argument_identity"
+              }
+            }
+          ]
+        }
+      },
+      "unsupported_auxiliary_leaks": []
+    }
+  ],
+  "six_critical_auxiliary_cases_passed": true
+}

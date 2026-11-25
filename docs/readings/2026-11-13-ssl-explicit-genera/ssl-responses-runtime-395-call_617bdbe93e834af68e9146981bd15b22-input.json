@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport json,ast\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor p in sorted(D.glob('ssl-api-controller-*qualified*')):print(p.name,p.stat().st_size)\nfor p in sorted(D.glob('ssl-api-controller-*moral*')):\n print(p.name,p.stat().st_size)\n if p.name.endswith('source-review.json'): print(p.read_text())\np=Path('GSE/symbolic/lexical_grounding.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,ast.ClassDef) and n.name=='LexicalGrounding':\n  for b in n.body:\n   if isinstance(b,ast.FunctionDef) and b.name in ['__init__','_senses','select','_primary_frame_support']:print(ast.get_source_segment(s,b))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,23 +1,19 @@
-**Coverage factual packet complete; work stopped.**
+**Coverage wiring audit complete; stopped within 10 tool calls.**
 
-Saved under `docs/readings/2026-11-13-ssl-explicit-genera/`:
-- `ssl-api-coverage-canonical-reconciliation.json`
-- `ssl-api-coverage-canonical-reconciliation.md`
+Saved in `docs/readings/2026-11-13-ssl-explicit-genera/`:
+- `ssl-api-coverage-qualified-frame-seam-facts.json`
+- `ssl-api-coverage-qualified-frame-seam-facts.md`
 
-### Verified findings
-- Reconciled all **65 saved chart units**: **22 own-coordinate singletons**, **37 open scalar coordinates**, **6 structural/hierarchy cases**. These are not complete signatures or runtime-coverage counts.
-- Checked **10 explicit partial-coordinate claims** against the candidate: **all 10 installed; zero missing installations among those claims**.
-- Canonical THINK/FEEL/SAY/MOVE chart identities remain open, while separately identified native WordNet readings have stored own-bank projections. No identity transfer was assumed.
-- Curated ABOVE/BEFORE rows retain typed spatial/temporal features but open ordinary-bank domains.
-- HERE’s singleton rests on an exact entry-specific model receipt, not a reusable law.
-- Reports retain exact entry/source IDs, governing records, source hashes, construction distinctions, and all saved development-sense identities.
+### Main findings
+- Contextual proofs reach `GSEEncoder`, but the inspected path reloads lexical banks only after `EXACT_WORDNET_SENSE` selects a fine identity. No separate warranted coarse-frame/pole path currently handles retained fine-sense ambiguity.
+- ADV+ADJ complements survive construction, resolution and evaluation as `TypeAssertion.kind` phrases. They lack explicit source-qualified domain/bank-constraint fields; `Atom` does not copy token lexical evidence.
+- Profile affect consumes **occurrence `token.word_primitives`**, not predicate constraints or compatibility proofs. Without explicit GOOD/BAD evidence, valence remains `None`.
+- Complete native adjective relation evidence is stored, but runtime `NativeSense` drops those relation fields. Existing intensity binding and build-time joint-constraint guards do not currently bind sentence-level moral-domain qualifiers.
+- Checked pipeline, entity-grounding and decoder paths; none supplies that missing channel in the inspected chain.
 
-### Verification and scope
-- **168/168 bounded consistency checks passed**; final report loads/counts also checked.
-- Candidate SHA256 verified unchanged:
-  `2f63c8647996ac4b89fdc41f9eb2c67c81079bed08dcf6499a80f462a8963952`
-- No source/DB edits, model calls, admitted rules, corpus changes, H gain, snapshots, activation or commits.
-- Active pointer still names `sparse-release-021.db`.
-- No full replay, CI gate or runtime-coverage certification performed. **No closure claimed for CP-01–CP-08.**
+### Evidence
+**76/76 bounded checks passed**, covering 48 pinned whole symbols, five exact stored native records and two synthetic modifier-preservation cases. Final source-pin comparison found **no drift**.
 
-**Handoff:** coverage scope complete; controller/A retains source integration/admission/publication scope; runtime worker retains consumer/eligibility scope. Reports authorize no semantic law.
+No new semantic approval or moral→GOOD law; no fresh runtime usability claim, source/DB edits, corpus gain, activation or commit. Pointer remains `sparse-release-021.db`. No CP-01–CP-08 closure claimed.
+
+**Handoff:** coverage scope complete. **A** retains implementation and semantic warrant/source integration/publication; **B** retains runtime consumer implementation and verification.

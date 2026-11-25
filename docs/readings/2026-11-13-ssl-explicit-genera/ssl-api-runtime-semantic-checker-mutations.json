@@ -1,0 +1,19 @@
+{
+  "scope": "audit-checker mutation controls only; no production execution",
+  "original_checks": 37,
+  "mutation_results": [
+    {
+      "mutation": "topic-not-event",
+      "detected": true
+    },
+    {
+      "mutation": "exact-type-source-set",
+      "detected": true
+    },
+    {
+      "mutation": "quoted-speaker-binding",
+      "detected": true
+    }
+  ],
+  "source_sha256": "58d710bc602e0013c6fe73fc887e9ef3bb053b07215b8450bc7f08d64e545af6"
+}

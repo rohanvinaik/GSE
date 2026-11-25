@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, fields, is_dataclass
 from functools import lru_cache
 from pathlib import Path
 
@@ -288,6 +288,145 @@ class LexicalGrounding:
                 )
         self._by_lemma[key] = results
         return results
+
+    def bind_qualified_dimensions(self, trace):
+        """Retain source-reviewed consequences *under* a located meaning frame.
+
+        This is not a definition selector or a word-vector projection. A domain
+        adverb can have other meanings, and a quality can retain finer identity
+        alternatives. The typed copular complement establishes modifier/head
+        ownership; the reviewed source meanings and independently stored poles
+        establish the conditional bank consequence. No premise is inferred from
+        spelling, proximity, an unknown bank, or the chart's allowable syntax.
+        """
+        from GSE.curation.lexicon_builder import catalog
+        from GSE.lexicon.definitions import runtime_lookup
+
+        from .expression import Negation, Op, Phrase, from_trace
+
+        source_frames = getattr(catalog, "qualified_dimension_frames", lambda: ())()
+        if not source_frames:
+            return
+        reviewed_ids = {p["entry_id"] for f in source_frames for p in f["quality_meanings"]}
+        if not any(
+            t.pos == "ADJ"
+            and reviewed_ids.intersection(
+                (t.lexical_evidence or {}).get("candidate_entry_ids", ())
+                or [((t.lexical_evidence or {}).get("selected_record") or {}).get("entry_id")]
+            )
+            for t in trace.tokens
+        ):
+            return
+
+        def stored(entry_id):
+            result = runtime_lookup(self.conn, None, entry_id)
+            return result["selected"] if result["code"] == "IDENTIFIED" else None
+
+        def native(premise, pos):
+            entry = stored(premise["entry_id"])
+            if entry is None or entry["gloss"] != premise["definition"]:
+                return None
+            sense = self._senses(entry["lemma"], pos).get(premise["entry_id"])
+            return entry if sense is not None and _live_native_sense(sense) else None
+
+        def attach(node, scope=()):
+            if isinstance(node, Negation):
+                attach(node.operand, (*scope, "NEGATION"))
+                return
+            if isinstance(node, Op) and node.operation == "TYPE_ASSERT" and len(node.args) == 2:
+                complement = node.args[1]
+                if isinstance(complement, Phrase):
+                    atoms = [a for a in complement.atoms if a.pos != "PUNCT"]
+                    heads = [a for a in atoms if a.pos == "ADJ"]
+                    # A single adjectival predicate, not a noun phrase, measure,
+                    # coordinated quality, event or a qualifier on the subject.
+                    if len(heads) == 1 and all(a.pos in {"ADJ", "ADV"} for a in atoms):
+                        head = heads[0]
+                        token = trace.tokens[head.position]
+                        evidence = token.lexical_evidence or {}
+                        candidates = set(evidence.get("candidate_entry_ids", ()))
+                        selected = evidence.get("selected_record")
+                        if selected:
+                            candidates.add(selected["entry_id"])
+                        for frame in source_frames:
+                            bank = frame["bank"]
+                            qualities = [native(p, "ADJ") for p in frame["quality_meanings"]]
+                            if not qualities or any(q is None for q in qualities):
+                                continue
+                            if not all(q["entry_id"] in candidates for q in qualities):
+                                continue
+                            pole = stored(frame["canonical_pole"])
+                            if pole is None:
+                                continue
+                            rows = self.conn.execute(
+                                """SELECT payload FROM source_observations WHERE entry_id=?
+                                   AND source='nsm_chart' AND family='nsm_primary_chart'
+                                   AND scope='source_structure'""",
+                                (pole["entry_id"],),
+                            ).fetchall()
+                            expected = _primary_records().get(pole["entry_id"])
+                            if expected is None or not any(json.loads(r[0]).get("features") == expected for r in rows):
+                                continue
+                            values = [q["domains"].get(bank) for q in [pole, *qualities]]
+                            if not values or values[0] not in ([1], [-1]) or any(v != values[0] for v in values):
+                                continue
+                            if any(q["assignments"].get(bank) != values[0][0] for q in [pole, *qualities]):
+                                continue
+                            qualifier = native(frame["qualifier"], "ADV")
+                            if qualifier is None:
+                                continue
+                            for atom in atoms:
+                                if atom.pos != "ADV" or atom.position >= head.position:
+                                    continue
+                                qt = trace.tokens[atom.position]
+                                qe = qt.lexical_evidence or {}
+                                rivals = set(qe.get("candidate_entry_ids", ()))
+                                qs = qe.get("selected_record")
+                                if qs:
+                                    rivals.add(qs["entry_id"])
+                                if qualifier["entry_id"] not in rivals:
+                                    continue
+                                # All intervening modifiers must be independently
+                                # registered degree grammar, not another domain.
+                                between = [a for a in atoms if atom.position < a.position < head.position]
+                                if any(
+                                    not (h := get_hierarchy_encoding(a.lemma.upper())) or h[0] != "INTENSITY"
+                                    for a in between
+                                ):
+                                    continue
+                                consequence = {
+                                    "code": "SOURCE_WARRANTED_CONDITIONAL_DIMENSION",
+                                    "warrant_id": frame["warrant_id"],
+                                    "review_sha256": frame["review_sha256"],
+                                    "dimension": frame["dimension"],
+                                    "bank": bank,
+                                    "domain": values[0],
+                                    "head_position": head.position,
+                                    "qualifier_position": atom.position,
+                                    "binding": "TYPE_ASSERT_SINGLE_ADJECTIVAL_COMPLEMENT",
+                                    "assumptions": {"qualifier_entry_id": qualifier["entry_id"]},
+                                    "quality_source_ids": [q["entry_id"] for q in qualities],
+                                    "quality_source_definitions": [q["gloss"] for q in qualities],
+                                    "qualifier_source_definition": qualifier["gloss"],
+                                    "canonical_pole": pole["entry_id"],
+                                    "surviving_head_entry_ids": sorted(candidates),
+                                    "surviving_qualifier_entry_ids": sorted(rivals),
+                                    "unconditional": False,
+                                    "scope": list(scope),
+                                }
+                                evidence.setdefault("qualified_dimensions", []).append(consequence)
+                                token.lexical_evidence = evidence
+            if is_dataclass(node):
+                for field in fields(node):
+                    value = getattr(node, field.name)
+                    if isinstance(value, (list, tuple)):
+                        for child in value:
+                            if is_dataclass(child):
+                                attach(child, scope)
+                    elif is_dataclass(value):
+                        attach(value, scope)
+
+        attach(from_trace(trace))
 
     def grammatical_eligibility(self, position, lemma, entry_id):
         """Challenge a catalog role with a *local construction*, never a keyword.

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast,json\nfrom pathlib import Path\nfor f,names in {'GSE/curation/lexicon_builder/catalog.py':['chart_definition_records','_chart_observations'], 'GSE/curation/lexicon_builder/evidence.py':['Definition','Observation'], 'GSE/curation/lexicon_builder/storage.py':['store_observations']}.items():\n s=Path(f).read_text();t=ast.parse(s);print('\\nFILE',f)\n for n in t.body:\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in names:print(ast.get_source_segment(s,n))\n# Read small current independent coordination units, not historical nested receipts.\nd=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-moral-writer-exit.json','ssl-api-controller-qualified-frame-registration.json']:\n p=d/name\n print(name, p.read_text() if p.exists() else 'not yet present')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

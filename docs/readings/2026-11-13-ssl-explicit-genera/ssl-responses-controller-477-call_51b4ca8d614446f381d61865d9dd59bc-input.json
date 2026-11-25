@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor path,names in [('GSE/curation/lexicon_builder/validation.py',{'validate_build'}),('GSE/curation/lexicon_builder/specification.py',{'measure_dictionary','compare_measurements'})]:\n s=Path(path).read_text();t=ast.parse(s)\n for x in t.body:\n  if isinstance(x,ast.FunctionDef) and x.name in names:print(ast.get_source_segment(s,x))\nprint('\\nSELF BOUNDARY HELPER\\n'+Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_self_boundary.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

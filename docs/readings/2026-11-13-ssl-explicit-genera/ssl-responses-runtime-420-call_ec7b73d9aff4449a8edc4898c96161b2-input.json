@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('Existing final cases\\n'+(D/'ssl-api-runtime-final-cases.json').read_text())\np=Path('scripts/audit_lexicon_sentences.py');s=p.read_text();t=ast.parse(s)\nfor name in ['_snapshot_pins','load_benchmark','score_case','audit']:\n n=next(x for x in t.body if isinstance(x,ast.FunctionDef) and x.name==name);print('\\n'+ast.get_source_segment(s,n))\np=D/'ssl-api-controller-moral-writer-job.json';o=json.loads(p.read_text());print('\\nwriter output',o.get('report'))\np=Path(o['report']);print(p.read_text() if p.exists() and p.stat().st_size<25000 else 'not available or large')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

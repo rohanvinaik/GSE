@@ -1,0 +1,77 @@
+{
+  "format": "GSE.runtime-validity-regression/1",
+  "role_scope": "B \u2014 CP-07 REAL RUNTIME IDENTITY / CHECKPOINT ACCEPTANCE",
+  "at_utc": "2026-11-24T22:31:02.045740+00:00",
+  "scope": "DEVELOPMENT_REPAIR_NOT_FINAL",
+  "candidate": "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/candidate-self-boundary.db",
+  "candidate_sha256": "dac0b0141e483640f30789c76ad0013a4035ab3a7064570ced79b6d21d2e83c7",
+  "validity_source_sha256": "4691d818f48921888934cbfb13cc94553056d0621f79f99c35283f3b8e9c0be9",
+  "actual": {
+    "bicycle": {
+      "surface": "bicycle",
+      "fired": false,
+      "committed": "bicycle",
+      "ranked": [],
+      "note": "surface grounds"
+    },
+    "bycicle": {
+      "surface": "bycicle",
+      "fired": true,
+      "committed": null,
+      "ranked": [
+        {
+          "word": "acicle",
+          "edit_cost": 4,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        },
+        {
+          "word": "bicycle",
+          "edit_cost": 4,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        },
+        {
+          "word": "icicle",
+          "edit_cost": 4,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        }
+      ],
+      "note": "no decisive winner: abstained"
+    },
+    "ZXQ9": {
+      "surface": "ZXQ9",
+      "fired": true,
+      "committed": null,
+      "ranked": [
+        {
+          "word": "zaq",
+          "edit_cost": 3,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        },
+        {
+          "word": "xq",
+          "edit_cost": 4,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        },
+        {
+          "word": "xqs",
+          "edit_cost": 4,
+          "prior": 1000000,
+          "coherence": 0.0,
+          "confusion_pos": -1
+        }
+      ],
+      "note": "non-lexical shape (acronym/code/proper-noun): offered, not committed"
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,datetime\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('UTC',datetime.datetime.now(datetime.UTC).isoformat())\nfor p in sorted(n.iterdir()):\n if p.is_file() and p.suffix=='.json' and any(x in p.name for x in ('publication','immediate','closing','delivery','root-handoff','common-base-exit')):\n  print('ARTIFACT',p.name,p.stat().st_size)\nfor name in ('ssl-api-controller-blockers.json','ssl-api-controller-root-handoff.json'):\n p=n/name\n if p.exists(): print('\\nFILE',name,'\\n',p.read_text())\nw=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor name in ('common-base-validation.json','common-base-space-delta.json'):\n p=w/name\n if p.exists():\n  v=json.loads(p.read_text());print('RESULT',name,json.dumps({k:v[k] for k in v if k!='builder_source_pins'},indent=2))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

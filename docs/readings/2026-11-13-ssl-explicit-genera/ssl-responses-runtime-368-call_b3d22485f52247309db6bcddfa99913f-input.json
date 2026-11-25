@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_semantic_checks.py docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-eight-operation-outcomes-dev-current-v1.json docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-runtime-semantic-development-v1.json; python3 - <<'PY'\nimport ast\nfrom pathlib import Path\nfor name in ['GSE/symbolic/lexical_grounding.py','GSE/discourse/profile.py']:\n s=Path(name).read_text();t=ast.parse(s);print('UNIT',name)\n if 'lexical_grounding' in name:\n  print(s)\n else:\n  for n in ast.walk(t):\n   if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name=='text_profile':print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,38 @@
+{
+  "code": "CHECKPOINT_PUBLISHED_VALIDATED",
+  "at_utc": "2026-11-24T23:12:29.601888+00:00",
+  "active_pointer": {
+    "format": "GSE.active-lexicon/1",
+    "path": "lexicon_builder/2026-11-12/sparse-release-022.db"
+  },
+  "artifact": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-022.db",
+  "sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e",
+  "previous_path": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-021.db",
+  "publication_receipt": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-root-immediate-publication-result.json",
+  "validation_scope": "Existing sparse publication: full replay, declared cohort/basis/model scope and supplied semantic regression; default consumer smoke.",
+  "acceptance_changed_by_owner": "2026-11-24: publish now; owner will debug downstream functionality gaps. Full eight-operation workload and repository freeze are not claimed passed.",
+  "sparse_not_exhaustively_complete": true,
+  "unknown_is_zero": false,
+  "remaining_limitations": [
+    "Unresolved banks remain unknown",
+    "Full downstream usability acceptance remains unfinished",
+    "Moral profile successor remains separate pending work"
+  ],
+  "default_consumer_smoke": [
+    {
+      "text": "The dog runs.",
+      "trace_type": "OperationTrace",
+      "expression_type": "Op"
+    },
+    {
+      "text": "I want to go home.",
+      "trace_type": "OperationTrace",
+      "expression_type": "Op"
+    },
+    {
+      "text": "This is a person.",
+      "trace_type": "OperationTrace",
+      "expression_type": "Op"
+    }
+  ]
+}

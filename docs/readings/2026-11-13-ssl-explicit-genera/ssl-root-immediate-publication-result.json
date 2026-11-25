@@ -1,0 +1,3468 @@
+{
+  "format": "GSE.lexicon-publication-audit/1",
+  "publication_mode": "sparse",
+  "code": "PUBLISHED_SPARSE_LEXICON",
+  "blockers": [],
+  "definitions": 401596,
+  "outcomes": {
+    "PARTIAL": 401595,
+    "SENTENCE_CONSTRUCTION": 1
+  },
+  "cells": {
+    "unresolved": 22027697,
+    "assigned": 461623,
+    "explicit_zero": 331373
+  },
+  "sentence_constructions": {
+    "nsm:v20:some-time": {
+      "entry_id": "nsm_chart:v20:some-time",
+      "code": "SENTENCE_CONSTRUCTION",
+      "construction": {
+        "field": "duration",
+        "extent": "unspecified",
+        "relations": [
+          "during",
+          "before",
+          "after"
+        ],
+        "source": "docs/program/LEXICON_CONSTRUCTION_DESIGN.md#word-and-sentence-boundary"
+      }
+    }
+  },
+  "missing_words": [],
+  "missing_definition_ids": [],
+  "unexpected_definition_ids": [],
+  "definition_cohort": "DECLARED",
+  "unlinked_prime_units": [],
+  "replay": {
+    "format": "GSE.lexicon-replay-report/1",
+    "code": "REPLAY_VALIDATED",
+    "gold": "NOT_CHECKED",
+    "inference_scope": "GENERALIZED_ARC_CONSISTENCY_AND_BOUNDED_JOINT_SUPPORT",
+    "complete_search": true,
+    "inference_counts": {
+      "components_joint_checked": 2495950,
+      "components_solver_limited": 0,
+      "entries_complete_search": 401596,
+      "entries_replayed": 401596,
+      "entries_solver_limited": 0
+    },
+    "metadata_verification": {
+      "representation_contract": "VERIFIED",
+      "catalog": "RECOMPUTED_EXCLUDING_UNPERSISTED_SOURCE_IDS",
+      "catalog_definition_source_ids": "NOT_PERSISTED",
+      "source_diagnostics": "STRUCTURE_AND_COUNTS_CHECKED",
+      "domain_restrictions": "SOURCE_PROVENANCE_AND_REPLAY_CHECKED",
+      "candidate_evidence": "STRUCTURE_COUNTS_AND_SOURCE_PROVENANCE_CHECKED",
+      "candidate_antecedent_population_counts": "NOT_RECOMPUTED",
+      "candidate_weights": "SUMS_CHECKED_ORIGINAL_WEIGHTS_NOT_PERSISTED",
+      "build_report": "NOT_CHECKED"
+    },
+    "entries_checked": 401596,
+    "entries_validated": 401596,
+    "entries_mismatched": 0,
+    "replayed_outcomes": {
+      "PARTIAL": 401596
+    },
+    "mismatch_counts": {},
+    "mismatches": []
+  },
+  "semantic_audit": {
+    "format": "GSE.lexicon-gold-report/1",
+    "code": "GOLD_EVALUATED",
+    "gold": {
+      "path": "/Users/rohanvinaik/Projects/GSE/docs/readings/2026-11-13-ssl-explicit-genera/ssl-api-controller-publication-regression-gold.json",
+      "sha256": "add1db3ce7126d67709a1a4860f65af7417816f60e537bc4b8901cc281ba1672",
+      "origin": "SUPPLIED_LABELS"
+    },
+    "build": {
+      "path": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/.lexicon-release-yh87tda2/snapshot.db",
+      "format": "GSE.lexicon-builder/1"
+    },
+    "verification": "PUBLISHED_PROJECTION_ONLY",
+    "source_grouping": "OVERLAPPING_EXACT_DEFINITION_EVIDENCE_COHORTS_NOT_CAUSAL_ATTRIBUTION",
+    "total": 127,
+    "outcomes": {
+      "IDENTIFIED_CORRECT": 127,
+      "ABSTAINED": 0,
+      "CONFLICT": 0,
+      "WRONG": 0,
+      "NOT_FOUND": 0
+    },
+    "coverage": {
+      "identified": 127,
+      "total": 127,
+      "fraction": 1.0
+    },
+    "per_bank": {
+      "BE": {
+        "total": 12,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 12,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 12,
+          "total": 12,
+          "fraction": 1.0
+        }
+      },
+      "BODY": {
+        "total": 32,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 32,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 32,
+          "total": 32,
+          "fraction": 1.0
+        }
+      },
+      "CAN": {
+        "total": 4,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 4,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 4,
+          "total": 4,
+          "fraction": 1.0
+        }
+      },
+      "DO": {
+        "total": 11,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 11,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 11,
+          "total": 11,
+          "fraction": 1.0
+        }
+      },
+      "HAPPEN": {
+        "total": 18,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 18,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 18,
+          "total": 18,
+          "fraction": 1.0
+        }
+      },
+      "I": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "INFER": {
+        "total": 3,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 3,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 3,
+          "total": 3,
+          "fraction": 1.0
+        }
+      },
+      "INTENSITY": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "MAYBE": {
+        "total": 1,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 1,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 1,
+          "total": 1,
+          "fraction": 1.0
+        }
+      },
+      "PART": {
+        "total": 4,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 4,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 4,
+          "total": 4,
+          "fraction": 1.0
+        }
+      },
+      "SOMEONE": {
+        "total": 7,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 7,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 7,
+          "total": 7,
+          "fraction": 1.0
+        }
+      },
+      "SOMETHING": {
+        "total": 9,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 9,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 9,
+          "total": 9,
+          "fraction": 1.0
+        }
+      },
+      "WANT": {
+        "total": 12,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 12,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 12,
+          "total": 12,
+          "fraction": 1.0
+        }
+      },
+      "WHEN": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "WHERE": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "WORDS": {
+        "total": 4,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 4,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 4,
+          "total": 4,
+          "fraction": 1.0
+        }
+      },
+      "YOU": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      }
+    },
+    "per_pos": {
+      "adverb": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "auxiliary": {
+        "total": 1,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 1,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 1,
+          "total": 1,
+          "fraction": 1.0
+        }
+      },
+      "demonstrative": {
+        "total": 1,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 1,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 1,
+          "total": 1,
+          "fraction": 1.0
+        }
+      },
+      "noun": {
+        "total": 110,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 110,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 110,
+          "total": 110,
+          "fraction": 1.0
+        }
+      },
+      "pronoun": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "verb": {
+        "total": 11,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 11,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 11,
+          "total": 11,
+          "fraction": 1.0
+        }
+      }
+    },
+    "per_source": {
+      "docs/program/LEXICON_CONSTRUCTION_DESIGN.md": {
+        "total": 5,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 5,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 5,
+          "total": 5,
+          "fraction": 1.0
+        }
+      },
+      "founder_approved:person_reference_boundary": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "gse_closed_class": {
+        "total": 3,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 3,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 3,
+          "total": 3,
+          "fraction": 1.0
+        }
+      },
+      "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f358b0fead1aef799637ee863debb8e9010c9faf3806d392b5d281effcb6a742": {
+        "total": 2,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 2,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 2,
+          "total": 2,
+          "fraction": 1.0
+        }
+      },
+      "sentiwordnet": {
+        "total": 79,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 79,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 79,
+          "total": 79,
+          "fraction": 1.0
+        }
+      },
+      "verbnet": {
+        "total": 3,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 3,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 3,
+          "total": 3,
+          "fraction": 1.0
+        }
+      },
+      "wiktionary": {
+        "total": 43,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 43,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 43,
+          "total": 43,
+          "fraction": 1.0
+        }
+      },
+      "wordnet_hierarchy": {
+        "total": 79,
+        "outcomes": {
+          "IDENTIFIED_CORRECT": 79,
+          "ABSTAINED": 0,
+          "CONFLICT": 0,
+          "WRONG": 0,
+          "NOT_FOUND": 0
+        },
+        "coverage": {
+          "identified": 79,
+          "total": 79,
+          "fraction": 1.0
+        }
+      }
+    },
+    "records": [
+      {
+        "bank": "WANT",
+        "entry_id": "gse:prime:dont-want",
+        "expected": -1,
+        "observed": -1,
+        "pos": "verb",
+        "sources": [
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "gse:prime:this",
+        "expected": 1,
+        "observed": 1,
+        "pos": "demonstrative",
+        "sources": [
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "MAYBE",
+        "entry_id": "gse_closed_class:modal:might",
+        "expected": 1,
+        "observed": 1,
+        "pos": "auxiliary",
+        "sources": [
+          "gse_closed_class"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:i",
+        "bank": "I",
+        "expected": 1,
+        "observed": 1,
+        "pos": "pronoun",
+        "sources": [
+          "gse_closed_class"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:you",
+        "bank": "YOU",
+        "expected": 1,
+        "observed": 1,
+        "pos": "pronoun",
+        "sources": [
+          "gse_closed_class"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "CAN",
+        "entry_id": "wiktionary:en-aliterate-en-noun-r0GKhLR0:d7f0f69a76cdc051bde54499f81c169cd4b38ad311ac75be4ecd777b21fe4d10",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-annihilation-en-noun-N-HM9F9z:6467b1b20733fc3a44f3fea82ccb253e336244ca369f7650b163521360b748c0",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WORDS",
+        "entry_id": "wiktionary:en-antonym-en-noun-en:Q131779:6510900be0d468f4249ea8cd182223f474e0778dea7e0a953a55222e5192f7b9",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-aorta-en-noun-en:Q101004:7843be2899d20ac10865cd43e641d8676622d7285f1b7bcaf47ecb0e914a658e",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-aorta-en-noun-en:Q101004:7843be2899d20ac10865cd43e641d8676622d7285f1b7bcaf47ecb0e914a658e",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-arborvitae-en-noun-en:nerve_tissue:70a53c8532f25554ef7f924947ecb63bf7b5fbc01e29fe6237a6aa894a3b75a1",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wiktionary:en-baroreceptor-en-noun-1YAw-RLH:132be0898e8e7ba5e0adc319ba8b305026715e849f2f66a2896593f00d9eb3c3",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "CAN",
+        "entry_id": "wiktionary:en-bilingual-en-noun-8Cw0DZpa:455cdfddc7ce23a43d53e1f14923719f2291364a1f9767f86a5453356edbbfe8",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WHERE",
+        "entry_id": "wiktionary:en-boatyard-en-noun-bZ5bXUeX:e11fcead77699c6ad854c5cb1e5ba12482ba11e383f0c7d2b9a4d3b910c07cae",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-caller-en-noun-HK02VxwV:e26ad73ff9131e4d3e6a63fb794c2c4d78efcfde0e783479ed1230c94ba2ef71",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-caller-en-noun-vkUxKdt1:740c658b2e675c9995f1e2cf5e46d6c8bfd88285ec4b9bd6f38461e46c2237a6",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-care-en-noun-T0l2lkXK:624c24c8c3a7c1c5863f56cd94f16340d7bc58660dbc6e30f5b31e95692145d6",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-comment-en-noun-en:rheme_in_linguistics:ce50391de4b14f3793b201a5a3950e7f0e4510220c8f930be9a51f57730fb491",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-deltoid-en-noun-5uS9I7N5:7b685203ce06d6dd58432e185382d660ed2aebda8490713fa49a243b4071baf4",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-deltoid-en-noun-WFQOalAu:7883b760ea025a06f7faabfdd47a46ad3602fe7290bd0d5f2d2aa082227f14eb",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-employment-en-noun-vk5buKuT:3c7c192a5279a2a6e902747abf2d131e437c14de431e68897744a8d0fd39de00",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-endplate-en-noun-X2IV3m5B:597d063ca5f729b4f74b8af4f7d0b2a5c4859cd6fdd2727c3c2721a0ddd95a26",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "PART",
+        "entry_id": "wiktionary:en-face-en-noun-9LTqi2Lm:3bfb116795200625ed15f4dafb216d07acb943d218d50754b345d7ca4506a6aa",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-face-en-noun-9LTqi2Lm:3bfb116795200625ed15f4dafb216d07acb943d218d50754b345d7ca4506a6aa",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "PART",
+        "entry_id": "wiktionary:en-forearm-en-noun-en:Q228537:6099f891ab10663747fcde3890bd20011095a8b2bd0fc850509307eec1be02e9",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-forearm-en-noun-en:Q228537:6099f891ab10663747fcde3890bd20011095a8b2bd0fc850509307eec1be02e9",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-freedom-en-noun-S4DkRkex:36d004c6d4afe100472ab160a148f865700a2c4d93d4ac7ad13ce2463a9da5d5",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WHERE",
+        "entry_id": "wiktionary:en-garage-en-noun-x5RFdWpZ:385ca68038daaf74fa48acb8234e5982cea711b0c57e938c8983ce335aa7dabb",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-guitarist-en-noun--pCm1Yua:021aee407c862d2fef13dbf816daec637f74acfad6fbba456700da63d9fb39f1",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wiktionary:en-heart-en-noun-en:Q1072:181adf258580fcb213e17539d733e06f42748edd8540a6e0b1d3b165d6257de4",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f358b0fead1aef799637ee863debb8e9010c9faf3806d392b5d281effcb6a742",
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-housewrecker-en-noun-8S59uZ0A:b03a532faab1e2c2162fc6b3b2da01830830096103ea8f130d42237c7866a031",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wiktionary:en-humerus-en-noun-MPVGkUN0:8310b08a58d50567cacf72a6591bf9b03adc3ce97191f4a863f6d80a2168fb75",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-librarian-en-noun-BPpx~Y0E:7801b98b27311c8bc33530853b84582b21441a55740de71be0c0a8212e51b161",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wiktionary:en-literate-en-noun-e-Kh8qRa:f0c1cd062f5e12cb79cdd9409291b3583e7e371cf278332c3c3be89d6ae3afec",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-median-en-noun-en:anatomy__a_central_vein_or_nerve:4f1511551e9d7835663d89c249d653538b0e851ae9f3cd30c9884bd569633435",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-median-en-noun-en:anatomy__a_central_vein_or_nerve:4f1511551e9d7835663d89c249d653538b0e851ae9f3cd30c9884bd569633435",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-order-en-noun-tbotEJlt:b19893fb015d4777d2cc3d7f7584ad13f86e5758d6d977f41472a8b89f302bbc",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-pancreas-en-noun-y0qWM6Sy:f53e26107a852a1d2cac61e0a561a67570daa747e3c38c6f70618c6d61f94225",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-plurality-en-noun-GtIBIkRo:54c3b61905e19ed9ca138a59927d9a8bb5a1ce53f4c3a65b33fecd2d864819ad",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WORDS",
+        "entry_id": "wiktionary:en-possessive-en-noun-EvEAYIhF:f67ceb9fe44168ed522b434d98f029983ad429f38771c85455b1bc6f20b7aff6",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-proprioceptor-en-noun-rdl8RxLR:f4a619ecb0df11b0994fe9c8564b1b9d3e4532b83bb40671f2074870fa4b099f",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-quadriceps-en-noun-ZH84nFYV:94220b0ebc990049c8603c50aa7e237eccaacd4fd1b1f30f2c38aa513e298ed9",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WHEN",
+        "entry_id": "wiktionary:en-regency-en-noun-a-5T9Ry0:27f955b8b131521af526d41bf7650968715c469c5235854f4615c768aff74807",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wiktionary:en-semilunar-en-noun-7vkEcr7u:92c7a8f5ee63d004b326435f3ba209f64307d60429608879b5a4a6a4aa951281",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wiktionary:en-tail-en-noun-en:statistics:4b43913b6e0f0600b6ccb3cf5d03e1db42f6412ed615c9ebc802649cbe8320a8",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wiktionary:en-unreality-en-noun-kI5sOzXu:6baad8e4ab794c0eba496fc9a1f04fdd3dc6152f8e5c3d4d1e473ce0e67d95be",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wiktionary:en-uterus-en-noun-tbgLMDu6:2ca172324d086a083d99000ff64cab08658702e6a915fc41674e36f2f8d70bbb",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wiktionary:en-uterus-en-noun-tbgLMDu6:2ca172324d086a083d99000ff64cab08658702e6a915fc41674e36f2f8d70bbb",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "wiktionary"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:abuse:abuse.v.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "verbnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:abuse:abuse.v.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "verbnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:accident:accident.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f358b0fead1aef799637ee863debb8e9010c9faf3806d392b5d281effcb6a742",
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "PART",
+        "entry_id": "wordnet:afternoon:afternoon.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wordnet:anger:anger.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:arrest:apprehension.n.04",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:arrest:apprehension.n.04",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wordnet:arrest:arrest.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMEONE",
+        "entry_id": "wordnet:arrival:arrival.n.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wordnet:bank:bank.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "SOMETHING",
+        "entry_id": "wordnet:bank:depository_financial_institution.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:buying:buying.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:buying:buying.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:cat:cat.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:change:change.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:cleaning:cleaning.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:cleaning:cleaning.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:collapse:collapse.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:colon:colon.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:cornea:cornea.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:cut:cut.n.17",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:cut:cut.n.17",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "INFER",
+        "entry_id": "wordnet:deduce:deduce.v.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:duck:duck.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "INTENSITY",
+        "entry_id": "wordnet:extremely:extremely.r.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "adverb",
+        "sources": [
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:femur:femur.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:finger:finger.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:finish:finish.n.05",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:fire:fire.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "PART",
+        "entry_id": "wordnet:front:front.n.09",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "CAN",
+        "entry_id": "wordnet:guide:scout.n.04",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:hand:hand.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:head:head.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:heart:heart.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:heart:heart.n.02",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:heart:heart.n.07",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:hoof:hoof.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:incident:incident.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "INFER",
+        "entry_id": "wordnet:induce:induce.v.04",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:injection:injection.n.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:injection:injection.n.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:kick:kick.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:kick:kick.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:legislate:legislate.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:legislate:legislate.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:ligament:ligament.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:lip:lip.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "CAN",
+        "entry_id": "wordnet:literate:literate.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:liver:liver.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:man:homo.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:marrow:marrow.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WORDS",
+        "entry_id": "wordnet:meronym:meronym.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:molar:molar.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:myocardium:myocardium.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:patella:patella.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:promise:promise.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:promise:promise.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:push:push.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:push:push.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:pyramid:pyramid.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "DO",
+        "entry_id": "wordnet:repair:repair.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:repair:repair.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:salamander:salamander.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "entry_id": "wordnet:self:self.n.02",
+        "bank": "I",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "founder_approved:person_reference_boundary",
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "entry_id": "wordnet:self:self.n.02",
+        "bank": "YOU",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "founder_approved:person_reference_boundary",
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wordnet:senility:senility.n.02",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:shark:shark.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wordnet:sleeping:sleeping.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:stapes:stapes.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "HAPPEN",
+        "entry_id": "wordnet:sunrise:sunrise.n.03",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "INFER",
+        "entry_id": "wordnet:surmise:surmise.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:tesseract:tesseract.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BODY",
+        "entry_id": "wordnet:tetrahedron:tetrahedron.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:thigh:thigh.n.01",
+        "expected": 0,
+        "observed": 0,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WORDS",
+        "entry_id": "wordnet:troponym:troponym.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "BE",
+        "entry_id": "wordnet:unattainableness:unattainableness.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "INTENSITY",
+        "entry_id": "wordnet:very:very.r.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "adverb",
+        "sources": [
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WANT",
+        "entry_id": "wordnet:want:desire.v.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "verb",
+        "sources": [
+          "docs/program/LEXICON_CONSTRUCTION_DESIGN.md",
+          "sentiwordnet",
+          "verbnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      },
+      {
+        "bank": "WHEN",
+        "entry_id": "wordnet:wartime:wartime.n.01",
+        "expected": 1,
+        "observed": 1,
+        "pos": "noun",
+        "sources": [
+          "sentiwordnet",
+          "wordnet_hierarchy"
+        ],
+        "code": "IDENTIFIED_CORRECT"
+      }
+    ]
+  },
+  "semantic_audit_scope": "SUPPLIED_LABELS_NOT_A_PROOF_OF_UNLABELLED_CELLS",
+  "model_scope_audit": {
+    "code": "NO_SCOPE_REJECTION",
+    "outcomes": {
+      "NOT_APPLICABLE": 127
+    },
+    "records": [
+      {
+        "entry_id": "gse_closed_class:conjunction:and",
+        "request_id": "2a071f2ee8a168b6d0d5fcf91fbc4d2b731e175b47391babc1e886181fa817cc",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:conjunction:and",
+        "request_id": "31e8c62a905a7330882e54b9dd7cb888eb8b02a77a0d80bbf25d8f69cd585046",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:conjunction:that",
+        "request_id": "30b02e1acf40a1453f2ca5052821a55e22744ae4767518a4d825f85df20c69e7",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:conjunction:that",
+        "request_id": "db56c6da06184337f84ce654fa1a1b10ae4f07f5543234214255943900debd0b",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:determiner:a",
+        "request_id": "e3882a6081c75ced2cf068f3d8a6511592ae8f9e0edcee048d8fa887e2b4f6f3",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:determiner:a",
+        "request_id": "9fb061de61acdb61f8139178ff4068f8857b36ffa0c91bbc04ec4b3eb40b54c6",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:determiner:that",
+        "request_id": "b84761e58e53d24bc4662f984557fcb2b7baac0bac8093101687dae8f7e952f9",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:determiner:the",
+        "request_id": "fa8567e14251d0187fbfe9946a06a7c50cbdaf44b1052d39e44e9f90ddbcbd01",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:determiner:the",
+        "request_id": "59fa20acbba0e4094af6caafe937e83ba87f8167a6423f7f1ed7657efb93900b",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:preposition:of",
+        "request_id": "518dcb60873bfd6aa723ee6060427f952d86d35e8fdaae038abcbb27e79d2bf3",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:preposition:of",
+        "request_id": "451c519118a2d48c10d1fa0addd926ae8ee59c69bf6869982c0e89d06a31ab39",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:preposition:to",
+        "request_id": "2f031c7231c43012f8594645d3bbbd8c083dd70e536f75c3a56bf654c779ea4d",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:preposition:to",
+        "request_id": "6e6ffb03f329935bd3b24bcc68d6c239b7fd24d93ba7db93f360d85ca75bbd64",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:it",
+        "request_id": "3205f202a9a9aafe0e98a1b8c14762751a3b2beb19ee66fa1942a0595a872c2b",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:it",
+        "request_id": "1e0e1a81f43b59aea258da78b5efcf958fe6787097ef5aa92d696223a4903657",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:me",
+        "request_id": "0afbc9d010062eb7e3c09b34c9f40ce9f0544873292c77176876e84f15b8c8e3",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:that",
+        "request_id": "c97c70076314994b6dd28632b87fe8dc7a7f96fbce12a0915cfb25aa450a3023",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:that",
+        "request_id": "22c5ffa0d5a36296605d9d46fc85ba3d7339f180ce89881951d54e176d0563f7",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:we",
+        "request_id": "26d3d46d4b8a7173c3725751712b566a26de5f8f59678e477b73a8815a6cca7b",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:what",
+        "request_id": "f189bf67b934eb3a7990887168ce53f036f858b6da0148733d67535f41023fe8",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "gse_closed_class:pronoun:what",
+        "request_id": "d5031fe8d6d7ff0198edf1ad1dd1fb5de96c57df7956daead9bd48ce80ba285d",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-I-en-noun-3MiJga7v:8371195b6840d4247b286cfa444c70d32e88c4ef839ad74d2881eb7513dc7dc4",
+        "request_id": "0c2aebb00a86a174c2f8dc3bb9a355d40f29b6347cf85429f6f0bfa43f9bd2c0",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-I-en-noun-EtkDupl5:546710b8ed681719bfc29c868cdd6f4f0e9c847254884e4038f8c9f1dd1e2272",
+        "request_id": "43004ec883972983318969856d1ba42527c13624783e576a78a19d972e02a0ce",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-I-en-noun-Fq6lUwfd:55da473bde1778f1e616fe8da78b96768f179795831ad40eef40ad3986be94af",
+        "request_id": "36d968e5a23aa53317cbbea23973c3af1a7f9889103dc6fc4b04afb6d099d9cc",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IN-en-noun-en:Q412550:941833cad40356b3bd5c110b0fec4339eafdeab9343af13338bc4608a14e6bee",
+        "request_id": "034556609af855b8e965c0943f3658f4e6d7b4ad49ba4f1130340b8169340944",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IS-en-noun-BA6SV6p2:aa60f55d1576821ca8608f8d332b2a1aed2f2da9586992b27475b520d81918aa",
+        "request_id": "5115783ec686d7ee27fac754aef400bfe556267be8fd6c730aa458ef02f7d0ce",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IT-en-adj-N0V58kbS:520df74924d176806d07ce216ab3eb04aeb3e54e2dde3fc6ebd104298b8cecdc",
+        "request_id": "e87438b48a7fd39d7a310bdf98a58a8210fbdae81fecbb34ae77abbf4b70e846",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IT-en-noun-en:inclusive_tour:c2d32c6227cad5ab309460a5887e854a902542df564dfd27bf75236a4c215fd2",
+        "request_id": "3683680181c0b9297d7c446b903b0255be88e925b2f814eae9598ea59eaca0e3",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IT-en-noun-en:information_technology:e92356d7754f89656f508b08336bd147d3900d0f1f96014ef29b8a882ccabbc1",
+        "request_id": "195e9d1caf557c7113e311ac67207ea6cfdc9c56fa6e8b7dfd532cdb813fe52a",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-IT-en-noun-en:intercept_time_method:c3a1ecc4816b07749d8ce4e4fd529fb8da92b09d4bb84665fb231af6ab7680a2",
+        "request_id": "c80a9f09e9117dcca894c4d145d2c6fadc5e895700a04665cdb14881feae4f59",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-ME-en-noun-OM6mL~L4:aa06572147c7cd5c40fcc46fe83ea4588eec1fdbe3675205a203acfd1f99749f",
+        "request_id": "b2d4e03d7d903f403d8b0cb60e42636f128666087fa314579ec3f00e6f8ba0b2",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-ME-en-noun-Ptu9i8C1:0e41f66e6807c916bb217aa6cdb975da7f3fc2584a82fa30a4d1d44bb88fbae5",
+        "request_id": "56fa1ca1cf84046d139297c9f96f352263857536ef73d03653b69cc24601ba89",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-WE-en-name-OLZQZdM9:9f5bff1b53bc902ef73f8ab6a0c5a1ec81ebed8a1c6fcac7f96ef05be213a561",
+        "request_id": "cf6505460ea5b109f04060c0fa19942cbb91475b57f84b27439983bdfbbaab16",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-WE-en-noun-fbTQ6cua:0fff5b03d41ef8d6ec83b18ba0f366177a18a9c71cd33a08a81d9c2d233c1afd",
+        "request_id": "7b6de1c98f306017d726783e17dfdb97eca94c9dbf1794c5997e3af26cbc9ebc",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "request_id": "cbbf0444453758575e38ff8f6403b1af61d97e51446bd28dba37c21b4b4eec8b",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "request_id": "d66faa676298ff88450423d3a9b7e97ddf4f7dc3fe6f5095440692590ed6e7d3",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-0mwj1dYY:7234799d123248384c3484c387b692b48d20910a2b9dc802284d97c3ffd7624b",
+        "request_id": "330f4ddeb250948f2b7a8b3fd35db282fbd70bc3b87f8041e2356b50a6d6691d",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "request_id": "1ae74b314ded05bf39f867c990278f68c4d9e1815b878773bb2e140d71090686",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "request_id": "79e12d04da9ed2cef3ca99a7815a5f66d0c947913bb75fad496779c0dc5cf992",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-D6-sNozV:dc51e3c48f665cca6ad321b7a04562ddfe2bd9a092c70d12ec980d043e729d05",
+        "request_id": "c36c21a78616e28a5f5a4f775a835573fca0fdadd5756e3d442459ae349000be",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "request_id": "6a6dc1ce53e84ebe67bc9ca533ecb7852f69e08cac0bf74882f482ce0a9bbc9b",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "request_id": "291b6039d959c0fd581ac68be660fd5b6e3d1523ade0265ad1283a8634f84960",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-name-j8uMPsK5:a9147949697f6d435e78334c0782cc583f11017268be883b08dec5d6303d3b9e",
+        "request_id": "3a36947628adf5289b9f806e56e71376e9341df0af8e034a66433a1a84fac542",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "request_id": "9aba89c887a6650396d34178405f589365fb498790b6be8a29762deb4ff5672e",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "request_id": "3991bcd7de5c6bfaffbf1682a5c3f74bd97b970a8338308d47851fbf270a67c6",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-You-en-pron-xI8HvWFm:9a4843015ee1e368f28fc60cf88240ef0dd2812f22b7f698d6cdd53205fdd5e2",
+        "request_id": "b43b324c19756a015e58ace1d052ec38f08f556b8e199ec9dc63456dbc8c5967",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-heart-en-noun-en:Q1072:181adf258580fcb213e17539d733e06f42748edd8540a6e0b1d3b165d6257de4",
+        "request_id": "7bb78337f09b4467171aeefabb9f5701d63e054866d702009ec57c34dbf4b065",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f358b0fead1aef799637ee863debb8e9010c9faf3806d392b5d281effcb6a742",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-what-en-adv-K9DA82LL:fa552fc249723d9d13e1554416cb720e68f7a4aa5d0c13bf245db8712d64bbbd",
+        "request_id": "0ba18fac1f237ff8c7f785cded0854bb8bd0c6eaea4f465bf602de5e886de739",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-what-en-adv-ts39e90S:bd4e6702f3438e09ac47e2bb89a9faa70d0c5866542673825d8ef0fd4814485c",
+        "request_id": "c0ea33f301aa68377eecd86dca029313e7b744c5a26c972b2f6e541e742db425",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-what-en-noun-1v4QWe46:b077c21a4fbb4d277828f0b41e773b84f736e9c68ba3e617a1ecbab698da0642",
+        "request_id": "3a79e37cb5d58406039c296ef72a165a427a4ee1d89e5184b3e5c7df0d3c8f89",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-what-en-noun-4k94vVfO:099f683199df0389fa2a4649f864a72adee6238aab22f20fdcaf85e5feb4d9ae",
+        "request_id": "1f02c4ec01da0af2e581a4e33f5c1d6eaf36b7fd90c43ad25a3e2805f80777db",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "request_id": "3c7c022168a1c49d4965b247a6e75792abaeb65920c06a65c6f720027f1d56e7",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "request_id": "d1011646a35359738639628c5ac7514c3f1f5c4aeb6425ab9cd0d0339612bc06",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-UalyzIdG:d04627490a2714881a4178559595efe9f28cff73b7a305e51d243697bbad62f1",
+        "request_id": "ec928ac6295798416c07bc055773ffb19eee7cdb10ab576afb94cf03c573812f",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@9ed4ba381f34e9596c06ddb5b1797a55f9e82662facf64195963b8006a9a9620:batch@cee23fb5929847f28d46c27f4e3abefd49aea66bbb0373aa6b433b6961f251de",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "request_id": "137a5c8b9d41f60fe85ead11fcc02868996d633ede18ac6d8272e10be308ea78",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-cETw4r4E:c2d9737029a6e6b714fc84955a847f0550b8590fd621db3e61186923b1edf8e3",
+        "request_id": "1529ad94dbde4d3b0f2fb3eecd1e1195e3f80b008d7e8d5e01a2073781398db0",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "request_id": "f67f2ceb63185667bb1f28c02f37077697dae355a7eea8cd773decd6855fdb0a",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-det-ppKe~vKx:a3b429ce71e000e71911e421b6b42cf0aa906db74d3300276f8bb83cd105d372",
+        "request_id": "daab37b89d001e438a9cafb703498e2d592313bb3e4233d6e15511ab2f0bbc85",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "356ff8db46e57cc2926c609e0faf245b691c2219a15baf8dcf0dcb75423cd6e5",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "fcc7cdce709a4318cdc3b482996f849a39039dd5a902529364df031c0000a0b5",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "b58ec9b342fd1438d8895580b570e1c9f5162868ee158710b77d181137281501",
+        "bank": "BE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "017cf19a03a6ddf8e805ee3fb3688e560cc806a690fe8728a944c0fcdbdb923a",
+        "bank": "BECAUSE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "76cb7a69aaa0ef2a0e06d96e08757e5490d221d08b15ec00e92343390ef7566e",
+        "bank": "BEFORE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "f67339fab869064c948d111536f4ddb8e4e8d183eee048d6d8fbd311136247bb",
+        "bank": "BIG",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "0f9bfdd82fb70ecc4a08a1ffd149e73c03ff8d4a31d6dad4c583f9c114fc3869",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@d064293c2541aa8d8c8c96c95cd2750ad43c03f2a4dd25bd71d8c233de90a449:batch@faae179fbd2a0ed19462c54a10d17e23811f9b1b5b7f9c89b8ca3d19cbc9130f",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "3ab3cdfc0bb36efa63fabc82b2f9cd22bf9c55878ca18cde3a6abf6d899422a1",
+        "bank": "CAN",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "c1307ae86042d301c1a905a420ee4bafbb4384bece672afdaa66f5e7ac5380a8",
+        "bank": "CAUSE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-noun-2YsMsj8i:1a8439a0a38c9ceda0caa33ff6c2362469673c22b330b24292e5176d7be33894",
+        "request_id": "eb742b15a9b864787081a1ee63d183c5c81cc1ed8fd733eb3879707fea9562eb",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "request_id": "f75c5d1c1274a526de2682ba271b3813b81d55c4dae1d3627e6568984674518d",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-2LSqalKj:9668929a339a55583add1f0d51a0efbb36feddcabea20443226ca03da474da55",
+        "request_id": "bbab931388d0a55ede24e5dd8c97829f1f7616f49b0dee058f38459e316dc7a9",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "request_id": "b16448b47ada4bbc06ff36ad38e9d0939010b96fb97be21f9b1df8eab9ba90b4",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-HaQwzWRI:1295d3d5da7dba78418a90d60168f97d251449dce1d5103ed163a088427e1b70",
+        "request_id": "6bdbae09471836b651734f0b482a35f82f5be54998ae3a64e566aa082d42d296",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "request_id": "d3eae713b6e76397ea30d9dcc5dfff3e7fc1ae5bd59474bade4cf36c69e822c7",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-M7hbUBCF:d42e9c16442d37ceb686b1d8af8566d0be8e70ac86931168ccc00c8cd448cf8b",
+        "request_id": "ba0abecc8f0c3658e5a1ebbd4b49b31df9186dbdcfd3efabae41d086bfea7e96",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "request_id": "555684b22916ab97716bb748b3e36ced737e20cc14c6f79b6d8276014e9453eb",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-en:dummy:9e5fbc823fa9cd6a73eca0b8cbace4e052e1290f9d58efd5c63c5bdc14b7e3a8",
+        "request_id": "251c29f09d298e693d9e2269924cb13215ee00f861fdc2b9e75ec1051125abad",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "request_id": "41d9bedd7378ff3c6c987fe5ff56c8a1ded792bb45514963e3938caefd81a591",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-en:indefinite:8f3e6ad44f8472d9822a64093a60cee3f0eaa9dea9048db393e675b3b14a63a3",
+        "request_id": "72179a30f5917ee5e5f6ff6230f41425ec52e5fdf5ddd03ae9115e743300b068",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "request_id": "bbc82a42bc5b2d9317979a73a11e3cce9d2ae430f0bef2775b4696ff67a4c193",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-rwcdiI~X:d0073ae2c947dca6309e0fa19f668f1f93df915c15338c687a4c083768cac625",
+        "request_id": "7b75588cb8d9438be6a2ffdc3f8ec641daff124e99d267e18c1b9866b06f0c19",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "request_id": "b90338648757d276bed13bea7bc1a291728f9e107b4d8c62644ca4f999df438f",
+        "bank": "ALIVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@6c6cdffea1ee2388581efb0ecd41564ed17195aaa529af4c87fe61ee250f4a64:batch@c4735c89db17f70c4594305dd05a0125671eb2cf266c13339c21b7e0b9b998f6",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wiktionary:en-you-en-pron-yQF~npAz:733d2918c05b6c41545666e5f0135845c02336d845c373b46f45117d7b0d0c1b",
+        "request_id": "2563d5a7515e19d02f5fe04f67a9401d3abd42a247db2539d968342c15d73a02",
+        "bank": "ABOVE",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@31030ef1d07e335abf049743e15a567abb1a7d0febbbae91351421b6b6682271:batch@489050095eeb67d04e5a46d0487f47b285c0fc9898c420dbf2868a8b2dfdf082",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:accident:accident.n.02",
+        "request_id": "85ffb4217247861587590a6956216bb225fcb99a025a55c45524eb26396cb2e0",
+        "bank": "HAPPEN",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f358b0fead1aef799637ee863debb8e9010c9faf3806d392b5d281effcb6a742",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:bad:bad.a.01",
+        "request_id": "d713521784c62cf943d387ec5e7ee033bbc6567624ec38d52f1434af6bf6c87f",
+        "bank": "GOOD",
+        "value": -1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:bar:bar.n.07",
+        "request_id": "ac057ba96eb34f9b53faefd6128ebf06b8b2daa0258fe8e6eab4724a3ea69076",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:big:large.a.01",
+        "request_id": "51f44aad7b3e000e507271c334424ff9cf1c797dadc4bb13fa703d42913218db",
+        "bank": "BIG",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:bit:bit.n.06",
+        "request_id": "98f9cae1df9a9340de47cde4720d96559a48217d945f6bb15dcd5356f06e75bd",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:block:block.n.06",
+        "request_id": "9461c008ddcdae7561636c291973c62b19b4e644f770a418670ec00493160bfa",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:cubit:cubit.n.01",
+        "request_id": "90eb0b36b07adadd349530635a01be9fd683e9292721653d2fee43958935e7af",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:digit:finger.n.02",
+        "request_id": "d7766c7c51edd560ab7fc2e8605e0b5fdbf573ebc6e773556dae11d2001c6c87",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:eager:eager.a.01",
+        "request_id": "9f80633a2f47306511cff11095684bb9617beabfc7b20beaa8148531d9b349fe",
+        "bank": "WANT",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@2c72cdc9a5d068087814eeb0324b588a61bd7d90c1e0fa56cc01c3a2ee7c572b:batch@8275ce1474f1229eaa286c9e485ee02c93fad6f922f7dbce408459ad439e71b7",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:em:em.n.01",
+        "request_id": "f03828e5ed66e8bb5e3ebef578ba28369fda1a93ccc5c510b5be3beeca1ac59b",
+        "bank": "QUANTITY",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@96e30d615d48019e52f11473ba145005d4ed2a920041cf92cc337d660cdabc42",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:explosion:explosion.n.01",
+        "request_id": "347684458201811539d87d01862cffa052ef531a354aabda05cabb988a6137d1",
+        "bank": "HAPPEN",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:exposure:exposure.n.06",
+        "request_id": "394e769c0da9ff9234db702cf0bc1f973fc63fb848422fb2ab3f78ef27549fbb",
+        "bank": "QUANTITY",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:finger:finger.n.02",
+        "request_id": "f8ffb12e387b0510aaf51fd04a4e86ce20d3ef4b9b27910f920e56d056035989",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:fingerbreadth:finger.n.02",
+        "request_id": "cc5943803d746f982845235cfeb2fb0068b396406f42c8c8345290181afd71cb",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:fistmele:fistmele.n.01",
+        "request_id": "ec426412643e90ad94930bc89933c9370d1250b08ea9d9da64094a80529afe34",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:good:good.a.01",
+        "request_id": "a232c4bc6b548c3c2d3303ea5a09ee95414c2c7a1cd6aa981353700369a8d51d",
+        "bank": "GOOD",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:grade:grad.n.01",
+        "request_id": "e694dc5f71ebe939923c4ff4046cc75364b7e179550af38744147216ad7bbf84",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:handbreadth:handbreadth.n.01",
+        "request_id": "51af0ba6779d3bb4d549db254a503049b25e0ffd5daa8e3ce5dfc387464650b2",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:handsbreadth:handbreadth.n.01",
+        "request_id": "03236389509f3c3ad005ed57cc2239c935ccf7666d9416115519e521227d9bad",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:have:have.v.01",
+        "request_id": "9d93a681c918f74086e15adf2d0291123b5ac916e5e3ab4a18d2aefc890a31bc",
+        "bank": "HAVE",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:have:own.v.01",
+        "request_id": "8aa4ee03cb3eee47198ad7684d4bedffc1b27e6e1986adb05b24103a71d46857",
+        "bank": "HAVE",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:head:head.n.11",
+        "request_id": "0f9bf3287a257995ca37165ead4e826f178624b3e6dc6068057ec0a0d1fa3082",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:here:here.r.01",
+        "request_id": "cc26c477b424adb39407265f5b6894c7a7572831ef20522f7a4182ec2dce975d",
+        "bank": "HERE",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:i:i.n.03",
+        "request_id": "1f4d632588509b22afcfbf45db8382cbbd38e5dd22fab3917c1be561f7e40fb4",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:i:i.n.03",
+        "request_id": "dec5ad83c38bfeadffd9bd9576817155dc0c3b6b51b8ff641039bc51e0b5007b",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:i:one.n.01",
+        "request_id": "e2d657d4f05bdbd3c90143fd842057cf24d098eac2b4c69d092d2dab3db9ee9f",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@25d2a12067b281d742dc77401f754ec70cea123122b8415a098ebcca7efaceaa:batch@501a30076a83fb46d9262a8fecb6e8c55a250dfa1f48f97d87dcfa121ee0b47d",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:is:embody.v.02",
+        "request_id": "497a695b9f1c8b44a52e5479551d9440ad401f434d301688137a30d6266d4e83",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1902ce2fa596ab12c066fff8e97b976c3e0fd0007f432334f97af2401fb6959e:batch@d9e0149bff4b7302cdeb67aac876340be23112e7e211c8ca5a048efab3d8ec55",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:it:information_technology.n.01",
+        "request_id": "bfc66f7825e23381ba8b74a4a43ea72003ece1b4b65acecfce4f429000735ed5",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:it:information_technology.n.01",
+        "request_id": "37fb3c35a8e4963532b7f18df1c5339fc1bc11b3fdb8de88c7b2532e39ec4cfd",
+        "bank": "BODY",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@1972c197aa3b72fddf2084b0caca38549de51127f1bd3ebfa3890028295e4b4b:batch@7dca8c7e77a91b51ce48c954cfbfe17054aa821dde95466fa5a100c60ee55bec",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BODY_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:l:lambert.n.01",
+        "request_id": "bf179886266f8dc1e45157e69ebcd8f7130c452b1717fccd55616c842bbbadf6",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:leap:leap.n.01",
+        "request_id": "16cf5eea41cecd1a36300c620dab5135edf5ed6b6025cafb0bc03a1b7ef4df2c",
+        "bank": "HAPPEN",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:line:agate_line.n.01",
+        "request_id": "f0a3d766d05266c772be2ad556aa78130299710030477561e3a1568fd12e6f9f",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:ma:milliampere.n.01",
+        "request_id": "c43c4f6e10e0fe12480074d741f8119b352cc1b073460d6a0cd67406e2d3efa2",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:minute:minute.n.04",
+        "request_id": "d22c1b3d43e963ac2efeccf59db7e3987d3e9ce0e03d87222773de61ff610bfc",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:palm:palm.n.02",
+        "request_id": "fffcdf918c2bbb482fff0fb54935b91db320304aee305a2ea36b6740545862aa",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:point:point.n.10",
+        "request_id": "0788b6fec4c894644de46ca9ccf0cd93a32df4cb09e03568e656c41119d1f1ee",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:reluctant:loath.s.01",
+        "request_id": "69813abf26590a9cb67d79147908408612fa629c8c100847b075922c3fee2812",
+        "bank": "WANT",
+        "value": -1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@2c72cdc9a5d068087814eeb0324b588a61bd7d90c1e0fa56cc01c3a2ee7c572b:batch@8275ce1474f1229eaa286c9e485ee02c93fad6f922f7dbce408459ad439e71b7",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:second:second.n.06",
+        "request_id": "7122e4040c968395515902392147c4248f5e3602783e9f399d1267ceeeea852a",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:section:section.n.07",
+        "request_id": "92bb138cd28e4bd2448450ba15e4942ad11c917289e2116d1477187cef631640",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:small:small.a.01",
+        "request_id": "1da4cf1cc20468bb64ff1b6c03c7a4cb057a2e09eef472e013ea718a58778d00",
+        "bank": "BIG",
+        "value": -1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:span:span.n.04",
+        "request_id": "35d73d1e5e660461f72273a6fdb673c9bf3ceeb800a0e221804073450fe57c71",
+        "bank": "BODY",
+        "value": 1,
+        "source": "model:gemma4:e4b-it-q4_K_M#dc35e8d9c6061baa6f0fa870975ab6932e2542b579b13ea0f199fa4bb7300c9c@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@f3c58621f16f92e407f3ef936d1828947170c68434594662ff806ea6edd1c092",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "ADDITIONAL_EXACT_LEXICAL_SOURCE"
+        }
+      },
+      {
+        "entry_id": "wordnet:unit:unit_of_measurement.n.01",
+        "request_id": "e3735c673fc5c9e23fa4f73c68503b4e88f917d8b050ef2c95526f54e0cfb1a0",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:whisper:whisper.n.01",
+        "request_id": "3233207fe62a68936d85ee53e5dfdab86a8856b96b67d1f777faabdefd53a581",
+        "bank": "SAY",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@f45ed12218fe9fb2d6b8fd92b4ed387ee514a83242f1334bebf7d900b25e1265",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:word:word.n.07",
+        "request_id": "c24fdcbb21ddf8aadf76b7705b696c26ae4a1c5e3fea907434dd6843af6c806f",
+        "bank": "WANT",
+        "value": 0,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@e64675d51a3f605f91c8109869c887738d75c564c132a530432b217bf7d898eb",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      },
+      {
+        "entry_id": "wordnet:word:word.n.07",
+        "request_id": "20bf9fbefc3510b634d1a6dc9ac19625f1aa57ca7d0f7af558342a1d236c7727",
+        "bank": "QUANTITY",
+        "value": 1,
+        "source": "model:qwen3.8:27b-q4_K_M#25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e@438017173ae588e0ae4b7975dae9e6fa3c2ef19c9a8ce5d247c746c59f4c905f:batch@96e30d615d48019e52f11473ba145005d4ed2a920041cf92cc337d660cdabc42",
+        "admission": {
+          "code": "NOT_APPLICABLE",
+          "reason": "OUTSIDE_POSITIVE_BE_SCOPE_CHECK"
+        }
+      }
+    ],
+    "scope": "ACTIVE_MODEL_RECEIPTS_ONLY",
+    "not_applicable_is_semantic_approval": false
+  },
+  "path": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-022.db",
+  "sha256": "8d87c5284e91af72cd4f89494e3e89979f9c638a2daf7356180660988cbbb62e",
+  "previous_path": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/2026-11-12/sparse-release-021.db"
+}

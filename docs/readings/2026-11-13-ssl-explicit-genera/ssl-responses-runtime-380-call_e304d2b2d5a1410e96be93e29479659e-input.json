@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name, wanted in [('GSE/api/encoder.py',{'encode'}),('GSE/discourse/profile.py',{'TextProfile','text_profile'}),('GSE/symbolic/lexical_grounding.py',{'NativeSense','_senses','select','_primary_records','_primary_frame_support'})]:\n s=Path(name).read_text(); a=ast.parse(s); print('\\n###',name)\n for n in ast.walk(a):\n  if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and n.name in wanted:\n   print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

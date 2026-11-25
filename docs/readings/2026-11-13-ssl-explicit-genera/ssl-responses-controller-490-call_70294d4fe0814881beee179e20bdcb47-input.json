@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-moral-writer-exit.json','ssl-api-controller-common-base-exit.json','ssl-api-runtime-current-coordination.json','ssl-api-controller-blockers.json']:\n p=n/name\n print('\\n###',name)\n print(p.read_text() if p.exists() else 'NOT PRESENT')\nprint('\\nSTEERING FILES')\nfor p in n.glob('ssl-responses-controller-steering.json'): print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

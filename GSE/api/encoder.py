@@ -816,6 +816,8 @@ class GSEEncoder:
             clauses=clauses,
         )
         trace.vector = sentence_vec
+        if self._definition_database:
+            grounding.bind_qualified_dimensions(trace)
 
         return trace
 

@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport ast\nfor folder in ['GSE/curation/lexicon_builder','GSE/curation']:\n for p in Path(folder).glob('*.py'):\n  s=p.read_text()\n  if any(x in s for x in ['class SourceObservation','class SourceScope','class Constraint','class NativeEvidence','source_structure']):\n   print('\\n###',p)\n   t=ast.parse(s)\n   for n in t.body:\n    if isinstance(n,(ast.FunctionDef,ast.ClassDef)) and any(x in ast.get_source_segment(s,n) for x in ['class SourceObservation','class SourceScope','contextual_constraint','scope not in']): print(ast.get_source_segment(s,n))\nprint('\\n### helper')\np=Path('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_runtime_eight_operations.py'); print(p.read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

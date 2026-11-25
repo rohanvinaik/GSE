@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\nfor filename,names in [('GSE/curation/lexicon_builder/completion.py',None),('GSE/curation/lexicon_builder/residual.py',{'complete_dictionary','_historical_request'}),('docs/readings/2026-11-13-ssl-explicit-genera/ssl_api_checkpoint_canonical_projection.py',{'run'})]:\n p=Path(filename);s=p.read_text();a=ast.parse(s);print('\\nMODULE',p)\n if names is None: print(s)\n else:\n  for x in a.body:\n   if isinstance(x,(ast.FunctionDef,ast.ClassDef)) and x.name in names: print('\\n'.join(s.splitlines()[x.lineno-1:x.end_lineno]))\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-controller-grouped-source-v3.log','ssl-api-controller-moral-witness.log']:\n p=n/name;print('\\nLOG',name,p.stat().st_size);print(p.read_text() if p.stat().st_size<10000 else 'LARGE SAVED NOT DUMPED')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

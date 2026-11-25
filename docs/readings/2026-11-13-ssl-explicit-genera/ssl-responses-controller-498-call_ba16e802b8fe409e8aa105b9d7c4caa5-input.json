@@ -1,0 +1,5 @@
+{
+  "command": "pwd; python3 - <<'PY'\nfrom pathlib import Path\nimport json\np=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ('ssl-responses-controller-steering.json','ssl-root-immediate-publication-status.json','ssl-root-immediate-publication-result.json','ssl-root-immediate-publication-failure.json','ssl-api-checkpoint-delivery.json','ssl-api-controller-common-base-exit.json'):\n q=p/name\n print('\\n###',name)\n if q.exists():\n  d=json.loads(q.read_text())\n  print(json.dumps(d,indent=2) if q.stat().st_size<18000 else json.dumps({'bytes':q.stat().st_size,'keys':list(d)},indent=2))\n else: print('NOT PRESENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 60
+}

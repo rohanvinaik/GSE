@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json\nfrom pathlib import Path\nfor p in [Path('GSE/primitives_v2.py'),Path('GSE/curation/schema.py')]:\n s=p.read_text();t=ast.parse(s);print('BANK',p)\n for z in ast.walk(t):\n  if isinstance(z,ast.Call) and any(isinstance(y,ast.Constant) and y.value in {'EVALUATION','evaluation','EVALUATION_AXIS','GOOD'} for y in list(z.args)+[kw.value for kw in z.keywords]):\n   text=ast.get_source_segment(s,z)\n   if len(text)<5000:print(text)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-api-runtime-current-coordination.json','ssl-api-runtime-validity-repair-regression.json']:\n print(name);print((n/name).read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor f in [w/'candidate-canonical-auxiliary.db',w/'checkpoint-teaching.db',n/'ssl-api-controller-moral-writer-job.json',n/'ssl-api-controller-moral-writer-exit.json']:\n print(f, f.stat().st_size if f.exists() else 'ABSENT')\n if f.exists() and f.suffix=='.json':print(f.read_text())\nprint('OWN HELPER FILES')\nfor p in n.glob('*qualified*'):print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

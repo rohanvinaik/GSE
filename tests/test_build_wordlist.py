@@ -53,3 +53,36 @@ def test_empty_corpus_is_not_a_successful_resource_replacement(tmp_path, monkeyp
     with pytest.raises(ValueError, match="EMPTY_VALIDITY_CORPUS"):
         build_wordlist.build_from_kaikki(source)
     assert not build_wordlist.OUT.exists()
+
+
+def test_native_spelling_only_exclusion_preserves_independent_senses(tmp_path, monkeypatch):
+    source = configure(
+        tmp_path,
+        monkeypatch,
+        [
+            {
+                "word": "bycicle",
+                "lang_code": "en",
+                "senses": [{"tags": ["alt-of", "misspelling"], "alt_of": [{"word": "bicycle"}]}],
+            },
+            {"word": "bicycle", "lang_code": "en", "senses": [{"glosses": ["A two-wheeled vehicle."]}]},
+            {"word": "mixed", "lang_code": "en", "senses": [{"tags": ["misspelling"]}, {"glosses": ["Combined."]}]},
+            {"word": "separate", "lang_code": "en", "senses": [{"tags": ["misspelling"]}]},
+            {"word": "separate", "lang_code": "en", "senses": [{"glosses": ["Distinct."]}]},
+            {"word": "rareform", "lang_code": "en", "senses": [{"tags": ["alt-of", "rare"]}]},
+        ],
+    )
+    report = build_wordlist.build_from_kaikki(source)
+    assert build_wordlist.OUT.read_text().splitlines() == ["bicycle", "mixed", "rareform", "separate"]
+    assert report["native_spelling_only_words_excluded"] == 1
+    assert report["native_spelling_forms_with_independent_membership"] == 1
+    assert report["semantic_assignments"] == 0
+
+
+@pytest.mark.parametrize("senses", [None, {}, [None], ["misspelling"], [{"tags": "misspelling"}], [{"tags": [None]}]])
+def test_invalid_native_senses_cannot_replace_membership(tmp_path, monkeypatch, senses):
+    source = configure(tmp_path, monkeypatch, [{"word": "encoder", "lang_code": "en", "senses": senses}])
+    build_wordlist.OUT.write_text("preserved\n")
+    with pytest.raises(ValueError, match="INVALID_KAIKKI_SENSE_RECORD"):
+        build_wordlist.build_from_kaikki(source)
+    assert build_wordlist.OUT.read_text() == "preserved\n"

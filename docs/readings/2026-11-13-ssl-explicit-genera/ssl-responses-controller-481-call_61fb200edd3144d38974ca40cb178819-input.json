@@ -1,0 +1,5 @@
+{
+  "command": ".venv/bin/python - <<'PY'\nimport ast,json,sqlite3\nfrom pathlib import Path\nfor p in [Path('GSE/primitives_v2.py'),Path('GSE/curation/schema.py')]:\n s=p.read_text();t=ast.parse(s);print('FILE',p)\n for z in ast.walk(t):\n  if isinstance(z,(ast.Assign,ast.AnnAssign)):\n   text=ast.get_source_segment(s,z)\n   if text and (text.startswith('EVALUATION') or text.startswith('SIZE =') or text.startswith('EVALUATORS')):print(text)\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera');f=n/'ssl-api-coverage-qualified-frame-seam-facts.json';x=json.loads(f.read_text());print('C FIELD KEYS',list(x))\nfor k,v in x.items():\n if isinstance(v,dict):print(k,list(v)[:20])\nprint('LATEST B FILES')\nfor f in sorted(n.glob('ssl-api-runtime-*'),key=lambda p:p.stat().st_mtime,reverse=True)[:10]:print(f.name,f.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nimport json\nfrom pathlib import Path\nn=Path('docs/readings/2026-11-13-ssl-explicit-genera'); w=Path('data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint')\nfor f in [w/'canonical-auxiliary-revision.json',n/'ssl-api-controller-moral-witness-exit.json',n/'ssl-api-runtime-eight-operation-progress.json',n/'ssl-api-controller-root-handoff.json']:\n print('\\nFILE',f)\n if not f.exists(): print('ABSENT');continue\n x=json.loads(f.read_text())\n for k,v in x.items():\n  print(k, json.dumps(v) if not isinstance(v,(list,dict)) else ('keys='+str(list(v)) if isinstance(v,dict) else 'count='+str(len(v))))\nf=n/'ssl-api-coverage-qualified-frame-seam-facts.md';print('\\nC FACTS\\n',f.read_text() if f.exists() else 'ABSENT')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

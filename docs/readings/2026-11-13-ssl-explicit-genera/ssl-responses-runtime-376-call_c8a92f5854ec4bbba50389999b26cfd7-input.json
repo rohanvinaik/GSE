@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nfor name in ['GSE/symbolic/expression.py','GSE/symbolic/types.py','GSE/symbolic/atoms.py','GSE/discourse/profile.py','GSE/api/encoder.py','GSE/api/trace.py','GSE/curation/external_sources/nsm_chart.py']:\n p=Path(name)\n if not p.exists(): continue\n s=p.read_text();t=ast.parse(s);print('\\n',name)\n if name.endswith(('trace.py','nsm_chart.py','atoms.py')):print(s);continue\n for n in t.body:\n  if isinstance(n,ast.ClassDef):print(ast.get_source_segment(s,n) if n.name in ['Atom','Phrase','TypeAssertion','Entity'] else f'CLASS {n.name}:{n.lineno}-{n.end_lineno}')\n  elif isinstance(n,ast.FunctionDef):\n   refs={x.attr for x in ast.walk(n) if isinstance(x,ast.Attribute)}\n   if refs&{'word_primitives','lexical_evidence'} or any(k in n.name for k in ['entity','qualif','attribute','type_assert']): print(ast.get_source_segment(s,n))\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

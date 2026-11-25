@@ -1,0 +1,5 @@
+{
+  "command": "pwd && python3 - <<'PY'\nfrom pathlib import Path\np=Path('docs/program/LEXICON_CONSTRUCTION_DESIGN.md')\ns=p.read_text(); start=s.index('## Recovery contract'); end=s.find('\\n## ',start+4); print(s[start:end if end>=0 else None])\nd=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nfor name in ['ssl-responses-runtime-steering.json','ssl-api-runtime-live-closing.json','ssl-api-runtime-qualified-frame-integration.json']:\n p=d/name\n print('\\nFILE',p)\n print(p.read_text() if p.exists() else 'MISSING')\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}

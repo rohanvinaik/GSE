@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast\nterms=('domain','qualif','frame','constraint','polarity')\nfor root in ['GSE/symbolic','GSE/discourse','GSE/api']:\n for p in Path(root).glob('*.py'):\n  t=ast.parse(p.read_text()); rows=[]\n  for n in ast.walk(t):\n   if isinstance(n,(ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)) and any(s in n.name.lower() for s in terms): rows.append(f'{n.name}:{n.lineno}-{n.end_lineno}')\n  if rows: print(str(p),'; '.join(rows))\nprint('\\nWhole structure')\nprint(Path('GSE/structure.py').read_text())\nprint('\\nLexical evidence')\nprint(Path('GSE/lexical_evidence.py').read_text())\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 30
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport ast,json\np=Path('scripts/audit_lexicon_sentences.py');s=p.read_text();t=ast.parse(s)\nfor n in t.body:\n if isinstance(n,(ast.FunctionDef,ast.ClassDef)):\n  print(n.name,n.lineno,n.end_lineno)\nfor name in ['load_workload','checkpoint_result','main']:\n n=next(x for x in t.body if isinstance(x,ast.FunctionDef) and x.name==name)\n print('\\n'+ast.get_source_segment(s,n))\nD=Path('docs/readings/2026-11-13-ssl-explicit-genera')\nprint('\\nArtifact names')\nfor p in sorted(D.glob('ssl-*')):\n if any(k in p.name for k in ['final','held','gold','workload','audit-cases'] ) and p.suffix=='.json': print(p.name,p.stat().st_size)\nPY",
+  "cwd": "/Users/rohanvinaik/Projects/GSE",
+  "timeout_seconds": 10
+}
