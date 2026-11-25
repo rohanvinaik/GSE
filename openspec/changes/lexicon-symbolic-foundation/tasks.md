@@ -123,6 +123,9 @@ satisfy three rules:
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
   satellite of its cluster (`ADJECTIVE_IDENTITY_HEADS`). Word-level signs are not carried through
   clusters: measured 2026-11-25, that spreads connotation (dying's FEEL+ to "last"), not identity.
+  Sensory attributes: a head whose attribute is a visual, sound or tactile property, and its satellites,
+  carry SEE, HEAR or TOUCH (colors are SEE: 12 heads, 291 satellites; loudness and pitch HEAR; coarse
+  and fine TOUCH). Taste, smell and temperature have no prime and assert nothing.
 - [ ] SP-4 Round 2 identity roots: state.n.02 BE (Rohan's "own state denotation is sufficient for
   BE=+1"; the reserved nonbeing branch excluded), make.v.03 and induce.v.02 CAUSE, be.v.01 BE, get.v.01
   HAVE, equal.v.01 SAME, enter.v.01 and leave.v.01 MOVE; stated causatives (218 verbs) CAUSE.

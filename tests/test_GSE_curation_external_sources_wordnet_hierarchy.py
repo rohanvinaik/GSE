@@ -712,7 +712,7 @@ class TestAdjectiveIdentity:
     def test_prime_heads_and_their_satellites(self, p, synset, expected):
         assert p.to_primitives_for_definition(synset) == expected
 
-    @pytest.mark.parametrize("synset", ["happy.a.01", "red.s.01", "big.s.01"])
+    @pytest.mark.parametrize("synset", ["happy.a.01", "hot.a.01", "big.s.01"])
     def test_adjectives_outside_a_prime_cluster_assert_nothing(self, p, synset):
         assert p.to_primitives_for_definition(synset) == {}
 
@@ -781,3 +781,26 @@ class TestDerivedActIdentity:
     def test_a_related_verb_without_the_identity_blocks_it(self, p):
         # act.n.02 relates to act.v.01 (no CAUSE) and motivate.v.01 (CAUSE): nothing is shared.
         assert "CAUSE" not in p.to_primitives_for_definition("act.n.02")
+
+
+class TestSensoryAdjectiveIdentity:
+    """A head whose attribute is a sensory property, and its satellites, carry that sense."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize(
+        "synset,expected",
+        [
+            ("black.a.01", {"SEE": 1}),
+            ("red.s.01", {"SEE": 1}),
+            ("loud.a.01", {"HEAR": 1}),
+            ("deafening.s.01", {"HEAR": 1}),
+            ("coarse.a.01", {"TOUCH": 1}),
+        ],
+    )
+    def test_sensory_attributes(self, p, synset, expected):
+        assert p.to_primitives_for_definition(synset) == expected

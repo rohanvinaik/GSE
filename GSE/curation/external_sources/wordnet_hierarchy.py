@@ -264,12 +264,34 @@ ADJECTIVE_IDENTITY_HEADS = {
 }
 
 
+# A head adjective whose attribute is a sensory property is perceived by that sense: a color is "an
+# attribute of vision", loudness "an attribute of sound", coarseness "a property perceived by touch".
+ADJECTIVE_ATTRIBUTE_IDENTITY = {
+    "visual_property.n.01": {"SEE": 1},
+    "sound_property.n.01": {"HEAR": 1},
+    "tactile_property.n.01": {"TOUCH": 1},
+}
+
+
+def _head_identity(head) -> Dict[str, int]:
+    identity = dict(ADJECTIVE_IDENTITY_HEADS.get(head.name(), {}))
+    for attribute in getattr(head, "attributes", list)():
+        lineage = {node.name() for path in attribute.hypernym_paths() for node in path}
+        for root, signs in ADJECTIVE_ATTRIBUTE_IDENTITY.items():
+            if root in lineage:
+                for bank, value in signs.items():
+                    if identity.get(bank, value) != value:
+                        raise ValueError("CONFLICTING_TAXONOMY_VALUES")
+                    identity[bank] = value
+    return identity
+
+
 def adjective_identity(synset) -> Dict[str, int]:
-    """A head's own prime pole, or a satellite's head's; nothing for any other adjective."""
+    """A head's own identity (prime pole or sensory attribute), or a satellite's head's."""
     if synset.pos() == "a":
-        return dict(ADJECTIVE_IDENTITY_HEADS.get(synset.name(), {}))
-    heads = [head.name() for head in synset.similar_tos() if head.pos() == "a"]
-    return dict(ADJECTIVE_IDENTITY_HEADS.get(heads[0], {})) if len(heads) == 1 else {}
+        return _head_identity(synset)
+    heads = [head for head in getattr(synset, "similar_tos", list)() if head.pos() == "a"]
+    return _head_identity(heads[0]) if len(heads) == 1 else {}
 
 
 class WordNetHierarchyParser(BaseExternalParser):
