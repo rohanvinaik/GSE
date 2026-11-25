@@ -97,6 +97,10 @@ satisfy three rules:
   1. Rerun `scripts/lexicon_coherence.py` on the sense cores.
   2. Apply the existing population policy: conditional probability ≥ 0.85, support ≥ 40 per partition,
      held-out drift ≤ 0.1.
+     Superseded 2026-11-25: Rohan, "a constraint propagation problem, not a statistics one where you
+     mine a database for a random match with a hand-tuned arbitrary filter". Governing source:
+     `SIGNIFICANCE_WEIGHTING.md` §6, §14 and §16.7, with `Regenesis/regenesis/promotion_ledger.py`; see
+     design.md, "Superseded 2026-11-25".
   3. Admit the survivors as conditional `Relation`s and rebuild.
   Acceptance: 0 resolved values changed, the counterexamples of each admitted rule listed, ΔH reported.
 - [ ] WP-4 Symbolic read side. The relation evidence in `symbolic/lexical_grounding.py` reads senses, so

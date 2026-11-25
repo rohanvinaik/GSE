@@ -159,6 +159,29 @@ becomes a lexical value (Rohan, 2026-11-25: "Just get it to run the analysis and
 inference-driven nonsense"). A teaching fact is an owner ruling or an admitted rule. Models are used
 only as agents that execute the deterministic packages and report.
 
+**Superseded 2026-11-25, by Rohan's objection; no replacement is written here.** Rohan, on the loop as
+stated above: "You use the word 'teaching' like a child, with no desire or ability to engage in what that
+word actually means"; the significance-weighting paper articulates "how a pile of unconnected one-off
+assertions does *not* lead to full understanding"; and the proposal built on this section was "this
+bizarre tuple-hunting exercise". These statements no longer govern:
+- the **Teaching** bullet: a fact as "one committed (sense, bank) value: an owner ruling or an admitted
+  rule";
+- the **Curriculum** bullet's "(1 − 1/e)-optimal because coverage is submodular" (the governing paper,
+  §13 and §16.1a: the guarantee does not survive promotion; "Do not ship the promotion ledger citing the
+  greedy bound");
+- "A teaching fact is an owner ruling or an admitted rule" (the paragraph above).
+
+The governing sources, to be read from disk in full before any loop step is proposed (Rohan: "Tokens
+being in your context window is *not* equivalent to you re-reading [it] with the correct […] context"):
+- `rohan-vinaik.github.io/papers/Core Documents/SIGNIFICANCE_WEIGHTING.md`, all three parts;
+- `~/Projects/Regenesis/regenesis/promotion_ledger.py`, the built loop the paper's §16 describes;
+- `Semantic_Specification_Learning/01_PAPER_SKELETON.md` and `06_EXACT_SPECIFICATION_LEARNING.md`.
+
+As of this record, Part III of the paper and `promotion_ledger.py` have not been read. The identity roots
+added on 2026-11-25 beyond the release's 21 and the four approved bindings are hand-authored
+(`docs/verification/2026-11-25-identity-root-census.json`); the paper's §7 requires rules "learned from
+real recurrence — never hand-authored".
+
 ### Founder correction 2 (2026-11-25): positive identity, propagated through structure
 
 Rohan, 2026-11-25, after the build had settled 3.6% of the space: the lexicon is meant to be full, and
