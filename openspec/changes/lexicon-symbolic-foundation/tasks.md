@@ -58,23 +58,32 @@ release-022 with `word_source_agreement` and `word_senses` added; no release tab
 
 Each package names its inputs, the command it adds or runs, and its acceptance. Every package must
 satisfy three rules:
-- No package makes a semantic judgment. Judgments are owner decisions (D-1 to D-5), applied as named
-  constants with a test.
+- No package makes a semantic judgment. Judgments are owner decisions (D-1 to D-3) or stated defaults,
+  applied as named constants with a test.
 - Every package rebuilds the candidate and passes, unchanged: `tests/test_lexicon_word_sense_acceptance.py`,
   `scripts/build_word_senses.py --verify 300` (0 mismatches) and `validate_build` (REPLAY_VALIDATED).
 - No resolved value changes without a named cause.
 
-- [ ] D-1 Read rule (Rohan): main sense with alternatives, or only what every surviving sense shares.
-- [ ] D-2 Main-sense rule (Rohan): WordNet's first sense, with its known failure (snowball, dud), or another rule.
-- [ ] D-3 Thresholds (Rohan): valence 0.5, felt strength 3.5, perceptual 3.0, coherent group 3, and the
-  genuine-emotion list.
-- [ ] D-4 GOOD on nouns (Rohan): F057 vs F066; 1,437 agreed signs blocked.
-- [ ] D-5 Switch `data/lexicon_active.json` to the candidate (Rohan).
+- [ ] D-1 GOOD on nouns (Rohan). F057 vs F066: the noun rule blocks 544 agreed GOOD+ signs (love, joy,
+  success, beauty, health; also mom, eyes) and 855 GOOD- signs (hate, pain, murder, danger, tragedy; also
+  widow, nerve).
+- [ ] D-2 Reading rule (Rohan). Confirm the main sense with alternatives; it changes the 2026-11-24 "yes"
+  to the reading carrying only what the surviving senses share.
+- [ ] D-3 Switch `data/lexicon_active.json` to the candidate (Rohan).
+- Not owner decisions; defaults with a stated rule, which Rohan may override at any time:
+  - the measurement thresholds (valence 0.5, felt strength 3.5, perceptual 3.0, coherent group 3, the
+    genuine-emotion list), each measured against words that should and should not pass;
+  - the salience cut, derived by WP-2 from the weight distribution by a stated rule;
+  - grammar-to-bank constraints, admitted by WP-7's stability criterion.
+- [ ] WP-0 Tighten the main-sense rule. Trust WordNet's first sense only when the word has one synset for
+  that part of speech, or the first sense has tagged uses (count ≥ 5). Otherwise use the coherent-group
+  rule, or leave it unresolved. Acceptance: snowball and dud have no main sense; inkstand and knut keep
+  theirs; the obvious words are unchanged.
 - [ ] WP-1 Pin source data. Hash every integrator data file into the `word_senses` metadata; `--verify`
   refuses a changed source by name. Acceptance: editing a copy of a source file makes verify fail.
 - [ ] WP-2 Salience. Compute each definition-bank weight (alternatives removed × (1 + κ)) and compare senses
   on banks at or above a salience cut τ. Report the groupings at τ = 0, median and top-3 for the top 1,000
-  words; Rohan picks τ (D-6). Acceptance: the τ = 0 rebuild equals today's.
+  words; τ is the cut its stated rule derives from that distribution. Acceptance: the τ = 0 rebuild equals today's.
 - [ ] WP-3 Admit coherence rules (FC-5).
   1. Rerun `scripts/lexicon_coherence.py` on the sense cores.
   2. Apply the existing population policy: conditional probability ≥ 0.85, support ≥ 40 per partition,
@@ -90,7 +99,7 @@ satisfy three rules:
   checked against independent labels, and agreement is reported.
 - [ ] WP-7 Grammar to banks (design rule 4). Measure which banks are load-bearing and stable across the
   words observed in each operator's argument slot (the comparative's operands, for example) over a
-  pinned corpus. Propose them as sentence-time constraints for Rohan's review (D-7).
+  pinned corpus. Admit the stable ones as sentence-time constraints by that criterion.
 
 ## Urgent checkpoint execution — 2026-11-24
 
