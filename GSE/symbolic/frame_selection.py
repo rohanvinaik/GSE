@@ -12,8 +12,6 @@ from __future__ import annotations
 from urllib.parse import unquote
 
 PERSONAL = frozenset({"i", "you", "he", "she", "we", "they", "me", "him", "her", "us", "them", "who", "whom"})
-SUBJECT = frozenset({"nsubj"})
-OBJECTS = frozenset({"dobj", "obj", "iobj", "dative"})
 
 
 def slot_type(token, someone) -> str | None:
@@ -26,25 +24,50 @@ def slot_type(token, someone) -> str | None:
     return None
 
 
+NOMINAL = frozenset({"NOUN", "PROPN", "PRON"})
+NP_INNER = frozenset({"DET", "ADJ", "NUM", "PRON", "NOUN", "PROPN", "ADV"})
+
+
 def clause_pattern(doc, position, someone) -> tuple | None:
-    """(subject, objects in order, has 'to' + somebody) for the verb at ``position``; None if any slot is untyped."""
-    verb = doc[position]
-    subject, objects, to_somebody = None, [], False
-    for child in verb.children:
-        if child.dep_ in SUBJECT:
-            subject = slot_type(child, someone)
+    """(subject, objects in order, 'to' + somebody) for the verb at ``position``, read from GSE's linear grammar
+    (the native front end builds no arcs): the subject is the nearest nominal before the verb, the objects are the
+    noun-phrase heads after it up to the clause boundary. None when any slot cannot be typed."""
+    subject = None
+    for k in range(position - 1, -1, -1):
+        token = doc[k]
+        if token.pos_ in NOMINAL:
+            subject = slot_type(token, someone)
             if subject is None:
                 return None
-        elif child.dep_ in OBJECTS:
-            kind = slot_type(child, someone)
+            break
+        if token.pos_ not in NP_INNER and token.pos_ != "AUX":
+            break
+    objects, to_somebody, k = [], False, position + 1
+    while k < len(doc):
+        token = doc[k]
+        if token.pos_ == "ADP" and token.lemma_.lower() == "to":
+            j = k + 1
+            while j < len(doc) and doc[j].pos_ in NP_INNER and doc[j].pos_ not in NOMINAL:
+                j += 1
+            if j < len(doc) and doc[j].pos_ in NOMINAL and slot_type(doc[j], someone) == "somebody":
+                to_somebody = True
+            k = j + 1
+            continue
+        if token.pos_ not in NP_INNER:
+            break
+        j = k
+        while (
+            j + 1 < len(doc) and doc[j + 1].pos_ in {"NOUN", "PROPN"} and doc[j].pos_ in {"NOUN", "PROPN", "ADJ", "DET"}
+        ):
+            j += 1
+        head = doc[j]
+        if head.pos_ in NOMINAL:
+            kind = slot_type(head, someone)
             if kind is None:
                 return None
-            objects.append((child.i, kind))
-        elif child.dep_ == "prep" and child.lemma_.lower() == "to":
-            for grand in child.children:
-                if slot_type(grand, someone) == "somebody":
-                    to_somebody = True
-    return subject, tuple(kind for _position, kind in sorted(objects)), to_somebody
+            objects.append(kind)
+        k = j + 1
+    return subject, tuple(objects), to_somebody
 
 
 def frame_hosts(frame: str, pattern: tuple) -> bool:

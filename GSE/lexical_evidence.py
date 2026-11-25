@@ -92,7 +92,12 @@ def is_definition_database(conn: sqlite3.Connection) -> bool:
 
 
 def _definition_evidence(
-    conn: sqlite3.Connection, word: str, entry_id: str | None, out: dict, pos: str | None = None
+    conn: sqlite3.Connection,
+    word: str,
+    entry_id: str | None,
+    out: dict,
+    pos: str | None = None,
+    allowed: frozenset | None = None,
 ) -> dict:
     """Keep ambiguity and residual domains visible without choosing a first row.
 
@@ -113,7 +118,7 @@ def _definition_evidence(
         selection_policy="definition-identity/1",
     )
     if selection["code"] in ("AMBIGUOUS", "IDENTIFIED"):
-        senses = read_senses(conn, word, pos, entry_id)
+        senses = read_senses(conn, word, pos, entry_id, allowed)
         if senses is not None:
             primitives = {bank: value for bank, value in senses["assignments"].items() if value != 0}
             out.update(
@@ -168,6 +173,7 @@ def lookup_lexeme(
     *,
     pos: str | None = None,
     entry_id: str | None = None,
+    allowed: frozenset | None = None,
     _retries: int = 1,
 ) -> dict[str, Any]:
     """Return primes/no_primes/no_row/unread and complete selected-record evidence.
@@ -232,7 +238,7 @@ def lookup_lexeme(
             conn = cached_entry[1]
 
         if is_definition_database(conn):
-            _definition_evidence(conn, word.lower(), entry_id, out, pos)
+            _definition_evidence(conn, word.lower(), entry_id, out, pos, allowed)
         elif entry_id is not None:
             out["reason"] = "DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"
             return out
@@ -278,7 +284,7 @@ def lookup_lexeme(
             or stat_after.st_ino != stat_before.st_ino
         ):
             if _retries > 0:
-                return lookup_lexeme(word, db_path, pos=pos, entry_id=entry_id, _retries=_retries - 1)
+                return lookup_lexeme(word, db_path, pos=pos, entry_id=entry_id, allowed=allowed, _retries=_retries - 1)
             out.update(state="unread", reason="LEXICON_CHANGED_DURING_READ", primitives={}, selected_record=None)
 
     except (OSError, sqlite3.Error, ValueError) as exc:

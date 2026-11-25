@@ -258,11 +258,13 @@ class GSEEncoder:
             self._repair = NativeRepair(self)
         return self._repair
 
-    def lexical_lookup(self, lemma: str, pos: str | None = None, *, entry_id: Optional[str] = None) -> Dict:
+    def lexical_lookup(
+        self, lemma: str, pos: str | None = None, *, entry_id: Optional[str] = None, allowed: Optional[frozenset] = None
+    ) -> Dict:
         """Source evidence with explicit selection status for versioned definitions."""
         from GSE.lexical_evidence import lookup_lexeme
 
-        return lookup_lexeme(lemma, self.db_path, pos=pos, entry_id=entry_id)
+        return lookup_lexeme(lemma, self.db_path, pos=pos, entry_id=entry_id, allowed=allowed)
 
     def _grammatical_definition(self, surface: str, lemma: str, pos: str) -> Optional[Tuple[str, str, Dict]]:
         """Resolve only the catalog identities licensed by the parsed role.
@@ -478,6 +480,18 @@ class GSEEncoder:
                     if selection["code"] == "EXACT_WORDNET_SENSE":
                         entry_id = selection["entry_id"]
                         lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
+                    elif eligible_pos == "VERB" and lexical.get("selection_status") == "WORD_SENSES":
+                        # Grammar is a constraint harness: the clause's argument pattern eliminates senses
+                        # whose own WordNet frames cannot host it (GSE.symbolic.frame_selection).
+                        from GSE.symbolic.frame_selection import clause_pattern, surviving
+
+                        def someone(word):
+                            senses = self.lexical_lookup(word, "NOUN").get("word_senses") or {}
+                            return (senses.get("assignments") or {}).get("SOMEONE")
+
+                        kept = surviving(lookup_form, alternatives, clause_pattern(doc, i, someone))
+                        if kept != set(alternatives):
+                            lexical = self.lexical_lookup(lookup_form, word_pos, allowed=frozenset(kept))
                     lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
                 # The trace and vector must consume the same selected source row.
                 word_prims, sent_prims, comp_meta = self._lookup_lexeme(
