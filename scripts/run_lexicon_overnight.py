@@ -127,7 +127,8 @@ tossed." Unknown is not zero: a bank no source or rule settles stays open.
 ## Per package
 1. Read the package in tasks.md and the design's "Founder correction" section, and the code you change.
 2. Implement it, with unit tests for the rule.
-3. Rebuild and check (GSE_SENSE_CANDIDATE is already set in your environment):
+3. Rebuild and check (GSE_SENSE_CANDIDATE is already set in your environment). The full rebuild takes
+   about 5 minutes: give that Bash call a timeout of 600000 ms.
      .venv/bin/python scripts/build_word_senses.py --all
      .venv/bin/python scripts/build_word_senses.py --verify 300          (0 mismatches)
      .venv/bin/python -m pytest -q -p no:randomly tests/test_lexicon_source_agreement.py \\
@@ -143,8 +144,8 @@ tossed." Unknown is not zero: a bank no source or rule settles stays open.
    what failed and why, commit tasks.md, and go on to the next package.
 
 ## At the end
-Run the full suite once: .venv/bin/python -m pytest -q -p no:randomly. Then reply with, per package:
-done or not, the commit, the numbers, and anything Rohan must decide. Plain words.
+Reply with, per package: done or not, the commit, the numbers, and anything Rohan must decide. Plain
+words. (The launcher runs the full test suite and the checks again itself after you finish.)
 """
 
 
@@ -199,6 +200,26 @@ def environment() -> dict[str, str]:
     return env
 
 
+WORD_SENSE_TESTS = [
+    "tests/test_lexicon_source_agreement.py",
+    "tests/test_lexicon_senses_reader.py",
+    "tests/test_lexicon_word_sense_acceptance.py",
+    "tests/test_lexicon_no_new_model_values.py",
+    "tests/test_lexicon_every_value_has_a_warrant.py",
+]
+AFTER_CHECKS = [
+    ("replay_sample", [".venv/bin/python", "scripts/build_word_senses.py", "--verify", "300"]),
+    ("word_sense_tests", [".venv/bin/python", "-m", "pytest", "-q", "-p", "no:randomly", *WORD_SENSE_TESTS]),
+    ("import_contracts", [".venv/bin/lint-imports"]),
+    ("full_suite", [".venv/bin/python", "-m", "pytest", "-q", "-p", "no:randomly"]),
+]
+
+
+def _run(cmd: list[str]) -> dict:
+    proc = subprocess.run(cmd, cwd=ROOT, env=environment(), stdin=subprocess.DEVNULL, capture_output=True, text=True)
+    return {"exit": proc.returncode, "tail": (proc.stdout + proc.stderr)[-1500:]}
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="one tiny call: confirms the key and API billing")
@@ -241,6 +262,10 @@ def main(argv=None) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(record, indent=2) + "\n")
     out.with_suffix(".raw.json").write_text(run.stdout + run.stderr)  # gitignored, for inspection
+    if not args.check:  # the same checks, run by this script, not taken from the session's report
+        record["checks_after"] = {name: _run(cmd) for name, cmd in AFTER_CHECKS}
+        out.write_text(json.dumps(record, indent=2) + "\n")
+        print(json.dumps({name: r["exit"] for name, r in record["checks_after"].items()}), flush=True)
     print(json.dumps({k: record[k] for k in ("mode", "exit", "cost_usd", "turns", "is_error")}), flush=True)
     print(record["report"], flush=True)
     return run.returncode
