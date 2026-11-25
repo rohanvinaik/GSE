@@ -151,7 +151,6 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         # (an amount of time is WHEN, a point in space is WHERE, a word is WORDS, contact is TOUCH).
         "WHEN",
         "WHERE",
-        "QUANTITY",
         "WORDS",
         "TOUCH",
         "BE",  # state.n.02 and be.v.01: own state denotation (Rohan's approved BE convention)

@@ -193,7 +193,6 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "location.n.01": frozenset({"WHERE"}),  # "a point or extent in space"
     "time_period.n.01": frozenset({"WHEN"}),  # "an amount of time"
     "time_unit.n.01": frozenset({"WHEN"}),  # "a unit for measuring time periods"
-    "measure.n.02": frozenset({"QUANTITY"}),  # "how much there is or how many there are of something"
     "people.n.01": frozenset({"PEOPLE"}),  # approved binding of PEOPLE
     "social_group.n.01": frozenset({"PEOPLE"}),  # "people sharing some social relation"
     "word.n.01": frozenset({"WORDS"}),  # approved binding of WORDS

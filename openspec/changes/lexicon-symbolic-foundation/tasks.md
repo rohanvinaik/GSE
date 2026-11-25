@@ -118,6 +118,8 @@ satisfy three rules:
   `scripts/revise_lexicon_wordnet_identity.py` adds the projected assertions to the release through
   `revise_source_candidate` with full replay. Forecast: 30,466 definitions, about 42,000 signs, 0
   conflicts in a 400-definition sample.
+  measure.n.02 (QUANTITY) is withdrawn: its subtree holds named months, ages and currencies, and the
+  release's own duration rule reserves date and temporal-phase senses for separate treatment.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
 - [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
