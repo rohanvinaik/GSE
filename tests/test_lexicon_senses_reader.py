@@ -50,10 +50,10 @@ def test_the_sentences_part_of_speech_selects_the_senses():
     assert reading["pos"] == "verb" and reading["assignments"] == {"MOVE": 1}
 
 
-def test_the_reading_is_the_main_sense_with_the_others_as_alternatives():
+def test_the_reading_is_the_coherent_core_with_other_senses_as_exceptions():
     reading = read_senses(_lexicon(DOG), "dog", "NOUN")
     assert reading["assignments"] == {"ALIVE": 1, "SOMETHING": 1, "BODY": 1}
-    assert reading["alternatives"] == [{"sense": 1, "assignments": {"ALIVE": 1, "SOMETHING": 1, "SOMEONE": 1}}]
+    assert reading["exceptions"] == [{"sense": 1, "assignments": {"ALIVE": 1, "SOMETHING": 1, "SOMEONE": 1}}]
 
 
 def test_banks_where_another_sense_differs_carry_their_possible_signs():

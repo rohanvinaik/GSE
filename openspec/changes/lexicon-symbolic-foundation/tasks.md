@@ -64,12 +64,16 @@ satisfy three rules:
   `scripts/build_word_senses.py --verify 300` (0 mismatches) and `validate_build` (REPLAY_VALIDATED).
 - No resolved value changes without a named cause.
 
-- [ ] D-1 GOOD on nouns (Rohan). F057 vs F066: the noun rule blocks 544 agreed GOOD+ signs (love, joy,
+- [x] D-1 GOOD on nouns (Rohan, 2026-11-24: option (c), "be very judicious"; implemented: a noun sense whose most
+  common WordNet definition is noun.feeling carries agreed GOOD; hatred/anger/grief GOOD-, love/joy GOOD+; pain,
+  happiness, mom, widow, success, murder stay 0). F057 vs F066: the noun rule blocks 544 agreed GOOD+ signs (love, joy,
   success, beauty, health; also mom, eyes) and 855 GOOD- signs (hate, pain, murder, danger, tragedy; also
   widow, nerve).
-- [ ] D-2 Reading rule (Rohan). Confirm the main sense with alternatives; it changes the 2026-11-24 "yes"
+- [x] D-2 Reading rule (Rohan, 2026-11-24: "everything" meant the whole set; a sense that breaks coherence is an
+  out-of-variance exception; implemented as the main sense with `exceptions`). Confirm the main sense with alternatives; it changes the 2026-11-24 "yes"
   to the reading carrying only what the surviving senses share.
-- [ ] D-3 Switch `data/lexicon_active.json` to the candidate (Rohan).
+- [ ] D-3 Switch `data/lexicon_active.json` to the candidate (Rohan approved, 2026-11-24; after the rebuild under
+  D-1 passes acceptance, replay and validation).
 - Not owner decisions; defaults with a stated rule, which Rohan may override at any time:
   - the measurement thresholds (valence 0.5, felt strength 3.5, perceptual 3.0, coherent group 3, the
     genuine-emotion list), each measured against words that should and should not pass;
@@ -78,7 +82,7 @@ satisfy three rules:
 - [ ] WP-0 Tighten the main-sense rule. Trust WordNet's first sense only when the word has one synset for
   that part of speech, or the first sense has tagged uses (count ≥ 5). Otherwise use the coherent-group
   rule, or leave it unresolved. Acceptance: snowball and dud have no main sense; inkstand and knut keep
-  theirs; the obvious words are unchanged.
+  theirs; beauty's main sense is not "a beautiful woman" (SOMEONE+); the obvious words are unchanged.
 - [ ] WP-1 Pin source data. Hash every integrator data file into the `word_senses` metadata; `--verify`
   refuses a changed source by name. Acceptance: editing a copy of a source file makes verify fail.
 - [ ] WP-2 Salience. Compute each definition-bank weight (alternatives removed × (1 + κ)) and compare senses

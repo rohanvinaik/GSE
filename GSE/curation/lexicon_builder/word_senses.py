@@ -38,6 +38,13 @@ CONVENTION_RULES = frozenset(
 )
 CONVENTION_ZERO_BANKS = frozenset({"I", "YOU"})
 EXCLUDED_POS = frozenset({"name"})
+# Rohan's ruling (2026-11-24, option (c), "be very judicious"): a noun carries an agreed GOOD sign
+# only when the word names a feeling ("'Hatred' is a negative emotion ... an idea that is inherently
+# of negative valence"). Decided by WordNet's category for the sense's most common WordNet
+# definition: hatred, love, joy, anger, fear, grief, pride are noun.feeling; pain and happiness
+# (states), success (event), beauty (attribute), mom (person) and murder (act) are not.
+FEELING_NOUN_CATEGORIES = frozenset({"noun.feeling"})
+NOUN_EVALUATION_RULE = "founder:noun-own-evaluation"
 # Definitions resolving the same load-bearing values that count as coherence across definitions
 # (a judgment, recorded in the design): one or two can be an incidental minority sense.
 COHERENT_GROUP = 3
@@ -50,6 +57,7 @@ class Definition:
     pos: str
     resolved: Mapping[str, int]  # the definition's stored values (primitive_values)
     load_bearing: Mapping[str, tuple[int, float, str, str]]  # bank -> (value, weight, cause, kind)
+    conventions: Mapping[str, str] = field(default_factory=dict)  # bank -> convention rule that set it
 
     @property
     def weight(self) -> float:
@@ -95,6 +103,15 @@ def load_bearing_values(trace: Sequence[Mapping], reach: Mapping[str, int]) -> d
     return values
 
 
+def convention_values(trace: Sequence[Mapping]) -> dict[str, str]:
+    """The banks a part-of-speech convention rule set, and which rule."""
+    return {
+        entry["bank"]: entry["rule_id"]
+        for entry in trace
+        if entry.get("kind") == "RELATION" and entry.get("rule_id") in CONVENTION_RULES and entry.get("bank")
+    }
+
+
 def read_definitions(conn: sqlite3.Connection, lemma: str, reach: Mapping[str, int]) -> dict[str, list[Definition]]:
     """A lemma's definitions by part of speech, proper names excluded."""
     by_pos: dict[str, list[Definition]] = {}
@@ -112,8 +129,9 @@ def read_definitions(conn: sqlite3.Connection, lemma: str, reach: Mapping[str, i
                 "SELECT primitive, value FROM primitive_values WHERE lexeme_id = ?", (lexeme_id,)
             )
         }
+        steps = json.loads(trace or "[]")
         by_pos.setdefault(pos, []).append(
-            Definition(entry_id, lexeme_id, pos, resolved, load_bearing_values(json.loads(trace or "[]"), reach))
+            Definition(entry_id, lexeme_id, pos, resolved, load_bearing_values(steps, reach), convention_values(steps))
         )
     return by_pos
 
@@ -245,11 +263,23 @@ def settle_anchor(agreed: Mapping[str, int], relations: Sequence, pos: str) -> d
     return {bank: value for bank, value in closed.assignments.items() if value}
 
 
-def close_sense(lemma: str, pos: str, index: int, sense: Sense, agreed: Mapping[str, int], relations: Sequence) -> dict:
+def close_sense(
+    lemma: str,
+    pos: str,
+    index: int,
+    sense: Sense,
+    agreed: Mapping[str, int],
+    relations: Sequence,
+    feeling_noun: bool = False,
+) -> dict:
     """A sense's core: members' values, agreed source signs, closed under the rules."""
+    if feeling_noun:  # the noun-evaluation zero does not apply to a word that names a feeling
+        relations = [relation for relation in relations if relation.rule_id != NOUN_EVALUATION_RULE]
     values: dict[str, set[int]] = {}
     for definition in sense.members + sense.absorbed:
         for bank, value in definition.resolved.items():
+            if feeling_noun and definition.conventions.get(bank) == NOUN_EVALUATION_RULE:
+                continue
             values.setdefault(bank, set()).add(value)
     fixed = {bank: next(iter(v)) for bank, v in values.items() if len(v) == 1}
     contested = {bank: sorted(v) for bank, v in values.items() if len(v) > 1}
@@ -290,7 +320,10 @@ def close_sense(lemma: str, pos: str, index: int, sense: Sense, agreed: Mapping[
         }
     else:
         resolution = _resolve(base, relations, pos)
-    return _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, resolution.code)
+    row = _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, resolution.code)
+    if feeling_noun:
+        row["feeling_noun"] = True
+    return row
 
 
 def _conflict_rules(resolution) -> list[str]:
@@ -352,6 +385,22 @@ def first_sense_entry(lemma: str, pos: str) -> str | None:
     return f"wordnet:{lemma}:{synsets[0].name()}" if synsets else None
 
 
+def names_a_feeling(lemma: str, sense: Sense) -> bool:
+    """Whether the sense's most common WordNet definition is in WordNet's feeling category."""
+    from nltk.corpus import wordnet
+
+    order = {synset.name(): rank for rank, synset in enumerate(wordnet.synsets(lemma, "n"))}
+    held = [
+        d.entry_id.rsplit(":", 1)[-1]
+        for d in sense.members + sense.absorbed
+        if d.entry_id.startswith("wordnet:") and d.entry_id.rsplit(":", 1)[-1] in order
+    ]
+    if not held:
+        return False
+    primary = min(held, key=order.__getitem__)
+    return wordnet.synset(primary).lexname() in FEELING_NOUN_CATEGORIES
+
+
 def dominant_pos(by_pos: Mapping[str, Sequence[Definition]]) -> str | None:
     """The part of speech with the most definitions; ties go to noun, verb, adjective, adverb."""
     order = {"noun": 0, "verb": 1, "adj": 2, "adv": 3}
@@ -380,7 +429,8 @@ def build_word(
         anchor = settle_anchor(agreed, relations, pos)
         first = first_sense_entry(lemma, pos)
         for index, sense in enumerate(collapse(definitions, anchor, corroboration, first)):
-            rows.append(close_sense(lemma, pos, index, sense, agreed, relations))
+            feeling = pos == "noun" and names_a_feeling(lemma, sense)
+            rows.append(close_sense(lemma, pos, index, sense, agreed, relations, feeling))
     return rows
 
 

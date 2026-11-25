@@ -2,9 +2,11 @@
 
 A word's definitions collapse into a few senses per part of speech
 (``GSE.curation.lexicon_builder.word_senses``). At read time the sentence's part of speech
-selects that part of speech's senses, and the reading is the main sense: the word's core, its
-"real and obvious meaning" (Rohan). The other senses are carried as alternatives, with the banks
-where they differ from the core and the possible signs there. When context has identified one
+selects that part of speech's senses, and the reading is the main sense: the coherent core of the
+word's whole set of definitions, its "real and obvious meaning" (Rohan). A sense that breaks that
+coherence is "an out-of-variance exception that breaks coherence and should be handled thus"
+(Rohan, 2026-11-24): it is carried under ``exceptions``, with the banks where it differs from the
+core and the possible signs there, and never erases the core. When context has identified one
 exact definition, the reading is that definition's sense. A word is never refused for having
 several definitions.
 
@@ -95,6 +97,6 @@ def read_senses(
         "sense": core["sense"],
         "assignments": dict(core["assignments"]),
         "open": dict(core["open"]),
-        "alternatives": [{"sense": s["sense"], "assignments": s["assignments"]} for s in alternatives],
+        "exceptions": [{"sense": s["sense"], "assignments": s["assignments"]} for s in alternatives],
         "differs": _differences(core, alternatives),
     }
