@@ -97,50 +97,24 @@ design uses to turn evidence into meaning.
 2. **Rules narrow and propagate.** Stable bank-to-bank coherence relations are admitted as
    conditional rules once re-checked against current held-out words. Discovery that can never
    write is not a stage.
-3. **A word's definitions collapse into senses within each part of speech.**
-   - Definitions with the same load-bearing encoding form a group.
-   - The main sense is the group holding the word's most common sense: WordNet's first, which
-     WordNet orders by tagged-text frequency. This only decides which coherent group is the default.
-   - When that first sense has no evidence, the main sense stays unresolved, unless at least three
-     definitions share one encoding (coherence across definitions; a recorded judgment). An
-     evidenced minority sense, such as buy's "accept as true" (THINK+), never stands in for the
-     common one.
-   - Without a WordNet first sense, the main sense is the best-supported group: the one sharing the
-     most values with the sources' agreement, then the one with the fewest values no independent
-     source corroborates, then the largest.
-   - Another group joins a sense only if it conflicts with nothing and every value it adds is
-     corroborated by an independent, measuring word-level family. A family cannot corroborate its
-     own value. VerbNet's word-level vote is the union of a verb's classes, so it never identifies
-     a sense. Otherwise the group is a different meaning: the "a man" sense of "dog" (SOMEONE+)
-     stays apart from the animal.
-   - Splitting needs a witness: a conflict, or an uncorroborated load-bearing value.
-   - A definition with no load-bearing evidence is absorbed into a sense; it never becomes a sense
-     of its own.
-   - A sense's core is its members' load-bearing values, closed under the rules.
+3. **A word's definitions collapse, by coherence over the whole set, into its genuinely distinct senses.**
+   - Definitions are the same sense when they resolve to the same values on the load-bearing banks.
+   - Each genuinely unique homonym has one coherent core, its "platonic ideal": what its members agree on.
+   - At least one sense survives for each part of speech present.
+   - No sense is ranked or made a default.
+   - A single definition that would destroy a group's coherence is an out-of-variance exception: recorded, never
+     part of the core.
+   - Merging needs positive evidence; splitting needs a witness (a conflict on a load-bearing bank).
    - Part-of-speech conventions (GOOD = 0 on nouns, SOMETHING = 0 on adjectives, I/YOU = 0) are not
      load-bearing.
-   - **Superseded 2026-11-25 (Rohan: "Where in there did I specify an arbitrary frequency-defined 'main sense'
-     that is singularly monotonic for every word?").** The three "main sense" bullets above (the group holding
-     WordNet's first sense; unresolved unless three definitions agree; the best-supported group) were the agent's
-     invention, not this design. In force instead: a word's definitions collapse, by coherence over the whole set,
-     into its genuinely distinct senses, one coherent core (the "platonic ideal") per genuinely unique homonym and
-     at least one per part of speech present. No sense is ranked or made a default. A single definition that would
-     destroy a group's coherence is an out-of-variance exception, recorded, never part of the core.
 4. **No model writes a value.** Banks left open after 1–3 stay open until a source, a rule or an owner
    ruling closes them (Rohan, 2026-11-25). Models only run the analysis as agents.
-5. **Runtime reads senses.** The sentence's part of speech selects a word's senses.
-   - The reading is the main sense, the word's core ("the real and obvious meaning").
-   - The other senses are carried as alternatives, with the banks where they differ and their
-     possible signs.
+5. **Grammar and context choose among senses; the lexicon does not.**
+   - The reading is every sense compatible with the sentence's part of speech and frame.
+   - Banks those senses agree on are the reading's values; where they disagree, the reading carries the set of
+     possible signs (approved 2026-11-25).
    - Context that identifies one definition selects its sense.
    - A word is never refused for having several definitions.
-   - **Superseded 2026-11-25 (same ruling):** "the reading is the main sense" and "other senses as
-     alternatives". In force: grammar and context choose among senses, not the lexicon. The reading is every sense
-     compatible with the sentence's part of speech and frame; banks they agree on are its values, and where they
-     disagree it carries the set of possible signs (approved 2026-11-25 02:04).
-   - Reading only what every sense shares erased the obvious meaning. One minority sense of "give"
-     (THINK+) cancelled its DO+, though nothing in a sentence that fixes only the part of speech
-     selects a minority sense.
 
 ### Completing the build, then the SSL loop
 
