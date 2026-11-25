@@ -127,6 +127,17 @@ satisfy three rules:
   gathering.n.01, kin.n.02, family.n.01, team.n.01. Kept roots still carry WordNet's own odd members
   (a tree's crown under location; a bishop under state); census in
   docs/verification/2026-11-25-identity-root-census.json.
+  Result 2026-11-25 (candidate sparse-release-022-identity.db, not yet published): the revision changed
+  29,134 definitions and settled 47,718 cells (HAPPEN 19,125, DO 9,404, CAUSE 6,993, BE 4,234, MOVE
+  2,401, WHERE 2,215, TOUCH 703, SAY 587, WHEN 540, PEOPLE 505, SEE 243, adjective poles); 7 definitions
+  bound to Rohan's model receipts were left unchanged; release replay 401,596/401,596, complete search, 0
+  mismatches. Word senses rebuilt: replay sample 300/300; word-sense, guard and warrant tests 51/51.
+  Against the live lexicon: 20,330 main-sense values filled; 5 changed (BIG 0 to +1 on gargantuan, great,
+  heroic, monstrous, prodigious: the absence default gives way to size identity); 728 removed on 466
+  words where richer definitions regroup and move the main sense (412 are I/YOU convention zeros; the
+  rest mostly drop values that came from mixing senses, e.g. boot DO, catch DO, assembly PEOPLE, and a
+  few real losses, e.g. chill FEEL). Mean meaning banks per word: top 1,000 1.44 to 1.72; all words
+  1.11 to 1.37.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
 - [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
