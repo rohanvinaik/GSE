@@ -100,6 +100,20 @@ def _predicate_binding(predicate: dict) -> dict:
     }
 
 
+def _subject_role(frame: dict) -> str | None:
+    """The thematic role of the frame's subject: the first NP in its native SYNTAX."""
+    native = frame.get("native")
+    if not isinstance(native, dict):
+        return None
+    for child in native.get("children", []):
+        if isinstance(child, dict) and child.get("tag") == "SYNTAX":
+            for part in child.get("children", []):
+                if isinstance(part, dict) and part.get("tag") == "NP":
+                    return (part.get("attributes") or {}).get("value")
+            return None
+    return None
+
+
 def _component_status(frame: dict, name: str) -> dict:
     """Positive content survives later negation; same-phase conflicts do not."""
     predicates = frame.get("semantics", [])
@@ -483,6 +497,10 @@ class VerbNetParser:
             projected = {
                 bank: 1 for bank, result in components.items() if result["code"] == "WARRANTED_LEXICAL_COMPONENT"
             }
+            # NSM's DO valency, "someone DOES something (to/with ...)" (Goddard 2012, Table 2; Goddard & Wierzbicka
+            # 2016, doing vs happening): a frame whose subject is the Agent is a doing frame (Rohan, 2026-11-25).
+            if _subject_role(frame) == "Agent":
+                projected["DO"] = 1
             cause = _cause_status(frame, roles)
             for proof in cause.get("proofs", []):
                 projected.update(proof["primitives"])
