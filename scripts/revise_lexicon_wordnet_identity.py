@@ -97,7 +97,28 @@ def revise_entries(conn):
         store_entry(conn, definition, state, assertions + added, hierarchy, domain_restrictions=restrictions)
         settled = {name: after[name][0] for name in BANKS if len(old[name]) > 1 and len(after[name]) == 1}
         changes.append({"entry_id": entry_id, "synset": synset, "added": new, "settled": settled})
+    _recompute_catalog(conn, rules)
     return {"revised": len(changes), "conflicts": conflicts, "changes": changes}
+
+
+def _recompute_catalog(conn, rules):
+    """Install the prime catalog recomputed from the revised, validated state (as refresh_catalog does).
+
+    The catalog records each prime unit's linked definitions and their evidence; identity revises
+    prime-linked definitions (people, word, kind, body), so the stored catalog must be recomputed.
+    """
+    from GSE.curation.lexicon_builder.validation import _canonical, _replay
+
+    links = {unit: tuple(entries) for unit, entries in _metadata(conn, "prime_entries").items()}
+    replay = _replay(conn, rules, catalog_links=links)
+    if replay["code"] != "REPLAY_VALIDATED" or not replay["complete_search"]:
+        raise ValueError("IDENTITY_REVISION_CATALOG_REPLAY_FAILED:" + json.dumps(replay["mismatch_counts"]))
+    catalog = replay.pop("proposed_catalog")
+    report = _metadata(conn, "last_report")
+    report["foundation_readiness"] = catalog["readiness"]
+    report["prime_coverage"] = catalog["coverage_counts"]
+    for key, value in (("catalog", catalog), ("last_report", report)):
+        conn.execute("INSERT OR REPLACE INTO builder_metadata VALUES (?,?)", (key, _canonical(value)))
 
 
 def revise(candidate, output, baseline_receipt):
