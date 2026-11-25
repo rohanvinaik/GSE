@@ -197,3 +197,26 @@ class DeclarativeRefusal(ValueError):
     def __init__(self, detail: dict):
         super().__init__(f"{detail['code']}:{detail['reason']}@{detail['position']}:{detail['slot']}")
         self.detail = detail
+
+
+_HEADER = re.compile(r"^\s*#?\s*mode\s*:\s*(declarative|standard)\s*$", re.I)
+
+
+def declared_mode(text: str) -> tuple[str | None, str, str | None]:
+    """(mode, body, form) from a story's header: ``#mode: declarative`` or ``MODE: declarative`` on a leading line.
+
+    The two spellings are one declaration, normalized here and recorded by ``form``; with no header the mode is
+    None and the text is returned unchanged (undeclared input reads exactly as before).
+    """
+    lines = text.split("\n")
+    for index, line in enumerate(lines):
+        if not line.strip():
+            continue
+        match = _HEADER.match(line)
+        if match is None:
+            if line.lstrip().upper().startswith(("GENRE:", "TITLE:", "CONTEXT:")):
+                continue
+            return None, text, None
+        form = "hash_header" if line.lstrip().startswith("#") else "label_header"
+        return match.group(1).lower(), "\n".join(lines[:index] + lines[index + 1 :]), form
+    return None, text, None

@@ -184,7 +184,7 @@ class GSEEncoder:
         - Failed operators: Return None for operator result
     """
 
-    def __init__(self, db_path: str | Path | None = None, strict: bool = False):
+    def __init__(self, db_path: str | Path | None = None, strict: bool = False, mode: str | None = None):
         """
         Initialize encoder with bases and database.
 
@@ -207,6 +207,10 @@ class GSEEncoder:
         from GSE.nlp.native import NativeNLP
 
         self.nlp = NativeNLP()
+        # A declared mode chooses the front end; undeclared input takes the standard one, unchanged.
+        if mode not in (None, "standard", "declarative"):
+            raise ValueError(f"UNKNOWN_READING_MODE:{mode}")
+        self.mode = mode or "standard"
 
         # Database connection. A relative db_path resolves against CWD, so a wrong
         # path is the silent-empty-lexicon footgun: sqlite3.connect() *creates* an
@@ -220,6 +224,10 @@ class GSEEncoder:
                 "absolute db_path or run with cwd at the GSE project root."
             )
         self.conn = sqlite3.connect(self.db_path)
+        if self.mode == "declarative":
+            from GSE.nlp.declarative import DeclarativeNLP
+
+            self.nlp = DeclarativeNLP(self.conn)
         self.cursor = self.conn.cursor()
         from GSE.lexical_evidence import is_definition_database
 
