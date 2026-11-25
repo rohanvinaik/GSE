@@ -343,6 +343,7 @@ class GSEEncoder:
         doc = self.nlp(text)
         head_position = next((i for i, token in enumerate(doc) if token.pos_ != "PUNCT"), None)
         lexical_rows: Dict[str, Dict] = {}
+        content_rows: Dict[tuple, Dict] = {}
         grammatical_rows: Dict[Tuple[str, str, str], Optional[Tuple[str, str, Dict]]] = {}
 
         # 1b. Upstream parse repair: spaCy mistags some verbs as nouns
@@ -454,14 +455,22 @@ class GSEEncoder:
                     lookup_form, entry_id=entry_id, lexical_evidence=lexical
                 )
             else:
-                if lookup_form not in lexical_rows:
-                    lexical_rows[lookup_form] = self.lexical_lookup(lookup_form)
-                lexical = lexical_rows[lookup_form]
+                # A definition lexicon reads a word's senses for the part of speech the sentence gave it.
+                word_pos = ("VERB" if i in promote_to_verb else tok.pos_) if self._definition_database else None
+                if (lookup_form, word_pos) not in content_rows:
+                    content_rows[(lookup_form, word_pos)] = self.lexical_lookup(lookup_form, word_pos)
+                lexical = content_rows[(lookup_form, word_pos)]
                 entry_id = None
                 if (
                     grounding is not None
                     and (tok.pos_ in {"NOUN", "PROPN", "VERB", "ADJ", "ADV"} or i in promote_to_verb)
-                    and lexical.get("selection_status") == "AMBIGUOUS"
+                    and (
+                        lexical.get("selection_status") == "AMBIGUOUS"
+                        or (
+                            lexical.get("selection_status") == "WORD_SENSES"
+                            and len(lexical.get("candidate_entry_ids") or ()) > 1
+                        )
+                    )
                 ):
                     alternatives = lexical["candidate_entry_ids"]
                     eligible_pos = "VERB" if i in promote_to_verb else "NOUN" if tok.pos_ == "PROPN" else tok.pos_
@@ -945,6 +954,9 @@ class GSEEncoder:
                 if lexical_evidence is not None
                 else runtime_lookup(self.conn, lemma.lower(), entry_id)
             )
+            if selection["code"] == "WORD_SENSES" and lexical_evidence is not None:
+                # The founder-corrected lexicon: what the word's senses share for this use.
+                return dict(lexical_evidence["primitives"]), {}, grammar
             if selection["code"] != "IDENTIFIED":
                 if selection["code"] == "NOT_FOUND" and self.strict and not grammar:
                     raise OOVError(lemma)

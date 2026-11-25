@@ -91,9 +91,17 @@ def is_definition_database(conn: sqlite3.Connection) -> bool:
     return True
 
 
-def _definition_evidence(conn: sqlite3.Connection, word: str, entry_id: str | None, out: dict) -> dict:
-    """Keep ambiguity and residual domains visible without choosing a first row."""
+def _definition_evidence(
+    conn: sqlite3.Connection, word: str, entry_id: str | None, out: dict, pos: str | None = None
+) -> dict:
+    """Keep ambiguity and residual domains visible without choosing a first row.
+
+    A lexicon that carries word senses (the founder-corrected build) is read through them: the
+    reading is what the senses for this part of speech share, or, when context has identified
+    one definition, that definition's sense. Every definition stays listed as a candidate.
+    """
     from GSE.lexicon.definitions import read_entries, runtime_lookup
+    from GSE.lexicon.senses import read_senses
 
     selection = runtime_lookup(conn, word, entry_id)
     records = read_entries(conn, word, entry_id)
@@ -104,6 +112,23 @@ def _definition_evidence(conn: sqlite3.Connection, word: str, entry_id: str | No
         ambiguous=selection["code"] == "AMBIGUOUS",
         selection_policy="definition-identity/1",
     )
+    if selection["code"] in ("AMBIGUOUS", "IDENTIFIED"):
+        senses = read_senses(conn, word, pos, entry_id)
+        if senses is not None:
+            primitives = {bank: value for bank, value in senses["assignments"].items() if value != 0}
+            out.update(
+                selection_status="WORD_SENSES",
+                selection_policy=senses["policy"],
+                word_senses=senses,
+                sense_resolved=False,
+                primitives=primitives,
+                open_banks=senses["open"],
+            )
+            if primitives:
+                out["state"] = "primes"
+            else:
+                out.update(state="unread", reason="WORD_SENSES_UNRESOLVED")
+            return out
     selected = selection["selected"]
     if selected is None:
         out.update(
@@ -207,7 +232,7 @@ def lookup_lexeme(
             conn = cached_entry[1]
 
         if is_definition_database(conn):
-            _definition_evidence(conn, word.lower(), entry_id, out)
+            _definition_evidence(conn, word.lower(), entry_id, out, pos)
         elif entry_id is not None:
             out["reason"] = "DEFINITION_SELECTION_REQUIRES_VERSIONED_DATABASE"
             return out

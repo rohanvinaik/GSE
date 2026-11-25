@@ -74,7 +74,10 @@ def read_senses(
         )
     if entry_id is not None:
         chosen = [
-            (p, s) for p, senses in by_pos.items() for s in senses if entry_id in s["members"] or entry_id in s["absorbed"]
+            (p, s)
+            for p, senses in by_pos.items()
+            for s in senses
+            if entry_id in s["members"] or entry_id in s["absorbed"]
         ]
         if not chosen:
             return None
