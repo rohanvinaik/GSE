@@ -19,9 +19,12 @@ key store. Its final report and cost go to a gitignored file under ``data/``.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import re
 import shutil
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -29,6 +32,8 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022.db"
 CANDIDATE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db"
 PINS = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/postwriter-validation.json"
 KEY_READER = Path.home() / "Projects/SquishOS/ops/agents/bin/anthropic-consult"
@@ -71,6 +76,7 @@ PROTECTED = [
     "uv.lock",
     "scripts/lexicon_coherence.py",
     "scripts/run_lexicon_overnight.py",
+    "scripts/compare_word_senses.py",
     "tests/test_lexicon_word_sense_acceptance.py",
     "tests/test_lexicon_no_new_model_values.py",
     "tests/test_lexicon_every_value_has_a_warrant.py",
@@ -114,6 +120,13 @@ tossed." Unknown is not zero: a bank no source or rule settles stays open.
    {"conditional_probability", "min_partition_support", "held_out_drift", "counterexamples"}. Only
    rules meeting the policy (>= 0.85, >= 40 per partition, <= 0.1) are admitted. The sense closure
    applies the release's relations plus these. scripts/build_word_senses.py writes the key.
+   Admission must be recomputable by a committed command: `.venv/bin/python scripts/word_sense_coherence.py
+   --admitted` prints a JSON list of the admitted rule_ids, measured on the population of sense cores
+   closed under the release's relations only (never under word_sense_rules: measured after they apply,
+   every rule scores 100%). The launcher reruns it and compares it with what you stored.
+6. Never destroy a correct value. The launcher compares every word's reading with the published
+   lexicon and reports filled, changed and removed values by warrant: "changed" should be 0, and a
+   removal is only acceptable where a package deliberately withdraws a main sense (WP-0).
 4. Files you may change: GSE/curation/lexicon_builder/source_agreement.py, word_senses.py, new modules
    GSE/curation/lexicon_builder/word_sense_*.py, GSE/lexicon/senses.py, scripts/build_word_senses.py,
    new scripts scripts/word_sense_*.py, tests/test_lexicon_source_agreement.py,
@@ -121,7 +134,7 @@ tossed." Unknown is not zero: a bank no source or rule settles stays open.
    and tasks.md. Everything else is off limits: the other lexicon_builder modules are pinned by
    Rohan's checkpoint, GSE/symbolic/lexical_grounding.py belongs to Rohan's other session (WP-4 is
    not yours), and you never publish or touch data/lexicon_active.json.
-5. A decision that is Rohan's (a semantic judgment no rule or source settles): do not make it. Write
+7. A decision that is Rohan's (a semantic judgment no rule or source settles): do not make it. Write
    the question under the package in tasks.md and move on.
 
 ## Per package
@@ -217,7 +230,88 @@ AFTER_CHECKS = [
 
 def _run(cmd: list[str]) -> dict:
     proc = subprocess.run(cmd, cwd=ROOT, env=environment(), stdin=subprocess.DEVNULL, capture_output=True, text=True)
-    return {"exit": proc.returncode, "tail": (proc.stdout + proc.stderr)[-1500:]}
+    out = (
+        proc.stdout
+        if proc.returncode == 0 and proc.stdout.lstrip().startswith(("{", "["))
+        else proc.stdout + proc.stderr
+    )
+    return {"exit": proc.returncode, "tail": out if out.lstrip().startswith(("{", "[")) else out[-1500:]}
+
+
+ALLOWED_FILES = re.compile(
+    r"^(GSE/curation/lexicon_builder/(source_agreement|word_senses|word_sense_[a-z_]+)\.py"
+    r"|GSE/lexicon/senses\.py"
+    r"|scripts/(build_word_senses|word_sense_[a-z_]+)\.py"
+    r"|tests/test_lexicon_[a-z_]+\.py"
+    r"|openspec/changes/lexicon-symbolic-foundation/(design|tasks)\.md)$"
+)
+
+
+def _git(*args: str) -> str:
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+
+
+def _stat(path: Path) -> list[int] | None:
+    return [path.stat().st_size, path.stat().st_mtime_ns] if path.exists() else None
+
+
+def snapshot() -> dict:
+    """What must not change overnight: the active pointer, the release and the published copy."""
+    from GSE.lexicon_resource import ACTIVE_POINTER, resolve_lexicon_path
+
+    published = resolve_lexicon_path()
+    return {
+        "head": _git("rev-parse", "HEAD"),
+        "pointer_sha256": hashlib.sha256(ACTIVE_POINTER.read_bytes()).hexdigest(),
+        "published": str(published),
+        "files": {str(p): _stat(p) for p in (RELEASE, published)},
+    }
+
+
+def audit(start: dict) -> dict:
+    """Record-only checks the session cannot talk its way past; nothing is undone automatically."""
+    from GSE.lexicon_resource import ACTIVE_POINTER
+
+    now = snapshot()
+    committed = [f for f in _git("diff", "--name-only", f"{start['head']}..HEAD").splitlines() if f]
+    report = {
+        "pointer_unchanged": now["pointer_sha256"] == start["pointer_sha256"],
+        "release_and_published_unchanged": all(_stat(Path(p)) == s for p, s in start["files"].items()),
+        "commits": _git("log", "--format=%h %s", f"{start['head']}..HEAD").splitlines(),
+        "files_outside_allowed": [f for f in committed if not ALLOWED_FILES.match(f) or f in PROTECTED],
+        "uncommitted": _git("status", "--short").splitlines(),
+        "active_pointer": ACTIVE_POINTER.read_text(),
+    }
+    tally = _run(
+        [
+            ".venv/bin/python",
+            "scripts/compare_word_senses.py",
+            "--before",
+            start["published"],
+            "--after",
+            str(CANDIDATE),
+        ]
+    )
+    try:
+        report["values_vs_published"] = json.loads(tally["tail"]) if tally["exit"] == 0 else tally
+    except json.JSONDecodeError:
+        report["values_vs_published"] = tally
+    with sqlite3.connect(CANDIDATE.as_uri() + "?mode=ro", uri=True) as conn:
+        row = conn.execute("SELECT value FROM builder_metadata WHERE key = 'word_sense_rules'").fetchone()
+    stored = sorted(rule["rule_id"] for rule in json.loads(row[0])) if row else []
+    if stored:
+        rerun = _run([".venv/bin/python", "scripts/word_sense_coherence.py", "--admitted"])
+        try:
+            recomputed = sorted(json.loads(rerun["tail"])) if rerun["exit"] == 0 else None
+        except json.JSONDecodeError:
+            recomputed = None
+        report["admission_recheck"] = {
+            "stored": len(stored),
+            "recomputed": None if recomputed is None else len(recomputed),
+            "match": recomputed == stored,
+            "detail": None if recomputed is not None else rerun,
+        }
+    return report
 
 
 def main(argv=None) -> int:
@@ -227,6 +321,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     prompt, budget = ("Reply with the single word OK.", 0.25) if args.check else (TASK, args.budget)
     started = datetime.now().isoformat(timespec="seconds")
+    start = snapshot()
     with tempfile.TemporaryDirectory(prefix="lexicon-overnight-") as tmp:
         brief = Path(tmp) / "brief.md"
         brief.write_text(BRIEF)
@@ -264,6 +359,7 @@ def main(argv=None) -> int:
     out.with_suffix(".raw.json").write_text(run.stdout + run.stderr)  # gitignored, for inspection
     if not args.check:  # the same checks, run by this script, not taken from the session's report
         record["checks_after"] = {name: _run(cmd) for name, cmd in AFTER_CHECKS}
+        record["audit"] = audit(start)
         out.write_text(json.dumps(record, indent=2) + "\n")
         print(json.dumps({name: r["exit"] for name, r in record["checks_after"].items()}), flush=True)
     print(json.dumps({k: record[k] for k in ("mode", "exit", "cost_usd", "turns", "is_error")}), flush=True)
