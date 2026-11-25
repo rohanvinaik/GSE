@@ -748,10 +748,7 @@ class TestRoundTwoIdentity:
         [
             ("illness.n.01", "BE", 1),
             ("poverty.n.01", "BE", 1),
-            ("belong.v.01", "BE", 1),
-            ("receive.v.01", "HAVE", 1),
             ("exit.v.01", "MOVE", 1),
-            ("match.v.01", "SAME", 1),
             ("persuade.v.02", "CAUSE", 1),
         ],
     )
@@ -804,3 +801,40 @@ class TestSensoryAdjectiveIdentity:
     )
     def test_sensory_attributes(self, p, synset, expected):
         assert p.to_primitives_for_definition(synset) == expected
+
+
+class TestPeopleIdentity:
+    """Groups of persons are PEOPLE; institutions (an airline, an agency) are not."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize(
+        "synset", ["family.n.01", "nuclear_family.n.01", "crowd.n.01", "power_couple.n.01", "baseball_club.n.01"]
+    )
+    def test_groups_of_persons_are_people(self, p, synset):
+        assert p.to_primitives_for_definition(synset).get("PEOPLE") == 1
+
+    @pytest.mark.parametrize("synset", ["airline.n.01", "ministry.n.02", "frau.n.01"])
+    def test_institutions_and_titles_are_not(self, p, synset):
+        assert "PEOPLE" not in p.to_primitives_for_definition(synset)
+        assert "PART" not in p.to_primitives_for_definition(synset)
+
+
+def test_every_identity_root_is_named_by_its_canonical_synset():
+    """WordNet resolves a lemma-based name to another synset; ancestry uses canonical names only."""
+    from nltk.corpus import wordnet as wn
+
+    from GSE.curation.external_sources import wordnet_hierarchy as wh
+
+    names = (
+        set(wh._WARRANTED_ROOT_PRIMITIVES)
+        | set(wh.ADJECTIVE_IDENTITY_HEADS)
+        | set(wh.ADJECTIVE_ATTRIBUTE_IDENTITY)
+        | {root for root, _bank in wh.REVIEWED_BRANCH_EXCLUSIONS}
+        | set(wh.REVIEWED_BRANCH_EXCLUSIONS.values())
+    )
+    assert {name: wn.synset(name).name() for name in names if wn.synset(name).name() != name} == {}

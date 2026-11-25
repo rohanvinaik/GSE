@@ -154,7 +154,6 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "WORDS",
         "TOUCH",
         "BE",  # state.n.02 and be.v.01: own state denotation (Rohan's approved BE convention)
-        "HAVE",  # get.v.01: "come into the possession of"
         # Adjective identity: a prime head's pole and its cluster's satellites (huge BIG+, superb GOOD+).
         "GOOD",
         "BIG",

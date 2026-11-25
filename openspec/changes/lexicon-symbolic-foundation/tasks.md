@@ -120,6 +120,13 @@ satisfy three rules:
   conflicts in a 400-definition sample.
   measure.n.02 (QUANTITY) is withdrawn: its subtree holds named months, ages and currencies, and the
   release's own duration rule reserves date and temporal-phase senses for separate treatment.
+  Reviewed 2026-11-25 by reading each root's members against its gloss (after Rohan's "airline"
+  objection): withdrawn social_group (institutions are not people), part.n.01 (words and titles are not
+  parts), change.v.02, make.v.03, be.v.01, get.v.01, equal.v.01, enter.v.01, say.v.01, touch.v.05 (their
+  kinds are mostly not what the gloss says). PEOPLE comes from groups of persons only: people.n.01,
+  gathering.n.01, kin.n.02, family.n.01, team.n.01. Kept roots still carry WordNet's own odd members
+  (a tree's crown under location; a bishop under state); census in
+  docs/verification/2026-11-25-identity-root-census.json.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
 - [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every

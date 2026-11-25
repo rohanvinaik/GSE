@@ -130,6 +130,10 @@ ROOT_CONCEPT_PRIMITIVES = {
     "time_period.n.01": {"WHEN": 1},
     "time_unit.n.01": {"WHEN": 1},
     "people.n.01": {"PEOPLE": 1},
+    "gathering.n.01": {"PEOPLE": 1},
+    "kin.n.02": {"PEOPLE": 1},
+    "family.n.01": {"PEOPLE": 1},
+    "team.n.01": {"PEOPLE": 1},
     "social_group.n.01": {"PEOPLE": 1},
     "word.n.01": {"WORDS": 1},
     "kind.n.01": {"KIND": 1},
@@ -154,6 +158,11 @@ ROOT_CONCEPT_PRIMITIVES = {
 }
 
 
+# Withdrawn 2026-11-25 after reading each root's members (their kinds are mostly not what the gloss
+# says): social_group (agencies, industries, dynasties are institutions, not people), part.n.01 (words
+# and titles are not parts), change.v.02 (unbutton, souse), make.v.03 (compose, try), be.v.01 (kneel,
+# squint), get.v.01 (hunting, cheating), equal.v.01 (imitate is likeness, not sameness), enter.v.01
+# (gore, pierce), say.v.01 (rent, visa), touch.v.05 (fortify, enclose), measure.n.02 (April, currencies).
 # Exact categories that directly warrant a closed-basis coordinate.
 # Generic groups need not be people; food is not BODY; abstraction is not
 # thinking. A body part warrants PART, without asserting that it is BODY.
@@ -194,36 +203,29 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "time_period.n.01": frozenset({"WHEN"}),  # "an amount of time"
     "time_unit.n.01": frozenset({"WHEN"}),  # "a unit for measuring time periods"
     "people.n.01": frozenset({"PEOPLE"}),  # approved binding of PEOPLE
-    "social_group.n.01": frozenset({"PEOPLE"}),  # "people sharing some social relation"
+    "gathering.n.01": frozenset({"PEOPLE"}),  # "a group of persons together in one place"
+    "kin.n.02": frozenset({"PEOPLE"}),  # "group of people related by blood or marriage"
+    "family.n.01": frozenset({"PEOPLE"}),  # "a social unit living together"
+    "team.n.01": frozenset({"PEOPLE"}),  # "a cooperative unit (especially in sports)": squads, crews
     "word.n.01": frozenset({"WORDS"}),  # approved binding of WORDS
     "kind.n.01": frozenset({"KIND"}),  # approved binding of KINDS
-    "part.n.01": frozenset({"PART"}),  # approved binding of PARTS, less the reviewed substance branch
     "body.n.01": frozenset({"BODY"}),  # approved binding of BODY
     "speech_act.n.01": frozenset({"SAY"}),  # "the use of language to perform some act"
     "travel.n.01": frozenset({"MOVE"}),  # "the act of going from one place to another"
     "motion.n.03": frozenset({"MOVE"}),  # "a change of position that does not entail a change of location"
-    "say.v.01": frozenset({"SAY"}),  # "express in words"
     "travel.v.01": frozenset({"MOVE"}),  # "change location; move, travel, or proceed"
     "touch.v.01": frozenset({"TOUCH"}),  # "make physical contact with"
     "change.v.01": frozenset({"CAUSE"}),  # "cause to change; make different"
-    "change.v.02": frozenset({"HAPPEN"}),  # "undergo a change; become different"
     # Round 2 (2026-11-25).
     "state.n.02": frozenset({"BE"}),  # "the way something is"; Rohan: own state denotation suffices for BE
-    "make.v.03": frozenset({"CAUSE"}),  # "make or cause to be or to become"
-    "be.v.01": frozenset({"BE"}),  # "have the quality of being" (its troponyms are stative senses)
-    "get.v.01": frozenset({"HAVE"}),  # "come into the possession of something"
     "induce.v.02": frozenset({"CAUSE"}),  # "cause to do; cause to act in a specified manner"
-    "equal.v.01": frozenset({"SAME"}),  # "be identical or equivalent to"
-    "enter.v.01": frozenset({"MOVE"}),  # "to come or go into"
     "leave.v.01": frozenset({"MOVE"}),  # "go away from a place"
-    "touch.v.05": frozenset({"TOUCH"}),  # "be in direct physical contact with; make contact"
 }
 
 # A root whose WordNet subtree files a branch the prime does not describe: (root, bank) -> branch.
 # WordNet places all matter under part.n.01 ("the real physical matter of which a person or thing
 # consists"); matter is not a component, so whale oil and chlorophyll are not PART.
 REVIEWED_BRANCH_EXCLUSIONS = {
-    ("part.n.01", "PART"): "substance.n.01",
     # The nonbeing branch's BE polarity is Rohan's open decision (reserved in the explicit-state round).
     ("state.n.02", "BE"): "nonbeing.n.01",
 }
