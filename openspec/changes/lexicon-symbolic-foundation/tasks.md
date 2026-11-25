@@ -10,21 +10,37 @@ Historical October foundation/family reports remain evidence of their original s
 See design.md, *Founder correction*. These precede the checkpoint work below; a checkpoint over an
 empty lexicon is not a usable lexicon.
 
-- [ ] FC-1 Before code: confirm what replay validation and publication recompute, which builder
+- [x] FC-1 Before code: confirm what replay validation and publication recompute, which builder
   sources the checkpoint pins, and how `SOURCE_FAMILY` groups correlated sources.
-- [ ] FC-2 Source agreement: independent families vote per bank within their declared scopes; a sign
+- [x] FC-2 Source agreement: independent families vote per bank within their declared scopes; a sign
   commits on agreement with no opposition; it enters through the resolver so replay reproduces it.
-- [ ] FC-3 Sense collapse: per lemma and part of speech, senses grouped by agreement on load-bearing
+- [x] FC-3 Sense collapse: per lemma and part of speech, senses grouped by agreement on load-bearing
   banks (alternatives removed × downstream reach), split only on a witness, cores closed under the
   rules, rebuildable from the release.
-- [ ] FC-4 Acceptance in Rohan's order (F070): write each obvious word's expected banks before
+- [x] FC-4 Acceptance in Rohan's order (F070): write each obvious word's expected banks before
   running (happy, dog, give, big, mother, lock, and negatives), then the top 1,000, then the full
   build, in a working copy beside the release; 0 changed values among already-resolved cells.
 - [ ] FC-5 Admit the 648 coherence relations after re-checking them on current held-out words.
-- [ ] FC-6 Runtime reads senses by part of speech; a word is never refused for having several
+- [x] FC-6 Runtime reads senses by part of speech; a word is never refused for having several
   definitions.
-- [ ] FC-7 Rohan rules on F057 vs F066 (GOOD on nouns), with the count of signs the current rule blocks.
+- [ ] FC-7 Rohan rules on F057 vs F066 (GOOD on nouns): the current rule blocks 1,437 agreed GOOD signs on
+  noun senses in the full build.
 - [ ] FC-8 Switching `data/lexicon_active.json` to the result waits for Rohan's word.
+
+Result (2026-11-24): candidate `data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db`, a copy of
+release-022 with `word_source_agreement` and `word_senses` added; no release table changed.
+- 67,173 lemmas become 99,303 senses, placing all 377,720 non-name definitions. 54% of main senses
+  carry a sign; signed lemmas cover 71% of the top-1,000's token mass, and the remainder is mostly
+  function words, which correctly carry none.
+- Acceptance 12/12. Replay of 300 random lemmas: 0 mismatches.
+- Sentences that read as all-unread under 022 now read: happy FEEL+ GOOD+, dog ALIVE+ SOMETHING+,
+  gave DO+, know KNOW+, see SEE+, loves FEEL+, sad GOOD−.
+- Proof packet on the candidate:
+  - §3, §4, §5, §6, §11 and §12 run; §5 and §11 newly.
+  - §8 and §9 still fail in the symbolic layer's relation evidence, which requires one identified
+    definition.
+  - §10 needs "hurt", whose main sense is unresolved.
+  - §1 and §7 need `genealogy.db`.
 
 ## Urgent checkpoint execution — 2026-11-24
 

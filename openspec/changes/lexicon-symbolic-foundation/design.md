@@ -121,9 +121,15 @@ design uses to turn evidence into meaning.
      load-bearing.
 4. **The model is for the tail.** It answers only banks left open after 1–3, and only when they are
    narrowed to a few options.
-5. **Runtime reads senses.** The sentence's part of speech selects a word's senses. The reading is
-   what the surviving senses share, or the set of possible signs. A word is never refused for
-   having several definitions.
+5. **Runtime reads senses.** The sentence's part of speech selects a word's senses.
+   - The reading is the main sense, the word's core ("the real and obvious meaning").
+   - The other senses are carried as alternatives, with the banks where they differ and their
+     possible signs.
+   - Context that identifies one definition selects its sense.
+   - A word is never refused for having several definitions.
+   - Reading only what every sense shares erased the obvious meaning. One minority sense of "give"
+     (THINK+) cancelled its DO+, though nothing in a sentence that fixes only the part of speech
+     selects a minority sense.
 
 ### Superseded statements in `LEXICON_CONSTRUCTION_DESIGN.md`
 

@@ -2,10 +2,15 @@
 
 A word's definitions collapse into a few senses per part of speech
 (``GSE.curation.lexicon_builder.word_senses``). At read time the sentence's part of speech
-selects that part of speech's senses. The reading is what every surviving sense shares; where
-they differ, the bank carries its possible signs; where any sense leaves it unconstrained, it
-stays unknown. A word is never refused for having several definitions. When context has already
-identified one exact definition, the reading is that definition's sense.
+selects that part of speech's senses, and the reading is the main sense: the word's core, its
+"real and obvious meaning" (Rohan). The other senses are carried as alternatives, with the banks
+where they differ from the core and the possible signs there. When context has identified one
+exact definition, the reading is that definition's sense. A word is never refused for having
+several definitions.
+
+Reading only what every sense shares erased the obvious meaning: one minority sense of "give"
+(THINK+, "give thought to") cancelled its DO+. Nothing in a sentence that fixes only the part of
+speech has selected a minority sense.
 
 Only a lexicon that carries a ``word_senses`` table is read this way; otherwise ``read_senses``
 returns None and the caller keeps its definition-identity behavior.
@@ -26,27 +31,15 @@ def has_senses(conn: sqlite3.Connection) -> bool:
     return conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='word_senses'").fetchone() is not None
 
 
-def _consequence(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]]]:
-    """What every surviving sense fixes, and the possible signs where they differ."""
-    banks = set().union(*(set(s["assignments"]) | set(s["open"]) for s in senses))
-    shared: dict[str, int] = {}
-    open_: dict[str, list[int]] = {}
-    for bank in sorted(banks):
-        possible = []
-        for sense in senses:
-            if bank in sense["assignments"]:
-                possible.append({sense["assignments"][bank]})
-            elif bank in sense["open"]:
-                possible.append(set(sense["open"][bank]))
-            else:
-                break  # one sense leaves it unconstrained: unknown
-        else:
-            union = set().union(*possible)
-            if len(union) == 1:
-                shared[bank] = next(iter(union))
-            else:
-                open_[bank] = sorted(union)
-    return shared, open_
+def _differences(core: dict, alternatives: list[dict]) -> dict[str, list[int]]:
+    """Banks where another sense fixes a different value than the core: their possible signs."""
+    differing: dict[str, set[int]] = {}
+    for sense in alternatives:
+        for bank, value in sense["assignments"].items():
+            if core["assignments"].get(bank) != value:
+                base = {core["assignments"][bank]} if bank in core["assignments"] else set(core["open"].get(bank, ()))
+                differing.setdefault(bank, set(base)).add(value)
+    return {bank: sorted(values) for bank, values in sorted(differing.items())}
 
 
 def read_senses(
@@ -81,8 +74,8 @@ def read_senses(
         ]
         if not chosen:
             return None
-        chosen_pos, sense = chosen[0]
-        selected, selected_pos, basis = [sense], chosen_pos, "IDENTIFIED_DEFINITION"
+        selected_pos, sense = chosen[0]
+        core, basis = sense, "IDENTIFIED_DEFINITION"
     else:
         wanted = UD_TO_POS.get(pos or "", pos)
         if wanted in by_pos:
@@ -93,13 +86,15 @@ def read_senses(
                 key=lambda p: (-sum(len(s["members"]) + len(s["absorbed"]) for s in by_pos[p]), _ORDER.get(p, 9), p),
             )[0]
             basis = "DOMINANT_PART_OF_SPEECH"
-        selected = by_pos[selected_pos]
-    shared, open_ = _consequence(selected)
+        core = by_pos[selected_pos][0]  # the main sense
+    alternatives = [s for s in by_pos[selected_pos] if s is not core]
     return {
         "policy": POLICY,
         "pos": selected_pos,
         "basis": basis,
-        "senses": [{"sense": s["sense"], "definitions": len(s["members"]) + len(s["absorbed"])} for s in selected],
-        "assignments": shared,
-        "open": open_,
+        "sense": core["sense"],
+        "assignments": dict(core["assignments"]),
+        "open": dict(core["open"]),
+        "alternatives": [{"sense": s["sense"], "assignments": s["assignments"]} for s in alternatives],
+        "differs": _differences(core, alternatives),
     }

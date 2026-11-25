@@ -50,19 +50,19 @@ def test_the_sentences_part_of_speech_selects_the_senses():
     assert reading["pos"] == "verb" and reading["assignments"] == {"MOVE": 1}
 
 
-def test_several_senses_give_what_they_share_and_leave_the_rest_unknown():
+def test_the_reading_is_the_main_sense_with_the_others_as_alternatives():
     reading = read_senses(_lexicon(DOG), "dog", "NOUN")
-    assert reading["assignments"] == {"ALIVE": 1, "SOMETHING": 1}
-    assert "SOMEONE" not in reading["assignments"] and "BODY" not in reading["assignments"]
+    assert reading["assignments"] == {"ALIVE": 1, "SOMETHING": 1, "BODY": 1}
+    assert reading["alternatives"] == [{"sense": 1, "assignments": {"ALIVE": 1, "SOMETHING": 1, "SOMEONE": 1}}]
 
 
-def test_differing_signs_are_carried_as_possible_signs():
+def test_banks_where_another_sense_differs_carry_their_possible_signs():
     rows = [
         ("fair", "adj", 0, {"GOOD": 1}, {}, ["a"]),
         ("fair", "adj", 1, {"GOOD": 0}, {}, ["b"]),
     ]
     reading = read_senses(_lexicon(rows), "fair", "ADJ")
-    assert reading["assignments"] == {} and reading["open"] == {"GOOD": [0, 1]}
+    assert reading["assignments"] == {"GOOD": 1} and reading["differs"] == {"GOOD": [0, 1]}
 
 
 def test_an_identified_definition_reads_its_own_sense():
