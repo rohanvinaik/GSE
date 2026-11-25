@@ -469,7 +469,7 @@ class GSEEncoder:
                     and (
                         lexical.get("selection_status") == "AMBIGUOUS"
                         or (
-                            lexical.get("selection_status") == "WORD_SENSES"
+                            lexical.get("reading_mode") == "WORD_SENSES"
                             and len(lexical.get("candidate_entry_ids") or ()) > 1
                         )
                     )
@@ -480,7 +480,7 @@ class GSEEncoder:
                     if selection["code"] == "EXACT_WORDNET_SENSE":
                         entry_id = selection["entry_id"]
                         lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
-                    elif eligible_pos == "VERB" and lexical.get("selection_status") == "WORD_SENSES":
+                    elif eligible_pos == "VERB" and lexical.get("reading_mode") == "WORD_SENSES":
                         # Grammar is a constraint harness: the clause's argument pattern eliminates senses
                         # whose own WordNet frames cannot host it (GSE.symbolic.frame_selection).
                         from GSE.symbolic.frame_selection import clause_pattern, surviving
@@ -968,7 +968,7 @@ class GSEEncoder:
                 if lexical_evidence is not None
                 else runtime_lookup(self.conn, lemma.lower(), entry_id)
             )
-            if selection["code"] == "WORD_SENSES" and lexical_evidence is not None:
+            if lexical_evidence is not None and lexical_evidence.get("reading_mode") == "WORD_SENSES":
                 # The founder-corrected lexicon: what the word's senses share for this use.
                 return dict(lexical_evidence["primitives"]), {}, grammar
             if selection["code"] != "IDENTIFIED":

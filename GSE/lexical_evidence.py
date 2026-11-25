@@ -122,7 +122,10 @@ def _definition_evidence(
         if senses is not None:
             primitives = {bank: value for bank, value in senses["assignments"].items() if value != 0}
             out.update(
-                selection_status="WORD_SENSES",
+                # Identity and reading mode are different facts: an identified definition stays IDENTIFIED
+                # (grammatical consumers require it); the sense reading is recorded in its own field.
+                selection_status="IDENTIFIED" if selection["code"] == "IDENTIFIED" else "WORD_SENSES",
+                reading_mode="WORD_SENSES",
                 selection_policy=senses["policy"],
                 word_senses=senses,
                 sense_resolved=False,
