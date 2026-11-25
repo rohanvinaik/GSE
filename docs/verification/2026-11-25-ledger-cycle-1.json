@@ -1,0 +1,706 @@
+{
+ "format": "GSE.lexicon-ledger-cycle/1",
+ "before": "data/lexicon_builder/2026-11-12/sparse-release-022-senses.db",
+ "after": "data/lexicon_builder/2026-11-12/sparse-release-022-identity-published.db",
+ "rules": [
+  {
+   "rule": "act.n.02 => DO=+1",
+   "excluded_branch": null,
+   "definitions": 9476,
+   "kappa_open_before_identity": 9405,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "act.v.01 => DO=+1",
+   "excluded_branch": null,
+   "definitions": 4197,
+   "kappa_open_before_identity": 0,
+   "confirming": 30,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "bilk:bilk.v.01",
+    "bleed:bleed.v.03",
+    "call:address.v.06",
+    "cheat:cheat.v.01",
+    "con:victimize.v.03",
+    "cuckold:cheat_on.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "NO_REACH"
+  },
+  {
+   "rule": "artifact.n.01 => SOMETHING=+1",
+   "excluded_branch": null,
+   "definitions": 10811,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "body.n.01 => BODY=+1",
+   "excluded_branch": null,
+   "definitions": 22,
+   "kappa_open_before_identity": 21,
+   "confirming": 1,
+   "confirming_sources": [
+    "nsm_basis_correspondence:canonical-sourc"
+   ],
+   "confirming_examples": [
+    "body:body.n.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "body_part.n.01 => PART=+1",
+   "excluded_branch": null,
+   "definitions": 1466,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "cause.v.01 => CAUSE=+1",
+   "excluded_branch": null,
+   "definitions": 330,
+   "kappa_open_before_identity": 0,
+   "confirming": 8,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "appoint:appoint.v.01",
+    "complete:dispatch.v.02",
+    "fix:fix.v.06",
+    "lay:lay.v.03",
+    "name:appoint.v.01",
+    "nominate:appoint.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "NO_REACH"
+  },
+  {
+   "rule": "change.v.01 => CAUSE=+1",
+   "excluded_branch": null,
+   "definitions": 5628,
+   "kappa_open_before_identity": 5476,
+   "confirming": 106,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "adorn:decorate.v.01",
+    "applique:applique.v.01",
+    "arrange:dress.v.16",
+    "bail:bail.v.04",
+    "bleed:bleed.v.05",
+    "blend:blend.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "desire.v.01 => WANT=+1",
+   "excluded_branch": null,
+   "definitions": 104,
+   "kappa_open_before_identity": 0,
+   "confirming": 15,
+   "confirming_sources": [
+    "docs/program/LEXICON_CONSTRUCTION_DESIGN",
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "ache:ache.v.02",
+    "covet:covet.v.01",
+    "crave:crave.v.01",
+    "desire:desire.v.01",
+    "fancy:fancy.v.02",
+    "hanker:hanker.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "NO_REACH"
+  },
+  {
+   "rule": "emotion.n.01 => FEEL=+1",
+   "excluded_branch": null,
+   "definitions": 271,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "entity.n.01 => SOMETHING=+1",
+   "excluded_branch": null,
+   "definitions": 77779,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "event.n.01 => HAPPEN=+1",
+   "excluded_branch": null,
+   "definitions": 11374,
+   "kappa_open_before_identity": 11205,
+   "confirming": 3,
+   "confirming_sources": [
+    "model:qwen3.8:27b-q4_K_M"
+   ],
+   "confirming_examples": [
+    "accident:accident.n.02",
+    "explosion:explosion.n.01",
+    "leap:leap.n.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "family.n.01 => PEOPLE=+1",
+   "excluded_branch": null,
+   "definitions": 9,
+   "kappa_open_before_identity": 9,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "feel.v.01 => FEEL=+1",
+   "excluded_branch": null,
+   "definitions": 127,
+   "kappa_open_before_identity": 0,
+   "confirming": 20,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "anger:anger.v.02",
+    "anguish:anguish.v.01",
+    "care:care.v.01",
+    "cheer:cheer.v.04",
+    "exult:exuberate.v.01",
+    "exult:exult.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "NO_REACH"
+  },
+  {
+   "rule": "feeling.n.01 => FEEL=+1",
+   "excluded_branch": null,
+   "definitions": 853,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "gathering.n.01 => PEOPLE=+1",
+   "excluded_branch": null,
+   "definitions": 277,
+   "kappa_open_before_identity": 266,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "happen.v.01 => HAPPEN=+1",
+   "excluded_branch": null,
+   "definitions": 168,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "hear.v.01 => HEAR=+1",
+   "excluded_branch": null,
+   "definitions": 18,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "induce.v.02 => CAUSE=+1",
+   "excluded_branch": null,
+   "definitions": 256,
+   "kappa_open_before_identity": 256,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "kin.n.02 => PEOPLE=+1",
+   "excluded_branch": null,
+   "definitions": 71,
+   "kappa_open_before_identity": 71,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "kind.n.01 => KIND=+1",
+   "excluded_branch": null,
+   "definitions": 55,
+   "kappa_open_before_identity": 54,
+   "confirming": 1,
+   "confirming_sources": [
+    "nsm_basis_correspondence:canonical-sourc"
+   ],
+   "confirming_examples": [
+    "kind:kind.n.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "know.v.01 => KNOW=+1",
+   "excluded_branch": null,
+   "definitions": 28,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "leave.v.01 => MOVE=+1",
+   "excluded_branch": null,
+   "definitions": 117,
+   "kappa_open_before_identity": 107,
+   "confirming": 10,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "abandon:vacate.v.02",
+    "bolt:abscond.v.01",
+    "depart:depart.v.03",
+    "escape:escape.v.01",
+    "flee:flee.v.01",
+    "fly:flee.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "living_thing.n.01 => ALIVE=+1",
+   "excluded_branch": null,
+   "definitions": 14825,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "location.n.01 => WHERE=+1",
+   "excluded_branch": null,
+   "definitions": 2165,
+   "kappa_open_before_identity": 2153,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "motion.n.03 => MOVE=+1",
+   "excluded_branch": null,
+   "definitions": 277,
+   "kappa_open_before_identity": 277,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "move.v.03 => MOVE=+1",
+   "excluded_branch": null,
+   "definitions": 1088,
+   "kappa_open_before_identity": 0,
+   "confirming": 110,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "bob:bob.v.01",
+    "bop:bop.v.01",
+    "bounce:bounce.v.01",
+    "bounce:bounce.v.05",
+    "bound:jump.v.01",
+    "bustle:bustle.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "NO_REACH"
+  },
+  {
+   "rule": "organism.n.01 => ALIVE=+1",
+   "excluded_branch": null,
+   "definitions": 14713,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "people.n.01 => PEOPLE=+1",
+   "excluded_branch": null,
+   "definitions": 174,
+   "kappa_open_before_identity": 137,
+   "confirming": 1,
+   "confirming_sources": [
+    "nsm_basis_correspondence:canonical-sourc"
+   ],
+   "confirming_examples": [
+    "people:people.n.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "perform.v.01 => DO=+1",
+   "excluded_branch": null,
+   "definitions": 98,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "person.n.01 => SOMEONE=+1",
+   "excluded_branch": null,
+   "definitions": 10149,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "physical_entity.n.01 => SOMETHING=+1",
+   "excluded_branch": null,
+   "definitions": 38856,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "see.v.01 => SEE=+1",
+   "excluded_branch": null,
+   "definitions": 15,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "speech_act.n.01 => SAY=+1",
+   "excluded_branch": null,
+   "definitions": 562,
+   "kappa_open_before_identity": 562,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "state.n.02 => BE=+1",
+   "excluded_branch": "nonbeing.n.01",
+   "definitions": 4638,
+   "kappa_open_before_identity": 4234,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [
+    "reviewed-guarded-pattern:1260743f67e8834680862a02d9da1fafa1e8659a6f1b80ea5f4ffc2d97720eb4"
+   ],
+   "verdict": "EXCEEDS_REVIEWED_RULE"
+  },
+  {
+   "rule": "state.v.01 => SAY=+1",
+   "excluded_branch": null,
+   "definitions": 673,
+   "kappa_open_before_identity": 20,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "team.n.01 => PEOPLE=+1",
+   "excluded_branch": null,
+   "definitions": 22,
+   "kappa_open_before_identity": 22,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "think.v.03 => THINK=+1",
+   "excluded_branch": null,
+   "definitions": 1921,
+   "kappa_open_before_identity": 0,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "time_period.n.01 => WHEN=+1",
+   "excluded_branch": null,
+   "definitions": 520,
+   "kappa_open_before_identity": 491,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "time_unit.n.01 => WHEN=+1",
+   "excluded_branch": null,
+   "definitions": 49,
+   "kappa_open_before_identity": 49,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "touch.v.01 => TOUCH=+1",
+   "excluded_branch": null,
+   "definitions": 593,
+   "kappa_open_before_identity": 593,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "travel.n.01 => MOVE=+1",
+   "excluded_branch": null,
+   "definitions": 154,
+   "kappa_open_before_identity": 154,
+   "confirming": 0,
+   "confirming_sources": [],
+   "confirming_examples": [],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "UNCONFIRMED"
+  },
+  {
+   "rule": "travel.v.01 => MOVE=+1",
+   "excluded_branch": null,
+   "definitions": 1680,
+   "kappa_open_before_identity": 1477,
+   "confirming": 203,
+   "confirming_sources": [
+    "verbnet"
+   ],
+   "confirming_examples": [
+    "accompany:accompany.v.02",
+    "advance:advance.v.01",
+    "ascend:ascend.v.01",
+    "ascend:ascend.v.05",
+    "ascend:rise.v.16",
+    "backpack:backpack.v.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  },
+  {
+   "rule": "word.n.01 => WORDS=+1",
+   "excluded_branch": null,
+   "definitions": 140,
+   "kappa_open_before_identity": 125,
+   "confirming": 1,
+   "confirming_sources": [
+    "nsm_basis_correspondence:canonical-sourc"
+   ],
+   "confirming_examples": [
+    "word:word.n.01"
+   ],
+   "contradicting": 0,
+   "contradicting_examples": [],
+   "separating_guards": [],
+   "reviewed_rules_for_bank": [],
+   "verdict": "ADMISSIBLE"
+  }
+ ]
+}
