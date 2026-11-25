@@ -31,14 +31,13 @@ NP_INNER = frozenset({"DET", "ADJ", "NUM", "PRON", "NOUN", "PROPN", "ADV"})
 def clause_pattern(doc, position, someone) -> tuple | None:
     """(subject, objects in order, 'to' + somebody) for the verb at ``position``, read from GSE's linear grammar
     (the native front end builds no arcs): the subject is the nearest nominal before the verb, the objects are the
-    noun-phrase heads after it up to the clause boundary. None when any slot cannot be typed."""
+    noun-phrase heads after it up to the clause boundary. An argument whose type the lexicon does not settle is "*":
+    it matches either slot, so frames are still eliminated by arity and by the typed slots."""
     subject = None
     for k in range(position - 1, -1, -1):
         token = doc[k]
         if token.pos_ in NOMINAL:
-            subject = slot_type(token, someone)
-            if subject is None:
-                return None
+            subject = slot_type(token, someone) or "*"
             break
         if token.pos_ not in NP_INNER and token.pos_ != "AUX":
             break
@@ -62,10 +61,7 @@ def clause_pattern(doc, position, someone) -> tuple | None:
             j += 1
         head = doc[j]
         if head.pos_ in NOMINAL:
-            kind = slot_type(head, someone)
-            if kind is None:
-                return None
-            objects.append(kind)
+            objects.append(slot_type(head, someone) or "*")
         k = j + 1
     return subject, tuple(objects), to_somebody
 
@@ -78,14 +74,14 @@ def frame_hosts(frame: str, pattern: tuple) -> bool:
         return False
     head = words.index("v")
     before, after = words[:head], words[head + 1 :]
-    if subject is not None and before and before[0] not in {subject, subject + "s"}:
+    if subject not in (None, "*") and before and before[0] not in {subject, subject + "s"}:
         return False
     slots = [w for w in after if w in {"somebody", "something"}]
     wants_to = "to" in after
     if to_somebody and not wants_to:
         return False
     framed = tuple(slots[:-1]) if wants_to and slots and slots[-1] == "somebody" else tuple(slots)
-    return framed == objects
+    return len(framed) == len(objects) and all(o in ("*", f) for f, o in zip(framed, objects, strict=True))
 
 
 def surviving(lemma: str, candidate_ids, pattern: tuple | None) -> set:
