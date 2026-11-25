@@ -16,6 +16,16 @@ USER_INTENT (2026-11-24, the owner's decisions on this change):
 4. The owner's lexicon session (the `lexicon-symbolic-foundation` change) continues in this checkout. This change never edits that session's files.
 5. The custom-model-training work means both the trained register router and `curation/llm` (with the Qwen client); both are unfinished experiments.
 
+USER_INTENT (2026-11-24, later the same day):
+
+6. The NSM primes chart is a short list; write it formally in code so nothing depends on a text file.
+7. Archive the audit daemon (with `deploy_to_desktop.sh` and the empty root `lexicon.db`) and the flat lexicon. The owner has a simple, already-devised answer for what replaces the flat lexicon, and will explain it.
+8. Experiments go in one `experiments` folder.
+9. Genesis is out of scope; Regenesis succeeds it.
+10. The proof-packet readings are demonstrations, not formal test cases: a high-level check that GSE keeps its advertised ability to interpret natural-language input. The specifics do not matter.
+11. The interface proposal is broadly accepted; details later.
+12. Ordinary words reading as unread under the definition lexicon (`AMBIGUOUS`) misses the point of GSE. The owner will explain GSE, NLP and language before any change is made to it; this pass stops here until then.
+
 CODE_OBSERVED (2026-11-23, design.md):
 
 - 63 modules (about 19,600 lines) never ran on a consumer path. Most belong to the June 14 learning-network experiment, which decision 5 keeps.
