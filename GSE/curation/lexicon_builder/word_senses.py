@@ -38,6 +38,9 @@ CONVENTION_RULES = frozenset(
 )
 CONVENTION_ZERO_BANKS = frozenset({"I", "YOU"})
 EXCLUDED_POS = frozenset({"name"})
+# Definitions resolving the same load-bearing values that count as coherence across definitions
+# (a judgment, recorded in the design): one or two can be an incidental minority sense.
+COHERENT_GROUP = 3
 
 
 @dataclass(frozen=True)
@@ -147,11 +150,14 @@ def collapse(
     definitions: Sequence[Definition],
     anchor: Mapping[str, int] | None = None,
     corroboration: Mapping[str, Mapping[int, frozenset[str]]] | None = None,
+    first_entry: str | None = None,
 ) -> list[Sense]:
     """Group one part of speech's definitions into senses.
 
-    Definitions with the same load-bearing encoding form a group. The main sense is the best
-    supported group: the one sharing the most values with ``anchor`` (the word's agreed source
+    Definitions with the same load-bearing encoding form a group. The main sense is the group
+    holding ``first_entry``, the word's most common sense (WordNet's first, ordered by tagged-text
+    frequency), or an unresolved sense when that definition has no evidence. Otherwise it is the
+    best-supported group: the one sharing the most values with ``anchor`` (the word's agreed source
     signs for this part of speech: where independent sources converge is the obvious meaning),
     then the one with the fewest asserted values no independent source corroborates, then the
     largest.
@@ -171,15 +177,29 @@ def collapse(
 
     def rank(item):
         key, group = item
+        holds_first = any(d.entry_id == first_entry for d in group)
         shared = sum(1 for bank, value in key if anchor.get(bank) == value)
         asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
         unsupported = sum(
             1 for bank, value in key if bank in asserted and not _corroborated(bank, value, group, corroboration)
         )
-        return (-shared, unsupported, -len(group), -sum(d.weight for d in group), min(d.entry_id for d in group))
+        return (
+            not holds_first,
+            -shared,
+            unsupported,
+            -len(group),
+            -sum(d.weight for d in group),
+            min(d.entry_id for d in group),
+        )
 
     ordered = [sorted(group, key=lambda d: d.entry_id) for _key, group in sorted(groups.items(), key=rank)]
-    senses: list[Sense] = []
+    # When the word's most common sense (WordNet's first) has no evidence, the main sense stays
+    # unresolved unless several definitions cohere on one encoding: an evidenced minority sense
+    # (buy's "accept as true", THINK+) must not stand in for it, but give's nine transfer
+    # definitions agreeing on DO+ are the coherence the design rests on.
+    blank_first = first_entry is not None and any(d.entry_id == first_entry and not d.load_bearing for d in definitions)
+    coherent = bool(ordered) and len(ordered[0]) >= COHERENT_GROUP
+    senses: list[Sense] = [Sense()] if blank_first and not coherent else []
     for group in ordered:
         values = {bank: entry[0] for bank, entry in group[0].load_bearing.items()}
         asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
@@ -195,7 +215,10 @@ def collapse(
             senses.append(Sense(core=dict(values), members=list(group)))
     if not senses:
         senses.append(Sense(core=dict(anchor)))
-    senses[1:] = sorted(senses[1:], key=lambda sense: (-len(sense.members), -sense.weight, sense.members[0].entry_id))
+    senses[1:] = sorted(
+        senses[1:],
+        key=lambda sense: (-len(sense.members), -sense.weight, sense.members[0].entry_id if sense.members else ""),
+    )
     senses[0].absorbed.extend(d for d in definitions if not d.load_bearing)
     return senses
 
@@ -315,6 +338,20 @@ def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, 
     }
 
 
+_WORDNET_POS = {"noun": "n", "verb": "v", "adj": "a", "adv": "r"}
+
+
+def first_sense_entry(lemma: str, pos: str) -> str | None:
+    """The definition id of the word's most common sense in this part of speech (WordNet's first)."""
+    tag = _WORDNET_POS.get(pos)
+    if tag is None:
+        return None
+    from nltk.corpus import wordnet
+
+    synsets = wordnet.synsets(lemma, tag)
+    return f"wordnet:{lemma}:{synsets[0].name()}" if synsets else None
+
+
 def dominant_pos(by_pos: Mapping[str, Sequence[Definition]]) -> str | None:
     """The part of speech with the most definitions; ties go to noun, verb, adjective, adverb."""
     order = {"noun": 0, "verb": 1, "adj": 2, "adv": 3}
@@ -341,7 +378,8 @@ def build_word(
     for pos, definitions in sorted(by_pos.items()):
         agreed = committed_signs(agree(votes_for_pos(votes, pos, pos == dominant)))
         anchor = settle_anchor(agreed, relations, pos)
-        for index, sense in enumerate(collapse(definitions, anchor, corroboration)):
+        first = first_sense_entry(lemma, pos)
+        for index, sense in enumerate(collapse(definitions, anchor, corroboration, first)):
             rows.append(close_sense(lemma, pos, index, sense, agreed, relations))
     return rows
 

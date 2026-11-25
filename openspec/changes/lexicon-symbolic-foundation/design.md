@@ -81,6 +81,15 @@ design uses to turn evidence into meaning.
      SentiWordNet polarity measure GOOD; Lancaster measures SEE, HEAR, TOUCH and interoceptive FEEL,
      not BODY, DO or MOVE; WordNet's hierarchy measures its categories; VerbNet's predicates measure
      verb banks. The topical taggers and dictionary glosses measure nothing.
+   - Rating lexicons count only strong ratings, read from their raw values (F066: "strong encoding
+     of emotive valence"):
+     - NRC-VAD valence |v| >= 0.5 for GOOD;
+     - a genuine NRC emotion (joy, sadness, anger, fear, disgust, surprise; not trust or
+       anticipation) for FEEL;
+     - Lancaster interoceptive strength >= 3.5 for FEEL; genuine feelings rate higher, while
+       words that cause a feeling rate lower ("dangerous" 3.2);
+     - Lancaster perceptual strength >= 3.0 for SEE, HEAR and TOUCH.
+     NRC-Emotion and NRC-VAD are one family (same lab, same method).
    - Correlated sources count as one family. A family votes only for the parts of speech it speaks
      to: VerbNet for verbs, WordNet's word-level projection for nouns, the ratings for the word's
      dominant use.
@@ -89,9 +98,16 @@ design uses to turn evidence into meaning.
    conditional rules once re-checked against current held-out words. Discovery that can never
    write is not a stage.
 3. **A word's definitions collapse into senses within each part of speech.**
-   - Definitions with the same load-bearing encoding form a group. The main sense is the
-     best-supported group: the one sharing the most values with the sources' agreement, then the
-     one with the fewest values no independent source corroborates, then the largest.
+   - Definitions with the same load-bearing encoding form a group.
+   - The main sense is the group holding the word's most common sense: WordNet's first, which
+     WordNet orders by tagged-text frequency. This only decides which coherent group is the default.
+   - When that first sense has no evidence, the main sense stays unresolved, unless at least three
+     definitions share one encoding (coherence across definitions; a recorded judgment). An
+     evidenced minority sense, such as buy's "accept as true" (THINK+), never stands in for the
+     common one.
+   - Without a WordNet first sense, the main sense is the best-supported group: the one sharing the
+     most values with the sources' agreement, then the one with the fewest values no independent
+     source corroborates, then the largest.
    - Another group joins a sense only if it conflicts with nothing and every value it adds is
      corroborated by an independent, measuring word-level family. A family cannot corroborate its
      own value. VerbNet's word-level vote is the union of a verb's classes, so it never identifies

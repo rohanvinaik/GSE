@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
-from GSE.curation.lexicon_builder.source_agreement import agree, committed_signs, to_bank_signs, votes_for_pos
+from GSE.curation.lexicon_builder.source_agreement import (
+    agree,
+    committed_signs,
+    measured_signs,
+    to_bank_signs,
+    votes_for_pos,
+)
 from GSE.curation.lexicon_builder.word_senses import Definition, collapse
 
 
@@ -24,10 +30,18 @@ def test_correlated_sources_count_as_one_family():
 
 
 def test_opposition_leaves_the_bank_open_with_both_signs():
-    agreement = agree({"nrc_vad": {"GOOD": 1}, "sentiwordnet": {"GOOD": 1}, "nrc_emotion": {"GOOD": -1}})
-    assert committed_signs(agreement) == {}
-    assert agreement["GOOD"].state == "OPPOSED"
-    assert agreement["GOOD"].signs == {1, -1}
+    agreement = agree(
+        {
+            "nrc_vad": {"GOOD": 1},
+            "sentiwordnet": {"GOOD": 1},
+            "concreteness": {"SOMETHING": 1},
+            "lancaster_sensorimotor": {"FEEL": 1},
+            "nrc_emotion": {"FEEL": -1},
+        }
+    )
+    assert "FEEL" not in committed_signs(agreement)
+    assert agreement["FEEL"].state == "OPPOSED"
+    assert agreement["FEEL"].signs == {1, -1}
 
 
 def test_negative_poles_fold_into_their_bank():
@@ -102,7 +116,7 @@ def test_loose_families_agreeing_commit_nothing():
 
 def test_one_measuring_family_and_one_loose_family_commit_nothing():
     # NRC's anticipation->WANT is an association; with a topical tag it is still not two measurements.
-    agreement = agree({"nrc_emotion": {"WANT": 1, "GOOD": 1}, "usas": {"WANT": 1}, "sentiwordnet": {"GOOD": 1}})
+    agreement = agree({"nrc_vad": {"WANT": 1, "GOOD": 1}, "usas": {"WANT": 1}, "sentiwordnet": {"GOOD": 1}})
     assert committed_signs(agreement) == {"GOOD": 1}
 
 
@@ -113,3 +127,58 @@ def test_without_agreement_the_most_shared_encoding_is_the_main_sense():
     senses = collapse([speech, *transfer])
     assert senses[0].members == transfer and "SAY" not in senses[0].core
     assert senses[1].members == [speech]
+
+
+def test_nrc_emotion_and_nrc_vad_are_one_family():
+    # Same lab, same association method: their agreement is one observation.
+    assert committed_signs(agree({"nrc_emotion": {"GOOD": 1}, "nrc_vad": {"GOOD": 1}})) == {}
+
+
+class _Ratings:
+    def __init__(self, valence=None, emotions=None, **modalities):
+        self._valence, self._emotions, self._modalities = valence, emotions or {}, modalities
+
+    def get_vad(self, word):
+        return type("V", (), {"valence": self._valence})() if self._valence is not None else None
+
+    def get_emotions(self, word):
+        return self._emotions
+
+    def get_sensorimotor(self, word):
+        return type("S", (), self._modalities)() if self._modalities else None
+
+
+def test_only_strong_valence_measures_good():
+    assert measured_signs("nrc_vad", _Ratings(valence=0.985), "happy") == {"GOOD": 1}
+    assert measured_signs("nrc_vad", _Ratings(valence=0.438), "real") == {}
+    # "learn" (0.666) passes the strength test but NRC alone cannot commit GOOD:
+    assert committed_signs(agree({"nrc_vad": {"GOOD": 1}, "nrc_emotion": {"FEEL": 1}})) == {}
+    assert measured_signs("nrc_vad", _Ratings(valence=-0.55), "sad") == {"GOOD": -1}
+
+
+def test_only_a_genuine_emotion_or_felt_strength_measures_feel():
+    assert measured_signs("nrc_emotion", _Ratings(emotions={"trust": 1, "positive": 1}), "real") == {}
+    assert measured_signs("nrc_emotion", _Ratings(emotions={"joy": 1}), "happy") == {"FEEL": 1}
+    hand_rated = _Ratings(visual=1.0, auditory=0.5, haptic=4.0, interoceptive=1.0)
+    assert measured_signs("lancaster_sensorimotor", hand_rated, "lock") == {"TOUCH": 1}
+
+
+def test_when_the_most_common_sense_has_no_evidence_the_main_sense_stays_unresolved():
+    # "buy": its first sense (purchase) is unresolved; "accept as true" (THINK+) must not stand in.
+    purchase = Definition("wordnet:buy:buy.v.01", 1, "verb", {}, {})
+    believe = _definition("wordnet:buy:buy.v.05", THINK=1)
+    senses = collapse([purchase, believe], first_entry="wordnet:buy:buy.v.01")
+    assert senses[0].core == {} and purchase in senses[0].absorbed
+    assert senses[1].members == [believe]
+
+
+def test_several_coherent_definitions_carry_the_main_sense_even_when_the_first_is_unresolved():
+    first = Definition("wordnet:give:give.v.01", 1, "verb", {}, {})
+    transfer = [_definition(f"wordnet:give:give.v.0{i}", DO=1) for i in (3, 4, 5)]
+    senses = collapse([first, *transfer], first_entry="wordnet:give:give.v.01")
+    assert senses[0].members == transfer and first in senses[0].absorbed
+
+
+def test_a_word_that_causes_a_feeling_is_not_a_feeling():
+    assert measured_signs("lancaster_sensorimotor", _Ratings(interoceptive=3.2), "dangerous") == {}
+    assert measured_signs("lancaster_sensorimotor", _Ratings(interoceptive=4.36), "afraid") == {"FEEL": 1}

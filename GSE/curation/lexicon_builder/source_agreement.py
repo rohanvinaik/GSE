@@ -26,6 +26,9 @@ from .foundation import BANKS, NEGATIVE_POLES
 # FrameNet and PropBank describe the same verbs' frames, and ConceptNet and USAS are both broad
 # topical taggers: agreement within either group is one observation counted twice.
 FAMILY = {
+    # NRC-Emotion and NRC-VAD come from the same lab and the same crowd-sourced association method.
+    "nrc_emotion": "nrc",
+    "nrc_vad": "nrc",
     "verbnet": "verb_structure",
     "framenet": "verb_structure",
     "propbank": "verb_structure",
@@ -46,8 +49,7 @@ MIN_FAMILIES = 2
 # associations and the topical taggers are associations; two of them agreeing is not evidence.
 MEASURES = {
     "sentiwordnet": frozenset({"GOOD"}),  # synset polarity
-    "nrc_vad": frozenset({"GOOD"}),  # valence
-    "nrc_emotion": frozenset({"GOOD", "FEEL"}),  # polarity; an emotion word is a feeling
+    "nrc": frozenset({"GOOD", "FEEL"}),  # strong valence; a genuine emotion
     "lancaster_sensorimotor": frozenset({"SEE", "HEAR", "TOUCH", "FEEL"}),  # perceptual and interoceptive strength
     "concreteness": frozenset({"SOMETHING"}),
     "wordnet_hierarchy": frozenset(
@@ -176,11 +178,60 @@ def agree(votes_by_source: Mapping[str, Mapping[str, int]]) -> dict[str, BankAgr
     }
 
 
+# Strong measurements from the raw ratings (Rohan's F066: "words with strong encoding of emotive
+# valence"). NRC-VAD valence runs from -1 to 1: |v| >= 0.5 keeps happy, love, good, kind, hate,
+# pain, sad, difficult and drops real (0.44) and rather (-0.24). A mildly pleasant word such as
+# learn (0.67) passes here but cannot commit GOOD: NRC is one family, and GOOD also needs
+# SentiWordNet's independent polarity. Only a
+# genuine emotion makes a feeling (not trust, anticipation or bare positive/negative), and only
+# interoceptive strength (felt inside the body) does in Lancaster's ratings.
+VALENCE_STRENGTH = 0.5
+GENUINE_EMOTIONS = frozenset({"joy", "sadness", "anger", "fear", "disgust", "surprise"})
+MODALITY_STRENGTH = 3.0  # Lancaster's own "strong modality" threshold on its 0-5 scale
+# Felt strength for FEEL: genuine feelings rate >= 3.5 (proud 3.5, lonely 3.67, hurt 3.94, angry 4.15,
+# afraid 4.36, happy 4.5); words that cause a feeling rate below (dangerous 3.2). jealous (3.32)
+# stays open: a missing value, never a wrong one.
+FELT_STRENGTH = 3.5
+
+
+def measured_signs(source: str, parser: object, word: str) -> dict[str, int] | None:
+    """A rating source's signs from its raw ratings, or None to use the parser's projection."""
+    if source == "nrc_vad":
+        entry = parser.get_vad(word)  # type: ignore[attr-defined]
+        valence = getattr(entry, "valence", None) if entry is not None else None
+        if valence is None or abs(valence) < VALENCE_STRENGTH:
+            return {}
+        return {"GOOD": 1 if valence > 0 else -1}
+    if source == "nrc_emotion":
+        emotions = parser.get_emotions(word) or {}  # type: ignore[attr-defined]
+        return {"FEEL": 1} if any(emotions.get(emotion) == 1 for emotion in GENUINE_EMOTIONS) else {}
+    if source == "lancaster_sensorimotor":
+        entry = parser.get_sensorimotor(word)  # type: ignore[attr-defined]
+        if entry is None:
+            return {}
+        signs = {}
+        for bank, field, strength in (
+            ("SEE", "visual", MODALITY_STRENGTH),
+            ("HEAR", "auditory", MODALITY_STRENGTH),
+            ("TOUCH", "haptic", MODALITY_STRENGTH),
+            ("FEEL", "interoceptive", FELT_STRENGTH),
+        ):
+            if (getattr(entry, field, 0) or 0) >= strength:
+                signs[bank] = 1
+        return signs
+    return None
+
+
 def word_votes(parsers: Mapping[str, object], word: str) -> dict[str, dict[str, int]]:
     """Each voting source's in-scope bank signs for one word, through its parser."""
     votes: dict[str, dict[str, int]] = {}
     for source, parser in sorted(parsers.items()):
         if source in NON_VOTING:
+            continue
+        measured = measured_signs(source, parser, word)
+        if measured is not None:
+            if measured:
+                votes[source] = measured
             continue
         with_confidence = getattr(parser, "to_primitives_with_confidence", None)
         if callable(with_confidence):
