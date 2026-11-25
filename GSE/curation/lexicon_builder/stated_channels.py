@@ -4,12 +4,12 @@ A value counts as stated only when a source asserts it about the definition's ow
 source's declared per-unit table, never through voting, a default, or a value some rule derived from
 WordNet's hierarchy (SIGNIFICANCE_WEIGHTING.md §14). A word-level source reaches a WordNet definition
 only through an exact link: WordNet lists exactly one sense for the lemma in that part of speech, and the
-source lists exactly one reading for it (one USAS tag, one FrameNet lexical unit, one Wiktionary sense).
+source lists exactly one reading for it (one FrameNet lexical unit, one Wiktionary sense). USAS is excluded: its
+tags are semantic fields, so its table turns a word's topic into a meaning (abhorrent -> BODY, airfare -> HAVE).
 Each fact keeps its channel.
 
 Channels:
 - ``assertion``: the release's own source assertions (not ``wordnet_hierarchy``, whose values rules derive);
-- ``usas``: the single USAS tag, through ``USASParser._parse_tag``, within the source's declared scope;
 - ``framenet``: the single lexical unit's frame, through ``FRAME_TO_PRIMITIVE`` (frame elements name
   participants, not the word, and are not read);
 - ``wordnet_gloss`` and ``wiktionary_gloss``: the definition's own text, read by GSE's reviewed frame reader
@@ -94,7 +94,7 @@ def gloss_facts(gloss, pos, synset, ancestors, entry, rules, domains) -> list[tu
     return facts
 
 
-def collect(conn, entries, usas, framenet_entries, frame_table, in_scope, wn) -> dict:
+def collect(conn, entries, framenet_entries, frame_table, in_scope, wn) -> dict:
     """entry -> [(bank, value, channel)] over every exact channel (see module docstring)."""
     stated = defaultdict(list)
     for entry, payload in conn.execute(
@@ -131,11 +131,6 @@ def collect(conn, entries, usas, framenet_entries, frame_table, in_scope, wn) ->
             stated[entry].append((bank, value, "wordnet_gloss"))
         if len(wn.synsets(lemma, pos="a" if pos == "s" else pos)) != 1:
             continue  # the word-level channels below need an exact sense link
-        tags = [e.semantic_tags for e in usas.entries.get(lemma.lower(), []) if e.pos == WN_TO_UPOS[pos]]
-        if len(tags) == 1 and len(tags[0]) == 1:
-            for bank, value in usas._parse_tag(tags[0][0]).items():
-                if in_scope("usas", bank):
-                    stated[entry].append((bank, value, "usas"))
         units = [u for u in framenet_entries.get(lemma.lower(), []) if u.pos == WN_TO_FRAMENET[pos]]
         if len(units) == 1:
             for bank, value in frame_table.get(units[0].frame_name, {}).items():

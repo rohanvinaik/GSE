@@ -23,7 +23,6 @@ from nltk.corpus.reader.wordnet import WordNetError
 from GSE.curation.external_sources import wordnet_hierarchy as wh
 from GSE.curation.external_sources.framenet import FRAME_TO_PRIMITIVE, FrameNetParser
 from GSE.curation.external_sources.source_scope import in_scope
-from GSE.curation.external_sources.usas import USASParser
 from GSE.curation.lexicon_builder.ledger import impute_guard_candidates, verdict
 from GSE.curation.lexicon_builder.stated_channels import collect
 
@@ -80,11 +79,9 @@ def run(before, after):
         if synset is not None:
             entries[entry] = _ancestors(synset) | {synset.name()}
             linked[entry] = (synset.name(), entries[entry], unquote(entry.split(":")[1]))
-    usas = USASParser()
-    usas.load()
     framenet = FrameNetParser()
     framenet.load()
-    facts = collect(post, linked, usas, framenet.entries, FRAME_TO_PRIMITIVE, in_scope, wn)
+    facts = collect(post, linked, framenet.entries, FRAME_TO_PRIMITIVE, in_scope, wn)
     domains = {
         e: json.loads(d)
         for e, d in pre.execute("SELECT entry_id, domains FROM definition_states WHERE entry_id LIKE 'wordnet:%'")
