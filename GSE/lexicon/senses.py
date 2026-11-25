@@ -128,7 +128,10 @@ def read_senses(
         }
     senses = by_pos[selected_pos]
     if allowed is not None:
-        kept = [s for s in senses if set(s["members"]) & allowed]
+        # A sense is judged on the definitions the sentence left it (exceptions included, below).
+        kept = [
+            {**s, "members": [m for m in s["members"] if m in allowed]} for s in senses if set(s["members"]) & allowed
+        ]
         senses = kept or senses
         basis = basis + "+FRAME_SELECTED" if kept else basis
     agreed, possible, exceptions = reading(senses)

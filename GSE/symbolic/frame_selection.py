@@ -25,6 +25,7 @@ def slot_type(token, someone) -> str | None:
 
 
 NOMINAL = frozenset({"NOUN", "PROPN", "PRON"})
+CLAUSAL = frozenset({"what", "who", "whom", "which", "whether", "if", "that", "how", "why", "where", "when"})
 NP_INNER = frozenset({"DET", "ADJ", "NUM", "PRON", "NOUN", "PROPN", "ADV"})
 
 
@@ -52,6 +53,9 @@ def clause_pattern(doc, position, someone) -> tuple | None:
                 to_somebody = True
             k = j + 1
             continue
+        if token.lemma_.lower() in CLAUSAL:  # "know what you see": one clausal object, then the clause ends
+            objects.append("something")
+            break
         if token.pos_ not in NP_INNER:
             break
         j = k
