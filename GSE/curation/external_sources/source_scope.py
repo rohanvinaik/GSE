@@ -147,6 +147,19 @@ SOURCE_PRIMITIVE_SCOPE: Mapping[str, Set[str]] = {
         "CAUSE",
         "HAPPEN",
         "MOVE",
+        # Identity roots (2026-11-25): a concept whose own gloss is the prime carries it to every kind
+        # (an amount of time is WHEN, a point in space is WHERE, a word is WORDS, contact is TOUCH).
+        "WHEN",
+        "WHERE",
+        "QUANTITY",
+        "WORDS",
+        "TOUCH",
+        # Adjective identity: a prime head's pole and its cluster's satellites (huge BIG+, superb GOOD+).
+        "GOOD",
+        "BIG",
+        "FAR",
+        "TRUE",
+        "SAME",
     },
     # FrameNet: frame semantics — event structure, participant roles, and the
     # cognition/perception/communication/emotion frames that are its core

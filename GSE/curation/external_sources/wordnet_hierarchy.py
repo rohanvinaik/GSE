@@ -397,7 +397,7 @@ class WordNetHierarchyParser(BaseExternalParser):
                     if primitive in primitives and primitives[primitive] != value:
                         raise ValueError("CONFLICTING_TAXONOMY_VALUES")
                     primitives[primitive] = value
-        if synset.pos() == "v" and synset.causes():
+        if synset.pos() == "v" and getattr(synset, "causes", list)():
             # WordNet states the verb causes another ("kill" causes "die"): its definition is "cause to".
             if primitives.get("CAUSE", 1) != 1:
                 raise ValueError("CONFLICTING_TAXONOMY_VALUES")

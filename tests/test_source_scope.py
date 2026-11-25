@@ -111,6 +111,15 @@ class TestEmpiricalScopeMap:
         assert "wiktionary_v2" not in SOURCE_PRIMITIVE_SCOPE
 
 
-def test_wordnet_scope_admits_reviewed_verb_roots_but_not_affect_polarity():
+def test_wordnet_scope_admits_reviewed_roots_and_definitional_evaluation():
+    # Founder correction 2 (2026-11-25): WordNet's only GOOD is definitional, the good/bad heads and
+    # their clusters ("terrible" is a kind of bad), never affect association; word-level agreement still
+    # does not count WordNet as measuring GOOD (source_agreement.MEASURES).
     votes = {"FEEL": (1, 1.0), "THINK": (1, 1.0), "GOOD": (1, 1.0)}
-    assert filter_votes_by_scope("wordnet_hierarchy", votes) == {"FEEL": (1, 1.0), "THINK": (1, 1.0)}
+    assert filter_votes_by_scope("wordnet_hierarchy", votes) == votes
+
+
+def test_wordnet_is_not_a_measuring_family_for_affect():
+    from GSE.curation.lexicon_builder.source_agreement import measures
+
+    assert not measures("wordnet_hierarchy", "GOOD")

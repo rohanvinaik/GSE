@@ -3,7 +3,7 @@
 from dataclasses import asdict
 from types import SimpleNamespace
 
-from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser
+from GSE.curation.external_sources.wordnet_hierarchy import WordNetHierarchyParser, adjective_identity
 from GSE.curation.lexicon_builder.evidence import _wordnet_relations, collect_evidence
 from GSE.curation.lexicon_builder.model_evidence import evidence_view
 
@@ -17,7 +17,16 @@ def test_real_adjective_edges_reach_collection_and_model_without_sign_inheritanc
     parser._loaded = True
     bundle = collect_evidence({"wordnet_hierarchy": parser}, ("dead", "big", "good"))
     adjective_ids = {d.entry_id for d in bundle.definitions if d.pos == "adj"}
-    assert not any(a.record_id in adjective_ids for a in bundle.assertions)
+    # Founder correction 2 (2026-11-25): an adjective carries only its identity, the prime pole of its
+    # own head or its cluster's head; no other sign travels along these edges.
+    signs = {(a.record_id, a.bank, a.value) for a in bundle.assertions if a.record_id in adjective_ids}
+    assert {
+        ("wordnet:dead:dead.a.01", "ALIVE", -1),
+        ("wordnet:big:large.a.01", "BIG", 1),
+        ("wordnet:good:good.a.01", "GOOD", 1),
+    } <= signs
+    for record_id, bank, value in signs:
+        assert adjective_identity(wn.synset(record_id.rsplit(":", 1)[-1])) == {bank: value}
     assert bundle.domain_restrictions == ()
     observations = {o.entry_id: o for o in bundle.observations}
     dead = observations["wordnet:dead:dead.a.01"]
