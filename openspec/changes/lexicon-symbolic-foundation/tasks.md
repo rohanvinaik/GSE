@@ -73,8 +73,12 @@ satisfy three rules:
 - [x] D-2 Reading rule (Rohan, 2026-11-24: "everything" meant the whole set; a sense that breaks coherence is an
   out-of-variance exception; implemented as the main sense with `exceptions`). Confirm the main sense with alternatives; it changes the 2026-11-24 "yes"
   to the reading carrying only what the surviving senses share.
-- [ ] D-3 Switch `data/lexicon_active.json` to the candidate (Rohan approved, 2026-11-24; after the rebuild under
-  D-1 passes acceptance, replay and validation).
+- [x] D-3 Switch `data/lexicon_active.json` to the candidate (Rohan approved, 2026-11-24; after the rebuild under
+  D-1 passes acceptance, replay and validation). Done 2026-11-25 through `publish_sparse`:
+  `sparse-release-022-senses.db` (sha256 00fd5306…), release replay 401,596/401,596 with 0 mismatches,
+  the 022 publication gold evaluated; before it, replay sample 300/300 and every word-sense value
+  warranted (`tests/test_lexicon_every_value_has_a_warrant.py`). The default encoder reads happy FEEL+
+  GOOD+, dog ALIVE+ BODY+ SOMETHING+, gave DO+ HAPPEN+, want WANT+, know KNOW+, see SEE+, sad GOOD−.
 - Not owner decisions; defaults with a stated rule, which Rohan may override at any time:
   - the measurement thresholds (valence 0.5, felt strength 3.5, perceptual 3.0, coherent group 3, the
     genuine-emotion list), each measured against words that should and should not pass;
