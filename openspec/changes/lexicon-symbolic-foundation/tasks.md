@@ -56,7 +56,8 @@ release-022 with `word_source_agreement` and `word_senses` added; no release tab
 
 ## Completion work packages (mechanized; each is one commit by one small agent)
 
-Each package names its inputs, the command it adds or runs, and its acceptance. Every package must
+Each package names its inputs, the command it adds or runs, and its acceptance. Agents, including
+API-run agents, execute packages and report; they never supply lexical values. Every package must
 satisfy three rules:
 - No package makes a semantic judgment. Judgments are owner decisions (D-1 to D-3) or stated defaults,
   applied as named constants with a test.
@@ -98,9 +99,10 @@ satisfy three rules:
   proof-packet §8 and §9 run. That file is owned by Rohan's session: schedule it with them.
 - [ ] WP-5 SSL measurement. Report H0, H per epoch, the κ distribution and the knee on the candidate with
   `specification.py`. Acceptance: the numbers reproduce from the committed command.
-- [ ] WP-6 Tail teaching. For main senses whose open banks are narrowed to ≤ 3 options, ask the bounded
-  typed model question in max-κ order through `completion.py`. Receipts replay. An audit sample is
-  checked against independent labels, and agreement is reported.
+- WP-6 (model rulings for the tail) is withdrawn. Rohan, 2026-11-25: "Why is the *model* making decisions?
+  Is this not...symbolic? Just get it to run the analysis and report, not do inference-driven nonsense."
+  No model answer becomes a lexicon value. API credit pays for agents that execute these packages
+  (deterministic code, checked by replay and tests) and report.
 - [ ] WP-7 Grammar to banks (design rule 4). Measure which banks are load-bearing and stable across the
   words observed in each operator's argument slot (the comparative's operands, for example) over a
   pinned corpus. Admit the stable ones as sentence-time constraints by that criterion.

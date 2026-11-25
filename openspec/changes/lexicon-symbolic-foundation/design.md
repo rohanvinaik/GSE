@@ -119,8 +119,8 @@ design uses to turn evidence into meaning.
    - A sense's core is its members' load-bearing values, closed under the rules.
    - Part-of-speech conventions (GOOD = 0 on nouns, SOMETHING = 0 on adjectives, I/YOU = 0) are not
      load-bearing.
-4. **The model is for the tail.** It answers only banks left open after 1–3, and only when they are
-   narrowed to a few options.
+4. **No model writes a value.** Banks left open after 1–3 stay open until a source, a rule or an owner
+   ruling closes them (Rohan, 2026-11-25). Models only run the analysis as agents.
 5. **Runtime reads senses.** The sentence's part of speech selects a word's senses.
    - The reading is the main sense, the word's core ("the real and obvious meaning").
    - The other senses are carried as alternatives, with the banks where they differ and their
@@ -140,8 +140,7 @@ run on the lexicon. These are the quantities, each computed rather than judged:
 - **Degrees of freedom.** For each word sense *w*, Ω(*w*) is the set of bank assignments its admitted
   constraints still allow. The entropy is H = Σ_w log2 |Ω(w)|, measured by `specification.py`.
   Completeness(t) = 1 − H(t)/H0.
-- **Teaching.** A fact is one committed (sense, bank) value: an owner ruling, an audited model ruling, or
-  an admitted rule. Committing it resolves 1 cell, plus κ further cells through closure under the rules
+- **Teaching.** A fact is one committed (sense, bank) value: an owner ruling or an admitted rule. Committing it resolves 1 cell, plus κ further cells through closure under the rules
   and the senses (its marginal coverage). The equation is dH/dt = −Σ(1 + κ).
 - **Curriculum.** Greedy maximum-κ order is (1 − 1/e)-optimal because coverage is submodular. The bulk
   (κ ≥ 2) falls exponentially. The tail (κ → 0) needs one fact per cell (I_solve). The knee H* is
@@ -155,8 +154,10 @@ run on the lexicon. These are the quantities, each computed rather than judged:
 - **Reported.** Each epoch reports (H0, L = ∫κ/H0, H*, I_solve, Completeness(t)), so "is the lexicon
   done?" is a number.
 
-Model calls stay bounded, typed (sense, bank) questions with the legal alternatives, asked only in the
-tail or where κ is high (F047, F119). Their answers are teaching facts with receipts, not sources.
+Every value is computed by this symbolic process: sources, rules, coherence and closure. No model answer
+becomes a lexical value (Rohan, 2026-11-25: "Just get it to run the analysis and report, not do
+inference-driven nonsense"). A teaching fact is an owner ruling or an admitted rule. Models are used
+only as agents that execute the deterministic packages and report.
 
 ### Superseded statements in `LEXICON_CONSTRUCTION_DESIGN.md`
 
