@@ -607,6 +607,7 @@ def encode_document_utterance_events(enc, sentences, deadline=None):
                     "phase": phase,
                     "error_type": type(exc).__name__,
                     "message": str(exc),
+                    "detail": getattr(exc, "detail", None),
                 }
                 tree = None
         if error is None:
@@ -660,11 +661,16 @@ def encode_document_utterances_traced(enc, sentences) -> List:
     the plain twin produces — same ``segment_document`` loop, same deixis."""
     # Compatibility projection: failures and manifests are deliberately omitted.
     # New consumers must retain encode_document_utterance_events instead.
-    return [
-        (event["trace"], event["tree"], event["utterance"])
-        for event in encode_document_utterance_events(enc, sentences)
-        if event["type"] == "utterance" and event["state"] == "read"
-    ]
+    from GSE.nlp.declarative import DeclarativeRefusal
+
+    out = []
+    for event in encode_document_utterance_events(enc, sentences):
+        error = event.get("error") or {}
+        if error.get("error_type") == "DeclarativeRefusal":  # a declared refusal is named, never dropped
+            raise DeclarativeRefusal(error["detail"])
+        if event["type"] == "utterance" and event["state"] == "read":
+            out.append((event["trace"], event["tree"], event["utterance"]))
+    return out
 
 
 def encode_document_utterances(enc, sentences) -> List:

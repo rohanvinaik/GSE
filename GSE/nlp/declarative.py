@@ -97,8 +97,18 @@ class DeclarativeNLP:
             return refusal(0, "VERB", "AMBIGUOUS_VERB_POSITION", "|".join(verbs))
         if not parses:
             first = words[0].lower()
-            reason = "IMPERATIVE_OR_NO_SUBJECT" if "verb" in self.senses.pos_of(first) else "NO_DECLARATIVE_PARSE"
-            return refusal(0, "LINE", reason, words[0])
+            if "verb" in self.senses.pos_of(first):
+                return refusal(0, "LINE", "IMPERATIVE_OR_NO_SUBJECT", words[0])
+            unknown = [
+                (k, w)
+                for k, w in enumerate(words)
+                if not self._known(w)
+                and w.lower() not in DETERMINERS | PREPOSITIONS | MODALS | {"not"}
+                and not w[:1].isupper()
+            ]
+            if unknown:
+                return refusal(unknown[0][0], "WORD", "NO_SENSE_IN_LEXICON", unknown[0][1])
+            return refusal(0, "LINE", "NO_DECLARATIVE_PARSE", words[0])
         return parses[0]
 
     def _agrees(self, subject, predicate) -> bool:
@@ -132,7 +142,7 @@ class DeclarativeNLP:
             return None
         seen_noun = False
         for word in words[i : end - 1]:  # before the head: the adjective slot, then the noun compound
-            if not seen_noun and "adj" in self.senses.pos_of(word):
+            if not seen_noun and ("adj" in self.senses.pos_of(word) or self._participle(word)):
                 out.append((word, "ADJ"))
             elif self._noun(word):
                 seen_noun = True
@@ -151,7 +161,12 @@ class DeclarativeNLP:
         if i < len(words) and words[i].lower() == "not":
             out.append((words[i], "PART"))
             i += 1
-        if i >= len(words) or "verb" not in self.senses.pos_of(self._verb_lemma(words[i])):
+        closed = MODALS | DETERMINERS | PREPOSITIONS | PRONOUNS | COORDINATORS | SUBORDINATORS | {"not"}
+        if (
+            i >= len(words)
+            or words[i].lower() in closed
+            or "verb" not in self.senses.pos_of(self._verb_lemma(words[i]))
+        ):
             return None
         out.append((words[i], "VERB"))
         i += 1
@@ -170,6 +185,21 @@ class DeclarativeNLP:
             out.append((words[a], "ADP"))
             out.extend(phrase)
         return out
+
+    def _known(self, word: str) -> bool:
+        """Whether the active lexicon has any sense for the word, by its surface, verb or noun lemma."""
+        low = word.lower()
+        lemmas = {low, self._verb_lemma(low), self.native._lemma(low, "NOUN")}
+        return any(self.senses.pos_of(lemma) for lemma in lemmas)
+
+    def _participle(self, word: str) -> bool:
+        """A verb's -ed/-ing form in the adjective slot ("a generated suite")."""
+        low = word.lower()
+        return (
+            low.endswith(("ed", "ing"))
+            and self._verb_lemma(low) != low
+            and "verb" in self.senses.pos_of(self._verb_lemma(low))
+        )
 
     def _verb_lemma(self, word: str) -> str:
         from GSE.nlp.native import _rule_lemma, _wn_lemma
