@@ -115,45 +115,87 @@ def read_definitions(conn: sqlite3.Connection, lemma: str, reach: Mapping[str, i
     return by_pos
 
 
+# Which word-level families can say which sense is a word's main one. WordNet's word-level
+# projection is its first (most frequent) sense, and the rating lexicons rate a word's dominant
+# use. VerbNet's word-level vote is the union of every class the verb belongs to, so it says
+# nothing about which sense is meant.
+_SELF_IDENTIFYING = frozenset({"wordnet_hierarchy"})
+_NOT_SENSE_IDENTIFYING = frozenset({"verb_structure"})
+
+
+def _corroborated(bank: str, value: int, group: Sequence[Definition], corroboration) -> bool:
+    """An added value is corroborated by a measuring, sense-identifying word-level family that
+    is independent of the family that gave the definition the value."""
+    from .source_agreement import family_of
+
+    families = {
+        family for family in corroboration.get(bank, {}).get(value, frozenset()) if family not in _NOT_SENSE_IDENTIFYING
+    }
+    if not families:
+        return False
+    for definition in group:
+        entry = definition.load_bearing.get(bank)
+        if entry is None or entry[3] != "ASSERTION":
+            continue
+        own = family_of(entry[2])
+        if not any(family != own or family in _SELF_IDENTIFYING for family in families):
+            return False
+    return True
+
+
 def collapse(
     definitions: Sequence[Definition],
     anchor: Mapping[str, int] | None = None,
-    corroboration: Mapping[str, frozenset[int]] | None = None,
+    corroboration: Mapping[str, Mapping[int, frozenset[str]]] | None = None,
 ) -> list[Sense]:
     """Group one part of speech's definitions into senses.
 
-    The main sense is seeded by ``anchor``, the word's agreed source signs for this part of
-    speech: where independent sources converge is the word's obvious meaning. A definition joins
-    a sense when it conflicts with none of the sense's values and either refines it fully (it
-    resolves every bank the sense has) or every source-asserted value it adds is corroborated by
-    an independent word-level source (``corroboration``: bank -> signs any source votes). That
-    is the same agreement across independent evidence, between the definition and the word.
-    Values a rule derived follow from the definition's own evidence and need no corroboration.
-    A definition that adds an uncorroborated value is a different meaning and starts its own
-    sense. A definition with no load-bearing value is absorbed into the main sense.
+    Definitions with the same load-bearing encoding form a group. The main sense is the best
+    supported group: the one sharing the most values with ``anchor`` (the word's agreed source
+    signs for this part of speech: where independent sources converge is the obvious meaning),
+    then the one with the fewest asserted values no independent source corroborates, then the
+    largest.
+    Another group joins a sense when it conflicts with none of the sense's values and every
+    source-asserted value it adds is corroborated (``_corroborated``); values a rule derived
+    follow from the definition's own evidence. A group that adds an uncorroborated value is a
+    different meaning and starts its own sense. With no evidenced definition, the word has one
+    sense, carried by its agreed signs. A definition with no load-bearing value is absorbed into
+    the main sense.
     """
+    anchor = anchor or {}
     corroboration = corroboration or {}
-    senses: list[Sense] = [Sense(core=dict(anchor))] if anchor else []
-    evidenced = sorted((d for d in definitions if d.load_bearing), key=lambda d: (-d.weight, d.entry_id))
-    for definition in evidenced:
-        values = {bank: entry[0] for bank, entry in definition.load_bearing.items()}
-        asserted = {bank for bank, entry in definition.load_bearing.items() if entry[3] == "ASSERTION"}
+    groups: dict[frozenset, list[Definition]] = {}
+    for definition in (d for d in definitions if d.load_bearing):
+        key = frozenset((bank, entry[0]) for bank, entry in definition.load_bearing.items())
+        groups.setdefault(key, []).append(definition)
+
+    def rank(item):
+        key, group = item
+        shared = sum(1 for bank, value in key if anchor.get(bank) == value)
+        asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
+        unsupported = sum(
+            1 for bank, value in key if bank in asserted and not _corroborated(bank, value, group, corroboration)
+        )
+        return (-shared, unsupported, -len(group), -sum(d.weight for d in group), min(d.entry_id for d in group))
+
+    ordered = [sorted(group, key=lambda d: d.entry_id) for _key, group in sorted(groups.items(), key=rank)]
+    senses: list[Sense] = []
+    for group in ordered:
+        values = {bank: entry[0] for bank, entry in group[0].load_bearing.items()}
+        asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
         for sense in senses:
             if any(sense.core.get(bank, value) != value for bank, value in values.items()):
                 continue
             added = {bank: value for bank, value in values.items() if bank not in sense.core and bank in asserted}
-            corroborated = all(value in corroboration.get(bank, ()) for bank, value in added.items())
-            if corroborated or sense.core.keys() <= values.keys():
+            if all(_corroborated(bank, value, group, corroboration) for bank, value in added.items()):
                 sense.core.update(values)
-                sense.members.append(definition)
+                sense.members.extend(group)
                 break
         else:
-            senses.append(Sense(core=dict(values), members=[definition]))
+            senses.append(Sense(core=dict(values), members=list(group)))
     if not senses:
-        senses.append(Sense())
-    head, rest = (senses[:1], senses[1:]) if anchor else ([], senses)
-    rest.sort(key=lambda sense: (-sense.weight, sense.members[0].entry_id if sense.members else ""))
-    senses = head + rest
+        senses.append(Sense(core=dict(anchor)))
+    senses[1:] = sorted(senses[1:], key=lambda sense: (-len(sense.members), -sense.weight, sense.members[0].entry_id))
     senses[0].absorbed.extend(d for d in definitions if not d.load_bearing)
     return senses
 
@@ -284,14 +326,17 @@ def build_word(
     conn: sqlite3.Connection, lemma: str, votes: Mapping[str, Mapping[str, int]], relations: Sequence, reach
 ) -> list[dict]:
     """Every sense of every part of speech of one lemma."""
-    from .source_agreement import agree, committed_signs, votes_for_pos
+    from .source_agreement import agree, committed_signs, family_of, measures, votes_for_pos
 
     by_pos = read_definitions(conn, lemma, reach)
     dominant = dominant_pos(by_pos)
-    corroboration: dict[str, frozenset[int]] = {}
-    for signs in votes.values():
+    corroboration: dict[str, dict[int, frozenset[str]]] = {}
+    for source, signs in votes.items():
+        family = family_of(source)
         for bank, sign in signs.items():
-            corroboration[bank] = corroboration.get(bank, frozenset()) | {sign}
+            if measures(family, bank):  # only a family that measures the bank corroborates
+                by_sign = corroboration.setdefault(bank, {})
+                by_sign[sign] = by_sign.get(sign, frozenset()) | {family}
     rows = []
     for pos, definitions in sorted(by_pos.items()):
         agreed = committed_signs(agree(votes_for_pos(votes, pos, pos == dominant)))

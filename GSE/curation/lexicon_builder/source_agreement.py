@@ -39,6 +39,61 @@ NON_VOTING = frozenset({"gse_closed_class", "nsm_chart", "wiktionary_v2"})
 
 MIN_FAMILIES = 2
 
+# The banks each family measures: what the instrument literally rates, not what it is associated
+# with. Only measuring families count toward agreement; a family's other in-scope signs are
+# recorded but never commit anything. Rohan, 2026-11-24: "I do NOT want crap in the lexicon."
+# Lancaster's action-effector ratings (BODY, DO, MOVE, SAY), NRC's emotion-to-WANT/KNOW
+# associations and the topical taggers are associations; two of them agreeing is not evidence.
+MEASURES = {
+    "sentiwordnet": frozenset({"GOOD"}),  # synset polarity
+    "nrc_vad": frozenset({"GOOD"}),  # valence
+    "nrc_emotion": frozenset({"GOOD", "FEEL"}),  # polarity; an emotion word is a feeling
+    "lancaster_sensorimotor": frozenset({"SEE", "HEAR", "TOUCH", "FEEL"}),  # perceptual and interoceptive strength
+    "concreteness": frozenset({"SOMETHING"}),
+    "wordnet_hierarchy": frozenset(
+        {
+            "SOMETHING",
+            "SOMEONE",
+            "ALIVE",
+            "BODY",
+            "PEOPLE",
+            "PART",
+            "FEEL",
+            "THINK",
+            "KNOW",
+            "SAY",
+            "WANT",
+            "SEE",
+            "HEAR",
+        }
+    ),  # IS-A categories and lexical files
+    "verb_structure": frozenset(
+        {
+            "DO",
+            "MOVE",
+            "CAUSE",
+            "HAVE",
+            "SAY",
+            "KNOW",
+            "THINK",
+            "WANT",
+            "SEE",
+            "HEAR",
+            "FEEL",
+            "HAPPEN",
+            "BE",
+            "TOUCH",
+            "EXIST",
+            "START",
+        }
+    ),  # verb predicates
+}
+
+
+def measures(family: str, bank: str) -> bool:
+    return bank in MEASURES.get(family, frozenset())
+
+
 # Which parts of speech a family speaks to. VerbNet, FrameNet and PropBank describe verbs; the
 # WordNet hierarchy's word-level projection follows noun hypernyms. The general ratings (NRC,
 # VAD, SentiWordNet, Lancaster, concreteness, topical taggers, dictionary glosses) rate a word's
@@ -74,24 +129,37 @@ class BankAgreement:
     """What the independent families say about one bank of one word."""
 
     bank: str
-    support: Mapping[int, tuple[str, ...]]  # sign -> agreeing families, sorted
+    support: Mapping[int, tuple[str, ...]]  # sign -> agreeing families (all), sorted
 
     @property
     def signs(self) -> frozenset[int]:
         return frozenset(self.support)
 
     @property
+    def measuring(self) -> dict[int, tuple[str, ...]]:
+        """sign -> the agreeing families that measure this bank."""
+        return {
+            sign: tuple(f for f in families if measures(f, self.bank))
+            for sign, families in self.support.items()
+            if any(measures(f, self.bank) for f in families)
+        }
+
+    @property
     def committed(self) -> int | None:
-        """The sign independent families agree on with no opposition, or None."""
-        if len(self.support) != 1:
+        """The sign two independent measuring families agree on, with no measuring opposition."""
+        measuring = self.measuring
+        if len(measuring) != 1:
             return None
-        ((sign, families),) = self.support.items()
+        ((sign, families),) = measuring.items()
         return sign if len(families) >= MIN_FAMILIES else None
 
     @property
     def state(self) -> str:
-        if len(self.support) > 1:
+        measuring = self.measuring
+        if len(measuring) > 1:
             return "OPPOSED"
+        if not measuring:
+            return "UNMEASURED"
         return "AGREED" if self.committed is not None else "SINGLE_FAMILY"
 
 

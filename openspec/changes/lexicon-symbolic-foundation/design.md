@@ -70,17 +70,34 @@ design uses to turn evidence into meaning.
 
 ### Design rules that follow
 
-1. **Sources vote as orthogonal constraints.** Each independent source family gives a sign per bank
-   within its declared scope (`SOURCE_PRIMITIVE_SCOPE`). A sign commits when independent families
-   agree and none opposes. Opposition leaves the bank open, carrying its possible signs. Correlated
-   sources count as one family. Evidence attaches at the most specific level it is linked to:
-   definition, then part of speech, then lemma. Lemma-level ratings attach only to senses they do
-   not contradict.
+1. **Sources vote as orthogonal constraints, and only measurements count.** Each independent source
+   family gives a sign per bank within its declared scope (`SOURCE_PRIMITIVE_SCOPE`). A sign commits
+   only when two independent families that *measure* that bank agree and no measuring family
+   opposes. Opposition leaves the bank open, carrying its possible signs.
+   - Rohan, 2026-11-24: "I do NOT want crap in the lexicon. That's why I killed the 'clean
+     lexicon'." The June rule (any two families) committed associations: Lancaster's hand/arm rating
+     plus a topical tag gave "lock" BODY+ and DO+.
+   - What each family measures is declared in `source_agreement.MEASURES`. Examples: VAD valence and
+     SentiWordNet polarity measure GOOD; Lancaster measures SEE, HEAR, TOUCH and interoceptive FEEL,
+     not BODY, DO or MOVE; WordNet's hierarchy measures its categories; VerbNet's predicates measure
+     verb banks. The topical taggers and dictionary glosses measure nothing.
+   - Correlated sources count as one family. A family votes only for the parts of speech it speaks
+     to: VerbNet for verbs, WordNet's word-level projection for nouns, the ratings for the word's
+     dominant use.
+   - Lemma-level ratings attach only to senses they do not contradict.
 2. **Rules narrow and propagate.** Stable bank-to-bank coherence relations are admitted as
    conditional rules once re-checked against current held-out words. Discovery that can never
    write is not a stage.
 3. **A word's definitions collapse into senses within each part of speech.**
-   - Splitting needs a witness: a conflict on a load-bearing bank.
+   - Definitions with the same load-bearing encoding form a group. The main sense is the
+     best-supported group: the one sharing the most values with the sources' agreement, then the
+     one with the fewest values no independent source corroborates, then the largest.
+   - Another group joins a sense only if it conflicts with nothing and every value it adds is
+     corroborated by an independent, measuring word-level family. A family cannot corroborate its
+     own value. VerbNet's word-level vote is the union of a verb's classes, so it never identifies
+     a sense. Otherwise the group is a different meaning: the "a man" sense of "dog" (SOMEONE+)
+     stays apart from the animal.
+   - Splitting needs a witness: a conflict, or an uncorroborated load-bearing value.
    - A definition with no load-bearing evidence is absorbed into a sense; it never becomes a sense
      of its own.
    - A sense's core is its members' load-bearing values, closed under the rules.

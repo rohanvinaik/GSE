@@ -46,11 +46,16 @@ def _code_identity() -> dict:
 
 
 def _lemmas(conn: sqlite3.Connection, args) -> list[str]:
+    """Named words, or the release's lemmas in the builder's own Zipf order (SUBTLEX counts,
+    descending; unranked lemmas last, alphabetically)."""
     if args.words:
         return list(args.words)
-    query = "SELECT lemma, MIN(COALESCE(frequency_rank, 1e18)) AS r FROM lexemes WHERE pos != 'name' GROUP BY lemma ORDER BY r, lemma"
-    rows = conn.execute(query).fetchall()
-    return [lemma for lemma, _ in (rows[: args.top] if args.top else rows)]
+    from GSE.curation.lexicon_builder.completion import _priority_source
+
+    _meta, counts = _priority_source("zipf", None)
+    lemmas = [row[0] for row in conn.execute("SELECT DISTINCT lemma FROM lexemes WHERE pos != 'name'")]
+    lemmas.sort(key=lambda lemma: (-counts.get(lemma.casefold(), 0), lemma))
+    return lemmas[: args.top] if args.top else lemmas
 
 
 def main(argv=None) -> int:
