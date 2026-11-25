@@ -143,6 +143,13 @@ ROOT_CONCEPT_PRIMITIVES = {
     "touch.v.01": {"TOUCH": 1},
     "change.v.01": {"CAUSE": 1},
     "change.v.02": {"HAPPEN": 1},
+    "make.v.03": {"CAUSE": 1},
+    "be.v.01": {"BE": 1},
+    "get.v.01": {"HAVE": 1},
+    "induce.v.02": {"CAUSE": 1},
+    "equal.v.01": {"SAME": 1},
+    "enter.v.01": {"MOVE": 1},
+    "leave.v.01": {"MOVE": 1},
 }
 
 
@@ -200,6 +207,15 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "touch.v.01": frozenset({"TOUCH"}),  # "make physical contact with"
     "change.v.01": frozenset({"CAUSE"}),  # "cause to change; make different"
     "change.v.02": frozenset({"HAPPEN"}),  # "undergo a change; become different"
+    # Round 2 (2026-11-25).
+    "state.n.02": frozenset({"BE"}),  # "the way something is"; Rohan: own state denotation suffices for BE
+    "make.v.03": frozenset({"CAUSE"}),  # "make or cause to be or to become"
+    "be.v.01": frozenset({"BE"}),  # "have the quality of being" (its troponyms are stative senses)
+    "get.v.01": frozenset({"HAVE"}),  # "come into the possession of something"
+    "induce.v.02": frozenset({"CAUSE"}),  # "cause to do; cause to act in a specified manner"
+    "equal.v.01": frozenset({"SAME"}),  # "be identical or equivalent to"
+    "enter.v.01": frozenset({"MOVE"}),  # "to come or go into"
+    "leave.v.01": frozenset({"MOVE"}),  # "go away from a place"
 }
 
 # A root whose WordNet subtree files a branch the prime does not describe: (root, bank) -> branch.
@@ -207,6 +223,8 @@ _WARRANTED_ROOT_PRIMITIVES = {
 # consists"); matter is not a component, so whale oil and chlorophyll are not PART.
 REVIEWED_BRANCH_EXCLUSIONS = {
     ("part.n.01", "PART"): "substance.n.01",
+    # The nonbeing branch's BE polarity is Rohan's open decision (reserved in the explicit-state round).
+    ("state.n.02", "BE"): "nonbeing.n.01",
 }
 
 

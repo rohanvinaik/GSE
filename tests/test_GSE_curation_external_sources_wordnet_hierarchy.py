@@ -732,3 +732,32 @@ class TestCausativeIdentity:
 
     def test_a_verb_without_a_stated_cause_gains_none_from_this(self, p):
         assert "CAUSE" not in p.to_primitives_for_definition("die.v.01")
+
+
+class TestRoundTwoIdentity:
+    """State denotation is BE (Rohan's convention), less the reserved nonbeing branch; verb roots."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize(
+        "synset,bank,value",
+        [
+            ("illness.n.01", "BE", 1),
+            ("poverty.n.01", "BE", 1),
+            ("belong.v.01", "BE", 1),
+            ("receive.v.01", "HAVE", 1),
+            ("exit.v.01", "MOVE", 1),
+            ("match.v.01", "SAME", 1),
+            ("persuade.v.02", "CAUSE", 1),
+        ],
+    )
+    def test_identity_roots(self, p, synset, bank, value):
+        assert p.to_primitives_for_definition(synset)[bank] == value
+
+    @pytest.mark.parametrize("synset", ["nonbeing.n.01", "nonexistence.n.01"])
+    def test_reserved_nonbeing_branch_gains_no_be(self, p, synset):
+        assert "BE" not in p.to_primitives_for_definition(synset)

@@ -63,7 +63,12 @@ def revise_entries(conn):
     additions = _projected_additions(conn, parser)
     bound = {row[0] for row in conn.execute("SELECT DISTINCT entry_id FROM accepted_model_receipts")}
     _prepare_context_index(conn)
-    contexts, relevance = _contexts(conn, tuple(additions), indexed=True)
+    contexts, relevance = {}, {}
+    entries = tuple(additions)
+    for start in range(0, len(entries), 500):  # SQLite bounds the variables in one statement
+        batch_contexts, batch_relevance = _contexts(conn, entries[start : start + 500], indexed=True)
+        contexts.update(batch_contexts)
+        relevance.update(batch_relevance)
     rules = _relations(_metadata(conn, "relations"))
     changes, conflicts = [], []
     for entry_id, (synset, new) in additions.items():

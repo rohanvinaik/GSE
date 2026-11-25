@@ -123,7 +123,10 @@ satisfy three rules:
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
   satellite of its cluster (`ADJECTIVE_IDENTITY_HEADS`). Word-level signs are not carried through
   clusters: measured 2026-11-25, that spreads connotation (dying's FEEL+ to "last"), not identity.
-- [ ] SP-4 Derivation by part-of-speech pair, verb entailment and cause.
+- [ ] SP-4 Round 2 identity roots: state.n.02 BE (Rohan's "own state denotation is sufficient for
+  BE=+1"; the reserved nonbeing branch excluded), make.v.03 and induce.v.02 CAUSE, be.v.01 BE, get.v.01
+  HAVE, equal.v.01 SAME, enter.v.01 and leave.v.01 MOVE; stated causatives (218 verbs) CAUSE.
+  Derivation by part-of-speech pair and verb entailment remain.
 - [ ] SP-5 Measure H, C and L per channel after each round; rebuild senses; publish.
 
 ## Urgent checkpoint execution — 2026-11-24
