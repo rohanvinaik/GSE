@@ -45,14 +45,25 @@ def _code_identity() -> dict:
     return {str(f.relative_to(ROOT)): hashlib.sha256(f.read_bytes()).hexdigest() for f in files}
 
 
+def subtlex_counts(path: Path = ROOT / "data/external/concreteness.csv") -> dict[str, int]:
+    """SUBTLEX word counts from the Brysbaert table, the builder's own Zipf order (used for ordering only)."""
+    import csv
+
+    counts: dict[str, int] = {}
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        for row in csv.DictReader(stream):
+            word, count = (row.get("Word") or "").strip().casefold(), row.get("SUBTLEX") or ""
+            if word and count.isdecimal() and int(count) > 0:
+                counts[word] = int(count)
+    return counts
+
+
 def _lemmas(conn: sqlite3.Connection, args) -> list[str]:
     """Named words, or the release's lemmas in the builder's own Zipf order (SUBTLEX counts,
     descending; unranked lemmas last, alphabetically)."""
     if args.words:
         return list(args.words)
-    from GSE.curation.lexicon_builder.completion import _priority_source
-
-    _meta, counts = _priority_source("zipf", None)
+    counts = subtlex_counts()
     lemmas = [row[0] for row in conn.execute("SELECT DISTINCT lemma FROM lexemes WHERE pos != 'name'")]
     lemmas.sort(key=lambda lemma: (-counts.get(lemma.casefold(), 0), lemma))
     return lemmas[: args.top] if args.top else lemmas

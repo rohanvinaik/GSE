@@ -321,8 +321,9 @@ def close_sense(
     else:
         resolution = _resolve(base, relations, pos)
     row = _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, resolution.code)
-    if feeling_noun:
-        row["feeling_noun"] = True
+    if feeling_noun and "GOOD" in row["provenance"]:
+        # Recorded where it is stored, so a rebuild compares equal (Rohan's ruling D-1).
+        row["provenance"]["GOOD"]["exemption"] = "feeling-noun"
     return row
 
 
