@@ -687,3 +687,31 @@ class TestDownloadWordnet:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--tb=short"])
+
+
+class TestAdjectiveIdentity:
+    """A satellite refines its head; a head whose own gloss is a prime's pole carries it (2026-11-25)."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize(
+        "synset,expected",
+        [
+            ("large.a.01", {"BIG": 1}),
+            ("huge.s.01", {"BIG": 1}),
+            ("tiny.s.01", {"BIG": -1}),
+            ("superb.s.02", {"GOOD": 1}),
+            ("terrible.s.02", {"GOOD": -1}),
+            ("adjacent.s.01", {"FAR": -1}),
+        ],
+    )
+    def test_prime_heads_and_their_satellites(self, p, synset, expected):
+        assert p.to_primitives_for_definition(synset) == expected
+
+    @pytest.mark.parametrize("synset", ["happy.a.01", "red.s.01", "big.s.01"])
+    def test_adjectives_outside_a_prime_cluster_assert_nothing(self, p, synset):
+        assert p.to_primitives_for_definition(synset) == {}

@@ -119,8 +119,10 @@ satisfy three rules:
   `revise_source_candidate` with full replay. Forecast: 30,466 definitions, about 42,000 signs, 0
   conflicts in a 400-definition sample.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
-- [ ] SP-3 Adjective clusters and antonym pairs: satellites take their head's signs; a head pair on a
-  prime attribute takes opposite poles.
+- [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
+  far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
+  satellite of its cluster (`ADJECTIVE_IDENTITY_HEADS`). Word-level signs are not carried through
+  clusters: measured 2026-11-25, that spreads connotation (dying's FEEL+ to "last"), not identity.
 - [ ] SP-4 Derivation by part-of-speech pair, verb entailment and cause.
 - [ ] SP-5 Measure H, C and L per channel after each round; rebuild senses; publish.
 

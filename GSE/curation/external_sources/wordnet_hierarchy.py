@@ -225,6 +225,35 @@ def reviewed_say_exclusion(synset_name: str, definition: str) -> tuple[str, str]
     return "state.v.01", "SAY"
 
 
+# Adjective identity (founder correction 2, 2026-11-25): a head adjective whose own gloss is a prime's
+# pole, and every satellite in its cluster (a satellite refines its head: "huge" is a kind of large).
+ADJECTIVE_IDENTITY_HEADS = {
+    "good.a.01": {"GOOD": 1},  # "having desirable or positive qualities"
+    "bad.a.01": {"GOOD": -1},  # "having undesirable or negative qualities"
+    "large.a.01": {"BIG": 1},  # "above average in size or number or quantity or magnitude or extent"
+    "small.a.01": {"BIG": -1},  # "limited or below average in number or quantity or magnitude or extent"
+    "far.a.01": {"FAR": 1},  # "located at a great distance in time or space or degree"
+    "distant.a.01": {"FAR": 1},  # "separated in space or coming from or going to a distance"
+    "near.a.01": {"FAR": -1},  # "not far distant in time or space or degree or circumstances"
+    "close.a.01": {"FAR": -1},  # "at or within a short distance in space or time"
+    "true.a.01": {"TRUE": 1},  # "consistent with fact or reality; not false"
+    "false.a.01": {"TRUE": -1},  # "not in accordance with the fact or reality or actuality"
+    "same.a.01": {"SAME": 1},  # "same in identity"
+    "other.a.01": {"SAME": -1},  # "not the same one or ones already mentioned or implied"
+    "different.a.01": {"SAME": -1},  # "unlike in nature or quality or form or degree"
+    "alive.a.01": {"ALIVE": 1},  # "possessing life"
+    "dead.a.01": {"ALIVE": -1},  # "no longer having or seeming to have or expecting to have life"
+}
+
+
+def adjective_identity(synset) -> Dict[str, int]:
+    """A head's own prime pole, or a satellite's head's; nothing for any other adjective."""
+    if synset.pos() == "a":
+        return dict(ADJECTIVE_IDENTITY_HEADS.get(synset.name(), {}))
+    heads = [head.name() for head in synset.similar_tos() if head.pos() == "a"]
+    return dict(ADJECTIVE_IDENTITY_HEADS.get(heads[0], {})) if len(heads) == 1 else {}
+
+
 class WordNetHierarchyParser(BaseExternalParser):
     """Parse WordNet hierarchy and map to GSE primitives."""
 
@@ -346,6 +375,8 @@ class WordNetHierarchyParser(BaseExternalParser):
             synset = self._wn.synset(synset_name)
         except LookupError, WordNetError:
             return {}
+        if synset.pos() in ("a", "s"):
+            return adjective_identity(synset)
         if synset.pos() not in ("n", "v"):
             return {}
         primitives: Dict[str, int] = {}
