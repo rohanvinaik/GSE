@@ -761,3 +761,23 @@ class TestRoundTwoIdentity:
     @pytest.mark.parametrize("synset", ["nonbeing.n.01", "nonexistence.n.01"])
     def test_reserved_nonbeing_branch_gains_no_be(self, p, synset):
         assert "BE" not in p.to_primitives_for_definition(synset)
+
+
+class TestDerivedActIdentity:
+    """An act or event noun takes the identity every derivationally related verb shares."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize(
+        "synset,bank", [("departure.n.01", "MOVE"), ("touch.n.05", "TOUCH"), ("movement.n.03", "MOVE")]
+    )
+    def test_the_act_of_a_verb_is_that_verb(self, p, synset, bank):
+        assert p.to_primitives_for_definition(synset)[bank] == 1
+
+    def test_a_related_verb_without_the_identity_blocks_it(self, p):
+        # act.n.02 relates to act.v.01 (no CAUSE) and motivate.v.01 (CAUSE): nothing is shared.
+        assert "CAUSE" not in p.to_primitives_for_definition("act.n.02")

@@ -415,6 +415,28 @@ class WordNetHierarchyParser(BaseExternalParser):
                     if primitive in primitives and primitives[primitive] != value:
                         raise ValueError("CONFLICTING_TAXONOMY_VALUES")
                     primitives[primitive] = value
+        if synset.pos() == "n" and {"act.n.02", "event.n.01"} & ancestors:
+            # An act or event noun derived from verbs is the act of those verbs ("departure" is a
+            # departing): it takes the identity every related verb shares (DO/HAPPEN come from its own
+            # ancestry). A verb with no such identity leaves nothing shared.
+            verbs = {
+                form.synset()
+                for lemma in synset.lemmas()
+                for form in getattr(lemma, "derivationally_related_forms", list)()
+                if form.synset().pos() == "v"
+            }
+            shared = None
+            for verb in sorted(verbs, key=lambda item: item.name()):
+                identity = {
+                    bank: value
+                    for bank, value in self.to_primitives_for_definition(verb.name()).items()
+                    if bank not in ("DO", "HAPPEN")
+                }
+                shared = identity if shared is None else {b: v for b, v in shared.items() if identity.get(b) == v}
+            for bank, value in sorted((shared or {}).items()):
+                if primitives.get(bank, value) != value:
+                    raise ValueError("CONFLICTING_TAXONOMY_VALUES")
+                primitives[bank] = value
         if synset.pos() == "v" and getattr(synset, "causes", list)():
             # WordNet states the verb causes another ("kill" causes "die"): its definition is "cause to".
             if primitives.get("CAUSE", 1) != 1:
