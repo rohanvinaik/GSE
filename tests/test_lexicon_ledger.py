@@ -30,3 +30,12 @@ def test_verdicts():
     assert verdict(3, 2, 50, ("gathering",), False) == SPECIALIZED
     assert verdict(3, 2, 50, (), False) == FINDING
     assert verdict(3, 0, 50, (), True) == EXCEEDS_REVIEWED
+
+
+def test_reviewed_implication_tables_are_read_mechanically():
+    from GSE.curation.lexicon_builder.stated_channels import implication
+
+    rows = [(x, y) for x in (-1, 0, 1) for y in (-1, 0, 1) if x != 1 or y == 1]
+    assert implication({"banks": ["SOMETHING", "BE"], "allowed_rows": rows}) == (("SOMETHING", 1), ("BE", 1))
+    assert implication({"banks": ["WHEN"], "allowed_rows": [[1]]}) == (None, ("WHEN", 1))
+    assert implication({"banks": ["A", "B"], "allowed_rows": [[0, 0], [1, 1]]}) is None

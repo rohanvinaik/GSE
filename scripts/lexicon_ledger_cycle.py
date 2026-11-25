@@ -1,8 +1,9 @@
 """One read-only cycle of the lexicon promotion ledger over the type-guarded identity rules.
 
 Each rule in ``wordnet_hierarchy._WARRANTED_ROOT_PRIMITIVES`` says every WordNet definition under type T
-has bank b = v. This script measures, for each, its stated confirmations and contradictions (assertions
-from sources other than ``wordnet_hierarchy``, whose values rules derive, plus native restrictions), its
+has bank b = v. This script measures, for each, its stated confirmations and contradictions (every exact
+channel of ``stated_channels``, plus native restrictions; never ``wordnet_hierarchy``, whose values rules
+derive), its
 reach on the lexicon before identity, and any reviewed release rule for the same bank that the identity
 rule extends beyond its reviewed scope; then applies ``ledger.verdict``. It writes nothing to a lexicon.
 
@@ -20,7 +21,11 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus.reader.wordnet import WordNetError
 
 from GSE.curation.external_sources import wordnet_hierarchy as wh
+from GSE.curation.external_sources.framenet import FRAME_TO_PRIMITIVE, FrameNetParser
+from GSE.curation.external_sources.source_scope import in_scope
+from GSE.curation.external_sources.usas import USASParser
 from GSE.curation.lexicon_builder.ledger import impute_guard_candidates, verdict
+from GSE.curation.lexicon_builder.stated_channels import collect
 
 DERIVED_SOURCE = "wordnet_hierarchy"
 
@@ -68,12 +73,18 @@ def run(before, after):
             excluded = wh.REVIEWED_BRANCH_EXCLUSIONS.get((name, bank))
             rules.append((name, bank, wh.ROOT_CONCEPT_PRIMITIVES[name][bank], excluded))
     pre, post = _conn(before), _conn(after)
-    facts, restrictions = _stated(post)
-    entries = {}
+    _facts, restrictions = _stated(post)
+    entries, linked = {}, {}
     for (entry,) in post.execute("SELECT entry_id FROM definition_states WHERE entry_id LIKE 'wordnet:%'"):
         synset = _synset(entry)
         if synset is not None:
             entries[entry] = _ancestors(synset) | {synset.name()}
+            linked[entry] = (synset.name(), entries[entry], unquote(entry.split(":")[1]))
+    usas = USASParser()
+    usas.load()
+    framenet = FrameNetParser()
+    framenet.load()
+    facts = collect(post, linked, usas, framenet.entries, FRAME_TO_PRIMITIVE, in_scope, wn)
     domains = {
         e: json.loads(d)
         for e, d in pre.execute("SELECT entry_id, domains FROM definition_states WHERE entry_id LIKE 'wordnet:%'")
@@ -99,7 +110,15 @@ def run(before, after):
         ]
         guards = impute_guard_candidates([entries[e] for e in confirming], [entries[e] for e in contradicting])
         code = verdict(len(confirming), len(contradicting), kappa, guards, bool(rivals) and kappa > 0)
-        sources = sorted({s.split("#")[0][:40] for e in confirming for b, _v, s in facts.get(e, ()) if b == bank})
+        sources = dict(
+            sorted(
+                __import__("collections")
+                .Counter(
+                    s.split(":")[0] for e in confirming for b, v, s in facts.get(e, ()) if b == bank and v == value
+                )
+                .items()
+            )
+        )
         rows.append(
             {
                 "rule": f"{name} => {bank}={value:+d}",
@@ -116,7 +135,7 @@ def run(before, after):
                 "verdict": code,
             }
         )
-    return {"format": "GSE.lexicon-ledger-cycle/1", "before": str(before), "after": str(after), "rules": rows}
+    return {"format": "GSE.lexicon-ledger-cycle/2", "before": str(before), "after": str(after), "rules": rows}
 
 
 def main():
@@ -132,7 +151,7 @@ def main():
     for row in report["rules"]:
         print(
             f"{row['verdict']:32} {row['rule']:34} defs {row['definitions']:6} kappa {row['kappa_open_before_identity']:6}"
-            f" +{row['confirming']:<4} -{row['contradicting']:<4} {row['confirming_sources'][:3]}"
+            f" +{row['confirming']:<4} -{row['contradicting']:<4} {row['confirming_sources']}"
         )
 
 
