@@ -41,6 +41,18 @@ release-022 with `word_source_agreement` and `word_senses` added; no release tab
     definition.
   - §10 needs "hurt", whose main sense is unresolved.
   - §1 and §7 need `genealogy.db`.
+- The release's own replay validation on the candidate: REPLAY_VALIDATED, 401,596 definitions, 0 mismatches
+  (the added tables do not disturb it). The full suite: 7,745 passed, 0 failed. The checkpoint's 50 source
+  pins cover none of the new or edited files; its 24 tests pass.
+- F075 random sample (40 words from ranks 2,000–10,000, 20 from the tail) is mostly sound: people ALIVE+
+  SOMEONE+, things SOMETHING+, evaluative adjectives GOOD±. Known error class: where the only evidenced
+  definition is a minority sense, it becomes the main sense, because WordNet's order rests on thin tagged
+  counts. Examples: snowball (the viburnum plant, ALIVE+) and dud ("someone unsuccessful", count 0).
+  Borderline: educated GOOD+ and frigid GOOD−. Both await Rohan's ruling.
+- Not yet done:
+  - salience is only partly implemented: senses group by exact load-bearing encoding, and the
+    significance weight only breaks ties;
+  - the build metadata pins code hashes but not the source data files.
 
 ## Urgent checkpoint execution — 2026-11-24
 
