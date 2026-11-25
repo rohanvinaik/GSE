@@ -54,6 +54,44 @@ release-022 with `word_source_agreement` and `word_senses` added; no release tab
     significance weight only breaks ties;
   - the build metadata pins code hashes but not the source data files.
 
+## Completion work packages (mechanized; each is one commit by one small agent)
+
+Each package names its inputs, the command it adds or runs, and its acceptance. Every package must
+satisfy three rules:
+- No package makes a semantic judgment. Judgments are owner decisions (D-1 to D-5), applied as named
+  constants with a test.
+- Every package rebuilds the candidate and passes, unchanged: `tests/test_lexicon_word_sense_acceptance.py`,
+  `scripts/build_word_senses.py --verify 300` (0 mismatches) and `validate_build` (REPLAY_VALIDATED).
+- No resolved value changes without a named cause.
+
+- [ ] D-1 Read rule (Rohan): main sense with alternatives, or only what every surviving sense shares.
+- [ ] D-2 Main-sense rule (Rohan): WordNet's first sense, with its known failure (snowball, dud), or another rule.
+- [ ] D-3 Thresholds (Rohan): valence 0.5, felt strength 3.5, perceptual 3.0, coherent group 3, and the
+  genuine-emotion list.
+- [ ] D-4 GOOD on nouns (Rohan): F057 vs F066; 1,437 agreed signs blocked.
+- [ ] D-5 Switch `data/lexicon_active.json` to the candidate (Rohan).
+- [ ] WP-1 Pin source data. Hash every integrator data file into the `word_senses` metadata; `--verify`
+  refuses a changed source by name. Acceptance: editing a copy of a source file makes verify fail.
+- [ ] WP-2 Salience. Compute each definition-bank weight (alternatives removed × (1 + κ)) and compare senses
+  on banks at or above a salience cut τ. Report the groupings at τ = 0, median and top-3 for the top 1,000
+  words; Rohan picks τ (D-6). Acceptance: the τ = 0 rebuild equals today's.
+- [ ] WP-3 Admit coherence rules (FC-5).
+  1. Rerun `scripts/lexicon_coherence.py` on the sense cores.
+  2. Apply the existing population policy: conditional probability ≥ 0.85, support ≥ 40 per partition,
+     held-out drift ≤ 0.1.
+  3. Admit the survivors as conditional `Relation`s and rebuild.
+  Acceptance: 0 resolved values changed, the counterexamples of each admitted rule listed, ΔH reported.
+- [ ] WP-4 Symbolic read side. The relation evidence in `symbolic/lexical_grounding.py` reads senses, so
+  proof-packet §8 and §9 run. That file is owned by Rohan's session: schedule it with them.
+- [ ] WP-5 SSL measurement. Report H0, H per epoch, the κ distribution and the knee on the candidate with
+  `specification.py`. Acceptance: the numbers reproduce from the committed command.
+- [ ] WP-6 Tail teaching. For main senses whose open banks are narrowed to ≤ 3 options, ask the bounded
+  typed model question in max-κ order through `completion.py`. Receipts replay. An audit sample is
+  checked against independent labels, and agreement is reported.
+- [ ] WP-7 Grammar to banks (design rule 4). Measure which banks are load-bearing and stable across the
+  words observed in each operator's argument slot (the comparative's operands, for example) over a
+  pinned corpus. Propose them as sentence-time constraints for Rohan's review (D-7).
+
 ## Urgent checkpoint execution — 2026-11-24
 
 The direct user instruction now prioritizes a validated usable checkpoint before
