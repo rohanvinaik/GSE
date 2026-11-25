@@ -50,7 +50,7 @@ def main():
         if path.name.endswith(".verified.jsonl"):
             continue
         key = path.stem
-        lines = (ROOT / SOURCES[key]).read_text(encoding="utf-8").splitlines()
+        lines = (ROOT / SOURCES[key]).read_text(encoding="utf-8").split("\n")
         records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
         results = [(record, check(record, lines)) for record in records]
         accepted = [record for record, code in results if code == "ACCEPTED"]
