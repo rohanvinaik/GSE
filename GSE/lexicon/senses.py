@@ -68,8 +68,13 @@ def reading(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]], l
 
 
 def read_senses(
-    conn: sqlite3.Connection, lemma: str, pos: str | None = None, entry_id: str | None = None
+    conn: sqlite3.Connection,
+    lemma: str,
+    pos: str | None = None,
+    entry_id: str | None = None,
+    allowed: frozenset | None = None,
 ) -> dict | None:
+    """``allowed``: the definitions the sentence's grammar leaves possible; senses with none of them drop out."""
     """The word's reading from its senses, or None when the lexicon has no senses for it."""
     if not has_senses(conn):
         return None
@@ -122,6 +127,10 @@ def read_senses(
             "senses": [{"sense": core["sense"], "assignments": core["assignments"]}],
         }
     senses = by_pos[selected_pos]
+    if allowed is not None:
+        kept = [s for s in senses if set(s["members"]) & allowed]
+        senses = kept or senses
+        basis = basis + "+FRAME_SELECTED" if kept else basis
     agreed, possible, exceptions = reading(senses)
     return {
         "policy": POLICY,
