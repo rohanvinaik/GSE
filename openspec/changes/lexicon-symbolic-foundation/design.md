@@ -119,6 +119,13 @@ design uses to turn evidence into meaning.
    - A sense's core is its members' load-bearing values, closed under the rules.
    - Part-of-speech conventions (GOOD = 0 on nouns, SOMETHING = 0 on adjectives, I/YOU = 0) are not
      load-bearing.
+   - **Superseded 2026-11-25 (Rohan: "Where in there did I specify an arbitrary frequency-defined 'main sense'
+     that is singularly monotonic for every word?").** The three "main sense" bullets above (the group holding
+     WordNet's first sense; unresolved unless three definitions agree; the best-supported group) were the agent's
+     invention, not this design. In force instead: a word's definitions collapse, by coherence over the whole set,
+     into its genuinely distinct senses, one coherent core (the "platonic ideal") per genuinely unique homonym and
+     at least one per part of speech present. No sense is ranked or made a default. A single definition that would
+     destroy a group's coherence is an out-of-variance exception, recorded, never part of the core.
 4. **No model writes a value.** Banks left open after 1–3 stay open until a source, a rule or an owner
    ruling closes them (Rohan, 2026-11-25). Models only run the analysis as agents.
 5. **Runtime reads senses.** The sentence's part of speech selects a word's senses.
@@ -127,6 +134,10 @@ design uses to turn evidence into meaning.
      possible signs.
    - Context that identifies one definition selects its sense.
    - A word is never refused for having several definitions.
+   - **Superseded 2026-11-25 (same ruling):** "the reading is the main sense" and "other senses as
+     alternatives". In force: grammar and context choose among senses, not the lexicon. The reading is every sense
+     compatible with the sentence's part of speech and frame; banks they agree on are its values, and where they
+     disagree it carries the set of possible signs (approved 2026-11-25 02:04).
    - Reading only what every sense shares erased the obvious meaning. One minority sense of "give"
      (THINK+) cancelled its DO+, though nothing in a sentence that fixes only the part of speech
      selects a minority sense.
