@@ -107,8 +107,14 @@ def _recompute_catalog(conn, rules):
     The catalog records each prime unit's linked definitions and their evidence; identity revises
     prime-linked definitions (people, word, kind, body), so the stored catalog must be recomputed.
     """
+    from GSE.curation.lexicon_builder.completion import _refresh_coverage
+    from GSE.curation.lexicon_builder.source_enrichment import _refresh_unweighted_discovery
     from GSE.curation.lexicon_builder.validation import _canonical, _replay
 
+    # The discovered candidates and coverage describe the assertions; refresh them first (the wrapper
+    # repeats both, to the same result) so the catalog replay sees one consistent state.
+    _refresh_unweighted_discovery(conn)
+    _refresh_coverage(conn)
     links = {unit: tuple(entries) for unit, entries in _metadata(conn, "prime_entries").items()}
     replay = _replay(conn, rules, catalog_links=links)
     if replay["code"] != "REPLAY_VALIDATED" or not replay["complete_search"]:
