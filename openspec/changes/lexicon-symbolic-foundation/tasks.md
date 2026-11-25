@@ -145,6 +145,11 @@ satisfy three rules:
   Published 2026-11-25 by Rohan's instruction through publish_sparse: sparse-release-022-identity-published.db
   (sha256 2a104a5f...), replay 401,596/401,596 with 0 mismatches, gold evaluated; the previous copy is
   the rollback. Known loss: the main sense of "cut" (verb) moved to the contact sense, TOUCH without DO.
+  Withdrawn and republished 2026-11-25 (Rohan: "Fine, do it"): the state.n.02 BE root (9f810d1) exceeded the
+  approved convention, own state denotation. Revision: 4,234 BE values reopened, nothing else changed, replay
+  401,596/0. Word senses: 2,738 readings lose BE, 0 changed, 122 gained by sense regrouping (43 FEEL, 79 BE from
+  explicit-state member definitions; some merges are wrong, e.g. job, play, check: WP-2 salience). Active:
+  sparse-release-022-identity2-published.db (sha256 f1c71d88...), gold evaluated; the identity copy is the rollback.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
 - [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
