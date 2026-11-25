@@ -715,3 +715,20 @@ class TestAdjectiveIdentity:
     @pytest.mark.parametrize("synset", ["happy.a.01", "red.s.01", "big.s.01"])
     def test_adjectives_outside_a_prime_cluster_assert_nothing(self, p, synset):
         assert p.to_primitives_for_definition(synset) == {}
+
+
+class TestCausativeIdentity:
+    """A verb WordNet states causes another verb has CAUSE in its definition (2026-11-25)."""
+
+    @pytest.fixture(scope="class")
+    def p(self):
+        parser = WordNetHierarchyParser()
+        parser.load()
+        return parser
+
+    @pytest.mark.parametrize("synset", ["kill.v.01", "burn.v.05", "transfer.v.05", "cheer.v.03"])
+    def test_stated_causatives_carry_cause(self, p, synset):
+        assert p.to_primitives_for_definition(synset)["CAUSE"] == 1
+
+    def test_a_verb_without_a_stated_cause_gains_none_from_this(self, p):
+        assert "CAUSE" not in p.to_primitives_for_definition("die.v.01")
