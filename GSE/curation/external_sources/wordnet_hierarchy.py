@@ -150,6 +150,7 @@ ROOT_CONCEPT_PRIMITIVES = {
     "equal.v.01": {"SAME": 1},
     "enter.v.01": {"MOVE": 1},
     "leave.v.01": {"MOVE": 1},
+    "touch.v.05": {"TOUCH": 1},
 }
 
 
@@ -216,6 +217,7 @@ _WARRANTED_ROOT_PRIMITIVES = {
     "equal.v.01": frozenset({"SAME"}),  # "be identical or equivalent to"
     "enter.v.01": frozenset({"MOVE"}),  # "to come or go into"
     "leave.v.01": frozenset({"MOVE"}),  # "go away from a place"
+    "touch.v.05": frozenset({"TOUCH"}),  # "be in direct physical contact with; make contact"
 }
 
 # A root whose WordNet subtree files a branch the prime does not describe: (root, bank) -> branch.
