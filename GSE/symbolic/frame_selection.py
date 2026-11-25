@@ -45,8 +45,8 @@ def clause_pattern(doc, position, someone) -> tuple | None:
     while k < len(doc):
         token = doc[k]
         if token.pos_ == "ADP" and token.lemma_.lower() == "to":
-            j = k + 1
-            while j < len(doc) and doc[j].pos_ in NP_INNER and doc[j].pos_ not in NOMINAL:
+            j = k + 1  # the noun phrase after "to": its head is its last word ("his mother" -> mother)
+            while j + 1 < len(doc) and doc[j + 1].pos_ in NP_INNER:
                 j += 1
             if j < len(doc) and doc[j].pos_ in NOMINAL and slot_type(doc[j], someone) == "somebody":
                 to_somebody = True
@@ -78,7 +78,7 @@ def frame_hosts(frame: str, pattern: tuple) -> bool:
         return False
     slots = [w for w in after if w in {"somebody", "something"}]
     wants_to = "to" in after
-    if to_somebody and not wants_to:
+    if to_somebody and not (wants_to or "pp" in after):  # "to X" is a recipient or any prepositional phrase
         return False
     framed = tuple(slots[:-1]) if wants_to and slots and slots[-1] == "somebody" else tuple(slots)
     return len(framed) == len(objects) and all(o in ("*", f) for f, o in zip(framed, objects, strict=True))
