@@ -113,7 +113,7 @@ satisfy three rules:
 
 ## Structural propagation (founder correction 2, 2026-11-25; supersedes the WP order above)
 
-- [ ] SP-1 Identity roots. `wordnet_hierarchy.py` carries identity from each prime's own concept (gloss
+- [x] SP-1 Identity roots. `wordnet_hierarchy.py` carries identity from each prime's own concept (gloss
   or approved binding) to every kind; the substance branch is excluded from PART.
   `scripts/revise_lexicon_wordnet_identity.py` adds the projected assertions to the release through
   `revise_source_candidate` with full replay. Forecast: 30,466 definitions, about 42,000 signs, 0
@@ -138,6 +138,9 @@ satisfy three rules:
   rest mostly drop values that came from mixing senses, e.g. boot DO, catch DO, assembly PEOPLE, and a
   few real losses, e.g. chill FEEL). Mean meaning banks per word: top 1,000 1.44 to 1.72; all words
   1.11 to 1.37.
+  Published 2026-11-25 by Rohan's instruction through publish_sparse: sparse-release-022-identity-published.db
+  (sha256 2a104a5f...), replay 401,596/401,596 with 0 mismatches, gold evaluated; the previous copy is
+  the rollback. Known loss: the main sense of "cut" (verb) moved to the contact sense, TOUCH without DO.
 - [ ] SP-2 One layer: attach each word's agreed signs to its main sense's definitions.
 - [ ] SP-3 Adjective identity: a head whose own gloss is a prime's pole (good/bad GOOD, large/small BIG,
   far/distant and near/close FAR, true/false TRUE, same/other/different SAME, alive/dead ALIVE) and every
