@@ -24,11 +24,27 @@ from pathlib import Path
 
 
 def readings(path: Path) -> dict[tuple[str, str], tuple[dict, dict]]:
-    """(lemma, pos) -> the main sense's assignments and provenance."""
+    """(lemma, pos) -> the reading GSE takes for that part of speech (what every sense shares, as
+    ``GSE.lexicon.senses`` reads it), with each agreed bank's provenance from the senses that hold it."""
+    from GSE.lexicon.senses import _agreement
+
     conn = sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True)
-    rows = conn.execute("SELECT lemma, pos, assignments, provenance FROM word_senses WHERE sense = 0")
-    found = {(lemma, pos): (json.loads(a), json.loads(p)) for lemma, pos, a, p in rows}
+    rows = conn.execute("SELECT lemma, pos, assignments, open, provenance FROM word_senses ORDER BY lemma, pos, sense")
+    grouped: dict[tuple[str, str], list[tuple[dict, dict]]] = {}
+    for lemma, pos, a, o, p in rows:
+        grouped.setdefault((lemma, pos), []).append(
+            ({"assignments": json.loads(a), "open": json.loads(o)}, json.loads(p))
+        )
     conn.close()
+    found = {}
+    for key, senses in grouped.items():
+        agreed, _possible = _agreement([s for s, _ in senses])
+        provenance = {
+            bank: next(p[bank] for _s, p in senses if bank in p)
+            for bank in agreed
+            if any(bank in p for _s, p in senses)
+        }
+        found[key] = (agreed, provenance)
     return found
 
 

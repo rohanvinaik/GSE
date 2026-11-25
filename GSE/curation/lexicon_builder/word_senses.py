@@ -47,7 +47,6 @@ FEELING_NOUN_CATEGORIES = frozenset({"noun.feeling"})
 NOUN_EVALUATION_RULE = "founder:noun-own-evaluation"
 # Definitions resolving the same load-bearing values that count as coherence across definitions
 # (a judgment, recorded in the design): one or two can be an incidental minority sense.
-COHERENT_GROUP = 3
 
 
 @dataclass(frozen=True)
@@ -168,23 +167,19 @@ def collapse(
     definitions: Sequence[Definition],
     anchor: Mapping[str, int] | None = None,
     corroboration: Mapping[str, Mapping[int, frozenset[str]]] | None = None,
-    first_entry: str | None = None,
 ) -> list[Sense]:
     """Group one part of speech's definitions into senses.
 
-    Definitions with the same load-bearing encoding form a group. The main sense is the group
-    holding ``first_entry``, the word's most common sense (WordNet's first, ordered by tagged-text
-    frequency), or an unresolved sense when that definition has no evidence. Otherwise it is the
-    best-supported group: the one sharing the most values with ``anchor`` (the word's agreed source
-    signs for this part of speech: where independent sources converge is the obvious meaning),
-    then the one with the fewest asserted values no independent source corroborates, then the
-    largest.
+    Definitions with the same load-bearing encoding form a group: coherence over the whole set (Rohan,
+    design.md rule 3). No sense is ranked or made a default; grammar and context choose among them at
+    read time. Groups are visited most general first, so a more specific group can join a sense only when every
+    value it adds is corroborated, never because it happened to be visited first.
     Another group joins a sense when it conflicts with none of the sense's values and every
     source-asserted value it adds is corroborated (``_corroborated``); values a rule derived
     follow from the definition's own evidence. A group that adds an uncorroborated value is a
     different meaning and starts its own sense. With no evidenced definition, the word has one
     sense, carried by its agreed signs. A definition with no load-bearing value is absorbed into
-    the main sense.
+    no sense's core: they are listed on the first stored sense for identity only.
     """
     anchor = anchor or {}
     corroboration = corroboration or {}
@@ -195,29 +190,15 @@ def collapse(
 
     def rank(item):
         key, group = item
-        holds_first = any(d.entry_id == first_entry for d in group)
-        shared = sum(1 for bank, value in key if anchor.get(bank) == value)
-        asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
-        unsupported = sum(
-            1 for bank, value in key if bank in asserted and not _corroborated(bank, value, group, corroboration)
-        )
         return (
-            not holds_first,
-            -shared,
-            unsupported,
+            len(key),  # the most general encoding first: a more specific group joins only on corroboration
             -len(group),
             -sum(d.weight for d in group),
             min(d.entry_id for d in group),
         )
 
     ordered = [sorted(group, key=lambda d: d.entry_id) for _key, group in sorted(groups.items(), key=rank)]
-    # When the word's most common sense (WordNet's first) has no evidence, the main sense stays
-    # unresolved unless several definitions cohere on one encoding: an evidenced minority sense
-    # (buy's "accept as true", THINK+) must not stand in for it, but give's nine transfer
-    # definitions agreeing on DO+ are the coherence the design rests on.
-    blank_first = first_entry is not None and any(d.entry_id == first_entry and not d.load_bearing for d in definitions)
-    coherent = bool(ordered) and len(ordered[0]) >= COHERENT_GROUP
-    senses: list[Sense] = [Sense()] if blank_first and not coherent else []
+    senses: list[Sense] = []
     for group in ordered:
         values = {bank: entry[0] for bank, entry in group[0].load_bearing.items()}
         asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
@@ -394,17 +375,6 @@ def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, 
 _WORDNET_POS = {"noun": "n", "verb": "v", "adj": "a", "adv": "r"}
 
 
-def first_sense_entry(lemma: str, pos: str) -> str | None:
-    """The definition id of the word's most common sense in this part of speech (WordNet's first)."""
-    tag = _WORDNET_POS.get(pos)
-    if tag is None:
-        return None
-    from nltk.corpus import wordnet
-
-    synsets = wordnet.synsets(lemma, tag)
-    return f"wordnet:{lemma}:{synsets[0].name()}" if synsets else None
-
-
 def names_a_feeling(lemma: str, sense: Sense) -> bool:
     """Whether the sense's most common WordNet definition is in WordNet's feeling category."""
     from nltk.corpus import wordnet
@@ -448,8 +418,7 @@ def build_word(
         agreement = agree(votes_for_pos(votes, pos, pos == dominant))
         agreed = committed_signs(agreement)
         anchor = settle_anchor(agreed, relations, pos)
-        first = first_sense_entry(lemma, pos)
-        for index, sense in enumerate(collapse(definitions, anchor, corroboration, first)):
+        for index, sense in enumerate(collapse(definitions, anchor, corroboration)):
             feeling = pos == "noun" and names_a_feeling(lemma, sense)
             row = close_sense(lemma, pos, index, sense, agreed, relations, feeling)
             for bank, origin in row["provenance"].items():

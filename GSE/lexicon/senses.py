@@ -1,18 +1,11 @@
 """Read a word's senses: the founder-corrected lexicon's runtime side (lexicon FC-6).
 
-A word's definitions collapse into a few senses per part of speech
-(``GSE.curation.lexicon_builder.word_senses``). At read time the sentence's part of speech
-selects that part of speech's senses, and the reading is the main sense: the coherent core of the
-word's whole set of definitions, its "real and obvious meaning" (Rohan). A sense that breaks that
-coherence is "an out-of-variance exception that breaks coherence and should be handled thus"
-(Rohan, 2026-11-24): it is carried under ``exceptions``, with the banks where it differs from the
-core and the possible signs there, and never erases the core. When context has identified one
-exact definition, the reading is that definition's sense. A word is never refused for having
-several definitions.
-
-Reading only what every sense shares erased the obvious meaning: one minority sense of "give"
-(THINK+, "give thought to") cancelled its DO+. Nothing in a sentence that fixes only the part of
-speech has selected a minority sense.
+A word's definitions collapse, by coherence over the whole set, into its genuinely distinct senses, one coherent
+core per homonym and none ranked above another (``GSE.curation.lexicon_builder.word_senses``). Grammar and context
+choose among senses; the lexicon does not (Rohan, 2026-11-25). The reading for a part of speech is every sense of
+that part of speech: banks they all agree on are its values, and where they disagree it carries the set of possible
+signs. When context has identified one exact definition, the reading is that definition's sense. A word is never
+refused for having several definitions.
 
 Only a lexicon that carries a ``word_senses`` table is read this way; otherwise ``read_senses``
 returns None and the caller keeps its definition-identity behavior.
@@ -23,7 +16,7 @@ from __future__ import annotations
 import json
 import sqlite3
 
-POLICY = "word-senses/1"
+POLICY = "word-senses/2"
 # The front end's tags for content words; proper nouns are handled by the name system.
 UD_TO_POS = {"NOUN": "noun", "VERB": "verb", "AUX": "verb", "ADJ": "adj", "ADV": "adv"}
 _ORDER = {"noun": 0, "verb": 1, "adj": 2, "adv": 3}
@@ -33,15 +26,24 @@ def has_senses(conn: sqlite3.Connection) -> bool:
     return conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='word_senses'").fetchone() is not None
 
 
-def _differences(core: dict, alternatives: list[dict]) -> dict[str, list[int]]:
-    """Banks where another sense fixes a different value than the core: their possible signs."""
-    differing: dict[str, set[int]] = {}
-    for sense in alternatives:
-        for bank, value in sense["assignments"].items():
-            if core["assignments"].get(bank) != value:
-                base = {core["assignments"][bank]} if bank in core["assignments"] else set(core["open"].get(bank, ()))
-                differing.setdefault(bank, set(base)).add(value)
-    return {bank: sorted(values) for bank, values in sorted(differing.items())}
+def _possible(sense: dict, bank: str) -> set[int]:
+    """The signs a sense allows on a bank: its value, its open domain, or every sign when it says nothing."""
+    if bank in sense["assignments"]:
+        return {sense["assignments"][bank]}
+    return set(sense["open"].get(bank, (-1, 0, 1)))
+
+
+def _agreement(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]]]:
+    """Values every sense shares, and the possible signs where they do not (banks no sense speaks to stay out)."""
+    banks = {bank for sense in senses for bank in (*sense["assignments"], *sense["open"])}
+    agreed, possible = {}, {}
+    for bank in sorted(banks):
+        signs = set().union(*(_possible(sense, bank) for sense in senses))
+        if len(signs) == 1:
+            agreed[bank] = next(iter(signs))
+        elif signs != {-1, 0, 1} or any(bank in s["assignments"] for s in senses):
+            possible[bank] = sorted(signs)
+    return agreed, possible
 
 
 def read_senses(
@@ -88,15 +90,24 @@ def read_senses(
                 key=lambda p: (-sum(len(s["members"]) + len(s["absorbed"]) for s in by_pos[p]), _ORDER.get(p, 9), p),
             )[0]
             basis = "DOMINANT_PART_OF_SPEECH"
-        core = by_pos[selected_pos][0]  # the main sense
-    alternatives = [s for s in by_pos[selected_pos] if s is not core]
+    if entry_id is not None:
+        return {
+            "policy": POLICY,
+            "pos": selected_pos,
+            "basis": basis,
+            "sense": core["sense"],
+            "assignments": dict(core["assignments"]),
+            "open": dict(core["open"]),
+            "senses": [{"sense": core["sense"], "assignments": core["assignments"]}],
+        }
+    senses = by_pos[selected_pos]
+    agreed, possible = _agreement(senses)
     return {
         "policy": POLICY,
         "pos": selected_pos,
         "basis": basis,
-        "sense": core["sense"],
-        "assignments": dict(core["assignments"]),
-        "open": dict(core["open"]),
-        "exceptions": [{"sense": s["sense"], "assignments": s["assignments"]} for s in alternatives],
-        "differs": _differences(core, alternatives),
+        "sense": None,
+        "assignments": agreed,
+        "open": possible,
+        "senses": [{"sense": s["sense"], "assignments": s["assignments"]} for s in senses],
     }

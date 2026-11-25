@@ -64,11 +64,14 @@ def _definition(entry_id, **values):
     return Definition(entry_id, 1, "noun", dict(values), load_bearing)
 
 
-def test_the_group_closest_to_the_sources_agreement_is_the_main_sense():
+def test_no_sense_is_ranked_or_made_a_default():
+    # Rohan, 2026-11-25: senses are the coherent groups of the whole set; grammar and context choose among them.
     animal = [_definition(f"wordnet:dog:dog.n.0{i}", ALIVE=1, SOMETHING=1) for i in (1, 2)]
     person = [_definition(f"wordnet:dog:chap.n.0{i}", SOMEONE=1, SOMETHING=1) for i in (1, 2, 3)]
     senses = collapse([*person, *animal], anchor={"ALIVE": 1, "SOMETHING": 1})
-    assert senses[0].members == animal
+    assert sorted(tuple(d.entry_id for d in s.members) for s in senses) == sorted(
+        [tuple(d.entry_id for d in animal), tuple(d.entry_id for d in person)]
+    )
 
 
 def test_an_uncorroborated_added_value_is_a_different_meaning():
@@ -76,7 +79,7 @@ def test_an_uncorroborated_added_value_is_a_different_meaning():
     animal = _definition("wordnet:dog:dog.n.01", ALIVE=1, SOMETHING=1)
     person = _definition("wordnet:dog:chap.n.01", ALIVE=1, SOMETHING=1, SOMEONE=1)
     senses = collapse([animal, person], anchor={"ALIVE": 1, "SOMETHING": 1}, corroboration={})
-    assert len(senses) == 2 and senses[0].members == [animal] and senses[1].members == [person]
+    assert sorted([s.members for s in senses], key=lambda m: m[0].entry_id) == [[person], [animal]]
 
 
 def test_a_corroborated_added_value_joins_the_main_sense():
@@ -163,20 +166,20 @@ def test_only_a_genuine_emotion_or_felt_strength_measures_feel():
     assert measured_signs("lancaster_sensorimotor", hand_rated, "lock") == {"TOUCH": 1}
 
 
-def test_when_the_most_common_sense_has_no_evidence_the_main_sense_stays_unresolved():
-    # "buy": its first sense (purchase) is unresolved; "accept as true" (THINK+) must not stand in.
+def test_a_definition_without_evidence_joins_no_core():
+    # "buy": the purchase definition carries no load-bearing value, so it shapes no sense's core.
     purchase = Definition("wordnet:buy:buy.v.01", 1, "verb", {}, {})
     believe = _definition("wordnet:buy:buy.v.05", THINK=1)
-    senses = collapse([purchase, believe], first_entry="wordnet:buy:buy.v.01")
-    assert senses[0].core == {} and purchase in senses[0].absorbed
-    assert senses[1].members == [believe]
+    senses = collapse([purchase, believe])
+    assert [s.members for s in senses] == [[believe]] and senses[0].core == {"THINK": 1}
+    assert purchase in senses[0].absorbed  # listed for identity only
 
 
-def test_several_coherent_definitions_carry_the_main_sense_even_when_the_first_is_unresolved():
-    first = Definition("wordnet:give:give.v.01", 1, "verb", {}, {})
+def test_coherent_definitions_form_a_sense_without_any_anchor():
+    blank = Definition("wordnet:give:give.v.01", 1, "verb", {}, {})
     transfer = [_definition(f"wordnet:give:give.v.0{i}", DO=1) for i in (3, 4, 5)]
-    senses = collapse([first, *transfer], first_entry="wordnet:give:give.v.01")
-    assert senses[0].members == transfer and first in senses[0].absorbed
+    senses = collapse([blank, *transfer])
+    assert [s.members for s in senses] == [transfer] and senses[0].core == {"DO": 1}
 
 
 def test_a_word_that_causes_a_feeling_is_not_a_feeling():
