@@ -1,5 +1,7 @@
 # GSE lexicon construction design
 
+> **Superseded where it conflicts (2026-11-24):** Rohan's founder correction in `openspec/changes/lexicon-symbolic-foundation/design.md` (*Founder correction*) governs how evidence becomes meaning. Sources vote as orthogonal constraints, coherence rules write, definitions collapse into senses, and the model is for the tail only. It lists the lines here that no longer govern.
+
 Status: approved semantic decisions with an implementation status ledger. Version: `GSE.lexicon-conventions/2026-10-29`. Owner of semantic decisions: Rohan. This document consolidates the lexicon construction contract; it does not make historical planning documents authoritative.
 
 ## Recovery contract — usable checkpoint and the SSL learning mechanism

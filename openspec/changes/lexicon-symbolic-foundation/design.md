@@ -1,8 +1,110 @@
 # Engineering the existing lexicon path as one system
 
-This bounded change implements GSE-01. Lexical authority and the dependency-ordered CP-01–CP-08
-contract live in `docs/program/LEXICON_CONSTRUCTION_DESIGN.md` under “Engineering execution:
-one checkpoint and a continuing learner”. Do not maintain an alternate acceptance plan here.
+This bounded change implements GSE-01. The founder correction below governs: where
+`docs/program/LEXICON_CONSTRUCTION_DESIGN.md` conflicts with it, the correction wins. Otherwise,
+lexical authority and the dependency-ordered CP-01–CP-08 contract live in that document under
+“Engineering execution: one checkpoint and a continuing learner”. Do not maintain an alternate
+acceptance plan here.
+
+## Founder correction (2026-11-24): why the lexicon was empty, and the design it must follow
+
+### What happened
+
+Release-022 has 401,596 definitions, all `PARTIAL`. An ordinary definition has about one narrowed
+bank of 56, and that bank is mostly a part-of-speech zero. Measured on release-022:
+
+- "happy": none of its 12 adjective definitions has a signed bank. Its evidence is stored, including
+  SentiWordNet linked exactly to `happy.a.01` (positive 0.875), NRC-VAD valence 0.985 and NRC joy.
+  The builder labels it "association", and association evidence may not set a sign
+  (`evidence.py:925-927`, `:849-851`). The June build gave happy FEEL+ and GOOD+.
+- The 68 rules: 23 can only force zero, 29 only pass on a sign that is already present, and 16
+  create a sign, nouns only. None can produce GOOD, FEEL, BIG, HAVE, ALIVE, WANT, THINK, KNOW, SEE,
+  SAY, MOVE or CAUSE. In a 4,000-definition sample, 0 of 597 adjectives and 15 of 2,417 Wiktionary
+  definitions have a sign.
+- Each definition is solved alone. Wiktionary definitions, about 60% of the total, get no WordNet
+  evidence, so all 7 WordNet senses of "dog" are signed and none of its 25 Wiktionary senses are.
+  Word-level records (2.9 million) attach to nothing.
+- Discovery found 648 bank-to-bank coherence relations and checked them on held-out words. All 648
+  are `DISCOVERED_NOT_ADMITTED` with `may_write_lexical_cells: false`.
+- The model became the only route to the obvious banks, one bank question at a time. It has run on
+  87 definitions (239 attempts) and has never been asked about FEEL.
+- `founder:noun-own-evaluation` sets GOOD = 0 on every noun (208,553 derivations). Rohan has not
+  yet reconciled F057 ("'Hatred' is a noun without value attached") with F066 ("words with strong
+  encoding of emotive valence are not '0'").
+
+None of this is a storage or guard bug. The agent-written design closed every route that Rohan's
+design uses to turn evidence into meaning.
+
+### Rohan's design, in his words
+
+- "The presence of multiple definitions for a single word is not a hard problem to solve… There is
+  a sane core that is the *real* and obvious meaning of the word."
+- **Grammar first.** "Grammar is a constraint harness. It *rigidly* constrains the representation
+  space of possible meanings of words." See `papers/Core Documents/GSE/sentence_architecture.md`.
+- **Definitions collapse to the real senses by:**
+  - the symbolic rules, used as "a constraint used to measure coherence", not an inviolate filter;
+  - part of speech: "at least one for each part of speech" present;
+  - coherence: "de-duplicate the core meaning of a word down to the really obvious, central
+    elements", one "platonic ideal" for each genuinely distinct homonym.
+- **Coherence is math.** "They're the same sense of the word if they resolve to the same bank
+  encodings across the ones that are of high salience, that are definitional across the load-bearing
+  banks, the ones that are resolved cleanly and well according to the symbolic rules." "Across a
+  single word and single sense of that word, the meaning should be highly stable across the load
+  bearing banks." Load-bearing is derivational significance (`SIGNIFICANCE_WEIGHTING.md`): a value
+  derived against real alternatives, weighted by its downstream reach. This is the same question
+  TrialLedger answers for clinical trials.
+- **Meaning is interference.** The result "isn't *a* definition, it's an encoded vector of the
+  concept… guided by constraint propagation across a set of ground truth and simple, deterministic,
+  symbolic rules that constructively and destructively interfere".
+- **From the founder record:**
+  - Independent sources give "robust orthogonal decomposition of uncertainty" (F017).
+  - Rules "*narrow* the decision space that the model selects between" (F047), and "the messy/hard
+    tail is what the small model is FOR" (F119).
+  - "A rule that is stable and coherent in the dynamics between banks IS a rule that can be built"
+    (F101, F108).
+  - A single pass fills "every rule-warranted cell", 40–50,000 words "in… minutes-to-hours" (F148).
+- **Scope.** Proper nouns and jargon are handled elsewhere (the proper-noun and jargon systems,
+  sparse-wiki). This lexicon resolves words' relational and grammatical meaning.
+- When surviving senses disagree on a bank, the reading carries the set of possible signs (Rohan,
+  2026-11-24).
+
+### Design rules that follow
+
+1. **Sources vote as orthogonal constraints.** Each independent source family gives a sign per bank
+   within its declared scope (`SOURCE_PRIMITIVE_SCOPE`). A sign commits when independent families
+   agree and none opposes. Opposition leaves the bank open, carrying its possible signs. Correlated
+   sources count as one family. Evidence attaches at the most specific level it is linked to:
+   definition, then part of speech, then lemma. Lemma-level ratings attach only to senses they do
+   not contradict.
+2. **Rules narrow and propagate.** Stable bank-to-bank coherence relations are admitted as
+   conditional rules once re-checked against current held-out words. Discovery that can never
+   write is not a stage.
+3. **A word's definitions collapse into senses within each part of speech.**
+   - Splitting needs a witness: a conflict on a load-bearing bank.
+   - A definition with no load-bearing evidence is absorbed into a sense; it never becomes a sense
+     of its own.
+   - A sense's core is its members' load-bearing values, closed under the rules.
+   - Part-of-speech conventions (GOOD = 0 on nouns, SOMETHING = 0 on adjectives, I/YOU = 0) are not
+     load-bearing.
+4. **The model is for the tail.** It answers only banks left open after 1–3, and only when they are
+   narrowed to a few options.
+5. **Runtime reads senses.** The sentence's part of speech selects a word's senses. The reading is
+   what the surviving senses share, or the set of possible signs. A word is never refused for
+   having several definitions.
+
+### Superseded statements in `LEXICON_CONSTRUCTION_DESIGN.md`
+
+These lines conflict with the rules above and no longer govern:
+- :13, definitions keep separate identities;
+- :124, SentiWordNet marks relevance only;
+- :136, concurrence never admits a value;
+- :325, model completion of the remaining banks as the main route;
+- :597, never merge;
+- :917, a source observation is not definitional content, read as forbidding signs from agreeing
+  sources;
+- :1056 and :1077, discovered coherence relations and the association catalog may not write.
+
+"Unknown is not zero" (:13, :72) still holds: an open bank stays open.
 
 ## Ownership and composition
 

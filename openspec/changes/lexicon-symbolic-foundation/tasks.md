@@ -5,6 +5,27 @@ The single engineering sequence is CP-01–CP-08 in
 This checklist records implementation/verification, not another specification or release result.
 Historical October foundation/family reports remain evidence of their original scope.
 
+## Founder correction — build the lexicon by Rohan's design (2026-11-24)
+
+See design.md, *Founder correction*. These precede the checkpoint work below; a checkpoint over an
+empty lexicon is not a usable lexicon.
+
+- [ ] FC-1 Before code: confirm what replay validation and publication recompute, which builder
+  sources the checkpoint pins, and how `SOURCE_FAMILY` groups correlated sources.
+- [ ] FC-2 Source agreement: independent families vote per bank within their declared scopes; a sign
+  commits on agreement with no opposition; it enters through the resolver so replay reproduces it.
+- [ ] FC-3 Sense collapse: per lemma and part of speech, senses grouped by agreement on load-bearing
+  banks (alternatives removed × downstream reach), split only on a witness, cores closed under the
+  rules, rebuildable from the release.
+- [ ] FC-4 Acceptance in Rohan's order (F070): write each obvious word's expected banks before
+  running (happy, dog, give, big, mother, lock, and negatives), then the top 1,000, then the full
+  build, in a working copy beside the release; 0 changed values among already-resolved cells.
+- [ ] FC-5 Admit the 648 coherence relations after re-checking them on current held-out words.
+- [ ] FC-6 Runtime reads senses by part of speech; a word is never refused for having several
+  definitions.
+- [ ] FC-7 Rohan rules on F057 vs F066 (GOOD on nouns), with the count of signs the current rule blocks.
+- [ ] FC-8 Switching `data/lexicon_active.json` to the result waits for Rohan's word.
+
 ## Urgent checkpoint execution — 2026-11-24
 
 The direct user instruction now prioritizes a validated usable checkpoint before
