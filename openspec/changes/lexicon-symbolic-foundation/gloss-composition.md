@@ -41,8 +41,10 @@ run v1; 2.38 in run v2; 1.64 in run v3, with the rules below.
 3. **Closed-class words are not content.** Quantifiers, determiners and light verbs (several, any, many, some, make,
    do, be, have…) contribute nothing; run v1 read "several" as SAME−. Their meanings enter as grammar, not lexical
    content.
-4. **Negation in scope flips content.** "not", "without", "lacking", "no", "never" and "non-" flip the scoped words'
-   signs, ending at the clause boundary.
+4. **A negated scope contributes nothing.** (Corrected 2026-11-26; the prototype flipped signs.) Flipping asserts the
+   opposite pole: "not happy" would become GOOD−, but "not happy" does not state "sad". That is a meaning assembled
+   from a negative, which Rohan ruled out. The module uses `parse_gloss`'s `negated` flag. A gloss the parser marks
+   negated contributes no differentia, and the negation template ("not X") contributes nothing.
 5. **The sense of each contributing word must be the one the gloss means.** This is the remaining error class in run
    v3, sense spill: "brad: a small nail" took QUANTITY from nail's unit-of-length sense; "banning" took QUANTITY from
    "ban" the currency; "angry" took SEE from "show".
@@ -51,6 +53,23 @@ run v1; 2.38 in run v2; 1.64 in run v3, with the rules below.
    - **Wiktionary definitions and every content word:** select the word's senses by the gloss's own grammar before
      its values carry. Use `GSE.symbolic.frame_selection` for verbs, and keep only adjective senses that can apply to
      their head noun. Where senses still disagree, carry the possible signs, never a pick.
+   - **Measured (module run v4, 2026-11-26, seed-7 sample, one pass):** reading each gloss word as what *all* its
+     definitions hold, where a silent definition blocks agreement, removes spill completely. Every example is right
+     (layers BODY+ from `hen.n.01`; supply CAUSE+ HAPPEN+ from `give.v.03`; "plural of autistic" SOMEONE+), with 0
+     contradictions. But recall collapses: 0.44 → 0.45, only 43 cells, because nearly every word has some definition
+     that is still silent. So the gain must come from knowing *which* definition a gloss word means, not from relaxing
+     agreement. Relaxing to "the definitions that speak agree" reproduces the nail spill.
+   - **The spill's source is the merged word senses, not composition.** `word_senses` holds "nail"/noun as one sense
+     over all ten definitions (unit of length, fingernail, fastener, merchants' pedestal), carrying QUANTITY+ and
+     PART+. Nothing conflicted, because each definition is thin. GSE's sentence reading of "nail" inherits this too.
+     **Blocker before any senses rebuild or pointer change on composed output:** a group may hold a value only where
+     every member holds it. Witness: nail/noun.
+   - **Exact links that settle rule 5 without a resolver:**
+     - WordNet hypernym synsets give the genus (built).
+     - Princeton's sense-tagged WordNet glosses (the "WordNet Gloss Corpus", glosstag) link each gloss word to its
+       synset. That would make WordNet's 155,111 definitions compose recursively and exactly, down to the primes.
+     - GSE's `_select_by_coherence` is not usable here: it defaults to WordNet's frequency-primary sense, and it scores
+       against the genealogy stopgap.
 6. **Every value is traced:** definition → contributing gloss word → that word's reading → … → a basis axiom. Sign
    disagreements are contested and carry both signs.
 
