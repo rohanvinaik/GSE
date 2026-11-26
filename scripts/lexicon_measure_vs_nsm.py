@@ -6,7 +6,7 @@ For every verified explication whose explicandum is a lemma in the active lexico
 NSM uses that the reading holds at +1 agrees; one the reading holds at 0 or -1 contradicts; one the reading leaves open
 is missing. The extracts are copyrighted and git-ignored; the receipt holds source keys, line ranges and bank names.
 
-    .venv/bin/python scripts/lexicon_measure_vs_nsm.py --receipt docs/verification/<date>-lexicon-vs-nsm.json
+    .venv/bin/python scripts/lexicon_measure_vs_nsm.py --receipt docs/verification/<date>-lexicon-vs-nsm.json [--db X.db]
 """
 
 import argparse
@@ -30,8 +30,9 @@ def _lemma(explicandum: str) -> str | None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument("--db", type=Path, help="a candidate lexicon (default: the active pointer)")
     args = parser.parse_args()
-    db = resolve_lexicon_path()
+    db = args.db or resolve_lexicon_path()
     conn = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
     rows, totals = [], {"agree": 0, "contradict": 0, "missing": 0}
     for record in verified_records():
