@@ -1,11 +1,13 @@
-"""Confirmed silence from NSM valency: a referent that cannot fill a prime's bearer slot makes that prime orthogonal.
+"""Confident zeros from NSM valency: a referent that cannot fill a prime's bearer slot makes that prime orthogonal.
 
 The books' method extended to the lexicon (Rohan, 2026-11-26). Each prime's valency is in the October-reviewed prime
 profiles (``REQUIRES_ARGUMENT``; F151: combinability is not content, and a cell needs content, explicit absence or
 confirmed silence). The predicates whose first, bearer slot is typed ``person`` (THINK's thinker, FEEL's experiencer,
 SAY's speaker, DO's agent, ...) can be predicated only of someone; Goddard (2018) widens that to creatures ("something
 living ... something like this can feel something"). A noun whose approved identity is a non-living thing, a time or a
-place cannot be their bearer, so for its definitions those cells are silent: orthogonal to the word's own meaning.
+place cannot be their bearer, so for its definitions those cells are explicit 0. Rohan, 2026-11-25 17:56: "the ones
+that are completely orthogonal to a valid definition of the word should be zeros. Others should NOT be automatically
+filled in with zeros"; F118: "0 is explicit absence; empty is silence".
 
 A prime is kept out when NSM's own texts give it a thing as subject: HAVE ("it has two parts" of a bird's beak, G18
 lines 255 and 358 of the snake's body), so HAVE is never silenced here. The approved identity roots name the head
@@ -72,8 +74,8 @@ def nonliving_root(synset_name: str) -> str | None:
     return root
 
 
-def silent_banks(entry_id: str) -> tuple[str, ...]:
-    """The banks confirmed silent for a WordNet noun definition, by valency; () when the rule does not reach it."""
+def absent_banks(entry_id: str) -> tuple[str, ...]:
+    """The banks that are explicit 0 for a WordNet noun definition, by valency; () when the rule does not reach it."""
     if not entry_id.startswith("wordnet:") or ".n." not in entry_id:
         return ()
     return person_bearer_primes() if nonliving_root(entry_id.rsplit(":", 1)[1]) else ()

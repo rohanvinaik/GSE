@@ -1,6 +1,6 @@
 import pytest
 
-from GSE.curation.lexicon_builder.valency_silence import nonliving_root, person_bearer_primes, silent_banks
+from GSE.curation.lexicon_builder.valency_absence import absent_banks, nonliving_root, person_bearer_primes
 
 
 def test_the_person_bearer_primes_come_from_the_profiles_less_attested_thing_subjects():
@@ -17,7 +17,7 @@ def test_the_person_bearer_primes_come_from_the_profiles_less_attested_thing_sub
 )
 def test_non_living_things_times_and_places_cannot_bear_experiencer_predicates(entry, root):
     assert nonliving_root(entry.rsplit(":", 1)[1]) == root
-    assert silent_banks(entry) == person_bearer_primes()
+    assert absent_banks(entry) == person_bearer_primes()
 
 
 @pytest.mark.parametrize(
@@ -31,4 +31,4 @@ def test_non_living_things_times_and_places_cannot_bear_experiencer_predicates(e
     ],
 )
 def test_possible_bearers_and_non_nouns_are_not_silenced(entry):
-    assert silent_banks(entry) == ()
+    assert absent_banks(entry) == ()
