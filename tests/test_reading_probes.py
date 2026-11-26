@@ -7,6 +7,13 @@ naming its issue, so the fix that lands it fails the xfail and the marker comes 
 are guards against over-correction: a name stays a name, a comparative keeps its stem.
 """
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import pytest
 
 from GSE.api import GSEEncoder

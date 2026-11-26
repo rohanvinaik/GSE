@@ -12,7 +12,7 @@ from pathlib import Path
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader.wordnet import WordNetError
 
-from GSE.curation.lexicon_builder.foundation import _attested_wordnet_lemma, _exact_wordnet_ancestry
+from GSE.curation.external_sources.wordnet_identity import _attested_wordnet_lemma, _exact_wordnet_ancestry
 from GSE.lexicon.numerals import get_numeral_encoding, is_numeral
 from GSE.nlp.native import NativeNLP
 from GSE.primitives_v2 import get_hierarchy_encoding
@@ -171,7 +171,7 @@ def _primary_frames():
     Unsupported chart notation stays unsupported rather than becoming a
     wildcard. The existing catalogue is the authority for native alignments.
     """
-    from GSE.curation.lexicon_builder.catalog import _CHART_BOXES, SOURCE, foundation_prime_links
+    from GSE.curation.external_sources.nsm_chart_data import _CHART_BOXES, SOURCE, foundation_prime_links
 
     source = Path(__file__).resolve().parents[2] / SOURCE["path"]
     if hashlib.sha256(source.read_bytes()).hexdigest() != SOURCE["sha256"]:
@@ -228,7 +228,7 @@ def _primary_frames():
 @lru_cache(maxsize=1)
 def _primary_records():
     """Exact existing catalogue observations, in their JSON wire form."""
-    from GSE.curation.lexicon_builder.catalog import chart_definition_records
+    from GSE.curation.external_sources.nsm_chart_data import chart_definition_records
 
     return {record["entry_id"]: json.loads(json.dumps(record)) for record in chart_definition_records()}
 
@@ -299,7 +299,7 @@ class LexicalGrounding:
         establish the conditional bank consequence. No premise is inferred from
         spelling, proximity, an unknown bank, or the chart's allowable syntax.
         """
-        from GSE.curation.lexicon_builder import catalog
+        from GSE.curation.external_sources import nsm_chart_data as catalog
         from GSE.lexicon.definitions import runtime_lookup
 
         from .expression import Negation, Op, Phrase, from_trace

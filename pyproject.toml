@@ -39,7 +39,6 @@ spellcheck-mcp = [
 
 [project.scripts]
 GSE-spellcheck-mcp = "GSE.mcp.spell_server:main"
-GSE-lexicon = "GSE.curation.cli.commands:main"  # the one lexicon builder (GSE/curation/lexicon_builder)
 
 [dependency-groups]
 dev = [
@@ -162,13 +161,12 @@ forbidden_modules = [
     "GSE.curation.lexicon_builder",
     "GSE.curation.external_sources",
     "GSE.curation.lexicon_db",
-    "GSE.curation.cli",
 ]
 ignore_imports = [
     # Task 4.1: the definition reader and the closed-class catalog move into the runtime lexicon.
     "GSE.api.encoder -> GSE.curation.external_sources.gse_closed_class",
-    "GSE.symbolic.lexical_grounding -> GSE.curation.lexicon_builder.foundation",
-    "GSE.symbolic.lexical_grounding -> GSE.curation.lexicon_builder.catalog",
+    "GSE.symbolic.lexical_grounding -> GSE.curation.external_sources.wordnet_identity",
+    "GSE.symbolic.lexical_grounding -> GSE.curation.external_sources.nsm_chart_data",
     "GSE.symbolic.lexical_grounding -> GSE.curation.external_sources.gse_closed_class",
     # Task 1.5 (owner decision): the flat-lexicon builder behind data/lexicon_clean.db.
     "GSE.curation.frequency_integration -> GSE.curation.lexicon_db",

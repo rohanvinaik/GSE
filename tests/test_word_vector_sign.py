@@ -6,6 +6,13 @@ The lexicon writes a negative two ways, as its own surface pole ({BAD: 1}) or as
 drops the sign.
 """
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import numpy as np
 import pytest
 

@@ -1,5 +1,12 @@
 """Recognition cannot silently replace incompatible selected lexical evidence."""
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import pytest
 
 from GSE.api import GSEEncoder

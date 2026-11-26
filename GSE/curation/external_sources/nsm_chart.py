@@ -36,7 +36,7 @@ class NSMChartParser:
         self._loaded = False
 
     def load(self) -> bool:
-        from GSE.curation.lexicon_builder.catalog import SOURCE, chart_definition_records
+        from GSE.curation.external_sources.nsm_chart_data import SOURCE, chart_definition_records
 
         path = Path(__file__).resolve().parents[3] / SOURCE["path"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != SOURCE["sha256"]:

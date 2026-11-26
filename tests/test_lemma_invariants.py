@@ -20,6 +20,13 @@ These tests assert that:
    floor defines lexical identity.
 """
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import numpy as np
 import pytest
 

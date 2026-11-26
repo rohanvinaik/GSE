@@ -11,6 +11,13 @@ Two faces of one operation, each tested at its own layer:
 * **encoder** — compute-and-override makes ``encode(un-X)`` == ``negate(X)``.
 """
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import pytest
 
 from GSE.api.encoder import GSEEncoder

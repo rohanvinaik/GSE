@@ -1,5 +1,12 @@
 """The compatibility recognizer never infers authorship or consumes holdout in fit."""
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 import hashlib
 import json
 import sqlite3

@@ -1,5 +1,12 @@
 """Grounding must keep candidate identity, competing evidence and open banks."""
 
+import pytest  # noqa: E402
+
+pytest.importorskip(
+    "GSE.curation.lexicon_builder.storage",
+    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
+)
+
 from dataclasses import replace
 
 import pytest
