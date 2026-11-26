@@ -72,6 +72,7 @@ class Hierarchy:
                     by_synset[entry.rsplit(":", 1)[1]][b].add(v)
         self.own = {s: {b: next(iter(v)) for b, v in banks.items() if len(v) == 1} for s, banks in by_synset.items()}
         self.inherited = lru_cache(maxsize=None)(self._inherited)
+        self._path: set[str] = set()  # entailment and cluster links can cycle; a meaning on the path adds nothing
 
     @staticmethod
     def parents(synset_name: str) -> tuple[str, ...]:
@@ -90,12 +91,16 @@ class Hierarchy:
     def _inherited(self, synset_name: str) -> dict[str, tuple[int, str]]:
         """bank -> (value, the synset it was decided on) for everything this synset is a kind of."""
         merged: dict[str, set[tuple[int, str]]] = defaultdict(set)
+        if synset_name in self._path:
+            return {}
+        self._path.add(synset_name)
         for parent in self.parents(synset_name):
             from_parent = dict(self.inherited(parent))
             for b, v in self.own.get(parent, {}).items():  # the parent's own decision stands over what it inherits
                 from_parent[b] = (v, parent)
             for b, (v, origin) in from_parent.items():
                 merged[b].add((v, origin))
+        self._path.discard(synset_name)
         out = {}
         for b, found in merged.items():
             values = {v for v, _o in found}

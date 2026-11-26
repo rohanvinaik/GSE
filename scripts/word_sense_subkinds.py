@@ -8,6 +8,7 @@ import argparse
 import json
 import random
 import sqlite3
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from GSE.curation.lexicon_builder.word_sense_subkinds import admit, inherit, wri
 
 
 def main() -> int:
+    sys.setrecursionlimit(10000)  # kind-of, refinement and entailment chains run deeper than Python's default
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
