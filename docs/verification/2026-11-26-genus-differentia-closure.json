@@ -1,0 +1,207 @@
+{
+  "format": "GSE.genus-differentia-closure-receipt/1",
+  "date": "2026-11-26",
+  "task": "Whole-population genus/differentia closure (Rohan, 2026-11-26)",
+  "code": {
+    "commit": "2d2b459",
+    "GSE/curation/lexicon_builder/word_sense_genus_differentia.py": "54d59dc123510f0bcf95143318805f6a42cfcc86a2e43898db24b1bdea480a9a",
+    "scripts/word_sense_genus_differentia.py": "fa5770172be21f74700b0c9f737a1ff046ecf41bf35c6aa148e4aa0052ab7fac",
+    "tests": "tests/test_lexicon_genus_differentia.py"
+  },
+  "commands": [
+    ".venv/bin/python scripts/word_sense_genus_differentia.py edges --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --edges data/lexicon_builder/2026-11-12/genus-differentia-closure-edges.json.gz",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py close --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --edges data/lexicon_builder/2026-11-12/genus-differentia-closure-edges.json.gz --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db --report data/lexicon_builder/2026-11-12/genus-differentia-closure-close.json",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py measure --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db --report data/lexicon_builder/2026-11-12/genus-differentia-closure-measure.json",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py verify --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db --report data/lexicon_builder/2026-11-12/genus-differentia-closure-verify.json",
+    ".venv/bin/python scripts/build_word_senses.py --release data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --candidate data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db --all",
+    ".venv/bin/python scripts/build_word_senses.py --release data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --candidate data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db --verify 300",
+    "pytest -q -p no:randomly with GSE_SENSE_CANDIDATE=data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db (set in os.environ, then pytest.main): tests/test_lexicon_source_agreement.py tests/test_lexicon_senses_reader.py tests/test_lexicon_word_sense_acceptance.py tests/test_lexicon_no_new_model_values.py tests/test_lexicon_every_value_has_a_warrant.py tests/test_lexicon_genus_differentia.py",
+    ".venv/bin/python /tmp/gse-senses/e2e2.py data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db"
+  ],
+  "input": {
+    "path": "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db",
+    "sha256": "ce8c611b6e3b7c59099f1b099a6048fbd49b5ee7011d5a8a8db4e69d3371093f"
+  },
+  "output": {
+    "path": "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db",
+    "sha256_after_closure": "9f9964967a78a1bf64b9c3fa3b2585bb82894dbc86c7b02fcdf1b3b4d612c043",
+    "sha256_after_word_sense_rebuild": "e5437a8ad818c46cb5703befef53da361a772bbc66a6f6ca496f2c9091cf108b",
+    "added_tables": ["genus_differentia_closure", "genus_differentia_contradictions", "genus_differentia_run"],
+    "derived_channel": "derived:genus-differentia (its own tables; never a source assertion; read by nothing else)"
+  },
+  "reports": {
+    "edges": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-closure-edges.json.gz", "sha256": "667003137b411d6269c71d78d5fe36355a9eb2522172a6eb5164d9fa1e73a3d0"},
+    "close": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-closure-close.json", "sha256": "8eb3230db3c1de3b5f87bded9aad5451de7227fb72a5c8c3e2d0fda50dc81f0c"},
+    "measure": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-closure-measure.json", "sha256": "78e58d3ac81c76690af7a3e00f42e047123f58d15c5195f0a9adc184e9f40710"},
+    "verify": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-closure-verify.json", "sha256": "821924116c10814b038c20219bfacd8beb82e4da39fb36489e88a4e6a63fdf6d"}
+  },
+  "active_pointer": {
+    "sha256": "ff68e35ea5bf34a4ffab00aaf48a16f0057b59a21768d4e77600424bd25948c3",
+    "changed": false,
+    "activation_performed": false
+  },
+  "edges": {
+    "definitions": 401596,
+    "with_an_edge": 286932,
+    "templates": {
+      "wordnet_hypernym": 119798,
+      "wiktionary_genus_differentia": 138419,
+      "wiktionary_form_of": 25284,
+      "wiktionary_adv_manner": 2379,
+      "wiktionary_altform_of": 1040,
+      "wiktionary_inflection_of": 12
+    },
+    "no_edge": {
+      "WORDNET_NO_HYPERNYM_POS (adjectives, adverbs)": 28827,
+      "NOT_CONTENT_POS (names, closed class, NSM units, symbols)": 26172,
+      "NO_GENUS:genus_differentia (the parser found no head)": 19996,
+      "GENUS_NOT_DEFINED (head word has no definition in that part of speech)": 16583,
+      "NEGATED_DIFFERENTIA": 6623,
+      "NO_GENUS:adj_relational": 3593,
+      "NO_GENUS:adj_attributive": 3405,
+      "WORDNET_ROOT": 3311,
+      "WORDNET_DIFFERENTIA_UNPARSED": 3175,
+      "NO_GENUS:adj_negative": 2547,
+      "SENTENCE_SCALE": 399,
+      "UNPARSED": 33
+    },
+    "withdrawn_prime_roots": ["part.n.01"]
+  },
+  "release_tables": {
+    "code": "RELEASE_TABLES_IDENTICAL",
+    "tables_compared": 29,
+    "tables_differing": [],
+    "schema_unchanged": true,
+    "note": "checked before the word-sense rebuild, which then rewrote word_senses, word_source_agreement and the builder_metadata 'word_senses' key in the output, as it does on every candidate"
+  },
+  "full_replay": {
+    "run": false,
+    "reason": "validate_build on this 22 GB release takes more than 10 minutes. This session's shell refuses background jobs and stops any command at 10 minutes; the attempt to pin a baseline replay was stopped there. No release table is written by the closure, and verify proves all 29 release tables row-for-row identical, so the release's replay is the output's replay. The replay itself was not executed here.",
+    "command_to_run": ".venv/bin/python -c \"from GSE.curation.lexicon_builder.validation import validate_build as v; r = v('data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-closure.db'); print(r['code'], r['entries_checked'], r['entries_mismatched'])\""
+  },
+  "closure": {
+    "passes_changed": [246, 4203, 3000, 1529, 516, 198, 109, 65, 39, 90, 59, 24, 1],
+    "passes_evaluated": [262, 286932, 40449, 26866, 10579, 3877, 2928, 1049, 499, 539, 534, 220, 182],
+    "fixpoint": "reached after pass 12; its one changed definition has no dependents",
+    "definitions_narrowed": 10074,
+    "cells_settled": 29779,
+    "settled_values": {"zero": 15464, "nonzero": 14315},
+    "settled_by_bank_top": {"CAUSE": 7122, "HAPPEN": 6082, "I": 943, "YOU": 943, "BE": 702, "MOVE": 560},
+    "settled_by_bank_note": "zero and nonzero together; about 255 cells on every bank are axiom zeros",
+    "settled_by_source": {
+      "axioms (prime and closed-class zeros)": {"zero": 13214},
+      "wordnet hypernym, no differentia": {"nonzero": 13831, "zero": 1380},
+      "wordnet hypernym with differentia": {"zero": 106},
+      "wiktionary genus, no differentia": {"nonzero": 390, "zero": 753},
+      "wiktionary genus with differentia": {"nonzero": 36},
+      "wiktionary form_of, alternative form, manner": {"nonzero": 58, "zero": 11}
+    },
+    "differentia_driven_nonzero_cells": {
+      "count": 36,
+      "definitions": 23,
+      "examples": [
+        "sterling (noun) WHERE+ SOMETHING+ via 'scotland'",
+        "brevet (noun) SOMETHING+ via 'france'",
+        "minaret (noun) SOMEONE+ via 'muezzin'",
+        "bulldog (noun) SOMEONE+ via 'wrestler'",
+        "pavilion (verb) ALIVE+ SOMEONE+ SOMETHING+ via 'robert' (a parenthetical citation parsed as differentia)",
+        "mesh (noun) ALIVE+ SOMEONE+ SOMETHING+ via 'kirchhoff'"
+      ],
+      "assessment": "the law applied literally carries a differentia noun's own identity banks (who or what it is) to the kind; most of these 36 are wrong as identity. Question for Rohan below."
+    }
+  },
+  "H": {
+    "definition": "sum over all 401,596 definitions of sum over 56 banks of log2 |domain|",
+    "before_bits": 34841855.01719952,
+    "after_bits": 34793834.54658137,
+    "reduction_bits": 48020.47061814368,
+    "reduction_fraction": 0.00138,
+    "maximum_bits": 35644817.62461835,
+    "joint_count_bits_before": 32707234.642250996,
+    "joint_count_bits_after": 32666769.938430764,
+    "joint_count_complete": "yes, before and after: every definition's solver certificate is EXACT",
+    "filled_banks": [506613, 536392],
+    "explicit_zero_banks": [331373, 346837],
+    "unresolved_banks": [21982763, 21952984],
+    "filled_banks_per_definition": [1.2614991185171167, 1.3356507534935607]
+  },
+  "singleton_gains_by_bucket": {
+    "policy": "specification.frequency_buckets over SUBTLEX counts from build_word_senses.subtlex_counts; 'absent' is a spelling SUBTLEX does not count",
+    "1-500": {"zero": 9001, "nonzero": 499},
+    "501-1500": {"zero": 2055, "nonzero": 1083},
+    "1501-5000": {"zero": 1120, "nonzero": 2289},
+    "5001+": {"zero": 1061, "nonzero": 4364},
+    "absent": {"zero": 2227, "nonzero": 6080}
+  },
+  "contradictions": {
+    "by_type": {"AXIOM_OWN_BANK_OPEN": 16, "STORED_CONFLICT": 1},
+    "AXIOM_OWN_BANK_OPEN": "16 NSM chart units the release does not settle on their own bank, so they are not made axioms: be-someone-something, be-somewhere, die, little-few, live, long-time, mine, more, much-many, place, short-time, side, some, some-time, there-is, time",
+    "STORED_CONFLICT": {
+      "entry": "wordnet:hand:hand.n.09",
+      "bank": "BODY",
+      "stated": "BODY 0, set by reviewed-guarded-pattern:2a5698334fe3f070549cae52a4e52440acb5965862dec358825001f5a2496a60",
+      "derived": "genus handbreadth.n.01 is BODY+; differentia 'use' (35 definitions, open), so BODY in {-1, +1}; the stored 0 is kept"
+    },
+    "other_types_seen": "none: no GENUS_CONFLICT, RULE_CONFLICT, CONDITIONAL_EXCEPTION or SOLVER_LIMIT"
+  },
+  "what_keeps_banks_open": {
+    "open_banks_on_definitions_with_an_edge": {"GENUS_OPEN": 12264821, "DIFFERENTIA_WORD_OPEN_OR_NONZERO": 3361095, "CONTRADICTED": 51},
+    "genus_words_keeping_most_banks_open": [["act", 141423], ["state", 81616], ["change.v.01", 77748], ["quality", 69083], ["person", 58468], ["one", 46029], ["process", 43803], ["member", 41866], ["become", 41836], ["change.v.02", 37711], ["be.v.01", 33735], ["condition", 33123], ["group", 29055], ["instance", 28935], ["use", 28331]],
+    "differentia_words_keeping_most_banks_open": [["use", 508466], ["have", 216997], ["where", 110730], ["make", 40591], ["one", 35994], ["characterize", 28426], ["form", 24280], ["cause", 23367], ["oppose", 22305], ["part", 21366]],
+    "reading": "Most open banks trace to a genus that is itself open. A Wiktionary genus word carries all its definitions (act, state, quality, person: dozens each), and their union is open almost everywhere. The WordNet chains end at roots that no axiom determines (entity.n.01 holds only GOOD 0 and SOMETHING+), and verb genera such as change.v.01 and be.v.01 are themselves mostly open."
+  },
+  "word_senses": {
+    "rebuild": "67,173 lemmas, 106,263 senses, 257 s",
+    "verify_300": {"verified": 300, "mismatch_count": 0},
+    "against_the_live_release": {"filled": 0, "changed": 0, "removed": 0},
+    "why_unchanged": "word senses do not read the derived channel. tests/test_lexicon_every_value_has_a_warrant.py (read-only) accepts only members, source-agreement and rules as a value's warrant; a genus/differentia value is none of these, so wiring it in waits for Rohan."
+  },
+  "witness": {
+    "encoder_readings_on_output_identical_to_live_release": true,
+    "readings": {
+      "The happy dog runs to his mother.": "happy FEEL+ GOOD+; dog ALIVE+ SOMETHING+; runs HAPPEN+ MOVE+; his SOMEONE+; mother ALIVE+ SOMEONE+ SOMETHING+; The, to unread",
+      "She gave the boy a big lock.": "She SOMEONE+; gave DO+ HAPPEN+; boy ALIVE+ SOMEONE+ SOMETHING+; lock SOMETHING+; big, the, a unread",
+      "I want to know what you see.": "I I+ SOMEONE+; want WANT+; what SOMETHING+; you SOMEONE+ YOU+; see SEE+; know, to unread",
+      "The sad man cut the rope.": "sad GOOD-; man ALIVE+ BODY+ SOMEONE+ SOMETHING+; rope SOMETHING+; cut, The, the unread",
+      "My friend loves the beautiful house.": "My SOMEONE+; friend ALIVE+ SOMEONE+ SOMETHING+; loves FEEL+; beautiful GOOD+; house SOMETHING+; the unread"
+    },
+    "derived_channel_on_the_witness_lemmas": {
+      "no definition narrowed": ["happy", "dog", "mother", "boy", "sad", "friend", "love", "beautiful", "house"],
+      "prime axioms, now fully determined (own bank, 0 elsewhere)": ["nsm_chart:v20:big", "wordnet:want:desire.v.01", "wordnet:know:know.v.01", "wordnet:see:see.v.01"],
+      "run": "11 of 175 definitions narrowed: CAUSE+ HAPPEN+ on melt.v.01, operate.v.01, ply.v.03, run.v.23; CAUSE+ on run.v.26, run.n.06, run.n.13, run.n.16; MOVE+ on run.n.07, discharge.n.06",
+      "give": "14 of 75 narrowed: CAUSE+ (most with HAPPEN+) on 13 verb senses, from causative hypernyms",
+      "cut": "9 of 153 narrowed: CAUSE+ HAPPEN+ on cut.v.01, cut.v.18, cut.v.29, cut.v.34, switch_off.v.01; CAUSE+ on cut.n.17, cut.n.18; BE+ on cut.n.05",
+      "lock": "3 of 41 narrowed: CAUSE+ HAPPEN+ on lock.v.01, engage.v.10; DO+ HAPPEN+ on interlock.v.03",
+      "see": "visit.v.01 CAUSE+ HAPPEN+",
+      "man": "man.v.02 CAUSE+ HAPPEN+",
+      "rope": "rope.v.02 CAUSE+ HAPPEN+"
+    }
+  },
+  "tests": {
+    "closure_unit_tests": "tests/test_lexicon_genus_differentia.py: 13 passed",
+    "word_sense_guard_warrant_and_closure_tests_with_GSE_SENSE_CANDIDATE_on_output": "65 passed, pytest exit 0",
+    "ruff_check": "All checks passed",
+    "ruff_format_check": "3 files already formatted",
+    "lint_imports": "5 contracts kept, 0 broken"
+  },
+  "interpretations_made": [
+    "Axioms: prime-linked definitions (prime_entries) whose own nonzero bank the release settles, and every gse_closed_class entry (declared components; 0 elsewhere, including determiners that declare none).",
+    "A genus word with several definitions: their union. A WordNet sense with several hypernyms: the intersection (it is a kind of each). The lemma entries of one synset: their union.",
+    "Differentia are the clause heads definition_structure parses (one per that/which/who/used/having clause), not every content word; prepositional phrases are not differentia, as in the ported parser.",
+    "A bank is 'touched' when a differentia word can be nonzero there; where touching is undecided the kind keeps the union. An undefined word is unknown on every bank.",
+    "Negated glosses and the not/relating-to/having templates carry no edge: the parser does not say which differentia a negative scopes over, and 'relating to X' is not a kind of X.",
+    "A Wiktionary sense that the source marks form_of/alt_of takes that word as its genus (the source states the identity).",
+    "The genus is looked up in the kind's own part of speech (adverbs of manner: the adjective). Proper names are neither kinds nor genus.",
+    "part.n.01 is prime-linked but was withdrawn as an identity root (SP-1), so its axiom does not flow to the kinds WordNet files under it."
+  ],
+  "superseded_artifacts": {
+    "files": [
+      "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia.db",
+      "data/lexicon_builder/2026-11-12/genus-differentia-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/genus-differentia-close.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-measure.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-verify.json"
+    ],
+    "note": "first run, same logic, before ruff reformatted the code: identical counts, but the code hashes do not match the commit. The shell refused rm; safe to delete."
+  }
+}

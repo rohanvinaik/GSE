@@ -165,6 +165,44 @@ satisfy three rules:
   ("departure" MOVE, "touch" TOUCH); about 1,350 nouns before the strict all-verbs condition. Agent nouns
   ("teacher") and verb entailment remain.
 - [ ] SP-5 Measure H, C and L per channel after each round; rebuild senses; publish.
+- [x] GD-1 Whole-population genus/differentia closure (Rohan, 2026-11-26). `GSE/curation/lexicon_builder/word_sense_genus_differentia.py`
+  and `scripts/word_sense_genus_differentia.py` (edges, close, measure, verify) do the following:
+  - Axioms: the primes whose own bank the release settles, and the closed-class grammar. Their open banks are set to 0.
+  - Genus: WordNet hypernyms, or the head the definition linker parses from a Wiktionary gloss. A genus word with
+    several definitions carries all of them (their union).
+  - Differentia: the parsed clause heads.
+  - One joint constraint per definition goes through `resolve_dictionary` under the release's rules, and passes repeat
+    to a fixpoint (12 passes).
+  - Output: `sparse-release-022-genus-differentia-closure.db`, the live release plus three derived-channel tables. All
+    29 release tables are row-for-row identical.
+  - Result:
+    - 10,074 definitions narrowed and 29,779 cells settled (15,464 zero, 14,315 nonzero). Of these, 13,214 are axiom
+      zeros and 13,831 are nonzero values inherited from WordNet hypernyms, mostly CAUSE and HAPPEN on kinds of
+      causative verbs.
+    - H (sum of log2 |domain|) fell from 34,841,855 to 34,793,835 bits, a reduction of 48,020 bits or 0.14%.
+    - Exact joint H fell from 32,707,235 to 32,666,770 bits.
+    - Filled banks per definition rose from 1.26 to 1.34.
+    - Contradictions: 16 primes whose own bank is open (not made axioms) and 1 stored conflict (hand.n.09 BODY), kept.
+    - Word senses: rebuilt, verify 300/300, 65 tests pass. They are identical to the live release (0 filled, 0 changed,
+      0 removed) because they do not read the derived channel.
+  - Receipt: `docs/verification/2026-11-26-genus-differentia-closure.json`.
+  - Why so little: of the open banks on definitions with an edge, 12.3M are open because the genus itself is open and
+    3.4M because a differentia word is.
+    - A Wiktionary genus word's definitions (act, state, quality, person: dozens each) union to open.
+    - The WordNet roots are not axioms.
+  - Not run: the full replay. It takes more than 10 minutes, the session's command limit, and nothing is written to a
+    release table. The command is in the receipt.
+  - Rohan decides:
+    1. May word senses read the derived channel? The warrant test (read-only) admits only members, source-agreement
+       and rules.
+    2. Should a differentia noun's own identity banks carry to the kind? The law as stated does carry them.
+       - 36 cells come from this, e.g. sterling WHERE+ via "Scotland", minaret SOMEONE+ via "muezzin", pavilion (verb)
+         SOMEONE+ via a parenthetical citation "Robert".
+       - Most are wrong as identity.
+    3. Are the WordNet roots (entity.n.01, abstraction, the verb roots) or the main genus words axioms? Nothing else in
+       the sources settles them, and they gate most of the lexicon.
+    4. Are the 16 NSM units with no settled own bank axioms, and with which bank? die, live, time, place, some, mine
+       and others. The catalog marks die, live and mine as unvalidated alignments.
 
 ## Urgent checkpoint execution — 2026-11-24
 
