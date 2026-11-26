@@ -51,8 +51,10 @@ def reading(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]], l
 
     Rohan (2026-11-25): "If a single input completely destroys the coherence model, then that's an
     out-of-variance exception that breaks coherence and should be handled thus." A sense of a single
-    definition is an exception when it breaks a value every multi-definition sense agrees on; it is
-    recorded and kept out of the reading. When every sense is a single definition, none is an exception.
+    definition is an exception when it breaks a value every multi-definition sense agrees on: it rules that value
+    out. A sense that only leaves the bank open does not break it (the animal dog.n.01, silent on SOMEONE, is not an
+    exception to the people senses of "dog"). Exceptions are recorded and kept out of the reading. When every sense
+    is a single definition, none is an exception.
     """
     base = [s for s in senses if len(s.get("members", ())) >= 2]
     if not base:
@@ -61,7 +63,7 @@ def reading(senses: list[dict]) -> tuple[dict[str, int], dict[str, list[int]], l
     exceptions = [
         s
         for s in senses
-        if len(s.get("members", ())) < 2 and any(_possible(s, bank) != {value} for bank, value in base_agreed.items())
+        if len(s.get("members", ())) < 2 and any(value not in _possible(s, bank) for bank, value in base_agreed.items())
     ]
     kept = [s for s in senses if s not in exceptions]
     return (*_agreement(kept), exceptions)

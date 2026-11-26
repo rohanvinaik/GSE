@@ -22,3 +22,15 @@ def test_any_disagreement_leaves_the_cell_open():
 def test_only_nouns_whose_own_denotation_is_a_feeling():
     assert feeling_sense("anger.n.01") and not feeling_sense("dog.n.01")
     assert felt_valence("wordnet:dog:dog.n.01", _signs({"wordnet:dog:dog.n.01": 1}, {}, {"dog": 1})) is None
+
+
+def test_a_sense_takes_the_felt_valence_its_members_agree_on():
+    from GSE.curation.lexicon_builder.word_senses import Definition, Sense, sense_felt_valence
+
+    def member(entry):
+        return Definition(entry, 1, "noun", {"FEEL": 1}, {"FEEL": (1, 1.0, "wordnet", "ASSERTION")})
+
+    signs = ({"wordnet:grief:grief.n.01": -1, "wordnet:joy:joy.n.01": 1}, {"grief": {-1}, "joy": {1}}, {})
+    assert sense_felt_valence(Sense(members=[member("wordnet:grief:grief.n.01")]), signs)[0] == -1
+    mixed = Sense(members=[member("wordnet:grief:grief.n.01"), member("wordnet:joy:joy.n.01")])
+    assert sense_felt_valence(mixed, signs) is None
