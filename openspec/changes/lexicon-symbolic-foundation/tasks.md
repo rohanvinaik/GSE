@@ -556,3 +556,14 @@ one live lexicon plus at most one build copy.
   with its reason) and the stopping rule (kappa -> 0, the SSL tail); report it every round with the joint bits.
 Order: GSE-02.1-02.2 (running), then 02.6 (speed) before any long run; 02.3-02.4 start on WordNet scopes with 02.8's
 audits; 02.7 and 02.9 widen the curriculum; 02.10 measures toward done.
+
+### GSE-02 targets (Rohan, 2026-11-26: "what's the point, if you never actually planned on getting coverage and correctness")
+
+The plan is built to reach these, and each round reports them:
+- **Coverage:** 100% of the 401,596 definitions in a witnessed scope that rules can reach (WordNet 155k today), less a
+  named residual with reasons. Wiktionary's 246k are bound by the links it states (form_of/alt_of 28k, senseid 12.8k,
+  wikidata 4k, hypernyms 2.8k), by sense membership with a WordNet definition, and otherwise by a typed binding
+  question (which of this lemma's WordNet senses, or none), checked against source evidence.
+- **Correctness:** every admitted rule passes held-out audits (NSM's verified explications first) before it writes;
+  zero unresolved contradictions with NSM; agreement measured every round.
+- **Completion:** all 22,489,376 cells decided or typed residual with a reason; the loop stops at kappa -> 0.
