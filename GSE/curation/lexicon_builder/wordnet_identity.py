@@ -249,7 +249,8 @@ def wordnet_defining_context(parser, surface, synset, *, pos=None):
     if packet["native_synset"]["pos"] != "n":
         raise ValueError("DEFINING_GENUS_REQUIRES_NOUN")
     paths, witnesses = [], {}
-    for path in synset.hypernym_paths():
+    # nltk orders multi-parent paths by set iteration (varies with PYTHONHASHSEED): sort them.
+    for path in sorted(synset.hypernym_paths(), key=lambda p: [s.name() for s in p]):
         names = []
         for node in path:
             witness = _witness(node)

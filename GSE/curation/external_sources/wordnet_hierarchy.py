@@ -495,7 +495,8 @@ class WordNetHierarchyParser(BaseExternalParser):
                 return []
 
             hypernyms = []
-            for path in synsets[0].hypernym_paths():
+            # nltk orders multi-parent paths by set iteration (varies with PYTHONHASHSEED): sort them.
+            for path in sorted(synsets[0].hypernym_paths(), key=lambda p: [s.name() for s in p]):
                 hypernyms.extend([s.name().split(".")[0] for s in path])
 
             # Remove duplicates while preserving order
