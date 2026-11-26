@@ -1,0 +1,5618 @@
+{
+ "lexicon": "data/lexicon_builder/2026-11-12/sparse-release-022-senses3.db",
+ "explications_matched": 35,
+ "component_introducers": [
+  "like this"
+ ],
+ "disagreements_by_class": {
+  "CONTENT": 217,
+  "LOGICAL_OPERATOR": 41,
+  "SENSE_SPLIT": 33,
+  "COPULA_BE": 28,
+  "TEMPLATE_FRAME": 27,
+  "EXPONENT_COLLISION": 22,
+  "CONVENTION_ZERO": 12,
+  "DEICTIC_THIS": 1
+ },
+ "disagreements_by_class_and_bank": {
+  "CONTENT": {
+   "BODY": 17,
+   "THINK": 16,
+   "WHEN": 15,
+   "PEOPLE": 14,
+   "LIKE": 12,
+   "SOMEONE": 12,
+   "PART": 11,
+   "WANT": 10,
+   "ONE": 9,
+   "TWO": 9,
+   "BEFORE": 8,
+   "FEEL": 8,
+   "DO": 7,
+   "KIND": 7,
+   "OUTSIDE": 7,
+   "KNOW": 6,
+   "SAME": 6,
+   "BIG": 5,
+   "LONG_TIME": 5,
+   "MOVE": 5,
+   "WHERE": 5,
+   "HAPPEN": 4,
+   "FAR": 3,
+   "SAY": 3,
+   "TOUCH": 3,
+   "ABOVE": 2,
+   "GOOD": 2,
+   "SEE": 2,
+   "ALIVE": 1,
+   "HEAR": 1,
+   "THEN": 1,
+   "WORDS": 1
+  },
+  "LOGICAL_OPERATOR": {
+   "CAN": 26,
+   "NOT": 15
+  },
+  "EXPONENT_COLLISION": {
+   "LIKE": 22
+  },
+  "SENSE_SPLIT": {
+   "ALIVE": 7,
+   "SOMEONE": 7,
+   "BODY": 3,
+   "PART": 3,
+   "PEOPLE": 3,
+   "SOMETHING": 3,
+   "DO": 2,
+   "WHEN": 2,
+   "BE": 1,
+   "MOVE": 1,
+   "WHERE": 1
+  },
+  "COPULA_BE": {
+   "BE": 28
+  },
+  "CONVENTION_ZERO": {
+   "GOOD": 11,
+   "SOMETHING": 1
+  },
+  "TEMPLATE_FRAME": {
+   "KIND": 14,
+   "ONE": 12,
+   "LIKE": 1
+  },
+  "DEICTIC_THIS": {
+   "SOMETHING": 1
+  }
+ },
+ "agreements_by_token_class": {
+  "CONTENT": 28,
+  "DEICTIC_THIS": 11,
+  "EXPONENT_COLLISION": 2
+ },
+ "content_by_source_state": {
+  "NO_VOTE": 190,
+  "SINGLE_FAMILY": 6,
+  "UNMEASURED": 62
+ },
+ "content_by_bank_and_source_state": {
+  "CONTENT/ABOVE/NO_VOTE": 2,
+  "CONTENT/ALIVE/UNMEASURED": 1,
+  "CONTENT/BEFORE/NO_VOTE": 6,
+  "CONTENT/BEFORE/UNMEASURED": 2,
+  "CONTENT/BIG/NO_VOTE": 5,
+  "CONTENT/BODY/NO_VOTE": 12,
+  "CONTENT/BODY/UNMEASURED": 5,
+  "CONTENT/DO/NO_VOTE": 2,
+  "CONTENT/DO/UNMEASURED": 5,
+  "CONTENT/FAR/NO_VOTE": 3,
+  "CONTENT/FEEL/NO_VOTE": 5,
+  "CONTENT/FEEL/SINGLE_FAMILY": 1,
+  "CONTENT/FEEL/UNMEASURED": 2,
+  "CONTENT/GOOD/SINGLE_FAMILY": 2,
+  "CONTENT/HAPPEN/NO_VOTE": 4,
+  "CONTENT/HEAR/SINGLE_FAMILY": 1,
+  "CONTENT/KIND/NO_VOTE": 3,
+  "CONTENT/KIND/UNMEASURED": 4,
+  "CONTENT/KNOW/NO_VOTE": 6,
+  "CONTENT/LIKE/NO_VOTE": 12,
+  "CONTENT/LONG_TIME/NO_VOTE": 4,
+  "CONTENT/LONG_TIME/UNMEASURED": 1,
+  "CONTENT/MOVE/NO_VOTE": 4,
+  "CONTENT/MOVE/UNMEASURED": 1,
+  "CONTENT/ONE/NO_VOTE": 9,
+  "CONTENT/OUTSIDE/NO_VOTE": 7,
+  "CONTENT/PART/NO_VOTE": 5,
+  "CONTENT/PART/UNMEASURED": 6,
+  "CONTENT/PEOPLE/NO_VOTE": 9,
+  "CONTENT/PEOPLE/UNMEASURED": 5,
+  "CONTENT/SAME/NO_VOTE": 6,
+  "CONTENT/SAY/NO_VOTE": 3,
+  "CONTENT/SEE/SINGLE_FAMILY": 2,
+  "CONTENT/SOMEONE/NO_VOTE": 12,
+  "CONTENT/THEN/NO_VOTE": 1,
+  "CONTENT/THINK/NO_VOTE": 14,
+  "CONTENT/THINK/UNMEASURED": 2,
+  "CONTENT/TOUCH/NO_VOTE": 3,
+  "CONTENT/TWO/NO_VOTE": 9,
+  "CONTENT/WANT/NO_VOTE": 5,
+  "CONTENT/WANT/UNMEASURED": 5,
+  "CONTENT/WHEN/NO_VOTE": 13,
+  "CONTENT/WHEN/UNMEASURED": 2,
+  "CONTENT/WHERE/NO_VOTE": 1,
+  "CONTENT/WHERE/UNMEASURED": 4,
+  "CONTENT/WORDS/NO_VOTE": 1,
+  "LOGICAL_OPERATOR/CAN/NO_VOTE": 9,
+  "LOGICAL_OPERATOR/CAN/UNMEASURED": 17,
+  "LOGICAL_OPERATOR/NOT/NO_VOTE": 15
+ },
+ "rows": [
+  {
+   "source": "G12",
+   "lines": [
+    408,
+    414
+   ],
+   "lemma": "hands",
+   "pos": "noun",
+   "banks": {
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [
+      0
+     ],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G12",
+   "lines": [
+    420,
+    426
+   ],
+   "lemma": "children",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BIG": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "HAPPEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "LONG_TIME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 3,
+      "deictic": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    }
+   }
+  },
+  {
+   "source": "G12",
+   "lines": [
+    481,
+    486
+   ],
+   "lemma": "legs",
+   "pos": "noun",
+   "banks": {
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G12",
+   "lines": [
+    489,
+    493
+   ],
+   "lemma": "head",
+   "pos": "noun",
+   "banks": {
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    }
+   }
+  },
+  {
+   "source": "G12",
+   "lines": [
+    546,
+    552
+   ],
+   "lemma": "women",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 2,
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    153,
+    156
+   ],
+   "lemma": "creatures",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 4,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    224,
+    273
+   ],
+   "lemma": "birds",
+   "pos": "noun",
+   "banks": {
+    "ABOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 15
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BIG": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 2,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "content": 7,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 6,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 8
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    289,
+    328
+   ],
+   "lemma": "fish",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2,
+      "content": 5,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    347,
+    359
+   ],
+   "lemma": "snake",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TOUCH": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    411,
+    472
+   ],
+   "lemma": "animals",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 13
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 10
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FAR": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2,
+      "content": 7,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 8
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAY": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 4,
+      "content": 3,
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TOUCH": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WORDS": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    537,
+    625
+   ],
+   "lemma": "dogs",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 19
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BIG": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 23
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 19
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FAR": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 10
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "HEAR": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 3,
+      "frame": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 5,
+      "content": 5,
+      "frame": 15
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LONG_TIME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 15
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 11
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAY": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SEE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 12
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 14,
+      "content": 14,
+      "deictic": 29
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 9
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 14
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "G18",
+   "lines": [
+    763,
+    835
+   ],
+   "lemma": "kangaroo",
+   "pos": "noun",
+   "banks": {
+    "ABOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ALIVE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 26
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 9
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BIG": {
+     "held": null,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": 1,
+     "token_kinds": {
+      "content": 8
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 7
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FAR": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "HAPPEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 6,
+      "content": 6,
+      "frame": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LONG_TIME": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "MOVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SEE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 1,
+      "content": 2,
+      "deictic": 15
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TOUCH": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1419,
+    1427
+   ],
+   "lemma": "children",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BIG": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "HAPPEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SAME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 3,
+      "deictic": 8
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1482,
+    1488
+   ],
+   "lemma": "women",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1521,
+    1526
+   ],
+   "lemma": "men",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1555,
+    1562
+   ],
+   "lemma": "babies",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1615,
+    1621
+   ],
+   "lemma": "boys",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 4,
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1622,
+    1628
+   ],
+   "lemma": "girls",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 4,
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1713,
+    1719
+   ],
+   "lemma": "women",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "OUTSIDE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    1720,
+    1725
+   ],
+   "lemma": "men",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 6
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PART": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    2069,
+    2076
+   ],
+   "lemma": "childlike",
+   "pos": "adj",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 3,
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 0,
+     "token_kinds": {
+      "collision": 1,
+      "content": 1,
+      "deictic": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    2220,
+    2226
+   ],
+   "lemma": "female",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    2237,
+    2243
+   ],
+   "lemma": "male",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "TWO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    4539,
+    4556
+   ],
+   "lemma": "happiness",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1,
+      "deictic": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    8909,
+    8915
+   ],
+   "lemma": "illness",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    8952,
+    8959
+   ],
+   "lemma": "disease",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BODY": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "HAPPEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "LONG_TIME": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "PEOPLE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9082,
+    9087
+   ],
+   "lemma": "trauma",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": null,
+     "token_kinds": {
+      "content": 1,
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9117,
+    9132
+   ],
+   "lemma": "trauma",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "BEFORE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "LONG_TIME": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 8
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "content": 2,
+      "deictic": 10
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9235,
+    9246
+   ],
+   "lemma": "parricide",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 3
+     },
+     "nsm_signs": [
+      -1,
+      1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "NOT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "SOMETHING": {
+     "held": null,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9455,
+    9461
+   ],
+   "lemma": "death",
+   "pos": "noun",
+   "banks": {
+    "ALIVE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1,
+      "deictic": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9465,
+    9472
+   ],
+   "lemma": "depressed",
+   "pos": "verb",
+   "banks": {
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMETHING": {
+     "held": null,
+     "token_kinds": {
+      "deictic": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "DEICTIC_THIS"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9483,
+    9499
+   ],
+   "lemma": "depression",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "DO": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    },
+    "FEEL": {
+     "held": 1,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "GOOD": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [
+      0
+     ],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "collision": 1,
+      "content": 2,
+      "deictic": 10
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "SENSE_SPLIT"
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9517,
+    9528
+   ],
+   "lemma": "violence",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "CAN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "LOGICAL_OPERATOR",
+     "sources": "UNMEASURED",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "FEEL": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "SINGLE_FAMILY",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "GOOD": {
+     "held": 0,
+     "token_kinds": {
+      "content": 2
+     },
+     "nsm_signs": [
+      -1
+     ],
+     "class": "CONVENTION_ZERO"
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1,
+      "frame": 2
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 3
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "THINK": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9602,
+    9611
+   ],
+   "lemma": "size",
+   "pos": "noun",
+   "banks": {
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 3,
+      "deictic": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  },
+  {
+   "source": "GW2014",
+   "lines": [
+    9645,
+    9654
+   ],
+   "lemma": "temperature",
+   "pos": "noun",
+   "banks": {
+    "BE": {
+     "held": null,
+     "token_kinds": {
+      "copula": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "COPULA_BE"
+    },
+    "KIND": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "KNOW": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "LIKE": {
+     "held": null,
+     "token_kinds": {
+      "collision": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "EXPONENT_COLLISION"
+    },
+    "ONE": {
+     "held": null,
+     "token_kinds": {
+      "frame": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "TEMPLATE_FRAME"
+    },
+    "SOMEONE": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "SOMETHING": {
+     "held": 1,
+     "token_kinds": {
+      "content": 2,
+      "deictic": 9
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "AGREE"
+    },
+    "WANT": {
+     "held": null,
+     "token_kinds": {
+      "content": 1
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHEN": {
+     "held": null,
+     "token_kinds": {
+      "content": 4
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    },
+    "WHERE": {
+     "held": null,
+     "token_kinds": {
+      "content": 5
+     },
+     "nsm_signs": [
+      1
+     ],
+     "class": "CONTENT",
+     "sources": "NO_VOTE",
+     "senses_holding": [],
+     "blocked_in_senses": []
+    }
+   }
+  }
+ ]
+}
