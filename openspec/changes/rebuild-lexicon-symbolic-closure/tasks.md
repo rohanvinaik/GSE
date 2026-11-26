@@ -62,6 +62,12 @@
   Acceptance: on real readings, a cross-bank consequence, a conjunctive consequence and an exclusion (F067:
   evaluator against descriptor) each fire within their scope and not outside it; every relation names its source
   passage by key and line range (the NSM texts stay out of git).
+  Progress (2026-11-26): `laws.py` compiles the 16 authored laws (`bank_laws.json`) into relations, and `guards.py`
+  computes only warranted guards (verb -> lexical predicate; adjective -> modifier, F088; authored substantive
+  primes). First full round over the cohort: 1,253,536 cells decided (all zeros: substantive banks of verb and
+  adjective heads, SOMETHING of adjectives), H 37,978,301 -> 35,991,475 bits, 0.31 s. Guards with no warrant yet
+  (affective feeling, change of place, evaluator, size, Fear frame, valence domain, operators, time and place) select
+  nothing until the source lenses (task 3) establish them.
 
 ## 6. Inheritance (E8)
 
