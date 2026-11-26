@@ -153,6 +153,12 @@ def _cells(domains: dict) -> dict:
 def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dict:
     conn = sqlite3.connect(f"file:{RELEASE}?mode=ro", uri=True)
     relations = _release_relations(conn) + _laws()
+    from GSE.curation.lexicon_builder.felt_valence import felt_valence, source_signs
+
+    signs = source_signs(conn)
+    # Ruling (c): F057's noun-evaluation zero does not apply where a noun's own felt valence is established.
+    felt_relations = tuple(r for r in relations if r.rule_id != "founder:noun-own-evaluation")
+    felt_count = collections.Counter()
     start = starting_domains(BANKS)
     by_pos: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     shown, codes, kinds, exceptions = [], collections.Counter(), collections.Counter(), []
@@ -208,7 +214,22 @@ def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dic
             if kind:
                 context["own_semantic_kind"] = kind
                 kinds[kind] += 1
-            result = propagate(BANKS, (), relations, context, domain_restrictions=restrictions, initial_domains=start)
+            used = relations
+            felt = felt_valence(entry, signs)
+            if felt is not None:
+                sign, evidence = felt
+                held = stored.get("GOOD")
+                if held and len(held) == 1 and held[0] not in (0, sign):
+                    exceptions.append({"entry": entry, "rule": "felt-valence", "bank": "GOOD", "stored": held[0]})
+                else:
+                    restrictions = tuple(r for r in restrictions if r.bank != "GOOD") + (
+                        DomainRestriction(
+                            "GOOD", (sign,), "felt-valence", f"{entry}#GOOD:" + json.dumps(evidence), "felt_valence"
+                        ),
+                    )
+                    used = felt_relations
+                    felt_count[sign] += 1
+            result = propagate(BANKS, (), used, context, domain_restrictions=restrictions, initial_domains=start)
             after = _cells(result.domains)
             if sink is not None:
                 sink.execute(
@@ -266,6 +287,7 @@ def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dic
         "codes": dict(codes),
         "typed_adjectives": dict(kinds),
         "type_exceptions": exceptions,
+        "felt_valence": {str(k): n for k, n in felt_count.items()},
         "by_pos": {k: dict(v) for k, v in by_pos.items()},
         "shown": shown,
     }
