@@ -363,14 +363,14 @@ def close_sense(
 def derived_values(
     sense: Sense, settled: set[str], feeling_noun: bool = False
 ) -> tuple[dict[str, tuple[int, list[str]]], dict[str, list[int]]]:
-    """The closure's derived cells over a sense's definitions, on banks no stated member value and
-    no agreed source sign speaks to: bank -> (value, the definitions) where every definition of the
-    sense holds the same derived value, and bank -> values where they hold different ones. A value
-    only some definitions hold is not the sense's (one minor definition's CAUSE is not the main
-    sense's; the others are unknown there, not in agreement). They fill; they never contest or
-    override a stated value. A feeling noun takes no derived GOOD (the noun-evaluation zero does not
-    apply to it)."""
-    definitions = sense.members + sense.absorbed
+    """The closure's derived cells over a sense's member definitions, on banks no stated member value and no agreed
+    source sign speaks to: bank -> (value, the definitions) where every member holds the same derived value, and
+    bank -> values where they hold different ones. A value only some members hold is not the sense's: members share a
+    thin stated encoding but can differ below it (run.v.26 is causative by its ancestry, run.v.01 is not), and the
+    others are unknown there, not in agreement. Absorbed definitions carry no load-bearing value and are not the
+    meaning, so they neither hold nor block a value. Derived values fill; they never contest or override a stated
+    value. A feeling noun takes no derived GOOD (the noun-evaluation zero does not apply to it)."""
+    definitions = sense.members
     found: dict[str, dict[int, list[str]]] = {}
     for definition in definitions:
         for bank, value in definition.derived.items():
@@ -382,7 +382,7 @@ def derived_values(
         for bank, by_value in found.items()
         if len(by_value) == 1
         for value, entries in by_value.items()
-        if len(entries) == len(definitions)
+        if definitions and len(entries) == len(definitions)
     }
     return agreed, {bank: sorted(v) for bank, v in found.items() if len(v) > 1}
 

@@ -235,7 +235,8 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
             rows[entry] = (
                 settled,
                 {
-                    "genus": list(hierarchy.parents(synset)),
+                    # where each value was decided: its ancestor, or the synset itself under another lemma
+                    "genus": sorted(set(origins.values()) | set(hierarchy.parents(synset))),
                     "differentia": [],
                     "template": "subkind-inheritance",
                     "origins": origins,
