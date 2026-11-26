@@ -72,15 +72,22 @@ REFERENT = re.compile(
 PARTICIPANT = re.compile(r"^\W*(?:[a-z]\.\s+)?(?:other people|people|someone else|i |you |when people|if people)")
 
 
+CLAUSE = re.compile(r",|;|:|\bif\b|\bbecause\b|\bwhen\b|\bat the same time\b")
+PARTICIPANT_SUBJECT = re.compile(r"^\W*(?:[a-z]\.\s+)?(?:other people|people|someone else|i\b|you\b|other creatures)")
+
+
 def own_lines(text: str) -> list[str]:
-    """Component lines that predicate of the referent: the referent is named and no other participant is the subject."""
+    """Clauses that predicate of the referent: the referent is named and no other participant is the clause's subject.
+    A clause in which another participant acts on the referent ("if other people don't do good things for this
+    someone") is a role, not the referent's own component (head record, F144)."""
     out = []
     for line in text.lower().split("\n"):
-        body = line.strip()
-        if not body or PARTICIPANT.match(body):
-            continue
-        if REFERENT.search(body) or re.match(r"^\W*(?:\[[a-z]\]\s*)?[a-z]?\.?\s*[\w\s]+ of one kind", body):
-            out.append(body)
+        for clause in CLAUSE.split(line):
+            body = clause.strip()
+            if not body or PARTICIPANT_SUBJECT.match(body):
+                continue
+            if REFERENT.search(body) or re.search(r"\bof one kind\b|\bof many kinds\b", body):
+                out.append(body)
     return out
 
 
