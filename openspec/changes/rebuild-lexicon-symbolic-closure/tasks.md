@@ -1,11 +1,11 @@
 ## 0. Clear the old construction path
 
-- [ ] 0.1 Move the NSM chart data that the runtime imports (`SOURCE`, `_CHART_BOXES`, the chart records and prime
+- [x] 0.1 Move the NSM chart data that the runtime imports (`SOURCE`, `_CHART_BOXES`, the chart records and prime
   links) from the old `catalog.py` to `GSE/curation/external_sources/nsm_chart_data.py`. Move the two WordNet
   identity helpers (`_attested_wordnet_lemma`, `_exact_wordnet_ancestry`) to the WordNet source module. Repoint
   `GSE/symbolic/lexical_grounding.py` and `external_sources/nsm_chart.py`.
   Acceptance: encoder and grounding tests pass with a zero pytest exit code; neither module imports the old package.
-- [ ] 0.2 Delete the old builder code in `GSE/curation/lexicon_builder/`, keeping only the authored data files
+- [x] 0.2 Delete the old builder code in `GSE/curation/lexicon_builder/`, keeping only the authored data files
   (`prime_profiles.json`, `bank_laws.json`). Delete `GSE/curation/cli/commands.py`, the scripts and tests that
   exercise the old builder, the old OpenSpec change `lexicon-symbolic-foundation` and
   `docs/program/LEXICON_CONSTRUCTION_DESIGN.md`. Point `BUILD_SPEC.md` GSE-01 at this change.
