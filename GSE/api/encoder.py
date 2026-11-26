@@ -500,6 +500,13 @@ class GSEEncoder:
                         kept = surviving(lookup_form, alternatives, clause_pattern(doc, i, someone))
                         if kept != set(alternatives):
                             lexical = self.lexical_lookup(lookup_form, word_pos, allowed=frozenset(kept))
+                    elif eligible_pos == "NOUN" and lexical.get("reading_mode") == "WORD_SENSES":
+                        # The bearer of a person-typed predicate keeps its someone or creature senses.
+                        from GSE.symbolic.noun_selection import bearer_senses
+
+                        kept = bearer_senses(self, doc, i, lookup_form)
+                        if kept and kept != set(alternatives):
+                            lexical = self.lexical_lookup(lookup_form, word_pos, allowed=frozenset(kept))
                     lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
                 # The trace and vector must consume the same selected source row.
                 word_prims, sent_prims, comp_meta = self._lookup_lexeme(

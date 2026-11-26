@@ -1,0 +1,54 @@
+lexicon: data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db
+
+The happy dog runs to his mother.
+   happy      ADJ    found    {'FEEL': 1, 'GOOD': 1}
+   dog        NOUN   found    {'ALIVE': 1, 'SOMETHING': 1}
+   runs       VERB   found    {'HAPPEN': 1, 'MOVE': 1}
+   mother     NOUN   found    {'ALIVE': 1, 'SOMEONE': 1, 'SOMETHING': 1}
+
+She gave the boy a big lock.
+   gave       VERB   unread   {}
+   boy        NOUN   found    {'ALIVE': 1, 'SOMEONE': 1, 'SOMETHING': 1}
+   big        ADJ    unread   {}
+   lock       NOUN   found    {'SOMETHING': 1}
+
+I want to know what you see.
+   want       VERB   found    {'WANT': 1}
+   know       VERB   unread   {}
+   see        VERB   found    {'SEE': 1}
+
+The sad man cut the rope.
+   sad        ADJ    found    {'GOOD': -1}
+   man        NOUN   found    {'ALIVE': 1, 'BODY': 1, 'SOMEONE': 1, 'SOMETHING': 1}
+   cut        VERB   unread   {}
+   rope       NOUN   found    {'SOMETHING': 1}
+
+My friend loves the beautiful house.
+   friend     NOUN   found    {'ALIVE': 1, 'SOMEONE': 1, 'SOMETHING': 1}
+   loves      VERB   found    {'FEEL': 1}
+   beautiful  ADJ    found    {'GOOD': 1}
+   house      NOUN   found    {'SOMETHING': 1}
+
+The dog wants food.
+   dog        NOUN   found    {'ALIVE': 1, 'SOMETHING': 1}
+   wants      VERB   found    {'WANT': 1}
+   food       NOUN   found    {'SOMETHING': 1}
+
+Her fear grew in the dark.
+   fear       NOUN   found    {'FEEL': 1, 'SOMETHING': 1}
+   grew       VERB   found    {'CAUSE': 1, 'DO': 1, 'HAPPEN': 1}
+   dark       NOUN   found    {'SOMETHING': 1}
+
+Happiness filled the room.
+   filled     VERB   found    {'CAUSE': 1, 'HAPPEN': 1}
+   room       NOUN   found    {'PEOPLE': 1, 'SOMETHING': 1}
+
+He felt delight and grief.
+   felt       VERB   unread   {}
+   delight    NOUN   found    {'FEEL': 1, 'SOMETHING': 1}
+   grief      NOUN   found    {'FEEL': 1, 'GOOD': -1, 'SOMETHING': 1}
+
+The nail held the board.
+   nail       NOUN   found    {'PART': 1, 'QUANTITY': 1, 'SOMETHING': 1}
+   held       VERB   unread   {}
+   board      NOUN   found    {'SOMETHING': 1}
