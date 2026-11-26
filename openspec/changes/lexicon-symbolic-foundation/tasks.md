@@ -488,3 +488,23 @@ has not changed. See `ssl-api-controller-blockers.json` and
   rollback and protected sources/audit. Verify real consumers select that artifact.
 - [ ] Update the living draft from computed receipts, then continue the same controller from the
   installed checkpoint with expanded scope and unchanged epistemic requirements.
+- Answers, from the founder record and NSM (2026-11-26, after the run; none needed a new ruling):
+  4. Done (04b104f): the matcher keys exponents as written plus WordNet bases of two or more letters (no article AS),
+     returns signs, skips THIS and BE, and excludes bare someone/something subjects as other participants. Remeasured:
+     43 agree, 7 contradict, 312 missing, 11 with both signs; classes CONTENT 217, LOGICAL_OPERATOR 41, TEMPLATE_FRAME
+     41, SENSE_SPLIT 33, COPULA_BE 28, CONVENTION_ZERO 12, DEICTIC_THIS 1, no collisions.
+  6. Done (04b104f): each explication is compared with the sense its own category line identifies (a molecule there,
+     e.g. "creatures [m]", contributes its own explication's category); the whole-word reading only when no sense holds
+     that identity. This is a measurement choice, not a main sense: the reading GSE uses is unchanged.
+  5. No. F151: "combinability isn't content" (CAN and NOT scope a clause; they are not the noun's cells). F144's head
+     record: a participant in a word's content is a role, not a cell (the referent's parts and their counts are
+     participants). PEOPLE on a plural human noun is number, not the noun's identity.
+  1. GOOD stays 0 on disease, violence, snake and children: F057, "'Satan' and 'Dog' do not have definitional value
+     judgements"; NSM's GOOD/BAD there sits in clauses about what happens to or because of the referent. Felt valence
+     on feeling nouns is ruling (c) (2026-11-25 05:30), already applied to feeling senses by D-1; happiness.n.01 is
+     filed noun.state, so its sense is not a feeling sense and stays 0 until a source-located sign exists (the
+     classifier-based felt-valence rule was deleted, 5d018f0).
+  3. Keep the vertebrate scope: NSM's own "animals" explication (G18) gives BODY through "their bodies are like
+     people's bodies", the vertebrate body plan; its "creatures" explication has no BODY ("something living / can
+     move / can feel").
+  2. Keep the abstention: the measured carry is refuted by NSM counterexamples (receipt above).
