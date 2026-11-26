@@ -33,8 +33,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022.db"
-CANDIDATE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db"
+# Rohan, 2026-11-26: one live lexicon (the active pointer) and at most one build in progress beside it.
+RELEASE = ROOT / "data" / json.loads((ROOT / "data/lexicon_active.json").read_text())["path"]
+CANDIDATE = ROOT / "data/lexicon_builder/2026-11-12/building.db"
 PINS = ROOT / "data/lexicon_builder/2026-11-12/ssl-explicit-genera/ssl-api-checkpoint/postwriter-validation.json"
 KEY_READER = Path.home() / "Projects/SquishOS/ops/agents/bin/anthropic-consult"
 KEY_STORE_DIR = Path.home() / "tools"

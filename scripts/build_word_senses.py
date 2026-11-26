@@ -33,8 +33,9 @@ from GSE.curation.lexicon_builder import source_agreement as sa  # noqa: E402
 from GSE.curation.lexicon_builder import word_senses as ws  # noqa: E402
 from GSE.curation.lexicon_builder.validation import _relations  # noqa: E402
 
-RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022.db"
-CANDIDATE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db"
+# Rohan, 2026-11-26: one live lexicon (the active pointer) and at most one build in progress beside it.
+RELEASE = None  # the active lexicon, resolved when the script runs
+CANDIDATE = ROOT / "data/lexicon_builder/2026-11-12/building.db"
 
 
 def _code_identity() -> dict:
@@ -71,7 +72,7 @@ def _lemmas(conn: sqlite3.Connection, args) -> list[str]:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--release", type=Path, default=RELEASE)
+    parser.add_argument("--release", type=Path, default=RELEASE)  # default: the active lexicon
     parser.add_argument("--candidate", type=Path, default=CANDIDATE)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--words", nargs="+")
@@ -79,6 +80,10 @@ def main(argv=None) -> int:
     group.add_argument("--all", action="store_true")
     group.add_argument("--verify", type=int, metavar="N", help="rebuild N stored lemmas at random and compare")
     args = parser.parse_args(argv)
+    if args.release is None:
+        from GSE.lexicon_resource import resolve_lexicon_path
+
+        args.release = resolve_lexicon_path()
 
     if not args.candidate.exists():
         print(f"copying {args.release.name} -> {args.candidate.name}", flush=True)

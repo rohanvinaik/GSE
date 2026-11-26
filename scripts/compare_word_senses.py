@@ -10,8 +10,8 @@ compares the main sense (the reading the runtime uses) of a ``before`` lexicon w
   main sense, such as WP-0's untrusted first senses).
 
     .venv/bin/python scripts/compare_word_senses.py \\
-        --before data/lexicon_builder/2026-11-12/sparse-release-022-senses.db \\
-        --after data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db
+        --before <the active lexicon> \\
+        --after data/lexicon_builder/2026-11-12/building.db
 """
 
 from __future__ import annotations

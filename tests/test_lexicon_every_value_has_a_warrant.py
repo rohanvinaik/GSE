@@ -18,7 +18,7 @@ check confirms the warrant is real:
 A value with no warrant, or a warrant of any other kind, fails. Model-made values are limited to
 Rohan's 127 by ``test_lexicon_no_new_model_values``. The check runs on a built candidate:
 
-    GSE_SENSE_CANDIDATE=data/lexicon_builder/2026-11-12/sparse-release-022-word-senses.db \\
+    GSE_SENSE_CANDIDATE=$PWD/data/lexicon_builder/2026-11-12/building.db \\
         .venv/bin/python -m pytest tests/test_lexicon_every_value_has_a_warrant.py
 """
 

@@ -43,7 +43,9 @@ def test_the_symbolic_build_imports_nothing_that_calls_a_model(path):
 
 
 def _lexicons():
-    paths = [ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022.db"]
+    from GSE.lexicon_resource import resolve_lexicon_path
+
+    paths = [resolve_lexicon_path()]  # the active lexicon
     if os.environ.get("GSE_SENSE_CANDIDATE"):
         paths.append(Path(os.environ["GSE_SENSE_CANDIDATE"]))
     return [p for p in paths if p.is_file()]

@@ -27,7 +27,7 @@ from GSE.curation.lexicon_builder.engine import EMPTY, STATES, DomainRestriction
 from GSE.curation.lexicon_builder.foundation import BANKS, definition_context  # noqa: E402
 from GSE.curation.lexicon_builder.silence import read_with_silence, starting_domains  # noqa: E402
 
-RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db"
+RELEASE = ROOT / "data" / json.loads((ROOT / "data/lexicon_active.json").read_text())["path"]  # the active lexicon
 # applicability.py's type rows are agent-authored and unverified (NS Def. 9.5): off unless explicitly requested.
 UNREVIEWED_TYPE_SILENCE = False
 WORDS = ROOT / "docs/verification/lexicon-rebuild/closeout-2026-10-25/gate/gate_words.txt"
