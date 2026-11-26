@@ -19,7 +19,9 @@ def restriction(bank="GOOD", values=(-1, 1), source="native", record="r", family
     return DomainRestriction(bank, values, source, record, family)
 
 
-@pytest.mark.parametrize("values", [(), (-1, 0, 1), (True,), (1.0,), (2,), (0, 0), [-1, 1]])
+# Under the four-state contract (F118) a restriction to (-1, 0, 1) is meaningful: it excludes silence. Only the
+# restriction that excludes nothing, all four states, is degenerate.
+@pytest.mark.parametrize("values", [(), (None, -1, 0, 1), (True,), (1.0,), (2,), (0, 0), [-1, 1]])
 def test_invalid_restriction_domains_are_refused(values):
     with pytest.raises(ValueError):
         restriction(values=values)

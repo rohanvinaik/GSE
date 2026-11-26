@@ -14,6 +14,24 @@ from itertools import product
 from math import prod
 
 TERNARY = frozenset((-1, 0, 1))
+EMPTY = None
+"""Silence: the definition does not speak to this coordinate (Rohan, F118: "0 is explicit absence; empty is
+silence"). A domain value only: never an assignment, never a sign, never read as zero. Callers opt in through
+``initial_domains``; without them every domain starts at TERNARY, exactly as before."""
+STATES = frozenset((EMPTY, -1, 0, 1))
+
+
+def state_order(value: object) -> int:
+    """One total order over cell states: EMPTY, then -1, 0, +1."""
+    return -2 if value is EMPTY else value  # type: ignore[return-value]
+
+
+def _ordered(values) -> tuple:
+    return tuple(sorted(values, key=state_order))
+
+
+def _row_order(row: tuple) -> tuple:
+    return tuple(state_order(value) for value in row)
 
 
 def _name(value: object, field: str) -> None:
@@ -24,6 +42,12 @@ def _name(value: object, field: str) -> None:
 def _value(value: object) -> None:
     if type(value) is not int or value not in TERNARY:
         raise ValueError("INVALID_TERNARY_VALUE")
+
+
+def _state(value: object) -> None:
+    """A domain or relation-row value: a ternary sign or EMPTY. Assertions stay signed (``_value``)."""
+    if value is not EMPTY:
+        _value(value)
 
 
 @dataclass(frozen=True)
@@ -59,10 +83,10 @@ class DomainRestriction:
     def __post_init__(self) -> None:
         for field in ("bank", "source", "record_id", "family", "scope"):
             _name(getattr(self, field), field)
-        if not isinstance(self.allowed_values, tuple) or not 1 <= len(self.allowed_values) < len(TERNARY):
+        if not isinstance(self.allowed_values, tuple) or not 1 <= len(self.allowed_values) < len(STATES):
             raise ValueError("INVALID_RESTRICTION_DOMAIN")
         for value in self.allowed_values:
-            _value(value)
+            _state(value)
         if len(set(self.allowed_values)) != len(self.allowed_values):
             raise ValueError("DUPLICATE_RESTRICTION_VALUE")
         if self.scope != "lexical":
@@ -97,7 +121,7 @@ class Relation:
             if not isinstance(row, tuple) or len(row) != len(self.banks):
                 raise ValueError("INVALID_RELATION_ROW_ARITY")
             for value in row:
-                _value(value)
+                _state(value)
         if not isinstance(self.provenance, tuple):
             raise ValueError("INVALID_PROVENANCE")
         for source in self.provenance:
@@ -143,6 +167,7 @@ class Resolution:
     assignments: dict[str, int]
     conflicts: tuple[dict, ...]
     trace: tuple[dict, ...]
+    silent: tuple[str, ...] = ()  # banks whose only remaining state is EMPTY; never in ``assignments``
 
 
 def _assertion_record(assertion: Assertion) -> dict:
@@ -159,8 +184,12 @@ def _assertion_record(assertion: Assertion) -> dict:
 def _resolution(
     domains: dict[str, frozenset[int]], conflicts: list[dict], trace: list[dict], *, complete_search: bool = False
 ) -> Resolution:
-    assignments = {bank: next(iter(values)) for bank, values in domains.items() if len(values) == 1}
-    code = "CONFLICT" if conflicts else "RESOLVED" if len(assignments) == len(domains) else "PARTIAL"
+    assignments = {
+        bank: next(iter(values)) for bank, values in domains.items() if len(values) == 1 and EMPTY not in values
+    }
+    silent = tuple(sorted(bank for bank, values in domains.items() if values == {EMPTY}))
+    decided = all(len(values) == 1 for values in domains.values())
+    code = "CONFLICT" if conflicts else "RESOLVED" if decided else "PARTIAL"
     receipts = (
         *trace,
         {
@@ -173,7 +202,7 @@ def _resolution(
             else "LOCAL_FIXED_POINT_SEARCH_LIMIT",
         },
     )
-    return Resolution(code, dict(domains), assignments, tuple(conflicts), receipts)
+    return Resolution(code, dict(domains), assignments, tuple(conflicts), receipts, silent)
 
 
 def _relation_components(relations: list[Relation]) -> tuple[tuple[Relation, ...], ...]:
@@ -207,9 +236,9 @@ def _joint_tables(
     for rule in rules:
         columns = tuple(sorted(range(len(rule.banks)), key=lambda index: positions[rule.banks[index]]))
         indices = tuple(positions[rule.banks[column]] for column in columns)
-        rows = tuple(sorted({tuple(row[column] for column in columns) for row in rule.allowed_rows}))
+        rows = tuple(sorted({tuple(row[column] for column in columns) for row in rule.allowed_rows}, key=_row_order))
         tables.add((indices, rows))
-    return tuple(sorted(tables))
+    return tuple(sorted(tables, key=lambda table: (table[0], tuple(_row_order(row) for row in table[1]))))
 
 
 @lru_cache(maxsize=4096)
@@ -244,9 +273,9 @@ def _joint_support(domains, active, conflicts, trace, max_joint_assignments) -> 
     complete = True
     for rules in _relation_components(active):
         banks = tuple(sorted({bank for rule in rules for bank in rule.banks}))
-        ordered_domains = tuple(tuple(sorted(domains[bank])) for bank in banks)
+        ordered_domains = tuple(_ordered(domains[bank]) for bank in banks)
         combinations = prod(len(values) for values in ordered_domains)
-        before = {bank: tuple(sorted(domains[bank])) for bank in banks}
+        before = {bank: _ordered(domains[bank]) for bank in banks}
         receipt = {
             "banks": banks,
             "rule_ids": tuple(rule.rule_id for rule in rules),
@@ -274,8 +303,8 @@ def _joint_support(domains, active, conflicts, trace, max_joint_assignments) -> 
                     {
                         "kind": "JOINT_SUPPORT",
                         "bank": bank,
-                        "removed": tuple(sorted(old - new)),
-                        "remaining": tuple(sorted(new)),
+                        "removed": _ordered(old - new),
+                        "remaining": _ordered(new),
                         "witnesses": witnesses,
                         **receipt,
                     }
@@ -332,6 +361,26 @@ def _validated_inputs(
     return dict(context)
 
 
+def _validated_initial_domains(banks: tuple[str, ...], initial_domains) -> dict[str, frozenset]:
+    """Per-bank starting domains: nonempty subsets of STATES over known banks (None keeps TERNARY everywhere)."""
+    if initial_domains is None:
+        return {}
+    if not isinstance(initial_domains, dict):
+        raise ValueError("INVALID_INITIAL_DOMAINS")
+    known = set(banks)
+    starting = {}
+    for bank, values in initial_domains.items():
+        if bank not in known:
+            raise ValueError(f"UNKNOWN_INITIAL_DOMAIN_BANK:{bank}")
+        values = frozenset(values)
+        if not values:
+            raise ValueError(f"EMPTY_INITIAL_DOMAIN:{bank}")
+        for value in values:
+            _state(value)
+        starting[bank] = values
+    return starting
+
+
 def propagate(
     banks: tuple[str, ...],
     assertions: tuple[Assertion, ...],
@@ -340,6 +389,7 @@ def propagate(
     *,
     domain_restrictions: tuple[DomainRestriction, ...] = (),
     max_joint_assignments: int = 100_000,
+    initial_domains: dict[str, frozenset] | None = None,
 ) -> Resolution:
     """Intersect evidence, enforce arc consistency, then bounded joint support.
 
@@ -351,7 +401,8 @@ def propagate(
     if type(max_joint_assignments) is not int or max_joint_assignments < 1:
         raise ValueError("INVALID_JOINT_SEARCH_LIMIT")
     context_values = _validated_inputs(banks, assertions, relations, context, domain_restrictions)
-    domains = {bank: TERNARY for bank in sorted(banks)}
+    starting = _validated_initial_domains(banks, initial_domains)
+    domains = {bank: starting.get(bank, TERNARY) for bank in sorted(banks)}
     trace: list[dict] = []
     conflicts: list[dict] = []
     evidence: dict[str, list[Assertion]] = {bank: [] for bank in domains}
@@ -369,8 +420,8 @@ def propagate(
                 {
                     "kind": "ASSERTION",
                     **_assertion_record(assertion),
-                    "removed": tuple(sorted(old - new)),
-                    "remaining": tuple(sorted(new)),
+                    "removed": _ordered(old - new),
+                    "remaining": _ordered(new),
                 }
             )
     for bank, records in evidence.items():
@@ -388,11 +439,11 @@ def propagate(
     restricted: dict[str, list[dict]] = {}
     for item in sorted(
         domain_restrictions,
-        key=lambda r: (r.bank, tuple(sorted(r.allowed_values)), r.source, r.record_id, r.family, r.scope),
+        key=lambda r: (r.bank, _row_order(_ordered(r.allowed_values)), r.source, r.record_id, r.family, r.scope),
     ):
         record = {
             "bank": item.bank,
-            "allowed_values": tuple(sorted(item.allowed_values)),
+            "allowed_values": _ordered(item.allowed_values),
             "source": item.source,
             "record_id": item.record_id,
             "family": item.family,
@@ -407,8 +458,8 @@ def propagate(
                 {
                     "kind": "DOMAIN_RESTRICTION",
                     **record,
-                    "removed": tuple(sorted(old - new)),
-                    "remaining": tuple(sorted(new)),
+                    "removed": _ordered(old - new),
+                    "remaining": _ordered(new),
                 }
             )
     for bank, records in sorted(restricted.items()):
@@ -456,10 +507,11 @@ def propagate(
                     row
                     for row in relation.allowed_rows
                     if all(value in domains[bank] for bank, value in zip(relation.banks, row))
-                }
+                },
+                key=_row_order,
             )
         )
-        before = {bank: tuple(sorted(domains[bank])) for bank in relation.banks}
+        before = {bank: _ordered(domains[bank]) for bank in relation.banks}
         if not rows:
             conflicts.append(
                 {
@@ -480,8 +532,8 @@ def propagate(
                         "kind": "RELATION",
                         "rule_id": relation.rule_id,
                         "bank": bank,
-                        "removed": tuple(sorted(old - new)),
-                        "remaining": tuple(sorted(new)),
+                        "removed": _ordered(old - new),
+                        "remaining": _ordered(new),
                         "domains_before": before,
                         "support_rows": rows,
                         "provenance": relation.provenance,

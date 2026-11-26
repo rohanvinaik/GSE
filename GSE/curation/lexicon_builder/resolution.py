@@ -11,7 +11,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import asdict, replace
 
-from .engine import TERNARY, Assertion, DomainRestriction, Relation, Resolution, _validated_inputs, propagate
+from .engine import TERNARY, Assertion, DomainRestriction, Relation, Resolution, _ordered, _validated_inputs, propagate
 
 
 def _conditional_components(
@@ -52,7 +52,7 @@ def _exception(
             {"rule_id": rule.rule_id, "provenance": rule.provenance, "guards": rule.guards} for rule in rules
         ),
         "context": dict(sorted(context.items())),
-        "hard_domains": {bank: tuple(sorted(hard.domains[bank])) for bank in banks},
+        "hard_domains": {bank: _ordered(hard.domains[bank]) for bank in banks},
         "conflicts": witness.conflicts,
         "specialization": "NOT_INFERRED",
     }
@@ -64,6 +64,7 @@ def _resolve_ordinary(
     relations: tuple[Relation, ...],
     context: dict[str, str] | None = None,
     domain_restrictions: tuple[DomainRestriction, ...] = (),
+    initial_domains: dict[str, frozenset] | None = None,
 ) -> Resolution:
     """Apply conditional rules unless they contradict hard evidence or each other.
 
@@ -82,7 +83,9 @@ def _resolve_ordinary(
     """
     # Validate all inputs through the existing engine and preserve its normal
     # single-pass path when no contradiction requires an exception decision.
-    combined = propagate(banks, assertions, relations, context, domain_restrictions=domain_restrictions)
+    combined = propagate(
+        banks, assertions, relations, context, domain_restrictions=domain_restrictions, initial_domains=initial_domains
+    )
     if combined.code != "CONFLICT":
         return combined
     context_values = context or {}
@@ -96,12 +99,26 @@ def _resolve_ordinary(
         sorted((rule for rule in active if rule.authority == "conditional"), key=lambda rule: rule.rule_id)
     )
     inactive = tuple(rule for rule in relations if rule not in active)
-    hard = propagate(banks, assertions, foundational, context, domain_restrictions=domain_restrictions)
+    hard = propagate(
+        banks,
+        assertions,
+        foundational,
+        context,
+        domain_restrictions=domain_restrictions,
+        initial_domains=initial_domains,
+    )
     if hard.code == "CONFLICT":
         return hard
     exceptions, eligible = [], []
     for rule in conditional:
-        witness = propagate(banks, assertions, foundational + (rule,), context, domain_restrictions=domain_restrictions)
+        witness = propagate(
+            banks,
+            assertions,
+            foundational + (rule,),
+            context,
+            domain_restrictions=domain_restrictions,
+            initial_domains=initial_domains,
+        )
         if witness.code == "CONFLICT":
             exceptions.append(_exception((rule,), "HARD_CONTRADICTION", witness, hard, context_values))
         else:
@@ -109,22 +126,37 @@ def _resolve_ordinary(
     retained = []
     for component in _conditional_components(foundational, tuple(eligible)):
         witness = propagate(
-            banks, assertions, foundational + component, context, domain_restrictions=domain_restrictions
+            banks,
+            assertions,
+            foundational + component,
+            context,
+            domain_restrictions=domain_restrictions,
+            initial_domains=initial_domains,
         )
         if witness.code == "CONFLICT":
             exceptions.append(_exception(component, "CONDITIONAL_COMPONENT_CONFLICT", witness, hard, context_values))
         else:
             retained.extend(component)
     resolved = propagate(
-        banks, assertions, foundational + tuple(retained) + inactive, context, domain_restrictions=domain_restrictions
+        banks,
+        assertions,
+        foundational + tuple(retained) + inactive,
+        context,
+        domain_restrictions=domain_restrictions,
+        initial_domains=initial_domains,
     )
     receipts = tuple(sorted(exceptions, key=lambda item: item["rule_ids"]))
     return Resolution(
-        resolved.code, resolved.domains, resolved.assignments, resolved.conflicts, resolved.trace + receipts
+        resolved.code,
+        resolved.domains,
+        resolved.assignments,
+        resolved.conflicts,
+        resolved.trace + receipts,
+        resolved.silent,
     )
 
 
-def _evidence_guard_receipt(rule, assertions, baseline, supplied, context):
+def _evidence_guard_receipt(rule, assertions, baseline, supplied, context, initial_domains=None):
     """Explain eligibility using only evidence predating every default."""
     witnesses = []
     for bank in sorted(rule.absent_evidence):
@@ -134,14 +166,14 @@ def _evidence_guard_receipt(rule, assertions, baseline, supplied, context):
                 key=lambda record: (record["source"], record["record_id"], record["family"], record["value"]),
             )
         )
-        narrowed = baseline.domains[bank] != TERNARY
+        narrowed = baseline.domains[bank] != frozenset((initial_domains or {}).get(bank, TERNARY))
         if bank in supplied or claims or narrowed:
             witnesses.append(
                 {
                     "bank": bank,
                     "supplied_evidence": bank in supplied,
                     "assertions": claims,
-                    "baseline_domain": tuple(sorted(baseline.domains[bank])),
+                    "baseline_domain": _ordered(baseline.domains[bank]),
                     "baseline_narrowed": narrowed,
                     "baseline_rule_ids": tuple(
                         sorted(
@@ -185,6 +217,7 @@ def resolve_dictionary(
     *,
     evidence_banks: tuple[str, ...] = (),
     domain_restrictions: tuple[DomainRestriction, ...] = (),
+    initial_domains: dict[str, frozenset] | None = None,
 ) -> Resolution:
     """Resolve ordinary evidence before admitting evidence-conditioned defaults.
 
@@ -205,21 +238,29 @@ def resolve_dictionary(
         raise ValueError("UNKNOWN_EVIDENCE_BANK")
     ordinary = tuple(rule for rule in relations if not rule.absent_evidence)
     defaults = tuple(sorted((rule for rule in relations if rule.absent_evidence), key=lambda rule: rule.rule_id))
-    baseline = _resolve_ordinary(banks, assertions, ordinary, context_values, domain_restrictions)
+    baseline = _resolve_ordinary(banks, assertions, ordinary, context_values, domain_restrictions, initial_domains)
     if not defaults:
         return baseline
     supplied = set(evidence_banks) | {item.bank for item in domain_restrictions}
-    receipts = tuple(_evidence_guard_receipt(rule, assertions, baseline, supplied, context_values) for rule in defaults)
+    receipts = tuple(
+        _evidence_guard_receipt(rule, assertions, baseline, supplied, context_values, initial_domains)
+        for rule in defaults
+    )
     eligible = tuple(
         replace(rule, absent_evidence=())
         for rule, receipt in zip(defaults, receipts, strict=True)
         if receipt["status"] == "ELIGIBLE"
     )
     resolved = (
-        _resolve_ordinary(banks, assertions, ordinary + eligible, context_values, domain_restrictions)
+        _resolve_ordinary(banks, assertions, ordinary + eligible, context_values, domain_restrictions, initial_domains)
         if eligible
         else baseline
     )
     return Resolution(
-        resolved.code, resolved.domains, resolved.assignments, resolved.conflicts, resolved.trace + receipts
+        resolved.code,
+        resolved.domains,
+        resolved.assignments,
+        resolved.conflicts,
+        resolved.trace + receipts,
+        resolved.silent,
     )
