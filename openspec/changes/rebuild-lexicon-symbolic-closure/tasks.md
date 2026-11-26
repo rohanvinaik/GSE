@@ -19,6 +19,10 @@
   must not write) and its binding rule. Account for all 401,596 readings, including the difference from the four
   source subtotals (401,593).
   Acceptance: every reading has a source and a binding kind; no old assignment enters as a premise.
+  Progress (2026-11-26): `inventory.py` pins the cohort from the live artifact's identities (id, lemma, POS, gloss;
+  no values): 401,596 readings = 155,111 WordNet + 246,240 Wiktionary + 213 closed-class + 29 NSM chart + 2
+  authored GSE primes + 1 Webster's 1913, over 67,174 lemmas; sha256 67f91348...; receipt
+  `docs/verification/2026-11-26-rebuild-cohort.json`. Still to do: each source's declared competence and binding.
 - [ ] 1.2 Write the bank registry: the 56 banks, polarity aliases, which banks are bipolar and the starting mask of
   each.
   Acceptance: matches the runtime's coordinate registry; NUMBER and hierarchy stay separate.
