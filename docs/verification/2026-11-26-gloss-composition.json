@@ -161,7 +161,29 @@
     "value": 1,
     "source": "genus handbreadth.n.01"
    }
-  ]
+  ],
+  "attribution": {
+   "same_value_as_round2_closure": 14121,
+   "different_from_round2": 0,
+   "new": 7808,
+   "new_by_route": {
+    "tagged genus head (glosstag)": 4385,
+    "hypernym synset": 3375,
+    "wiktionary genus word": 25,
+    "identity template": 23
+   },
+   "cause_plus_under_change_v01": 0,
+   "cause_plus_top_pass1_sources": [
+    "move.v.02 382",
+    "fasten.v.01 152",
+    "make.v.02 151",
+    "kill.v.01 116",
+    "give.v.03 108",
+    "use.v.01 105",
+    "attach.v.01 100",
+    "show.v.04 82+67"
+   ]
+  }
  },
  "evaluation_reading": {
   "note": "The main session's reading of sampled gains, for evaluation only; no value was decided by it.",
@@ -468,5 +490,21 @@
   }
  ],
  "installed": false,
- "why_not_installed": "precision about 70-80% by reading; word_senses merges homonyms (nail/noun) so a senses rebuild on composed output would spread values; zero-warrant guard not yet written"
+ "why_not_installed": "precision about 70-80% by reading; word_senses merges homonyms (nail/noun) so a senses rebuild on composed output would spread values; zero-warrant guard not yet written",
+ "real_data_witnesses_v6": {
+  "must_not": {
+   "brad QUANTITY": "pass (brad gains nothing)",
+   "layers DO": "pass",
+   "overwhelmed SOMEONE": "pass (not composed)",
+   "angry SEE": "pass, but angry gains HAPPEN+ CAUSE+ via show.v.04 (wrong)"
+  },
+  "must_get": {
+   "inquisitory GOOD+": "fail (nothing)",
+   "apologize FEEL+": "fail (nothing)",
+   "antipersonnel DO+ CAUSE+ GOOD-": "fail (THINK+ only)",
+   "layer BODY+": "pass",
+   "brokenhearted FEEL+": "fail under v6 (v5 had it)"
+  }
+ },
+ "scope_of_the_measure": "WordNet exact-link route only; Wiktionary (246,240 definitions) essentially unread; the 89 verified NSM explications not yet read by the module."
 }

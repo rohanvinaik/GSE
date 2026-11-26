@@ -85,10 +85,27 @@ run v1; 2.38 in run v2; 1.64 in run v3, with the rules below.
          - values inherited from the release ("teratoma" BE+ via `tumor.n.01`).
        - Wiktionary gains only 270 cells. Its genus words can't be read at an exact sense, and strict agreement
          across a word's definitions almost never holds.
-     - **What this measures:** composed exactly and positively, the dictionary's definitional content for this
-       lexicon is mostly type (a noun's genus chain) and a predicate's head (event, causation, motion, speech,
-       thought). The positive channel is precise but small. Most of the 21.9 million open cells are banks orthogonal
-       to the word, the negative half, which positive composition cannot and must not fill.
+     - **Attribution:**
+       - 14,121 of the 21,929 cells are values round 2's closure already derived from the same candidate, with
+         identical values and 0 disagreements. Only 7,808 are new: 4,385 via the tagged genus heads, 3,375 via
+         hypernyms, 25 from Wiktionary genus words and 23 from identity templates.
+       - CAUSE+ spreads from a few verb hubs whose stored values carry it (`move.v.02`, `fasten.v.01`, `make.v.02`,
+         `kill.v.01`, `give.v.03`), some of them questionable (`use.v.01`, `show.v.04`).
+     - **Real-data witnesses under v6:**
+       - Only "layer" BODY+ passes.
+       - antipersonnel reads THINK+ only; inquisitory, apologize, brad and brokenhearted gain nothing; angry gains a
+         wrong HAPPEN+ CAUSE+ via `show.v.04`.
+       - Going genus-only lost correct values that v5 had (brokenhearted FEEL+ via sorrow).
+       - v6 departs from rule 1 as approved (`63614de`: "verb, adjective and adverb definitions: their content words
+         compose"). That choice is Rohan's: v5 has more recall and the argument errors; v6 has fewer errors and loses
+         correct complements.
+     - **What this measures, and what it does not:**
+       - It measures the WordNet exact-link route only.
+       - Wiktionary, 246,240 of the 401,596 definitions, is essentially unread (270 cells). Its genus words have no
+         exact sense here, which says nothing about how much content its glosses carry.
+       - The 89 verified NSM explications, listed in the Basis above as a positive source, are not read by the module
+         yet.
+       - So this is not a measure of the dictionary's positive content.
 6. **Every value is traced:** definition → contributing gloss word → that word's reading → … → a basis axiom. Sign
    disagreements are contested and carry both signs.
 
