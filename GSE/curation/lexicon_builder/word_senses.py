@@ -31,9 +31,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from collections.abc import Mapping, Sequence
-from contextlib import closing
 from dataclasses import dataclass, field
-from functools import lru_cache
 
 from .engine import Assertion
 from .foundation import BANKS, definition_context
@@ -482,26 +480,6 @@ def dominant_pos(by_pos: Mapping[str, Sequence[Definition]]) -> str | None:
     return ranked[0] if ranked else None
 
 
-@lru_cache(maxsize=2)
-def _felt_signs(database: str) -> tuple[dict, dict, dict]:
-    from .felt_valence import source_signs
-
-    with closing(sqlite3.connect(f"file:{database}?mode=ro", uri=True)) as conn:
-        return source_signs(conn)
-
-
-def sense_felt_valence(sense: Sense, signs) -> tuple[int, dict] | None:
-    """The felt valence every member definition of a noun sense establishes (felt_valence.py), when they agree."""
-    from .felt_valence import felt_valence
-
-    found = {d.entry_id: felt_valence(d.entry_id, signs) for d in sense.members}
-    found = {entry: value for entry, value in found.items() if value is not None}
-    if not found or len({sign for sign, _evidence in found.values()}) != 1:
-        return None
-    sign = next(iter(found.values()))[0]
-    return sign, {entry: evidence for entry, (_sign, evidence) in sorted(found.items())}
-
-
 def build_word(
     conn: sqlite3.Connection, lemma: str, votes: Mapping[str, Mapping[str, int]], relations: Sequence, reach
 ) -> list[dict]:
@@ -510,8 +488,6 @@ def build_word(
 
     by_pos = read_definitions(conn, lemma, reach)
     dominant = dominant_pos(by_pos)
-    database = conn.execute("PRAGMA database_list").fetchone()[2]
-    felt_signs = _felt_signs(database)
     corroboration: dict[str, dict[int, frozenset[str]]] = {}
     for source, signs in votes.items():
         family = family_of(source)
@@ -525,23 +501,10 @@ def build_word(
         agreed = committed_signs(agreement)
         anchor = settle_anchor(agreed, relations, pos)
         for index, sense in enumerate(collapse(definitions, anchor, corroboration)):
-            # Ruling (c): a sense whose own definitions establish a felt valence names a feeling and takes its sign;
-            # a lemma-level agreed sign that disagrees leaves GOOD open.
-            felt = sense_felt_valence(sense, felt_signs) if pos == "noun" else None
-            feeling = pos == "noun" and (felt is not None or names_a_feeling(lemma, sense))
-            sense_agreed = dict(agreed)
-            if felt is not None:
-                if sense_agreed.get("GOOD", felt[0]) != felt[0]:
-                    sense_agreed.pop("GOOD")
-                    felt = None
-                else:
-                    sense_agreed["GOOD"] = felt[0]
-            row = close_sense(lemma, pos, index, sense, sense_agreed, relations, feeling)
+            feeling = pos == "noun" and names_a_feeling(lemma, sense)
+            row = close_sense(lemma, pos, index, sense, agreed, relations, feeling)
             for bank, origin in row["provenance"].items():
-                if bank == "GOOD" and felt is not None and origin["from"] == "source-agreement":
-                    origin["from"] = "felt-valence"
-                    origin["evidence"] = felt[1]
-                elif origin["from"] == "source-agreement":  # name the agreeing measuring families
+                if origin["from"] == "source-agreement":  # name the agreeing measuring families
                     origin["families"] = list(agreement[bank].measuring[row["assignments"][bank]])
             rows.append(row)
     return rows
