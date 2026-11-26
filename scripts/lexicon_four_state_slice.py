@@ -130,18 +130,43 @@ def _cells(domains: dict) -> dict:
     return out
 
 
-def run(words: list[str], show: set[str]) -> dict:
+def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dict:
     conn = sqlite3.connect(f"file:{RELEASE}?mode=ro", uri=True)
     relations = _release_relations(conn) + _laws()
     start = starting_domains(BANKS)
     by_pos: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     shown, codes, kinds, exceptions = [], collections.Counter(), collections.Counter(), []
-    for word in words:
-        rows = conn.execute(
-            "SELECT d.entry_id, l.pos, d.domains FROM definition_states d JOIN lexemes l ON d.lexeme_id = l.id "
-            "WHERE l.lemma = ?",
-            (word,),
-        ).fetchall()
+    sink = None
+    if out is not None:
+        sink = sqlite3.connect(out)
+        sink.execute("DROP TABLE IF EXISTS four_state_cells")
+        sink.execute(
+            "CREATE TABLE four_state_cells (entry_id TEXT PRIMARY KEY, code TEXT, content TEXT, zero TEXT, silent TEXT,"
+            " open TEXT, conflicts TEXT)"
+        )
+    batches = (
+        [
+            (
+                w,
+                conn.execute(
+                    "SELECT d.entry_id, l.pos, d.domains FROM definition_states d JOIN lexemes l ON d.lexeme_id = l.id"
+                    " WHERE l.lemma = ?",
+                    (w,),
+                ).fetchall(),
+            )
+            for w in words
+        ]
+        if words is not None
+        else [
+            (
+                None,
+                conn.execute(
+                    "SELECT d.entry_id, l.pos, d.domains FROM definition_states d JOIN lexemes l ON d.lexeme_id = l.id"
+                ),
+            )
+        ]
+    )
+    for word, rows in batches:
         for entry, pos, raw in rows:
             stored = json.loads(raw)
             before = _cells({bank: frozenset(v) if len(v) == 1 else frozenset(STATES) for bank, v in stored.items()})
@@ -163,6 +188,25 @@ def run(words: list[str], show: set[str]) -> dict:
                 kinds[kind] += 1
             result = propagate(BANKS, (), relations, context, domain_restrictions=restrictions, initial_domains=start)
             after = _cells(result.domains)
+            if sink is not None:
+                sink.execute(
+                    "INSERT INTO four_state_cells VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (
+                        entry,
+                        result.code,
+                        json.dumps(result.assignments and {b: v for b, v in result.assignments.items() if v}),
+                        json.dumps(sorted(b for b, d in result.domains.items() if d == {0})),
+                        json.dumps(list(result.silent)),
+                        json.dumps(
+                            {
+                                b: sorted(d, key=lambda x: -2 if x is None else x)
+                                for b, d in result.domains.items()
+                                if len(d) > 1
+                            }
+                        ),
+                        json.dumps(result.conflicts[:1], default=str),
+                    ),
+                )
             codes[result.code] += 1
             key = context.get("pos", pos or "?")
             for state in ("content", "zero", "silent", "open", "conflict"):
@@ -193,8 +237,10 @@ def run(words: list[str], show: set[str]) -> dict:
                         "newly_decided_by": changed,
                     }
                 )
+    if sink is not None:
+        sink.commit()
     return {
-        "words": len(words),
+        "words": len(words) if words is not None else "ALL",
         "codes": dict(codes),
         "typed_adjectives": dict(kinds),
         "type_exceptions": exceptions,
@@ -208,9 +254,11 @@ def main() -> int:
     parser.add_argument("--words", type=Path, default=WORDS)
     parser.add_argument("--show", default="")
     parser.add_argument("--receipt", type=Path)
+    parser.add_argument("--all", action="store_true", help="every definition in the release, not a word list")
+    parser.add_argument("--out", type=Path, help="write each definition's four-state cells to this SQLite file")
     args = parser.parse_args()
-    words = [w.strip() for w in args.words.read_text().split("\n") if w.strip()]
-    result = run(words, {w for w in args.show.split(",") if w})
+    words = None if args.all else [w.strip() for w in args.words.read_text().split("\n") if w.strip()]
+    result = run(words, {w for w in args.show.split(",") if w}, args.out)
     text = json.dumps(result, indent=1, default=str)
     if args.receipt:
         args.receipt.write_text(text + "\n")
