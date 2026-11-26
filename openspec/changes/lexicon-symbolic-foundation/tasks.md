@@ -567,3 +567,27 @@ The plan is built to reach these, and each round reports them:
 - **Correctness:** every admitted rule passes held-out audits (NSM's verified explications first) before it writes;
   zero unresolved contradictions with NSM; agreement measured every round.
 - **Completion:** all 22,489,376 cells decided or typed residual with a reason; the loop stops at kappa -> 0.
+
+## GSE-03 — The bank-relation layer: the mechanism that fills the lexicon (2026-11-26)
+
+Rohan, 2026-11-26 19:38: the build propagates "rules that define how banks are implicitly decided and filled by other
+sources of information, like other banks"; 21:47: "You missed the entire point of this entire session"; 21:49 "That's
+...the whole idea." F088 (the atomic unit is a sub-prime relation between banks), F067 (each bank is interrelated with
+the others; each selection collapses the space), F101/F108 (conditional relations from coherence across sources).
+
+Measured on the live lexicon: the release holds 68 relations, 46 of them between banks, touching 34 of 56 banks. No
+inter-bank relation touches BECAUSE, CERTAINTY, EXIST, FEEL, HAVE, HEAR, IF, INTENSITY, KIND, KNOW, LIKE, MAYBE, MUST,
+NOT, PEOPLE, SAME, SEE, START, TOUCH, TRUE, WITH, WORDS, so nothing propagates into or out of them. Naive co-occurrence
+over the stored cells (2.3% decided) cannot supply the layer: 219 "zero-counterexample" implications appear, e.g.
+GOOD=0 -> SOMETHING=+1 with 78,002 supports, only because the opposing cells are never decided (unfalsifiable).
+
+- [ ] GSE-03.1 Candidate relations from warranted structure: the NSM chart and prime profiles (argument types,
+  combinability, polarity), the 248 verified explications (which primes a kind's meaning combines), the reviewed laws
+  (F088 relation reading, F144 head record, F067), cross-source coherence (F101/F108); each with its warrant.
+- [ ] GSE-03.2 Falsifiability before admission: a relation is tested only where its conclusion could be contradicted
+  (an opposing cell decided by a stated source, NSM, or a teaching answer chosen to test it); significance-weighting
+  gate (spine-sourced confirmation, retained plurality, kappa > 0); counterexamples become guards or exceptions.
+- [ ] GSE-03.3 Admit into the release's relation set through the rule-revision path; propagate jointly over every
+  definition (WordNet or Wiktionary alike); joint bits and the census each round.
+- [ ] GSE-03.4 SSL teaching aimed at the layer: questions chosen to test the candidate relations with the most reach,
+  so each answer confirms or refutes a relation over its whole population.
