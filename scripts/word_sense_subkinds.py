@@ -52,6 +52,7 @@ def main() -> int:
         "suspended_banks": dict(Counter(r["bank"] for r in admission["suspended_rows"]).most_common()),
         "suspended_sample": admission["suspended_rows"][:40],
         "known_conflicts": admission["known_conflicts"],
+        "unconfirmed_defaults": census["unconfirmed"],
         "exceptions": census["exceptions"],
         "exception_banks": dict(Counter(e["bank"] for e in census["exception_rows"]).most_common()),
         "exception_sample": census["exception_rows"][:40],

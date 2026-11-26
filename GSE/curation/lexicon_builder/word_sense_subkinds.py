@@ -16,6 +16,14 @@ definition. The kind-of relations come from the sources that state them:
 A kind's own decided value always stands; an inherited value that contradicts it is an exception, recorded and never
 written. Two kind-of parents that disagree on a bank leave it open.
 
+A default's applicability is the kind's own evidence, never the link alone (TrialLedger: a default applies where its
+facts hold, from source-bound scope, never a lexical guess). Through a kind-of, refinement or entailment link a value
+decided on an ancestor applies only when the kind independently holds another of that ancestor's decided values, one
+more specific than NSM's most general substantive, action and event (SOMETHING, DO, HAPPEN), which every thing, act and
+event carries. This is what keeps WordNet's misfilings out: matter filed under part.n.01 shares only SOMETHING with it,
+so PART does not reach thiouracil; abstract transfers filed under move.v.02 do not independently move. Same-meaning
+links (synonymy, form_of) need no confirmation: they are the same meaning.
+
 Admission is constraint propagation, TrialLedger's (Rohan, 2026-11-26: "TrialLedger's constraint propagation ideas
 are how we allow sub-kind inheritance without introducing spurious and incorrect additions"). The kind's stored state
 is its known level, already closed under the release's rules. Each inherited value is a default whose applicability
@@ -38,6 +46,12 @@ from .word_senses import DERIVED_TABLE
 
 FORMAT = "GSE.subkind-inheritance/1"
 INHERITABLE = frozenset({"members", "rules", "nsm-molecule"})
+GENERIC = frozenset({"SOMETHING", "DO", "HAPPEN"})  # NSM's most general substantive, action and event
+
+
+def confirmed(child: dict[str, int], ancestor: dict[str, int], bank: str) -> bool:
+    """The kind independently holds another, specific value its ancestor decided."""
+    return any(child.get(b) == v and v != 0 and b not in GENERIC and b != bank for b, v in ancestor.items())
 
 
 def sense_values(conn: sqlite3.Connection) -> dict[str, dict[str, int]]:
@@ -136,7 +150,7 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
     held = stored(conn)
     hierarchy = Hierarchy(own)
     rows: dict[str, tuple[dict, dict]] = {}
-    exceptions, cells = [], 0
+    exceptions, cells, unconfirmed = [], 0, defaultdict(int)
     for entry, decided in held.items():
         if not entry.startswith("wordnet:"):
             continue
@@ -145,7 +159,11 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
         for b, v in hierarchy.own.get(synset, {}).items():  # synonymy: the synset's decision under any lemma
             inherited[b] = (v, synset)
         settled, origins = {}, {}
+        child = {**decided, **own.get(entry, {})}
         for b, (v, origin) in sorted(inherited.items()):
+            if origin != synset and not confirmed(child, hierarchy.own.get(origin, {}), b):
+                unconfirmed[b] += 1
+                continue
             if b in decided or b in own.get(entry, {}):
                 if (own.get(entry, {}).get(b, decided.get(b))) != v:
                     exceptions.append(
@@ -203,7 +221,13 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
                 },
             )
             cells += len(settled)
-    return rows, {"definitions": len(rows), "cells": cells, "exceptions": len(exceptions), "exception_rows": exceptions}
+    return rows, {
+        "definitions": len(rows),
+        "cells": cells,
+        "exceptions": len(exceptions),
+        "exception_rows": exceptions,
+        "unconfirmed": dict(sorted(unconfirmed.items(), key=lambda kv: -kv[1])),
+    }
 
 
 def admit(conn: sqlite3.Connection, rows: dict[str, tuple[dict, dict]], progress=None) -> tuple[dict, dict]:
