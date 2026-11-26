@@ -81,6 +81,8 @@ PROTECTED = [
     "tests/test_lexicon_no_new_model_values.py",
     "tests/test_lexicon_every_value_has_a_warrant.py",
 ]
+# Files an operator-approved brief may edit in this run (--allow-edit); empty by default.
+ALLOWED_EDITS: set[str] = set()
 DENIED_COMMANDS = [
     "Bash(git add -A:*)",
     "Bash(git add .:*)",
@@ -173,7 +175,9 @@ def _settings() -> str:
 def _denied() -> list[str]:
     pins = json.loads(PINS.read_text())["builder_source_pins"]
     paths = sorted(pins) if isinstance(pins, dict) else sorted(p["path"] for p in pins)
-    denied = [f"{tool}({path})" for path in PROTECTED + paths for tool in ("Edit", "Write")]
+    denied = [
+        f"{tool}({path})" for path in PROTECTED + paths if path not in ALLOWED_EDITS for tool in ("Edit", "Write")
+    ]
     return denied + DENIED_COMMANDS + [f"Read(/{KEY_STORE_DIR}/**)"]
 
 
@@ -319,7 +323,11 @@ def main(argv=None) -> int:
     parser.add_argument("--check", action="store_true", help="one tiny call: confirms the key and API billing")
     parser.add_argument("--budget", type=float, default=BUDGET_USD)
     parser.add_argument("--task-file", type=Path, help="a reviewed task brief in the repo, used instead of TASK")
+    parser.add_argument(
+        "--allow-edit", action="append", default=[], help="a protected path the operator approved this run to edit"
+    )
     args = parser.parse_args(argv)
+    ALLOWED_EDITS.update(args.allow_edit)
     task = args.task_file.read_text() if args.task_file else TASK
     prompt, budget = ("Reply with the single word OK.", 0.25) if args.check else (task, args.budget)
     started = datetime.now().isoformat(timespec="seconds")
