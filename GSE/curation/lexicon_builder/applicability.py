@@ -90,3 +90,35 @@ def silent_banks(noun_type: str) -> tuple[str, ...]:
             bank for bank, category in bank_categories().items() if category not in carried and category != "evaluators"
         )
     )
+
+
+# A verb's own head is a predicate. Its substantive cells are explicit 0 by the head law (F144, VERB_HEADS_NO_SUBSTANTIVE),
+# so every verb row carries the substantive categories and silence never contests that law. Evaluators are carried
+# where a verb can be the act of evaluating (F057: "'I hate you' carries implicit value judgement").
+_VERB_BASE = SUBSTANTIVE + ("actions, events, movement, contact", "time")
+VERB_TYPE_CATEGORIES: dict[str, tuple[str, ...]] = {
+    "verb.motion": _VERB_BASE + ("space", "descriptors"),
+    "verb.contact": _VERB_BASE + ("space",),
+    "verb.change": _VERB_BASE
+    + ("descriptors", "life and death", "location, existence, possession, specification", "space"),
+    "verb.creation": _VERB_BASE + ("location, existence, possession, specification",),
+    "verb.consumption": _VERB_BASE + ("life and death",),
+    "verb.body": _VERB_BASE + ("life and death", "mental predicates"),
+    "verb.possession": _VERB_BASE + ("location, existence, possession, specification",),
+    "verb.stative": _VERB_BASE
+    + ("location, existence, possession, specification", "space", "similarity", "descriptors"),
+    "verb.weather": _VERB_BASE + ("space",),
+    "verb.perception": _VERB_BASE + ("mental predicates",),
+    "verb.cognition": _VERB_BASE + ("mental predicates", "logical concepts", "speech", "similarity"),
+    "verb.communication": _VERB_BASE + ("speech", "mental predicates", "evaluators", "logical concepts"),
+    "verb.emotion": _VERB_BASE + ("mental predicates", "evaluators", "intensifier, augmentor"),
+    "verb.social": _VERB_BASE + ("speech", "evaluators", "location, existence, possession, specification"),
+    "verb.competition": _VERB_BASE + ("space",),
+}
+
+
+def verb_silent_banks(verb_type: str) -> tuple[str, ...]:
+    carried = VERB_TYPE_CATEGORIES.get(verb_type)
+    if carried is None:
+        return ()
+    return tuple(sorted(bank for bank, category in bank_categories().items() if category not in carried))

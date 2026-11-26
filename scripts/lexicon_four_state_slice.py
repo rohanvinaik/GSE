@@ -95,18 +95,19 @@ def _semantic_kind(entry_id: str) -> str | None:
 def _type_silences(entry: str, stored: dict) -> tuple[tuple, list]:
     """A WordNet noun's type-orthogonal banks as silence restrictions (applicability.py); a bank whose stored
     content collides is not silenced but recorded as an exception to the type row (significance weighting)."""
-    if not entry.startswith("wordnet:") or ".n." not in entry:
+    if not entry.startswith("wordnet:") or not (".n." in entry or ".v." in entry):
         return (), []
     from nltk.corpus import wordnet as wn
 
-    from GSE.curation.lexicon_builder.applicability import silent_banks
+    from GSE.curation.lexicon_builder.applicability import silent_banks, verb_silent_banks
 
     try:
         noun_type = wn.synset(entry.rsplit(":", 1)[1]).lexname()
     except Exception:
         return (), []
     out, excepted = [], []
-    for bank in silent_banks(noun_type):
+    banks = verb_silent_banks(noun_type) if noun_type.startswith("verb.") else silent_banks(noun_type)
+    for bank in banks:
         value = stored.get(bank)
         if value and len(value) == 1:  # a stored decision stands: content is an exception, an explicit 0 is kept
             if value[0]:
