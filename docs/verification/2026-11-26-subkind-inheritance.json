@@ -1,0 +1,677 @@
+{
+ "definitions": 29858,
+ "cells": 63638,
+ "by_bank": {
+  "HAPPEN": 18968,
+  "DO": 16386,
+  "CAUSE": 13082,
+  "MOVE": 4561,
+  "SOMETHING": 4145,
+  "ALIVE": 944,
+  "FEEL": 926,
+  "THINK": 840,
+  "PEOPLE": 735,
+  "SOMEONE": 687,
+  "TOUCH": 633,
+  "PART": 450,
+  "SEE": 295,
+  "BODY": 263,
+  "QUANTITY": 232,
+  "SAY": 115,
+  "WHERE": 76,
+  "BE": 60,
+  "WANT": 50,
+  "HEAR": 40,
+  "INFER": 29,
+  "WHEN": 26,
+  "BIG": 18,
+  "HAVE": 17,
+  "FAR": 13,
+  "GOOD": 11,
+  "KNOW": 8,
+  "INTENSITY": 7,
+  "TRUE": 5,
+  "WORDS": 4,
+  "MAYBE": 2,
+  "SAME": 2,
+  "KIND": 2,
+  "ONE": 2,
+  "TWO": 2,
+  "CAN": 2
+ },
+ "by_template": {
+  "form-of": 7821,
+  "subkind-inheritance": 22037
+ },
+ "candidates": 29858,
+ "candidate_cells": 54062,
+ "consequence_cells": 9576,
+ "suspended_defaults": 0,
+ "suspended_banks": {},
+ "suspended_sample": [],
+ "known_conflicts": 0,
+ "unconfirmed_hub_values": 19093,
+ "unconfirmed_hubs": [
+  [
+   "ill_health.n.01",
+   "BE",
+   859
+  ],
+  [
+   "communicate.v.01",
+   "MOVE",
+   541
+  ],
+  [
+   "have.v.01",
+   "HAVE",
+   472
+  ],
+  [
+   "put.v.01",
+   "HAPPEN",
+   348
+  ],
+  [
+   "supply.v.01",
+   "HAPPEN",
+   291
+  ],
+  [
+   "evaluate.v.02",
+   "HAPPEN",
+   286
+  ],
+  [
+   "impart.v.01",
+   "CAUSE",
+   280
+  ],
+  [
+   "communicate.v.01",
+   "HAPPEN",
+   270
+  ],
+  [
+   "touch.v.01",
+   "HAPPEN",
+   251
+  ],
+  [
+   "separate.v.02",
+   "HAPPEN",
+   222
+  ],
+  [
+   "remove.v.01",
+   "HAPPEN",
+   204
+  ],
+  [
+   "enter.v.01",
+   "HAPPEN",
+   181
+  ],
+  [
+   "use.v.01",
+   "HAPPEN",
+   176
+  ],
+  [
+   "give.v.03",
+   "HAPPEN",
+   166
+  ],
+  [
+   "produce.v.02",
+   "HAPPEN",
+   155
+  ],
+  [
+   "arrange.v.01",
+   "HAPPEN",
+   152
+  ],
+  [
+   "fasten.v.01",
+   "HAPPEN",
+   150
+  ],
+  [
+   "support.v.01",
+   "FEEL",
+   147
+  ],
+  [
+   "attach.v.01",
+   "HAPPEN",
+   145
+  ],
+  [
+   "affect.v.05",
+   "HAPPEN",
+   142
+  ],
+  [
+   "analyze.v.01",
+   "HAPPEN",
+   140
+  ],
+  [
+   "appoint.v.02",
+   "HAPPEN",
+   137
+  ],
+  [
+   "see.v.05",
+   "HAPPEN",
+   128
+  ],
+  [
+   "displease.v.01",
+   "HAPPEN",
+   126
+  ],
+  [
+   "hit.v.01",
+   "HAPPEN",
+   110
+  ],
+  [
+   "choose.v.01",
+   "HAPPEN",
+   106
+  ],
+  [
+   "act.v.02",
+   "HAPPEN",
+   99
+  ],
+  [
+   "disown.v.02",
+   "DO",
+   96
+  ],
+  [
+   "try.v.01",
+   "HAPPEN",
+   96
+  ],
+  [
+   "accept.v.01",
+   "HAPPEN",
+   95
+  ],
+  [
+   "handle.v.04",
+   "HAPPEN",
+   94
+  ],
+  [
+   "calculate.v.01",
+   "HAPPEN",
+   91
+  ],
+  [
+   "provide.v.02",
+   "HAPPEN",
+   87
+  ],
+  [
+   "consume.v.05",
+   "HAPPEN",
+   86
+  ],
+  [
+   "send.v.01",
+   "MOVE",
+   86
+  ],
+  [
+   "disown.v.02",
+   "HAPPEN",
+   85
+  ],
+  [
+   "debate.v.03",
+   "HAPPEN",
+   83
+  ],
+  [
+   "show.v.04",
+   "HAPPEN",
+   80
+  ],
+  [
+   "classify.v.01",
+   "DO",
+   76
+  ],
+  [
+   "classify.v.01",
+   "HAPPEN",
+   76
+  ]
+ ],
+ "exceptions": 0,
+ "exception_banks": {},
+ "exception_sample": [],
+ "sample": {
+  "wordnet:fixed:sterilize.v.02": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "sterilize.v.02",
+    "DO": "sterilize.v.02",
+    "HAPPEN": "sterilize.v.02"
+   }
+  },
+  "wordnet:entangled:entangle.v.01": {
+   "settled": {
+    "FEEL": 1
+   },
+   "origins": {
+    "FEEL": "react.v.01"
+   }
+  },
+  "wiktionary:en-befooling-en-verb-BjQK-9cT:7a824f87ba8d09d5f9a5389d998cb896be6277e2dc90e7c5098d022d19d68ac4": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "form_of:befool",
+    "HAPPEN": "form_of:befool"
+   }
+  },
+  "wordnet:oils:anoint.v.02": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "CAUSE": "anoint.v.02",
+    "DO": "anoint.v.02",
+    "HAPPEN": "anoint.v.02",
+    "MOVE": "anoint.v.02"
+   }
+  },
+  "wordnet:pressing:weight-lift.v.01": {
+   "settled": {
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "move.v.03"
+   }
+  },
+  "wiktionary:en-ee-en-noun-PBZBy-R1:af403a672bdf72ee1c845d747363c299cb697cdf51c3e9583253fdd77a123184": {
+   "settled": {
+    "SOMETHING": 1
+   },
+   "origins": {
+    "SOMETHING": "form_of:e"
+   }
+  },
+  "wordnet:titillated:tickle.v.01": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "tickle.v.01",
+    "HAPPEN": "tickle.v.01"
+   }
+  },
+  "wordnet:blessed:bless.v.02": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "award.v.01",
+    "DO": "bless.v.02",
+    "HAPPEN": "bless.v.02"
+   }
+  },
+  "wordnet:caught:catch.v.25": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "roll_up.v.02",
+    "DO": "roll_up.v.02",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:pasted:paste.v.02": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "touch.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wiktionary:en-truer-en-adj-SZAYkpGr:5ef27f82281284d1e4cdef6a5ef9679c8641ffbb360abc77464e4cd7cb4ae56f": {
+   "settled": {
+    "TRUE": 1
+   },
+   "origins": {
+    "TRUE": "form_of:true"
+   }
+  },
+  "wordnet:oyster:oyster.v.01": {
+   "settled": {
+    "CAUSE": 1
+   },
+   "origins": {
+    "CAUSE": "gather.v.01"
+   }
+  },
+  "wordnet:ordering:order.v.06": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "CAUSE": "arrange.v.01",
+    "DO": "arrange.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "arrange.v.01"
+   }
+  },
+  "wordnet:boarding:board.v.01": {
+   "settled": {
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "enter.v.01"
+   }
+  },
+  "wiktionary:en-grille-en-noun-SRai0WnW:b7c8ccb663111ef771bf536c9c87d217e7592bd2d6f773eded56dbca16b6dc8b": {
+   "settled": {
+    "SOMETHING": 1
+   },
+   "origins": {
+    "SOMETHING": "form_of:grill"
+   }
+  },
+  "wordnet:disgruntled:disgruntle.v.01": {
+   "settled": {
+    "CAUSE": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "displease.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:cock:cock.v.02": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "CAUSE": "put.v.01",
+    "DO": "put.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "put.v.01"
+   }
+  },
+  "wordnet:adhering:adhere.v.02": {
+   "settled": {
+    "DO": 1
+   },
+   "origins": {
+    "DO": "complete.v.01"
+   }
+  },
+  "wordnet:individualise:individualize.v.01": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "analyze.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:smash:knock.n.03": {
+   "settled": {
+    "TOUCH": 1
+   },
+   "origins": {
+    "TOUCH": "blow.n.02"
+   }
+  },
+  "wiktionary:en-lats-en-noun-NRQ2lMMr:7c278b6b260037aca88c7f0e97a1f64bba5ffdce736f461280aa6aafef8da5f6": {
+   "settled": {
+    "PART": 1,
+    "SOMETHING": 1
+   },
+   "origins": {
+    "PART": "form_of:lat",
+    "SOMETHING": "form_of:lat"
+   }
+  },
+  "wordnet:hunting:hunt.v.07": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1,
+    "SEE": 1
+   },
+   "origins": {
+    "DO": "hunt.v.07",
+    "HAPPEN": "hunt.v.07",
+    "SEE": "see.v.01"
+   }
+  },
+  "wordnet:plains:complain.v.01": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "complain.v.01",
+    "HAPPEN": "complain.v.01"
+   }
+  },
+  "wordnet:laboured:labor.v.03": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "produce.v.01",
+    "DO": "produce.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:tick:tick.v.03": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "sew.v.01",
+    "DO": "sew.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:disconnection:disconnection.n.03": {
+   "settled": {
+    "CAUSE": 1
+   },
+   "origins": {
+    "CAUSE": "separation.n.09"
+   }
+  },
+  "wordnet:derive:derive.v.02": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "obtain.v.01",
+    "DO": "derive.v.02",
+    "HAPPEN": "derive.v.02"
+   }
+  },
+  "wordnet:railroad:railroad.v.03": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "DO": "transport.v.04",
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "transport.v.04"
+   }
+  },
+  "wordnet:coupled:match.v.03": {
+   "settled": {
+    "CAUSE": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "join.v.02",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:craved:crave.v.02": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "DO": "communicate.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wiktionary:en-spotted-en-verb-KEw67uCn:523e3b2812014648032ad767e0615869333c113d475294d71b6d78bd95d55561": {
+   "settled": {
+    "CAUSE": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "form_of:spot",
+    "HAPPEN": "form_of:spot"
+   }
+  },
+  "wordnet:furore:furor.n.02": {
+   "settled": {
+    "CAUSE": 1
+   },
+   "origins": {
+    "CAUSE": "disturbance.n.05"
+   }
+  },
+  "wordnet:suspicions:suspicion.n.03": {
+   "settled": {
+    "BE": 1
+   },
+   "origins": {
+    "BE": "suspicion.n.03"
+   }
+  },
+  "wiktionary:en-disfunction-en-noun-J840CyHC:2817349655fea45f7f1ee4b015efc621d642b0752aeef5ee1f9e13368fb574fd": {
+   "settled": {
+    "SOMETHING": 1
+   },
+   "origins": {
+    "SOMETHING": "form_of:dysfunction"
+   }
+  },
+  "wordnet:layering:layer.v.01": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "shape.v.02",
+    "DO": "shape.v.02",
+    "HAPPEN": "strict consequence of the inherited defaults"
+   }
+  },
+  "wordnet:resmudge:resmudge.v.01": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1,
+    "TOUCH": 1
+   },
+   "origins": {
+    "CAUSE": "rub.v.01",
+    "DO": "rub.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "TOUCH": "touch.v.01"
+   }
+  },
+  "wiktionary:en-winking-en-verb-YLsRSL3n:3e12d9c8c0a3cf72b5fce52068d4562fae41f4f2b37d4bc2b97fa6f5bcda840d": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "DO": "form_of:wink",
+    "HAPPEN": "form_of:wink",
+    "MOVE": "form_of:wink"
+   }
+  },
+  "wordnet:refloat:refloat.v.01": {
+   "settled": {
+    "DO": 1,
+    "HAPPEN": 1,
+    "MOVE": 1
+   },
+   "origins": {
+    "DO": "transport.v.01",
+    "HAPPEN": "strict consequence of the inherited defaults",
+    "MOVE": "float.v.03"
+   }
+  },
+  "wordnet:shields:shield.v.01": {
+   "settled": {
+    "CAUSE": 1,
+    "DO": 1,
+    "HAPPEN": 1
+   },
+   "origins": {
+    "CAUSE": "shield.v.01",
+    "DO": "shield.v.01",
+    "HAPPEN": "shield.v.01"
+   }
+  },
+  "wordnet:snip:snip.v.02": {
+   "settled": {
+    "DO": 1
+   },
+   "origins": {
+    "DO": "snip.v.02"
+   }
+  }
+ }
+}
