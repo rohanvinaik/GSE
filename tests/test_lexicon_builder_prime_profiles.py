@@ -10,12 +10,22 @@ PROFILES = {p["prime"]: p for p in load_profiles()}
 LEXICAL = sorted(name for name in PROFILES if coordinate(name))
 
 
+STATE = {"empty": EMPTY, "0": 0, "+1": 1, "-1": -1}
+
+
 @pytest.mark.parametrize("prime", LEXICAL)
-def test_every_prime_reconstructs_without_conflict_and_fully_decided(prime):
+def test_every_prime_reproduces_its_authored_decisions(prime):
+    from GSE.curation.lexicon_builder.foundation import BANKS
+    from GSE.curation.lexicon_builder.prime_profiles import authored_decisions
+
     _closed, final = reconstruct(PROFILES[prime], LAWS)
-    assert final.code == "RESOLVED", final.conflicts
+    assert final.code != "CONFLICT", final.conflicts
     bank, sign = coordinate(prime)
     assert final.assignments[bank] == sign
+    for decision in authored_decisions(PROFILES[prime]):
+        for coordinate_ in decision["coordinates"]:
+            if coordinate_ in BANKS:
+                assert final.domains[coordinate_] == {STATE[decision["state"]]}, (coordinate_, decision["decision_id"])
 
 
 def test_good_is_its_own_pole_a_graded_evaluator_and_a_modifier_head():
@@ -26,7 +36,7 @@ def test_good_is_its_own_pole_a_graded_evaluator_and_a_modifier_head():
     assert (
         final.assignments["SOMETHING"] == 0
     )  # a modifier lacks independent objectness, not "GOOD qualifies SOMETHING"
-    assert "FEEL" in final.silent and "FEEL" not in closed.silent  # silence only from the authored boundary
+    assert "FEEL" in final.silent and "FEEL" not in closed.silent  # silence only from the declared silence decision
 
 
 def test_bad_is_the_same_coordinate_with_the_opposite_sign():
@@ -44,7 +54,19 @@ def test_removing_a_warrant_changes_exactly_its_cell():
     _c, full = reconstruct(PROFILES["GOOD"], LAWS)
     _c, ablated = reconstruct(PROFILES["GOOD"], LAWS, frozenset({degree}))
     changed = {b for b in full.domains if full.domains[b] != ablated.domains[b]}
-    assert changed == {"INTENSITY"} and ablated.domains["INTENSITY"] == {EMPTY}
+    assert changed == {"INTENSITY"} and len(ablated.domains["INTENSITY"]) > 1  # F158: the cell reopens, not silent
+
+
+def test_removing_the_silence_declaration_reopens_exactly_its_cells():
+    from GSE.curation.lexicon_builder.engine import propagate
+    from GSE.curation.lexicon_builder.foundation import BANKS
+    from GSE.curation.lexicon_builder.prime_profiles import declared_silence, inputs
+    from GSE.curation.lexicon_builder.silence import starting_domains
+
+    assertions, context = inputs(PROFILES["GOOD"])
+    open_ = propagate(BANKS, assertions, LAWS, context, initial_domains=starting_domains(BANKS))
+    reopened = {b for b, d in open_.domains.items() if len(d) > 1}
+    assert reopened == set(declared_silence(PROFILES["GOOD"]))
 
 
 STRUCTURAL = {
@@ -58,7 +80,7 @@ def test_every_function_word_has_a_decided_home(reading):
     from GSE.curation.lexicon_builder.prime_profiles import reconstruct_structural
 
     status, final = reconstruct_structural(STRUCTURAL[reading], LAWS)
-    assert status in ("LEXICAL_PROJECTION", "CONSTRUCTION_ONLY") and final.code == "RESOLVED", final.conflicts
+    assert status in ("LEXICAL_PROJECTION", "CONSTRUCTION_ONLY") and final.code != "CONFLICT", final.conflicts
 
 
 def test_function_words_carry_only_their_own_components():
@@ -69,4 +91,6 @@ def test_function_words_carry_only_their_own_components():
     status, often = reconstruct_structural(STRUCTURAL["construction:often"], LAWS)
     assert often.assignments == {"QUANTITY": 1, "WHEN": 1}
     status, article = reconstruct_structural(STRUCTURAL["construction:indefinite"], LAWS)
-    assert status == "CONSTRUCTION_ONLY" and article.assignments == {} and len(article.silent) == 56
+    assert (
+        status == "CONSTRUCTION_ONLY" and article.assignments == {} and article.silent == ()
+    )  # nothing declared silent

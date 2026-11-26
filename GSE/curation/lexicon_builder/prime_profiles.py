@@ -7,9 +7,10 @@ IDENTIFIES_PRIME writes its own signed coordinate, ASSERTS_COMPONENT writes its 
 writes INTENSITY +1 (F125-F126). CLASSIFIES_HEAD and CLASSIFIES_SEMANTIC_KIND only switch on the laws keyed on them.
 PERMITS_COMBINATION and REQUIRES_ARGUMENT write nothing: "GOOD qualifies SOMETHING" does not put SOMETHING into GOOD.
 
-Content and explicit absence come from the shared laws through the ordinary solver; then, and only for primes, the
-authored boundary declares every remaining cell silent (projection contract ``prime_closure``; F159). Ordinary words
-never inherit that boundary.
+Content and explicit absence come from the shared laws through the ordinary solver. Silence comes only from the
+profile's own explicit silence decision, which names its coordinates (``definition_axiom.decisions``; prime_closure,
+F159), so a missing fact reopens its cell instead of being hidden as silence (F158 section 3). Ordinary words never
+inherit a prime's boundary.
 """
 
 from __future__ import annotations
@@ -75,6 +76,18 @@ def inputs(profile: dict, drop: frozenset[str] = frozenset()) -> tuple[tuple[Ass
     return tuple(assertions), context
 
 
+def authored_decisions(profile: dict) -> list[dict]:
+    raw = profile["definition_axiom"].get("decisions") or []
+    return json.loads(raw) if isinstance(raw, str) else list(raw)
+
+
+def declared_silence(profile: dict) -> tuple[str, ...]:
+    """The coordinates the profile explicitly declares silent (only those in the 56 banks)."""
+    return tuple(
+        sorted(b for d in authored_decisions(profile) if d["state"] == "empty" for b in d["coordinates"] if b in BANKS)
+    )
+
+
 def reconstruct(
     profile: dict, laws: tuple[Relation, ...], drop: frozenset[str] = frozenset()
 ) -> tuple[Resolution, Resolution]:
@@ -85,9 +98,8 @@ def reconstruct(
     if closed.code == "CONFLICT":
         return closed, closed
     boundary = tuple(
-        DomainRestriction(bank, (EMPTY,), "AUTHORED_BOUNDARY", f"{profile['prime']}:boundary", "prime_closure")
-        for bank, values in sorted(closed.domains.items())
-        if len(values) > 1 and EMPTY in values
+        DomainRestriction(bank, (EMPTY,), "AUTHORED_SILENCE", f"{profile['prime']}:silence", "prime_closure")
+        for bank in declared_silence(profile)
     )
     final = propagate(BANKS, assertions, laws, context, domain_restrictions=boundary, initial_domains=start)
     return closed, final
@@ -110,17 +122,12 @@ def structural_inputs(entry: dict) -> tuple[Assertion, ...]:
 
 
 def reconstruct_structural(entry: dict, laws: tuple[Relation, ...]) -> tuple[str, Resolution]:
-    """(status, resolution): LEXICAL_PROJECTION when the entry writes content, else CONSTRUCTION_ONLY (all silent)."""
+    """(status, resolution): LEXICAL_PROJECTION when the entry writes content, else CONSTRUCTION_ONLY. The entries
+    declare no silence, so cells their components and the laws leave undecided stay unresolved."""
     assertions = structural_inputs(entry)
     start = starting_domains(BANKS)
     context = {"lexical_unit_kind": "FUNCTION_WORD"}
     closed = propagate(BANKS, assertions, laws, context, initial_domains=start)
     if closed.code == "CONFLICT":
         return "CONFLICT", closed
-    boundary = tuple(
-        DomainRestriction(bank, (EMPTY,), "AUTHORED_BOUNDARY", f"{entry['reading_id']}:boundary", "function_word")
-        for bank, values in sorted(closed.domains.items())
-        if len(values) > 1 and EMPTY in values
-    )
-    final = propagate(BANKS, assertions, laws, context, domain_restrictions=boundary, initial_domains=start)
-    return ("LEXICAL_PROJECTION" if assertions else "CONSTRUCTION_ONLY"), final
+    return ("LEXICAL_PROJECTION" if assertions else "CONSTRUCTION_ONLY"), closed
