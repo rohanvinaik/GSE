@@ -29,7 +29,7 @@ from GSE.curation.lexicon_builder.silence import read_with_silence, starting_dom
 
 RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db"
 WORDS = ROOT / "docs/verification/lexicon-rebuild/closeout-2026-10-25/gate/gate_words.txt"
-LAWS = ROOT / "GSE/_archive/lexicon_builder/bank_laws.json"
+LAWS = ROOT / "GSE/curation/lexicon_builder/bank_laws.json"
 USED_LAWS = (
     "MODIFIER_LACKS_INDEPENDENT_OBJECTNESS",
     "MODIFIER_HEADS_NO_SUBSTANTIVE",
