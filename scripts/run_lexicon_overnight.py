@@ -318,8 +318,10 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="one tiny call: confirms the key and API billing")
     parser.add_argument("--budget", type=float, default=BUDGET_USD)
+    parser.add_argument("--task-file", type=Path, help="a reviewed task brief in the repo, used instead of TASK")
     args = parser.parse_args(argv)
-    prompt, budget = ("Reply with the single word OK.", 0.25) if args.check else (TASK, args.budget)
+    task = args.task_file.read_text() if args.task_file else TASK
+    prompt, budget = ("Reply with the single word OK.", 0.25) if args.check else (task, args.budget)
     started = datetime.now().isoformat(timespec="seconds")
     start = snapshot()
     with tempfile.TemporaryDirectory(prefix="lexicon-overnight-") as tmp:
