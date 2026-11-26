@@ -119,6 +119,23 @@ def _type_silences(entry: str, stored: dict) -> tuple[tuple, list]:
     return tuple(out), excepted
 
 
+def _valency_silences(entry: str, stored: dict) -> tuple[tuple, list]:
+    """Confirmed silence from NSM valency (valency_silence.py): a non-living thing, time or place cannot bear the
+    person-typed predicates. A stored decision stands: content is recorded as an exception, an explicit 0 is kept."""
+    from GSE.curation.lexicon_builder.valency_silence import nonliving_root, silent_banks
+
+    out, excepted = [], []
+    for bank in silent_banks(entry):
+        value = stored.get(bank)
+        if value and len(value) == 1:
+            if value[0]:
+                excepted.append({"entry": entry, "rule": "nsm-valency", "bank": bank, "stored": value[0]})
+            continue
+        root = nonliving_root(entry.rsplit(":", 1)[1])
+        out.append(DomainRestriction(bank, (EMPTY,), "nsm-valency", f"{root}#{bank}", "valency"))
+    return tuple(out), excepted
+
+
 def _cells(domains: dict) -> dict:
     out = collections.Counter()
     for values in domains.values():
@@ -182,6 +199,8 @@ def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dic
             if role:
                 context["own_role"] = role
             silences, excepted = _type_silences(entry, stored) if UNREVIEWED_TYPE_SILENCE else ((), [])
+            valency, valency_excepted = _valency_silences(entry, stored)
+            silences, excepted = silences + valency, excepted + valency_excepted
             restrictions = restrictions + silences
             exceptions.extend(excepted)
             kind = _semantic_kind(entry)
