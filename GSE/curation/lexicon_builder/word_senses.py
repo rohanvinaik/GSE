@@ -502,9 +502,23 @@ def build_word(
         anchor = settle_anchor(agreed, relations, pos)
         for index, sense in enumerate(collapse(definitions, anchor, corroboration)):
             feeling = pos == "noun" and names_a_feeling(lemma, sense)
-            row = close_sense(lemma, pos, index, sense, agreed, relations, feeling)
+            # NSM molecule inheritance (word_sense_nsm_molecules): what every member inherits from a bound NSM
+            # category explication, on banks no member value or agreed source sign speaks to.
+            inherited = {}
+            if pos == "noun":
+                from .word_sense_nsm_molecules import sense_inheritance
+
+                stated = {bank for d in sense.members for bank in d.resolved} | set(agreed)
+                inherited = {
+                    b: v for b, v in sense_inheritance([d.entry_id for d in sense.members]).items() if b not in stated
+                }
+            sense_agreed = {**agreed, **{bank: value for bank, (value, _w) in inherited.items()}}
+            row = close_sense(lemma, pos, index, sense, sense_agreed, relations, feeling)
             for bank, origin in row["provenance"].items():
-                if origin["from"] == "source-agreement":  # name the agreeing measuring families
+                if bank in inherited and origin["from"] == "source-agreement":
+                    origin["from"] = "nsm-molecule"
+                    origin["warrant"] = inherited[bank][1]
+                elif origin["from"] == "source-agreement":  # name the agreeing measuring families
                     origin["families"] = list(agreement[bank].measuring[row["assignments"][bank]])
             rows.append(row)
     return rows

@@ -114,6 +114,13 @@ def _unwarranted(value, origin, domains, votes, admitted, bank, closure=None) ->
             and any(sa.family_of(s) == f and signs.get(bank) == value for s, signs in votes.items())
         ]
         return None if len(backed) >= sa.MIN_FAMILIES else f"families {families} back it {len(backed)} times"
+    if kind == "nsm-molecule":  # recomputed from the verified NSM extracts and WordNet (word_sense_nsm_molecules)
+        from GSE.curation.lexicon_builder.word_sense_nsm_molecules import inherited
+
+        warrant = origin.get("warrant") or {}
+        entries = [e for e in warrant.get("entries") or [] if e.startswith("wordnet:")]
+        bad = [e for e in entries if inherited(e.rsplit(":", 1)[1]).get(bank, (None,))[0] != value]
+        return None if entries and not bad else f"NSM molecule inheritance does not give it: {bad[:3] or 'none named'}"
     if kind == "rules":
         rules = origin.get("rules") or []
         unknown = [r for r in rules if r not in admitted]
