@@ -254,6 +254,79 @@ satisfy three rules:
     6. Which bank and sign, if any, for little-few, more, much-many, some and some-time?
     7. Closed-class axioms zero undeclared banks, so "nowhere" is WHERE 0. Should the curated entries declare them?
 
+## NSM-disagreement tail (F148, 2026-11-26; brief `nsm-disagreement-tail.md`)
+
+- [x] TL-1 Classify every disagreement with NSM's verified explications by computed cause. Done with
+  `GSE/curation/lexicon_builder/word_sense_nsm_tail.py`, `scripts/word_sense_nsm_tail.py` and
+  `tests/test_lexicon_nsm_tail.py`.
+  - Receipts:
+    - `docs/verification/2026-11-26-nsm-tail-classes.json`;
+    - `docs/verification/2026-11-26-nsm-disagreement-tail.md` (the summary).
+  - The 381 disagreements, from 35 explications (12 contradictions and 369 open primes):
+
+    | Class | Count | Breakdown |
+    |---|---|---|
+    | CONTENT | 217 | no source vote 166; association families only 45; one measuring family 6 |
+    | LOGICAL_OPERATOR | 41 | CAN 26, NOT 15 |
+    | SENSE_SPLIT | 33 | |
+    | COPULA_BE | 28 | |
+    | TEMPLATE_FRAME | 27 | |
+    | EXPONENT_COLLISION | 22 | the article "a" read as AS/LIKE |
+    | CONVENTION_ZERO | 12 | GOOD on nouns 11, SOMETHING on childlike 1 |
+    | DEICTIC_THIS | 1 | |
+
+  - Of the 41 agreements, 11 rest only on THIS read as SOMETHING and 2 only on the collision.
+- [x] TL-2 Fixes, measured before writing anything. None was admitted.
+  - The synset carry was refuted. It would have given a derived-spelling WordNet definition its synset's
+    native-spelling values: 20,762 cells, 0 stored-value clashes, but 5 NSM counterexamples (hands and legs, WANT 0
+    and BODY 0). See `docs/verification/2026-11-26-tail-synset-carry-refuted.md`.
+  - Cells changed: 0.
+  - Rebuild on a copy of the live lexicon (`sparse-release-022-senses3-tail.db`):
+    - verify 300/300;
+    - against live: 0 filled, 0 changed, 0 removed;
+    - 135,417 nonzero of 264,317 assigned values, and 5,933,651 unassigned cells, before and after;
+    - NSM measurement 41 / 12 / 369, before and after.
+  - Tests:
+    - word-sense tests 65 passed;
+    - the 66 encoder test files: 1,691 passed, 12 xfailed, and only the accepted genealogy-store failure.
+  - The launcher's candidate `sparse-release-022-word-senses.db` was stale (47/300 mismatches against code unchanged
+    since 5d018f0). It was rebuilt with `--all` and now verifies 300/300.
+    - Its definitions come from bare release-022, before SP-1. Against live senses3 it shows 4,388 filled, 5 changed
+      (the SP-1 BIG changes, reversed) and 16,439 removed (mostly SP-1 identity values). This run caused none of it.
+    - This run's own comparison is the tail candidate: 0 / 0 / 0.
+  - `lint-imports` has one broken contract from before this run: `GSE.symbolic.clause_selection` imports
+    `valency_absence` (1585115).
+- Rohan decides:
+  1. GOOD on nouns (FC-7). NSM puts GOOD or BAD in the word's own clauses in 11 noun explications:
+     - happiness +1 (GOOD inside a FEEL clause);
+     - disease, violence, snake and children −1;
+     - animals, dogs, kangaroo, trauma and parricide with both signs.
+
+     The release's noun-evaluation zero (F057, D-1) holds all of them at 0.
+  2. Derived spellings. 40,719 WordNet definitions sit under a spelling outside their synset's `lemma_names` (dogs,
+     birds, accepted …). The native-lemma guard keeps reviewed rules off them on purpose ("identity abstention").
+     Should verified inflections (for example Wiktionary `form_of` to a native lemma) carry their synset's values? The
+     carry as measured is refuted, and its counterexamples come from question 4(e).
+  3. Vertebrate BODY scope. NSM's animals and creatures explications use BODY, but animal.n.01 is outside the reviewed
+     vertebrate rule. Widen it or not?
+  4. The measurement instrument (`template_types`, `lexicon_measure_vs_nsm.py`; not this run's files to change). Five
+     faults it could fix:
+     - (a) the article "a" is read as AS, so LIKE (22 disagreements, 2 agreements);
+     - (b) THIS is read as SOMETHING (11 agreements rest on it);
+     - (c) every "is" and "are" is read as BE (28);
+     - (d) signs are ignored: BAD, SMALL, OTHER and "inside" are −1 poles, which affects 28 content disagreements and
+       the GOOD contradictions;
+     - (e) clauses whose subject is a participant that `own_lines` does not exclude count as the referent's own,
+       which produces the WANT counterexamples above and many THINK, FEEL and WANT disagreements.
+
+     Should it be corrected before the tail is measured again?
+  5. Operators and relations. Should a noun's banks carry the following at all?
+     - CAN and NOT (41);
+     - the referent's parts and their counts (PART, ONE, TWO);
+     - PEOPLE from the category line of a plural human noun whose sense holds SOMEONE+.
+  6. Sense split (33). Should the NSM comparison be made against the sense an explication explicates, rather than
+     the reading? Under the no-main-sense ruling the reading stays open there.
+
 ## Urgent checkpoint execution — 2026-11-24
 
 The direct user instruction now prioritizes a validated usable checkpoint before

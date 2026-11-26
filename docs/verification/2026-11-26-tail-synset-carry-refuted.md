@@ -63,6 +63,9 @@ Two facts for Rohan. Neither rescues the fix.
    `template_types.own_lines` counts such a clause as the referent's own, because the clause names the referent and
    its subject is not on the participant list. The stored WANT 0 on the native `hand.n.01` and `leg.n.01` therefore
    already disagrees with NSM under this instrument; the carry only copies it.
+3. The BODY 0 counterexample lands on `hand.n.09`, the unit-of-length sense. NSM's explication is of the body part.
+   The counterexample exists because the test compares the explication with every sense of the word, not only the
+   sense it explicates.
 
 Even unrefuted, the carry would change no reading-level agreement in the NSM measurement. Read through its base lemma
 (child, woman, bird, dog, animal, …), each plural explicandum agrees on exactly the same primes: 19 agree and 4
