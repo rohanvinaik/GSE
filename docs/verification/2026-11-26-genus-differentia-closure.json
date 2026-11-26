@@ -131,7 +131,20 @@
     "501-1500": {"zero": 2055, "nonzero": 1083},
     "1501-5000": {"zero": 1120, "nonzero": 2289},
     "5001+": {"zero": 1061, "nonzero": 4364},
-    "absent": {"zero": 2227, "nonzero": 6080}
+    "absent": {"zero": 2227, "nonzero": 6080},
+    "split_axiom_vs_propagated": {
+      "1-500": {"axiom_zero": 8624, "propagated_zero": 377, "propagated_nonzero": 499},
+      "501-1500": {"axiom_zero": 1990, "propagated_zero": 65, "propagated_nonzero": 1083},
+      "1501-5000": {"axiom_zero": 1050, "propagated_zero": 70, "propagated_nonzero": 2289},
+      "5001+": {"axiom_zero": 661, "propagated_zero": 400, "propagated_nonzero": 4364},
+      "absent": {"axiom_zero": 889, "propagated_zero": 1338, "propagated_nonzero": 6080},
+      "note": "most of the 1-500 gain is the axioms' own zeros (good, feel, the, ...), not propagation; propagation gains fall mostly on rarer words"
+    }
+  },
+  "release_default_rules_check": {
+    "concern": "close resolves without the release's evidence_banks, so the two evidence-conditioned defaults (founder:absence:good-big and founder:absence:big-good, adjectives only: a nonzero GOOD sets BIG to 0 and the reverse) could fire where the release blocked them",
+    "checked": "the closure narrowed 18 adjective definitions; it settled GOOD or BIG on 14 of them, and all 14 have both at 0 (9 from genus zeros, 5 prime axioms). A default can only narrow one bank to 0 when the other is nonzero, so no settled cell came from a default.",
+    "default_fired_cells": 0
   },
   "contradictions": {
     "by_type": {"AXIOM_OWN_BANK_OPEN": 16, "STORED_CONFLICT": 1},
