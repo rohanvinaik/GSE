@@ -71,9 +71,26 @@ def _additions(conn):
     return out
 
 
+def _receipt_bound(conn) -> set[str]:
+    """Every definition a model receipt pins, live or archived: a receipt pins the observations its definition had
+    when it was asked, so a new observation on it would break that receipt's replay (MODEL_OBSERVATIONS_MISMATCH)."""
+    from GSE.curation.lexicon_builder.rule_history import read_history
+    from GSE.curation.lexicon_builder.validation import _relations
+
+    bound = {row[0] for row in conn.execute("SELECT DISTINCT entry_id FROM accepted_model_receipts")}
+    tables = {row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    if "model_reconsideration_archive" in tables:
+        bound |= {row[0] for row in conn.execute("SELECT DISTINCT entry_id FROM model_reconsideration_archive")}
+    history = read_history(conn, _relations(_metadata(conn, "relations")))
+    for event in (history or {}).get("events", []):
+        for archived in event["archived"]:
+            bound.add(archived["definition"]["entry_id"])
+    return bound
+
+
 def revise_entries(conn):
     additions = _additions(conn)
-    bound = {row[0] for row in conn.execute("SELECT DISTINCT entry_id FROM accepted_model_receipts")}
+    bound = _receipt_bound(conn)
     _prepare_context_index(conn)
     rules = _relations(_metadata(conn, "relations"))
     entries = tuple(sorted(e for e in additions if e not in bound))
