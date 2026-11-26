@@ -91,3 +91,36 @@ def reconstruct(
     )
     final = propagate(BANKS, assertions, laws, context, domain_restrictions=boundary, initial_domains=start)
     return closed, final
+
+
+def load_structural() -> list[dict]:
+    return json.loads(PROFILES.read_text())["structural_entries"]
+
+
+def structural_inputs(entry: dict) -> tuple[Assertion, ...]:
+    """A hand-built function word's own lexical projection (F148; F158 section 4): only its asserted components."""
+    out = []
+    for claim in entry["claims"]:
+        if claim["kind"] == "ASSERTS_COMPONENT":
+            value = STATE[claim["state"]]
+            out.append(Assertion(claim["coordinate"], value, claim["source"], claim["claim_id"], "function_word"))
+        elif claim["kind"] == "ESTABLISHES_DEGREE_DOMAIN":
+            out.append(Assertion("INTENSITY", 1, claim["source"], claim["claim_id"], "function_word"))
+    return tuple(out)
+
+
+def reconstruct_structural(entry: dict, laws: tuple[Relation, ...]) -> tuple[str, Resolution]:
+    """(status, resolution): LEXICAL_PROJECTION when the entry writes content, else CONSTRUCTION_ONLY (all silent)."""
+    assertions = structural_inputs(entry)
+    start = starting_domains(BANKS)
+    context = {"lexical_unit_kind": "FUNCTION_WORD"}
+    closed = propagate(BANKS, assertions, laws, context, initial_domains=start)
+    if closed.code == "CONFLICT":
+        return "CONFLICT", closed
+    boundary = tuple(
+        DomainRestriction(bank, (EMPTY,), "AUTHORED_BOUNDARY", f"{entry['reading_id']}:boundary", "function_word")
+        for bank, values in sorted(closed.domains.items())
+        if len(values) > 1 and EMPTY in values
+    )
+    final = propagate(BANKS, assertions, laws, context, domain_restrictions=boundary, initial_domains=start)
+    return ("LEXICAL_PROJECTION" if assertions else "CONSTRUCTION_ONLY"), final

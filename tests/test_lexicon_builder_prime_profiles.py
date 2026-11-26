@@ -45,3 +45,28 @@ def test_removing_a_warrant_changes_exactly_its_cell():
     _c, ablated = reconstruct(PROFILES["GOOD"], LAWS, frozenset({degree}))
     changed = {b for b in full.domains if full.domains[b] != ablated.domains[b]}
     assert changed == {"INTENSITY"} and ablated.domains["INTENSITY"] == {EMPTY}
+
+
+STRUCTURAL = {
+    e["reading_id"]: e
+    for e in __import__("GSE.curation.lexicon_builder.prime_profiles", fromlist=["load_structural"]).load_structural()
+}
+
+
+@pytest.mark.parametrize("reading", sorted(STRUCTURAL))
+def test_every_function_word_has_a_decided_home(reading):
+    from GSE.curation.lexicon_builder.prime_profiles import reconstruct_structural
+
+    status, final = reconstruct_structural(STRUCTURAL[reading], LAWS)
+    assert status in ("LEXICAL_PROJECTION", "CONSTRUCTION_ONLY") and final.code == "RESOLVED", final.conflicts
+
+
+def test_function_words_carry_only_their_own_components():
+    from GSE.curation.lexicon_builder.prime_profiles import reconstruct_structural
+
+    status, well = reconstruct_structural(STRUCTURAL["construction:well"], LAWS)
+    assert status == "LEXICAL_PROJECTION" and well.assignments == {"GOOD": 1}
+    status, often = reconstruct_structural(STRUCTURAL["construction:often"], LAWS)
+    assert often.assignments == {"QUANTITY": 1, "WHEN": 1}
+    status, article = reconstruct_structural(STRUCTURAL["construction:indefinite"], LAWS)
+    assert status == "CONSTRUCTION_ONLY" and article.assignments == {} and len(article.silent) == 56
