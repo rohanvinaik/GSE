@@ -405,6 +405,7 @@ class GSEEncoder:
         token_vectors: List[Tuple[int, SparseVector, CompositionalMetadata]] = []
         operator_indices: List[int] = []
         comp_meta: CompositionalMetadata
+        clause_solution: Optional[Dict[int, frozenset]] = None  # the sentence's sense constraints, solved once
 
         for i, tok in enumerate(doc):
             # Lexicon lookup (static primitives from database)
@@ -488,23 +489,14 @@ class GSEEncoder:
                     if selection["code"] == "EXACT_WORDNET_SENSE":
                         entry_id = selection["entry_id"]
                         lexical = self.lexical_lookup(lookup_form, entry_id=entry_id)
-                    elif eligible_pos == "VERB" and lexical.get("reading_mode") == "WORD_SENSES":
-                        # Grammar is a constraint harness: the clause's argument pattern eliminates senses
-                        # whose own WordNet frames cannot host it (GSE.symbolic.frame_selection).
-                        from GSE.symbolic.frame_selection import clause_pattern, surviving
+                    elif lexical.get("reading_mode") == "WORD_SENSES":
+                        # Grammar is a constraint harness: the whole sentence's frames and bearer types prune each
+                        # word's definitions together, to a fixpoint (GSE.symbolic.clause_selection).
+                        from GSE.symbolic.clause_selection import solve
 
-                        def someone(word):
-                            senses = self.lexical_lookup(word, "NOUN").get("word_senses") or {}
-                            return (senses.get("assignments") or {}).get("SOMEONE")
-
-                        kept = surviving(lookup_form, alternatives, clause_pattern(doc, i, someone))
-                        if kept != set(alternatives):
-                            lexical = self.lexical_lookup(lookup_form, word_pos, allowed=frozenset(kept))
-                    elif eligible_pos == "NOUN" and lexical.get("reading_mode") == "WORD_SENSES":
-                        # The bearer of a person-typed predicate keeps its someone or creature senses.
-                        from GSE.symbolic.noun_selection import bearer_senses
-
-                        kept = bearer_senses(self, doc, i, lookup_form)
+                        if clause_solution is None:
+                            clause_solution = solve(self, doc)
+                        kept = clause_solution.get(i, frozenset()) & set(alternatives)
                         if kept and kept != set(alternatives):
                             lexical = self.lexical_lookup(lookup_form, word_pos, allowed=frozenset(kept))
                     lexical = {**lexical, "contextual_grounding": {**selection, "considered_entry_ids": alternatives}}
