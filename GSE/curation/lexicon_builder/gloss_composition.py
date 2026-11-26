@@ -5,10 +5,13 @@ definition is never assembled through exclusion or through negatives; the lexico
 the sources provided for them. So this module composes only nonzero values, each traced to what produced it, and
 never writes a zero.
 
-- **A word's banks are its own denotatum.** A noun definition takes only its genus: the exact WordNet hypernym
-  synsets for a WordNet sense, the genus head ``parse_gloss`` reads for a Wiktionary sense. A verb, adjective or
-  adverb definition composes its parsed genus and differentia heads, minus the identity banks (identity enters only
-  through a noun's genus). An identity template ("present participle of ban") is its operand, every bank.
+- **A word's banks are its own denotatum, so a definition takes its genus only.** The genus is the exact WordNet
+  hypernym synsets for a WordNet noun or verb; otherwise the head ``parse_gloss`` reads, at the exact synset the
+  Princeton gloss tags name when there is one (``wordnet_glosstag``). Differentia (relative clauses, objects,
+  complements, purposes) describe what the referent does or what a predicate takes, not what the word denotes: "a
+  hen that lays eggs" is not DO, "diligent in investigation" is not DO. A verb, adjective or adverb never takes the
+  identity banks (identity enters only through a noun's genus). An identity template ("present participle of ban")
+  is its operand, every bank.
 - **A contributing word is read from its definitions, not from merged word senses.** Its reading is what every one
   of its definitions holds (a definition silent on a bank allows every sign), so a homonym's values never spill
   onto another's: "nail" the fastener does not lend QUANTITY from "nail" the unit. This is monotone: a value added
@@ -75,7 +78,13 @@ class Composition:
 class Lexicon:
     """One release's definitions in memory: domains, words, synsets, parses."""
 
-    def __init__(self, conn: sqlite3.Connection, root: Path, parses: Mapping[str, dict] | None = None):
+    def __init__(
+        self,
+        conn: sqlite3.Connection,
+        root: Path,
+        parses: Mapping[str, dict] | None = None,
+        tags: Mapping[str, list[dict]] | None = None,
+    ):
         self.identity = identity_bank_set(root)
         self.domain: dict[str, int] = {}
         self.word: dict[str, tuple[str, str]] = {}
@@ -96,6 +105,7 @@ class Lexicon:
                 self.by_synset[gd.synset_of(entry)].append(entry)
         self.closed = frozenset(self.word[e][0] for e in self.domain if e.startswith("gse_closed_class:"))
         self.parses = dict(parses or {})
+        self.tags = dict(tags or {})  # synset -> its definition's sense-tagged words (wordnet_glosstag)
         self._held: dict[str, dict[str, int]] = {}
 
     # -- values -----------------------------------------------------------------------------------------------------
@@ -159,14 +169,27 @@ class Lexicon:
             operand_pos = gd.operand_pos(template, pos)  # an identity template is its operand, every bank
             add(self.reading(parsed["genus"], operand_pos, comp), f"{template} {parsed['genus']}", True)
             return dict(out)
-        if template != "genus_differentia":
-            return dict(out)
-        if parsed.get("genus") and not parsed.get("synset_genus"):
-            add(self.reading(parsed["genus"], pos, comp), f"genus word {parsed['genus']}", pos == "noun")
-        if pos != "noun" and not parsed.get("negated"):
-            for head in parsed.get("differentia", ()):
-                add(self.reading(head, None, comp), f"differentia {head}", False)
+        if template != "genus_differentia" or parsed.get("negated"):
+            return dict(out)  # a negated gloss states no positive content beyond its structural hypernym
+        genus = parsed.get("genus")
+        if genus and not parsed.get("synset_genus"):
+            link = self._tagged_head(entry, genus)
+            if link is not None:  # the genus head at the exact synset its gloss tag names
+                values = self.agreement(self.by_synset.get(link["synset"], ()), comp)
+                add(values, f"genus {genus}={link['synset']}", pos == "noun")
+            else:
+                add(self.reading(genus, pos, comp), f"genus word {genus}", pos == "noun")
+        # Differentia (objects, complements, purposes) describe a predicate's arguments, not what it denotes.
         return dict(out)
+
+    def _tagged_head(self, entry: str, genus: str) -> dict | None:
+        if not entry.startswith("wordnet:"):
+            return None
+        wanted = genus.lower().replace(" ", "_")
+        for link in self.tags.get(gd.synset_of(entry), ()):
+            if link["key"].split("%", 1)[0].lower() == wanted:
+                return link
+        return None
 
     # -- the fixpoint -----------------------------------------------------------------------------------------------
     def close(self, entries: Iterable[str] | None = None, max_passes: int = 50) -> Composition:

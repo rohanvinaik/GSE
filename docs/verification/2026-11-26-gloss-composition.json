@@ -1,0 +1,472 @@
+{
+ "format": "GSE.gloss-composition-receipt/1",
+ "design": "openspec/changes/lexicon-symbolic-foundation/gloss-composition.md",
+ "candidate": "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db",
+ "candidate_sha256": "ce8c611b6e3b7c59099f1b099a6048fbd49b5ee7011d5a8a8db4e69d3371093f (recorded by round 1's close receipt; pointer unchanged since)",
+ "commands": [
+  ".venv/bin/python scripts/compose_lexicon_glosses.py parse",
+  ".venv/bin/python scripts/compose_lexicon_glosses.py sample --passes 1",
+  ".venv/bin/python scripts/compose_lexicon_glosses.py close"
+ ],
+ "inputs": {
+  "parses": {
+   "path": "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do-gloss-parses.pkl",
+   "sha256": "e8cf10dc5a81f572b1ae261ad86a098c4e2fc8d4b18dee4e87a99857aa24c401",
+   "definitions": 375424
+  },
+  "glosstag": {
+   "archive": "data/external/wordnet-glosstag/WordNet-3.0-glosstag.tar.bz2",
+   "sha256": "c7b8318ac873ecbea14b225f33465210ec20ce19d9c6f7fc82bbbbe1e6b3080a",
+   "url": "https://wordnetcode.princeton.edu/glosstag-files/WordNet-3.0-glosstag.tar.bz2",
+   "license": "WordNet 3.0 license (notice in WordNet-3.0/glosstag/LICENSE.txt)",
+   "link_stats": {
+    "untagged": 200953,
+    "man": 325060,
+    "satellite_key_normalized": 37353,
+    "auto_monosemous": 79200,
+    "synsets": 117659,
+    "auto_dropped_polysemous": 2096,
+    "unresolved_key": 518
+   }
+  }
+ },
+ "seed7_sample_one_pass": {
+  "v3_prototype_merged_senses": {
+   "nonzero_per_definition_after": 1.64,
+   "note": "spill: merged word senses (nail/noun is one sense of ten definitions)"
+  },
+  "v4_strict_definition_agreement": {
+   "nonzero_per_definition_before": 0.44033333333333335,
+   "nonzero_per_definition_after": 0.45466666666666666,
+   "cells_gained": 43,
+   "contested_cells": 0
+  },
+  "v5_tagged_links_all_gloss_words": {
+   "nonzero_per_definition_before": 0.44033333333333335,
+   "nonzero_per_definition_after": 0.5543333333333333,
+   "cells_gained": 342,
+   "contested_cells": 0
+  },
+  "v6_genus_head_only_at_tagged_synset": {
+   "nonzero_per_definition_before": 0.44033333333333335,
+   "nonzero_per_definition_after": 0.4646666666666667,
+   "cells_gained": 73,
+   "contested_cells": 0
+  }
+ },
+ "whole_lexicon_v6": {
+  "definitions": 401596,
+  "nonzero_per_definition_before": 0.4363589278777677,
+  "nonzero_per_definition_after": 0.4909635554138985,
+  "cells_gained": 21929,
+  "passes": [
+   8722,
+   6027,
+   3411,
+   1272,
+   826,
+   537,
+   472,
+   231,
+   236,
+   139,
+   52,
+   4
+  ],
+  "contested_cells": 0,
+  "contradictions": {
+   "OPPOSES_HELD_VALUE": 1
+  },
+  "gained_by_source_pos": {
+   "wordnet/verb": 15217,
+   "wordnet/adj": 3771,
+   "wordnet/noun": 2434,
+   "wordnet/adv": 237,
+   "wiktionary/noun": 230,
+   "wiktionary/adj": 30,
+   "wiktionary/verb": 6,
+   "wiktionary/adv": 4,
+   "gse/verb": 0,
+   "gse/demonstrative": 0,
+   "gse_closed_class/auxiliary": 0,
+   "gse_closed_class/conjunction": 0,
+   "gse_closed_class/determiner": 0,
+   "gse_closed_class/preposition": 0,
+   "gse_closed_class/adv": 0,
+   "gse_closed_class/particle": 0,
+   "gse_closed_class/pronoun": 0,
+   "nsm_chart/nsm_lexical_unit": 0,
+   "nsm_chart/nsm_construction": 0,
+   "websters1913/noun": 0,
+   "wiktionary/symbol": 0,
+   "wiktionary/prep": 0,
+   "wiktionary/name": 0,
+   "wiktionary/phrase": 0,
+   "wiktionary/prep_phrase": 0,
+   "wiktionary/character": 0,
+   "wiktionary/num": 0,
+   "wiktionary/intj": 0,
+   "wiktionary/pron": 0,
+   "wiktionary/contraction": 0,
+   "wiktionary/particle": 0,
+   "wiktionary/det": 0,
+   "wiktionary/conj": 0,
+   "wiktionary/postp": 0,
+   "wiktionary/article": 0,
+   "wiktionary/suffix": 0,
+   "wiktionary/infix": 0,
+   "wiktionary/punct": 0
+  },
+  "seconds": 36,
+  "output": "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do-gloss-composition.pkl",
+  "output_sha256": "29b7094ece75274d80e87da937ff477f7527d816192f6ad340850dc707644909",
+  "gained_by_bank": {
+   "HAPPEN+": 9164,
+   "CAUSE+": 8964,
+   "DO+": 1260,
+   "BE+": 712,
+   "THINK+": 577,
+   "MOVE+": 525,
+   "SOMEONE+": 132,
+   "TOUCH+": 105,
+   "SAY+": 104,
+   "BODY+": 90,
+   "SOMETHING+": 62,
+   "WHEN+": 53,
+   "FEEL+": 46,
+   "PART+": 24,
+   "QUANTITY+": 18,
+   "TWO+": 16,
+   "CAN+": 15,
+   "FAR-": 13,
+   "BIG+": 10,
+   "WANT+": 8,
+   "WHERE+": 7,
+   "HEAR+": 4,
+   "PEOPLE+": 3,
+   "SEE+": 3,
+   "GOOD-": 3,
+   "ALIVE+": 2,
+   "TRUE+": 2,
+   "GOOD+": 2,
+   "SAME-": 2,
+   "WANT-": 2,
+   "BIG-": 1
+  },
+  "contradiction_records": [
+   {
+    "kind": "OPPOSES_HELD_VALUE",
+    "entry_id": "wordnet:hand:hand.n.09",
+    "bank": "BODY",
+    "value": 1,
+    "source": "genus handbreadth.n.01"
+   }
+  ]
+ },
+ "evaluation_reading": {
+  "note": "The main session's reading of sampled gains, for evaluation only; no value was decided by it.",
+  "v5_40_examples": "about two thirds right; errors: negation ignored on the tagged path; arguments' content attributed to predicates",
+  "v6_40_examples": "about 30 of 40 right; errors: passive-participle adjectives take the verb's CAUSE (driven, blighted, froward); values inherited from the release (shutout THINK via defeat.n.01)",
+  "v6_20_late_pass_examples": "about 14 of 20 right; same two classes (captivated, artificial CAUSE; teratoma BE via tumor.n.01)"
+ },
+ "v6_sample_examples": [
+  {
+   "entry": "wordnet:antipersonnel:antipersonnel.s.01",
+   "gloss": "designed to inflict death or personal injury rather than material destruction",
+   "gained": {
+    "THINK": "+1 <- pass 1: genus design=design.v.02"
+   }
+  },
+  {
+   "entry": "wordnet:angry:angry.s.01",
+   "gloss": "(of the elements) as if showing violent anger",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus show=show.v.04",
+    "CAUSE": "+1 <- pass 1: genus show=show.v.04"
+   }
+  },
+  {
+   "entry": "wordnet:layers:layer.n.04",
+   "gloss": "a hen that lays eggs",
+   "gained": {
+    "BODY": "+1 <- pass 1: genus hen.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:smolderingly:smolderingly.r.01",
+   "gloss": "with barely repressed anger",
+   "gained": {
+    "FEEL": "+1 <- pass 1: genus anger=anger.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:supplied:supply.v.01",
+   "gloss": "give something useful or necessary to",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus give.v.03",
+    "CAUSE": "+1 <- pass 1: genus give.v.03"
+   }
+  },
+  {
+   "entry": "wordnet:volatilised:gasified.s.01",
+   "gloss": "converted into a gas or vapor",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus convert=convert.v.02",
+    "CAUSE": "+1 <- pass 1: genus convert=convert.v.02"
+   }
+  },
+  {
+   "entry": "wiktionary:en-swinger-en-noun-H~h3qtha:cf0ecc12d9263c16e154c7807b686a9b4f2426a35d55c8eef41c3460b458a4fd",
+   "gloss": "A swing voter.",
+   "gained": {
+    "SOMEONE": "+1 <- pass 1: genus word voter"
+   }
+  },
+  {
+   "entry": "wordnet:erected:rear.v.04",
+   "gloss": "cause to rise up",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus raise.v.02",
+    "CAUSE": "+1 <- pass 1: genus raise.v.02"
+   }
+  },
+  {
+   "entry": "wordnet:cables:cable.v.02",
+   "gloss": "fasten with a cable",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus fasten.v.01",
+    "CAUSE": "+1 <- pass 1: genus fasten.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:kindling:ignition.n.03",
+   "gloss": "the act of setting something on fire",
+   "gained": {
+    "CAUSE": "+1 <- pass 1: genus burning.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:professed:avowed.s.01",
+   "gloss": "openly declared as such",
+   "gained": {
+    "SAY": "+1 <- pass 1: genus declare=announce.v.02"
+   }
+  },
+  {
+   "entry": "wiktionary:en-autistics-en-noun-le2wWcGb:95185de43e5be1ffae9a5b21ae23523b93888241d1855de70e3812f02263dc35",
+   "gloss": "plural of autistic",
+   "gained": {
+    "SOMEONE": "+1 <- pass 1: plural_of autistic"
+   }
+  },
+  {
+   "entry": "wordnet:leaves:farewell.n.02",
+   "gloss": "the act of departing politely",
+   "gained": {
+    "MOVE": "+1 <- pass 1: genus departure.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:tickling:tickle.n.02",
+   "gloss": "the act of tickling",
+   "gained": {
+    "TOUCH": "+1 <- pass 1: genus touch.n.05"
+   }
+  },
+  {
+   "entry": "wordnet:attached:attached.a.03",
+   "gloss": "associated in an exclusive sexual relationship",
+   "gained": {
+    "THINK": "+1 <- pass 1: genus associate=associate.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:stick:lodge.v.02",
+   "gloss": "put, fix, force, or implant",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus fasten.v.01",
+    "CAUSE": "+1 <- pass 1: genus fasten.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:shutout:shutout.n.01",
+   "gloss": "a defeat in a game where one side fails to score",
+   "gained": {
+    "THINK": "+1 <- pass 1: genus defeat.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:facilities:adeptness.n.01",
+   "gloss": "skillful performance or ability without difficulty",
+   "gained": {
+    "BE": "+1 <- pass 1: genus skillfulness.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:toes:toe.n.01",
+   "gloss": "one of the digits of the foot",
+   "gained": {
+    "BODY": "+1 <- pass 1: genus extremity.n.05"
+   }
+  },
+  {
+   "entry": "wordnet:spreading:spread.n.10",
+   "gloss": "act of extending over a wider scope or expanse of space or time",
+   "gained": {
+    "CAUSE": "+1 <- pass 1: genus extension.n.02"
+   }
+  },
+  {
+   "entry": "wiktionary:en-Sp-en-noun-zVWeoKvK:a6f6d3a6b91efc5cddf6487fae0780fc3a9bd1911fb75018036a328928d00a69",
+   "gloss": "September",
+   "gained": {
+    "SOMETHING": "+1 <- pass 1: genus word september",
+    "WHEN": "+1 <- pass 1: genus word september"
+   }
+  },
+  {
+   "entry": "wordnet:froward:froward.s.01",
+   "gloss": "habitually disposed to disobedience and opposition",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus dispose=dispose.v.03",
+    "CAUSE": "+1 <- pass 1: genus dispose=dispose.v.03"
+   }
+  },
+  {
+   "entry": "wordnet:savoury:mouth-watering.s.01",
+   "gloss": "pleasing to the sense of taste",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus please=please.v.01",
+    "CAUSE": "+1 <- pass 1: genus please=please.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:goaded:driven.s.01",
+   "gloss": "compelled forcibly by an outside agency",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus compel=compel.v.01",
+    "CAUSE": "+1 <- pass 1: genus compel=compel.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:rap:rap.n.02",
+   "gloss": "a gentle blow",
+   "gained": {
+    "TOUCH": "+1 <- pass 1: genus blow.n.02"
+   }
+  },
+  {
+   "entry": "wordnet:spoilt:blighted.s.01",
+   "gloss": "affected by blight; anything that mars or prevents growth or prosperity",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus affect=affect.v.01",
+    "CAUSE": "+1 <- pass 1: genus affect=affect.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:tapestried:tapestried.s.01",
+   "gloss": "hung or decorated with tapestry",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus hang=hang.v.12",
+    "CAUSE": "+1 <- pass 1: genus hang=hang.v.12"
+   }
+  },
+  {
+   "entry": "wordnet:skedaddle:skedaddle.n.01",
+   "gloss": "a hasty flight",
+   "gained": {
+    "MOVE": "+1 <- pass 1: genus escape.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:corrections:correction.n.01",
+   "gloss": "the act of offering an improvement to replace a mistake; setting right",
+   "gained": {
+    "CAUSE": "+1 <- pass 1: genus improvement.n.02"
+   }
+  },
+  {
+   "entry": "wordnet:gibelike:derisive.s.01",
+   "gloss": "abusing vocally; expressing contempt or ridicule",
+   "gained": {
+    "SAY": "+1 <- pass 1: genus abuse=abuse.v.03"
+   }
+  },
+  {
+   "entry": "wordnet:cascade:shower.n.04",
+   "gloss": "a sudden downpour (as of tears or sparks etc) likened to a rain shower",
+   "gained": {
+    "MOVE": "+1 <- pass 1: genus descent.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:dilettantish:dilettante.s.01",
+   "gloss": "showing frivolous or superficial interest; amateurish",
+   "gained": {
+    "DO": "+1 <- pass 1: genus show=express.v.01",
+    "HAPPEN": "+1 <- pass 1: genus show=express.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:sacrifice:sacrifice.v.02",
+   "gloss": "kill or destroy",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus kill.v.01",
+    "CAUSE": "+1 <- pass 1: genus kill.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:postoperative:postoperative.s.01",
+   "gloss": "happening or done after a surgical operation",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus happen=happen.v.01"
+   }
+  },
+  {
+   "entry": "wordnet:stops:arrest.n.02",
+   "gloss": "the state of inactivity following an interruption",
+   "gained": {
+    "BE": "+1 <- pass 1: genus inaction.n.01"
+   }
+  },
+  {
+   "entry": "wordnet:head:head.n.29",
+   "gloss": "the striking part of a tool",
+   "gained": {
+    "PART": "+1 <- pass 1: genus striker.n.05"
+   }
+  },
+  {
+   "entry": "wordnet:flourish:brandish.v.01",
+   "gloss": "move or swing back and forth",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus move.v.02",
+    "CAUSE": "+1 <- pass 1: genus move.v.02"
+   }
+  },
+  {
+   "entry": "wordnet:velcro:velcro.v.01",
+   "gloss": "fasten with Velcro",
+   "gained": {
+    "HAPPEN": "+1 <- pass 1: genus fasten.v.01",
+    "CAUSE": "+1 <- pass 1: genus fasten.v.01"
+   }
+  },
+  {
+   "entry": "wiktionary:en-teetotalist-en-noun-q3YLIHht:b80ae3b4c3e7c7a7c989c3f12c69b5f9af65a7ebe418b5211aca3e95483e72b4",
+   "gloss": "A teetotaler.",
+   "gained": {
+    "SOMEONE": "+1 <- pass 1: genus word teetotaler"
+   }
+  },
+  {
+   "entry": "wordnet:stasis:stasis.n.02",
+   "gloss": "inactivity resulting from a static balance between opposing forces",
+   "gained": {
+    "BE": "+1 <- pass 1: genus inaction.n.01"
+   }
+  }
+ ],
+ "installed": false,
+ "why_not_installed": "precision about 70-80% by reading; word_senses merges homonyms (nail/noun) so a senses rebuild on composed output would spread values; zero-warrant guard not yet written"
+}

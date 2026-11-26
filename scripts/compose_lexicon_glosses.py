@@ -70,7 +70,9 @@ def _sample(conn: sqlite3.Connection) -> list[str]:
 def _lexicon(candidate: Path) -> tuple[sqlite3.Connection, gcm.Lexicon]:
     conn = _connect(candidate)
     started = time.time()
-    lexicon = gcm.Lexicon(conn, ROOT, gcm.load_parses(_parses_path(candidate)))
+    from GSE.curation.external_sources.wordnet_glosstag import cached_links
+
+    lexicon = gcm.Lexicon(conn, ROOT, gcm.load_parses(_parses_path(candidate)), cached_links(ROOT))
     print(f"loaded {len(lexicon.domain)} definitions, {len(lexicon.parses)} parses in {time.time() - started:.0f}s")
     return conn, lexicon
 

@@ -50,6 +50,19 @@ def test_a_homonym_never_lends_its_values(tmp_path):
     assert comp.derived.get("w:brad") == {"SOMETHING": 1}
 
 
+def test_a_predicate_takes_its_genus_not_its_arguments(tmp_path):
+    lex = _lexicon(
+        tmp_path,
+        [
+            ("w:diligent", "diligent", "adj", "careful and persistent", {"GOOD": 1}),
+            ("w:investigation", "investigation", "noun", "an inquiry", {"DO": 1}),
+            ("w:inquisitory", "inquisitory", "adj", "diligent in investigation", {}),
+        ],
+        {"w:inquisitory": _gd("diligent", ["investigation"])},
+    )
+    assert lex.close().derived["w:inquisitory"] == {"GOOD": 1}
+
+
 def test_a_noun_takes_only_its_genus(tmp_path):
     lex = _lexicon(
         tmp_path,
@@ -107,21 +120,22 @@ def test_nothing_composed_is_a_zero_and_conflicts_are_not_admitted(tmp_path):
     lex = _lexicon(
         tmp_path,
         [
+            ("wordnet:kind:kind.n.09", "kind", "noun", "a good one", {"GOOD": 1}),
+            ("wordnet:cruel:cruel.n.09", "cruel", "noun", "a bad one", {"GOOD": -1}),
+            ("wordnet:mixed:mixed.n.09", "mixed", "noun", "a kind and a cruel one", {}),
             ("w:kind", "kind", "adj", "good", {"GOOD": 1}),
-            ("w:cruel", "cruel", "adj", "bad", {"GOOD": -1}),
-            ("w:mixed", "mixed", "adj", "kind and cruel", {}),
             ("w:held", "held", "adj", "kind", {"GOOD": -1}),
             ("w:zeroed", "zeroed", "noun", "a dog", {}),
             ("w:dog", "dog", "noun", "an animal", {"GOOD": 0, "ALIVE": 1}),
         ],
         {
-            "w:mixed": _gd(None, ["kind", "cruel"]),
-            "w:held": _gd(None, ["kind"]),
+            "wordnet:mixed:mixed.n.09": {**_gd("one"), "synset_genus": ["cruel.n.09", "kind.n.09"]},
+            "w:held": _gd("kind"),
             "w:zeroed": _gd("dog"),
         },
     )
     comp = lex.close()
-    assert "w:mixed" not in comp.derived and comp.contested["w:mixed"]["GOOD"]
+    assert "wordnet:mixed:mixed.n.09" not in comp.derived and comp.contested["wordnet:mixed:mixed.n.09"]["GOOD"]
     assert "w:held" not in comp.derived
     assert {r["kind"] for r in comp.contradictions} == {"OPPOSES_HELD_VALUE"}
     assert comp.derived["w:zeroed"] == {"ALIVE": 1}  # the genus's stored GOOD 0 is not composed

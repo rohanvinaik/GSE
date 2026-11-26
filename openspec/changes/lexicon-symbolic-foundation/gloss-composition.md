@@ -70,6 +70,25 @@ run v1; 2.38 in run v2; 1.64 in run v3, with the rules below.
        synset. That would make WordNet's 155,111 definitions compose recursively and exactly, down to the primes.
      - GSE's `_select_by_coherence` is not usable here: it defaults to WordNet's frequency-primary sense, and it scores
        against the genealogy stopgap.
+   - **Measured with the tagged links (2026-11-26, receipt `docs/verification/2026-11-26-gloss-composition.json`):**
+     - v5, every tagged gloss word contributes: sample 0.44 → 0.55 (342 cells), no spill, but about a third wrong.
+       The errors were negation being ignored on the tagged path, and an argument's content attributed to the
+       predicate ("inquisitory: diligent in *investigation*" DO+; "detach: separate from a *larger*" BIG+).
+     - v6, the genus head only, at its tagged synset; a negated gloss contributes nothing: sample 0.44 → 0.46 in one
+       pass. The whole lexicon reaches a fixpoint in 12 passes (36 s): 0.436 → 0.491 nonzero per definition,
+       +21,929 cells, 0 contested, 1 contradiction (hand.n.09).
+       - The gains are mostly verbs' event and causation structure: HAPPEN+ 9,164, CAUSE+ 8,964, DO+ 1,260, BE+ 712.
+       - Reading samples, about 70–80% are right.
+       - Remaining error classes:
+         - passive-participle adjectives take their verb's CAUSE ("driven", "captivated", "artificial"), though a
+           passive participle describes the patient;
+         - values inherited from the release ("teratoma" BE+ via `tumor.n.01`).
+       - Wiktionary gains only 270 cells. Its genus words can't be read at an exact sense, and strict agreement
+         across a word's definitions almost never holds.
+     - **What this measures:** composed exactly and positively, the dictionary's definitional content for this
+       lexicon is mostly type (a noun's genus chain) and a predicate's head (event, causation, motion, speech,
+       thought). The positive channel is precise but small. Most of the 21.9 million open cells are banks orthogonal
+       to the word, the negative half, which positive composition cannot and must not fill.
 6. **Every value is traced:** definition → contributing gloss word → that word's reading → … → a basis axiom. Sign
    disagreements are contested and carry both signs.
 
