@@ -16,13 +16,18 @@ definition. The kind-of relations come from the sources that state them:
 A kind's own decided value always stands; an inherited value that contradicts it is an exception, recorded and never
 written. Two kind-of parents that disagree on a bank leave it open.
 
-A default's applicability is the kind's own evidence, never the link alone (TrialLedger: a default applies where its
-facts hold, from source-bound scope, never a lexical guess). Through a kind-of, refinement or entailment link a value
-decided on an ancestor applies only when the kind independently holds another of that ancestor's decided values, one
-more specific than NSM's most general substantive, action and event (SOMETHING, DO, HAPPEN), which every thing, act and
-event carries. This is what keeps WordNet's misfilings out: matter filed under part.n.01 shares only SOMETHING with it,
-so PART does not reach thiouracil; abstract transfers filed under move.v.02 do not independently move. Same-meaning
-links (synonymy, form_of) need no confirmation: they are the same meaning.
+Promotion is significance weighting's computed gate (SIGNIFICANCE_WEIGHTING, "Admissibility": promote only if the
+confirmation is spine-sourced, plurality is retained and kappa > 0; "the engine cannot confirm from its own output").
+The rule "what ancestor A decides on bank b holds for every kind of A" is promoted when the value is the spine's on A
+(an approved identity root, the curated grammar, a reviewed NSM basis binding, a founder anchor, a reviewed Wiktionary
+projection, or NSM molecule inheritance), or when at least one kind of A independently states the same value (a stated
+assertion, never a derived one). A value one source states on a hub and no kind of it confirms stays on the hub.
+Same-meaning links carry everything. Inherited values only fill open banks, so plurality is retained.
+
+A branch WordNet files wrongly is a declared defeater with its reason (openspec design, Founder correction 2: "A
+branch a source files wrongly (WordNet files all matter under part.n.01) is a reviewed exclusion with its reason";
+TrialLedger: defaults have declared defeaters). ``DEFEATED_LINKS`` cuts one kind-of link; ``DEFEATED_ORIGINS`` keeps
+a synset's decided values from carrying to anything below it. Everything else inherits, decided or not.
 
 Admission is constraint propagation, TrialLedger's (Rohan, 2026-11-26: "TrialLedger's constraint propagation ideas
 are how we allow sub-kind inheritance without introducing spurious and incorrect additions"). The kind's stored state
@@ -46,12 +51,19 @@ from .word_senses import DERIVED_TABLE
 
 FORMAT = "GSE.subkind-inheritance/1"
 INHERITABLE = frozenset({"members", "rules", "nsm-molecule"})
-GENERIC = frozenset({"SOMETHING", "DO", "HAPPEN"})  # NSM's most general substantive, action and event
-
-
-def confirmed(child: dict[str, int], ancestor: dict[str, int], bank: str) -> bool:
-    """The kind independently holds another, specific value its ancestor decided."""
-    return any(child.get(b) == v and v != 0 and b not in GENERIC and b != bank for b, v in ancestor.items())
+SPINE_FAMILIES = frozenset(
+    {"wordnet", "gse_curated_grammar", "nsm_basis_correspondence", "founder_anchor", "founder", "wiktionary"}
+)
+# Reviewed defeaters, each with WordNet's own gloss as the reason.
+DEFEATED_LINKS = {
+    ("substance.n.01", "part.n.01"): "substance is 'the real physical matter of which a person or thing consists'; its "
+    "second parent part.n.01 ('something determined in relation to something that includes it') is the misfiling the "
+    "design names: WordNet files all matter under part.n.01",
+}
+DEFEATED_ORIGINS = {
+    "move.v.02": "its own gloss spans 'both ... a concrete and ... an abstract sense' (change of ownership entails it, "
+    "communicating is a kind of it); the approved MOVE root is move.v.03 for this reason ('not ... abstract transfer')",
+}
 
 
 def sense_values(conn: sqlite3.Connection) -> dict[str, dict[str, int]]:
@@ -88,6 +100,16 @@ class Hierarchy:
         self.inherited = lru_cache(maxsize=None)(self._inherited)
         self._path: set[str] = set()  # entailment and cluster links can cycle; a meaning on the path adds nothing
 
+    def ancestors(self, synset_name: str) -> frozenset[str]:
+        """Everything the synset is (transitively) a kind of, refines or entails; cycles are walked once."""
+        seen, stack = set(), list(self.parents(synset_name))
+        while stack:
+            current = stack.pop()
+            if current not in seen:
+                seen.add(current)
+                stack.extend(self.parents(current))
+        return frozenset(seen - {synset_name})
+
     @staticmethod
     def parents(synset_name: str) -> tuple[str, ...]:
         """What the synset is a kind of, refines or entails, as WordNet states it."""
@@ -100,7 +122,7 @@ class Hierarchy:
         linked = synset.hypernyms() + synset.instance_hypernyms() + synset.entailments()
         if synset.pos() == "s":
             linked += synset.similar_tos()  # a satellite refines its cluster's head
-        return tuple(sorted({h.name() for h in linked}))
+        return tuple(sorted({h.name() for h in linked} - {p for c, p in DEFEATED_LINKS if c == synset_name}))
 
     def _inherited(self, synset_name: str) -> dict[str, tuple[int, str]]:
         """bank -> (value, the synset it was decided on) for everything this synset is a kind of."""
@@ -109,9 +131,10 @@ class Hierarchy:
             return {}
         self._path.add(synset_name)
         for parent in self.parents(synset_name):
-            from_parent = dict(self.inherited(parent))
-            for b, v in self.own.get(parent, {}).items():  # the parent's own decision stands over what it inherits
-                from_parent[b] = (v, parent)
+            from_parent = {b: (v, o) for b, (v, o) in self.inherited(parent).items() if o not in DEFEATED_ORIGINS}
+            if parent not in DEFEATED_ORIGINS:
+                for b, v in self.own.get(parent, {}).items():  # the parent's own decision stands over what it inherits
+                    from_parent[b] = (v, parent)
             for b, (v, origin) in from_parent.items():
                 merged[b].add((v, origin))
         self._path.discard(synset_name)
@@ -121,6 +144,36 @@ class Hierarchy:
             if len(values) == 1:
                 out[b] = (next(iter(values)), sorted(o for _v, o in found)[0])
         return out
+
+
+def spine_and_support(conn: sqlite3.Connection, hierarchy: "Hierarchy") -> tuple[dict, dict]:
+    """(synset -> its spine-stated or NSM-molecule values, (ancestor, bank, value) -> kinds that state it)."""
+    stated, spine = defaultdict(set), defaultdict(set)
+    for entry, payload in conn.execute(
+        "SELECT entry_id, payload FROM builder_assertions WHERE entry_id LIKE 'wordnet:%'"
+    ):
+        record, synset = json.loads(payload), entry.rsplit(":", 1)[1]
+        if record["value"]:
+            stated[synset].add((record["bank"], record["value"]))
+            if record.get("family") in SPINE_FAMILIES:
+                spine[synset].add((record["bank"], record["value"]))
+    for assignments, provenance, members in conn.execute(
+        "SELECT assignments, provenance, members FROM word_senses WHERE provenance LIKE '%nsm-molecule%'"
+    ):
+        values, origins = json.loads(assignments), json.loads(provenance)
+        for entry in json.loads(members):
+            if entry.startswith("wordnet:"):
+                for b, origin in origins.items():
+                    if origin.get("from") == "nsm-molecule":
+                        spine[entry.rsplit(":", 1)[1]].add((b, values[b]))
+    support: dict[tuple[str, str, int], int] = defaultdict(int)
+    for synset, facts in stated.items():
+        for ancestor in hierarchy.ancestors(synset):
+            decided = hierarchy.own.get(ancestor, {})
+            for b, v in facts:
+                if decided.get(b) == v:
+                    support[(ancestor, b, v)] += 1
+    return spine, support
 
 
 def form_of_targets(conn: sqlite3.Connection) -> dict[str, tuple[str, str]]:
@@ -149,8 +202,10 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
     own = sense_values(conn)
     held = stored(conn)
     hierarchy = Hierarchy(own)
+    spine, support = spine_and_support(conn, hierarchy)
+    unconfirmed: dict[tuple[str, str], int] = defaultdict(int)
     rows: dict[str, tuple[dict, dict]] = {}
-    exceptions, cells, unconfirmed = [], 0, defaultdict(int)
+    exceptions, cells = [], 0
     for entry, decided in held.items():
         if not entry.startswith("wordnet:"):
             continue
@@ -159,10 +214,9 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
         for b, v in hierarchy.own.get(synset, {}).items():  # synonymy: the synset's decision under any lemma
             inherited[b] = (v, synset)
         settled, origins = {}, {}
-        child = {**decided, **own.get(entry, {})}
         for b, (v, origin) in sorted(inherited.items()):
-            if origin != synset and not confirmed(child, hierarchy.own.get(origin, {}), b):
-                unconfirmed[b] += 1
+            if origin != synset and (b, v) not in spine[origin] and support[(origin, b, v)] < 1:
+                unconfirmed[(origin, b)] += 1  # one source's value on a hub that no kind of it confirms
                 continue
             if b in decided or b in own.get(entry, {}):
                 if (own.get(entry, {}).get(b, decided.get(b))) != v:
@@ -226,7 +280,8 @@ def inherit(conn: sqlite3.Connection) -> tuple[dict[str, tuple[dict, dict]], dic
         "cells": cells,
         "exceptions": len(exceptions),
         "exception_rows": exceptions,
-        "unconfirmed": dict(sorted(unconfirmed.items(), key=lambda kv: -kv[1])),
+        "unconfirmed": sum(unconfirmed.values()),
+        "unconfirmed_hubs": [[o, b, n] for (o, b), n in sorted(unconfirmed.items(), key=lambda kv: -kv[1])[:40]],
     }
 
 

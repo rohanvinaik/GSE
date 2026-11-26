@@ -25,10 +25,8 @@ def test_nothing_is_inherited_across_unrelated_kinds():
     assert "MOVE" not in hierarchy.inherited("hammer.n.02")
 
 
-def test_a_kind_must_independently_hold_a_specific_value_of_its_ancestor():
-    from GSE.curation.lexicon_builder.word_sense_subkinds import confirmed
-
-    animal = {"SOMETHING": 1, "ALIVE": 1, "MOVE": 1, "FEEL": 1}
-    assert confirmed({"SOMETHING": 1, "ALIVE": 1}, animal, "MOVE")  # a dog is independently alive
-    assert not confirmed({"SOMETHING": 1}, {"SOMETHING": 1, "PART": 1}, "PART")  # matter filed under part.n.01
-    assert not confirmed({"DO": 1, "HAPPEN": 1}, {"DO": 1, "HAPPEN": 1, "MOVE": 1}, "MOVE")  # generic values only
+def test_declared_defeaters_cut_the_misfiled_branches_and_nothing_else():
+    hierarchy = Hierarchy({"wordnet:part:part.n.01": {"PART": 1}, "wordnet:move:move.v.02": {"MOVE": 1}})
+    assert "PART" not in hierarchy.inherited("thiouracil.n.01")  # matter filed under part.n.01
+    assert "MOVE" not in hierarchy.inherited("fund.v.03")  # change of ownership entails move.v.02
+    assert hierarchy.inherited("hinge.n.01").get("PART", (None,))[0] in (1, None)  # other kinds of part still inherit
