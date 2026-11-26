@@ -32,13 +32,13 @@ def test_the_category_formula_is_frame_but_its_substantive_is_content(categories
 
 
 def test_the_article_a_read_as_as_is_a_collision_and_like_itself_is_content(categories):
-    kinds = _kinds("someone thinks about people like a small child [m]", categories)
+    kinds = _kinds("it is like a stone [m]", categories)
     assert kinds["LIKE"] == {"collision", "content"}
     assert tail.token_class("LIKE", tail.tokens_in("a long tail [m]", categories), categories) == "EXPONENT_COLLISION"
 
 
 def test_the_plural_chart_exponent_kinds_matches_kind_without_collision(categories):
-    kinds = _kinds("there are many kinds of creatures [m]", categories)
+    kinds = _kinds("trees [m] of many different kinds grow here", categories)
     assert kinds["KIND"] == {"content"}
 
 
