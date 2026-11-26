@@ -545,3 +545,14 @@ one live lexicon plus at most one build copy.
   rule-revision path (today measurement only).
 - [ ] GSE-02.6 Propagation speed: indexed fact, edge and rule-instance tables with a worklist, replacing per-definition
   SQL solves (30-40 definitions/s).
+- [ ] GSE-02.7 Coverage beyond WordNet nouns and verbs. The first plan's scopes reach about 155k of 401,596 definitions;
+  Wiktionary (246k) and adjectives/adverbs need witnessed native scopes (native frames, Wiktionary sense-to-sense
+  bindings the sources state, cluster heads) before the loop can teach them.
+- [ ] GSE-02.8 Teacher and audit. NSM's verified explications first (as teaching and as held-out audit), the local
+  model second, and held-out audits for every rule before admission: rules amplify a wrong answer across a scope.
+- [ ] GSE-02.9 Positive content deliberately. The curriculum targets positive identity and content banks (taught
+  positives whose premises carry them across a scope), not only the closure-reach ranking, which favours exclusions.
+- [ ] GSE-02.10 Completion criterion. A per-bank, per-channel census of all 22,489,376 cells (decided, typed residual
+  with its reason) and the stopping rule (kappa -> 0, the SSL tail); report it every round with the joint bits.
+Order: GSE-02.1-02.2 (running), then 02.6 (speed) before any long run; 02.3-02.4 start on WordNet scopes with 02.8's
+audits; 02.7 and 02.9 widen the curriculum; 02.10 measures toward done.
