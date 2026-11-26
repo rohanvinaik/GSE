@@ -33,7 +33,10 @@ def starting_domains(banks: tuple[str, ...] = BANKS) -> dict[str, frozenset]:
 
 
 def _free_zero(rows: frozenset, row: tuple, index: int) -> bool:
-    """The 0 at ``index`` is not forced: some nonzero value is allowed there with the rest of the row unchanged."""
+    """The 0 at ``index`` is not a typed consequence. Under F088 a relation is triggered by presence, so a 0 is forced
+    only when another bank in its row is present and no nonzero value is allowed there instead."""
+    if not any(value for k, value in enumerate(row) if k != index):
+        return True  # nothing in the row is present: every 0 here is "not present"
     return any(row[:index] + (value,) + row[index + 1 :] in rows for value in (-1, 1))
 
 

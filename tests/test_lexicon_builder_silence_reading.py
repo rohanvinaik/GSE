@@ -49,3 +49,11 @@ def test_starting_domains_follow_f040_and_keep_want_signed():
     start = starting_domains(("GOOD", "FEEL", "WANT"))
     assert start["GOOD"] == {EMPTY, -1, 0, 1} and start["WANT"] == {EMPTY, -1, 0, 1}
     assert start["FEEL"] == {EMPTY, 0, 1}
+
+
+def test_with_nothing_present_both_banks_may_be_silent():
+    above_where = Relation(
+        "above-where", ("ABOVE", "WHERE"), ((-1, 1), (0, -1), (0, 0), (0, 1), (1, 1)), ("law",), "foundational", True
+    )
+    lifted = read_with_silence(above_where)
+    assert (EMPTY, EMPTY) in lifted.allowed_rows and (1, EMPTY) not in lifted.allowed_rows

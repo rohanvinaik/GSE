@@ -92,6 +92,30 @@ def _semantic_kind(entry_id: str) -> str | None:
     return kinds.pop() if len(kinds) == 1 else None
 
 
+def _type_silences(entry: str, stored: dict) -> tuple[tuple, list]:
+    """A WordNet noun's type-orthogonal banks as silence restrictions (applicability.py); a bank whose stored
+    content collides is not silenced but recorded as an exception to the type row (significance weighting)."""
+    if not entry.startswith("wordnet:") or ".n." not in entry:
+        return (), []
+    from nltk.corpus import wordnet as wn
+
+    from GSE.curation.lexicon_builder.applicability import silent_banks
+
+    try:
+        noun_type = wn.synset(entry.rsplit(":", 1)[1]).lexname()
+    except Exception:
+        return (), []
+    out, excepted = [], []
+    for bank in silent_banks(noun_type):
+        value = stored.get(bank)
+        if value and len(value) == 1:  # a stored decision stands: content is an exception, an explicit 0 is kept
+            if value[0]:
+                excepted.append({"entry": entry, "type": noun_type, "bank": bank, "stored": value[0]})
+            continue
+        out.append(DomainRestriction(bank, (EMPTY,), "noun-type-applicability", f"{noun_type}#{bank}", "applicability"))
+    return tuple(out), excepted
+
+
 def _cells(domains: dict) -> dict:
     out = collections.Counter()
     for values in domains.values():
@@ -110,7 +134,7 @@ def run(words: list[str], show: set[str]) -> dict:
     relations = _release_relations(conn) + _laws()
     start = starting_domains(BANKS)
     by_pos: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
-    shown, codes, kinds = [], collections.Counter(), collections.Counter()
+    shown, codes, kinds, exceptions = [], collections.Counter(), collections.Counter(), []
     for word in words:
         rows = conn.execute(
             "SELECT d.entry_id, l.pos, d.domains FROM definition_states d JOIN lexemes l ON d.lexeme_id = l.id "
@@ -129,6 +153,9 @@ def run(words: list[str], show: set[str]) -> dict:
             role = ROLE_BY_POS.get(context.get("pos", ""))
             if role:
                 context["own_role"] = role
+            silences, excepted = _type_silences(entry, stored)
+            restrictions = restrictions + silences
+            exceptions.extend(excepted)
             kind = _semantic_kind(entry)
             if kind:
                 context["own_semantic_kind"] = kind
@@ -169,6 +196,7 @@ def run(words: list[str], show: set[str]) -> dict:
         "words": len(words),
         "codes": dict(codes),
         "typed_adjectives": dict(kinds),
+        "type_exceptions": exceptions,
         "by_pos": {k: dict(v) for k, v in by_pos.items()},
         "shown": shown,
     }
