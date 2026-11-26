@@ -43,9 +43,27 @@ def banks_in(text: str) -> set[str]:
             found.add(forms[phrase])
             text = re.sub(pattern, " ", text)
     for word in re.findall(r"[a-z'’]+", text):
-        if gd._normal(word) in forms:
-            found.add(forms[gd._normal(word)])
+        word = re.sub(r"['’]s?$", "", word)
+        for base in _bases(word):
+            if base in forms:
+                found.add(forms[base])
+                break
     return found
+
+
+@lru_cache(maxsize=None)
+def _bases(word: str) -> tuple[str, ...]:
+    """The word and its base forms under WordNet's morphology (bodies -> body, living -> live, felt -> feel), so an
+    inflected exponent matches its prime; the source's own morphological processor, not a hand list."""
+    from nltk.corpus import wordnet as wn
+
+    out = [gd._normal(word)]
+    for pos in ("n", "v", "a"):
+        base = wn.morphy(word, pos)
+        if base and len(base) > 1:  # "is" -> noun "i" (the letter) is not the prime I
+            out.append(gd._normal(base))
+    # A one-letter form matches only a one-letter token: "is" with its s stripped is not the prime I.
+    return tuple(dict.fromkeys(base for base in out if len(base) > 1 or base == word))
 
 
 @lru_cache(maxsize=1)
@@ -73,20 +91,27 @@ PARTICIPANT = re.compile(r"^\W*(?:[a-z]\.\s+)?(?:other people|people|someone els
 
 
 CLAUSE = re.compile(r",|;|:|\bif\b|\bbecause\b|\bwhen\b|\bat the same time\b")
-PARTICIPANT_SUBJECT = re.compile(r"^\W*(?:[a-z]\.\s+)?(?:other people|people|someone else|i\b|you\b|other creatures)")
+PARTICIPANT_SUBJECT = re.compile(
+    r"^\W*(?:[a-z]\.\s+)?(?:other people|people(?! of this kind)|someone else|i\b|you\b|other creatures)"
+)
 
 
 def own_lines(text: str) -> list[str]:
-    """Clauses that predicate of the referent: the referent is named and no other participant is the clause's subject.
-    A clause in which another participant acts on the referent ("if other people don't do good things for this
-    someone") is a role, not the referent's own component (head record, F144)."""
+    """Clauses that predicate of the referent. The explication's first component is its CATEGORY (NSM's own structure:
+    "people of one kind", "something living") and is the referent's own, whatever its wording; after it, a clause is
+    own when it names the referent and no other participant is its subject. A clause in which another participant acts
+    on the referent ("if other people don't do good things for this someone") is a role, not the referent's own
+    component (head record, F144)."""
     out = []
-    for line in text.lower().split("\n"):
+    lines = [line.strip() for line in text.lower().split("\n") if line.strip()]
+    for index, line in enumerate(lines[1:]):  # lines[0] is the explication's label and explicandum
         for clause in CLAUSE.split(line):
             body = clause.strip()
-            if not body or PARTICIPANT_SUBJECT.match(body):
+            if not body:
                 continue
-            if REFERENT.search(body) or re.search(r"\bof one kind\b|\bof many kinds\b", body):
+            if index == 0 or re.search(r"\bof one kind\b|\bof many kinds\b", body):
+                out.append(body)
+            elif not PARTICIPANT_SUBJECT.match(body) and REFERENT.search(body):
                 out.append(body)
     return out
 
