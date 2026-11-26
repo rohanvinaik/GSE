@@ -25,7 +25,7 @@
 
 ## 2. State, ledger and closure at population scale (E1, E9)
 
-- [ ] 2.1 `cells.py`: the (readings x 56) mask array, dense ids, starting masks, H and the census.
+- [x] 2.1 `cells.py`: the (readings x 56) mask array, dense ids, starting masks, H and the census.
   Acceptance: round-trips +1, -1, 0, SILENT, unresolved and empty (conflict); the opening H is measured and saved.
 - [ ] 2.2 `ledger.py`: append-only observations and derivations with premise lineage.
   Acceptance: two derived cells cannot certify each other without a root; every removal names its cause.
@@ -34,6 +34,9 @@
   Acceptance: a synthetic population shows a single-bank consequence, a conjunctive consequence (F073: two premises
   remove a state neither removes alone) and a forced placement. Cold and incremental runs agree, the result does not
   depend on order, and a full-size run over 22.5M cells completes in minutes.
+  Progress (2026-11-26): `relations.py` and `closure.py` written; 9 tests pass (`tests/test_lexicon_population_closure.py`).
+  Timing: 113 relations over all 401,596 readings (22,489,376 cells) closed in 2.9 s. Opening H with every cell at
+  its starting mask: 37,978,301 bits. Still to do: the cold-against-incremental replay check.
 
 ## 3. Source lenses (E2)
 
