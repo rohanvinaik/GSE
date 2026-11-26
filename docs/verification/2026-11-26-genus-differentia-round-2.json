@@ -1,0 +1,315 @@
+{
+  "format": "GSE.genus-differentia-closure-receipt/2",
+  "date": "2026-11-26",
+  "task": "Genus/differentia closure, round 2 (Rohan, 2026-11-26: \"Agreed on your reads. Please proceed\"); brief: openspec/changes/lexicon-symbolic-foundation/genus-differentia-round-2.md",
+  "code": {
+    "commit": "1b1ea94",
+    "GSE/curation/lexicon_builder/word_sense_genus_differentia.py": "73b27193fc26a2afe3d84c9251d3d99d369b582e631c5913ad9511fee483f668",
+    "scripts/word_sense_genus_differentia.py": "02b90e7d1401773288cda58fe38f135c501ef30fa1e6c66381a07337ad89fcc1",
+    "GSE/curation/lexicon_builder/word_senses.py": "afb8ac02c64dfe5abab0be6a3d1eb9c1e7283ba2af04a457124c959f88249ae7",
+    "tests/test_lexicon_every_value_has_a_warrant.py": "ab0890c444fc517347430e34f52a7fcc7f0105324ea0a85b072bb224bf942fe3",
+    "tests": ["tests/test_lexicon_genus_differentia.py", "tests/test_lexicon_genus_differentia_senses.py"],
+    "note": "the closure's run table records the first two hashes; they equal the committed files"
+  },
+  "commands": [
+    ".venv/bin/python scripts/word_sense_genus_differentia.py edges --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --edges data/lexicon_builder/2026-11-12/genus-differentia-r2b-edges.json.gz",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py close --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --edges data/lexicon_builder/2026-11-12/genus-differentia-r2b-edges.json.gz --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --report data/lexicon_builder/2026-11-12/genus-differentia-r2b-close.json",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py measure --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --report data/lexicon_builder/2026-11-12/genus-differentia-r2b-measure.json",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py verify --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --report data/lexicon_builder/2026-11-12/genus-differentia-r2b-verify.json",
+    ".venv/bin/python scripts/build_word_senses.py --release data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --candidate data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --all",
+    ".venv/bin/python scripts/build_word_senses.py --release data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --candidate data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --verify 300",
+    "pytest -q -p no:randomly with GSE_SENSE_CANDIDATE=<absolute path of the output> (set in os.environ, then pytest.main; the shell refuses an env-prefixed command): tests/test_lexicon_source_agreement.py tests/test_lexicon_senses_reader.py tests/test_lexicon_word_sense_acceptance.py tests/test_lexicon_no_new_model_values.py tests/test_lexicon_every_value_has_a_warrant.py tests/test_lexicon_genus_differentia.py tests/test_lexicon_genus_differentia_senses.py",
+    ".venv/bin/python scripts/compare_word_senses.py --before data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --after data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py witness --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --report data/lexicon_builder/2026-11-12/genus-differentia-r2b-witness.json",
+    ".venv/bin/python scripts/word_sense_genus_differentia.py sample --candidate data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db --output data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db --report data/lexicon_builder/2026-11-12/genus-differentia-r2b-sample.json"
+  ],
+  "input": {
+    "path": "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db",
+    "sha256": "ce8c611b6e3b7c59099f1b099a6048fbd49b5ee7011d5a8a8db4e69d3371093f",
+    "note": "this is also the live lexicon (data/lexicon_active.json resolves to it); the pointer was not touched"
+  },
+  "output": {
+    "path": "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db",
+    "sha256_after_closure": "cc9ddb3e21f2808192d2e579f07d4909e8b869f5039088e688f0dcfb4ea01bcd",
+    "sha256_after_word_sense_rebuild": "38c66173b3d3fba2629102cbc5db3aed081e8a342040bf830f0a5c17641fb79a",
+    "added_tables": ["genus_differentia_closure", "genus_differentia_contradictions", "genus_differentia_run"],
+    "derived_channel": "derived:genus-differentia: its own tables; never a source assertion. Read by the word senses as lowest-standing member evidence (decision 1)."
+  },
+  "reports": {
+    "edges": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-edges.json.gz", "sha256": "2399a6348669ff1ae16f2bec4e915f0d139e6aa6ad4d0ed3cb9f3fda4d03e1d9"},
+    "close": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-close.json", "sha256": "705fe52f810dc53abb125a07f582f9fe62c65d0fae374821dac4d4d43b6fcdf9"},
+    "measure": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-measure.json", "sha256": "f025dcbf70f7ce69064375bbcb449326695d03e07ca5fa9e2040569c0739c20b"},
+    "verify": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-verify.json", "sha256": "6408c0ab9574af930e929748905962c13f776d4c3fced56dbc7e97f2d33e490c"},
+    "sample": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-sample.json", "sha256": "db38455c8502301a641d3b9f060cd1d290260e43a2ae682173ca9b0a78ae8d22"},
+    "witness": {"path": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-witness.json", "sha256": "98eb328b8be08404fa94ef8afe22f13b53ee464424b19445d2b3d6a2f9a1aa26"}
+  },
+  "active_pointer": {"changed": false, "activation_performed": false},
+  "release_tables": {
+    "code": "RELEASE_TABLES_IDENTICAL",
+    "tables_compared": 29,
+    "tables_differing": [],
+    "note": "checked before the word-sense rebuild, which then rewrote word_senses, word_source_agreement and the builder_metadata 'word_senses' key, as on every candidate; definition_states, lexemes and the 'relations' key are untouched"
+  },
+  "full_replay": {
+    "run": false,
+    "reason": "validate_build on this 22 GB release takes longer than this session's shell allows; no release table is written and verify proves all 29 identical",
+    "command_to_run": ".venv/bin/python -c \"from GSE.curation.lexicon_builder.validation import validate_build as v; r = v('data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2b.db'); print(r['code'], r['entries_checked'], r['entries_mismatched'])\""
+  },
+
+  "decision_1_word_senses_read_the_derived_values": {
+    "how": [
+      "word_senses.read_definitions reads each definition's settled cells from genus_differentia_closure (Definition.derived); never load-bearing, never a source vote, never corroboration, so they cannot split, merge or confirm anything",
+      "close_sense fills a bank with a derived value only where no stated member value and no agreed source sign speaks to it, where every definition of the sense (members and absorbed) holds the same derived value, and where the release's rules accept it (each alone, then together; a conflict is recorded in 'blocked' as DERIVED_RULE_CONFLICT)",
+      "provenance {'from': 'genus-differentia', 'entries': [...]} names the definitions whose closure record holds the value",
+      "tests/test_lexicon_every_value_has_a_warrant.py: a genus-differentia value must have, for each named definition, a stored closure record that settled that cell to that value, and that record's warrant: the axiom that set it (kind recorded) or its genus edge with its differentia"
+    ],
+    "unanimity_rule_why": "First built with 'any definition, no disagreement' (as stated member values are). That gave 23,797 fills, 7,438 nonzero, and the witness read 'runs' CAUSE+: one causative sense (run.v.26, 'cause an animal to move fast') of 101 put CAUSE+ on the main sense; 'have' got CAUSE+ HAPPEN+ from 1 of 49 definitions, 'take' from 1 of 120. A value only some definitions hold is not the sense's: the others are unknown there, not in agreement. Rebuilt with unanimity.",
+    "word_senses_before_after": {
+      "senses": 106263,
+      "assigned_values": [254128, 266786],
+      "assigned_nonzero": [130612, 131225],
+      "unassigned_banks": [5696600, 5683942],
+      "values_with_genus_differentia_warrant": 12658,
+      "of_which_nonzero": 613,
+      "nonzero_by_bank": {"CAUSE": 355, "MOVE": 119, "BODY": 37, "THINK": 32, "TOUCH": 27, "HAPPEN": 18, "SAY": 4, "WHEN": 3, "WHERE": 2, "ALIVE": 2, "PEOPLE": 2, "LONG_TIME": 2, "SOMEONE": 2, "BE": 2, "HAVE": 1, "SOMETHING": 1, "DO": 1, "FEEL": 1, "SIDE": 1, "EXIST": 1},
+      "open_with_a_domain": [0, 2]
+    },
+    "against_the_live_lexicon": {"readings": 93396, "filled": 11678, "filled_nonzero": 78, "changed": 0, "removed": 0, "filled_by_warrant": {"genus-differentia": 11658, "members": 20}},
+    "rebuild": "67,173 lemmas, 286 s; --verify 300: 300 verified, 0 mismatches",
+    "tests": "82 passed, pytest exit code 0 (sense, guard, warrant and closure tests on the output)"
+  },
+
+  "decision_2_differentia_contributes_content_not_identity": {
+    "identity_banks": {"I": ["nsm:v20:i"], "YOU": ["nsm:v20:you"], "SOMEONE": ["nsm:v20:someone"], "SOMETHING": ["nsm:v20:something"], "PEOPLE": ["nsm:v20:people"], "BODY": ["nsm:v20:body"], "KIND": ["nsm:v20:kinds"], "PART": ["nsm:v20:parts"], "WORDS": ["nsm:v20:words"], "ALIVE": ["nsm:v20:die", "nsm:v20:live"], "WHEN": ["nsm:v20:time"], "WHERE": ["nsm:v20:place"]},
+    "derivation": "Goddard (2012) Table 1, 'Semantic primes (English exponents), grouped into related categories' (data/external/references/goddard-2012-primes-molecules-templates.txt, sha256 42ecd360..., local data, not in git): the categories 'substantives', 'relational substantives' and 'life and death' whole, plus the table exponents with a TIME, PLACE or WORDS allolex (WHEN~TIME, WHERE~PLACE, WORDS). Each exponent is matched to the catalog unit with that form and takes the unit's EXACT/ADAPTED bank (catalog.catalog_inventory). An exponent with no catalog bank is an error.",
+    "notes": [
+      "catalog.py holds the chart's boxes and bank map but not its category labels; the labels come from the category table the catalog's own sources cite",
+      "I and YOU are in the substantives category; the decision's list did not name them, the category does. Effect: 690 I and 689 YOU zeros on kinds whose genus is 0 there",
+      "WORDS is in the 'speech' category in Goddard 2012; it is included because the decision names it. Rohan may strike it"
+    ],
+    "law": "On an identity bank the kind takes its genus's state whatever its differentia words are; on every other bank round 1's law is unchanged",
+    "names": {
+      "differentia": "a differentia head the gloss writes only with a capital, not at a sentence start, is a name and not differentia: 554 definitions lost 565 such words (god, world, american, jesus, france, scotland, ...)",
+      "genus": "the same test on a Wiktionary gloss's parsed genus head: a name is not a genus (NO_GENUS:name_genus, 2,047 glosses; 1,179 edges withdrawn, e.g. balsa 'native to tropical America', primer 'issued in England', damask 'originating from Damascus'). Added after the sample check found primer WHERE+ via 'England'. A WordNet sense keeps its hypernym edge",
+      "round_1_examples_now": "sterling, brevet, minaret, bulldog, pavilion: no identity cell from a differentia; mesh keeps only CAUSE/HAPPEN/TOUCH from its hypernyms"
+    }
+  },
+
+  "decision_3_root_axioms": {
+    "law": "Each anchor synset is its identity bank +1, under the rules; nothing else is stipulated. Its other banks follow the same law as every definition (for a true root that means they stay open)",
+    "anchor": "GSE.curation.external_sources.wordnet_hierarchy._WARRANTED_ROOT_PRIMITIVES (42 synsets); 'prime_binding' names the release's prime_entries unit where the synset is also a prime's bound definition",
+    "anchors_not_in_the_release": "body_part.n.01, living_thing.n.01, physical_entity.n.01, speech_act.n.01, time_unit.n.01: each stands in the graph as wordnet_root:<synset> holding only its identity, so its 232 direct kinds have a genus (round 1: an unknown genus)",
+    "result": "0 release definitions narrowed: every anchor's release definitions already hold their identity (SP-1 projected it). The decision as approved therefore adds no cells by itself; its identity now also passes through differentia (decision 2).",
+    "review_table_strike_any_entry": [
+      {"synset": "act.n.02", "is": {"DO": 1}, "gloss": "something that people do or cause to happen", "prime_binding": null, "release_entries": 4},
+      {"synset": "act.v.01", "is": {"DO": 1}, "gloss": "perform an action, or work out or perform (an action)", "prime_binding": null, "release_entries": 8},
+      {"synset": "artifact.n.01", "is": {"SOMETHING": 1}, "gloss": "a man-made object taken as a whole", "prime_binding": null, "release_entries": 3},
+      {"synset": "body.n.01", "is": {"BODY": 1}, "gloss": "the entire structure of an organism (an animal, plant, or human being)", "prime_binding": "nsm:v20:body", "release_entries": 2},
+      {"synset": "body_part.n.01", "is": {"PART": 1}, "gloss": "any part of an organism such as an organ or extremity", "prime_binding": null, "release_entries": 0},
+      {"synset": "cause.v.01", "is": {"CAUSE": 1}, "gloss": "give rise to; cause to happen or occur, not always intentionally", "prime_binding": null, "release_entries": 14},
+      {"synset": "change.v.01", "is": {"CAUSE": 1}, "gloss": "cause to change; make different; cause a transformation", "prime_binding": null, "release_entries": 11},
+      {"synset": "desire.v.01", "is": {"WANT": 1}, "gloss": "feel or have a desire for; want strongly", "prime_binding": "nsm:v20:want", "release_entries": 7},
+      {"synset": "emotion.n.01", "is": {"FEEL": 1}, "gloss": "any strong feeling", "prime_binding": null, "release_entries": 2},
+      {"synset": "entity.n.01", "is": {"SOMETHING": 1}, "gloss": "that which is perceived or known or inferred to have its own distinct existence (living or nonliving)", "prime_binding": null, "release_entries": 2},
+      {"synset": "event.n.01", "is": {"HAPPEN": 1}, "gloss": "something that happens at a given place and time", "prime_binding": null, "release_entries": 2},
+      {"synset": "family.n.01", "is": {"PEOPLE": 1}, "gloss": "a social unit living together", "prime_binding": null, "release_entries": 9},
+      {"synset": "feel.v.01", "is": {"FEEL": 1}, "gloss": "undergo an emotional sensation or be in a particular state of mind", "prime_binding": null, "release_entries": 8},
+      {"synset": "feeling.n.01", "is": {"FEEL": 1}, "gloss": "the experiencing of affective and emotional states", "prime_binding": null, "release_entries": 2},
+      {"synset": "gathering.n.01", "is": {"PEOPLE": 1}, "gloss": "a group of persons together in one place", "prime_binding": null, "release_entries": 3},
+      {"synset": "happen.v.01", "is": {"HAPPEN": 1}, "gloss": "come to pass", "prime_binding": "nsm:v20:happen", "release_entries": 13},
+      {"synset": "hear.v.01", "is": {"HEAR": 1}, "gloss": "perceive (sound) via the auditory sense", "prime_binding": "nsm:v20:hear", "release_entries": 4},
+      {"synset": "induce.v.02", "is": {"CAUSE": 1}, "gloss": "cause to do; cause to act in a specified manner", "prime_binding": null, "release_entries": 24},
+      {"synset": "kin.n.02", "is": {"PEOPLE": 1}, "gloss": "group of people related by blood or marriage", "prime_binding": null, "release_entries": 5},
+      {"synset": "kind.n.01", "is": {"KIND": 1}, "gloss": "a category of things distinguished by some common characteristic or quality", "prime_binding": "nsm:v20:kinds", "release_entries": 8},
+      {"synset": "know.v.01", "is": {"KNOW": 1}, "gloss": "be cognizant or aware of a fact or a specific piece of information; possess knowledge or information about", "prime_binding": "nsm:v20:know", "release_entries": 7},
+      {"synset": "leave.v.01", "is": {"MOVE": 1}, "gloss": "go away from a place", "prime_binding": null, "release_entries": 5},
+      {"synset": "living_thing.n.01", "is": {"ALIVE": 1}, "gloss": "a living (or once living) entity", "prime_binding": null, "release_entries": 0},
+      {"synset": "location.n.01", "is": {"WHERE": 1}, "gloss": "a point or extent in space", "prime_binding": null, "release_entries": 2},
+      {"synset": "motion.n.03", "is": {"MOVE": 1}, "gloss": "a change of position that does not entail a change of location", "prime_binding": null, "release_entries": 7},
+      {"synset": "move.v.03", "is": {"MOVE": 1}, "gloss": "move so as to change position, perform a nontranslational motion", "prime_binding": null, "release_entries": 4},
+      {"synset": "organism.n.01", "is": {"ALIVE": 1}, "gloss": "a living thing that has (or can develop) the ability to act or function independently", "prime_binding": null, "release_entries": 4},
+      {"synset": "people.n.01", "is": {"PEOPLE": 1}, "gloss": "(plural) any group of human beings (men or women or children) collectively", "prime_binding": "nsm:v20:people", "release_entries": 2},
+      {"synset": "perform.v.01", "is": {"DO": 1}, "gloss": "carry out or perform an action", "prime_binding": "nsm:v20:do", "release_entries": 14},
+      {"synset": "person.n.01", "is": {"SOMEONE": 1}, "gloss": "a human being", "prime_binding": null, "release_entries": 10},
+      {"synset": "physical_entity.n.01", "is": {"SOMETHING": 1}, "gloss": "an entity that has physical existence", "prime_binding": null, "release_entries": 0},
+      {"synset": "see.v.01", "is": {"SEE": 1}, "gloss": "perceive by sight or have the power to perceive by sight", "prime_binding": "nsm:v20:see", "release_entries": 5},
+      {"synset": "speech_act.n.01", "is": {"SAY": 1}, "gloss": "the use of language to perform some act", "prime_binding": null, "release_entries": 0},
+      {"synset": "state.v.01", "is": {"SAY": 1}, "gloss": "express in words", "prime_binding": null, "release_entries": 12},
+      {"synset": "team.n.01", "is": {"PEOPLE": 1}, "gloss": "a cooperative unit (especially in sports)", "prime_binding": null, "release_entries": 3},
+      {"synset": "think.v.03", "is": {"THINK": 1}, "gloss": "use or exercise the mind or one's power of reason in order to make inferences, decisions, or arrive at a solution or judgments", "prime_binding": null, "release_entries": 6},
+      {"synset": "time_period.n.01", "is": {"WHEN": 1}, "gloss": "an amount of time", "prime_binding": null, "release_entries": 2},
+      {"synset": "time_unit.n.01", "is": {"WHEN": 1}, "gloss": "a unit for measuring time periods", "prime_binding": null, "release_entries": 0},
+      {"synset": "touch.v.01", "is": {"TOUCH": 1}, "gloss": "make physical contact with, come in contact with", "prime_binding": null, "release_entries": 4},
+      {"synset": "travel.n.01", "is": {"MOVE": 1}, "gloss": "the act of going from one place to another", "prime_binding": null, "release_entries": 4},
+      {"synset": "travel.v.01", "is": {"MOVE": 1}, "gloss": "change location; move, travel, or proceed, also metaphorically", "prime_binding": null, "release_entries": 16},
+      {"synset": "word.n.01", "is": {"WORDS": 1}, "gloss": "a unit of language that native speakers can identify", "prime_binding": "nsm:v20:words", "release_entries": 2}
+    ]
+  },
+
+  "decision_4_catalog_axioms": {
+    "law": "A prime-linked definition whose own bank the release leaves open takes its unit's EXACT/ADAPTED bank and sign from catalog.catalog_inventory, then is fully determined like every prime axiom (its rule consequences, 0 on every other open bank a rule allows)",
+    "table": [
+      {"unit": "nsm:v20:be-someone-something", "bank": "BE", "sign": 1, "catalog": "ADAPTED", "note": "Registry BE is shared with location; a specification sense must remain separately identified.", "cells": 56},
+      {"unit": "nsm:v20:be-somewhere", "bank": "BE", "sign": 1, "catalog": "ADAPTED", "note": "Registry BE is shared with specification; a location sense must remain separately identified.", "cells": 56},
+      {"unit": "nsm:v20:die", "bank": "ALIVE", "sign": -1, "catalog": "ADAPTED", "note": "Candidate alignment to DEAD pole; event DIE versus state DEAD requires semantic validation.", "cells": 56},
+      {"unit": "nsm:v20:live", "bank": "ALIVE", "sign": 1, "catalog": "ADAPTED", "note": "Candidate alignment to ALIVE; verbal LIVE and state ALIVE require sense-specific validation.", "cells": 56},
+      {"unit": "nsm:v20:long-time", "bank": "LONG_TIME", "sign": 1, "catalog": "ADAPTED", "note": "Registry spelling omits the chart article A.", "cells": 56, "contradiction": "AXIOM_CONDITIONAL_EXCEPTION on WHEN: the rules make it WHEN+ instead of 0"},
+      {"unit": "nsm:v20:mine", "bank": "HAVE", "sign": 1, "catalog": "ADAPTED", "note": "Candidate possession alignment; chart (IS) MINE includes first-person perspective absent from HAVE alone.", "cells": 56},
+      {"unit": "nsm:v20:place", "bank": "WHERE", "sign": 1, "catalog": "ADAPTED", "note": "Chart PLACE~WHERE~SOMEWHERE shares registry WHERE; preserve the full exponent set.", "cells": 56},
+      {"unit": "nsm:v20:short-time", "bank": "LONG_TIME", "sign": -1, "catalog": "ADAPTED", "note": "Existing bipolar convention folds SHORT_TIME into LONG_TIME.", "cells": 56, "contradiction": "AXIOM_CONDITIONAL_EXCEPTION on WHEN: WHEN+ instead of 0"},
+      {"unit": "nsm:v20:side", "bank": "SIDE", "sign": 1, "catalog": "ADAPTED", "note": "Registry SIDE omits chart relational frame ON (ONE) SIDE.", "cells": 56, "contradiction": "AXIOM_CONDITIONAL_EXCEPTION on WHERE: WHERE+ instead of 0"},
+      {"unit": "nsm:v20:there-is", "bank": "EXIST", "sign": 1, "catalog": "ADAPTED", "note": "Registry EXIST is the proposed existential coordinate, not an English spelling match.", "cells": 56},
+      {"unit": "nsm:v20:time", "bank": "WHEN", "sign": 1, "catalog": "ADAPTED", "note": "Chart TIME~WHEN is represented by registry WHEN; preserve both chart forms.", "cells": 56}
+    ],
+    "no_catalog_sign_left_open": {
+      "units": ["nsm:v20:little-few", "nsm:v20:more", "nsm:v20:much-many", "nsm:v20:some", "nsm:v20:some-time"],
+      "why": "the catalog maps them METADATA (QUANTITY with no sign: little-few, much-many, some; no bank: more) or MISSING (some-time), so no bank and sign exist to assert; they stay AXIOM_OWN_BANK_OPEN. The brief named 'some' among the units; the catalog does not give it a sign"
+    }
+  },
+
+  "closure": {
+    "passes_changed": [257, 4268, 3165, 1640, 574, 221, 111, 65, 39, 90, 59, 24, 1],
+    "fixpoint": "after pass 12",
+    "axioms": {"gse_closed_class": 213, "prime": 33, "nsm_catalog": 11, "wordnet_root": 0},
+    "edges": {"definitions_with_an_edge": 285753, "round_1": 286932, "templates": {"wordnet_hypernym": 119798, "wiktionary_genus_differentia": 137240, "wiktionary_form_of": 25284, "wiktionary_adv_manner": 2379, "wiktionary_altform_of": 1040, "wiktionary_inflection_of": 12}, "new_no_edge_reason": {"NO_GENUS:name_genus": 2047}},
+    "definitions_narrowed": [10074, 10509],
+    "cells_settled": [29779, 31327],
+    "settled_values": {"round_1": {"zero": 15464, "nonzero": 14315}, "round_2": {"zero": 17178, "nonzero": 14149}},
+    "against_round_1": {
+      "same_cell_different_value": 0,
+      "only_round_2": 2074,
+      "only_round_1": 526,
+      "only_round_2_top": "I 0: 690, YOU 0: 689 (identity banks taken from the genus through a differentia); 11 catalog axioms x 55; BODY+ 31, SOMEONE+ 27, SOMETHING+ 13",
+      "only_round_1_top": "SOMETHING+ 177, WHERE+ 68, SOMEONE+ 11, ALIVE+ 5, WHEN+ 3 (nonzero 264): names taken as genus or differentia (primer WHERE+ via England, sterling WHERE+ via Scotland, minaret SOMEONE+ via muezzin); 131 I and 131 YOU zeros of the same withdrawn edges"
+    }
+  },
+
+  "H": {
+    "definition": "sum over all 401,596 definitions of sum over 56 banks of log2 |domain|",
+    "before_bits": 34841855.01719952,
+    "after_bits": 34791460.57952889,
+    "reduction_bits": 50394.437670625746,
+    "round_1_reduction_bits": 48020.47061814368,
+    "joint_count_bits": [32707234.642250996, 32664645.559822265],
+    "joint_count_complete": "yes, before and after (every definition EXACT)",
+    "filled_banks": [506613, 537940],
+    "explicit_zero_banks": [331373, 348551],
+    "unresolved_banks": [21982763, 21951436],
+    "filled_banks_per_definition": [1.2614991185171167, 1.3395053735594975]
+  },
+
+  "singleton_gains_by_bucket": {
+    "policy": "specification.frequency_buckets over SUBTLEX counts; 'unranked' is a spelling SUBTLEX does not count; a cell is 'axiom' when its definition's axiom settled it in pass 0, otherwise 'propagated'",
+    "1-500": {"axiom_zero": 9272, "axiom_nonzero": 5, "propagated_zero": 17, "propagated_nonzero": 503},
+    "501-1500": {"axiom_zero": 1990, "propagated_zero": 81, "propagated_nonzero": 1081},
+    "1501-5000": {"axiom_zero": 1050, "propagated_zero": 114, "propagated_nonzero": 2280},
+    "5001+": {"axiom_zero": 661, "propagated_zero": 480, "propagated_nonzero": 4314},
+    "unranked": {"axiom_zero": 1216, "axiom_nonzero": 9, "propagated_zero": 2297, "propagated_nonzero": 5957},
+    "round_1_for_comparison": {"1-500": {"zero": 9001, "nonzero": 499}, "501-1500": {"zero": 2055, "nonzero": 1083}, "1501-5000": {"zero": 1120, "nonzero": 2289}, "5001+": {"zero": 1061, "nonzero": 4364}, "absent": {"zero": 2227, "nonzero": 6080}},
+    "note": "round 1's axiom/propagated split was computed afterwards from pass numbers; this round records each axiom's own settled cells, so the two splits are not the same measure. Totals per bucket are comparable."
+  },
+
+  "contradictions": {
+    "by_type": {"AXIOM_OWN_BANK_OPEN": 5, "AXIOM_CONDITIONAL_EXCEPTION": 3, "STORED_CONFLICT": 1},
+    "round_1": {"AXIOM_OWN_BANK_OPEN": 16, "STORED_CONFLICT": 1},
+    "AXIOM_OWN_BANK_OPEN": "little-few, more, much-many, some, some-time: the catalog gives no bank and sign",
+    "AXIOM_CONDITIONAL_EXCEPTION": "long-time and short-time on WHEN, side on WHERE: a release rule makes the bank nonzero, so the axiom's zero there is not asserted",
+    "STORED_CONFLICT": "wordnet:hand:hand.n.09 BODY, as round 1: stated 0 (reviewed-guarded-pattern), genus handbreadth.n.01 BODY+; the stored 0 is kept",
+    "none_of": "GENUS_CONFLICT, RULE_CONFLICT, ROOT_AXIOM_*, SOLVER_LIMIT"
+  },
+
+  "open_cells_by_cause": {
+    "definitions_with_an_edge": {"round_1": {"GENUS_OPEN": 12264821, "DIFFERENTIA_WORD_OPEN_OR_NONZERO": 3361095, "CONTRADICTED": 51}, "round_2": {"GENUS_OPEN": 12911042, "DIFFERENTIA_WORD_OPEN_OR_NONZERO": 2649097, "CONTRADICTED": 51}},
+    "reading": "About 700,000 open cells moved from 'differentia' to 'genus': on the identity banks a differentia no longer touches the kind, so only the genus can keep them open, and it does. The total open on edged definitions fell by 65,777 (15,625,967 to 15,560,190; 1,179 fewer edged definitions account for part of it). The genera keeping most cells open are the same: act 149,249, state 83,595, person 80,391, change.v.01 78,416, quality 70,340, one 60,122, process 48,103, member 45,025. The roots carry their identity and nothing else, as decided, so every kind below them is open wherever its genus chain is."
+  },
+
+  "witness": {
+    "encoder": "GSEEncoder(db_path=<output>) and the live lexicon",
+    "readings_identical_to_live": "yes: every token's nonzero values and zeros are the same",
+    "readings": {
+      "The happy dog runs to his mother.": "happy FEEL+ GOOD+; dog ALIVE+ SOMETHING+; runs HAPPEN+ MOVE+; his SOMEONE+; mother ALIVE+ SOMEONE+ SOMETHING+; The, to: none",
+      "She gave the boy a big lock.": "She SOMEONE+; gave DO+ HAPPEN+; boy ALIVE+ SOMEONE+ SOMETHING+; lock SOMETHING+; the, a, big: none",
+      "I want to know what you see.": "I I+ SOMEONE+; want WANT+; what SOMETHING+; you SOMEONE+ YOU+; see SEE+; to, know: none",
+      "The sad man cut the rope.": "sad GOOD-; man ALIVE+ BODY+ SOMEONE+ SOMETHING+; rope SOMETHING+; The, cut, the: none",
+      "My friend loves the beautiful house.": "My SOMEONE+; friend ALIVE+ SOMEONE+ SOMETHING+; loves FEEL+; beautiful GOOD+; house SOMETHING+; the: none"
+    },
+    "why_unchanged": "These words have many definitions; a derived value reaches a sense only when every definition holds it, and none of these senses is unanimous on a bank the stated values leave open. Before the unanimity rule the witness read 'runs' CAUSE+ HAPPEN+ MOVE+ and 'gave' CAUSE+ DO+ HAPPEN+, both from minor senses."
+  },
+
+  "sample_check": {
+    "report": "data/lexicon_builder/2026-11-12/genus-differentia-r2b-sample.json (each cell's full chain: axiom, or genus edges down to a stored value or an axiom, with the differentia words' values at each step)",
+    "selection": "per frequency bucket: 3 propagated nonzero, 2 propagated zero, 1 axiom cell; first by sha256(entry|bank)",
+    "cells": [
+      {"n": 1, "bucket": "1-500", "cell": "wordnet:make:shuffle.n.01 THINK", "value": 1, "chain": "shuffle.n.01 'the act of mixing cards haphazardly' < reordering.n.01 'a rearrangement in a different order' (stored THINK+)", "flag": "WRONG: inherits a questionable stored THINK+ on reordering.n.01"},
+      {"n": 2, "bucket": "1-500", "cell": "wordnet:close:finale.n.03 CAUSE", "value": 1, "chain": "finale.n.03 'the concluding part of any performance' < finish.n.09 < completion.n.02 < termination.n.05 'the act of ending something' (stored CAUSE+)", "flag": "WRONG: WordNet files a part of a performance under the act of finishing"},
+      {"n": 3, "bucket": "1-500", "cell": "wordnet:take:take.v.09 HAPPEN", "value": 1, "chain": "take.v.09 'travel or go by means of ...' < use.v.01 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 4, "bucket": "1-500", "cell": "wordnet:men:homo.n.02 YOU", "value": 0, "chain": "homo.n.02 < hominid.n.01 (stored 0); differentia 'characterize' does not touch an identity bank", "flag": "ok"},
+      {"n": 5, "bucket": "1-500", "cell": "wordnet:eyes:eye.n.05 YOU", "value": 0, "chain": "eye.n.05 'a small hole or loop (as in a needle)' < hole.n.02 (stored 0)", "flag": "ok"},
+      {"n": 6, "bucket": "1-500", "cell": "gse_closed_class:conjunction:if WANT", "value": 0, "chain": "closed-class axiom", "flag": "ok"},
+      {"n": 7, "bucket": "501-1500", "cell": "wordnet:given:pass.v.05 HAPPEN", "value": 1, "chain": "pass.v.05 'place into the hands or custody of' < transfer.v.05 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 8, "bucket": "501-1500", "cell": "wordnet:bar:bar.v.04 CAUSE", "value": 1, "chain": "bar.v.04 'secure with, or as if with, bars' < fasten.v.01 'cause to be firmly attached' (stored CAUSE+)", "flag": "ok"},
+      {"n": 9, "bucket": "501-1500", "cell": "wordnet:camp:camp.v.02 HAPPEN", "value": 1, "chain": "camp.v.02 < pitch.v.08 < rear.v.04 < raise.v.02 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 10, "bucket": "501-1500", "cell": "wiktionary total (adj) HEAR", "value": 0, "chain": "'Such that any two elements are comparable' < genus 'two' (prime axiom two.s.01, fully determined)", "flag": "WRONG WARRANT: the parser took the numeral 'two' as the adjective's genus; the value is right by accident"},
+      {"n": 11, "bucket": "501-1500", "cell": "wordnet:arms:arm.n.04 I", "value": 0, "chain": "arm.n.04 < armrest.n.01 (stored 0)", "flag": "ok"},
+      {"n": 12, "bucket": "501-1500", "cell": "gse_closed_class:operator:nowhere WHERE", "value": 0, "chain": "closed-class axiom (no declared bank, 0 elsewhere)", "flag": "QUESTIONABLE: 'nowhere' is about place; round 1's closed-class law zeroes every undeclared bank"},
+      {"n": 13, "bucket": "1501-5000", "cell": "wordnet:connected:connect.v.11 HAPPEN", "value": 1, "chain": "connect.v.11 < hit.v.01 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 14, "bucket": "1501-5000", "cell": "wordnet:cutting:cut.v.18 CAUSE", "value": 1, "chain": "cut.v.18 'stop filming' < stop.v.05 'cause to stop' (stored CAUSE+)", "flag": "QUESTIONABLE: 'stop filming' is intransitive; WordNet files it under the causative"},
+      {"n": 15, "bucket": "1501-5000", "cell": "wordnet:carried:carry.v.29 CAUSE", "value": 1, "chain": "carry.v.29 < transfer.v.04 < move.v.02 'cause to move' (stored CAUSE+)", "flag": "ok"},
+      {"n": 16, "bucket": "1501-5000", "cell": "wordnet:breasts:breast.n.02 YOU", "value": 0, "chain": "breast.n.02 < mammary_gland.n.01 (stored 0)", "flag": "ok"},
+      {"n": 17, "bucket": "1501-5000", "cell": "wordnet:twins:twin.n.03 I", "value": 0, "chain": "twin.n.03 (a waterfall) < waterfall.n.01 (stored 0)", "flag": "ok"},
+      {"n": 18, "bucket": "1501-5000", "cell": "gse_closed_class:preposition:below SOMEONE", "value": 0, "chain": "closed-class axiom", "flag": "ok"},
+      {"n": 19, "bucket": "5001+", "cell": "wordnet:implant:plant.v.06 HAPPEN", "value": 1, "chain": "plant.v.06 < communicate.v.01 < convey.v.03 < transfer.v.02 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 20, "bucket": "5001+", "cell": "wordnet:inspiring:revolutionize.v.03 CAUSE", "value": 1, "chain": "revolutionize.v.03 < indoctrinate.v.01 < teach.v.01 (stored CAUSE+)", "flag": "ok"},
+      {"n": 21, "bucket": "5001+", "cell": "wordnet:reconstitute:restructure.v.01 HAPPEN", "value": 1, "chain": "restructure.v.01 < structure.v.01 < organize.v.04 < arrange.v.01 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 22, "bucket": "5001+", "cell": "wordnet:manes:mane.n.01 YOU", "value": 0, "chain": "mane.n.01 < hair.n.01 (stored 0)", "flag": "ok"},
+      {"n": 23, "bucket": "5001+", "cell": "wiktionary bilateral (adj) MAYBE", "value": 0, "chain": "'Binding on both of the two parties involved.' < genus 'two' (prime axiom)", "flag": "WRONG WARRANT: numeral taken as genus; value right by accident"},
+      {"n": 24, "bucket": "5001+", "cell": "gse_closed_class:pronoun:whichever START", "value": 0, "chain": "closed-class axiom", "flag": "ok"},
+      {"n": 25, "bucket": "unranked", "cell": "wordnet:draws:pull_back.v.04 HAPPEN", "value": 1, "chain": "pull_back.v.04 < stretch.v.07 < pull.v.01 < move.v.02 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 26, "bucket": "unranked", "cell": "wordnet:placed:invest.v.01 CAUSE", "value": 1, "chain": "invest.v.01 'make an investment' < spend.v.02 < pay.v.01 < give.v.03 (stored CAUSE+)", "flag": "QUESTIONABLE: follows the stored CAUSE+ on give.v.03"},
+      {"n": 27, "bucket": "unranked", "cell": "wordnet:beseech:bid.v.03 HAPPEN", "value": 1, "chain": "bid.v.03 < plead.v.01 < appeal.v.02 < request.v.01 < communicate.v.01 < convey.v.03 < transfer.v.02 (stored HAPPEN+)", "flag": "ok"},
+      {"n": 28, "bucket": "unranked", "cell": "wordnet:anklets:anklet.n.01 I", "value": 0, "chain": "anklet.n.01 < shoe.n.01 (stored 0); differentia 'have' does not touch an identity bank", "flag": "ok"},
+      {"n": 29, "bucket": "unranked", "cell": "wiktionary fortnightly (adj) HAPPEN", "value": 0, "chain": "'Occurring once in a fortnight' < genus 'two' (prime axiom)", "flag": "WRONG WARRANT, value questionable ('occurring')"},
+      {"n": 30, "bucket": "unranked", "cell": "gse_closed_class:auxiliary:having SOMEONE", "value": 0, "chain": "closed-class axiom", "flag": "ok"}
+    ],
+    "summary": "22 read right; 2 wrong (shuffle THINK+, finale CAUSE+: both inherit a stored value WordNet's filing makes wrong); 3 on a wrong warrant (the adjective parser takes the numeral 'two' as genus: 513 cells in all come through 'two'; total and bilateral have the right value by accident, fortnightly HAPPEN 0 is questionable); 3 questionable (nowhere WHERE 0, cut.v.18 CAUSE+, invest CAUSE+). An earlier draw of this sample found primer WHERE+ via 'England', go (board game) via 'Korea' and pinot via 'America'; that led to the name-genus rule and this rerun."
+  },
+
+  "superseded_files_not_deleted": {
+    "round_1_five": [
+      "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia.db",
+      "data/lexicon_builder/2026-11-12/genus-differentia-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/genus-differentia-close.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-measure.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-verify.json"
+    ],
+    "this_session_intermediate_runs": [
+      "data/lexicon_builder/2026-11-12/genus-differentia-round2-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/genus-differentia-round-2-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-round-2.db",
+      "data/lexicon_builder/2026-11-12/genus-differentia-round-2-close.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2.db",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-close.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-measure.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-verify.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-witness.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-witness-senses.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-sample.json",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-final-edges.json.gz",
+      "data/lexicon_builder/2026-11-12/sparse-release-022-genus-differentia-r2-final.db",
+      "data/lexicon_builder/2026-11-12/genus-differentia-r2-final-close.json"
+    ],
+    "why": "the shell refused rm for every path, so nothing was deleted. Intermediate runs: before the closed-class/catalog label fix (round-2), before the name-genus rule (r2), and with a name-genus rule that also dropped WordNet edges (r2-final). All are safe to delete; r2b is the result."
+  },
+
+  "questions_for_rohan": [
+    "The roots carry their identity and nothing else (as decided); all 42 anchors already held it, so decision 3 added no cells, and 12.9M open cells now sit under open genera (act, state, person, change.v.01, quality, ...). Should anything settle a root's or a main genus word's other banks, and from which source? Nothing in the sources does now.",
+    "A Wiktionary genus word ('a person who ...') reads as the union of all its senses. Should a genus word that names an anchor (person, act, state, time, place) read as its anchored synset instead? That would be a sense choice; no rule makes it now.",
+    "WORDS is an identity bank because the decision names it; Goddard 2012 files it under speech. I and YOU are identity banks because the substantives category holds them. Keep or strike either?",
+    "The adjective parser takes the numeral 'two' as genus ('Such that any two elements ...'): 513 cells, all from the fully determined prime 'two'. Should a quantifier or numeral prime ever be a genus?",
+    "Catalog axioms are fully determined like every prime: die is ALIVE- with HAPPEN 0, be-somewhere is BE+ with WHERE 0, place is WHERE+ with 0 elsewhere. Are these zeros right for the units, or should a catalog axiom state only its own bank (as a root axiom does)?",
+    "little-few, more, much-many, some and some-time have no catalog sign (QUANTITY without a sign, or no bank). Which bank and sign, if any?",
+    "Closed-class axioms zero every undeclared bank, so 'nowhere' is WHERE 0. Should the curated entries declare their place/time banks?",
+    "Two sample cells inherit a stored value that WordNet's filing makes wrong (shuffle THINK+ via reordering.n.01; finale CAUSE+ via the act of finishing). The closure never changes a stored value; the stored ones are the release's to review."
+  ]
+}

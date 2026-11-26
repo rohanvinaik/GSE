@@ -203,6 +203,56 @@ satisfy three rules:
        the sources settles them, and they gate most of the lexicon.
     4. Are the 16 NSM units with no settled own bank axioms, and with which bank? die, live, time, place, some, mine
        and others. The catalog marks die, live and mine as unvalidated alignments.
+  - Answered 2026-11-26 ("Agreed on your reads. Please proceed"): GD-2.
+- [x] GD-2 Genus/differentia closure, round 2 (brief: `genus-differentia-round-2.md`; code 1b1ea94; receipt
+  `docs/verification/2026-11-26-genus-differentia-round-2.json`). Output `sparse-release-022-genus-differentia-r2b.db`.
+  - Decision 1: word senses read the closure's settled cells as member evidence of the lowest standing. A derived
+    value fills a bank only where no stated value or agreed sign speaks to it, and only where every definition of the
+    sense holds it. The warrant test gains the `genus-differentia` kind, checked against the stored closure record.
+    - Unanimity was added after the witness: with "no disagreement" alone, one causative sense of 101 gave "runs"
+      CAUSE+, and one definition of 49 gave "have" CAUSE+.
+  - Decision 2: on the identity banks the kind takes its genus's state. Those banks are I, YOU, SOMEONE, SOMETHING,
+    PEOPLE, BODY, KIND, PART, ALIVE, WHEN, WHERE and WORDS, from Goddard 2012 Table 1 (substantives, relational
+    substantives, life and death, the TIME and PLACE exponents, and WORDS as named) and the catalog's bank map.
+    - A capitalized differentia head is a name, not differentia: 565 removed.
+    - A capitalized Wiktionary genus is a name, not a genus: 1,179 edges withdrawn. This was added after the sample
+      check found primer WHERE+ via "England".
+  - Decision 3: each of the 42 anchors in `_WARRANTED_ROOT_PRIMITIVES` is its identity and nothing more. The five
+    anchors absent from the release stand in the graph with that identity. Every anchor already held its identity,
+    so this adds 0 cells by itself. The review table is in the receipt.
+  - Decision 4: 11 of the 16 units take their catalog bank and sign and are fully determined (56 cells each). The
+    other five have no catalog sign: little-few, more, much-many, some, some-time.
+  - Closure: 10,509 definitions, 31,327 cells (17,178 zero, 14,149 nonzero); round 1 was 10,074 and 29,779.
+    - No cell has a different value than in round 1. 2,074 cells are new, mostly I/YOU zeros through differentia.
+    - 526 round-1 cells are gone, 264 of them nonzero: identity from names and from differentia nouns.
+  - H fell 50,394 bits (round 1: 48,020). Exact joint H: 32,707,235 to 32,664,646 bits. Filled banks per definition
+    went from 1.26 to 1.34. Release tables are all identical.
+  - Contradictions: 5 AXIOM_OWN_BANK_OPEN, 3 AXIOM_CONDITIONAL_EXCEPTION (the rules make long-time and short-time
+    WHEN+ and side WHERE+), and 1 STORED_CONFLICT (hand.n.09, as before).
+  - Open cells on edged definitions: genus 12.91M (was 12.26M), differentia 2.65M (was 3.36M), total down 65,777.
+  - Word senses: rebuilt; verify 300/300; 82 tests pass, pytest exit 0.
+    - Assigned values went from 254,128 to 266,786, nonzero from 130,612 to 131,225, and unassigned banks from
+      5,696,600 to 5,683,942.
+    - Against the live lexicon: 11,678 readings filled, 78 of them nonzero; 0 changed, 0 removed.
+    - The five witness sentences read exactly as live.
+  - Sample of 30 cells with their chains:
+    - 22 read right.
+    - 2 are wrong: they inherit stored values that WordNet files wrongly (shuffle THINK+, finale CAUSE+).
+    - 3 rest on the adjective parser's numeral genus "two" (513 cells in all).
+    - 3 are questionable.
+  - Not done:
+    - The full replay; its command is in the receipt.
+    - Deleting round 1's five files and this session's intermediate runs (the shell refused rm). They are listed in
+      the receipt.
+  - Rohan decides:
+    1. Should anything settle the roots' and main genus words' other banks? 12.9M cells wait on that.
+    2. Should a Wiktionary genus word that names an anchor read as the anchored synset rather than the union of its
+       senses?
+    3. Keep or strike WORDS (Goddard 2012 files it under speech) and I/YOU as identity banks?
+    4. May a numeral or quantifier prime be a genus? ("two" gives 513 cells.)
+    5. Should catalog axioms be fully determined (die HAPPEN 0, be-somewhere WHERE 0), or state only their own bank?
+    6. Which bank and sign, if any, for little-few, more, much-many, some and some-time?
+    7. Closed-class axioms zero undeclared banks, so "nowhere" is WHERE 0. Should the curated entries declare them?
 
 ## Urgent checkpoint execution — 2026-11-24
 
