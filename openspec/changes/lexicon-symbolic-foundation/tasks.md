@@ -526,7 +526,9 @@ one live lexicon plus at most one build copy.
 - [x] GSE-02.0 Baseline of the live lexicon (senses6) with `specification.measure_dictionary`: 32,707,151 joint bits;
   506,613 filled banks (331,373 explicit zeros); 21,982,707 unresolved; 54.74 unresolved per definition. It reads only
   the stored definition states.
-- [ ] GSE-02.1 (running: pinned replay of senses6, then the revision, senses rebuild, verify and re-measure, chained)
+- [ ] GSE-02.1 (pinned replay of senses6 validated: 401,596 definitions, 0 mismatches. First revision attempt failed
+  on archived model receipts (MODEL_OBSERVATIONS_MISMATCH); fixed in e0b5c5a by leaving all 147 receipt-pinned
+  definitions untouched; revision, senses rebuild, verify and re-measure re-running, chained)
   Install the derived layers into the stored definitions (`scripts/revise_lexicon_derived_layers.py`,
   source-revision path): sub-kind inheritance and form-of (inherited defaults only; their consequences re-derive),
   NSM molecule inheritance, NSM valency zeros. One `derived` observation per channel per definition; replay witnesses
