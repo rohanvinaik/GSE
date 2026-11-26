@@ -181,7 +181,8 @@ def test_degree_modified_copular_nominal_keeps_its_head(encoder, text, head):
 
 def test_native_chemical_identity_survives_nominal_copula_and_emission(encoder):
     trace = encoder.encode("He is an inert gas.")
-    assert trace.tokens[0].lexical_evidence["selected_record"]["entry_id"] == "wordnet:he:helium.n.01"
+    grounding = trace.tokens[0].lexical_evidence["contextual_grounding"]  # word-senses runtime: the exact witness
+    assert grounding["code"] == "EXACT_WORDNET_SENSE" and grounding["entry_id"] == "wordnet:he:helium.n.01"
     gas = next(t for t in trace.tokens if t.lemma == "gas")
     assert gas.pos == "NOUN" and "SYN_COMPL" in gas.sent_primitives
     tree = evaluate_tree(resolve(from_trace(trace)))
