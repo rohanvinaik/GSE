@@ -321,6 +321,29 @@ def _observations(conn, entries, mismatch, model_entries=()):
     return native, relevant, bank_relevance
 
 
+def _validate_derived_witness(conn, entry_id, assertion):
+    """Replay recomputes a derived assertion instead of trusting it (scripts/revise_lexicon_derived_layers.py)."""
+    if assertion.source == "nsm-valency":
+        from .valency_absence import absent_banks
+
+        if assertion.value != 0 or assertion.bank not in absent_banks(entry_id):
+            raise ValueError("DERIVED_VALENCY_WITNESS_MISMATCH")
+    elif assertion.source == "nsm-molecule":
+        from .word_sense_nsm_molecules import inherited
+
+        if inherited(entry_id.rsplit(":", 1)[1]).get(assertion.bank, (None,))[0] != assertion.value:
+            raise ValueError("DERIVED_MOLECULE_WITNESS_MISMATCH")
+    elif assertion.source in ("subkind-inheritance", "form-of"):
+        row = conn.execute(
+            "SELECT payload FROM source_observations WHERE record_id=?", (assertion.record_id,)
+        ).fetchone()
+        features = _read_json(row[0])["features"] if row is not None else {}
+        if (features.get("values") or {}).get(assertion.bank) != assertion.value:
+            raise ValueError("DERIVED_INHERITANCE_WITNESS_MISMATCH")
+    else:
+        raise ValueError("UNKNOWN_DERIVED_CHANNEL")
+
+
 def _model_observations(conn, record_ids):
     """Load only the requested definition's already-validated native records."""
     for record_id in record_ids:
@@ -484,6 +507,8 @@ def _provenance(
                     or observation.scope != "lexical"
                 ):
                     raise ValueError("ASSERTION_PROVENANCE_MISMATCH")
+                if assertion.family == "derived":
+                    _validate_derived_witness(conn, entry_id, assertion)
                 if assertion.source == "wiktionary":
                     from .evidence import wiktionary_definition_projection
 

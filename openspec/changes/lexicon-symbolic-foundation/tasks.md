@@ -508,3 +508,36 @@ has not changed. See `ssl-api-controller-blockers.json` and
      people's bodies", the vertebrate body plan; its "creatures" explication has no BODY ("something living / can
      move / can feel").
   2. Keep the abstention: the measured carry is refuted by NSM counterexamples (receipt above).
+
+## GSE-02 — Complete the lexicon by running the SSL loop at population scale (2026-11-26)
+
+Rohan, 2026-11-26: "There are several dozen million combinations of bank encodings and associations, the SSL-driven,
+information-theoretic approach to constraint propagation ... tell you how to finish this." Basis:
+`docs/readings/2026-11-26-build-completion-consult/` (his prompts, this contract and the theory, read independently
+by GPT-6.2 Sol; Claude's reading recorded first). The unit of work is the rule, never the cell: each admitted rule
+covers its whole population and becomes a premise for the next (C(H)). Completion means all 22,489,376 cells accounted
+for (decided, or a typed residual with its reason), not filled.
+
+Standing rules: one production state and path (no side layers the meter or controller cannot read); the model teaches
+through typed questions and admitted rules write (07 draft, section 3; F078); family `derived` never confirms anything;
+significance-weighting admission (spine-sourced confirmation, retained plurality, kappa > 0); zeros only by typed laws;
+one live lexicon plus at most one build copy.
+
+- [x] GSE-02.0 Baseline of the live lexicon (senses6) with `specification.measure_dictionary`: 32,707,151 joint bits;
+  506,613 filled banks (331,373 explicit zeros); 21,982,707 unresolved; 54.74 unresolved per definition. It reads only
+  the stored definition states.
+- [ ] GSE-02.1 Install the derived layers into the stored definitions (`scripts/revise_lexicon_derived_layers.py`,
+  source-revision path): sub-kind inheritance and form-of (inherited defaults only; their consequences re-derive),
+  NSM molecule inheritance, NSM valency zeros. One `derived` observation per channel per definition; replay witnesses
+  in `validation._validate_derived_witness`. Needs the pinned full replay of senses6 (running), then the revision with
+  full replay, then promotion (build copy replaces senses6).
+- [ ] GSE-02.2 Re-measure joint bits on the installed state; record the receipt.
+- [ ] GSE-02.3 Population-scale plan (`GSE.lexicon-epoch-plan/2`): all 56 banks; broad scopes by native POS and
+  approved identity roots (selections, never values); larger frontier and candidate limits; no authored families
+  (rules come from the controller's discovery over what it is taught); audits on held-out common words.
+- [ ] GSE-02.4 Run `scripts/run_lexicon_epochs.py` (closure arm; local qwen3.8:27b-q8_0) on the build copy; joint bits
+  per round; counterexamples to guard refinement or recorded exceptions; checkpoint when the common-use workload passes.
+- [ ] GSE-02.5 Make the reviewed four-state laws (head laws F144, F067, F088's reading) release relations through the
+  rule-revision path (today measurement only).
+- [ ] GSE-02.6 Propagation speed: indexed fact, edge and rule-instance tables with a worklist, replacing per-definition
+  SQL solves (30-40 definitions/s).

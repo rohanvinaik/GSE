@@ -153,7 +153,9 @@ def spine_and_support(conn: sqlite3.Connection, hierarchy: "Hierarchy") -> tuple
         "SELECT entry_id, payload FROM builder_assertions WHERE entry_id LIKE 'wordnet:%'"
     ):
         record, synset = json.loads(payload), entry.rsplit(":", 1)[1]
-        if record["value"]:
+        if record["value"] and record.get("source") == "nsm-molecule":
+            spine[synset].add((record["bank"], record["value"]))  # installed NSM molecule values are the spine's
+        elif record["value"] and record.get("family") != "derived":  # derived values never confirm anything
             stated[synset].add((record["bank"], record["value"]))
             if record.get("family") in SPINE_FAMILIES:
                 spine[synset].add((record["bank"], record["value"]))
