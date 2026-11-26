@@ -79,8 +79,11 @@ def _units() -> tuple[dict[str, tuple[str, str, int]], dict[str, frozenset[str]]
             continue
         bank, sign = signs[unit["unit_id"]][0], signs[unit["unit_id"]][1]
         own[unit["unit_id"]] = frozenset(re.sub(r"\([^)]*\)", "", f).strip().lower() for f in unit["forms"])
-        for form in unit["forms"]:
-            forms[gd._normal(form)] = (unit["unit_id"], bank, sign)
+        for form in unit["forms"]:  # the same keys as template_types._exponents: as written, plus plural bases
+            clean = re.sub(r"\([^)]*\)", "", form).strip().lower()
+            bases = () if " " in clean else tuple(b for b in tt._morphy(clean) if len(b) > 1)
+            for key in (clean, *bases):
+                forms.setdefault(key, (unit["unit_id"], bank, sign))
     phrases = tuple(sorted((f for f in forms if " " in f), key=len, reverse=True))
     return forms, own, phrases
 

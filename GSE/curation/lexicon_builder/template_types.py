@@ -27,26 +27,48 @@ def _exponents() -> tuple[dict[str, str], tuple[str, ...]]:
 
     units = catalog_inventory()["units"]
     signs = gd.catalog_signs(units)
-    forms = {gd._normal(f): signs[u["unit_id"]][0] for u in units if u["unit_id"] in signs for f in u["forms"]}
+    # Each exponent as written (parentheticals dropped) and its WordNet base forms of two or more letters: KINDS is
+    # also "kind", WORDS "word"; AS is never the article "a" (a one-letter base made every article the prime LIKE).
+    forms = {}
+    for unit in units:
+        if unit["unit_id"] not in signs:
+            continue
+        for form in unit["forms"]:
+            clean = re.sub(r"\([^)]*\)", "", form).strip().lower()
+            bases = () if " " in clean else tuple(b for b in _morphy(clean) if len(b) > 1)
+            for key in (clean, *bases):
+                forms.setdefault(key, (signs[unit["unit_id"]][0], signs[unit["unit_id"]][1], unit["unit_id"]))
     phrases = tuple(sorted((f for f in forms if " " in f), key=len, reverse=True))
     return forms, phrases
 
 
 def banks_in(text: str) -> set[str]:
     """The basis coordinates whose prime exponents occur in an NSM text (molecules skipped)."""
+    return set(signed_banks_in(text))
+
+
+def signed_banks_in(text: str, *, skip_units: frozenset[str] = frozenset()) -> dict[str, set[int]]:
+    """bank -> the signs its exponents carry in an NSM text: BAD is GOOD -1, SMALL is BIG -1, OTHER is SAME -1
+    (the catalog's own signs). ``skip_units`` leaves out units a caller does not count (e.g. the deictic THIS)."""
     forms, phrases = _exponents()
     text = MOLECULE.sub(" ", text.lower())
-    found = set()
+    found: dict[str, set[int]] = {}
+
+    def add(entry):
+        bank, sign, unit = entry
+        if unit not in skip_units:
+            found.setdefault(bank, set()).add(sign)
+
     for phrase in phrases:
         pattern = r"\b" + re.escape(phrase) + r"\b"
         if re.search(pattern, text):
-            found.add(forms[phrase])
+            add(forms[phrase])
             text = re.sub(pattern, " ", text)
     for word in re.findall(r"[a-z'’]+", text):
         word = re.sub(r"['’]s?$", "", word)
         for base in _bases(word):
             if base in forms:
-                found.add(forms[base])
+                add(forms[base])
                 break
     return found
 
@@ -55,15 +77,17 @@ def banks_in(text: str) -> set[str]:
 def _bases(word: str) -> tuple[str, ...]:
     """The word and its base forms under WordNet's morphology (bodies -> body, living -> live, felt -> feel), so an
     inflected exponent matches its prime; the source's own morphological processor, not a hand list."""
+
+    out = [word, *(base for base in _morphy(word) if len(base) > 1)]  # "is" -> the letter "i" is not the prime I
+    return tuple(dict.fromkeys(out))
+
+
+@lru_cache(maxsize=None)
+def _morphy(word: str) -> tuple[str, ...]:
     from nltk.corpus import wordnet as wn
 
-    out = [gd._normal(word)]
-    for pos in ("n", "v", "a"):
-        base = wn.morphy(word, pos)
-        if base and len(base) > 1:  # "is" -> noun "i" (the letter) is not the prime I
-            out.append(gd._normal(base))
-    # A one-letter form matches only a one-letter token: "is" with its s stripped is not the prime I.
-    return tuple(dict.fromkeys(base for base in out if len(base) > 1 or base == word))
+    # Every base WordNet's morphology finds, not only the first: "things" is itself a lemma, and also "thing".
+    return tuple(dict.fromkeys(base for pos in ("n", "v", "a") for base in wn._morphy(word, pos)))
 
 
 @lru_cache(maxsize=1)
@@ -92,7 +116,8 @@ PARTICIPANT = re.compile(r"^\W*(?:[a-z]\.\s+)?(?:other people|people|someone els
 
 CLAUSE = re.compile(r",|;|:|\bif\b|\bbecause\b|\bwhen\b|\bat the same time\b")
 PARTICIPANT_SUBJECT = re.compile(
-    r"^\W*(?:[a-z]\.\s+)?(?:other people|people(?! of this kind)|someone else|i\b|you\b|other creatures)"
+    r"^\W*(?:[a-z]\.\s+)?(?:other people|people(?! of this kind)|someone else|i\b|you\b|other creatures"
+    r"|someone(?! of this kind| like this)\b|something(?! of this kind| like this)\b)"
 )
 
 

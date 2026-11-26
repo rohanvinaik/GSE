@@ -31,10 +31,11 @@ def test_the_category_formula_is_frame_but_its_substantive_is_content(categories
     assert kinds["PEOPLE"] == {"content"}
 
 
-def test_the_article_a_read_as_as_is_a_collision_and_like_itself_is_content(categories):
+def test_the_article_a_is_not_the_exponent_as_and_like_itself_is_content(categories):
+    # The matcher keys exponents as written (template_types._exponents): AS is never the article "a".
     kinds = _kinds("it is like a stone [m]", categories)
-    assert kinds["LIKE"] == {"collision", "content"}
-    assert tail.token_class("LIKE", tail.tokens_in("a long tail [m]", categories), categories) == "EXPONENT_COLLISION"
+    assert kinds["LIKE"] == {"content"}
+    assert "LIKE" not in {t.bank for t in tail.tokens_in("a long tail [m]", categories)}
 
 
 def test_the_plural_chart_exponent_kinds_matches_kind_without_collision(categories):
