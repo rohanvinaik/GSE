@@ -15,6 +15,11 @@ SOMETHING = 0 on adjectives and adverbs) and the I/YOU zeros are not load-bearin
   with the existing resolver.
 - An agreed sign that a member value or a rule contradicts is not committed. It is recorded as
   blocked, with its cause.
+- Where the candidate carries the genus/differentia closure (``derived:genus-differentia``, Rohan's
+  decision 1 of 2026-11-26), the cells it settled on a sense's definitions are member evidence of the
+  lowest standing: they fill a bank no stated member value and no agreed sign speaks to, only where
+  every definition of the sense holds the same derived value, under the rules, with the warrant ``genus-differentia`` naming the definitions whose closure record holds
+  them. They are never load-bearing, never a source vote, and never contest a stated value.
 - Proper names are not word senses (they are handled elsewhere).
 
 Everything here is computed from the release and the sources, so ``verify`` can rebuild and
@@ -57,6 +62,9 @@ class Definition:
     resolved: Mapping[str, int]  # the definition's stored values (primitive_values)
     load_bearing: Mapping[str, tuple[int, float, str, str]]  # bank -> (value, weight, cause, kind)
     conventions: Mapping[str, str] = field(default_factory=dict)  # bank -> convention rule that set it
+    # Cells the genus/differentia closure settled (``word_sense_genus_differentia.CHANNEL``): member
+    # evidence below every stated value, never load-bearing, never a source vote.
+    derived: Mapping[str, int] = field(default_factory=dict)
 
     @property
     def weight(self) -> float:
@@ -111,6 +119,18 @@ def convention_values(trace: Sequence[Mapping]) -> dict[str, str]:
     }
 
 
+DERIVED_TABLE = "genus_differentia_closure"
+DERIVED_WARRANT = "genus-differentia"
+
+
+def derived_cells(conn: sqlite3.Connection, entry_id: str) -> dict[str, int]:
+    """The cells the genus/differentia closure settled on one definition, when the candidate has them."""
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (DERIVED_TABLE,)).fetchone() is None:
+        return {}
+    row = conn.execute(f"SELECT settled FROM {DERIVED_TABLE} WHERE entry_id = ?", (entry_id,)).fetchone()
+    return json.loads(row[0]) if row else {}
+
+
 def read_definitions(conn: sqlite3.Connection, lemma: str, reach: Mapping[str, int]) -> dict[str, list[Definition]]:
     """A lemma's definitions by part of speech, proper names excluded."""
     by_pos: dict[str, list[Definition]] = {}
@@ -129,8 +149,17 @@ def read_definitions(conn: sqlite3.Connection, lemma: str, reach: Mapping[str, i
             )
         }
         steps = json.loads(trace or "[]")
+        derived = {bank: value for bank, value in derived_cells(conn, entry_id).items() if bank not in resolved}
         by_pos.setdefault(pos, []).append(
-            Definition(entry_id, lexeme_id, pos, resolved, load_bearing_values(steps, reach), convention_values(steps))
+            Definition(
+                entry_id,
+                lexeme_id,
+                pos,
+                resolved,
+                load_bearing_values(steps, reach),
+                convention_values(steps),
+                derived,
+            )
         )
     return by_pos
 
@@ -301,11 +330,65 @@ def close_sense(
         }
     else:
         resolution = _resolve(base, relations, pos)
-    row = _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, resolution.code)
+    derived, derived_contested = derived_values(sense, set(fixed) | set(contested) | set(agreed), feeling_noun)
+    added, sources = [], {}
+    for bank, (value, entries) in sorted(derived.items()):  # each derived value alone, then together
+        if bank in resolution.assignments:
+            continue  # the stated values and the rules already settle it
+        candidate = Assertion(bank, value, DERIVED_WARRANT, f"{DERIVED_WARRANT}:{lemma}:{pos}:{index}", DERIVED_WARRANT)
+        trial = _resolve(base + kept + [candidate], relations, pos)
+        if trial.code == "CONFLICT":
+            blocked[bank] = {"sign": value, "cause": "DERIVED_RULE_CONFLICT", "rules": _conflict_rules(trial)}
+        else:
+            added.append(candidate)
+            sources[bank] = entries
+    while added:
+        joint = _resolve(base + kept + added, relations, pos)
+        if joint.code != "CONFLICT":
+            resolution = joint
+            break
+        dropped = added.pop()
+        sources.pop(dropped.bank)
+        blocked[dropped.bank] = {
+            "sign": dropped.value,
+            "cause": "DERIVED_JOINT_RULE_CONFLICT",
+            "rules": _conflict_rules(joint),
+        }
+    row = _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, resolution.code, sources)
+    for bank, values in derived_contested.items():
+        if bank not in row["assignments"]:
+            row["open"].setdefault(bank, values)
     if feeling_noun and "GOOD" in row["provenance"]:
         # Recorded where it is stored, so a rebuild compares equal (Rohan's ruling D-1).
         row["provenance"]["GOOD"]["exemption"] = "feeling-noun"
     return row
+
+
+def derived_values(
+    sense: Sense, settled: set[str], feeling_noun: bool = False
+) -> tuple[dict[str, tuple[int, list[str]]], dict[str, list[int]]]:
+    """The closure's derived cells over a sense's definitions, on banks no stated member value and
+    no agreed source sign speaks to: bank -> (value, the definitions) where every definition of the
+    sense holds the same derived value, and bank -> values where they hold different ones. A value
+    only some definitions hold is not the sense's (one minor definition's CAUSE is not the main
+    sense's; the others are unknown there, not in agreement). They fill; they never contest or
+    override a stated value. A feeling noun takes no derived GOOD (the noun-evaluation zero does not
+    apply to it)."""
+    definitions = sense.members + sense.absorbed
+    found: dict[str, dict[int, list[str]]] = {}
+    for definition in definitions:
+        for bank, value in definition.derived.items():
+            if bank in settled or (feeling_noun and bank == "GOOD"):
+                continue
+            found.setdefault(bank, {}).setdefault(value, []).append(definition.entry_id)
+    agreed = {
+        bank: (value, sorted(entries))
+        for bank, by_value in found.items()
+        if len(by_value) == 1
+        for value, entries in by_value.items()
+        if len(entries) == len(definitions)
+    }
+    return agreed, {bank: sorted(v) for bank, v in found.items() if len(v) > 1}
 
 
 def _conflict_rules(resolution) -> list[str]:
@@ -339,9 +422,10 @@ def rule_warrants(resolution, bank: str) -> list[str]:
     return sorted(named)
 
 
-def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, code) -> dict:
+def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, code, derived=None) -> dict:
     assignments = dict(resolution.assignments) if code != "MEMBERS_CONFLICT_UNDER_RULES" else dict(fixed)
     agreed_banks = {assertion.bank for assertion in kept}
+    derived = derived or {}
     provenance = {}
     for bank, value in sorted(assignments.items()):
         if bank in fixed:
@@ -349,6 +433,8 @@ def _row(lemma, pos, index, sense, fixed, contested, resolution, kept, blocked, 
             provenance[bank] = {"from": "members", "entries": sources}
         elif bank in agreed_banks:
             provenance[bank] = {"from": "source-agreement"}
+        elif bank in derived:
+            provenance[bank] = {"from": DERIVED_WARRANT, "entries": derived[bank]}
         else:
             provenance[bank] = {"from": "rules", "rules": rule_warrants(resolution, bank)}
     open_domains = {

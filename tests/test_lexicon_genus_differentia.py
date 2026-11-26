@@ -210,3 +210,160 @@ def test_the_linker_parse_gives_templates_genus_and_differentia():
     assert gd.parse_gloss("happily", "adv", "In a happy manner.")["template"] == "adv_manner"
     assert gd.parse_gloss("unhappy", "adj", "Not happy.")["genus"] is None
     assert gd.parse_gloss("quite", "adv", "To a great extent.")["template"] == "sentence_scale"
+
+
+# --- Round 2 (Rohan, 2026-11-26) ------------------------------------------------------------------
+
+TABLE = """Table 1: Semantic primes (English exponents), grouped into related categories.
+    I, YOU, SOMEONE, SOMETHING~THING, PEOPLE, BODY                                         substantives
+    KIND, PART                                                                  relational substantives
+    SAY, WORDS, TRUE                                                                            speech
+    BE (SOMEWHERE), THERE IS, HAVE (SOMETHING),                       location, existence, possession,
+    BE (SOMEONE/SOMETHING)                                                                 specification
+    LIVE, DIE                                                                            life and death
+    WHEN~TIME, NOW, BEFORE, AFTER, A LONG TIME, A SHORT                                            time
+    TIME, FOR SOME TIME, MOMENT
+    WHERE~PLACE, HERE, ABOVE, BELOW, FAR, NEAR, SIDE,                                             space
+    INSIDE
+
+Notes: the table ends at the blank line.
+"""
+
+
+def test_the_category_table_is_read_as_printed_with_its_continuation_rows():
+    table = gd.category_table(TABLE)
+    assert table["relational substantives"] == ("KIND", "PART")
+    assert table["time"][-3:] == ("A SHORT TIME", "FOR SOME TIME", "MOMENT")
+    assert table["space"][-1] == "INSIDE"
+    assert table["location, existence, possession, specification"][-1] == "BE (SOMEONE/SOMETHING)"
+
+
+def test_identity_banks_come_from_the_chart_categories_and_the_catalog_map():
+    from GSE.curation.lexicon_builder.catalog import catalog_inventory
+
+    banks = gd.identity_banks(TABLE, catalog_inventory()["units"])
+    decision = {"SOMEONE", "SOMETHING", "PEOPLE", "BODY", "KIND", "PART", "WORDS", "WHEN", "WHERE", "ALIVE"}
+    assert decision <= set(banks) and set(banks) - decision == {"I", "YOU"}  # the other two substantives
+    assert banks["ALIVE"] == ("nsm:v20:die", "nsm:v20:live") and banks["WHEN"] == ("nsm:v20:time",)
+    assert not {"DO", "HAPPEN", "MOVE", "FEEL", "THINK", "SAY", "CAUSE", "BEFORE", "HERE"} & set(banks)
+
+
+def test_the_published_category_table_gives_the_same_identity_banks():
+    from pathlib import Path
+
+    from GSE.curation.lexicon_builder.catalog import catalog_inventory
+
+    path = Path(__file__).resolve().parents[1] / gd.CATEGORY_TABLE
+    if not path.is_file():
+        pytest.skip("the NSM reference texts are local data")
+    units = catalog_inventory()["units"]
+    assert gd.identity_banks(path.read_text(encoding="utf-8"), units) == gd.identity_banks(TABLE, units)
+
+
+def test_a_differentia_carries_its_content_never_its_nouns_identity():
+    identity = gd.mask(["WHERE", "SOMETHING", "SOMEONE", "ALIVE"])
+    world = {
+        "money": determined(SOMETHING=[1]),
+        "scotland": determined(WHERE=[1], SOMETHING=[1]),
+        "muezzin": determined(SOMEONE=[1], ALIVE=[1], SAY=[1], DO=[1]),
+    }
+    sterling = gd.compile_constraint(edge([("money", ("money",))], [("scotland", ("scotland",))]), world, identity)
+    assert values(sterling, "WHERE") == (0,) and values(sterling, "SOMETHING") == (1,)  # the genus's identity
+    minaret = gd.compile_constraint(edge([("money", ("money",))], [("muezzin", ("muezzin",))]), world, identity)
+    assert values(minaret, "SOMEONE") == (0,) and values(minaret, "ALIVE") == (0,)
+    assert values(minaret, "SAY") == (1,) and values(minaret, "DO") == (1,)  # predicate content carries
+    unbounded = gd.compile_constraint(edge([("money", ("money",))], [("scotland", ("scotland",))]), world)
+    assert values(unbounded, "WHERE") == (1,)  # round 1's law, without the identity mask
+
+
+def test_a_capitalized_differentia_head_is_a_name_not_differentia():
+    assert gd.is_name("scotland", "used in Scotland")
+    assert gd.is_name("robert", "( Robert Hooke )")
+    assert not gd.is_name("live", "that lives in water")
+    assert not gd.is_name("tower", "that is a Tower or a tower")
+    assert not gd.is_name("big", "that grows . Big and round")  # a sentence's first word
+
+
+def test_a_name_the_parser_takes_for_the_genus_is_not_a_genus():
+    gloss = "Any of various similar works issued in England for private prayer in accordance with the Reformation."
+    parsed = gd.parse_gloss("primer", "noun", gloss)
+    assert parsed["genus"] is None and parsed["name_genus"] == "england"
+    assert parsed["template"] == "genus_differentia"  # a WordNet sense keeps its hypernym edge and differentia
+    index = gd.Index.build([("wordnet:england:england.n.01", "england", "noun")])
+    assert gd.build_edge("wiktionary:primer:1", "primer", "noun", parsed, index) == (None, "NO_GENUS:name_genus")
+    assert gd.parse_gloss("dogs", "noun", "plural of dog")["genus"] == "dog"  # an identity template is untouched
+
+
+def test_a_catalog_axiom_takes_its_units_bank_and_is_fully_determined():
+    own = ("ALIVE", -1, {"unit": "nsm:v20:die"})
+    result, errors = gd.determine_axiom("nsm_chart:v20:die", "nsm_lexical_unit", gd.FULL, (), no_exceptions, own)
+    packed, _ = result
+    assert not errors and values(packed, "ALIVE") == (-1,) and values(packed, "HAPPEN") == (0,)
+    assert not gd.open_banks(packed)
+    stored = state(ALIVE=[0, 1])
+    result, errors = gd.determine_axiom("nsm_chart:v20:die", "nsm_lexical_unit", stored, (), no_exceptions, own)
+    assert result is None and errors[0]["kind"] == "AXIOM_CATALOG_STORED_CONFLICT"  # a stored domain wins
+    # A prime whose own bank the release settles ignores the catalog's sign.
+    result, _ = gd.determine_axiom("gse:prime:feel", "verb", state(FEEL=[1]), (), no_exceptions, own)
+    assert values(result[0], "FEEL") == (1,) and values(result[0], "ALIVE") == (0,)
+
+
+def test_a_root_axiom_states_what_the_root_is_and_nothing_else():
+    warrant = {"anchor": "test"}
+    result, errors = gd.root_axiom("entity", "noun", gd.FULL, ("SOMETHING",), (), no_exceptions, warrant)
+    packed, _ = result
+    assert not errors and values(packed, "SOMETHING") == (1,)
+    assert len(gd.open_banks(packed)) == len(BANKS) - 1  # no zero is stipulated
+    assert gd.root_axiom("entity", "noun", state(SOMETHING=[1]), ("SOMETHING",), (), no_exceptions, warrant)[0] is None
+    result, errors = gd.root_axiom("x", "noun", state(SOMETHING=[0]), ("SOMETHING",), (), no_exceptions, warrant)
+    assert result is None and errors[0]["kind"] == "ROOT_AXIOM_STORED_CONFLICT"
+
+
+def test_the_closure_records_its_axioms_and_carries_a_root_identity_through_a_differentia():
+    closed = "gse_closed_class:pronoun:someone"
+    stored = {
+        "entity": gd.FULL,
+        "tower": gd.FULL,
+        "muezzin": determined(SOMEONE=[1], SAY=[1]),
+        "die": gd.FULL,
+        closed: state(SOMEONE=[1]),
+    }
+    pos = dict.fromkeys(stored, "noun")
+    edges = {
+        "tower": gd.Edge("tower", "noun", "t", (("entity", ("entity",)),), (("muezzin", ("muezzin",)),)),
+    }
+    closure = gd.close(
+        stored,
+        pos,
+        edges,
+        ["die", closed],
+        (),
+        no_exceptions,
+        identity=gd.mask(["SOMETHING", "SOMEONE"]),
+        own_signs={"die": ("ALIVE", -1, {"unit": "nsm:v20:die"}), closed: ("SOMEONE", 1, {})},
+        roots={"entity": (("SOMETHING",), {"anchor": "test"})},
+    )
+    assert closure.axioms["entity"]["kind"] == "wordnet_root" and closure.axioms["entity"]["settled"] == {
+        "SOMETHING": 1
+    }
+    assert closure.axioms["die"]["kind"] == "nsm_catalog" and closure.axioms["die"]["settled"]["ALIVE"] == -1
+    assert closure.axioms[closed]["kind"] == "gse_closed_class"  # the curated grammar, not the catalog
+    assert values(closure.state["tower"], "SOMETHING") == (1,)  # the root's identity, through the differentia
+    assert values(closure.state["tower"], "SOMEONE") == (-1, 0, 1)  # not the muezzin's; the root says nothing
+    assert values(closure.state["tower"], "SAY") == (1,)  # the muezzin's predicate content carries
+    assert values(closure.state["tower"], "GOOD") == (-1, 0, 1)  # untouched: the root's own state, open
+
+
+def test_an_anchor_root_missing_from_the_release_stands_in_the_graph():
+    index = gd.Index.build([("wordnet:tooth:tooth.n.01", "tooth", "noun")])
+    parsed = {"template": "genus_differentia", "genus": "x", "differentia": [], "negated": False}
+    built, _ = gd.build_edge(
+        "wordnet:tooth:tooth.n.01",
+        "tooth",
+        "noun",
+        parsed,
+        index,
+        hypernyms=("body_part.n.01",),
+        roots=frozenset({"body_part.n.01"}),
+    )
+    assert built.genus == (("body_part.n.01", (gd.ROOT_PREFIX + "body_part.n.01",)),)

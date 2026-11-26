@@ -25,15 +25,32 @@ That structure is the warrant: no threshold, sample or vote admits anything here
   entry keeps its state.
 
 The derived values are their own channel (``CHANNEL``): never written as a source assertion, never
-read back as evidence for anything but this closure.
+read back as evidence for anything but this closure and the word senses, which read them as member
+evidence below every stated value (``word_senses.close_sense``).
+
+Round 2 (Rohan, 2026-11-26, "Agreed on your reads. Please proceed"):
+
+- **A differentia contributes its content, never its noun's identity.** On the identity banks
+  (``identity_banks``: the NSM chart's substantives, relational substantives and life-and-death
+  primes, with TIME, PLACE and WORDS, read from Goddard 2012 Table 1 and the catalog's bank map) the
+  kind takes its genus's state whatever its differentia words are. A differentia head the gloss
+  writes only with a capital is a name (a citation, a place), not differentia.
+- **Root axioms.** Each synset of the reviewed anchor table (``_WARRANTED_ROOT_PRIMITIVES``) is
+  its identity: that bank is +1. Nothing else is stipulated: its other banks follow the same law as
+  every definition. An anchor synset with no definition in the release stands in the graph as a
+  root of that identity only (``ROOT_PREFIX``), so its kinds still have a genus.
+- **Catalog axioms.** A prime-linked definition whose own bank the release leaves open takes the
+  bank and sign the NSM catalog maps its unit to (EXACT or ADAPTED), then is fully determined like
+  every prime axiom. A unit the catalog gives no sign stays open.
 """
 
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from collections import Counter, defaultdict
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 
 from .engine import Assertion, DomainRestriction, Relation
@@ -55,6 +72,15 @@ ZERO_BITS = sum(SIGN_BIT[0] << 3 * i for i in range(N))
 LOW_BITS = sum(SIGN_BIT[-1] << 3 * i for i in range(N))
 HIGH_BITS = sum(SIGN_BIT[1] << 3 * i for i in range(N))
 NONZERO_BITS = LOW_BITS | HIGH_BITS
+ROOT_PREFIX = "wordnet_root:"  # an anchor synset the release has no definition of
+
+# The identity banks (decision 2): the NSM chart categories whose primes say what a thing IS, read
+# from the published category table; TIME and PLACE are the nominal primes of the time and space
+# categories ("life/place/time"), and WORDS is named in Rohan's decision (Goddard 2012 files it
+# under speech).
+CATEGORY_TABLE = "data/external/references/goddard-2012-primes-molecules-templates.txt"
+IDENTITY_CATEGORIES = ("substantives", "relational substantives", "life and death")
+IDENTITY_UNITS = ("TIME", "PLACE", "WORDS")
 
 
 def pack(domains: Mapping[str, Iterable[int]]) -> int:
@@ -88,6 +114,85 @@ def empty_banks(packed: int) -> list[int]:
 
 def open_banks(packed: int) -> list[int]:
     return [i for i in range(N) if len(bank_values(packed, i)) > 1]
+
+
+def only(i: int, value: int) -> int:
+    """Every bank unknown except bank ``i``, which holds one value."""
+    return FULL & ~(7 << 3 * i) | SIGN_BIT[value] << 3 * i
+
+
+def mask(banks: Iterable[str]) -> int:
+    """All three bits of each named bank."""
+    return sum(7 << 3 * BANKS.index(bank) for bank in set(banks))
+
+
+# ---------------------------------------------------------------------------------------------
+# The identity banks and the catalog's own banks (round 2)
+# ---------------------------------------------------------------------------------------------
+
+
+def _normal(exponent: str) -> str:
+    """A chart exponent for matching: parentheticals dropped, lower case, no plural s."""
+    return re.sub(r"\([^)]*\)", "", exponent).strip().lower().removesuffix("s")
+
+
+def category_table(text: str) -> dict[str, tuple[str, ...]]:
+    """Table 1 of Goddard (2012), "Semantic primes (English exponents), grouped into related
+    categories": each category and its exponents, as printed in two columns. A row with no
+    category continues the exponents above it; a category ending in a comma continues below."""
+    lines = text.splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("Table 1:"))
+    groups: list[tuple[list[str], list[str]]] = []
+    for line in lines[start + 1 :]:
+        if not line.strip():
+            break
+        left, right = (re.split(r"\s{2,}", line.strip(), maxsplit=1) + [""])[:2]
+        if groups and (not right or groups[-1][1][-1].endswith(",")):
+            groups[-1][0].append(left)
+            if right:
+                groups[-1][1].append(right)
+        else:
+            groups.append(([left], [right]))
+    return {
+        " ".join(rights): tuple(e.strip() for e in " ".join(lefts).split(",") if e.strip()) for lefts, rights in groups
+    }
+
+
+def catalog_signs(units: Iterable[Mapping]) -> dict[str, tuple[str, int, str, str]]:
+    """unit id -> (bank, sign, code, note) for every chart unit the catalog maps EXACT or ADAPTED."""
+    return {
+        unit["unit_id"]: (
+            unit["mapping"]["bank"],
+            unit["mapping"]["value"],
+            unit["mapping"]["code"],
+            unit["mapping"]["note"],
+        )
+        for unit in units
+        if unit["mapping"]["code"] in ("EXACT", "ADAPTED") and unit["mapping"]["bank"] in BANKS
+    }
+
+
+def identity_banks(table_text: str, units: Sequence[Mapping]) -> dict[str, tuple[str, ...]]:
+    """bank -> the chart units that make it an identity bank.
+
+    The exponents of ``IDENTITY_CATEGORIES`` and the table exponents with an ``IDENTITY_UNITS``
+    allolex, each matched to the catalog unit with that form (``catalog.catalog_inventory``), whose
+    EXACT or ADAPTED mapping names the bank. An exponent with no mapped unit is an error, not a skip.
+    """
+    table = category_table(table_text)
+    named = {_normal(unit) for unit in IDENTITY_UNITS}
+    exponents = [e for category in IDENTITY_CATEGORIES for e in table[category]]
+    exponents += [e for row in table.values() for e in row if {_normal(a) for a in e.split("~")} & named]
+    signs = catalog_signs(units)
+    found: dict[str, set[str]] = defaultdict(set)
+    for exponent in exponents:
+        wanted = {_normal(a) for a in exponent.split("~")}
+        matched = [u["unit_id"] for u in units if {_normal(f) for f in u["forms"]} & wanted and u["unit_id"] in signs]
+        if not matched:
+            raise ValueError("IDENTITY_EXPONENT_WITHOUT_CATALOG_BANK:" + exponent)
+        for unit_id in matched:
+            found[signs[unit_id][0]].add(unit_id)
+    return {bank: tuple(sorted(found[bank])) for bank in sorted(found, key=BANKS.index)}
 
 
 @dataclass(frozen=True)
@@ -180,12 +285,29 @@ def parse_gloss(lemma: str, pos: str, gloss: str) -> dict:
     if template:
         return {"template": template, "genus": None, "differentia": [], "negated": False}
     structure = extract_structure(lemma, pos, "x", gloss or "")
+    # "Any of various similar works issued in England ...": a name is not a genus. (A WordNet
+    # sense's genus is its hypernyms, so this matters only where the parse names the genus.)
+    words = " ".join(re.findall(r"[^\W\d_][\w'’-]*|[.;:!?]", gloss or ""))
+    name_genus = bool(structure.genus) and is_name(structure.genus, words)
     return {
         "template": "genus_differentia",
-        "genus": None if structure.note.startswith("circular") else structure.genus,
-        "differentia": [item.head_lemma for item in structure.differentia],
+        **({"name_genus": structure.genus} if name_genus else {}),
+        "genus": None if structure.note.startswith("circular") or name_genus else structure.genus,
+        "differentia": [item.head_lemma for item in structure.differentia if not is_name(item.head_lemma, item.text)],
         "negated": bool(structure.negations),
     }
+
+
+def is_name(head: str, text: str) -> bool:
+    """A differentia head the gloss writes only with a capital is a name (a citation, a place),
+    not differentia: "(Robert ...)", "in Scotland"."""
+    words = text.split()
+    written = [(k, word) for k, word in enumerate(words) if word.lower() == head]
+    # A capital that opens a sentence says nothing about a name.
+    inside = [word for k, word in written if k and words[k - 1] not in (".", ";", ":", "!", "?")]
+    return (
+        bool(inside) and all(word[:1].isupper() for word in inside) and all(word[:1].isupper() for _, word in written)
+    )
 
 
 def synset_of(entry_id: str) -> str:
@@ -235,8 +357,13 @@ def build_edge(
     hypernyms: tuple[str, ...] = (),
     form_of: tuple[str, ...] = (),
     withdrawn: frozenset[str] = frozenset(),
+    roots: frozenset[str] = frozenset(),
 ) -> tuple[Edge | None, str]:
-    """The definition's edge, or None and the reason it has none."""
+    """The definition's edge, or None and the reason it has none.
+
+    ``roots``: anchor synsets the release has no definition of; such a hypernym is the root
+    ``ROOT_PREFIX + name``, which holds the anchor's identity only.
+    """
     if pos not in CONTENT_POS:
         return None, "NOT_CONTENT_POS"
     if entry_id.startswith("wordnet:"):
@@ -248,7 +375,7 @@ def build_edge(
             return None, "WORDNET_DIFFERENTIA_UNPARSED"
         # A prime-linked synset that review withdrew as an identity root does not carry its axiom
         # to the kinds WordNet files under it (design, SP-1: "words and titles are not parts").
-        genus = tuple((name, () if name in withdrawn else index.by_synset.get(name, ())) for name in hypernyms)
+        genus = tuple((name, _synset_entries(name, index, withdrawn, roots)) for name in hypernyms)
         template = "wordnet_hypernym"
     elif form_of:
         genus = tuple((word, index.by_lemma_pos.get((word, pos), ())) for word in form_of)
@@ -258,6 +385,8 @@ def build_edge(
             return None, "UNPARSED"
         if parsed["template"] == "sentence_scale":
             return None, "SENTENCE_SCALE"
+        if parsed.get("name_genus"):
+            return None, "NO_GENUS:name_genus"
         if parsed["genus"] is None:
             return None, "NO_GENUS:" + parsed["template"]
         if parsed["negated"]:
@@ -270,6 +399,14 @@ def build_edge(
         template = "wiktionary_" + parsed["template"]
     differentia = tuple((word, index.by_lemma.get(word, ())) for word in parsed["differentia"])
     return _edge(entry_id, pos, template, genus, differentia), ""
+
+
+def _synset_entries(name: str, index: Index, withdrawn: frozenset[str], roots: frozenset[str]) -> tuple[str, ...]:
+    if name in withdrawn:
+        return ()
+    if name not in index.by_synset and name in roots:
+        return (ROOT_PREFIX + name,)
+    return index.by_synset.get(name, ())
 
 
 def _edge(entry_id, pos, template, genus, differentia):
@@ -293,8 +430,12 @@ def _union(entries: tuple[str, ...], state: Mapping[str, int]) -> int:
     return packed
 
 
-def compile_constraint(edge: Edge, state: Mapping[str, int]) -> int:
-    """The packed domain the genus plus the differentia allow, all banks at once."""
+def compile_constraint(edge: Edge, state: Mapping[str, int], identity: int = 0) -> int:
+    """The packed domain the genus plus the differentia allow, all banks at once.
+
+    ``identity`` masks the identity banks: there a differentia word's own values never carry, and
+    the kind takes its genus's state.
+    """
     genus = FULL
     for _label, entries in edge.genus:
         genus &= _union(entries, state)
@@ -314,7 +455,8 @@ def compile_constraint(edge: Edge, state: Mapping[str, int]) -> int:
         values = _union(entries, state)
         untouched &= values
         contribution |= values & NONZERO_BITS
-    return genus & _spread(untouched & ZERO_BITS) | contribution
+    content = genus & _spread(untouched & ZERO_BITS) | contribution
+    return content & ~identity | genus & identity
 
 
 def _explain(groups, state, i) -> list[dict]:
@@ -444,47 +586,75 @@ def axiom_entries(conn: sqlite3.Connection) -> list[str]:
     return sorted(linked | closed)
 
 
-def determine_axiom(entry_id: str, pos: str, current: int, rules, stored_exceptions):
+def _settles_nonzero(packed: int) -> bool:
+    return any(bank_values(packed, i) in ((-1,), (1,)) for i in range(N))
+
+
+def determine_axiom(entry_id: str, pos: str, current: int, rules, stored_exceptions, own=None):
     """A fully determined axiom: its current values and 0 on every open bank, under the rules.
 
-    A prime counts only where its own nonzero bank is settled. A zero a rule forbids is a typed
-    contradiction; the other zeros still hold.
+    A prime counts only where its own nonzero bank is settled, by the release or, where the release
+    leaves it open, by ``own`` = (bank, sign, warrant), the NSM catalog's mapping of its unit. A
+    zero a rule forbids is a typed contradiction; the other zeros still hold.
     """
     is_prime = not entry_id.startswith("gse_closed_class:")
-    if is_prime and not any(bank_values(current, i) in ((-1,), (1,)) for i in range(N)):
-        return None, [
-            GenusDifferentiaContradiction(
-                "AXIOM_OWN_BANK_OPEN", entry_id, None, {"values": "no settled nonzero bank"}, {"axiom": "prime"}
-            ).as_record()
-        ]
-    cause = {"axiom": "prime" if is_prime else "gse_closed_class"}
-    zeros = [i for i in open_banks(current) if 0 in bank_values(current, i)]
+    base, cause = FULL, {"axiom": "prime" if is_prime else "gse_closed_class"}
+    if is_prime and not _settles_nonzero(current):
+        if own is None:
+            return None, [
+                GenusDifferentiaContradiction(
+                    "AXIOM_OWN_BANK_OPEN", entry_id, None, {"values": "no settled nonzero bank"}, {"axiom": "prime"}
+                ).as_record()
+            ]
+        bank, sign, warrant = own
+        base, cause = only(BANKS.index(bank), sign), {"axiom": "nsm_catalog", "bank": bank, "sign": sign, **warrant}
+        try:
+            resolve_entry(entry_id, pos, current, base, rules, stored_exceptions, cause)
+        except GenusDifferentiaContradiction as error:
+            error.kind = "AXIOM_CATALOG_" + error.kind
+            return None, [error.as_record()]
+    target = current & base
+    zeros = [i for i in open_banks(target) if 0 in bank_values(target, i)]
     contradictions, kept = [], []
-    allowed = FULL
+    allowed = base
     for i in zeros:
-        allowed &= ~(7 << 3 * i) | SIGN_BIT[0] << 3 * i
+        allowed &= only(i, 0)
     try:
         result = resolve_entry(entry_id, pos, current, allowed, rules, stored_exceptions, cause)
         return result, contradictions
     except GenusDifferentiaContradiction:
         pass
     for i in zeros:  # each zero alone, then the survivors together
-        single = FULL & ~(7 << 3 * i) | SIGN_BIT[0] << 3 * i
         try:
-            resolve_entry(entry_id, pos, current, single, rules, stored_exceptions, cause)
+            resolve_entry(entry_id, pos, current, base & only(i, 0), rules, stored_exceptions, cause)
             kept.append(i)
         except GenusDifferentiaContradiction as error:
             error.kind = "AXIOM_" + error.kind
             error.bank = BANKS[i]
             contradictions.append(error.as_record())
-    allowed = FULL
+    allowed = base
     for i in kept:
-        allowed &= ~(7 << 3 * i) | SIGN_BIT[0] << 3 * i
+        allowed &= only(i, 0)
     try:
         return resolve_entry(entry_id, pos, current, allowed, rules, stored_exceptions, cause), contradictions
     except GenusDifferentiaContradiction as error:
         error.kind = "AXIOM_JOINT_" + error.kind
         return None, contradictions + [error.as_record()]
+
+
+def root_axiom(entry_id: str, pos: str, current: int, banks: Iterable[str], rules, stored_exceptions, warrant: dict):
+    """A root axiom states what the root IS: each anchor bank +1, under the rules. Nothing else is
+    stipulated; the root's other banks follow the same law as every definition.
+
+    Returns (result or None, contradiction records)."""
+    allowed = FULL
+    for bank in banks:
+        allowed &= only(BANKS.index(bank), 1)
+    try:
+        return resolve_entry(entry_id, pos, current, allowed, rules, stored_exceptions, warrant), []
+    except GenusDifferentiaContradiction as error:
+        error.kind = "ROOT_AXIOM_" + error.kind
+        return None, [error.as_record()]
 
 
 # ---------------------------------------------------------------------------------------------
@@ -499,6 +669,15 @@ class Closure:
     traces: dict[str, list[dict]] = field(default_factory=dict)  # entry -> its last resolution's receipts
     contradictions: list[dict] = field(default_factory=list)
     passes: list[dict] = field(default_factory=list)
+    axioms: dict[str, dict] = field(default_factory=dict)  # entry -> what made it an axiom and the cells it settled
+
+
+def _settled(before: int, after: int) -> dict[str, int]:
+    return {
+        BANKS[i]: bank_values(after, i)[0]
+        for i in range(N)
+        if len(bank_values(after, i)) == 1 and len(bank_values(before, i)) > 1
+    }
 
 
 def close(
@@ -509,10 +688,16 @@ def close(
     rules: tuple[Relation, ...],
     stored_exceptions,
     progress=None,
+    *,
+    identity: int = 0,
+    own_signs: Mapping[str, tuple[str, int, dict]] | None = None,
+    roots: Mapping[str, tuple[tuple[str, ...], dict]] | None = None,
 ) -> Closure:
     """Run the genus/differentia constraint over the whole graph until no pass changes anything.
 
-    Pass 0 determines the axioms. Each later pass recomputes, from the previous pass's state, every
+    Pass 0 determines the axioms: the primes and closed class (``own_signs`` supplies a prime's
+    catalog bank where the release leaves it open), then the root axioms (``roots``: entry ->
+    (anchor banks, warrant)). Each later pass recomputes, from the previous pass's state, every
     definition one of whose genus or differentia words changed (pass 1: every definition with an
     edge), in sorted order. Domains only narrow, so the passes end.
     """
@@ -520,15 +705,40 @@ def close(
     contradicted: set[str] = set()
     changed = []
     axioms = sorted(axioms)
+    own_signs, roots = own_signs or {}, roots or {}
+
+    def settle(entry_id, result, record):
+        before = closure.state[entry_id]
+        closure.state[entry_id], resolution = result
+        closure.changed_in[entry_id] = 0
+        closure.traces[entry_id] = receipts(resolution)
+        settled = closure.axioms.get(entry_id, {}).get("settled", {})
+        record = {**record, "settled": {**settled, **_settled(before, closure.state[entry_id])}}
+        closure.axioms[entry_id] = {**closure.axioms.get(entry_id, {}), **record}
+        changed.append(entry_id)
+
     for entry_id in axioms:
-        result, errors = determine_axiom(entry_id, pos_of[entry_id], stored[entry_id], rules, stored_exceptions)
+        own = own_signs.get(entry_id)
+        result, errors = determine_axiom(entry_id, pos_of[entry_id], stored[entry_id], rules, stored_exceptions, own)
         closure.contradictions.extend(errors)
         if result is not None:
-            closure.state[entry_id], resolution = result
-            closure.changed_in[entry_id] = 0
-            closure.traces[entry_id] = receipts(resolution)
-            changed.append(entry_id)
-    closure.passes.append({"pass": 0, "evaluated": len(axioms), "changed": len(changed)})
+            kind = "prime" if not entry_id.startswith("gse_closed_class:") else "gse_closed_class"
+            if kind == "prime" and own is not None and not _settles_nonzero(stored[entry_id]):
+                kind = "nsm_catalog"
+            settle(
+                entry_id,
+                result,
+                {"kind": kind, **({"bank": own[0], "sign": own[1], **own[2]} if kind == "nsm_catalog" else {})},
+            )
+    for entry_id in sorted(roots):
+        banks, warrant = roots[entry_id]
+        result, errors = root_axiom(
+            entry_id, pos_of[entry_id], closure.state[entry_id], banks, rules, stored_exceptions, warrant
+        )
+        closure.contradictions.extend(errors)
+        if result is not None:
+            settle(entry_id, result, {"kind": "wordnet_root", "banks": list(banks), **warrant})
+    closure.passes.append({"pass": 0, "evaluated": len(axioms) + len(roots), "changed": len(set(changed))})
     dependents: dict[str, set[str]] = defaultdict(set)
     for entry_id, edge in edges.items():
         for target in edge.targets():
@@ -545,7 +755,7 @@ def close(
             edge = edges[entry_id]
             counts["evaluated"] += 1
             try:
-                allowed = compile_constraint(edge, snapshot)
+                allowed = compile_constraint(edge, snapshot, identity)
                 if allowed == FULL:
                     continue
                 counts["constrained"] += 1
@@ -573,8 +783,10 @@ def close(
     return closure
 
 
-def open_census(closure: Closure, edges: Mapping[str, Edge], limit: int = 25) -> dict:
-    """What keeps each open bank of an edged definition open: its genus, its differentia, or a contradiction."""
+def open_census(closure: Closure, edges: Mapping[str, Edge], limit: int = 25, identity: int = 0) -> dict:
+    """What keeps each open bank of an edged definition open: its genus, its differentia, or a contradiction.
+
+    On an identity bank no differentia word touches the kind, so only its genus can keep it open."""
     reasons, genus_words, differentia_words = Counter(), Counter(), Counter()
     contradicted = {row["entry_id"] for row in closure.contradictions}
     state = closure.state
@@ -589,7 +801,9 @@ def open_census(closure: Closure, edges: Mapping[str, Edge], limit: int = 25) ->
         unions = [(label, _union(entries, state)) for label, entries in edge.genus]
         words = [(word, _union(entries, state)) for word, entries in edge.differentia]
         for i in banks:
-            touched = [word for word, values in words if values >> 3 * i & 7 != SIGN_BIT[0]]
+            touched = [
+                word for word, values in words if values >> 3 * i & 7 != SIGN_BIT[0] and not identity >> 3 * i & 7
+            ]
             open_genus = [label for label, values in unions if len(bank_values(values, i)) > 1]
             if touched:
                 reasons["DIFFERENTIA_WORD_OPEN_OR_NONZERO"] += 1

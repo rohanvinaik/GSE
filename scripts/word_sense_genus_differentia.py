@@ -12,6 +12,12 @@ replay is the output's replay; ``verify`` proves every release table row-for-row
         --output OUT.db --report CLOSE.json
     .venv/bin/python scripts/word_sense_genus_differentia.py measure --candidate IN.db --output OUT.db --report MEASURE.json
     .venv/bin/python scripts/word_sense_genus_differentia.py verify --candidate IN.db --output OUT.db --report VERIFY.json
+    .venv/bin/python scripts/word_sense_genus_differentia.py sample --candidate IN.db --output OUT.db --report SAMPLE.json
+    .venv/bin/python scripts/word_sense_genus_differentia.py witness --candidate IN.db --output OUT.db --report WITNESS.json
+
+Round 2 (2026-11-26): ``close`` also takes the identity banks (NSM categories), the catalog's own
+banks for prime-linked definitions and the anchor table's root axioms, and reports each root and
+catalog axiom with its warrant (``root_axiom_table``, ``catalog_axiom_table``).
 
 Switching ``data/lexicon_active.json`` is a separate, owner-approved step; this never touches it.
 """
@@ -117,6 +123,7 @@ def edges(candidate: Path, target: Path) -> dict:
     withdrawn = frozenset(name for name in linked_synsets if name not in _WARRANTED_ROOT_PRIMITIVES)
     wordnet.ensure_loaded()
     index = gd.Index.build((entry_id, lemma, pos) for entry_id, lemma, pos, _ in rows)
+    roots = frozenset(name for name in _WARRANTED_ROOT_PRIMITIVES if name not in index.by_synset)
     jobs = sorted(
         {
             (lemma, pos, gloss or "")
@@ -148,6 +155,7 @@ def edges(candidate: Path, target: Path) -> dict:
             hypernyms=hypernyms.get(gd.synset_of(entry_id), ()) if entry_id.startswith("wordnet:") else (),
             form_of=tuple(sorted(forms.get(entry_id, ()))),
             withdrawn=withdrawn,
+            roots=roots,
         )
         if edge is None:
             skipped[reason.split(":")[0] if reason.startswith("NO_GENUS") else reason] += 1
@@ -165,6 +173,7 @@ def edges(candidate: Path, target: Path) -> dict:
         "templates": dict(Counter(edge.template for edge in built)),
         "no_edge": dict(sorted(skipped.items())),
         "withdrawn_prime_roots": sorted(withdrawn),
+        "anchor_roots_not_in_release": sorted(roots),
         "seconds": round(time.time() - started),
     }
     temporary = target.with_name(target.name + ".partial")
@@ -218,6 +227,75 @@ def _stated_cause(trace, bank) -> list[dict]:
     ]
 
 
+def _axiom_inputs(conn, stored: dict, pos_of: dict) -> dict:
+    """Round 2's inputs, each from a source table: the identity banks (NSM categories), the catalog's
+    own banks for prime-linked definitions, and the anchor table's root axioms. ``stored`` and
+    ``pos_of`` gain the anchor roots the release has no definition of."""
+    from nltk.corpus import wordnet
+
+    from GSE.curation.external_sources.wordnet_hierarchy import _WARRANTED_ROOT_PRIMITIVES
+    from GSE.curation.lexicon_builder.catalog import catalog_inventory
+
+    table = ROOT / gd.CATEGORY_TABLE
+    units = catalog_inventory()["units"]
+    identity = gd.identity_banks(table.read_text(encoding="utf-8"), units)
+    signs = gd.catalog_signs(units)
+    (raw,) = conn.execute("SELECT value FROM builder_metadata WHERE key='prime_entries'").fetchone()
+    prime_entries = json.loads(raw)
+    own_signs, bound = {}, {}
+    for unit_id, entries in sorted(prime_entries.items()):
+        for entry in entries:
+            if entry.startswith("wordnet:"):
+                bound[gd.synset_of(entry)] = unit_id
+            if unit_id in signs:
+                bank, sign, code, note = signs[unit_id]
+                own_signs[entry] = (bank, sign, {"unit": unit_id, "catalog": code, "note": note})
+    index = gd.Index.build((entry_id, "", pos) for entry_id, pos in pos_of.items())
+    roots, table_rows = {}, []
+    for name in sorted(_WARRANTED_ROOT_PRIMITIVES):
+        banks = tuple(sorted(_WARRANTED_ROOT_PRIMITIVES[name], key=BANKS.index))
+        warrant = {
+            "anchor": "GSE.curation.external_sources.wordnet_hierarchy._WARRANTED_ROOT_PRIMITIVES",
+            "synset": name,
+            "gloss": wordnet.synset(name).definition(),
+            "prime_binding": bound.get(name),
+        }
+        entries = index.by_synset.get(name, ())
+        if not entries:
+            virtual = gd.ROOT_PREFIX + name
+            stored[virtual] = gd.pack({bank: [1] for bank in banks})
+            pos_of[virtual] = "noun" if ".n." in name else "verb"
+        for entry in entries:
+            roots[entry] = (banks, warrant)
+        table_rows.append({**warrant, "banks": {bank: 1 for bank in banks}, "release_entries": list(entries)})
+    unsettled_units = sorted(
+        unit_id
+        for unit_id, entries in prime_entries.items()
+        for entry in entries
+        if entry in stored and not gd._settles_nonzero(stored[entry]) and not entry.startswith("gse_closed_class:")
+    )
+    return {
+        "identity": identity,
+        "identity_mask": gd.mask(identity),
+        "category_table": {"path": gd.CATEGORY_TABLE, "sha256": _sha256(table)},
+        "own_signs": own_signs,
+        "roots": roots,
+        "root_table": table_rows,
+        "catalog_table": [
+            {
+                "unit": unit_id,
+                "entry": entry,
+                "bank": own_signs[entry][0] if entry in own_signs else None,
+                "sign": own_signs[entry][1] if entry in own_signs else None,
+                "catalog": own_signs[entry][2]["catalog"] if entry in own_signs else "NO_CATALOG_SIGN",
+                "note": own_signs[entry][2]["note"] if entry in own_signs else None,
+            }
+            for unit_id in unsettled_units
+            for entry in prime_entries[unit_id]
+        ],
+    }
+
+
 def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) -> dict:
     from GSE.curation.lexicon_builder.sqlite_snapshot import copy_database
     from GSE.curation.lexicon_builder.validation import _metadata, _relations
@@ -237,8 +315,10 @@ def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) ->
     started = time.time()
     with closing(_read_only(candidate)) as conn:
         stored, pos_of, lemma_of = _stored(conn)
+        release_entries = set(stored)
         rules = _relations(_metadata(conn, "relations"))
         axioms = gd.axiom_entries(conn)
+        inputs = _axiom_inputs(conn, stored, pos_of)
         exceptions_cache: dict[str, tuple[str, ...]] = {}
 
         def stored_exceptions(entry_id):
@@ -252,12 +332,37 @@ def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) ->
             return exceptions_cache[entry_id]
 
         _log(f"closing {len(edge_map)} edges, {len(axioms)} axioms")
-        closure = gd.close(stored, pos_of, edge_map, axioms, rules, stored_exceptions, progress=lambda p: _log(str(p)))
+        closure = gd.close(
+            stored,
+            pos_of,
+            edge_map,
+            axioms,
+            rules,
+            stored_exceptions,
+            progress=lambda p: _log(str(p)),
+            identity=inputs["identity_mask"],
+            own_signs=inputs["own_signs"],
+            roots=inputs["roots"],
+        )
         for record in closure.contradictions:  # name the stated side's own derivation
             if record["bank"] in BANKS and record["kind"].endswith("STORED_CONFLICT"):
                 record["stated"]["derivation"] = _stated_cause(_trace(conn, record["entry_id"]), record["bank"])
-        census = gd.open_census(closure, edge_map)
-    changed = sorted(closure.changed_in)
+        census = gd.open_census(closure, edge_map, identity=inputs["identity_mask"])
+    changed = sorted(entry for entry in closure.changed_in if entry in release_entries)
+    for row in inputs["root_table"]:
+        row["entries_narrowed"] = sorted(
+            e for e in row["release_entries"] if closure.axioms.get(e, {}).get("kind") == "wordnet_root"
+        )
+        row["cells_settled"] = sum(len(closure.axioms[e]["settled"]) for e in row["entries_narrowed"])
+        row["contradictions"] = [
+            r
+            for r in closure.contradictions
+            if r["entry_id"] in row["release_entries"] and r["kind"].startswith("ROOT_AXIOM")
+        ]
+    for row in inputs["catalog_table"]:
+        record = closure.axioms.get(row["entry"], {})
+        row["settled"] = record.get("settled", {}) if record.get("kind") == "nsm_catalog" else {}
+        row["contradictions"] = [r for r in closure.contradictions if r["entry_id"] == row["entry"]]
     settled_by_bank, settled_values = Counter(), Counter()
     rows = []
     for entry_id in changed:
@@ -270,13 +375,16 @@ def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) ->
                 settled_by_bank[bank] += 1
                 settled_values["zero" if values[0] == 0 else "nonzero"] += 1
         edge = edge_map.get(entry_id)
+        record = edge.as_json() if edge else {"template": "axiom"}
+        if entry_id in closure.axioms:
+            record["axiom"] = closure.axioms[entry_id]
         rows.append(
             (
                 entry_id,
                 closure.changed_in[entry_id],
                 json.dumps(gd.unpack(after), sort_keys=True),
                 json.dumps(settled, sort_keys=True),
-                json.dumps(edge.as_json() if edge else {"template": "axiom"}, sort_keys=True),
+                json.dumps(record, sort_keys=True),
                 json.dumps(closure.traces[entry_id], sort_keys=True, default=list),
             )
         )
@@ -292,6 +400,9 @@ def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) ->
         "definitions_narrowed": len(changed),
         "cells_settled": sum(settled_by_bank.values()),
         "contradictions": dict(contradiction_kinds),
+        "identity_banks": inputs["identity"],
+        "category_table": inputs["category_table"],
+        "axioms": dict(Counter(record["kind"] for record in closure.axioms.values())),
     }
     _log("writing the output beside the release")
     with tempfile.TemporaryDirectory(prefix=".gse-genus-differentia-", dir=output.parent) as directory:
@@ -330,6 +441,8 @@ def close(candidate: Path, edges_path: Path, output: Path, report_path: Path) ->
             kind: [r for r in closure.contradictions if r["kind"] == kind][:5] for kind in sorted(contradiction_kinds)
         },
         "open_census": census,
+        "root_axiom_table": inputs["root_table"],
+        "catalog_axiom_table": inputs["catalog_table"],
         "seconds": round(time.time() - started),
     }
     _record(report_path, report)
@@ -356,14 +469,15 @@ def measure(candidate: Path, output: Path, report_path: Path) -> dict:
 
     with closing(_read_only(output)) as out:
         derived = {
-            entry_id: (json.loads(domains), json.loads(receipts))
-            for entry_id, domains, receipts in out.execute(
-                "SELECT entry_id, domains, receipts FROM genus_differentia_closure"
+            entry_id: (json.loads(domains), json.loads(receipts), json.loads(edge).get("axiom", {}).get("settled", {}))
+            for entry_id, domains, receipts, edge in out.execute(
+                "SELECT entry_id, domains, receipts, edge FROM genus_differentia_closure"
             )
         }
     totals = {side: Counter() for side in ("before", "after")}
     bits = {side: defaultdict(float) for side in ("before", "after")}
     gains = {name: Counter() for name in BUCKETS}
+    split = {name: Counter() for name in BUCKETS}
     with closing(_read_only(candidate)) as conn:
         lemmas = [row[0] for row in conn.execute("SELECT DISTINCT lemma FROM lexemes")]
         buckets = frequency_buckets(lemmas, subtlex_counts())
@@ -375,12 +489,14 @@ def measure(candidate: Path, output: Path, report_path: Path) -> dict:
             before = measure_space(before_domains, json.loads(trace), conflicted=code == "CONFLICT")
             after = before
             if entry_id in derived:
-                after_domains, receipts = derived[entry_id]
+                after_domains, receipts, axiom_cells = derived[entry_id]
                 after = measure_space(after_domains, receipts)
                 bucket = buckets[gd_spelling(lemma)]
                 for bank, values in after_domains.items():
                     if len(values) == 1 and len(before_domains[bank]) > 1:
-                        gains[bucket]["zero" if values[0] == 0 else "nonzero"] += 1
+                        sign = "zero" if values[0] == 0 else "nonzero"
+                        gains[bucket][sign] += 1
+                        split[bucket][("axiom_" if bank in axiom_cells else "propagated_") + sign] += 1
             for side, state in (("before", before), ("after", after)):
                 totals[side]["definitions"] += 1
                 totals[side][state["code"]] += 1
@@ -399,6 +515,7 @@ def measure(candidate: Path, output: Path, report_path: Path) -> dict:
         "after": {**dict(totals["after"]), **dict(bits["after"])},
         "H_reduction_bits": bits["before"]["domain_potential_bits"] - bits["after"]["domain_potential_bits"],
         "singleton_gains_by_bucket": {name: dict(gains[name]) for name in BUCKETS},
+        "singleton_gains_axiom_vs_propagated": {name: dict(split[name]) for name in BUCKETS},
         "banks_per_definition": {
             side: totals[side]["filled_banks"] / totals[side]["definitions"] for side in ("before", "after")
         },
@@ -408,6 +525,189 @@ def measure(candidate: Path, output: Path, report_path: Path) -> dict:
         report[side]["joint_count_complete"] = exact == report[side]["definitions"]
         report[side]["H_bits_per_definition"] = report[side]["domain_potential_bits"] / report[side]["definitions"]
     report["max_H_bits"] = report["before"]["definitions"] * len(BANKS) * math.log2(3)
+    _record(report_path, report)
+    return report
+
+
+# ---------------------------------------------------------------------------------------------
+# sample: newly settled cells with their full chains, for review (reads only; admits nothing)
+# ---------------------------------------------------------------------------------------------
+
+SAMPLE_PLAN = (("propagated", 1, 3), ("propagated", 0, 2), ("axiom", None, 1))  # per bucket: (origin, nonzero?, count)
+
+
+def _chain(entry_id, bank, state, records, glosses, depth=0, seen=None) -> dict:
+    """Why ``entry_id`` holds its value on ``bank``: its axiom, or its genus edge and differentia,
+    followed down the genus that holds the value until a stored value or an axiom."""
+    seen = (seen or set()) | {entry_id}
+    i = BANKS.index(bank)
+    record = records.get(entry_id)
+    step = {"entry": entry_id, "gloss": glosses(entry_id), "values": list(gd.bank_values(state(entry_id), i))}
+    if record is None:
+        step["from"] = "stored (release)" if not entry_id.startswith(gd.ROOT_PREFIX) else "anchor root (identity only)"
+        return step
+    edge = record["edge"]
+    if bank in edge.get("axiom", {}).get("settled", {}):
+        step["from"] = {"axiom": {k: v for k, v in edge["axiom"].items() if k != "settled"}}
+        return step
+    if bank not in record["settled"]:
+        step["from"] = "stored (release)"
+        return step
+
+    def union(entries):
+        return sorted({v for e in entries for v in gd.bank_values(state(e), i)}) if entries else [-1, 0, 1]
+
+    step["from"] = {
+        "template": edge["template"],
+        "genus": [
+            {"label": label, "entries": len(entries), "values": union(entries)} for label, entries in edge["genus"]
+        ],
+        "differentia": [
+            {"word": word, "entries": len(entries), "values": union(entries)} for word, entries in edge["differentia"]
+        ],
+    }
+    if depth < 12:
+        for label, entries in edge["genus"]:
+            holder = next(
+                (e for e in entries if e not in seen and gd.bank_values(state(e), i) == tuple(step["values"])), None
+            )
+            if holder is None:
+                holder = next(
+                    (e for e in entries if e not in seen and set(step["values"]) <= set(gd.bank_values(state(e), i))),
+                    None,
+                )
+            if holder is not None:
+                step["genus_chain"] = _chain(holder, bank, state, records, glosses, depth + 1, seen)
+                break
+    return step
+
+
+def sample(candidate: Path, output: Path, report_path: Path) -> dict:
+    from build_word_senses import subtlex_counts
+
+    from GSE.curation.lexicon_builder.specification import BUCKETS, frequency_buckets
+
+    with closing(_read_only(output)) as out:
+        records = {
+            entry: {"settled": json.loads(settled), "edge": json.loads(edge), "domains": json.loads(domains)}
+            for entry, settled, edge, domains in out.execute(
+                "SELECT entry_id, settled, edge, domains FROM genus_differentia_closure"
+            )
+        }
+        meta = {
+            row[0]: (row[1], row[2], row[3])
+            for row in out.execute(
+                "SELECT d.entry_id, l.lemma, l.pos, l.gloss FROM definition_states d JOIN lexemes l ON l.id=d.lexeme_id"
+            )
+        }
+        stored_cache: dict[str, int] = {}
+        (raw,) = out.execute("SELECT value FROM genus_differentia_run WHERE key='identity_banks'").fetchone()
+        identity = set(json.loads(raw))
+
+        def state(entry):
+            if entry in records:
+                return gd.pack(records[entry]["domains"])
+            if entry.startswith(gd.ROOT_PREFIX):
+                return gd.FULL  # shown with its anchor; its identity bank is in the root table
+            if entry not in stored_cache:
+                row = out.execute("SELECT domains FROM definition_states WHERE entry_id=?", (entry,)).fetchone()
+                stored_cache[entry] = gd.pack(json.loads(row[0])) if row else gd.FULL
+            return stored_cache[entry]
+
+        def glosses(entry):
+            lemma, pos, gloss = meta.get(entry, ("", "", ""))
+            return f"{lemma} ({pos}): {gloss}"
+
+        buckets = frequency_buckets(sorted({lemma for lemma, _, _ in meta.values()}), subtlex_counts())
+        cells = defaultdict(list)
+        for entry, record in records.items():
+            axiom = record["edge"].get("axiom", {}).get("settled", {})
+            bucket = buckets[gd_spelling(meta[entry][0])]
+            for bank, value in record["settled"].items():
+                origin = "axiom" if bank in axiom else "propagated"
+                key = hashlib.sha256(f"{entry}|{bank}".encode()).hexdigest()
+                cells[(bucket, origin, value != 0)].append((key, entry, bank, value))
+        picked = []
+        for bucket in BUCKETS:
+            for origin, nonzero, count in SAMPLE_PLAN:
+                pool = sorted(
+                    cell
+                    for key, cells_ in cells.items()
+                    if key[:2] == (bucket, origin) and (nonzero is None or key[2] == bool(nonzero))
+                    for cell in cells_
+                )
+                for _, entry, bank, value in pool[:count]:
+                    picked.append(
+                        {
+                            "bucket": bucket,
+                            "origin": origin,
+                            "cell": f"{entry} {bank}",
+                            "value": value,
+                            "identity_bank": bank in identity,
+                            "chain": _chain(entry, bank, state, records, glosses),
+                        }
+                    )
+    report = {
+        "format": gd.FORMAT + "#sample",
+        "selection": "per frequency bucket: 3 propagated nonzero, 2 propagated zero, 1 axiom cell; the first by "
+        "sha256(entry|bank) in each group (a review sample; it admits nothing)",
+        "cells": picked,
+    }
+    _record(report_path, report)
+    return report
+
+
+# ---------------------------------------------------------------------------------------------
+# witness: the encoder's reading of fixed sentences on the output and on the live lexicon
+# ---------------------------------------------------------------------------------------------
+
+WITNESS_SENTENCES = (
+    "The happy dog runs to his mother.",
+    "She gave the boy a big lock.",
+    "I want to know what you see.",
+    "The sad man cut the rope.",
+    "My friend loves the beautiful house.",
+)
+
+
+def _readings(db_path) -> dict:
+    from GSE.api.encoder import GSEEncoder
+
+    found = {}
+    with GSEEncoder(db_path=db_path) as encoder:
+        for sentence in WITNESS_SENTENCES:
+            trace = encoder.encode(sentence)
+            found[sentence] = [
+                {
+                    "token": token.token,
+                    "pos": token.pos,
+                    "values": {bank: value for bank, value in sorted(token.word_primitives.items()) if value},
+                    "zeros": sorted(bank for bank, value in token.word_primitives.items() if not value),
+                }
+                for token in trace.tokens
+                if token.pos != "PUNCT"
+            ]
+    return found
+
+
+def witness(output: Path, report_path: Path) -> dict:
+    from GSE.lexicon_resource import resolve_lexicon_path
+
+    live = resolve_lexicon_path()
+    after, before = _readings(output), _readings(live)
+    report = {"format": gd.FORMAT + "#witness", "output": str(output), "live": str(live), "sentences": {}}
+    for sentence in WITNESS_SENTENCES:
+        rows = []
+        for new, old in zip(after[sentence], before[sentence]):
+            rows.append(
+                {
+                    **new,
+                    "live_values": old["values"],
+                    "zeros_gained": sorted(set(new["zeros"]) - set(old["zeros"])),
+                    "changed": new["values"] != old["values"],
+                }
+            )
+        report["sentences"][sentence] = rows
     _record(report_path, report)
     return report
 
@@ -467,7 +767,7 @@ def verify(candidate: Path, output: Path, report_path: Path) -> dict:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=("edges", "close", "measure", "verify"))
+    parser.add_argument("command", choices=("edges", "close", "measure", "verify", "sample", "witness"))
     parser.add_argument("--candidate", type=Path, required=True)
     parser.add_argument("--edges", type=Path)
     parser.add_argument("--output", type=Path)
@@ -482,8 +782,15 @@ def main(argv=None) -> int:
         print(json.dumps({k: result[k] for k in summary}, sort_keys=True))
     elif args.command == "measure":
         result = measure(args.candidate, args.output, args.report)
-        keys = ("H_reduction_bits", "singleton_gains_by_bucket", "banks_per_definition")
+        keys = ("H_reduction_bits", "singleton_gains_axiom_vs_propagated", "banks_per_definition")
         print(json.dumps({k: result[k] for k in keys}, sort_keys=True))
+    elif args.command == "sample":
+        result = sample(args.candidate, args.output, args.report)
+        print(json.dumps({"cells": len(result["cells"])}))
+    elif args.command == "witness":
+        result = witness(args.output, args.report)
+        for sentence, rows in result["sentences"].items():
+            print(sentence, json.dumps({row["token"]: row["values"] for row in rows}))
     else:
         result = verify(args.candidate, args.output, args.report)
         print(json.dumps({k: result[k] for k in ("code", "tables_compared", "tables_differing", "added_objects")}))
