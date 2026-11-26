@@ -10,7 +10,7 @@ constraint join them, each read from a stated source:
   somebody when its core holds SOMEONE+, something when it holds SOMEONE 0, and is otherwise untyped. A sense with no
   WordNet frames supports every argument.
 * bearer: a predicate sense whose core holds THINK, KNOW, WANT, FEEL, SAY or DO (the reviewed profiles'
-  person-typed bearers, ``valency_absence.person_bearer_primes``) needs a bearer sense that is SOMEONE+ or ALIVE+
+  person-typed bearers, ``GSE.lexicon.valency.person_bearer_primes``) needs a bearer sense that is SOMEONE+ or ALIVE+
   (Goddard 2018: creatures can feel): an adjective's bearer is its noun phrase's head, a verb's is its subject.
 
 A value with no support is removed until nothing changes (arc consistency). Elimination only: no definition is ranked,
@@ -119,7 +119,7 @@ def _np_head(doc, position: int) -> int | None:
 
 def solve(encoder, doc) -> dict[int, frozenset[str]]:
     """Positions whose senses the sentence narrows, with the member definitions of the senses that survive."""
-    from GSE.curation.lexicon_builder.valency_absence import person_bearer_primes
+    from GSE.lexicon.valency import person_bearer_primes
 
     bearer_primes = person_bearer_primes()
     lemma = {i: t.lemma_.lower() for i, t in enumerate(doc)}

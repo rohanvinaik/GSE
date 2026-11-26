@@ -34,25 +34,7 @@ BEARER_ANCESTRY = (
 )
 # An artifact that is also an abstraction (an invitation, a bid) is a communication or act, not only a thing.
 ABSTRACT_COANCESTRY = {"artifact.n.01": "abstraction.n.06"}
-# NSM's own texts give these a thing as subject (G18: a beak "has two parts"; a snake's body has no parts like arms).
-THING_SUBJECT_ATTESTED = {"HAVE": ("G18 birds line 255", "G18 snakes line 358")}
-
-
-@lru_cache(maxsize=1)
-def person_bearer_primes() -> tuple[str, ...]:
-    """Predicate primes whose reviewed profile types the bearer slot exactly ``person``, less those NSM attests with
-    a thing as subject."""
-    from .prime_profiles import coordinate, load_profiles
-
-    out = set()
-    for profile in load_profiles():
-        heads = {c.get("value") for c in profile["claims"] if c["kind"] == "CLASSIFIES_HEAD"}
-        slots = next((c.get("slots") for c in profile["claims"] if c["kind"] == "REQUIRES_ARGUMENT"), None) or []
-        if "lexical_predicate" in heads and slots and slots[0].split(":", 1)[1] == "person":
-            found = coordinate(profile["prime"])
-            if found and found[0] not in THING_SUBJECT_ATTESTED:
-                out.add(found[0])
-    return tuple(sorted(out))
+from GSE.lexicon.valency import THING_SUBJECT_ATTESTED, person_bearer_primes  # noqa: E402,F401  (runtime-side reading)
 
 
 @lru_cache(maxsize=None)
