@@ -82,12 +82,20 @@ def test_an_uncorroborated_added_value_is_a_different_meaning():
     assert sorted([s.members for s in senses], key=lambda m: m[0].entry_id) == [[person], [animal]]
 
 
-def test_a_corroborated_added_value_joins_the_main_sense():
+def test_a_different_load_bearing_encoding_is_a_different_sense():
+    # Rohan 03:28: the same sense iff the same encoding on the load-bearing banks; corroboration does not merge.
     thinking = _definition("wordnet:know:know.v.02", THINK=1)
     knowing = _definition("wordnet:know:know.v.01", THINK=1, KNOW=1)
     corroboration = {"KNOW": {1: frozenset({"nrc_emotion"})}}
     senses = collapse([thinking, knowing], anchor={"THINK": 1}, corroboration=corroboration)
-    assert len(senses) == 1 and senses[0].core["KNOW"] == 1
+    assert len(senses) == 2
+
+
+def test_the_unit_of_length_does_not_join_the_fastener():
+    fastener = _definition("wordnet:nail:nail.n.02", SOMETHING=1)
+    unit = _definition("wordnet:nail:nail.n.03", SOMETHING=1, QUANTITY=1)
+    senses = collapse([fastener, unit])
+    assert len(senses) == 2 and all("QUANTITY" not in s.core for s in senses if fastener in s.members)
 
 
 def test_a_family_cannot_corroborate_its_own_value():

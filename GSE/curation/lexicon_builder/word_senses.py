@@ -199,16 +199,12 @@ def collapse(
 ) -> list[Sense]:
     """Group one part of speech's definitions into senses.
 
-    Definitions with the same load-bearing encoding form a group: coherence over the whole set (Rohan,
-    design.md rule 3). No sense is ranked or made a default; grammar and context choose among them at
-    read time. Groups are visited most general first, so a more specific group can join a sense only when every
-    value it adds is corroborated, never because it happened to be visited first.
-    Another group joins a sense when it conflicts with none of the sense's values and every
-    source-asserted value it adds is corroborated (``_corroborated``); values a rule derived
-    follow from the definition's own evidence. A group that adds an uncorroborated value is a
-    different meaning and starts its own sense. With no evidenced definition, the word has one
-    sense, carried by its agreed signs. A definition with no load-bearing value is absorbed into
-    no sense's core: they are listed on the first stored sense for identity only.
+    Definitions with the same load-bearing encoding are one sense (Rohan, 2026-11-25 03:28: "They're the same sense
+    of the word if they resolve to the same bank encodings across ... the load-bearing banks"). A definition that adds
+    or lacks a load-bearing value is another sense; nothing merges on mere absence of conflict, and corroboration does
+    not merge encodings (the nail witness). No sense is ranked or made a default; grammar and context choose among
+    them at read time. A definition with no load-bearing value forms no sense: it is listed on the first stored sense
+    for identity only. ``corroboration`` is accepted for compatibility and no longer merges senses.
     """
     anchor = anchor or {}
     corroboration = corroboration or {}
@@ -230,15 +226,15 @@ def collapse(
     senses: list[Sense] = []
     for group in ordered:
         values = {bank: entry[0] for bank, entry in group[0].load_bearing.items()}
-        asserted = {bank for d in group for bank, entry in d.load_bearing.items() if entry[3] == "ASSERTION"}
         for sense in senses:
-            if any(sense.core.get(bank, value) != value for bank, value in values.items()):
+            # Rohan (2026-11-25 03:28): "They're the same sense of the word if they resolve to the same bank encodings
+            # across the ones that are of high salience ... the load-bearing banks." Equality, not mere absence of
+            # conflict: a group that adds or lacks a load-bearing value is another meaning (the nail witness: the unit
+            # of length's QUANTITY+ must not join the fastener).
+            if values != sense.core:
                 continue
-            added = {bank: value for bank, value in values.items() if bank not in sense.core and bank in asserted}
-            if all(_corroborated(bank, value, group, corroboration) for bank, value in added.items()):
-                sense.core.update(values)
-                sense.members.extend(group)
-                break
+            sense.members.extend(group)
+            break
         else:
             senses.append(Sense(core=dict(values), members=list(group)))
     if not senses:
