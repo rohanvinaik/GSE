@@ -1,4 +1,10 @@
-"""Which banks a word's own type can carry (Rohan, 2026-11-25 17:56: "classifies all the dimensions that are plausibly
+"""STATUS: UNVERIFIED, AGENT-AUTHORED; MUST NOT GATE (NEGATIVE_SPECIFICATION Def. 9.5: "An LLM- or a-priori-authored
+constraint is an unverified assertion and must not gate"). The type rows below were written by the agent from its
+reading of the NSM chart; the overlap check against the stored lexicon is weak evidence (nouns store about 0.66 content
+values each, so almost no proposed silence had anything to collide with). No build applies these rows unless a stated
+source warrants each one or Rohan partitions them (NS Def. 12.1).
+
+Which banks a word's own type can carry (Rohan, 2026-11-25 17:56: "classifies all the dimensions that are plausibly
 sane and potentially valid encodings, and which are definitionally not valid ... For the ones that are completely
 orthogonal to a valid definition of the word" the cell is decided; "Others should NOT be automatically filled").
 

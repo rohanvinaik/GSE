@@ -28,6 +28,8 @@ from GSE.curation.lexicon_builder.foundation import BANKS, definition_context  #
 from GSE.curation.lexicon_builder.silence import read_with_silence, starting_domains  # noqa: E402
 
 RELEASE = ROOT / "data/lexicon_builder/2026-11-12/sparse-release-022-verbnet-do.db"
+# applicability.py's type rows are agent-authored and unverified (NS Def. 9.5): off unless explicitly requested.
+UNREVIEWED_TYPE_SILENCE = False
 WORDS = ROOT / "docs/verification/lexicon-rebuild/closeout-2026-10-25/gate/gate_words.txt"
 LAWS = ROOT / "GSE/curation/lexicon_builder/bank_laws.json"
 USED_LAWS = (
@@ -179,7 +181,7 @@ def run(words: list[str] | None, show: set[str], out: Path | None = None) -> dic
             role = ROLE_BY_POS.get(context.get("pos", ""))
             if role:
                 context["own_role"] = role
-            silences, excepted = _type_silences(entry, stored)
+            silences, excepted = _type_silences(entry, stored) if UNREVIEWED_TYPE_SILENCE else ((), [])
             restrictions = restrictions + silences
             exceptions.extend(excepted)
             kind = _semantic_kind(entry)
@@ -255,8 +257,11 @@ def main() -> int:
     parser.add_argument("--show", default="")
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--all", action="store_true", help="every definition in the release, not a word list")
+    parser.add_argument("--with-unreviewed-type-silence", action="store_true", help="apply the UNVERIFIED type rows")
     parser.add_argument("--out", type=Path, help="write each definition's four-state cells to this SQLite file")
     args = parser.parse_args()
+    global UNREVIEWED_TYPE_SILENCE
+    UNREVIEWED_TYPE_SILENCE = args.with_unreviewed_type_silence
     words = None if args.all else [w.strip() for w in args.words.read_text().split("\n") if w.strip()]
     result = run(words, {w for w in args.show.split(",") if w}, args.out)
     text = json.dumps(result, indent=1, default=str)
