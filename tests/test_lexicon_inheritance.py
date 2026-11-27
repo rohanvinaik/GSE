@@ -53,9 +53,11 @@ def test_a_hubs_values_reach_its_kinds_through_a_synset_with_no_reading():
         ("instance_hypernym", "kind", "kind_of_kind"),
     ]
     out = _settle(s, groups, links)
-    for row in (1, 2, 3, 4):
+    for row in (2, 3, 4):
         assert _get(out.state, row, "MOVE") == POS and _get(out.state, row, "FEEL") == POS
         assert out.interpolated[row, B["MOVE"]] and out.inherited[row, B["FEEL"]]
+    # The hub's other lemma names the same synset: a stated identity, so it holds the values as known.
+    assert _get(out.known, 1, "MOVE") == POS and not out.interpolated[1].any()
     assert _get(out.state, 5, "MOVE") == _start("MOVE")
     assert not out.interpolated[0].any() and not out.interpolated[5].any()
     assert _get(out.known, 2, "MOVE") == _start("MOVE")  # the known layer holds no default
@@ -170,14 +172,23 @@ def test_a_cycle_terminates_and_carries_each_way_its_families_allow():
     assert _get(out.state, 0, "HEAR") == _start("HEAR")  # entailment does not carry a zero
 
 
-def test_synonymy_carries_every_state_both_ways():
+def test_synonymy_carries_every_known_state_both_ways_as_known():
+    # One synset under two lemmas is one definition: a stated identity, in the known layer (the lead's ruling).
     s = _state(2)
     _set(s, 0, "SEE", "SILENT")
     _set(s, 1, "GOOD", +1)
     out = _settle(s, {"synset": [0, 1]}, [])
-    assert _get(out.state, 1, "SEE") == SILENT
-    assert _get(out.state, 0, "GOOD") == POS
-    assert out.inherited[0, B["GOOD"]] and out.inherited[1, B["SEE"]]
+    assert _get(out.known, 1, "SEE") == SILENT
+    assert _get(out.known, 0, "GOOD") == POS
+    assert not out.interpolated.any()
+
+
+def test_an_interpolated_value_crosses_synonymy_as_interpolated():
+    s = _state(3)
+    _set(s, 2, "MOVE", +1)
+    out = _settle(s, {"synset": [0, 1], "hub": [2]}, [("hypernym", "hub", "synset")])
+    assert _get(out.known, 0, "MOVE") == _start("MOVE") and _get(out.known, 1, "MOVE") == _start("MOVE")
+    assert out.interpolated[0, B["MOVE"]] and out.interpolated[1, B["MOVE"]]
 
 
 def test_synonyms_whose_known_states_disagree_are_not_equalized():

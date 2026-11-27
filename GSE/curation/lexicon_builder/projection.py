@@ -740,14 +740,14 @@ def candidates(masks: np.ndarray, obligations, classes: np.ndarray | None = None
 
 
 def settled_round(
-    readings, lens: LensOutput, book_path: Path = laws.LAWS, links=None, groups=None, classes=None
+    readings, lens: LensOutput, book_path: Path = laws.LAWS, links=None, groups=None, classes=None, known_classes=None
 ) -> dict:
     """The joint round through `inheritance.settle`. The laws and the lens restrictions close, the lens obligations
     are forced and the facts they locate wake the laws, and WordNet inheritance runs on top (`links`, by default
-    WordNet's own). `groups` adds nodes beyond WordNet's synsets and `classes` gives the identity classes, both
-    from the Wiktionary binding. Each layer reports its census, the obligation groups by remaining candidates
-    (classes in the interpolated layer, where settle applies them), the facts located, the laws they woke, and the
-    REQUIRED checks."""
+    WordNet's own). `groups` adds nodes beyond WordNet's synsets; `classes` (every identity) and `known_classes`
+    (stated identities only) are the binding's identity classes. Each layer reports its census, the obligation groups
+    by remaining candidates (known classes in the known layer, every class in the interpolated layer, as settle
+    applies them), the facts located, the laws they woke, and the REQUIRED checks."""
     from . import inheritance
     from . import obligations as ob
 
@@ -766,6 +766,7 @@ def settled_round(
         scopes,
         ob.Batch.of(lens.obligations),
         classes=classes,
+        known_classes=known_classes,
     )
     out = {"graph": {"nodes": len(graph.keys), "edges": int(graph.src.size)}, "receipt": settled.receipt}
     layers = (
@@ -774,7 +775,7 @@ def settled_round(
     )
     for layer, state, layer_scopes, conflicts in layers:
         grown = {name: int((layer_scopes[name] & ~scopes[name]).sum()) for name in sorted(layer_scopes)}
-        layer_classes = classes if layer == "interpolated" else None
+        layer_classes = classes if layer == "interpolated" else known_classes
         by_candidates = Counter(c.size for c in candidates(state.masks, lens.obligations, layer_classes).values())
         out[layer] = {
             "census": state.census(),

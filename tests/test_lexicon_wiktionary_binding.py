@@ -93,8 +93,8 @@ def test_a_form_of_with_one_target_reading_is_an_identity_and_with_several_an_ob
     senses = [Sense(0, "tinier", "adj", form_of=("tiny",)), Sense(2, "bigger", "adj", form_of=("big",))]
     b = bind(readings, senses, TAXONOMY)
     assert set(b.links) == {
-        ("form_of", readings[0].reading_id, "bantam.s.01"),
-        ("form_of", "bantam.s.01", readings[0].reading_id),
+        ("form_of", readings[0].reading_id, "bantam.s.01", "stated"),
+        ("form_of", "bantam.s.01", readings[0].reading_id, "stated"),
     }
     assert b.classes[0] == b.classes[1]
     [o] = b.obligations
@@ -105,7 +105,7 @@ def test_a_form_of_with_one_target_reading_is_an_identity_and_with_several_an_ob
 def test_a_synonym_is_an_identity_candidate_that_joins_no_class():
     readings = (_wk("wee", 1), _wn("tiny", "bantam.s.01"))
     b = bind(readings, [Sense(0, "wee", "adj", synonyms=("tiny",))], TAXONOMY)
-    assert ("sense_synonym", readings[0].reading_id, "bantam.s.01") in b.links
+    assert ("sense_synonym", readings[0].reading_id, "bantam.s.01", "stated") in b.links
     assert b.classes[0] != b.classes[1]
 
 
@@ -126,7 +126,7 @@ def test_a_sense_aligns_only_when_exactly_one_candidate_has_a_linked_synset_amon
     ]
     b = bind(readings, senses, TAXONOMY)
     assert b.aligned == {2: 0, 4: 0}
-    assert ("aligned", readings[2].reading_id, "bank.n.01") in b.links
+    assert ("aligned", readings[2].reading_id, "bank.n.01", "proposed") in b.links
     assert b.classes[2] == b.classes[0] != b.classes[1]
     assert b.dispositions["aligned"] == {"ALIGNED": 2, "NO_CANDIDATE_MATCHES": 1, "NO_LINKS": 1}
 
@@ -186,7 +186,9 @@ def test_a_class_that_would_identify_two_wordnet_senses_of_one_lemma_is_dissolve
     ]
     b = bind(readings, senses, taxonomy)
     assert b.aligned == {2: 0, 3: 1}
-    assert len(set(b.classes.tolist())) == len(readings)
+    # The stated alt_of identities keep their known class (the two senses and shore); the proposed class holding
+    # both WordNet senses of "bank" is dissolved into it, never into a split of it.
+    assert b.known_classes.tolist() == b.classes.tolist() == [0, 1, 2, 2, 2]
     assert b.dispositions["classes"] == {"DISSOLVED_TWO_WORDNET_SENSES_OF_ONE_LEMMA": 1}
 
 
@@ -198,7 +200,9 @@ def test_settle_locates_the_aligned_pair_in_the_interpolated_layer_only_and_wake
     )
     lens = project(readings, sources)
     b = bind(readings, [Sense(1, "tiny", "adj", links=("small",))], TAXONOMY)
-    result = settled_round(readings, lens, links=b.links, groups=b.groups, classes=b.classes)
+    result = settled_round(
+        readings, lens, links=b.links, groups=b.groups, classes=b.classes, known_classes=b.known_classes
+    )
     assert result["known"]["facts_located"] == {}
     assert result["interpolated"]["obligation_groups_by_candidates"] == {"1": 1}
     assert result["interpolated"]["facts_located"]["own_semantic_kind=size_descriptor"] == 2
@@ -216,8 +220,41 @@ def test_a_sense_hypernym_is_a_kind_of_edge_from_its_one_parent_or_an_obligation
     native = {"hypernyms": [{"word": "wordbook"}], "glosses": ["never read"]}
     senses = [sense_fields(0, "dictionary", "noun", native), Sense(2, "lexicon", "noun", hypernyms=("book",))]
     b = bind(readings, senses, TAXONOMY)
-    assert b.links == [("wiktionary_hypernym", "wordbook.n.01", readings[0].reading_id)]
+    assert b.links == [("wiktionary_hypernym", "wordbook.n.01", readings[0].reading_id, "stated")]
     assert b.classes[0] != b.classes[1]
     [o] = b.obligations
     assert (o.kind, o.row, o.targets.tolist()) == ("wiktionary_hypernym", 2, [3, 4])
     assert b.census(readings)["edges_by_family"] == {"wiktionary_hypernym": 1}
+
+
+def test_a_single_form_of_target_is_a_stated_known_class_and_an_alignment_is_proposed_only():
+    readings = (
+        _wk("tinier", 1),
+        _wn("tiny", "bantam.s.01"),
+        _wk("tiny", 1),
+    )
+    senses = [Sense(0, "tinier", "adj", form_of=("tiny",)), Sense(2, "tiny", "adj", links=("small",))]
+    b = bind(readings, senses, TAXONOMY)
+    # form_of names "tiny"; the adjective "tiny" has two readings here, so this is an obligation, not a link.
+    assert [o.kind for o in b.obligations] == ["form_of"]
+    assert b.known_classes.tolist() == [0, 1, 2]
+    assert b.classes[1] == b.classes[2] != b.classes[0]
+    lone = bind(readings[:2], [Sense(0, "tinier", "adj", form_of=("tiny",))], TAXONOMY)
+    assert lone.known_classes[0] == lone.known_classes[1]
+    assert ("form_of", readings[0].reading_id, "bantam.s.01", "stated") in lone.links
+
+
+def test_settle_locates_a_stated_pair_in_the_known_layer():
+    readings = (_wn("tiny", "bantam.s.01"), _wk("tiny", 1))
+    sources = Sources(
+        usas={"tiny": [USASEntry("tiny", "ADJ", ["N3.2-"])]},
+        framenet={"tiny": [FrameNetEntry("tiny", "a", "Size", 0, [], True)]},
+    )
+    lens = project(readings, sources)
+    b = bind(readings, [Sense(1, "tiny", "adj", alt_of=("tiny",))], TAXONOMY)  # its one other reading: stated
+    assert b.known_classes[0] == b.known_classes[1]
+    result = settled_round(
+        readings, lens, links=b.links, groups=b.groups, classes=b.classes, known_classes=b.known_classes
+    )
+    assert result["known"]["obligation_groups_by_candidates"] == {"1": 1}
+    assert result["known"]["facts_located"]["own_semantic_kind=size_descriptor"] == 2

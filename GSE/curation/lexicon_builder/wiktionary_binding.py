@@ -14,8 +14,13 @@ fields, read from the native sense record (`STRUCTURED_FIELDS`). Its glosses are
 - The anchor alignment. `links` are the words the sense's editors linked. Each linked word gives its WordNet
   synsets. The candidates are the WordNet readings of the sense's own lemma and part of speech. The sense aligns to
   a candidate only when exactly one candidate has a linked word's synset among its kind-of ancestors, or as itself
-  (`inheritance`'s kind-of families). With no such candidate, or two or more, it abstains, with its reason. This is
-  set logic over editor links and the kind-of graph, with no score and no margin.
+  (`inheritance`'s kind-of families). For an adjective, a synset one `similar_to` hop from the candidate also
+  matches (the lead's decision, 2026-11-27): adjectives have no hypernyms, and WordNet's `similar_to` cluster is their
+  sense structure. With no such candidate, or two or more, the sense abstains, with its reason. This is set logic over
+  editor links and the WordNet graph, with no score and no margin.
+- A proper noun (`name`, UPOS PROPN) never takes WordNet candidates: `PROPER_NOUN_BOUNDARY`. Rohan, 2026-11-25 03:28:
+  "Proper nouns are an entirely different thing in GSE. We have an entirely different way of handling them ...
+  That's more handled on the sparse-wiki side."
 - `topics`, and categories of a natively typed domain kind (`DOMAIN_KINDS`), are domain facts named
   `wiktionary_topic=<t>`. They are guard facts, not edges.
 
@@ -26,6 +31,12 @@ interpolated default, suspended on any conflict"). The output is in the inherita
 - `links`: `(family, giver, receiver)`, each identity in both directions and each kind-of edge from the parent.
 - `classes`: readings joined by an alignment, a `form_of` or an `alt_of` identity share a class. A synonym is left
   out of the classes, because near-synonymy is not transitive.
+- Standing (the lead's ruling of 2026-11-27): each link carries `stated` or `proposed` as a fourth element.
+  `form_of` and `alt_of` with a single target are stated, because Wiktionary's structured field names that target.
+  An alignment is always proposed. A synonym or hypernym edge names its single target in the same way and is marked
+  stated, which matters only for identity families. `known_classes` are the classes joined by stated identities
+  alone; they act in both layers, while `classes` act in the interpolated layer only.
+- Link obligations are `identities.IdentityObligation`, resolved between rounds by `identities.resolve`.
 """
 
 from __future__ import annotations
@@ -42,6 +53,8 @@ from urllib.parse import unquote
 import numpy as np
 
 from . import inventory
+from .identities import IdentityObligation
+from .inheritance import PROPOSED, STATED
 from .projection import UPOS, LensOutput, candidates, lemma_pos_groups
 
 STRUCTURED_FIELDS = ("form_of", "alt_of", "synonyms", "hypernyms", "links", "topics", "categories")
@@ -50,6 +63,10 @@ KIND_FIELDS = {"hypernyms": "wiktionary_hypernym"}
 ALIGNED = "aligned"
 CLASS_FAMILIES = frozenset({ALIGNED, "form_of", "alt_of"})
 TOPIC = "wiktionary_topic"
+PROPER_NOUN_BOUNDARY = (
+    "Rohan, 2026-11-25 03:28: Proper nouns are an entirely different thing in GSE. We have an entirely different way "
+    "of handling them ... That's more handled on the sparse-wiki side."
+)
 # kaikki's category kinds other than "other" (maintenance, translation and topical names, which no native field tells
 # apart in this export).
 DOMAIN_KINDS = frozenset({"topical", "place", "lifeform"})
@@ -103,10 +120,12 @@ def sense_fields(row: int, lemma: str, pos: str, native_sense: dict) -> Sense:
 
 @dataclass
 class Taxonomy:
-    """WordNet as the alignment reads it: a word's synsets, and a synset's kind-of ancestors."""
+    """WordNet as the alignment reads it: a word's synsets, a synset's kind-of ancestors, and an adjective synset's
+    `similar_to` neighbours (one hop, either direction)."""
 
     synsets_of: Callable[[str], frozenset[str]]
     parents: dict[str, tuple[str, ...]]
+    similar: dict[str, tuple[str, ...]] = field(default_factory=dict)
     _ancestors: dict[str, frozenset[str]] = field(default_factory=dict)
 
     def ancestors(self, synset: str) -> frozenset[str]:
@@ -122,22 +141,12 @@ class Taxonomy:
         return self._ancestors[synset]
 
 
-@dataclass(frozen=True)
-class IdentityObligation:
-    """F073 over meanings: reading `row` means one of `targets` (an identity kind), or is a kind of one of them
-    (`wiktionary_hypernym`)."""
-
-    kind: str
-    row: int
-    targets: np.ndarray
-    premises: tuple[str, ...]
-
-
 @dataclass
 class Binding:
     groups: dict[str, list[int]]
-    links: list[tuple[str, str, str]]
+    links: list[tuple[str, str, str, str]]
     classes: np.ndarray
+    known_classes: np.ndarray
     obligations: list[IdentityObligation]
     facts: dict[str, np.ndarray]
     dispositions: dict[str, dict[str, int]]
@@ -147,7 +156,7 @@ class Binding:
     def census(self, readings) -> dict:
         wiktionary = np.array([r.source == "wiktionary" for r in readings])
         wordnet = np.array([r.source == "wordnet" for r in readings])
-        identity = {f for f, _, _ in self.links} - set(KIND_FIELDS.values())
+        identity = {link[0] for link in self.links} - set(KIND_FIELDS.values())
         return {
             "edges_by_family": dict(sorted(self.edge_counts.items())),
             "identity_obligations_by_kind": dict(sorted(Counter(o.kind for o in self.obligations).items())),
@@ -155,6 +164,7 @@ class Binding:
             "wiktionary_readings_connected_to_wordnet": int(self.connected(readings, identity)[wiktionary].sum()),
             "wiktionary_readings_connected_to_wordnet_by_any_edge": int(self.connected(readings)[wiktionary].sum()),
             "classes_with_several_readings": int((np.bincount(self.classes) > 1).sum()),
+            "known_classes_with_several_readings": int((np.bincount(self.known_classes) > 1).sum()),
             "wordnet_readings_in_a_shared_class": int((wordnet & (np.bincount(self.classes)[self.classes] > 1)).sum()),
             "topic_facts": len(self.facts),
             "readings_with_a_topic": int(np.unique(np.concatenate(list(self.facts.values()))).size)
@@ -176,7 +186,7 @@ class Binding:
                 x = parent[x]
             return x
 
-        for family, a, b in self.links:
+        for family, a, b, *_ in self.links:
             if families is not None and family not in families:
                 continue
             ra, rb = find(a), find(b)
@@ -221,8 +231,8 @@ def _target(readings, sense, field_name, word, groups, lemmas, out) -> None:
     rows = sorted({int(r) for tag in tags for r in groups.get((word, tag), ())} - {sense.row})
     premise = f"{readings[sense.row].reading_id}:{field_name}:{word}"
     kind = "KIND_OF" if field_name in KIND_FIELDS else "IDENTITY"
-    if len(rows) == 1:
-        out["kinds" if field_name in KIND_FIELDS else "identities"].append((family, sense.row, rows[0]))
+    if len(rows) == 1:  # the structured field names its single target: stated
+        out["kinds" if field_name in KIND_FIELDS else "identities"].append((family, sense.row, rows[0], STATED))
         out["notes"][family][f"{kind}_EDGE"] += 1
     elif rows:
         out["obligations"].append(IdentityObligation(family, sense.row, np.array(rows, dtype=np.int64), (premise,)))
@@ -233,9 +243,15 @@ def _target(readings, sense, field_name, word, groups, lemmas, out) -> None:
         out["notes"][family]["TARGET_HAS_ONLY_OTHER_POS" if word in lemmas else "TARGET_NOT_IN_COHORT"] += 1
 
 
-def _align(readings, sense, groups, taxonomy: Taxonomy) -> tuple[str, int | None]:
+def _outcome(matches: list[int]) -> str:
+    return "ALIGNED" if len(matches) == 1 else "NO_CANDIDATE_MATCHES" if not matches else "SEVERAL_CANDIDATES_MATCH"
+
+
+def _align(readings, sense, groups, taxonomy: Taxonomy, notes=None) -> tuple[str, int | None]:
     """The anchor alignment of one sense: ("ALIGNED", row) or an abstention reason."""
     tags = _upos(readings[sense.row].pos)
+    if "PROPN" in tags:
+        return "PROPER_NOUN_BOUNDARY", None
     candidates = [int(r) for tag in tags for r in groups.get((sense.lemma, tag), ()) if readings[r].source == "wordnet"]
     if not sense.links:
         return "NO_LINKS", None
@@ -244,10 +260,14 @@ def _align(readings, sense, groups, taxonomy: Taxonomy) -> tuple[str, int | None
     linked = frozenset().union(*(taxonomy.synsets_of(w) for w in sense.links))
     if not linked:
         return "NO_LINKED_SYNSET", None
-    matches = [r for r in candidates if taxonomy.ancestors(_key(readings[r])) & linked]
-    if len(matches) == 1:
-        return "ALIGNED", matches[0]
-    return ("NO_CANDIDATE_MATCHES" if not matches else "SEVERAL_CANDIDATES_MATCH"), None
+    keys = {r: _key(readings[r]) for r in candidates}
+    matches = [r for r in candidates if taxonomy.ancestors(keys[r]) & linked]
+    if "ADJ" in tags:
+        by_kind = _outcome(matches)
+        matches = [r for r in candidates if (taxonomy.ancestors(keys[r]) | set(taxonomy.similar.get(keys[r], ()))) & linked]
+        if notes is not None and _outcome(matches) != by_kind:
+            notes["aligned_similar_to"][f"{by_kind}->{_outcome(matches)}"] += 1
+    return _outcome(matches), (matches[0] if len(matches) == 1 else None)
 
 
 def _upos(pos: str) -> frozenset[str]:
@@ -265,47 +285,52 @@ def bind(readings, senses: Iterable[Sense], taxonomy: Taxonomy) -> Binding:
         for field_name in IDENTITY_FIELDS | KIND_FIELDS:
             for word in getattr(sense, field_name):
                 _target(readings, sense, field_name, word, groups, lemmas, out)
-        reason, row = _align(readings, sense, groups, taxonomy)
+        reason, row = _align(readings, sense, groups, taxonomy, out["notes"])
         out["notes"][ALIGNED][reason] += 1
         if reason == "SEVERAL_CANDIDATES_MATCH" and sense.lemma in sense.links:
             out["notes"]["aligned_detail"]["SEVERAL_WITH_OWN_LEMMA_LINKED"] += 1
         if row is not None:
             aligned[sense.row] = row
-            out["identities"].append((ALIGNED, sense.row, row))
+            out["identities"].append((ALIGNED, sense.row, row, PROPOSED))
         for topic in sense.topics:
             topics[f"{TOPIC}={topic}"].append(sense.row)
-    classes = _Classes(len(readings))
+    classes, known = _Classes(len(readings)), _Classes(len(readings))
     node_groups: dict[str, list[int]] = {}
     links = []
-    for family, a, b in out["identities"]:
+    for family, a, b, standing in out["identities"]:
         if family in CLASS_FAMILIES:
             classes.join(a, b)
+            if standing == STATED:
+                known.join(a, b)
         ka, kb = _key(readings[a]), _key(readings[b])
         for r, k in ((a, ka), (b, kb)):
             if readings[r].source != "wordnet":
                 node_groups[k] = [r]
-        links += [(family, ka, kb), (family, kb, ka)]
-    for family, child, parent in out["kinds"]:
+        links += [(family, ka, kb, standing), (family, kb, ka, standing)]
+    for family, child, parent, standing in out["kinds"]:
         for r in (child, parent):
             if readings[r].source != "wordnet":
                 node_groups[_key(readings[r])] = [r]
-        links.append((family, _key(readings[parent]), _key(readings[child])))
+        links.append((family, _key(readings[parent]), _key(readings[child]), standing))
+    known_classes = _without_contradictions(readings, known.array(), out["notes"], "known_classes")
     return Binding(
         groups=node_groups,
         links=links,
-        classes=_without_contradictions(readings, classes.array(), out["notes"]),
+        classes=_without_contradictions(readings, classes.array(), out["notes"], "classes", known_classes),
+        known_classes=known_classes,
         obligations=out["obligations"],
         facts={name: np.array(sorted(set(rows)), dtype=np.int64) for name, rows in sorted(topics.items())},
         dispositions={k: dict(sorted(v.items())) for k, v in sorted(out["notes"].items())},
         aligned=aligned,
-        edge_counts=dict(Counter(family for family, _, _ in out["identities"] + out["kinds"])),
+        edge_counts=dict(Counter(link[0] for link in out["identities"] + out["kinds"])),
     )
 
 
-def _without_contradictions(readings, classes: np.ndarray, notes) -> np.ndarray:
+def _without_contradictions(readings, classes: np.ndarray, notes, label: str, fallback=None) -> np.ndarray:
     """A class holding two WordNet readings of one lemma and part of speech would identify two senses WordNet keeps
-    apart. Such a class is dissolved into single readings and reported; its edges stay, for inheritance to suspend.
-    The test reads the finished classes, so it does not depend on the order of the edges."""
+    apart. Such a class is dissolved and reported: into its known classes when `fallback` gives them (so a class
+    never splits a known class), else into single readings. Its edges stay, for inheritance to suspend. The test
+    reads the finished classes, so it does not depend on the order of the edges."""
     seen: dict[tuple[int, str, str], int] = {}
     broken = set()
     for row in np.flatnonzero(np.bincount(classes)[classes] > 1):
@@ -319,9 +344,9 @@ def _without_contradictions(readings, classes: np.ndarray, notes) -> np.ndarray:
     out = classes.copy()
     for root in broken:
         rows = np.flatnonzero(classes == root)
-        out[rows] = rows
+        out[rows] = rows if fallback is None else fallback[rows]
     if broken:
-        notes["classes"]["DISSOLVED_TWO_WORDNET_SENSES_OF_ONE_LEMMA"] += len(broken)
+        notes[label]["DISSOLVED_TWO_WORDNET_SENSES_OF_ONE_LEMMA"] += len(broken)
     return out
 
 
@@ -377,9 +402,13 @@ def wordnet_taxonomy() -> Taxonomy:
 
     kind_of = {f.name for f in FAMILIES if f.carries == KIND_OF}
     parents: dict[str, list[str]] = defaultdict(list)
-    for family, giver, receiver in wordnet_links(wn):
+    similar: dict[str, list[str]] = defaultdict(list)
+    for family, giver, receiver, *_ in wordnet_links(wn):
         if family in kind_of:
             parents[receiver].append(giver)
+        if family == "similar_to":
+            similar[giver].append(receiver)
+            similar[receiver].append(giver)
     cache: dict[str, frozenset[str]] = {}
 
     def synsets_of(word: str) -> frozenset[str]:
@@ -387,7 +416,7 @@ def wordnet_taxonomy() -> Taxonomy:
             cache[word] = frozenset(s.name() for s in wn.synsets(word.replace(" ", "_")))
         return cache[word]
 
-    return Taxonomy(synsets_of, {k: tuple(v) for k, v in parents.items()})
+    return Taxonomy(synsets_of, {k: tuple(v) for k, v in parents.items()}, {k: tuple(v) for k, v in similar.items()})
 
 
 def main(argv=None) -> dict:
@@ -438,6 +467,7 @@ def main(argv=None) -> dict:
             links=list(wordnet_links()) + binding.links,
             groups=binding.groups,
             classes=binding.classes,
+            known_classes=binding.known_classes,
         )
     if args.receipt:
         args.receipt.write_text(json.dumps(receipt, indent=1) + "\n")

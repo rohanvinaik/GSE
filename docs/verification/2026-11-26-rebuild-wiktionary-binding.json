@@ -6,8 +6,8 @@
  },
  "senses": 246240,
  "seconds": {
-  "load": 81.0,
-  "bind": 19.7
+  "load": 90.4,
+  "bind": 37.6
  },
  "binding": {
   "edges_by_family": {
@@ -27,6 +27,7 @@
   "wiktionary_readings_connected_to_wordnet": 47744,
   "wiktionary_readings_connected_to_wordnet_by_any_edge": 47756,
   "classes_with_several_readings": 40349,
+  "known_classes_with_several_readings": 779,
   "wordnet_readings_in_a_shared_class": 39605,
   "topic_facts": 3119,
   "readings_with_a_topic": 59415,
@@ -318,13 +319,14 @@
     }
    ],
    "known": {
-    "closures": 1,
-    "sweeps": 1,
+    "closures": 2,
+    "sweeps": 2,
     "forced": 0,
-    "facts_woken": 0
+    "facts_woken": 0,
+    "identity_cells": 11635
    },
-   "interpolated_cells": 62016,
-   "inherited_cells": 61777,
+   "interpolated_cells": 50381,
+   "inherited_cells": 50142,
    "consequence_cells": 239,
    "suspended_cells": {
     "defaults disagree": 0,
@@ -341,21 +343,21 @@
    "held_groups": 0,
    "unattributed_conflict": false,
    "bits": {
-    "known": 35985763.6888822,
+    "known": 35967228.85171147,
     "interpolated": 35886670.3899639
    },
-   "seconds": 6.186
+   "seconds": 7.87
   },
   "known": {
    "census": {
-    "+1": 3551,
-    "-1": 38,
+    "+1": 15032,
+    "-1": 192,
     "0": 1253536,
     "SILENT": 0,
-    "residual": 21232251,
+    "residual": 21220616,
     "conflict": 0,
     "cells": 22489376,
-    "bits": 35985763.6888822
+    "bits": 35967228.85171147
    },
    "obligation_groups_by_candidates": {
     "2": 18,

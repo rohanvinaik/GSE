@@ -38,7 +38,11 @@ belongs to a family that declares the states it carries.
   contract lets WordNet write CAUSE, so the link itself writes none. The effect's zeros and silence are not
   carried: the causer adds its own action to the effect.
 - synonymy: the same synset under different lemmas is one definition, equality of meaning, so it carries every
-  state, SILENT included. It is the node itself: its members' masks are intersected.
+  state, SILENT included. It is the node itself: its members' masks are intersected. It is a stated identity (the
+  lead's ruling of 2026-11-27: WordNet states one gloss for the synset, and each reading only names it under another
+  lemma), so it also runs in the known layer, carrying known values only; interpolated values cross it in the
+  interpolated layer. Kind-of, entailment, causes, similar_to and wiktionary_hypernym are relations between
+  different definitions, not identities, and stay interpolated.
 
 The Wiktionary binding (task 6.2, `wiktionary_binding.py`) adds proposed identities of meaning between a Wiktionary
 sense (a node of its own) and a WordNet or Wiktionary reading, emitted in both directions. Design E8: "An alignment is
@@ -254,8 +258,8 @@ class Graph:
         return out
 
     def stated_identities(self, n_readings: int) -> np.ndarray:
-        """A component id per reading: readings whose nodes are joined by stated identity links share one; every
-        other reading is its own (its row)."""
+        """A component id per reading: the readings of one node (one synset: one definition) and readings whose nodes
+        are joined by stated identity links share one; every other reading is its own (its row)."""
         identity = np.array([f.identity for f in self.families], dtype=bool)
         sel = identity[self.family] & self.stated if self.family.size else np.zeros(0, dtype=bool)
         label = np.arange(len(self.keys), dtype=np.int64)
@@ -267,7 +271,9 @@ class Graph:
             np.minimum.at(label, a, low)
             np.minimum.at(label, b, low)
         out = np.arange(n_readings, dtype=np.int64)
-        joined = np.bincount(label, minlength=len(self.keys)) > 1
+        size = np.zeros(len(self.keys), dtype=np.int64)
+        np.add.at(size, label[self.node_of], 1)
+        joined = size > 1
         node_label = label[self.node_of]
         on = joined[node_label]
         out[self.rows[on]] = n_readings + node_label[on]
@@ -608,7 +614,28 @@ def _equalize(state: State, known_classes: np.ndarray):
     return rows[r], c, before[r, c], after[r, c], (rows[starts[bad_class]], bad_bank)
 
 
-def _close_known(state: State, relations, scopes: dict, batch: ob.Batch, known_classes=None, record=None):
+def _identity_labels(graph: Graph, n: int, known_classes) -> np.ndarray:
+    """A label per reading for the known layer's equality: the readings of one synset, and the readings of one known
+    class, joined transitively."""
+    label = np.arange(n, dtype=np.int64)
+    cls = np.unique(known_classes, return_inverse=True)[1] if known_classes is not None else None
+    while True:
+        before = label.copy()
+        if graph.rows.size:
+            low = np.full(len(graph.keys), n, dtype=np.int64)
+            np.minimum.at(low, graph.node_of, label[graph.rows])
+            label[graph.rows] = low[graph.node_of]
+        if cls is not None:
+            low = np.full(cls.max() + 1, n, dtype=np.int64)
+            np.minimum.at(low, cls, label)
+            label = low[cls]
+        if (label == before).all():
+            return label
+
+
+def _close_known(
+    state: State, relations, scopes: dict, batch: ob.Batch, known_classes=None, record=None, identity=None
+):
     """Close the known layer in place: laws, stated identities, then obligations, waking the laws on the facts they
     locate, until nothing changes. Returns the receipt, the last forcing, the ordered steps, and the identity
     conflicts."""
@@ -620,8 +647,8 @@ def _close_known(state: State, relations, scopes: dict, batch: ob.Batch, known_c
         closures += 1
         steps.append(("close", first, record.count() if record is not None else 0))
         changed = 0
-        if known_classes is not None:
-            rows, cols, old, new, bad = _equalize(state, known_classes)
+        if identity is not None:
+            rows, cols, old, new, bad = _equalize(state, identity)
             steps.append(("identity", rows, cols, old, new))
             carried += rows.size
             changed += rows.size
@@ -703,8 +730,8 @@ def settle(
     layers; `classes` are joined by every identity and act only in the interpolated layer, where a conflict that rests
     on one sends its group back to the known classes.
 
-    A stated identity also runs in the known layer (the lead's ruling of 2026-11-27): the readings of one known class
-    have one meaning, so their known masks are intersected, and a known value crosses as known (TrialLedger: "Known
+    A stated identity also runs in the known layer (the lead's rulings of 2026-11-27): the readings of one synset, and
+    the readings of one known class, have one meaning, so their known masks are intersected, and a known value crosses as known (TrialLedger: "Known
     is a source fact or a strict conclusion from known premises"). It carries only known values: what is
     interpolated on one side stays interpolated on the other, since the interpolated layer carries it as any default.
     A proposed link never acts in the known layer. Readings of one class whose known states have nothing in common on
@@ -721,8 +748,9 @@ def settle(
     known_scopes = {name: mask.copy() for name, mask in (scopes or {}).items()}
     classes, known_classes = _check_classes(graph, len(state.readings), classes, known_classes)
     interpolated_classes = classes if classes is not None else known_classes
+    identity = _identity_labels(graph, len(state.readings), known_classes)
     known_receipt, known_forcing, known_steps, identity_conflicts = _close_known(
-        known, relations, known_scopes, batch, known_classes, record
+        known, relations, known_scopes, batch, known_classes, record, identity
     )
     known_conflicts = set(known_forcing.conflicts.tolist()) if known_forcing is not None else set()
     shape = (len(graph.keys), _WIDTH)
