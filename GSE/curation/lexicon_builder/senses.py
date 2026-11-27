@@ -10,25 +10,25 @@ completely destroys the coherence model, then that's an out-of-variance exceptio
 
 For each lemma and part of speech, over the round's closed state:
 
-1. Coherence is the default. The definitions form one sense unless they destructively interfere: a load-bearing
-   bank where their known states have nothing in common.
-2. Homonyms are the fewest groups such that every group's members still share a state on every load-bearing bank
-   (the constructive combination is non-empty). The partition is found exactly over the members that interfere.
-   A member that could stand in more than one group is a residual, with the groups it could join: no member's
-   placement is a choice.
+1. Evidenced definitions are one sense only when their load-bearing encodings are EQUAL (03:28: "the same bank
+   encodings"; the lead's revision of E10, 2026-11-27): every load-bearing bank decided in either one has the same
+   value in both. A bank decided in one and open in the other is not shown equal. Compatibility is not enough:
+   differently evidenced senses of "go" would otherwise accumulate the union of their content.
+2. A prime reading's sense (a reading bound to a prime profile, and the readings of its synset) is its own: its
+   silence is confined to that reading, so nothing joins it but readings equal to it.
 3. A definition with no evidence of its own (every cell at its starting mask, or narrowed only by a law that its
-   part of speech alone selects) interferes with nothing. It joins its word's core: the one group when there is
-   one, or the one group of two or more evidenced definitions when the others are exceptions. When the word has
-   several homonyms and no core, it is a residual over them.
-4. One evidenced definition alone against the core is an out-of-variance exception: kept apart as its own record,
-   with its interfering banks named, never averaged in.
+   part of speech alone selects) joins its word's core when the word has exactly one evidenced sense other than a
+   prime reading's and its exceptions. With several, it stays a residual listing them. With none (only a prime
+   reading's sense, or no evidence at all), the evidence-free definitions form one sense of their own.
+4. One evidenced definition alone against the core (the one ordinary sense of two or more equal definitions) is an
+   out-of-variance exception when it destructively interferes with the core, a load-bearing bank where their states
+   have nothing in common: kept apart as its own record, with its interfering banks named, never averaged in.
 5. A sense's encoding, in each layer, is on each bank the states every evidenced member allows. A bank where they
    allow nothing in common is a recorded conflict, written as the empty mask.
-6. Load-bearing banks, the starting definition (the lead's of 2026-11-27, to be refined from the results): the
-   banks decided in the known layer, on at least one definition of the word, by a stated, law or admitted-rule
+6. Load-bearing banks: the banks decided in the known layer, on a definition, by a stated, law or admitted-rule
    warrant (stated premises, profile derivations, lenses, NSM, located obligations and stated identities are all
-   stated warrants; laws include the part-of-speech laws). Inherited values never separate homonyms, because they
-   are interpolated: the partition reads the known layer only, and the interpolated layer gives each sense its
+   stated warrants; laws include the part-of-speech laws). Inherited values never separate senses, because they are
+   interpolated: the grouping reads the known layer only, and the interpolated layer gives each sense its
    interpolated encoding.
 7. Every part of speech present keeps at least one sense. Senses are numbered by their least member reading id:
    there is no main sense and no frequency.
@@ -57,7 +57,7 @@ STATED_WARRANTS = frozenset(
     {"stated", "profile_derivation", "lens", "nsm", "forced_obligation", "stated_identity", "admitted"}
 )
 LOAD_BEARING_WARRANTS = STATED_WARRANTS | {"law"}
-SEARCH_BUDGET = 200_000  # nodes of the exact partition search per word: a guard on time, reported when reached
+PRIME_ROOT = "stated:prime_profile:"  # the rule of a cell a prime profile states (`lexicon_rebuild_discovery`)
 _STATES = (POS, NEG, ZERO, SILENT)
 _POPCOUNT = np.array([bin(i).count("1") for i in range(16)], dtype=np.uint8)
 
@@ -117,8 +117,9 @@ class Sense:
     load_bearing: tuple[str, ...]
     known: np.ndarray
     interpolated: np.ndarray
+    prime: bool = False  # a prime reading's sense
     conflicts: dict[str, dict[str, list[str]]] = field(default_factory=dict)
-    splits: dict[str, list[str]] = field(default_factory=dict)  # other sense -> interfering banks
+    splits: dict[str, dict[str, list[str]]] = field(default_factory=dict)  # other sense -> unequal, interfering
     against_core: list[str] = field(default_factory=list)  # an exception's banks incompatible with the core
 
     def record(self, readings) -> dict:
@@ -130,6 +131,7 @@ class Sense:
             "lemma": self.lemma,
             "pos": self.pos,
             "kind": self.kind,
+            "prime": self.prime,
             "members": [readings[r].reading_id for r in self.members],
             "evidenced": [readings[r].reading_id for r in self.evidenced],
             "load_bearing": list(self.load_bearing),
@@ -150,7 +152,6 @@ class Word:
     senses: list[str]
     exceptions: list[str]
     residuals: list[dict]
-    search: str  # "trivial", "exact" or "budget"
 
 
 @dataclass
@@ -189,57 +190,6 @@ def _fits(acc: np.ndarray, mask: np.ndarray) -> bool:
     return bool(((acc & mask) != 0).all())
 
 
-def _minimum_partition(masks: np.ndarray, budget: int) -> tuple[list[list[int]], bool]:
-    """The fewest groups of the rows of `masks` (classes x banks) whose intersection is non-empty on every bank.
-
-    Exact branch and bound over a canonical order (most constrained first, then the masks themselves); returns the
-    groups and whether the search finished within `budget` nodes."""
-    k = masks.shape[0]
-    conflicts = np.array([[not _fits(masks[i], masks[j]) for j in range(k)] for i in range(k)])
-    order = sorted(range(k), key=lambda i: (-int(conflicts[i].sum()), masks[i].tolist()))
-    best: list[list[int]] = []
-    groups: list[list[int]] = []
-    inters: list[np.ndarray] = []
-    nodes = 0
-    for i in order:  # a first solution, greedy in the same order, bounds the search
-        for g, acc in enumerate(inters):
-            if _fits(acc, masks[i]):
-                groups[g].append(i)
-                inters[g] = acc & masks[i]
-                break
-        else:
-            groups.append([i])
-            inters.append(masks[i].copy())
-    best = [list(g) for g in groups]
-    groups, inters = [], []
-
-    def search(pos: int) -> None:
-        nonlocal best, nodes
-        nodes += 1
-        if nodes > budget or len(groups) >= len(best):
-            return
-        if pos == k:
-            best = [list(g) for g in groups]
-            return
-        i = order[pos]
-        for g in range(len(groups)):
-            if _fits(inters[g], masks[i]):
-                saved = inters[g]
-                groups[g].append(i)
-                inters[g] = saved & masks[i]
-                search(pos + 1)
-                groups[g].pop()
-                inters[g] = saved
-        groups.append([i])
-        inters.append(masks[i].copy())
-        search(pos + 1)
-        groups.pop()
-        inters.pop()
-
-    search(0)
-    return best, nodes <= budget
-
-
 def _combine(masks: np.ndarray) -> np.ndarray:
     return np.bitwise_and.reduce(masks, axis=0) if masks.shape[0] else START.copy()
 
@@ -258,66 +208,59 @@ class _Group:
     evidenced: list[int]
 
 
-def collapse_word(rows: np.ndarray, rnd: Round, evidence: np.ndarray, bearing: np.ndarray, budget: int):
-    """The groups of one lemma and part of speech: (groups, exception indices, residuals, load-bearing banks,
-    search). Residual candidates are group indices."""
+def collapse_word(rows: np.ndarray, rnd: Round, evidence: np.ndarray, bearing: np.ndarray, prime: np.ndarray):
+    """The groups of one lemma and part of speech: (groups, exception indices, residuals, load-bearing banks, the
+    indices of prime readings' groups). Residual candidates are group indices."""
     has = evidence[rows]
     load = np.flatnonzero(bearing[rows].any(axis=0))
     evidenced, free = rows[has], rows[~has]
-    if evidenced.size <= 1:
-        return [_Group(rows.tolist(), evidenced.tolist())], [], [], load, "trivial"
-    sub = rnd.known[evidenced][:, load]
-    clash = (sub[:, None, :] & sub[None, :, :]) == 0
-    interfere = clash.any(axis=2)
-    if not interfere.any():
-        return [_Group(rows.tolist(), evidenced.tolist())], [], [], load, "trivial"
-    involved = np.flatnonzero(interfere.any(axis=1))
-    split_banks = np.flatnonzero(clash.any(axis=(0, 1)))
-    keys, key_of = np.unique(sub[involved][:, split_banks], axis=0, return_inverse=True)
-    parts, finished = _minimum_partition(keys, budget)
-    key_of = key_of.ravel()
-    groups = [[int(i) for k in part for i in involved[key_of == k]] for part in parts]
-    # Placement must be forced: a member that also fits another group is a residual over the groups it fits.
-    residual: dict[int, list[int]] = {}
-    for g, members in enumerate(groups):
-        for i in members:
-            also = [h for h, other in enumerate(groups) if h != g and _fits(_combine(sub[other]), sub[i])]
-            if also:
-                residual[i] = sorted([g, *also])
-    firm = [[i for i in g if i not in residual] for g in groups]
-    for i in (i for i in range(sub.shape[0]) if i not in set(involved.tolist())):
-        fits = [h for h, g in enumerate(firm) if g and _fits(_combine(sub[g]), sub[i])]
-        if len(fits) == 1:
-            firm[fits[0]].append(i)
-        elif fits:
-            residual[i] = fits
-        else:
-            firm.append([i])
-    kept = [h for h, g in enumerate(firm) if g]
-    new_index = {h: n for n, h in enumerate(kept)}
-    firm = [firm[h] for h in kept]
+    if not evidenced.size:
+        return [_Group(rows.tolist(), [])], [], [], load, set()
+    # The load-bearing signature: each load bank's decided value where a load-bearing warrant decided it, else 0.
+    signature = np.where(bearing[evidenced][:, load], rnd.known[evidenced][:, load], 0)
+    _, inverse = np.unique(signature, axis=0, return_inverse=True)
+    inverse = inverse.ravel()
+    groups = [
+        _Group(evidenced[inverse == k].tolist(), evidenced[inverse == k].tolist()) for k in range(inverse.max() + 1)
+    ]
+    primes = {g for g, group in enumerate(groups) if prime[group.evidenced].any()}
+    ordinary = [g for g in range(len(groups)) if g not in primes]
+    cores = [g for g in ordinary if len(groups[g].evidenced) >= 2]
+    exceptions = []
+    if len(cores) == 1:
+        core = _combine(rnd.known[groups[cores[0]].evidenced][:, load])
+        for g in ordinary:
+            alone = groups[g].evidenced
+            if g != cores[0] and len(alone) == 1 and not _fits(core, rnd.known[alone[0]][load]):
+                exceptions.append(g)
+    joinable = [g for g in ordinary if g not in exceptions]
     residuals = []
-    for i, candidates in sorted(residual.items()):
-        mapped = sorted({new_index[h] for h in candidates if h in new_index})
-        if len(mapped) == 1:
-            firm[mapped[0]].append(i)
-        elif not mapped:
-            firm.append([i])
+    if free.size:
+        if len(joinable) == 1:
+            groups[joinable[0]].members.extend(free.tolist())
+        elif not joinable:
+            groups.append(_Group(free.tolist(), []))
         else:
-            residuals.append({"row": int(evidenced[i]), "candidates": mapped, "reason": "FITS_SEVERAL_HOMONYMS"})
-    out = [_Group([int(evidenced[i]) for i in g], [int(evidenced[i]) for i in g]) for g in firm]
-    big = [n for n, g in enumerate(firm) if len(g) >= 2]
-    exceptions = [n for n, g in enumerate(firm) if len(g) == 1] if len(big) == 1 else []
-    core = big[0] if len(big) == 1 else (0 if len(firm) == 1 else None)
-    if core is not None:
-        out[core].members.extend(int(r) for r in free)
-    else:
-        every = list(range(len(out)))
-        residuals += [{"row": int(r), "candidates": every, "reason": "NO_EVIDENCE_AND_NO_CORE"} for r in free]
-    return out, exceptions, residuals, load, "exact" if finished else "budget"
+            residuals = [
+                {"row": int(r), "candidates": joinable, "reason": "NO_EVIDENCE_SEVERAL_SENSES"} for r in free.tolist()
+            ]
+    return groups, exceptions, residuals, load, primes
 
 
 # --- The whole cohort ---------------------------------------------------------------------------------------------
+
+
+def prime_readings(rnd: Round) -> np.ndarray:
+    """Per reading, whether it is a prime reading: bound to a prime profile (a cell the profile states), or a WordNet
+    reading of the same synset as one (one definition)."""
+    from . import inheritance
+
+    codes = [i for i, rule in enumerate(rnd.rule_ids) if rule.startswith(PRIME_ROOT)]
+    out = np.isin(rnd.known_rule, codes).any(axis=1) if codes else np.zeros(len(rnd.readings), dtype=bool)
+    for rows in inheritance.wordnet_groups(rnd.readings).values():
+        if out[rows].any():
+            out[rows] = True
+    return out
 
 
 def evidence_masks(rnd: Round) -> tuple[np.ndarray, np.ndarray]:
@@ -360,11 +303,12 @@ def _close(senses: list[Sense], masks: np.ndarray, facts: dict[str, np.ndarray])
     return state
 
 
-def collapse(rnd: Round, budget: int = SEARCH_BUDGET) -> Senses:
+def collapse(rnd: Round) -> Senses:
     """Every lemma and part of speech of the round collapsed into its senses, closed under the laws."""
     started = time.perf_counter()
     readings = rnd.readings
     evidence, bearing = evidence_masks(rnd)
+    prime = prime_readings(rnd)
     by_word: dict[tuple[str, str], list[int]] = defaultdict(list)
     for row, r in enumerate(readings):
         by_word[(r.lemma, r.pos)].append(row)
@@ -374,7 +318,7 @@ def collapse(rnd: Round, budget: int = SEARCH_BUDGET) -> Senses:
     known_rows, interpolated_rows = [], []
     for (lemma, pos), word_rows in sorted(by_word.items()):
         rows = np.array(sorted(word_rows, key=lambda r: readings[r].reading_id), dtype=np.int64)
-        groups, exceptions, residuals, load, search = collapse_word(rows, rnd, evidence, bearing, budget)
+        groups, exceptions, residuals, load, primes = collapse_word(rows, rnd, evidence, bearing, prime)
         order = sorted(range(len(groups)), key=lambda g: min(readings[r].reading_id for r in groups[g].members))
         first = len(senses)
         number = {g: first + n for n, g in enumerate(order)}
@@ -391,6 +335,7 @@ def collapse(rnd: Round, budget: int = SEARCH_BUDGET) -> Senses:
                 lemma=lemma,
                 pos=pos,
                 kind="exception" if g in exceptions else "sense",
+                prime=g in primes,
                 members=members,
                 evidenced=evid,
                 load_bearing=load_names,
@@ -412,11 +357,16 @@ def collapse(rnd: Round, budget: int = SEARCH_BUDGET) -> Senses:
         word_senses = senses[first:]
         for a in word_senses:
             for b in word_senses:
-                if a is not b:
-                    banks = [BANKS[x] for x in load.tolist() if not (a.known[x] & b.known[x])]
-                    if banks:
-                        a.splits[b.sense_id] = banks
-        cores = [s for s in word_senses if s.kind == "sense"]
+                if a is not b and a.evidenced and b.evidenced:
+                    unequal = [
+                        BANKS[x]
+                        for x in load.tolist()
+                        if a.known[x] != b.known[x] and (_POPCOUNT[a.known[x]] == 1 or _POPCOUNT[b.known[x]] == 1)
+                    ]
+                    if unequal:
+                        interfering = [BANKS[x] for x in load.tolist() if not (a.known[x] & b.known[x])]
+                        a.splits[b.sense_id] = {"unequal": unequal, "interfering": interfering}
+        cores = [s for s in word_senses if s.kind == "sense" and not s.prime and len(s.evidenced) >= 2]
         for s in word_senses:
             if s.kind == "exception" and len(cores) == 1:
                 s.against_core = [BANKS[x] for x in load.tolist() if not (s.known[x] & cores[0].known[x])]
@@ -429,12 +379,11 @@ def collapse(rnd: Round, budget: int = SEARCH_BUDGET) -> Senses:
                 [
                     {
                         "reading": readings[x["row"]].reading_id,
-                        "candidates": [senses[number[c]].sense_id for c in x["candidates"] if c in number],
+                        "candidates": [senses[i].sense_id for i in sorted(number[c] for c in x["candidates"])],
                         "reason": x["reason"],
                     }
                     for x in residuals
                 ],
-                search,
             )
         )
     known = np.array(known_rows, dtype=np.uint8).reshape(-1, len(BANKS))
@@ -459,15 +408,21 @@ def census(result: Senses, readings) -> dict:
         "senses": sum(by_pos.values()),
         "senses_by_pos": dict(sorted(by_pos.items())),
         "exceptions": sum(len(w.exceptions) for w in result.words),
-        "words_with_homonyms": len(split_words),
-        "homonym_splits_by_bank": dict(
-            sorted(Counter(b for s in result.senses for banks in s.splits.values() for b in banks).items())
+        "words_with_several_senses": len(split_words),
+        "prime_senses": sum(1 for s in result.senses if s.prime),
+        "evidence_free_senses": sum(1 for s in result.senses if not s.evidenced),
+        "splits_by_unequal_bank": dict(
+            sorted(Counter(b for s in result.senses for split in s.splits.values() for b in split["unequal"]).items())
+        ),
+        "splits_by_interfering_bank": dict(
+            sorted(
+                Counter(b for s in result.senses for split in s.splits.values() for b in split["interfering"]).items()
+            )
         ),
         "residual_definitions": sum(len(w.residuals) for w in result.words),
         "residuals_by_reason": dict(sorted(Counter(x["reason"] for w in result.words for x in w.residuals).items())),
         "readings_in_a_sense": int((result.sense_of >= 0).sum()),
         "readings": len(readings),
-        "search": dict(sorted(Counter(w.search for w in result.words).items())),
         "senses_with_conflicts": {
             layer: sum(1 for s in result.senses if layer in s.conflicts) for layer in ("known", "interpolated")
         },
@@ -511,7 +466,7 @@ def persist(result: Senses, readings, path: Path = OUT, records: Path = RECORDS)
         for word in result.words:
             if word.residuals or word.exceptions or len(word.senses) > 1:
                 line = {"type": "word", "lemma": word.lemma, "pos": word.pos, "senses": word.senses}
-                line |= {"exceptions": word.exceptions, "residuals": word.residuals, "search": word.search}
+                line |= {"exceptions": word.exceptions, "residuals": word.residuals}
                 out.write(json.dumps(line, ensure_ascii=False) + "\n")
     return {"path": str(path), "records": str(records), "senses": len(result.senses)}
 
@@ -526,10 +481,13 @@ def main(argv=None) -> dict:
     parser.add_argument("--round", type=Path, default=ROUND)
     parser.add_argument("--cohort", type=Path, default=COHORT)
     parser.add_argument("--receipt", type=Path, default=RECEIPT)
+    parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--records", type=Path, default=RECORDS)
     args = parser.parse_args(argv)
     readings = inventory.load(args.cohort)
     result = collapse(load_round(args.round, readings))
-    receipt = {"format": "GSE.rebuild-senses/1", "census": result.receipt, "persisted": persist(result, readings)}
+    persisted = persist(result, readings, args.out, args.records)
+    receipt = {"format": "GSE.rebuild-senses/1", "census": result.receipt, "persisted": persisted}
     args.receipt.write_text(json.dumps(receipt, indent=1, default=int) + "\n")
     return receipt
 
