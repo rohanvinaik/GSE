@@ -7,8 +7,10 @@ done in these books should be extended in ways that are relevant and useful".
 The rules, as decided (the lead's brief of 2026-11-26):
 
 1. Binding. An explication binds to the readings of its explicated lemma and the part of speech its frame shows
-   (`nsm_frames`). One reading in the cohort: its content is a restriction on that reading. Several: an obligation
-   over them, never a copy onto each.
+   (`nsm_frames`). One reading in the cohort: its content is a restriction on that reading. Several: the head line's
+   category types them (`nsm_typing`, the lead's refinement of 2026-11-26). One typed reading takes a restriction,
+   several an obligation over those only, none an obligation over all of them (`UNTYPED`); content is never copied
+   onto each.
 2. Content. Each prime exponent in the explication gives its bank the pole the chart says (bad gives GOOD -1).
    Forms come from the chart's boxes, matched as whole words; the bank mappings are the chart's `_EXACT`,
    `_ADAPTED` and `_METADATA`. Lower-case one-letter words are never exponents. The head line's category formula
@@ -65,7 +67,7 @@ from nltk.corpus import wordnet as wn
 
 from GSE.curation.external_sources.nsm_chart_data import _ADAPTED, _CHART_BOXES, _EXACT, _METADATA, _MISSING
 
-from . import guards, inventory, laws, nsm_frames, nsm_text
+from . import guards, inheritance, inventory, laws, nsm_frames, nsm_text, nsm_typing
 from .cells import BANK_INDEX, BANKS, BIPOLAR, NEG, POS, SILENT, ZERO, State
 from .closure import Derivations, close
 from .relations import Relation
@@ -303,6 +305,36 @@ def molecule_head(body: nsm_text.Body) -> str | None:
     return None
 
 
+def head_category(body: nsm_text.Body, noun: bool) -> str | None:
+    """The category the head line types its word by, as a noun lemma (`nsm_typing`).
+
+    It is the head line's first molecule or noun exponent (a substantive or WORDS), outside the category formula
+    and not a genitive: "creatures [m] ..." is creature, a head naming parts of a body is part. In "a kind of
+    stuff" KIND is read through to the noun after it. A predicate's head line has no category."""
+    if not noun:
+        return None
+    line = body.head
+    words = [t.word for t in line]
+    i = 0
+    while i < len(line):
+        if _formula_at(words, i):
+            i += 3
+            continue
+        t = line[i]
+        if t.molecule:
+            return nsm_frames.base(t.word, "noun") or t.word
+        key = None if t.genitive or t.variable else unit_of(t.word)
+        if key in _NOUN_UNITS and not (key == "kinds" and i + 1 < len(line) and words[i + 1] == "of"):
+            return nsm_frames.base(t.word, "noun") or t.word
+        i += 1
+    return None
+
+
+_NOUN_UNITS = frozenset(k for k, p in POLES.items() if p and p[0] in SUBSTANTIVE) | {"words"}
+# The noun lemmas of the chart's SOMETHING~THING forms: the most general category, which types nothing.
+MOST_GENERAL = frozenset(nsm_frames.base(f, "noun") or f for f, k in SINGLE.items() if k == "something")
+
+
 # --- Records --------------------------------------------------------------------------------------------------
 
 
@@ -396,9 +428,11 @@ class _Writer:
         self.restrictions: list[tuple[int, int, int, int]] = []
         self.obligations: list[Obligation] = []
         self.observations: dict[tuple, tuple[int, str]] = {}
+        self.aligner = nsm_typing.Aligner(readings, self.index, MOST_GENERAL)
 
-    def bind(self, rule_id: str, warrant: str, lemma: str, pos: str, masks: dict[str, int]) -> dict:
-        """Rule 1: a restriction on the one reading, or an obligation over several; the binding's receipt."""
+    def bind(self, rule_id: str, warrant: str, lemma: str, pos: str, masks: dict[str, int], category=None) -> dict:
+        """Rule 1 with the typed alignment proof (`nsm_typing`): a restriction on the one reading (or the one the
+        head category types), an obligation over the typed readings, or over all of them, `UNTYPED`."""
         rows = self.index.get((lemma, pos), [])
         entry = {"rule_id": rule_id, "lemma": lemma, "pos": pos, "readings": len(rows)}
         if not rows:
@@ -415,12 +449,20 @@ class _Writer:
         if len(rows) == 1:
             self.restrictions.extend((rows[0], BANK_INDEX[b], m, rule) for b, m in masks.items())
             return entry | {"disposition": "RESTRICTION", "reading": rows[0]}
-        members = np.array(rows, dtype=np.int64)
+        typed = self.aligner.type(category, rows)
+        entry["typing"] = typed.receipt()
+        if typed.rows:
+            self.warrants[rule] = f"{warrant}, typed by the head category {typed.category}"
+        if len(typed.rows) == 1:
+            self.restrictions.extend((typed.rows[0], BANK_INDEX[b], m, rule) for b, m in masks.items())
+            return entry | {"disposition": "RESTRICTION", "reading": typed.rows[0]}
+        members = np.array(typed.rows or rows, dtype=np.int64)
         banks = tuple(masks)
         if len(banks) > 1:
             self.obligations.append(Obligation(rule_id, banks, tuple(masks[b] for b in banks), members, True, witness))
         self.obligations.extend(Obligation(rule_id, (b,), (masks[b],), members, False, witness) for b in banks)
-        return entry | {"disposition": "OBLIGATION", "joint": len(banks) > 1}
+        disposition = "OBLIGATION" if typed.rows else "UNTYPED"
+        return entry | {"disposition": disposition, "joint": len(banks) > 1, "rows": int(members.size)}
 
     def output(self, receipt) -> Compiled:
         r = np.array(self.restrictions, dtype=np.int64).reshape(-1, 4)
@@ -531,8 +573,7 @@ def compile_records(records, readings) -> Compiled:
             if f.frame == "CROSS_LINGUISTIC":
                 receipt.append(entry | {"disposition": "CROSS_LINGUISTIC", "language": f.language})
             else:
-                extra = {"sole_pos": f.sole_pos} if f.sole_pos else {}
-                receipt.append(entry | {"disposition": "UNSUPPORTED", "reason": f.frame} | extra)
+                receipt.append(entry | {"disposition": "UNSUPPORTED", "reason": f.frame})
             continue
         content = Content()
         content.add(rd.content)
@@ -546,7 +587,9 @@ def compile_records(records, readings) -> Compiled:
                 "banks": {b: label(m) for b, m in carried.masks().items()},
             }
         masks = content.masks()
+        category = head_category(rd.body, f.pos == "noun")
         entry |= {
+            "head_category": category or "",
             "banks": {b: label(m) for b, m in masks.items()},
             "own_banks": len(own),
             "participants": rd.content.participants,
@@ -554,7 +597,8 @@ def compile_records(records, readings) -> Compiled:
             "title_found": rd.body.title_found,
         }
         rule_id = f"nsm:{record.key}"
-        receipt.append(entry | w.bind(rule_id, _warrant(record, f.lemma, f.pos, f.frame), f.lemma, f.pos, masks))
+        warrant = _warrant(record, f.lemma, f.pos, f.frame)
+        receipt.append(entry | w.bind(rule_id, warrant, f.lemma, f.pos, masks, category))
     return w.output(receipt)
 
 
@@ -624,19 +668,88 @@ def closure_round(readings, compiled: Compiled) -> dict:
 # --- Summary --------------------------------------------------------------------------------------------------
 
 
+_BOUND = {"RESTRICTION", "OBLIGATION", "UNTYPED"}
+
+
+def bindings(receipt):
+    """Every binding in the receipt: a record's own, and each template member's."""
+    for e in receipt:
+        if "rule_id" in e:
+            yield e
+        for m in e.get("members", []):
+            if isinstance(m, dict):
+                yield m
+
+
+def typing_summary(receipt) -> dict:
+    """What the typed alignment did to the bindings over two or more readings."""
+    outcome, categories, untyped = Counter(), defaultdict(Counter), Counter()
+    before = after = outside = 0
+    narrowing = []
+    for b in bindings(receipt):
+        t = b.get("typing")
+        if t is None:
+            continue
+        kind = {"RESTRICTION": "restriction", "OBLIGATION": "narrowed"}.get(b["disposition"], "untyped")
+        outcome[kind] += 1
+        categories[t["category"] or "-"][kind] += 1
+        if kind == "untyped":
+            untyped[t["reason"]] += 1
+            continue
+        rows = 1 if kind == "restriction" else b["rows"]
+        before, after, outside = before + b["readings"], after + rows, outside + t["outside_wordnet"]
+        narrowing.append([b["readings"], rows])
+    return {
+        "bindings": sum(outcome.values()),
+        "outcome": dict(sorted(outcome.items())),
+        "untyped_by_reason": dict(sorted(untyped.items())),
+        "typed_rows_before": before,
+        "typed_rows_after": after,
+        "outside_wordnet_left_out": outside,
+        "by_category": {c: dict(sorted(k.items())) for c, k in sorted(categories.items())},
+        "typed_readings_before_after": sorted(narrowing),
+    }
+
+
+def typing_check(compiled: Compiled, readings) -> dict:
+    """An independent check that every typed row lies in its category's WordNet subtree. The subtree is computed
+    downward from the hub (hyponyms and instance hyponyms), not by the upward ancestry the typing used."""
+    synset = {row: name for name, rows in inheritance.wordnet_groups(readings).items() for row in rows}
+    nouns: dict[str, list[int]] = defaultdict(list)
+    for row, r in enumerate(readings):
+        if r.pos == "noun":
+            nouns[r.lemma].append(row)
+    obligation_rows = {o.rule_id: set(o.rows.tolist()) for o in compiled.obligations}
+    subtrees: dict[str, set[str]] = {}
+    checked, outside = 0, []
+    for b in bindings(compiled.receipt):
+        t = b.get("typing")
+        if not t or b["disposition"] not in {"RESTRICTION", "OBLIGATION"}:
+            continue
+        category = t["category"]
+        if category not in subtrees:
+            hub = {synset[r] for r in nouns[category] if r in synset}
+            down = lambda s: s.hyponyms() + s.instance_hyponyms()  # noqa: E731
+            subtrees[category] = hub | {h.name() for name in hub for h in wn.synset(name).closure(down)}
+        rows = {b["reading"]} if b["disposition"] == "RESTRICTION" else obligation_rows[b["rule_id"]]
+        for row in sorted(rows):
+            checked += 1
+            if synset.get(row) not in subtrees[category]:
+                outside.append([b["rule_id"], readings[row].reading_id, category])
+    return {"typed_rows_checked": checked, "outside_subtree": outside}
+
+
 def summary(compiled: Compiled) -> dict:
-    """Dispositions, restrictions and obligations by bank, and the lemmas that bind and do not."""
+    """Dispositions, restrictions and obligations by bank, typing, and the lemmas that bind and do not."""
     dispositions = Counter()
     bound, unbound = Counter(), Counter()
     for e in compiled.receipt:
         dispositions[e["disposition"] + (f":{e['reason']}" if "reason" in e else "")] += 1
         for b in e.get("members", []) if isinstance(e.get("members"), list) else []:
             if isinstance(b, dict):
-                key = f"{b['lemma']}/{b['pos']}"
-                (bound if b["disposition"] in {"RESTRICTION", "OBLIGATION"} else unbound)[key] += 1
+                (bound if b["disposition"] in _BOUND else unbound)[f"{b['lemma']}/{b['pos']}"] += 1
         if e.get("lemma"):
-            key = f"{e['lemma']}/{e['pos'] or '?'}"
-            (bound if e["disposition"] in {"RESTRICTION", "OBLIGATION"} else unbound)[key] += 1
+            (bound if e["disposition"] in _BOUND else unbound)[f"{e['lemma']}/{e['pos'] or '?'}"] += 1
     restrictions = Counter(f"{BANKS[c]}:{label(int(m))}" for c, m in zip(compiled.cols, compiled.allowed))
     single = Counter(f"{o.banks[0]}:{label(o.states[0])}" for o in compiled.obligations if not o.joint)
     joint = [o for o in compiled.obligations if o.joint]
@@ -651,6 +764,7 @@ def summary(compiled: Compiled) -> dict:
         "obligations_joint": len(joint),
         "obligations_single_by_bank": dict(sorted(single.items())),
         "joint_obligation_banks": sorted(len(o.banks) for o in joint),
+        "typing": typing_summary(compiled.receipt),
         "bound_lemmas": dict(sorted(bound.items())),
         "unbound_lemmas": dict(sorted(unbound.items())),
     }
@@ -669,6 +783,7 @@ def main(argv=None) -> dict:
             "cohort_sha256": inventory.digest(readings),
         },
         "summary": summary(compiled),
+        "typing_check": typing_check(compiled, readings),
         "closure_round": closure_round(readings, compiled),
         "records": list(compiled.receipt),
         "seconds": round(time.perf_counter() - started, 2),

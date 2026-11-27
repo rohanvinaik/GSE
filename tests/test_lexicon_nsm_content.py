@@ -118,14 +118,15 @@ def test_one_reading_gets_a_restriction_and_several_get_an_obligation():
     compiled = nsm.compile_records(records, readings)
     by_lemma = {e["lemma"]: e for e in compiled.receipt}
     assert by_lemma["grim"]["disposition"] == "RESTRICTION"
-    assert by_lemma["bleak"]["disposition"] == "OBLIGATION"
+    assert by_lemma["bleak"]["disposition"] == "UNTYPED"  # an adjective's head line types nothing
+    assert by_lemma["bleak"]["typing"]["reason"] == "NO_HEAD_CATEGORY"
     assert set(compiled.rows.tolist()) == {0}  # only the single grim reading is restricted
     assert all(set(o.rows.tolist()) == {1, 2, 3} for o in compiled.obligations)  # never copied onto each
     assert {o.rule_id for o in compiled.obligations} == {"nsm:T:5-6"}
 
 
 def test_an_unsupported_record_writes_nothing():
-    readings = _readings(("grim", "adj", 1), ("zorbity", "noun", 2))
+    readings = _readings(("grim", "adj", 1), ("zorbity", "noun", 2), ("zorbity", "verb", 1))
     records = (
         _record(1, "Flibber gnash wop.", WEATHER),
         _record(3, "This thing is grim. [Polish]", WEATHER),
@@ -141,9 +142,15 @@ def test_an_unsupported_record_writes_nothing():
         ("CROSS_LINGUISTIC", None),
         ("OTHER", None),
         ("UNSUPPORTED", "NOT_IN_COHORT"),
-        ("UNSUPPORTED", "POS_NOT_SHOWN"),  # a bare form whose head line is a clause
+        ("UNSUPPORTED", "POS_NOT_SHOWN"),  # bare, a clause for a head line, two open classes in the cohort
     ]
-    assert compiled.receipt[-1]["sole_pos"] == "noun"  # recorded, not bound
+
+
+def test_a_sole_open_class_part_of_speech_binds_a_bare_form():
+    readings = _readings(("zorbity", "noun", 2), ("zorbity", "name", 1))
+    compiled = nsm.compile_records((_record(9, "zorbity", ["a. it can glow when bad weather can happen"]),), readings)
+    entry = compiled.receipt[0]
+    assert (entry["frame"], entry["pos"], entry["disposition"]) == ("BARE_SOLE_POS", "noun", "UNTYPED")
 
 
 def test_a_joint_obligation_has_its_banks_states_and_rows_and_a_single_obligation_per_bank():
@@ -176,7 +183,7 @@ def test_a_template_goes_to_the_members_it_lists():
     compiled = nsm.compile_records((template,), readings)
     entry = compiled.receipt[0]
     assert entry["disposition"] == "TEMPLATE" and entry["field_applied"] is False
-    assert {m["lemma"]: m["disposition"] for m in entry["members"]} == {"hop": "OBLIGATION", "skip": "RESTRICTION"}
+    assert {m["lemma"]: m["disposition"] for m in entry["members"]} == {"hop": "UNTYPED", "skip": "RESTRICTION"}
     assert entry["banks"] == {"DO": "+1", "FAR": "-1", "MOVE": "+1"}
 
 
@@ -188,3 +195,101 @@ def test_a_restriction_closes_as_a_one_bank_relation():
     close(state, relations, scopes)
     assert state.masks[0, BANK_INDEX["GOOD"]] == NEG
     assert state.masks[0, BANK_INDEX["HAPPEN"]] == POS
+
+
+# --- The typed alignment proof: the head line's category picks the readings (real WordNet synsets) -------------
+
+
+def _wordnet(lemma: str, *synsets: str, wiktionary: int = 0) -> list[Reading]:
+    out = [Reading(f"wordnet:{lemma}:{s}", lemma, "noun", "") for s in synsets]
+    return out + [Reading(f"wiktionary:{lemma}:{i}", lemma, "noun", "") for i in range(wiktionary)]
+
+
+def test_the_head_molecule_types_the_one_reading_that_is_a_kind_of_it():
+    readings = tuple(
+        _wordnet("dog", "dog.n.01", "frump.n.01", "frank.n.02", wiktionary=2) + _wordnet("beast", "animal.n.01")
+    )
+    records = (
+        _record(1, "beasts", ["something alive", "owls and voles feel cold"], "molecule"),
+        _record(3, "dogs", ["a. beasts [m] of one kind", "b. these beasts [m] bark at night"]),
+    )
+    compiled = nsm.compile_records(records, readings)
+    dog = next(e for e in compiled.receipt if e["lemma"] == "dog")
+    assert dog["head_category"] == "beast"
+    assert dog["disposition"] == "RESTRICTION" and readings[dog["reading"]].reading_id == "wordnet:dog:dog.n.01"
+    assert dog["typing"]["outside_wordnet"] == 2 and dog["typing"]["eligible"] == 1  # Wiktionary left out
+    assert set(compiled.rows.tolist()) == {0, 5}  # dog.n.01, and the molecule's own one creature reading
+    assert not compiled.obligations
+
+
+def test_a_head_category_narrows_the_obligation_to_its_kinds():
+    readings = tuple(
+        _wordnet("hand", "hand.n.01", "hand.n.13", "hired_hand.n.01", "handwriting.n.01", wiktionary=1)
+        + _wordnet("part", "part.n.03")
+    )
+    compiled = nsm.compile_records(
+        (_record(1, "hands", ["a. bony parts of a big body", "b. these can move"]),), readings
+    )
+    entry = compiled.receipt[0]
+    assert entry["head_category"] == "part" and entry["disposition"] == "OBLIGATION" and entry["rows"] == 2
+    assert all(o.rows.tolist() == [0, 1] for o in compiled.obligations)  # hired hand, handwriting, Wiktionary out
+
+
+def test_a_reading_that_is_its_category_is_typed_by_it():
+    readings = tuple(_wordnet("animal", "animal.n.01", wiktionary=1) + _wordnet("beast", "animal.n.01"))
+    compiled = nsm.compile_records(
+        (_record(1, "animals", ["a. beasts [m] of many kinds", "b. they can move"]),), readings
+    )
+    entry = compiled.receipt[0]
+    assert (
+        entry["disposition"] == "RESTRICTION" and readings[entry["reading"]].reading_id == "wordnet:animal:animal.n.01"
+    )
+
+
+def test_without_a_typed_reading_the_obligation_stays_over_every_reading_untyped():
+    readings = tuple(
+        _wordnet("hand", "hired_hand.n.01", "handwriting.n.01", wiktionary=1) + _wordnet("part", "part.n.03")
+    )
+    records = (
+        _record(1, "hands", ["a. bony parts of a big body", "b. these can move"]),
+        _record(5, "fogs", ["a. something", "b. owls can see it near ponds"]),
+    )
+    readings = readings + tuple(_wordnet("fog", "fog.n.01", "fog.n.02"))
+    compiled = nsm.compile_records(records, readings)
+    hand, fog = compiled.receipt
+    assert (hand["disposition"], hand["typing"]["reason"]) == ("UNTYPED", "NONE_ELIGIBLE")
+    assert (fog["disposition"], fog["typing"]["reason"]) == ("UNTYPED", "MOST_GENERAL_CATEGORY")  # SOMETHING
+    rows = {o.rule_id: o.rows.tolist() for o in compiled.obligations}
+    assert rows["nsm:T:1-3"] == [0, 1, 2] and rows["nsm:T:5-7"] == [4, 5]
+
+
+def test_something_and_thing_are_the_most_general_category_and_type_nothing():
+    readings = tuple(_wordnet("egg", "egg.n.01", "testis.n.01") + _wordnet("thing", "thing.n.12"))
+    compiled = nsm.compile_records(
+        (_record(1, "eggs", ["a. one thing, a small one", "b. hens can make them"]),), readings
+    )
+    entry = compiled.receipt[0]
+    assert entry["head_category"] == "thing"  # testis.n.01 descends from thing.n.12, and is still not typed
+    assert (entry["disposition"], entry["typing"]["reason"]) == ("UNTYPED", "MOST_GENERAL_CATEGORY")
+    assert len(compiled) == 0 and all(o.rows.tolist() == [0, 1] for o in compiled.obligations)
+
+
+def test_people_types_through_person_and_someone_through_its_exact_lemma():
+    readings = tuple(
+        _wordnet("nurse", "nurse.n.01", "nanny.n.01", wiktionary=1)
+        + _wordnet("person", "person.n.01")
+        + _wordnet("people", "people.n.01")
+        + _wordnet("toddler", "toddler.n.01", "yearling.n.02")
+        + _wordnet("someone", "person.n.01")
+    )
+    records = (
+        _record(1, "nurses", ["people of one kind", "they can feel tired"]),
+        _record(5, "toddlers", ["a. someone of one kind", "b. this someone can wobble"]),
+    )
+    compiled = nsm.compile_records(records, readings)
+    woman, toddler = compiled.receipt
+    assert woman["head_category"] == "person"  # the suppletive plural, not WordNet's group senses of "people"
+    assert woman["disposition"] == "OBLIGATION" and woman["rows"] == 2  # nurse.n.01 and nanny.n.01 are persons
+    assert toddler["head_category"] == "someone" and toddler["typing"]["hub_synsets"] == 1  # person.n.01
+    assert readings[toddler["reading"]].reading_id == "wordnet:toddler:toddler.n.01"
+    assert nsm.typing_check(compiled, readings) == {"typed_rows_checked": 3, "outside_subtree": []}

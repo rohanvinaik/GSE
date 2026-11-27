@@ -15,82 +15,128 @@
   "records": 248,
   "dispositions": {
    "CROSS_LINGUISTIC": 41,
-   "OBLIGATION": 151,
+   "OBLIGATION": 14,
    "OTHER": 21,
+   "RESTRICTION": 6,
    "TEMPLATE": 8,
    "UNSUPPORTED:EMBEDDED_IN_PROSE": 3,
    "UNSUPPORTED:NOT_IN_COHORT": 4,
    "UNSUPPORTED:NO_FRAME": 8,
-   "UNSUPPORTED:POS_NOT_SHOWN": 8,
+   "UNSUPPORTED:POS_NOT_SHOWN": 1,
    "UNSUPPORTED:TEMPLATE_NO_CONTENT": 1,
-   "UNSUPPORTED:TEMPLATE_NO_MEMBERS": 3
+   "UNSUPPORTED:TEMPLATE_NO_MEMBERS": 3,
+   "UNTYPED": 138
   },
-  "rules": 167,
-  "restrictions": 0,
-  "restricted_readings": 0,
-  "restrictions_by_bank": {},
-  "obligations_single": 2274,
-  "obligations_joint": 167,
+  "rules": 174,
+  "restrictions": 158,
+  "restricted_readings": 6,
+  "restrictions_by_bank": {
+   "ABOVE:+1": 1,
+   "ABOVE:+1|-1": 1,
+   "ABOVE:-1": 1,
+   "ALIVE:+1": 5,
+   "BE:+1": 2,
+   "BECAUSE:+1": 5,
+   "BEFORE:+1|-1": 3,
+   "BIG:+1|-1": 5,
+   "CAN:+1": 6,
+   "DO:+1": 6,
+   "EXIST:+1": 5,
+   "FAR:+1|-1": 3,
+   "FEEL:+1": 5,
+   "GOOD:+1|-1": 3,
+   "GOOD:-1": 1,
+   "HAPPEN:+1": 3,
+   "HEAR:+1": 2,
+   "HERE:+1": 1,
+   "IF:+1": 4,
+   "INTENSITY:+1": 6,
+   "KIND:+1": 1,
+   "KNOW:+1": 4,
+   "LIKE:+1": 6,
+   "LONG_TIME:-1": 2,
+   "MOVE:+1": 5,
+   "NOT:+1": 5,
+   "ONE:+1": 6,
+   "OUTSIDE:-1": 4,
+   "QUANTITY:+1": 6,
+   "SAME:+1|-1": 3,
+   "SAME:-1": 2,
+   "SAY:+1": 3,
+   "SEE:+1": 3,
+   "SIDE:+1": 4,
+   "SOMETHING:+1": 4,
+   "THEN:-1": 1,
+   "THINK:+1": 5,
+   "TOUCH:+1": 3,
+   "TWO:+1": 5,
+   "WANT:+1": 5,
+   "WHEN:+1": 6,
+   "WHERE:+1": 5,
+   "WORDS:+1": 2
+  },
+  "obligations_single": 2200,
+  "obligations_joint": 168,
   "obligations_single_by_bank": {
-   "ABOVE:+1": 16,
-   "ABOVE:+1|-1": 3,
-   "ABOVE:-1": 2,
-   "ALIVE:+1": 18,
+   "ABOVE:+1": 15,
+   "ABOVE:+1|-1": 2,
+   "ABOVE:-1": 1,
+   "ALIVE:+1": 13,
    "ALIVE:+1|-1": 1,
-   "BE:+1": 29,
-   "BECAUSE:+1": 135,
+   "BE:+1": 27,
+   "BECAUSE:+1": 136,
    "BEFORE:+1": 26,
-   "BEFORE:+1|-1": 21,
+   "BEFORE:+1|-1": 18,
    "BEFORE:-1": 29,
    "BIG:+1": 2,
-   "BIG:+1|-1": 6,
+   "BIG:+1|-1": 1,
    "BIG:-1": 10,
    "BODY:+1": 4,
-   "CAN:+1": 140,
-   "DO:+1": 88,
-   "EXIST:+1": 31,
+   "CAN:+1": 141,
+   "DO:+1": 86,
+   "EXIST:+1": 26,
    "FAR:+1": 8,
-   "FAR:+1|-1": 5,
+   "FAR:+1|-1": 2,
    "FAR:-1": 9,
-   "FEEL:+1": 75,
-   "GOOD:+1": 30,
-   "GOOD:+1|-1": 13,
-   "GOOD:-1": 44,
-   "HAPPEN:+1": 83,
-   "HEAR:+1": 5,
-   "HERE:+1": 8,
+   "FEEL:+1": 77,
+   "GOOD:+1": 36,
+   "GOOD:+1|-1": 11,
+   "GOOD:-1": 43,
+   "HAPPEN:+1": 86,
+   "HEAR:+1": 3,
+   "HERE:+1": 7,
    "IF:+1": 86,
-   "INTENSITY:+1": 37,
-   "KIND:+1": 4,
-   "KNOW:+1": 64,
-   "LIKE:+1": 156,
+   "INTENSITY:+1": 33,
+   "KIND:+1": 3,
+   "KNOW:+1": 60,
+   "LIKE:+1": 157,
    "LONG_TIME:+1": 6,
    "LONG_TIME:+1|-1": 2,
-   "LONG_TIME:-1": 29,
+   "LONG_TIME:-1": 27,
    "MAYBE:+1": 4,
    "MOMENT:+1": 8,
-   "MOVE:+1": 42,
-   "NOT:+1": 100,
-   "ONE:+1": 41,
-   "OUTSIDE:-1": 21,
+   "MOVE:+1": 37,
+   "NOT:+1": 99,
+   "ONE:+1": 35,
+   "OUTSIDE:-1": 17,
    "PART:+1": 4,
    "PEOPLE:+1": 10,
    "QUANTITY:+1": 94,
-   "SAME:+1": 20,
-   "SAME:+1|-1": 23,
-   "SAME:-1": 55,
-   "SAY:+1": 54,
-   "SEE:+1": 15,
-   "SIDE:+1": 9,
-   "SOMETHING:+1": 31,
-   "THEN:-1": 25,
-   "THINK:+1": 116,
-   "TOUCH:+1": 39,
-   "TWO:+1": 16,
+   "SAME:+1": 21,
+   "SAME:+1|-1": 20,
+   "SAME:-1": 53,
+   "SAY:+1": 51,
+   "SEE:+1": 12,
+   "SIDE:+1": 5,
+   "SOMETHING:+1": 27,
+   "THEN:-1": 29,
+   "THINK:+1": 117,
+   "TOUCH:+1": 36,
+   "TWO:+1": 11,
    "WANT:+1": 92,
    "WHEN:+1": 148,
-   "WHERE:+1": 61,
-   "WORDS:+1": 21
+   "WHERE:+1": 56,
+   "WORDS:+1": 20
   },
   "joint_obligation_banks": [
    5,
@@ -124,6 +170,8 @@
    9,
    9,
    9,
+   9,
+   10,
    10,
    10,
    10,
@@ -147,7 +195,7 @@
    11,
    11,
    11,
-   12,
+   11,
    12,
    12,
    12,
@@ -185,6 +233,10 @@
    13,
    13,
    13,
+   13,
+   13,
+   14,
+   14,
    14,
    14,
    14,
@@ -254,13 +306,132 @@
    21,
    21,
    22,
-   23,
-   23,
-   26,
-   29,
-   33,
-   35
+   23
   ],
+  "typing": {
+   "bindings": 174,
+   "outcome": {
+    "narrowed": 14,
+    "restriction": 6,
+    "untyped": 154
+   },
+   "untyped_by_reason": {
+    "MOST_GENERAL_CATEGORY": 27,
+    "NONE_ELIGIBLE": 2,
+    "NO_HEAD_CATEGORY": 125
+   },
+   "typed_rows_before": 518,
+   "typed_rows_after": 61,
+   "outside_wordnet_left_out": 370,
+   "by_category": {
+    "-": {
+     "untyped": 125
+    },
+    "child": {
+     "narrowed": 1
+    },
+    "creature": {
+     "restriction": 6
+    },
+    "part": {
+     "narrowed": 4
+    },
+    "person": {
+     "narrowed": 9
+    },
+    "something": {
+     "untyped": 22
+    },
+    "thing": {
+     "untyped": 5
+    },
+    "word": {
+     "untyped": 2
+    }
+   },
+   "typed_readings_before_after": [
+    [
+     3,
+     1
+    ],
+    [
+     10,
+     3
+    ],
+    [
+     10,
+     3
+    ],
+    [
+     10,
+     3
+    ],
+    [
+     11,
+     1
+    ],
+    [
+     16,
+     4
+    ],
+    [
+     16,
+     4
+    ],
+    [
+     18,
+     1
+    ],
+    [
+     19,
+     5
+    ],
+    [
+     20,
+     1
+    ],
+    [
+     21,
+     2
+    ],
+    [
+     22,
+     4
+    ],
+    [
+     27,
+     1
+    ],
+    [
+     32,
+     1
+    ],
+    [
+     34,
+     7
+    ],
+    [
+     34,
+     7
+    ],
+    [
+     37,
+     2
+    ],
+    [
+     42,
+     3
+    ],
+    [
+     43,
+     2
+    ],
+    [
+     93,
+     6
+    ]
+   ]
+  },
   "bound_lemmas": {
    "ache/verb": 1,
    "animal/noun": 1,
@@ -275,6 +446,7 @@
    "carve/verb": 1,
    "child/noun": 2,
    "childish/adj": 1,
+   "childlike/adj": 1,
    "chop/verb": 1,
    "cold/adj": 6,
    "complain/verb": 1,
@@ -301,6 +473,7 @@
    "greet/verb": 1,
    "grind/verb": 1,
    "hand/noun": 1,
+   "happiness/noun": 6,
    "happy/adj": 2,
    "hard/adj": 2,
    "head/noun": 1,
@@ -374,14 +547,16 @@
    "woman/noun": 3
   },
   "unbound_lemmas": {
-   "childlike/?": 1,
    "depressed/?": 1,
-   "happiness/?": 6,
    "kill oneself/verb": 1,
    "long/adj": 1,
    "old saying/noun": 1,
    "pick up/verb": 1
   }
+ },
+ "typing_check": {
+  "typed_rows_checked": 61,
+  "outside_subtree": []
  },
  "closure_round": {
   "opening": {
@@ -403,29 +578,66 @@
    "conflict": 0,
    "cells": 22489376,
    "bits": 35991474.946359746,
-   "seconds": 0.491
+   "seconds": 0.337
   },
   "laws_and_nsm": {
-   "+1": 0,
-   "-1": 0,
+   "+1": 129,
+   "-1": 11,
    "0": 1253536,
    "SILENT": 0,
-   "residual": 21235840,
+   "residual": 21235700,
    "conflict": 0,
    "cells": 22489376,
-   "bits": 35991474.946359746,
-   "relations": 65,
-   "applications": 71,
-   "removals": 1253568,
-   "seconds": 0.453
+   "bits": 35991227.99597216,
+   "relations": 223,
+   "applications": 396,
+   "removals": 1253726,
+   "seconds": 0.491
   },
-  "bits_removed_by_nsm": 0.0,
-  "nsm_removals": 0,
-  "newly_decided_by_bank": {},
+  "bits_removed_by_nsm": 246.95038758963346,
+  "nsm_removals": 158,
+  "newly_decided_by_bank": {
+   "SOMETHING": 4,
+   "KIND": 1,
+   "SAME": 2,
+   "ONE": 6,
+   "TWO": 5,
+   "QUANTITY": 6,
+   "GOOD": 1,
+   "THINK": 5,
+   "KNOW": 4,
+   "WANT": 5,
+   "FEEL": 5,
+   "SEE": 3,
+   "HEAR": 2,
+   "SAY": 3,
+   "WORDS": 2,
+   "DO": 6,
+   "HAPPEN": 3,
+   "MOVE": 5,
+   "BE": 2,
+   "EXIST": 5,
+   "ALIVE": 5,
+   "WHEN": 6,
+   "LONG_TIME": 2,
+   "THEN": 1,
+   "WHERE": 5,
+   "HERE": 1,
+   "SIDE": 4,
+   "TOUCH": 3,
+   "ABOVE": 2,
+   "OUTSIDE": 4,
+   "NOT": 5,
+   "CAN": 6,
+   "BECAUSE": 5,
+   "IF": 4,
+   "LIKE": 6,
+   "INTENSITY": 6
+  },
   "conflicts": [],
   "obligations_after_closure": {
-   "joint:open": 167,
-   "single:open": 2274
+   "joint:open": 168,
+   "single:open": 2200
   }
  },
  "records": [
@@ -438,6 +650,7 @@
    "lemma": "hand",
    "pos": "noun",
    "sense": "",
+   "head_category": "part",
    "banks": {
     "BECAUSE": "+1",
     "BODY": "+1",
@@ -458,8 +671,16 @@
    "title_found": true,
    "rule_id": "nsm:G12:408-414",
    "readings": 42,
+   "typing": {
+    "category": "part",
+    "hub_synsets": 12,
+    "wordnet_readings": 14,
+    "outside_wordnet": 28,
+    "eligible": 3
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "G12",
@@ -470,6 +691,7 @@
    "lemma": "child",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "ALIVE": "+1",
     "BE": "+1",
@@ -495,8 +717,16 @@
    "title_found": true,
    "rule_id": "nsm:G12:420-426",
    "readings": 16,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 12,
+    "eligible": 4
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "G12",
@@ -507,6 +737,7 @@
    "lemma": "leg",
    "pos": "noun",
    "sense": "",
+   "head_category": "part",
    "banks": {
     "ABOVE": "-1",
     "BECAUSE": "+1",
@@ -527,8 +758,16 @@
    "title_found": true,
    "rule_id": "nsm:G12:481-486",
    "readings": 37,
+   "typing": {
+    "category": "part",
+    "hub_synsets": 12,
+    "wordnet_readings": 9,
+    "outside_wordnet": 28,
+    "eligible": 2
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 2
   },
   {
    "source": "G12",
@@ -539,6 +778,7 @@
    "lemma": "head",
    "pos": "noun",
    "sense": "",
+   "head_category": "part",
    "banks": {
     "ABOVE": "+1",
     "BODY": "+1",
@@ -557,8 +797,16 @@
    "title_found": true,
    "rule_id": "nsm:G12:489-493",
    "readings": 93,
+   "typing": {
+    "category": "part",
+    "hub_synsets": 12,
+    "wordnet_readings": 33,
+    "outside_wordnet": 60,
+    "eligible": 6
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "G12",
@@ -569,6 +817,7 @@
    "lemma": "long",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -605,6 +854,7 @@
    "lemma": "woman",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "ALIVE": "+1",
     "BE": "+1",
@@ -628,8 +878,16 @@
    "title_found": true,
    "rule_id": "nsm:G12:546-552",
    "readings": 10,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 6,
+    "eligible": 3
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "G12",
@@ -678,16 +936,34 @@
      "lemma": "walk",
      "pos": "verb",
      "readings": 32,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 10,
+      "outside_wordnet": 22,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 32
     },
     {
      "rule_id": "nsm:G12:691-695:run",
      "lemma": "run",
      "pos": "verb",
      "readings": 106,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 41,
+      "outside_wordnet": 65,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 106
     }
    ]
   },
@@ -714,16 +990,34 @@
      "lemma": "eat",
      "pos": "verb",
      "readings": 21,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 6,
+      "outside_wordnet": 15,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 21
     },
     {
      "rule_id": "nsm:G12:696-697:drink",
      "lemma": "drink",
      "pos": "verb",
      "readings": 15,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 5,
+      "outside_wordnet": 10,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 15
     }
    ]
   },
@@ -752,16 +1046,34 @@
      "lemma": "cut",
      "pos": "verb",
      "readings": 75,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 41,
+      "outside_wordnet": 34,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 75
     },
     {
      "rule_id": "nsm:G12:698-701:chop",
      "lemma": "chop",
      "pos": "verb",
      "readings": 27,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 6,
+      "outside_wordnet": 21,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 27
     }
    ]
   },
@@ -795,8 +1107,17 @@
      "lemma": "walk",
      "pos": "verb",
      "readings": 32,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 10,
+      "outside_wordnet": 22,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 32
     }
    ]
   },
@@ -826,8 +1147,17 @@
      "lemma": "drink",
      "pos": "verb",
      "readings": 15,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 5,
+      "outside_wordnet": 10,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 15
     }
    ]
   },
@@ -862,8 +1192,17 @@
      "lemma": "cut",
      "pos": "verb",
      "readings": 75,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 41,
+      "outside_wordnet": 34,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 75
     }
    ]
   },
@@ -876,6 +1215,7 @@
    "lemma": "drink",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -901,8 +1241,17 @@
    "title_found": true,
    "rule_id": "nsm:G12:818-841",
    "readings": 15,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 10,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 15
   },
   {
    "source": "G12",
@@ -925,6 +1274,7 @@
    "lemma": "cut",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -952,8 +1302,17 @@
    "title_found": true,
    "rule_id": "nsm:G12:924-948",
    "readings": 75,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 41,
+    "outside_wordnet": 34,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 75
   },
   {
    "source": "G12",
@@ -988,6 +1347,7 @@
    "lemma": "creature",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "ALIVE": "+1",
     "CAN": "+1",
@@ -1002,8 +1362,17 @@
    "title_found": true,
    "rule_id": "nsm:G18:153-156",
    "readings": 8,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 8
   },
   {
    "source": "G18",
@@ -1028,6 +1397,7 @@
      "SOMETHING": "+1"
     }
    },
+   "head_category": "creature",
    "banks": {
     "ABOVE": "+1",
     "ALIVE": "+1",
@@ -1062,8 +1432,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:224-273",
    "readings": 20,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 5,
+    "outside_wordnet": 15,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 259844
   },
   {
    "source": "G18",
@@ -1088,6 +1465,7 @@
      "SOMETHING": "+1"
     }
    },
+   "head_category": "creature",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -1119,8 +1497,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:289-328",
    "readings": 27,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 23,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 299715
   },
   {
    "source": "G18",
@@ -1131,6 +1516,7 @@
    "lemma": "snake",
    "pos": "noun",
    "sense": "",
+   "head_category": "creature",
    "banks": {
     "CAN": "+1",
     "DO": "+1",
@@ -1151,8 +1537,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:347-359",
    "readings": 18,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 5,
+    "outside_wordnet": 13,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 372625
   },
   {
    "source": "G18",
@@ -1163,6 +1556,7 @@
    "lemma": "animal",
    "pos": "noun",
    "sense": "",
+   "head_category": "creature",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -1200,8 +1594,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:411-472",
    "readings": 11,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 1,
+    "outside_wordnet": 10,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 251690
   },
   {
    "source": "G18",
@@ -1226,6 +1627,7 @@
      "SOMETHING": "+1"
     }
    },
+   "head_category": "creature",
    "banks": {
     "ABOVE": "-1",
     "ALIVE": "+1",
@@ -1269,8 +1671,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:537-625",
    "readings": 32,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 7,
+    "outside_wordnet": 25,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 288314
   },
   {
    "source": "G18",
@@ -1302,6 +1711,7 @@
      "SOMETHING": "+1"
     }
    },
+   "head_category": "creature",
    "banks": {
     "ABOVE": "+1|-1",
     "ALIVE": "+1",
@@ -1343,8 +1753,15 @@
    "title_found": true,
    "rule_id": "nsm:G18:763-835",
    "readings": 3,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "creature",
+    "hub_synsets": 3,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 1
+   },
+   "disposition": "RESTRICTION",
+   "reading": 321059
   },
   {
    "source": "G18",
@@ -1355,6 +1772,7 @@
    "lemma": "egg",
    "pos": "noun",
    "sense": "",
+   "head_category": "thing",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -1384,8 +1802,17 @@
    "title_found": true,
    "rule_id": "nsm:G18:914-927",
    "readings": 24,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "thing",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 21,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 24
   },
   {
    "source": "G18",
@@ -1396,6 +1823,7 @@
    "lemma": "wing",
    "pos": "noun",
    "sense": "",
+   "head_category": "part",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -1416,8 +1844,16 @@
    "title_found": true,
    "rule_id": "nsm:G18:930-935",
    "readings": 43,
+   "typing": {
+    "category": "part",
+    "hub_synsets": 12,
+    "wordnet_readings": 11,
+    "outside_wordnet": 32,
+    "eligible": 2
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 2
   },
   {
    "source": "G18",
@@ -1428,6 +1864,7 @@
    "lemma": "feather",
    "pos": "noun",
    "sense": "",
+   "head_category": "thing",
    "banks": {
     "BE": "+1",
     "BEFORE": "+1",
@@ -1453,8 +1890,17 @@
    "title_found": true,
    "rule_id": "nsm:G18:937-948",
    "readings": 13,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "thing",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 13
   },
   {
    "source": "GW07",
@@ -1465,6 +1911,7 @@
    "lemma": "salty",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -1483,8 +1930,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:175-181",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW07",
@@ -1495,6 +1951,7 @@
    "lemma": "sweet",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -1515,8 +1972,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:202-214",
    "readings": 26,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 16,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 26
   },
   {
    "source": "GW07",
@@ -1527,6 +1993,7 @@
    "lemma": "sour",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -1551,8 +2018,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:232-244",
    "readings": 14,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 6,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 14
   },
   {
    "source": "GW07",
@@ -1563,6 +2039,7 @@
    "lemma": "sugar",
    "pos": "noun",
    "sense": "",
+   "head_category": "thing",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -1585,8 +2062,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:261-268",
    "readings": 18,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "thing",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 18
   },
   {
    "source": "GW07",
@@ -1597,6 +2083,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -1619,8 +2106,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:331-340",
    "readings": 50,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW07",
@@ -1631,6 +2127,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -1654,8 +2151,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:349-358",
    "readings": 35,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW07",
@@ -1666,6 +2172,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -1687,8 +2194,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:418-427",
    "readings": 50,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW07",
@@ -1699,6 +2215,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "FEEL": "+1",
@@ -1714,8 +2231,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:433-436",
    "readings": 50,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW07",
@@ -1726,6 +2252,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -1748,8 +2275,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:442-454",
    "readings": 35,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW07",
@@ -1760,6 +2296,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "FEEL": "+1",
@@ -1775,8 +2312,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:455-458",
    "readings": 35,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW07",
@@ -1787,6 +2333,7 @@
    "lemma": "warm",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -1807,8 +2354,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:470-479",
    "readings": 19,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 19
   },
   {
    "source": "GW07",
@@ -1819,6 +2375,7 @@
    "lemma": "warm",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -1840,8 +2397,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:485-495",
    "readings": 19,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 19
   },
   {
    "source": "GW07",
@@ -1864,6 +2430,7 @@
    "lemma": "rough",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BIG": "-1",
@@ -1887,8 +2454,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:574-583",
    "readings": 28,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 14,
+    "outside_wordnet": 14,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 28
   },
   {
    "source": "GW07",
@@ -1899,6 +2475,7 @@
    "lemma": "smooth",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -1920,8 +2497,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:605-618",
    "readings": 23,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 23
   },
   {
    "source": "GW07",
@@ -1956,6 +2542,7 @@
    "lemma": "hard",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -1981,8 +2568,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:729-742",
    "readings": 44,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 12,
+    "outside_wordnet": 32,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 44
   },
   {
    "source": "GW07",
@@ -1993,6 +2589,7 @@
    "lemma": "soft",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -2014,8 +2611,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:756-767",
    "readings": 58,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 19,
+    "outside_wordnet": 39,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 58
   },
   {
    "source": "GW07",
@@ -2050,6 +2656,7 @@
    "lemma": "heavy",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -2076,8 +2683,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:870-882",
    "readings": 54,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 27,
+    "outside_wordnet": 27,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 54
   },
   {
    "source": "GW07",
@@ -2088,6 +2704,7 @@
    "lemma": "light",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -2114,8 +2731,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:889-904",
    "readings": 51,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 25,
+    "outside_wordnet": 26,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 51
   },
   {
    "source": "GW07",
@@ -2126,6 +2752,7 @@
    "lemma": "sharp",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -2151,8 +2778,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:954-967",
    "readings": 36,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 12,
+    "outside_wordnet": 24,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 36
   },
   {
    "source": "GW07",
@@ -2184,6 +2820,7 @@
    "lemma": "eat",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "DO": "+1",
@@ -2202,8 +2839,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:1265-1274",
    "readings": 21,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 6,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 21
   },
   {
    "source": "GW07",
@@ -2214,6 +2860,7 @@
    "lemma": "sun",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -2234,8 +2881,17 @@
    "title_found": true,
    "rule_id": "nsm:GW07:1286-1293",
    "readings": 16,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 16
   },
   {
    "source": "GW16",
@@ -2267,6 +2923,7 @@
    "lemma": "crawl",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -2294,8 +2951,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:305-324",
    "readings": 16,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 16
   },
   {
    "source": "GW16",
@@ -2306,6 +2972,7 @@
    "lemma": "swim",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -2335,8 +3002,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:360-376",
    "readings": 17,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 12,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 17
   },
   {
    "source": "GW16",
@@ -2347,6 +3023,7 @@
    "lemma": "fly",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BE": "+1",
@@ -2373,8 +3050,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:407-421",
    "readings": 25,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 14,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 25
   },
   {
    "source": "GW16",
@@ -2385,6 +3071,7 @@
    "lemma": "play",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -2406,8 +3093,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:489-497",
    "readings": 67,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 35,
+    "outside_wordnet": 32,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 67
   },
   {
    "source": "GW16",
@@ -2418,6 +3114,7 @@
    "lemma": "sing",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -2443,8 +3140,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:532-547",
    "readings": 19,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 14,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 19
   },
   {
    "source": "GW16",
@@ -2455,6 +3161,7 @@
    "lemma": "hold",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "DO": "+1",
@@ -2478,8 +3185,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:586-598",
    "readings": 61,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 36,
+    "outside_wordnet": 25,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 61
   },
   {
    "source": "GW16",
@@ -2490,6 +3206,7 @@
    "lemma": "cut",
    "pos": "verb",
    "sense": "1",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -2517,8 +3234,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:673-695",
    "readings": 75,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 41,
+    "outside_wordnet": 34,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 75
   },
   {
    "source": "GW16",
@@ -2529,6 +3255,7 @@
    "lemma": "grind",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -2558,8 +3285,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:730-749",
    "readings": 25,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 7,
+    "outside_wordnet": 18,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 25
   },
   {
    "source": "GW16",
@@ -2570,6 +3306,7 @@
    "lemma": "dig",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -2596,8 +3333,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:768-787",
    "readings": 17,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 17
   },
   {
    "source": "GW16",
@@ -2608,6 +3354,7 @@
    "lemma": "make",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -2633,8 +3380,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:875-887",
    "readings": 91,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 49,
+    "outside_wordnet": 42,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 91
   },
   {
    "source": "GW16",
@@ -2645,6 +3401,7 @@
    "lemma": "build",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -2670,8 +3427,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:934-952",
    "readings": 18,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 18
   },
   {
    "source": "GW16",
@@ -2682,6 +3448,7 @@
    "lemma": "carve",
    "pos": "verb",
    "sense": "1",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -2713,8 +3480,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1047-1070",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW16",
@@ -2725,6 +3501,7 @@
    "lemma": "hit",
    "pos": "verb",
    "sense": "1",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -2752,8 +3529,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1106-1119",
    "readings": 42,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 17,
+    "outside_wordnet": 25,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 42
   },
   {
    "source": "GW16",
@@ -2764,6 +3550,7 @@
    "lemma": "hit",
    "pos": "verb",
    "sense": "2",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -2793,8 +3580,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1129-1141",
    "readings": 42,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 17,
+    "outside_wordnet": 25,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 42
   },
   {
    "source": "GW16",
@@ -2805,6 +3601,7 @@
    "lemma": "kick",
    "pos": "verb",
    "sense": "1",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -2834,8 +3631,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1178-1190",
    "readings": 25,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 17,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 25
   },
   {
    "source": "GW16",
@@ -2846,6 +3652,7 @@
    "lemma": "kill",
    "pos": "verb",
    "sense": "1",
+   "head_category": "",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -2864,8 +3671,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1228-1235",
    "readings": 33,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 15,
+    "outside_wordnet": 18,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 33
   },
   {
    "source": "GW16",
@@ -2876,6 +3692,7 @@
    "lemma": "kill",
    "pos": "verb",
    "sense": "2",
+   "head_category": "",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -2893,8 +3710,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1260-1267",
    "readings": 33,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 15,
+    "outside_wordnet": 18,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 33
   },
   {
    "source": "GW16",
@@ -2905,6 +3731,7 @@
    "lemma": "pick up",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1|-1",
     "BECAUSE": "+1",
@@ -2941,6 +3768,7 @@
    "lemma": "put",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -2964,8 +3792,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1404-1418",
    "readings": 22,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 9,
+    "outside_wordnet": 13,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 22
   },
   {
    "source": "GW16",
@@ -2976,6 +3813,7 @@
    "lemma": "throw",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3005,8 +3843,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1473-1489",
    "readings": 45,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 15,
+    "outside_wordnet": 30,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 45
   },
   {
    "source": "GW16",
@@ -3017,6 +3864,7 @@
    "lemma": "push",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3045,8 +3893,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1522-1538",
    "readings": 26,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 16,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 26
   },
   {
    "source": "GW16",
@@ -3057,6 +3914,7 @@
    "lemma": "laugh",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3086,8 +3944,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1569-1585",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW16",
@@ -3098,6 +3965,7 @@
    "lemma": "cry",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3126,8 +3994,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1606-1620",
    "readings": 15,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 7,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 15
   },
   {
    "source": "GW16",
@@ -3138,6 +4015,7 @@
    "lemma": "fall",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1|-1",
     "BE": "+1",
@@ -3158,8 +4036,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1683-1694",
    "readings": 57,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 32,
+    "outside_wordnet": 25,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 57
   },
   {
    "source": "GW16",
@@ -3170,6 +4057,7 @@
    "lemma": "sink",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1|-1",
     "BE": "+1",
@@ -3192,8 +4080,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1708-1719",
    "readings": 25,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 9,
+    "outside_wordnet": 16,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 25
   },
   {
    "source": "GW16",
@@ -3204,6 +4101,7 @@
    "lemma": "rain",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -3234,8 +4132,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1759-1777",
    "readings": 5,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW16",
@@ -3246,6 +4153,7 @@
    "lemma": "snow",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -3275,8 +4183,17 @@
    "title_found": true,
    "rule_id": "nsm:GW16:1781-1795",
    "readings": 10,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 10
   },
   {
    "source": "GW16",
@@ -3287,6 +4204,7 @@
    "lemma": "build",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3313,8 +4231,17 @@
    "rule_id": "nsm:GW16:1856-1874",
    "readings": 18,
    "same_as": "nsm:GW16:934-952",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 18
   },
   {
    "source": "GW2014",
@@ -3325,6 +4252,7 @@
    "lemma": "child",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3347,8 +4275,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1419-1427",
    "readings": 16,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 12,
+    "eligible": 4
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -3359,6 +4295,7 @@
    "lemma": "woman",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "ALIVE": "+1",
     "CAN": "+1",
@@ -3374,8 +4311,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1482-1488",
    "readings": 10,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 6,
+    "eligible": 3
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -3386,6 +4331,7 @@
    "lemma": "man",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "LIKE": "+1",
     "NOT": "+1",
@@ -3399,8 +4345,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1521-1526",
    "readings": 34,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 11,
+    "outside_wordnet": 23,
+    "eligible": 7
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -3433,6 +4387,7 @@
      "WHEN": "+1"
     }
    },
+   "head_category": "child",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3456,8 +4411,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1555-1562",
    "readings": 21,
+   "typing": {
+    "category": "child",
+    "hub_synsets": 4,
+    "wordnet_readings": 7,
+    "outside_wordnet": 14,
+    "eligible": 2
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 2
   },
   {
    "source": "GW2014",
@@ -3468,6 +4431,7 @@
    "lemma": "boy",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3488,8 +4452,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1615-1621",
    "readings": 22,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 18,
+    "eligible": 4
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -3500,6 +4472,7 @@
    "lemma": "girl",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -3520,8 +4493,16 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1622-1628",
    "readings": 19,
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 5,
+    "outside_wordnet": 14,
+    "eligible": 5
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW2014",
@@ -3532,6 +4513,7 @@
    "lemma": "woman",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "ALIVE": "+1",
     "CAN": "+1",
@@ -3548,8 +4530,16 @@
    "rule_id": "nsm:GW2014:1713-1719",
    "readings": 10,
    "same_as": "nsm:GW2014:1482-1488",
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 4,
+    "outside_wordnet": 6,
+    "eligible": 3
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -3560,6 +4550,7 @@
    "lemma": "man",
    "pos": "noun",
    "sense": "",
+   "head_category": "person",
    "banks": {
     "LIKE": "+1",
     "NOT": "+1",
@@ -3574,8 +4565,16 @@
    "rule_id": "nsm:GW2014:1720-1725",
    "readings": 34,
    "same_as": "nsm:GW2014:1521-1526",
+   "typing": {
+    "category": "person",
+    "hub_synsets": 3,
+    "wordnet_readings": 11,
+    "outside_wordnet": 23,
+    "eligible": 7
+   },
    "disposition": "OBLIGATION",
-   "joint": true
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -3586,6 +4585,7 @@
    "lemma": "typical",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "DO": "+1",
@@ -3601,8 +4601,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1912-1916",
    "readings": 7,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -3613,6 +4622,7 @@
    "lemma": "real",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "CAN": "+1",
@@ -3632,8 +4642,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:1967-1974",
    "readings": 21,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 9,
+    "outside_wordnet": 12,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 21
   },
   {
    "source": "GW2014",
@@ -3644,6 +4663,7 @@
    "lemma": "childish",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "GOOD": "+1",
@@ -3660,8 +4680,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2030-2036",
    "readings": 3,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -3672,6 +4701,7 @@
    "lemma": "boyish",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3690,21 +4720,56 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2047-2054",
    "readings": 3,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
    "start_line": 2069,
    "end_line": 2076,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "childlike",
-   "pos": "",
+   "pos": "adj",
    "sense": "",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "adj"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1|-1",
+    "LIKE": "+1",
+    "NOT": "+1",
+    "SAME": "+1",
+    "THINK": "+1",
+    "WHEN": "+1"
+   },
+   "own_banks": 9,
+   "participants": 13,
+   "copulas": 1,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:2069-2076",
+   "readings": 4,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -3739,6 +4804,7 @@
    "lemma": "female",
    "pos": "noun",
    "sense": "",
+   "head_category": "thing",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -3756,8 +4822,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2220-2226",
    "readings": 7,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "thing",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -3768,6 +4843,7 @@
    "lemma": "male",
    "pos": "noun",
    "sense": "",
+   "head_category": "thing",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -3785,8 +4861,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2237-2243",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "thing",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW2014",
@@ -3797,6 +4882,7 @@
    "lemma": "salty",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3816,8 +4902,17 @@
    "rule_id": "nsm:GW2014:2519-2525",
    "readings": 9,
    "same_as": "nsm:GW07:175-181",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW2014",
@@ -3828,6 +4923,7 @@
    "lemma": "sweet",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3849,8 +4945,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2560-2569",
    "readings": 26,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 16,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 26
   },
   {
    "source": "GW2014",
@@ -3861,6 +4966,7 @@
    "lemma": "sour",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -3885,8 +4991,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2589-2600",
    "readings": 14,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 6,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 14
   },
   {
    "source": "GW2014",
@@ -3897,6 +5012,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -3917,8 +5033,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2666-2673",
    "readings": 50,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW2014",
@@ -3929,6 +5054,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -3950,8 +5076,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2681-2689",
    "readings": 35,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW2014",
@@ -3962,6 +5097,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -3982,8 +5118,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2737-2744",
    "readings": 50,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW2014",
@@ -3994,6 +5139,7 @@
    "lemma": "hot",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "FEEL": "+1",
@@ -4010,8 +5156,17 @@
    "rule_id": "nsm:GW2014:2750-2752",
    "readings": 50,
    "same_as": "nsm:GW07:433-436",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 21,
+    "outside_wordnet": 29,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 50
   },
   {
    "source": "GW2014",
@@ -4022,6 +5177,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -4043,8 +5199,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:2763-2770",
    "readings": 35,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW2014",
@@ -4055,6 +5220,7 @@
    "lemma": "cold",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "FEEL": "+1",
@@ -4071,8 +5237,17 @@
    "rule_id": "nsm:GW2014:2771-2773",
    "readings": 35,
    "same_as": "nsm:GW07:455-458",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 22,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 35
   },
   {
    "source": "GW2014",
@@ -4083,6 +5258,7 @@
    "lemma": "warm",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -4104,8 +5280,17 @@
    "rule_id": "nsm:GW2014:2784-2792",
    "readings": 19,
    "same_as": "nsm:GW07:470-479",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 19
   },
   {
    "source": "GW2014",
@@ -4116,6 +5301,7 @@
    "lemma": "warm",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -4138,8 +5324,17 @@
    "rule_id": "nsm:GW2014:2806-2814",
    "readings": 19,
    "same_as": "nsm:GW07:485-495",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 19
   },
   {
    "source": "GW2014",
@@ -4162,6 +5357,7 @@
    "lemma": "rough",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BIG": "-1",
@@ -4186,8 +5382,17 @@
    "rule_id": "nsm:GW2014:2890-2898",
    "readings": 28,
    "same_as": "nsm:GW07:574-583",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 14,
+    "outside_wordnet": 14,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 28
   },
   {
    "source": "GW2014",
@@ -4198,6 +5403,7 @@
    "lemma": "smooth",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4220,8 +5426,17 @@
    "rule_id": "nsm:GW2014:2919-2929",
    "readings": 23,
    "same_as": "nsm:GW07:605-618",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 23
   },
   {
    "source": "GW2014",
@@ -4256,6 +5471,7 @@
    "lemma": "hard",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -4281,8 +5497,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:3042-3052",
    "readings": 44,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 12,
+    "outside_wordnet": 32,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 44
   },
   {
    "source": "GW2014",
@@ -4293,6 +5518,7 @@
    "lemma": "soft",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4313,8 +5539,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:3067-3075",
    "readings": 58,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 19,
+    "outside_wordnet": 39,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 58
   },
   {
    "source": "GW2014",
@@ -4349,6 +5584,7 @@
    "lemma": "heavy",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -4374,8 +5610,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:3162-3173",
    "readings": 54,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 27,
+    "outside_wordnet": 27,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 54
   },
   {
    "source": "GW2014",
@@ -4386,6 +5631,7 @@
    "lemma": "light",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ABOVE": "+1",
     "BECAUSE": "+1",
@@ -4411,8 +5657,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:3182-3193",
    "readings": 51,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 25,
+    "outside_wordnet": 26,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 51
   },
   {
    "source": "GW2014",
@@ -4423,6 +5678,7 @@
    "lemma": "sharp",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4449,8 +5705,17 @@
    "rule_id": "nsm:GW2014:3238-3250",
    "readings": 36,
    "same_as": "nsm:GW07:954-967",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 12,
+    "outside_wordnet": 24,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 36
   },
   {
    "source": "GW2014",
@@ -4506,6 +5771,7 @@
    "lemma": "blue",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "LIKE": "+1",
@@ -4521,8 +5787,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:3585-3590",
    "readings": 23,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 23
   },
   {
    "source": "GW2014",
@@ -4619,6 +5894,7 @@
    "lemma": "happy",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4639,21 +5915,61 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:4444-4450",
    "readings": 12,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 12
   },
   {
    "source": "GW2014",
    "start_line": 4539,
    "end_line": 4556,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "DO": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "IF": "+1",
+    "LIKE": "+1",
+    "QUANTITY": "+1",
+    "THEN": "-1",
+    "THINK": "+1",
+    "WANT": "+1",
+    "WHEN": "+1",
+    "WORDS": "+1"
+   },
+   "own_banks": 14,
+   "participants": 11,
+   "copulas": 6,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:4539-4556",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -4672,65 +5988,211 @@
    "start_line": 4886,
    "end_line": 4891,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "1",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "DO": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "INTENSITY": "+1",
+    "LIKE": "+1",
+    "NOT": "+1",
+    "QUANTITY": "+1"
+   },
+   "own_banks": 10,
+   "participants": 8,
+   "copulas": 1,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:4886-4891",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
    "start_line": 4915,
    "end_line": 4924,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "2",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "IF": "+1",
+    "INTENSITY": "+1",
+    "LIKE": "+1",
+    "NOT": "+1",
+    "QUANTITY": "+1",
+    "THEN": "-1",
+    "THINK": "+1",
+    "WANT": "+1",
+    "WHEN": "+1"
+   },
+   "own_banks": 14,
+   "participants": 10,
+   "copulas": 5,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:4915-4924",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
    "start_line": 4967,
    "end_line": 4975,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "3",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "IF": "+1",
+    "LIKE": "+1",
+    "NOT": "+1",
+    "QUANTITY": "+1",
+    "THEN": "-1",
+    "THINK": "+1",
+    "WANT": "+1",
+    "WHEN": "+1"
+   },
+   "own_banks": 13,
+   "participants": 8,
+   "copulas": 5,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:4967-4975",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
    "start_line": 5079,
    "end_line": 5087,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "4",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "DO": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "IF": "+1",
+    "LIKE": "+1",
+    "QUANTITY": "+1",
+    "THEN": "-1",
+    "THINK": "+1",
+    "WANT": "+1",
+    "WHEN": "+1"
+   },
+   "own_banks": 13,
+   "participants": 11,
+   "copulas": 5,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:5079-5087",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
    "start_line": 5166,
    "end_line": 5174,
    "kind": "explication",
-   "frame": "POS_NOT_SHOWN",
+   "frame": "BARE_SOLE_POS",
    "lemma": "happiness",
-   "pos": "",
+   "pos": "noun",
    "sense": "5",
-   "disposition": "UNSUPPORTED",
-   "reason": "POS_NOT_SHOWN",
-   "sole_pos": "noun"
+   "head_category": "",
+   "banks": {
+    "CAN": "+1",
+    "DO": "+1",
+    "FEEL": "+1",
+    "GOOD": "+1",
+    "HAPPEN": "+1",
+    "LIKE": "+1",
+    "QUANTITY": "+1",
+    "THEN": "-1",
+    "THINK": "+1",
+    "WANT": "+1",
+    "WHEN": "+1"
+   },
+   "own_banks": 11,
+   "participants": 9,
+   "copulas": 3,
+   "title_found": true,
+   "rule_id": "nsm:GW2014:5166-5174",
+   "readings": 6,
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -4741,6 +6203,7 @@
    "lemma": "happy",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "DO": "+1",
@@ -4760,8 +6223,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:5223-5227",
    "readings": 12,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 12
   },
   {
    "source": "GW2014",
@@ -4784,6 +6256,7 @@
    "lemma": "pain",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4803,8 +6276,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:5684-5689",
    "readings": 13,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 13
   },
   {
    "source": "GW2014",
@@ -4815,6 +6297,7 @@
    "lemma": "pleasure",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4833,8 +6316,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:5775-5780",
    "readings": 10,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 10
   },
   {
    "source": "GW2014",
@@ -4845,6 +6337,7 @@
    "lemma": "pain",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4865,8 +6358,17 @@
    "rule_id": "nsm:GW2014:5781-5786",
    "readings": 13,
    "same_as": "nsm:GW2014:5684-5689",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 13
   },
   {
    "source": "GW2014",
@@ -4877,6 +6379,7 @@
    "lemma": "hurt",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -4895,8 +6398,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:5997-6001",
    "readings": 11,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 7,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 11
   },
   {
    "source": "GW2014",
@@ -4907,6 +6419,7 @@
    "lemma": "ache",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "CAN": "+1",
     "FEEL": "+1",
@@ -4925,8 +6438,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6002-6007",
    "readings": 5,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW2014",
@@ -4937,6 +6459,7 @@
    "lemma": "sore",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -4959,8 +6482,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6008-6016",
    "readings": 8,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 8
   },
   {
    "source": "GW2014",
@@ -4971,6 +6503,7 @@
    "lemma": "pain",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -4991,8 +6524,17 @@
    "rule_id": "nsm:GW2014:6019-6024",
    "readings": 13,
    "same_as": "nsm:GW2014:5684-5689",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 13
   },
   {
    "source": "GW2014",
@@ -5003,6 +6545,7 @@
    "lemma": "pain",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "FEEL": "+1",
@@ -5022,8 +6565,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6049-6052",
    "readings": 13,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 13
   },
   {
    "source": "GW2014",
@@ -5094,6 +6646,7 @@
    "lemma": "hurt",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5113,8 +6666,17 @@
    "rule_id": "nsm:GW2014:6410-6414",
    "readings": 11,
    "same_as": "nsm:GW2014:5997-6001",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 7,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 11
   },
   {
    "source": "GW2014",
@@ -5149,6 +6711,7 @@
    "lemma": "suffer",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5172,8 +6735,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6466-6472",
    "readings": 16,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 11,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 16
   },
   {
    "source": "GW2014",
@@ -5228,32 +6800,68 @@
      "lemma": "order",
      "pos": "verb",
      "readings": 14,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 9,
+      "outside_wordnet": 5,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 14
     },
     {
      "rule_id": "nsm:GW2014:6807-6816:suggest",
      "lemma": "suggest",
      "pos": "verb",
      "readings": 9,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 5,
+      "outside_wordnet": 4,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 9
     },
     {
      "rule_id": "nsm:GW2014:6807-6816:ask",
      "lemma": "ask",
      "pos": "verb",
      "readings": 18,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 7,
+      "outside_wordnet": 11,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 18
     },
     {
      "rule_id": "nsm:GW2014:6807-6816:apologize",
      "lemma": "apologize",
      "pos": "verb",
      "readings": 5,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 2,
+      "outside_wordnet": 3,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 5
     }
    ]
   },
@@ -5266,6 +6874,7 @@
    "lemma": "order",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5287,8 +6896,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6852-6860",
    "readings": 14,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 9,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 14
   },
   {
    "source": "GW2014",
@@ -5299,6 +6917,7 @@
    "lemma": "order",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5317,8 +6936,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6869-6872",
    "readings": 14,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 9,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 14
   },
   {
    "source": "GW2014",
@@ -5329,6 +6957,7 @@
    "lemma": "tell",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5349,8 +6978,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6891-6899",
    "readings": 22,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 14,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 22
   },
   {
    "source": "GW2014",
@@ -5361,6 +6999,7 @@
    "lemma": "ask",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5385,8 +7024,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6920-6932",
    "readings": 18,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 7,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 18
   },
   {
    "source": "GW2014",
@@ -5397,6 +7045,7 @@
    "lemma": "suggest",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BEFORE": "-1",
     "CAN": "+1",
@@ -5419,8 +7068,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6972-6979",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW2014",
@@ -5431,6 +7089,7 @@
    "lemma": "suggest",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BEFORE": "-1",
     "CAN": "+1",
@@ -5451,8 +7110,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:6985-6989",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW2014",
@@ -5463,6 +7131,7 @@
    "lemma": "recommend",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BEFORE": "-1",
     "CAN": "+1",
@@ -5485,8 +7154,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7011-7020",
    "readings": 7,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -5497,6 +7175,7 @@
    "lemma": "promise",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5521,8 +7200,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7066-7077",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -5533,6 +7221,7 @@
    "lemma": "promise",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BEFORE": "-1",
     "CAN": "+1",
@@ -5555,8 +7244,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7078-7085",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -5567,6 +7265,7 @@
    "lemma": "offer",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BEFORE": "-1",
     "CAN": "+1",
@@ -5587,8 +7286,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7115-7124",
    "readings": 24,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 13,
+    "outside_wordnet": 11,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 24
   },
   {
    "source": "GW2014",
@@ -5599,6 +7307,7 @@
    "lemma": "threaten",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -5623,8 +7332,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7172-7182",
    "readings": 8,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 8
   },
   {
    "source": "GW2014",
@@ -5635,6 +7353,7 @@
    "lemma": "warn",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -5656,8 +7375,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7228-7236",
    "readings": 11,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 7,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 11
   },
   {
    "source": "GW2014",
@@ -5668,6 +7396,7 @@
    "lemma": "apologize",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5691,8 +7420,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7286-7294",
    "readings": 5,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 3,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW2014",
@@ -5703,6 +7441,7 @@
    "lemma": "apologize",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5724,8 +7463,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7312-7317",
    "readings": 5,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 3,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW2014",
@@ -5736,6 +7484,7 @@
    "lemma": "thank",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5759,8 +7508,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7360-7370",
    "readings": 7,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -5771,6 +7529,7 @@
    "lemma": "complain",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5793,8 +7552,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7398-7406",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -5825,24 +7593,51 @@
      "lemma": "praise",
      "pos": "verb",
      "readings": 2,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 1,
+      "outside_wordnet": 1,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 2
     },
     {
      "rule_id": "nsm:GW2014:7424-7434:criticize",
      "lemma": "criticize",
      "pos": "verb",
      "readings": 4,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 2,
+      "outside_wordnet": 2,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 4
     },
     {
      "rule_id": "nsm:GW2014:7424-7434:compliment",
      "lemma": "compliment",
      "pos": "verb",
      "readings": 4,
-     "disposition": "OBLIGATION",
-     "joint": true
+     "typing": {
+      "category": "",
+      "hub_synsets": 0,
+      "wordnet_readings": 2,
+      "outside_wordnet": 2,
+      "eligible": 0,
+      "reason": "NO_HEAD_CATEGORY"
+     },
+     "disposition": "UNTYPED",
+     "joint": true,
+     "rows": 4
     }
    ]
   },
@@ -5855,6 +7650,7 @@
    "lemma": "praise",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5878,8 +7674,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7470-7478",
    "readings": 2,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 1,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 2
   },
   {
    "source": "GW2014",
@@ -5890,6 +7695,7 @@
    "lemma": "criticize",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -5912,8 +7718,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7492-7500",
    "readings": 4,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -5924,6 +7739,7 @@
    "lemma": "compliment",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -5944,8 +7760,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7522-7528",
    "readings": 4,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -5956,6 +7781,7 @@
    "lemma": "insult",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -5977,8 +7803,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7553-7560",
    "readings": 5,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 5
   },
   {
    "source": "GW2014",
@@ -5989,6 +7824,7 @@
    "lemma": "greet",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -6013,8 +7849,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7599-7607",
    "readings": 10,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 4,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 10
   },
   {
    "source": "GW2014",
@@ -6025,6 +7870,7 @@
    "lemma": "marry",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BE": "+1",
     "BECAUSE": "+1",
@@ -6050,8 +7896,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7640-7659",
    "readings": 12,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 10,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 12
   },
   {
    "source": "GW2014",
@@ -6062,6 +7917,7 @@
    "lemma": "saying",
    "pos": "noun",
    "sense": "",
+   "head_category": "word",
    "banks": {
     "CAN": "+1",
     "KNOW": "+1",
@@ -6080,8 +7936,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:7988-7992",
    "readings": 3,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "word",
+    "hub_synsets": 10,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "NONE_ELIGIBLE"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -6092,6 +7957,7 @@
    "lemma": "old saying",
    "pos": "noun",
    "sense": "",
+   "head_category": "word",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1",
@@ -6126,6 +7992,7 @@
    "lemma": "proverb",
    "pos": "noun",
    "sense": "",
+   "head_category": "word",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -6153,8 +8020,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:8021-8036",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "word",
+    "hub_synsets": 10,
+    "wordnet_readings": 1,
+    "outside_wordnet": 5,
+    "eligible": 0,
+    "reason": "NONE_ELIGIBLE"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -6386,6 +8262,7 @@
    "lemma": "illness",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "CAN": "+1",
     "LIKE": "+1",
@@ -6401,8 +8278,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:8909-8915",
    "readings": 3,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -6413,6 +8299,7 @@
    "lemma": "ill",
    "pos": "adj",
    "sense": "",
+   "head_category": "",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6432,8 +8319,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:8930-8934",
    "readings": 15,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 10,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 15
   },
   {
    "source": "GW2014",
@@ -6444,6 +8340,7 @@
    "lemma": "disease",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6466,8 +8363,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:8952-8959",
    "readings": 4,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 3,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -6478,6 +8384,7 @@
    "lemma": "illness",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "CAN": "+1",
     "LIKE": "+1",
@@ -6494,8 +8401,17 @@
    "rule_id": "nsm:GW2014:8995-9001",
    "readings": 3,
    "same_as": "nsm:GW2014:8909-8915",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 2,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 3
   },
   {
    "source": "GW2014",
@@ -6506,6 +8422,7 @@
    "lemma": "disease",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6529,8 +8446,17 @@
    "rule_id": "nsm:GW2014:9002-9009",
    "readings": 4,
    "same_as": "nsm:GW2014:8952-8959",
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 1,
+    "outside_wordnet": 3,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 4
   },
   {
    "source": "GW2014",
@@ -6541,6 +8467,7 @@
    "lemma": "trauma",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "CAN": "+1",
     "LIKE": "+1",
@@ -6556,8 +8483,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9082-9087",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -6568,6 +8504,7 @@
    "lemma": "trauma",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "+1|-1",
@@ -6596,8 +8533,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9117-9132",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -6608,6 +8554,7 @@
    "lemma": "parricide",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "BEFORE": "-1",
@@ -6631,8 +8578,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9235-9246",
    "readings": 6,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 6
   },
   {
    "source": "GW2014",
@@ -6643,6 +8599,7 @@
    "lemma": "kill",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -6659,8 +8616,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9268-9272",
    "readings": 33,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "",
+    "hub_synsets": 0,
+    "wordnet_readings": 15,
+    "outside_wordnet": 18,
+    "eligible": 0,
+    "reason": "NO_HEAD_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 33
   },
   {
    "source": "GW2014",
@@ -6671,6 +8637,7 @@
    "lemma": "kill oneself",
    "pos": "verb",
    "sense": "",
+   "head_category": "",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -6702,6 +8669,7 @@
    "lemma": "suicide",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "ALIVE": "+1",
     "BECAUSE": "+1",
@@ -6727,8 +8695,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9326-9342",
    "readings": 11,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 9,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 11
   },
   {
    "source": "GW2014",
@@ -6739,6 +8716,7 @@
    "lemma": "death",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "ALIVE": "+1|-1",
     "BEFORE": "-1",
@@ -6756,8 +8734,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9455-9461",
    "readings": 14,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 8,
+    "outside_wordnet": 6,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 14
   },
   {
    "source": "GW2014",
@@ -6780,6 +8767,7 @@
    "lemma": "depression",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6804,8 +8792,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9483-9499",
    "readings": 18,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 10,
+    "outside_wordnet": 8,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 18
   },
   {
    "source": "GW2014",
@@ -6816,6 +8813,7 @@
    "lemma": "violence",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6841,8 +8839,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9517-9528",
    "readings": 7,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 4,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 7
   },
   {
    "source": "GW2014",
@@ -6853,6 +8860,7 @@
    "lemma": "problem",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BECAUSE": "+1",
     "CAN": "+1",
@@ -6873,8 +8881,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9542-9547",
    "readings": 10,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 3,
+    "outside_wordnet": 7,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 10
   },
   {
    "source": "GW2014",
@@ -6904,6 +8921,7 @@
    "lemma": "size",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "BE": "+1",
     "BIG": "+1|-1",
@@ -6925,8 +8943,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9602-9611",
    "readings": 20,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 5,
+    "outside_wordnet": 15,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 20
   },
   {
    "source": "GW2014",
@@ -6937,6 +8964,7 @@
    "lemma": "temperature",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "CAN": "+1",
     "INTENSITY": "+1",
@@ -6957,8 +8985,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9645-9654",
    "readings": 9,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 2,
+    "outside_wordnet": 7,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 9
   },
   {
    "source": "GW2014",
@@ -6983,6 +9020,7 @@
    "lemma": "life",
    "pos": "noun",
    "sense": "",
+   "head_category": "something",
    "banks": {
     "ALIVE": "+1",
     "CAN": "+1",
@@ -7002,8 +9040,17 @@
    "title_found": true,
    "rule_id": "nsm:GW2014:9950-9958",
    "readings": 40,
-   "disposition": "OBLIGATION",
-   "joint": true
+   "typing": {
+    "category": "something",
+    "hub_synsets": 0,
+    "wordnet_readings": 14,
+    "outside_wordnet": 26,
+    "eligible": 0,
+    "reason": "MOST_GENERAL_CATEGORY"
+   },
+   "disposition": "UNTYPED",
+   "joint": true,
+   "rows": 40
   },
   {
    "source": "GW2014",
@@ -7089,5 +9136,5 @@
    "language": "Arrernte"
   }
  ],
- "seconds": 4.86
+ "seconds": 4.74
 }

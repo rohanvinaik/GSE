@@ -17,9 +17,9 @@ in order (the examples are invented, in the shape of the records' titles):
 - `SOMETHING_ADJ` ("something flat"): an adjective.
 - `INDEFINITE_NOUN` ("a riddle"), `OF_NOUN` ("ache of the joints"): a noun.
 - A bare citation form: `BARE_PLURAL` when it is an inflected plural noun ("creatures"); `BARE_NOMINAL_HEAD` when
-  the explication's head line is a noun phrase (a substantive or a molecule, with no predicate). Otherwise
-  `POS_NOT_SHOWN`, which records the cohort's part of speech when it has the lemma in one open class only
-  (`sole_pos`): the frame does not show it, so it does not bind.
+  the explication's head line is a noun phrase (a substantive or a molecule, with no predicate); `BARE_SOLE_POS`
+  when the cohort has the lemma in exactly one open-class part of speech (the lead's ruling of 2026-11-26: a sole
+  open-class part of speech counts). Otherwise `POS_NOT_SHOWN`.
 
 Anything else is `NO_FRAME`. A trailing digit is the source's sense index (hit1, happiness3) and is kept apart.
 """
@@ -126,17 +126,23 @@ class Frame:
     sense: str = ""
     supported: bool = True
     language: str = ""
-    sole_pos: str = ""
 
 
 def _refuse(reason: str, **kw) -> Frame:
     return Frame(reason, supported=False, **kw)
 
 
+# The one inflection beside morphy: "people" is the suppletive plural of "person", a fact of English grammar like
+# hands/hand that morphy does not list (the lead's ruling of 2026-11-26). It is not a semantic mapping.
+SUPPLETIVE_PLURALS = {"people": "person"}
+
+
 def base(word: str, pos: str) -> str | None:
     """The inflectional base of `word` in `pos` by WordNet morphy; None when two bases remain."""
     if pos not in _WN_POS:
         return word
+    if pos == "noun" and word in SUPPLETIVE_PLURALS:
+        return SUPPLETIVE_PLURALS[word]
     candidates = wn._morphy(word, _WN_POS[pos])
     others = sorted({c for c in candidates if c != word})
     if len(others) > 1:  # "singing": sing by stripping the suffix, singe by replacing it; stripping is the reading
@@ -233,8 +239,9 @@ def _bare(word: str, sense: str, head: tuple[Token, ...], pos_index: dict[str, s
     if nominal_head(head):
         return Frame("BARE_NOMINAL_HEAD", word, "noun", sense)
     open_pos = sorted(pos_index.get(word, set()) & set(OPEN_CLASS))
-    sole = open_pos[0] if len(open_pos) == 1 else ""
-    return _refuse("POS_NOT_SHOWN", lemma=word, sense=sense, sole_pos=sole)
+    if len(open_pos) == 1:
+        return Frame("BARE_SOLE_POS", word, open_pos[0], sense)
+    return _refuse("POS_NOT_SHOWN", lemma=word, sense=sense)
 
 
 def _with_pos(name: str, word: str, pos: str, sense: str = "") -> Frame:
