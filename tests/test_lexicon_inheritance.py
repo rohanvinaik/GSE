@@ -338,3 +338,34 @@ def test_wordnet_groups_read_the_synset_from_the_reading_id():
         "wordnet:a%20b:a_b.n.01",
     ]
     assert inh.wordnet_groups(readings) == {"animal.n.01": [0, 1], "a_b.n.01": [3]}
+
+
+def test_a_fact_located_by_an_obligation_wakes_the_law_it_guards():
+    # The law is written for the test: an evaluator is not a size (GOOD +1 -> BIG 0), guarded by a reading fact.
+    law = implies("t:evaluator-size", "GOOD", POS, "BIG", ZERO, "test", scope="own_semantic_kind=evaluator")
+    s = _state(2)
+    _set(s, 0, "GOOD", 0)
+    evaluator = np.zeros(2, dtype=bool)
+    batch = Batch.of([Obligation("t:good", "GOOD", POS, [0, 1], witness=1, facts=("own_semantic_kind=evaluator",))])
+    scopes = {"own_semantic_kind=evaluator": evaluator}
+    out = _settle(s, {}, [], relations=[law], scopes=scopes, obligations=batch)
+    assert _get(out.known, 1, "GOOD") == POS and _get(out.known, 1, "BIG") == ZERO
+    assert out.known_scopes["own_semantic_kind=evaluator"].tolist() == [False, True]
+    assert not evaluator.any()  # the caller's scopes are not modified
+    assert out.receipt["known"]["facts_woken"] == 1
+
+
+def test_a_quality_pole_forced_onto_one_reading_makes_it_an_evaluator_and_the_authored_law_fires():
+    # The shape of USAS_OWN_QUALITY_POLE on "excellent": one reading is GOOD +1 and is an evaluator. The other
+    # reading is excluded, so the group is located on r1, and EVALUATOR_EXCLUDES_SIZE (bank_laws.json) then
+    # leaves BIG only 0 there; r0, which is not an evaluator, keeps its BIG.
+    from GSE.curation.lexicon_builder import laws
+
+    [law] = [r for r in laws.compile_laws() if r.rule_id == "law:EVALUATOR_EXCLUDES_SIZE"]
+    s = _state(2)
+    _set(s, 0, "GOOD", -1)
+    pole = Obligation("t:quality-pole", "GOOD", POS, [0, 1], witness=9, facts=(law.scope,))
+    out = _settle(s, {}, [], relations=[law], scopes={law.scope: np.zeros(2, dtype=bool)}, obligations=Batch.of([pole]))
+    assert _get(out.known, 1, "GOOD") == POS and _get(out.known, 1, "BIG") == ZERO
+    assert _get(out.known, 0, "BIG") == _start("BIG")
+    assert out.known_scopes[law.scope].tolist() == [False, True]

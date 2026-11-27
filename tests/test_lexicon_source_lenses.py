@@ -11,8 +11,9 @@ import json
 from GSE.curation.external_sources.framenet import FrameNetEntry
 from GSE.curation.external_sources.usas import USASEntry
 from GSE.curation.external_sources.verbnet import VerbNetEntry
-from GSE.curation.lexicon_builder import laws
-from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, POS, SILENT, ZERO
+from GSE.curation.lexicon_builder import guards, laws, obligations
+from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, POS, SILENT, START, ZERO, State
+from GSE.curation.lexicon_builder.closure import close
 from GSE.curation.lexicon_builder.inventory import Reading
 from GSE.curation.lexicon_builder.projection import Sources, closure_round, competence, label, project, reading_id
 
@@ -161,7 +162,8 @@ def test_a_word_level_tag_on_a_lemma_of_several_readings_is_an_obligation_not_a_
     [obligation] = lens.obligations
     assert (obligation.rule_id, obligation.bank, obligation.allowed) == ("USAS_OWN_QUALITY_POLE", "GOOD", NEG)
     assert obligation.rows.tolist() == [0, 1]
-    assert lens.dispositions["usas"]["withheld"]["GUARD_NEEDS_ONE_READING:own_semantic_kind=evaluator"] == 1
+    assert obligation.facts == ("own_degree_domain=graded_property", "own_semantic_kind=evaluator")
+    assert lens.dispositions["usas"]["withheld"]["GUARD_ON_LOCATED_READING:own_semantic_kind=evaluator"] == 1
 
 
 def test_a_coordinate_and_its_companions_are_obliged_of_one_and_the_same_reading():
@@ -297,3 +299,26 @@ def test_a_bipolar_predicate_negated_in_every_frame_only_excludes_its_pole():
     assert _cells(lens) == {(0, BANK_INDEX["START"], NEG | ZERO | SILENT, "VN_BEGIN:NEGATED_POLE")}
     result = closure_round(readings, lens)
     assert result["laws_and_lens"]["-1"] == result["laws_only"]["-1"]
+
+
+def test_a_located_obligation_gives_its_reading_the_rules_guards_and_wakes_their_laws():
+    readings = (
+        Reading("wordnet:dreadful:awful.s.02", "dreadful", "adj", ""),
+        Reading("wiktionary:dreadful-adj-1:x", "dreadful", "adj", ""),
+    )
+    sources = Sources(
+        usas={"dreadful": [USASEntry("dreadful", "ADJ", ["A5.1-"])]},
+        framenet={"dreadful": [_unit("dreadful", "a", "Desirability")]},
+    )
+    lens = project(readings, sources)
+    state = State.opening([r.reading_id for r in readings])
+    state.masks[1, BANK_INDEX["GOOD"]] = ZERO  # the other reading evaluates nothing, so the bad one is row 0
+    forcing = obligations.force(state, obligations.Batch.of(lens.obligations))
+    assert state.masks[0, BANK_INDEX["GOOD"]] == NEG
+    rels = laws.compile_laws()
+    scopes = guards.scopes(readings, {r.scope for r in rels})
+    obligations.wake(scopes, forcing.facts)
+    close(state, rels, scopes)
+    assert state.masks[0, BANK_INDEX["BIG"]] == ZERO  # EVALUATOR_EXCLUDES_SIZE, on the located reading only
+    assert state.masks[0, BANK_INDEX["INTENSITY"]] == POS  # OWN_DEGREE_BEARING_CONTENT
+    assert state.masks[1, BANK_INDEX["BIG"]] == START[BANK_INDEX["BIG"]]

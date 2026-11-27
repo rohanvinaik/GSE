@@ -15,6 +15,7 @@ from GSE.curation.lexicon_builder.obligations import (
     Batch,
     Obligation,
     force,
+    wake,
 )
 
 B = cells.BANK_INDEX
@@ -113,3 +114,86 @@ def test_obligations_sharing_a_witness_are_satisfied_by_one_reading():
     force(apart, Batch.of([Obligation(o.rule_id, o.bank, o.allowed, o.rows) for o in together]))
     assert _get(apart, 1, "GOOD") == int(cells.START[B["GOOD"]])
     assert _get(apart, 1, "THINK") == POS
+
+
+def test_a_joint_group_is_forced_onto_the_one_reading_that_allows_all_of_it_and_returns_its_facts():
+    # "happy (adj) is GOOD +1 and FEEL +1": some reading has both. r0 cannot be GOOD +1, r1 cannot feel; only r2
+    # allows both, so the group is located on r2, though r0 and r1 each allow one of its banks.
+    s = _state(3)
+    _set(s, 0, "GOOD", 0)
+    _set(s, 1, "FEEL", 0)
+    group = [
+        Obligation(
+            "t:good",
+            "GOOD",
+            POS,
+            [0, 1, 2],
+            witness=1,
+            premises=("usas:happy",),
+            facts=("own_semantic_kind=evaluator",),
+        ),
+        Obligation("t:feel", "FEEL", POS, [0, 1, 2], witness=1, premises=("usas:happy",)),
+    ]
+    out = force(s, Batch.of(group))
+    assert (_get(s, 2, "GOOD"), _get(s, 2, "FEEL")) == (POS, POS)
+    assert _get(s, 0, "FEEL") == int(cells.START[B["FEEL"]]) and _get(s, 1, "GOOD") == int(cells.START[B["GOOD"]])
+    assert out.located_rows.tolist() == [2]
+    assert {k: v.tolist() for k, v in out.facts.items()} == {"own_semantic_kind=evaluator": [2]}
+    # Without the witness each obligation still has two readings open, and nothing is forced or located.
+    apart = _state(3)
+    _set(apart, 0, "GOOD", 0)
+    _set(apart, 1, "FEEL", 0)
+    lone = force(apart, Batch.of([Obligation(o.rule_id, o.bank, o.allowed, o.rows, facts=o.facts) for o in group]))
+    assert lone.changed == 0 and lone.located_rows.size == 0 and lone.facts == {}
+
+
+def test_a_group_no_reading_can_satisfy_jointly_is_a_conflict_without_facts():
+    s = _state(2)
+    _set(s, 0, "GOOD", 0)
+    _set(s, 1, "FEEL", 0)
+    before = s.masks.copy()
+    group = [
+        Obligation("t:good", "GOOD", POS, [0, 1], witness=3, facts=("own_semantic_kind=evaluator",)),
+        Obligation("t:feel", "FEEL", POS, [0, 1], witness=3),
+    ]
+    out = force(s, Batch.of(group))
+    assert (s.masks == before).all() and out.facts == {}
+    assert out.conflicts.tolist() == [0, 1] and out.reasons.tolist() == [ALL_EXCLUDED, ALL_EXCLUDED]
+
+
+def test_one_group_requiring_disjoint_states_on_one_bank_excludes_every_reading():
+    s = _state(2)
+    group = [Obligation("t:a", "GOOD", POS, [0, 1], witness=4), Obligation("t:b", "GOOD", NEG, [0, 1], witness=4)]
+    out = force(s, Batch.of(group))
+    assert out.changed == 0 and out.conflicts.tolist() == [0, 1]
+
+
+def test_wake_adds_located_facts_to_single_and_conjunctive_scopes():
+    scopes = {
+        "own_semantic_kind=evaluator": np.array([False, False, False]),
+        "own_role=lexical_predicate": np.array([False, True, False]),
+        "own_role=lexical_predicate&own_semantic_kind=evaluator": np.array([False, False, False]),
+    }
+    added = wake(scopes, {"own_semantic_kind=evaluator": np.array([1, 2])})
+    assert scopes["own_semantic_kind=evaluator"].tolist() == [False, True, True]
+    assert scopes["own_role=lexical_predicate&own_semantic_kind=evaluator"].tolist() == [False, True, False]
+    assert added == 3 and wake(scopes, {"own_semantic_kind=evaluator": np.array([1, 2])}) == 0
+
+
+def test_the_source_lenses_produce_this_obligation_type():
+    from GSE.curation.lexicon_builder import obligations, projection
+
+    assert projection.Obligation is obligations.Obligation
+
+
+def test_no_facts_are_acquired_while_two_readings_can_still_satisfy_the_group():
+    s = _state(3)
+    _set(s, 0, "GOOD", 0)  # r1 and r2 both still allow GOOD +1 and FEEL +1
+    before = s.masks.copy()
+    group = [
+        Obligation("t:good", "GOOD", POS, [0, 1, 2], witness=5, facts=("own_semantic_kind=evaluator",)),
+        Obligation("t:feel", "FEEL", POS, [0, 1, 2], witness=5),
+    ]
+    out = force(s, Batch.of(group))
+    assert (s.masks == before).all() and out.located_rows.size == 0 and out.facts == {}
+    assert out.conflicts.size == 0

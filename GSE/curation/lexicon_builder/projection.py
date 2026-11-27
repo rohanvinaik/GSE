@@ -20,10 +20,11 @@ No gloss is read (F080). No threshold, rate, support count or score decides anyt
 
 USAS and FrameNet speak of a lemma and a part of speech, never of one sense. What they state is an obligation, F073's
 semantic sudoku: at least one of that lemma's readings holds it. It is never copied onto every reading. Only when the
-lemma and part of speech have a single reading does the obligation become a restriction on that reading. Only then
-do the rule's reading facts hold of a reading (`own_semantic_kind=evaluator`, `own_semantic_kind=size_descriptor`,
-the Fear frame and so on, the guards its laws select on). A guard is a fact about one reading, and a word-level
-binding does not say which reading it is.
+lemma and part of speech have a single reading does the obligation become a restriction on that reading, and only
+then does the lens set the rule's reading facts on a reading (`own_semantic_kind=evaluator`,
+`own_semantic_kind=size_descriptor`, `source_frame_family=Fear` and so on, the guards its laws select on). A guard is
+a fact about one reading, and a word-level binding does not say which reading it is. Otherwise the facts travel on
+the obligation (`Obligation.facts`). They become true of a reading only when the obligation is located on it.
 """
 
 from __future__ import annotations
@@ -159,6 +160,9 @@ class LensOutput:
             "facts": {name: int(mask.sum()) for name, mask in sorted(self.facts.items())},
             "obligations": len(self.obligations),
             "obligation_witnesses": len({o.witness for o in self.obligations}),
+            "obligation_facts_by_witness": dict(
+                sorted(Counter(f for o in {o.witness: o for o in self.obligations}.values() for f in o.facts).items())
+            ),
             "obligations_by_rule_bank": dict(
                 sorted(Counter(f"{o.rule_id}:{o.bank}:{label(o.allowed)}" for o in self.obligations).items())
             ),
@@ -232,7 +236,7 @@ class _Writer:
         self.rule_sources: list[str] = []
         self.premise_index: dict[str, int] = {}
         self.facts: dict[str, np.ndarray] = {}
-        self.witnesses: dict[tuple, tuple[int, list[str]]] = {}
+        self.witnesses: dict[tuple, tuple[int, list[str], tuple[str, ...]]] = {}
         self.dispositions: dict[str, dict[str, Counter]] = defaultdict(lambda: defaultdict(Counter))
 
     def declare(self, rule_id: str, warrant: str, source: str) -> None:
@@ -248,10 +252,10 @@ class _Writer:
     def fact(self, name: str, row: int) -> None:
         self.facts.setdefault(name, np.zeros(self.n, dtype=bool))[row] = True
 
-    def oblige(self, rule_id: str, claims: dict[str, int], rows: np.ndarray, premises: tuple[str, ...]) -> None:
+    def oblige(self, rule_id, claims: dict[str, int], rows: np.ndarray, premises: tuple[str, ...], facts=()) -> None:
         key = (rule_id, rows.tobytes(), tuple(sorted(claims.items())))
         if key not in self.witnesses:
-            self.witnesses[key] = (len(self.witnesses), [])
+            self.witnesses[key] = (len(self.witnesses), [], tuple(facts))
         self.witnesses[key][1].extend(p for p in premises if p not in self.witnesses[key][1])
 
     def note(self, source: str, category: str, reason: str, count: int = 1) -> None:
@@ -272,9 +276,15 @@ class _Writer:
         )
         obligations = [
             Obligation(
-                rule_id, bank, allowed, np.frombuffer(rows, dtype=np.int64), witness=witness, premises=tuple(premises)
+                rule_id,
+                bank,
+                allowed,
+                np.frombuffer(rows, dtype=np.int64),
+                witness=witness,
+                premises=tuple(premises),
+                facts=facts,
             )
-            for (rule_id, rows, claims), (witness, premises) in self.witnesses.items()
+            for (rule_id, rows, claims), (witness, premises, facts) in self.witnesses.items()
             for bank, allowed in claims
         ]
         dispositions = {
@@ -495,7 +505,8 @@ _RANK = {"used": 3, "unbound": 2, "refused": 1, "recorded_only": 0}
 
 def _apply_source_rule(rule, lemma, pos, tag, pole, sources, groups, w) -> tuple[str, str]:
     """A located tag binds its lemma and part of speech. With one reading it restricts that reading and sets the
-    rule's reading facts on it; with several it is an obligation over them, and no per-reading guard is set."""
+    rule's reading facts on it. With several it is an obligation over them that carries the facts; they hold of the
+    reading it is located on."""
     units = [
         u for u in sources.framenet.get(lemma, ()) if u.pos == FRAMENET_POS.get(pos) and u.frame_name in rule["frames"]
     ]
@@ -512,9 +523,9 @@ def _apply_source_rule(rule, lemma, pos, tag, pole, sources, groups, w) -> tuple
         for fact in _reading_facts(rule):
             w.fact(fact, rows[0])
         return "used", "RESTRICTION_ONE_READING"
-    w.oblige(rule["rule_id"], claims, rows, premises)
+    w.oblige(rule["rule_id"], claims, rows, premises, _reading_facts(rule))
     for fact in _reading_facts(rule):
-        w.note("usas", "withheld", f"GUARD_NEEDS_ONE_READING:{fact}")
+        w.note("usas", "withheld", f"GUARD_ON_LOCATED_READING:{fact}")
     return "used", "OBLIGATION_LEMMA_POS"
 
 

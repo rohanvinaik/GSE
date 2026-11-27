@@ -416,6 +416,8 @@ class Settlement:
     proposals: np.ndarray  # nodes x banks: the states reaching each node in the final round
     known_conflicts: list[dict]  # obligation conflicts in the known layer
     interpolated_conflicts: list[dict]  # obligation conflicts in the final interpolated layer
+    known_scopes: dict  # guard scopes with the facts located in the known layer
+    scopes: dict  # guard scopes with the facts located in the interpolated layer too
     receipt: dict
 
     @property
@@ -452,8 +454,9 @@ class Settlement:
         return out
 
 
-def _close_known(state: State, relations, scopes, batch: ob.Batch):
-    closures = sweeps = forced = 0
+def _close_known(state: State, relations, scopes: dict, batch: ob.Batch):
+    """Close the known layer in place: laws, then obligations, waking the laws on the facts they locate."""
+    closures = sweeps = forced = woken = 0
     last = None
     while True:
         close(state, relations, scopes)
@@ -463,9 +466,11 @@ def _close_known(state: State, relations, scopes, batch: ob.Batch):
         last = ob.force(state, batch)
         sweeps += 1
         forced += last.changed
-        if last.changed == 0:
+        added = ob.wake(scopes, last.facts)
+        woken += added
+        if last.changed == 0 and added == 0:
             break
-    return {"closures": closures, "sweeps": sweeps, "forced": forced}, last
+    return {"closures": closures, "sweeps": sweeps, "forced": forced, "facts_woken": woken}, last
 
 
 def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_of_row) -> np.ndarray:
@@ -475,7 +480,7 @@ def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_o
     node, an empty cell the known layer does not have, or an obligation the known layer satisfies and the
     interpolated layer does not. Interpolation reaches a reading only by a default landing on its node, or by an
     obligation forcing it from interpolated exclusions, so the culprits are the nodes of those readings and,
-    through each forcing, the nodes of the forcing obligation's readings.
+    through each forcing or located fact, the nodes of the readings of the forcing group.
     """
     nodes = set(np.flatnonzero((found & JOINT).any(axis=1)).tolist())
     rows = set(np.flatnonzero(((current.masks == 0) & (known.masks != 0)).any(axis=1)).tolist())
@@ -483,11 +488,12 @@ def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_o
         rows.update(batch.members(i).tolist())
     f_rows = np.concatenate([r for r, _ in forced]) if forced else np.zeros(0, dtype=np.int64)
     f_by = np.concatenate([b for _, b in forced]) if forced else np.zeros(0, dtype=np.int64)
-    frontier, seen_obligations = rows, set()
+    frontier, seen_groups = rows, set()
     while frontier and f_rows.size:
-        obligations = set(np.unique(f_by[np.isin(f_rows, list(frontier))]).tolist()) - seen_obligations
-        seen_obligations |= obligations
-        reached = set(batch.rows[np.isin(batch.owner, list(obligations))].tolist()) - rows
+        groups = set(batch.group[np.unique(f_by[np.isin(f_rows, list(frontier))])].tolist()) - seen_groups
+        seen_groups |= groups
+        members = np.isin(batch.owner, np.flatnonzero(np.isin(batch.group, list(groups))))
+        reached = set(batch.rows[members].tolist()) - rows
         rows |= reached
         frontier = reached
     row_nodes = node_of_row[list(rows)] if rows else np.zeros(0, dtype=np.int64)
@@ -499,8 +505,10 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
     """The joint round, leaving `state` untouched.
 
     The known layer is `state` closed under `relations` and forced by `obligations`, repeated until neither
-    changes. The interpolated layer starts from it: defaults carry (`carry`), the laws narrow (`closure.close`), the
-    obligations force (`obligations.force`), and defaults carry again, until nothing changes. A suspension that
+    changes; the facts a located obligation makes true join the guard `scopes` (`obligations.wake`), which wakes the
+    laws they select. The interpolated layer starts from it: defaults carry (`carry`), the laws narrow
+    (`closure.close`), the obligations force and wake, and defaults carry again, until nothing changes. Facts located
+    in the interpolated layer join only its own copy of the scopes. `scopes` itself is not modified. A suspension that
     retracts something already landed (two states now reach a cell a default narrowed, or a joint conflict) holds
     the defaults it names and the interpolated layer is replayed from the known layer. Holds only grow, so the
     replay ends; the final replay has no new conflict, and its result is the fixed point of monotone operators,
@@ -510,7 +518,8 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
     relations = tuple(relations)
     batch = obligations if obligations is not None else ob.Batch.of(())
     known = state.copy()
-    known_receipt, known_forcing = _close_known(known, relations, scopes, batch)
+    known_scopes = {name: mask.copy() for name, mask in (scopes or {}).items()}
+    known_receipt, known_forcing = _close_known(known, relations, known_scopes, batch)
     known_conflicts = set(known_forcing.conflicts.tolist()) if known_forcing is not None else set()
     shape = (len(graph.keys), _WIDTH)
     held = np.zeros(shape, dtype=bool)
@@ -522,6 +531,7 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
     unattributed = False
     while True:
         current = known.copy()
+        round_scopes = {name: mask.copy() for name, mask in known_scopes.items()}
         landed = np.zeros(shape, dtype=bool)
         equalized = np.zeros(shape, dtype=bool)
         found = np.zeros(shape, dtype=np.uint8)
@@ -534,11 +544,13 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
             equalized |= step.equalized
             found |= step.suspended
             inherited[step.rows, step.cols] = True
-            changed = step.changed + close(current, relations, scopes)["removals"]
+            changed = step.changed + close(current, relations, round_scopes)["removals"]
             if len(batch):
                 last = ob.force(current, batch)
-                forced.append((last.rows, last.by))
-                changed += last.changed
+                forced.append(
+                    (np.concatenate([last.rows, last.located_rows]), np.concatenate([last.by, last.located_by]))
+                )
+                changed += last.changed + ob.wake(round_scopes, last.facts)
             if changed == 0:
                 break
         # Interpolation must not choose between defaults that disagree: where a consequence of other defaults has
@@ -584,6 +596,8 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
         proposals=step.proposals,
         known_conflicts=known_forcing.described(batch, known) if known_forcing is not None else [],
         interpolated_conflicts=last.described(batch, current) if last is not None else [],
+        known_scopes=known_scopes,
+        scopes=round_scopes,
         receipt={},
     )
     interpolated = settlement.interpolated
@@ -595,6 +609,10 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
             "inherited_cells": int((inherited & interpolated).sum()),
             "consequence_cells": int((interpolated & ~inherited).sum()),
             "suspended_cells": {name: int(((reasons & bit) != 0).sum()) for bit, name in REASONS.items()},
+            "facts_located": {
+                "known": sum(int((known_scopes[k] & ~(scopes or {})[k]).sum()) for k in known_scopes),
+                "interpolated": sum(int((round_scopes[k] & ~known_scopes[k]).sum()) for k in known_scopes),
+            },
             "held": int(held.sum()),
             "held_equal": int(held_equal.sum()),
             "unattributed_conflict": unattributed,

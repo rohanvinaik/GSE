@@ -4,20 +4,24 @@ A source often states a fact about a lemma and part of speech without naming the
 this bank in these states". F073: "you know that one of the numbers can't fit in the other two squares, so even if
 the square *techncially* can't be narrowed down further, the fact that one of the numbers can't fit in the other two
 spaces but HAS to fit SOMEWHERE in those three boxes". An obligation is that fact: a rule id, a bank, the allowed
-states, and the readings it ranges over. It is produced by the source lenses (`LensOutput.obligations`).
+states, and the readings it ranges over. The source lenses produce them (`projection.LensOutput.obligations`), and so
+does NSM content. A word-level fact is never copied onto every reading of the lemma.
 
-Obligations that share a `witness` come from one source observation, so one and the same reading satisfies all of
-them (a coordinate and its companions). They are propagated as one group; an obligation without a witness is a group
-by itself.
+A joint obligation. Obligations that share a `witness` come from one source observation (USAS's "happy (adj) is
+GOOD +1 and FEEL +1", or one NSM explication), so all of their (bank, states) hold together on one and the same
+reading. They are one group; an obligation without a witness is a group by itself. A group may carry `facts`, guard
+names (`own_semantic_kind=evaluator`, `source_frame_family=Fear`), which hold of the reading the group is located on.
 
 Applying a batch of obligations reads only the current masks:
 
-- a reading is *excluded* from a group when, for some obligation of the group, none of the allowed states is still
-  legal on its cell (or the reading is not among that obligation's readings);
-- when every reading but one is excluded, the last one is restricted, on every bank of the group, to that
-  obligation's allowed states (forced);
-- when every reading is excluded, every obligation of the group is a conflict, and no mask changes;
-- obligations forcing one cell to disjoint states are all conflicts, and that cell does not change;
+- a reading is *excluded* from a group when it cannot satisfy all of the group's (bank, states) together: on some
+  bank none of the states the group requires there is still legal, or the reading is outside one obligation's rows;
+- when exactly one reading is left, the group is *located* on it: that reading is restricted to every (bank,
+  states) of the group (forced), and the group's facts become true for it, returned so the runner can add them to
+  the guard scopes and wake the laws;
+- when no reading is left, every obligation of the group is a conflict, and no mask changes;
+- located groups that force one cell to disjoint states are all conflicts: none of their cells is written and none
+  of their facts is returned;
 - a group over a reading whose cell is already a conflict (an empty mask) is left alone, as closure leaves a
   conflicted reading alone.
 
@@ -36,14 +40,15 @@ from .cells import BANK_INDEX, BANKS, State
 ALL_EXCLUDED = 1
 DISJOINT_FORCINGS = 2
 REASONS = {ALL_EXCLUDED: "every reading excluded", DISJOINT_FORCINGS: "forced to disjoint states on one cell"}
+_WIDTH = len(BANKS)
 
 
 @dataclass(frozen=True, eq=False)
 class Obligation:
     """At least one of `rows` (reading rows of the State) has `bank` in `allowed` (a mask of state bits).
 
-    Obligations that share a `witness` are satisfied by one and the same reading. `premises` name the source
-    observations the obligation rests on.
+    Obligations that share a `witness` hold together on one and the same reading. `premises` name the source records
+    the obligation rests on. `facts` are guard names that hold of the reading the obligation is located on.
     """
 
     rule_id: str
@@ -52,6 +57,7 @@ class Obligation:
     rows: np.ndarray
     witness: int | None = None
     premises: tuple[str, ...] = ()
+    facts: tuple[str, ...] = ()
 
     def __post_init__(self):
         if not self.rule_id or self.bank not in BANK_INDEX or not 0 < self.allowed < 16:
@@ -68,10 +74,12 @@ class Batch:
     group: np.ndarray  # (m,) the witness group of each obligation, dense from 0
     rows: np.ndarray  # (k,) member reading rows
     owner: np.ndarray  # (k,) the obligation each member belongs to
+    facts: tuple[tuple[str, ...], ...] = ()  # (m,) guard names of each obligation
 
     @classmethod
     def of(cls, obligations) -> Batch:
-        """Any objects with `rule_id`, `bank`, `allowed`, `rows` and optionally `witness`."""
+        """From `Obligation`s, or any objects with `rule_id`, `bank`, `allowed`, `rows` and optionally `witness`
+        and `facts` (the source lenses' `LensOutput.obligations` are `Obligation`s)."""
         obligations = tuple(obligations)
         members = [np.unique(np.asarray(o.rows, dtype=np.int64)) for o in obligations]
         groups: dict = {}
@@ -88,25 +96,44 @@ class Batch:
             group=np.array(group, dtype=np.int64),
             rows=np.concatenate(members) if members else np.zeros(0, dtype=np.int64),
             owner=np.repeat(np.arange(len(obligations), dtype=np.int64), [m.size for m in members]),
+            facts=tuple(tuple(getattr(o, "facts", ())) for o in obligations),
         )
 
     def __len__(self) -> int:
         return len(self.rule_ids)
 
+    @property
+    def groups(self) -> int:
+        return int(self.group.max()) + 1 if len(self) else 0
+
     def members(self, i: int) -> np.ndarray:
         return self.rows[self.owner == i]
+
+    def joint_allowed(self) -> np.ndarray:
+        """(m,) the states each obligation's group requires on its bank: the intersection over the group's
+        obligations on that bank."""
+        if not len(self):
+            return self.allowed.copy()
+        keys = self.group * _WIDTH + self.cols
+        unique, inverse = np.unique(keys, return_inverse=True)
+        order = np.argsort(inverse, kind="stable")
+        starts = np.searchsorted(inverse[order], np.arange(unique.size))
+        return np.bitwise_and.reduceat(self.allowed[order], starts)[inverse]
 
 
 @dataclass(frozen=True)
 class Forcing:
-    """What one sweep did: the cells it narrowed and the obligation that forced each, its conflicts, and the
-    obligations it left alone because a member cell is already a conflict."""
+    """What one sweep did: the cells it narrowed and the obligation that forced each, the groups it located with
+    their facts, its conflicts, and the obligations it left alone because a member cell is already a conflict."""
 
     rows: np.ndarray
     cols: np.ndarray
     old: np.ndarray
     new: np.ndarray
     by: np.ndarray  # for each narrowed cell, one obligation that forced it
+    located_rows: np.ndarray  # the reading each located group is on
+    located_by: np.ndarray  # one obligation of each located group
+    facts: dict[str, np.ndarray]  # guard name -> the readings a located group makes it true for
     conflicts: np.ndarray  # obligation indices
     reasons: np.ndarray  # ALL_EXCLUDED or DISJOINT_FORCINGS, parallel to `conflicts`
     blocked: np.ndarray  # obligation indices
@@ -129,53 +156,79 @@ class Forcing:
 
 
 def _open_readings(state: State, batch: Batch):
-    """Per witness group: whether a member cell is a conflict, and its readings that satisfy every obligation."""
-    n_groups = int(batch.group.max()) + 1 if len(batch) else 0
+    """Per group: whether a member cell is a conflict, and the readings that satisfy all of the group together."""
+    n_groups = batch.groups
     member_group = batch.group[batch.owner]
     cells = state.masks[batch.rows, batch.cols[batch.owner]]
     blocked = np.zeros(n_groups, dtype=bool)
     blocked[member_group[cells == 0]] = True
-    misfits = (cells & batch.allowed[batch.owner]) == 0
+    misfits = (cells & batch.joint_allowed()[batch.owner]) == 0
     span = max(len(state.readings), 1)
     pairs, inverse, counts = np.unique(member_group * span + batch.rows, return_inverse=True, return_counts=True)
     pair_group = pairs // span
     size = np.bincount(batch.group, minlength=n_groups)
     fits_all = np.bincount(inverse, weights=misfits, minlength=pairs.size) == 0
     open_pair = fits_all & (counts == size[pair_group])
-    return n_groups, blocked, pair_group[open_pair], pairs[open_pair] % span
+    return blocked, pair_group[open_pair], pairs[open_pair] % span
+
+
+def _combine(rows, cols, allowed, owners):
+    """Per cell: the intersection of the states forced on it, with the cell's first forcing entry."""
+    keys = rows * _WIDTH + cols
+    order = np.argsort(keys, kind="stable")
+    unique, starts = np.unique(keys[order], return_index=True)
+    combined = np.bitwise_and.reduceat(allowed[order], starts) if unique.size else np.zeros(0, np.uint8)
+    cell_of_entry = np.empty(keys.size, dtype=np.int64)
+    cell_of_entry[order] = np.searchsorted(unique, keys[order])
+    return unique // _WIDTH, unique % _WIDTH, combined, owners[order][starts], cell_of_entry
 
 
 def force(state: State, batch: Batch) -> Forcing:
     """One sweep of every obligation in `batch` over `state`, narrowing it in place."""
-    n_groups, blocked, open_group, open_row = _open_readings(state, batch)
+    n_groups = batch.groups
+    blocked, open_group, open_row = _open_readings(state, batch)
     open_count = np.bincount(open_group, minlength=n_groups)
     excluded = (open_count == 0) & ~blocked
-    forcing = (open_count == 1) & ~blocked
-    forced_row = np.full(n_groups, -1, dtype=np.int64)
-    one = forcing[open_group]
-    forced_row[open_group[one]] = open_row[one]
-    owners = np.flatnonzero(forcing[batch.group])
-    rows, cols = forced_row[batch.group[owners]], batch.cols[owners]
-    keys = rows * len(BANKS) + cols
-    order = np.argsort(keys, kind="stable")
-    keys, owners = keys[order], owners[order]
-    unique, starts = np.unique(keys, return_index=True)
-    combined = np.bitwise_and.reduceat(batch.allowed[owners], starts) if unique.size else np.zeros(0, np.uint8)
-    cell_rows, cell_cols = unique // len(BANKS), unique % len(BANKS)
+    located = (open_count == 1) & ~blocked
+    located_row = np.full(n_groups, -1, dtype=np.int64)
+    one = located[open_group]
+    located_row[open_group[one]] = open_row[one]
+    # Every obligation of a located group forces its bank on the group's reading. A group with any cell forced to
+    # disjoint states writes nothing.
+    owners = np.flatnonzero(located[batch.group])
+    rows, cols, combined, _, cell_of = _combine(
+        located_row[batch.group[owners]], batch.cols[owners], batch.allowed[owners], owners
+    )
     masks = state.masks
-    old = masks[cell_rows, cell_cols]
+    disjoint = (masks[rows, cols] & combined) == 0
+    clash_groups = np.unique(batch.group[owners[disjoint[cell_of]]])
+    located[clash_groups] = False
+    keep = located[batch.group[owners]]
+    owners = owners[keep]
+    rows, cols, combined, by, _ = _combine(
+        located_row[batch.group[owners]], batch.cols[owners], batch.allowed[owners], owners
+    )
+    old = masks[rows, cols]
     new = old & combined
-    disjoint = new == 0
-    clash = np.unique(owners[disjoint[np.searchsorted(unique, keys)]])
-    changed = ~disjoint & (new != old)
-    masks[cell_rows[changed], cell_cols[changed]] = new[changed]
+    changed = new != old
+    masks[rows[changed], cols[changed]] = new[changed]
+    groups = np.flatnonzero(located)
+    first = np.unique(batch.group, return_index=True)[1]  # groups are dense, so this is indexed by group
+    facts: dict[str, set[int]] = {}
+    for i in np.flatnonzero(located[batch.group]).tolist():
+        for name in batch.facts[i] if batch.facts else ():
+            facts.setdefault(name, set()).add(int(located_row[batch.group[i]]))
     excluded_obligations = np.flatnonzero(excluded[batch.group])
+    clash = np.flatnonzero(np.isin(batch.group, clash_groups))
     return Forcing(
-        rows=cell_rows[changed],
-        cols=cell_cols[changed],
+        rows=rows[changed],
+        cols=cols[changed],
         old=old[changed],
         new=new[changed],
-        by=owners[starts][changed],
+        by=by[changed],
+        located_rows=located_row[groups],
+        located_by=first[groups],
+        facts={name: np.array(sorted(r), dtype=np.int64) for name, r in sorted(facts.items())},
         conflicts=np.concatenate([excluded_obligations, clash]),
         reasons=np.concatenate(
             [
@@ -185,3 +238,29 @@ def force(state: State, batch: Batch) -> Forcing:
         ),
         blocked=np.flatnonzero(blocked[batch.group]),
     )
+
+
+def wake(scopes: dict[str, np.ndarray], facts: dict[str, np.ndarray]) -> int:
+    """Add located facts to the guard scopes in place, and return how many (scope, reading) memberships are new.
+
+    A scope named by one guard gains the readings that guard is located on. A conjunctive scope (`a&b`) gains a
+    reading when each of its guards is located on that reading or is itself a scope that already holds for it. The
+    scopes are boolean masks over readings, as `guards.scopes` returns them.
+    """
+    added = 0
+    for name, mask in scopes.items():
+        parts = name.split("&")
+        located = [facts[p] for p in parts if p in facts]
+        if not located:
+            continue
+        rows = np.unique(np.concatenate(located))
+        holds = np.ones(rows.size, dtype=bool)
+        for part in parts:
+            here = np.isin(rows, facts[part]) if part in facts else np.zeros(rows.size, dtype=bool)
+            if part != name and part in scopes:
+                here |= scopes[part][rows]
+            holds &= here
+        new = rows[holds & ~mask[rows]]
+        mask[new] = True
+        added += int(new.size)
+    return added
