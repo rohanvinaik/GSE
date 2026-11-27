@@ -6,23 +6,26 @@
  },
  "senses": 246240,
  "seconds": {
-  "load": 79.0,
-  "bind": 21.2
+  "load": 81.0,
+  "bind": 19.7
  },
  "binding": {
   "edges_by_family": {
    "aligned": 46072,
    "alt_of": 311,
    "form_of": 536,
-   "sense_synonym": 4222
+   "sense_synonym": 4222,
+   "wiktionary_hypernym": 42
   },
   "identity_obligations_by_kind": {
    "alt_of": 6470,
    "form_of": 11276,
-   "sense_synonym": 170884
+   "sense_synonym": 170884,
+   "wiktionary_hypernym": 5147
   },
   "aligned_wiktionary_readings": 46072,
   "wiktionary_readings_connected_to_wordnet": 47744,
+  "wiktionary_readings_connected_to_wordnet_by_any_edge": 47756,
   "classes_with_several_readings": 40349,
   "wordnet_readings_in_a_shared_class": 39605,
   "topic_facts": 3119,
@@ -58,6 +61,13 @@
     "SELF_REFERENCE": 133,
     "TARGET_HAS_ONLY_OTHER_POS": 735,
     "TARGET_NOT_IN_COHORT": 125889
+   },
+   "wiktionary_hypernym": {
+    "KIND_OF_EDGE": 42,
+    "KIND_OF_OBLIGATION": 5147,
+    "SELF_REFERENCE": 1,
+    "TARGET_HAS_ONLY_OTHER_POS": 33,
+    "TARGET_NOT_IN_COHORT": 2558
    }
   }
  },
@@ -292,14 +302,14 @@
  },
  "settled": {
   "graph": {
-   "nodes": 166178,
-   "edges": 210807
+   "nodes": 166215,
+   "edges": 210846
   },
   "receipt": {
    "rounds": [
     {
      "passes": 4,
-     "landed": 23950,
+     "landed": 23970,
      "held_added": 0,
      "held_equal_added": 0,
      "held_groups_added": 0,
@@ -313,8 +323,8 @@
     "forced": 0,
     "facts_woken": 0
    },
-   "interpolated_cells": 61996,
-   "inherited_cells": 61757,
+   "interpolated_cells": 62016,
+   "inherited_cells": 61777,
    "consequence_cells": 239,
    "suspended_cells": {
     "defaults disagree": 0,
@@ -332,9 +342,9 @@
    "unattributed_conflict": false,
    "bits": {
     "known": 35985763.6888822,
-    "interpolated": 35886703.749363914
+    "interpolated": 35886670.3899639
    },
-   "seconds": 6.239
+   "seconds": 6.186
   },
   "known": {
    "census": {
@@ -378,14 +388,14 @@
   },
   "interpolated": {
    "census": {
-    "+1": 63660,
-    "-1": 1630,
+    "+1": 63676,
+    "-1": 1634,
     "0": 1253575,
     "SILENT": 240,
-    "residual": 21170271,
+    "residual": 21170251,
     "conflict": 0,
     "cells": 22489376,
-    "bits": 35886703.749363914
+    "bits": 35886670.3899639
    },
    "obligation_groups_by_candidates": {
     "1": 12,

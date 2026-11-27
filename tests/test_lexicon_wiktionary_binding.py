@@ -203,3 +203,21 @@ def test_settle_locates_the_aligned_pair_in_the_interpolated_layer_only_and_wake
     assert result["interpolated"]["obligation_groups_by_candidates"] == {"1": 1}
     assert result["interpolated"]["facts_located"]["own_semantic_kind=size_descriptor"] == 2
     assert result["interpolated"]["laws_woken"]["law:SIZE_DESCRIPTOR_EXCLUDES_EVALUATION"] == 2
+
+
+def test_a_sense_hypernym_is_a_kind_of_edge_from_its_one_parent_or_an_obligation_over_several():
+    readings = (
+        _wk("dictionary", 1, "noun"),
+        _wn("wordbook", "wordbook.n.01", "noun"),
+        _wk("lexicon", 1, "noun"),
+        _wn("book", "book.n.01", "noun"),
+        _wk("book", 1, "noun"),
+    )
+    native = {"hypernyms": [{"word": "wordbook"}], "glosses": ["never read"]}
+    senses = [sense_fields(0, "dictionary", "noun", native), Sense(2, "lexicon", "noun", hypernyms=("book",))]
+    b = bind(readings, senses, TAXONOMY)
+    assert b.links == [("wiktionary_hypernym", "wordbook.n.01", readings[0].reading_id)]
+    assert b.classes[0] != b.classes[1]
+    [o] = b.obligations
+    assert (o.kind, o.row, o.targets.tolist()) == ("wiktionary_hypernym", 2, [3, 4])
+    assert b.census(readings)["edges_by_family"] == {"wiktionary_hypernym": 1}

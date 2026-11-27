@@ -7,6 +7,10 @@ fields, read from the native sense record (`STRUCTURED_FIELDS`). Its glosses are
   target lemma's readings in its own part of speech. With one reading, that is an identity edge. With several, it
   is an identity obligation, F073's form: the sense means one of these.
 - `synonyms` (on the sense): the same, as synonymy candidates.
+- `hypernyms` (on the sense): a kind-of source the Wiktionary editors state. The hypernym word's readings of the
+  same part of speech are the parents. With one reading it is a `wiktionary_hypernym` edge from the parent to the
+  sense, which carries what kind-of carries. With several it is an obligation of the same "one of these" form,
+  resolved between rounds. Kind-of is not identity, so it joins no class.
 - The anchor alignment. `links` are the words the sense's editors linked. Each linked word gives its WordNet
   synsets. The candidates are the WordNet readings of the sense's own lemma and part of speech. The sense aligns to
   a candidate only when exactly one candidate has a linked word's synset among its kind-of ancestors, or as itself
@@ -19,7 +23,7 @@ Every identity is proposed, never known (E8: "An alignment is a proposed identit
 interpolated default, suspended on any conflict"). The output is in the inheritance graph's shape:
 - `groups`: a node per bound reading outside WordNet, keyed by its reading id. WordNet nodes are synsets
   (`inheritance.wordnet_groups`).
-- `links`: `(family, giver, receiver)`, each identity in both directions.
+- `links`: `(family, giver, receiver)`, each identity in both directions and each kind-of edge from the parent.
 - `classes`: readings joined by an alignment, a `form_of` or an `alt_of` identity share a class. A synonym is left
   out of the classes, because near-synonymy is not transitive.
 """
@@ -40,8 +44,9 @@ import numpy as np
 from . import inventory
 from .projection import UPOS, LensOutput, candidates, lemma_pos_groups
 
-STRUCTURED_FIELDS = ("form_of", "alt_of", "synonyms", "links", "topics", "categories")
+STRUCTURED_FIELDS = ("form_of", "alt_of", "synonyms", "hypernyms", "links", "topics", "categories")
 IDENTITY_FIELDS = {"form_of": "form_of", "alt_of": "alt_of", "synonyms": "sense_synonym"}
+KIND_FIELDS = {"hypernyms": "wiktionary_hypernym"}
 ALIGNED = "aligned"
 CLASS_FAMILIES = frozenset({ALIGNED, "form_of", "alt_of"})
 TOPIC = "wiktionary_topic"
@@ -65,6 +70,7 @@ class Sense:
     form_of: tuple[str, ...] = ()
     alt_of: tuple[str, ...] = ()
     synonyms: tuple[str, ...] = ()
+    hypernyms: tuple[str, ...] = ()
     links: tuple[str, ...] = ()
     topics: tuple[str, ...] = ()
 
@@ -77,7 +83,7 @@ def sense_fields(row: int, lemma: str, pos: str, native_sense: dict) -> Sense:
             for item in native_sense.get(name, ())
             if isinstance(item, dict) and isinstance(item.get("word"), str)
         )
-        for name in IDENTITY_FIELDS
+        for name in IDENTITY_FIELDS | KIND_FIELDS
     }
     links = []
     for pair in native_sense.get("links", ()):
@@ -118,7 +124,8 @@ class Taxonomy:
 
 @dataclass(frozen=True)
 class IdentityObligation:
-    """F073 over meanings: reading `row` means one of `targets`."""
+    """F073 over meanings: reading `row` means one of `targets` (an identity kind), or is a kind of one of them
+    (`wiktionary_hypernym`)."""
 
     kind: str
     row: int
@@ -135,16 +142,18 @@ class Binding:
     facts: dict[str, np.ndarray]
     dispositions: dict[str, dict[str, int]]
     aligned: dict[int, int]
+    edge_counts: dict[str, int] = field(default_factory=dict)
 
     def census(self, readings) -> dict:
         wiktionary = np.array([r.source == "wiktionary" for r in readings])
         wordnet = np.array([r.source == "wordnet" for r in readings])
-        edges = Counter(family for family, _, _ in self.links)
+        identity = {f for f, _, _ in self.links} - set(KIND_FIELDS.values())
         return {
-            "edges_by_family": {f: n // 2 for f, n in sorted(edges.items())},
+            "edges_by_family": dict(sorted(self.edge_counts.items())),
             "identity_obligations_by_kind": dict(sorted(Counter(o.kind for o in self.obligations).items())),
             "aligned_wiktionary_readings": len(self.aligned),
-            "wiktionary_readings_connected_to_wordnet": int(self.connected(readings)[wiktionary].sum()),
+            "wiktionary_readings_connected_to_wordnet": int(self.connected(readings, identity)[wiktionary].sum()),
+            "wiktionary_readings_connected_to_wordnet_by_any_edge": int(self.connected(readings)[wiktionary].sum()),
             "classes_with_several_readings": int((np.bincount(self.classes) > 1).sum()),
             "wordnet_readings_in_a_shared_class": int((wordnet & (np.bincount(self.classes)[self.classes] > 1)).sum()),
             "topic_facts": len(self.facts),
@@ -154,8 +163,8 @@ class Binding:
             "dispositions": self.dispositions,
         }
 
-    def connected(self, readings) -> np.ndarray:
-        """Readings that reach a WordNet reading through identity edges of any family."""
+    def connected(self, readings, families=None) -> np.ndarray:
+        """Readings that reach a WordNet reading through edges of `families` (default: every family)."""
         node_rows = defaultdict(list)
         for row, r in enumerate(readings):
             node_rows[_key(r)].append(row)
@@ -167,7 +176,9 @@ class Binding:
                 x = parent[x]
             return x
 
-        for _, a, b in self.links:
+        for family, a, b in self.links:
+            if families is not None and family not in families:
+                continue
             ra, rb = find(a), find(b)
             if ra != rb:
                 parent[ra] = rb
@@ -203,18 +214,19 @@ class _Classes:
         return np.array([self.find(i) for i in range(self.parent.size)], dtype=np.int64)
 
 
-def _identity(readings, sense, field_name, word, groups, lemmas, out) -> None:
-    """One form_of, alt_of or synonym target: an identity edge, an identity obligation, or unbound."""
-    family = IDENTITY_FIELDS[field_name]
+def _target(readings, sense, field_name, word, groups, lemmas, out) -> None:
+    """One form_of, alt_of, synonym or hypernym target: an edge, an obligation over its readings, or unbound."""
+    family = (IDENTITY_FIELDS | KIND_FIELDS)[field_name]
     tags = _upos(readings[sense.row].pos)
     rows = sorted({int(r) for tag in tags for r in groups.get((word, tag), ())} - {sense.row})
     premise = f"{readings[sense.row].reading_id}:{field_name}:{word}"
+    kind = "KIND_OF" if field_name in KIND_FIELDS else "IDENTITY"
     if len(rows) == 1:
-        out["identities"].append((family, sense.row, rows[0]))
-        out["notes"][family]["IDENTITY_EDGE"] += 1
+        out["kinds" if field_name in KIND_FIELDS else "identities"].append((family, sense.row, rows[0]))
+        out["notes"][family][f"{kind}_EDGE"] += 1
     elif rows:
         out["obligations"].append(IdentityObligation(family, sense.row, np.array(rows, dtype=np.int64), (premise,)))
-        out["notes"][family]["IDENTITY_OBLIGATION"] += 1
+        out["notes"][family][f"{kind}_OBLIGATION"] += 1
     elif word == sense.lemma:
         out["notes"][family]["SELF_REFERENCE"] += 1
     else:
@@ -246,13 +258,13 @@ def bind(readings, senses: Iterable[Sense], taxonomy: Taxonomy) -> Binding:
     """Every structured binding of the given Wiktionary senses over the cohort."""
     groups = lemma_pos_groups(readings)
     lemmas = {r.lemma.lower() for r in readings}
-    out = {"identities": [], "obligations": [], "notes": defaultdict(Counter)}
+    out = {"identities": [], "kinds": [], "obligations": [], "notes": defaultdict(Counter)}
     aligned: dict[int, int] = {}
     topics: dict[str, list[int]] = defaultdict(list)
     for sense in senses:
-        for field_name in IDENTITY_FIELDS:
+        for field_name in IDENTITY_FIELDS | KIND_FIELDS:
             for word in getattr(sense, field_name):
-                _identity(readings, sense, field_name, word, groups, lemmas, out)
+                _target(readings, sense, field_name, word, groups, lemmas, out)
         reason, row = _align(readings, sense, groups, taxonomy)
         out["notes"][ALIGNED][reason] += 1
         if reason == "SEVERAL_CANDIDATES_MATCH" and sense.lemma in sense.links:
@@ -273,6 +285,11 @@ def bind(readings, senses: Iterable[Sense], taxonomy: Taxonomy) -> Binding:
             if readings[r].source != "wordnet":
                 node_groups[k] = [r]
         links += [(family, ka, kb), (family, kb, ka)]
+    for family, child, parent in out["kinds"]:
+        for r in (child, parent):
+            if readings[r].source != "wordnet":
+                node_groups[_key(readings[r])] = [r]
+        links.append((family, _key(readings[parent]), _key(readings[child])))
     return Binding(
         groups=node_groups,
         links=links,
@@ -281,6 +298,7 @@ def bind(readings, senses: Iterable[Sense], taxonomy: Taxonomy) -> Binding:
         facts={name: np.array(sorted(set(rows)), dtype=np.int64) for name, rows in sorted(topics.items())},
         dispositions={k: dict(sorted(v.items())) for k, v in sorted(out["notes"].items())},
         aligned=aligned,
+        edge_counts=dict(Counter(family for family, _, _ in out["identities"] + out["kinds"])),
     )
 
 
