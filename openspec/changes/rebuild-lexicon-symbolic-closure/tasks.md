@@ -140,6 +140,17 @@ receipt; senses and the runtime artifact (10.1).
   evidence beyond the part-of-speech laws. This is the tail; F080 allows the gloss only for "the top 0.001%".
   Decision for Rohan when the bulk is measured.
 
+### Rohan's decisions, 2026-11-27 (from the measured state: about 7% decided; hub reach top 50 = 7.2M cells)
+
+- **Hub teaching by a bounded typed teacher over the Anthropic API** (SquishOS's reader; the key never reaches a
+  sub-agent). F078 shape: one typed request per hub, its open banks as fields with their legal states, answer one
+  state or abstain. A value is given only if it holds for every kind under the hub (the default's declared
+  applicability). Answers are teaching premises with receipts at interpolated standing, carried by inheritance,
+  suspended on conflict, and audited against the NSM explications. Top 50 hubs first; measure H before going on.
+- **USAS contracts for prime-aligned verb categories,** with FrameNet corroboration where it exists (F115): M1 to
+  MOVE, E1-E6 to FEEL with sign, L1 to ALIVE, Q2 to SAY, X3 to SEE/HEAR/TOUCH.
+- **No noun GOOD-0 law.**
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
