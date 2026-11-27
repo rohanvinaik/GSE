@@ -22,18 +22,21 @@ The independent reading of this framework (GPT-6.2 Sol, recorded before this des
 
 ## The artifact this change delivers
 
-Every one of the 401,596 readings has all 56 banks accounted for. Each cell is in exactly one of these states:
+Rohan, 2026-11-25 01:53: "What's left after this isn't *a* definitions, it's an encoded vector of the concept of what
+the word represents". The unit of the finished lexicon is the SENSE: for every word, one encoded concept for each
+genuinely distinct meaning, at least one for each part of speech it has. The 401,596 source definitions are inputs.
+Each is a noisy instantiation of one of its word's senses, and the senses are formed from them by coherence (E10).
+
+Every sense has all 56 banks accounted for, each cell in exactly one of these states:
 
 - **decided:** +1 or -1 (content, with a positive root), or 0 (explicit absence, F118);
-- **proved silent:** the definition says nothing on that bank, and a warrant shows it (F140: "not uncertain or an
-  unresolved degree of freedom");
-- **typed residual:** a mask of two or more legal states, with the named reason it is still open (missing source,
-  missing mapping, conflict, missing law, or a genuine bounded choice).
+- **proved silent:** the sense says nothing on that bank, and a warrant shows it (F140);
+- **typed residual:** a mask of two or more legal states, with the named reason it is still open.
 
-Every decided or silent cell carries its proof: the source observation, the authored prime, or the rule
-application and its premises. Senses are built from these cells. The GSE runtime reads the artifact through its
-existing consumer boundary. "A *full* lexicon, not one with 1-2 banks per word" (2026-11-25 07:15) is the
-requirement. A fill quota is not.
+Every decided or silent cell carries its proof: the source observation, the authored prime, or the rule application
+and its premises, through the definitions that support it. The GSE runtime reads the senses through its existing
+consumer boundary. "A *full* lexicon, not one with 1-2 banks per word" (2026-11-25 07:15) is the requirement. A fill
+quota is not.
 
 ## Elements
 
@@ -244,19 +247,35 @@ information-theoretic principle, what it looks like running, its output in cells
   warrant, conflicts, and wall time and memory.
 - **Contribution.** The build works at the scale of the lexicon, and every claim about progress is a measurement.
 
-### E10. Senses
+### E10. Senses: the homonym and coherence collapse
 
-- **Source.** 2026-11-25 03:28: "They're the same sense of the word if they resolve to the same bank encodings
-  across the ones that are of high salience, that are definitional across the load-bearing banks". 20:20: no
-  "arbitrary frequency-defined 'main sense'". 01:53: at least one sense for each part of speech present; the 44
-  definitions of "lock" collapse to a few.
-- **Code.** `senses.py` collapses readings within a lemma and part of speech when their resolved load-bearing
-  encodings are equal. Missing evidence is never equality, and genuine homonyms stay apart.
-- **Principle.** A sense is the coherent core over the noise of particular readings, the platonic ideal of 01:53.
-- **Running.** Grouping by lemma and part of speech over the closed state.
-- **Output.** Sense records with members, signature and residuals. The live runtime has 110,678 senses with about
-  1.35 nonzero values each.
-- **Contribution.** What the runtime reads.
+- **Source.** 2026-11-25 01:53: the 44 definitions of "lock" are "splintered from a much smaller set of *actual*
+  definitions". They are found by (1) the symbolic rules, as the measure of coherence; (2) the part of speech, with
+  at least one sense for each part of speech present; (3) coherence: "parse out the definitions of a word to each of
+  the genuinely unique homynyms", and the remaining definitions of each meaning have "a central, coherent, 'platonic
+  ideal' version that encapsulates the *meaning* of the idea over the noise of specific instantiations". 03:28:
+  "They're the same sense of the word if they resolve to the same bank encodings across the ones that are of high
+  salience, that are definitional across the load-bearing banks". 05:30: "If a single input completely destroys the
+  coherence model, then that's an out-of-variance exception". 20:20: no frequency-defined "main sense".
+- **Code.** `senses.py` takes, for each lemma and part of speech, all of its definitions with their closed states:
+  - **Coherence is the default.** The definitions form one sense unless they destructively interfere. Interference
+    means a load-bearing bank where their states have nothing in common.
+  - **Homonyms are the partition the interference forces.** Definitions are grouped so that no group holds two
+    definitions incompatible on a load-bearing bank. A definition with no evidence of its own interferes with
+    nothing, so it joins its word's core and needs no evidence of its own.
+  - **One definition alone against the core** is an out-of-variance exception: it is kept apart, with its reason,
+    and never averaged in.
+  - **The sense's encoding** is the constructive combination of its members: on each bank, the states every
+    evidenced member allows. A bank where members disagree is recorded as a conflict. Load-bearing banks are those
+    the rules and evidence resolve stably across the members, as TrialLedger's analysis of which trial elements
+    are load-bearing.
+- **Principle.** Constructive and destructive interference (01:53): agreement reinforces the core, and
+  contradiction separates a meaning.
+- **Running.** Grouping by lemma and part of speech over the closed state, then the same closure over the senses.
+- **Output.** Sense records with members, encoding, the load-bearing banks, homonym splits with their interfering
+  banks, exceptions, and residuals. The live runtime had 110,678 senses with about 1.35 nonzero values each.
+- **Contribution.** The lexicon itself, and the unit the runtime reads. It is also what makes the definitions no
+  source links count: they inherit their word's coherent core.
 
 ### E11. The read: sentence selection and the consumer
 

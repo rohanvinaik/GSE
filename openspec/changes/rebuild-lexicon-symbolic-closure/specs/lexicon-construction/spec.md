@@ -81,14 +81,26 @@ SHALL NOT be inherited.
 - **WHEN** two inherited defaults disagree on a bank of one reading
 - **THEN** both are suspended and reported, and neither is chosen by order
 
-### Requirement: Senses form from equal load-bearing encodings
-Readings of one lemma and part of speech SHALL form one sense only when their resolved load-bearing encodings are
-equal. Missing evidence SHALL NOT establish equality, every part of speech present SHALL keep at least one sense,
-and no sense SHALL be ranked as a main sense.
+### Requirement: Senses form by the homonym and coherence collapse
+For each lemma and part of speech, the builder SHALL form one sense from all its definitions unless they destructively
+interfere: definitions incompatible on a load-bearing bank SHALL be separated into distinct homonyms. A single
+definition incompatible with the core SHALL be kept apart as an out-of-variance exception. A definition with no
+evidence of its own SHALL join its word's core. Every part of speech present SHALL keep at least one sense, and no
+sense SHALL be ranked as a main sense. A sense's encoding SHALL be the combination its evidenced members support, with
+disagreements recorded.
 
 #### Scenario: A word with many definitions keeps its real senses
 - **WHEN** the builder forms the senses of "lock"
-- **THEN** its genuine homonyms and each part of speech remain, and no frequency-defined winner appears
+- **THEN** its definitions collapse into its genuine homonyms, one or more for each part of speech, and no
+  frequency-defined winner appears
+
+#### Scenario: An unlinked definition joins its word's core
+- **WHEN** a Wiktionary definition has no evidence of its own and no incompatible bank with its word's core
+- **THEN** it joins that core sense, and the sense's encoding is unchanged by it
+
+#### Scenario: Destructive interference separates a homonym
+- **WHEN** two groups of a word's definitions are incompatible on a load-bearing bank
+- **THEN** they form two senses, and the interfering bank is recorded
 
 ### Requirement: Every round is measured
 Each round SHALL record the specification bits H, the census of every cell by state, bank, part of speech and

@@ -162,6 +162,13 @@ receipt; senses and the runtime artifact (10.1).
 
 ## 10. Senses and the runtime (E10, E11)
 
+- [ ] 10.0 `senses.py`: the homonym and coherence collapse (design E10). Rohan, 2026-11-26: this is "something I
+  addressed in my homynym/coherence multiple definition collapse concept that I laid out very explicitly". Unlinked
+  definitions join their word's core; homonyms separate only on destructive interference.
+  Acceptance: "lock" collapses to its genuine homonyms; an unlinked definition joins its core without changing it; an
+  interfering pair separates with the bank named; an out-of-variance definition is kept apart; the census counts
+  senses.
+
 - [ ] 10.1 `senses.py` and `store.py`: senses by equal load-bearing encodings; the artifact in the runtime's form.
   Acceptance: "lock" keeps its genuine homonyms and one sense per part of speech without a frequency winner; missing
   evidence never merges; the encoder reads the artifact; the florbles sentence, chemical "He" against the pronoun,
