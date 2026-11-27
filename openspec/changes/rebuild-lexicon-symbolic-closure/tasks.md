@@ -122,6 +122,18 @@ receipt; senses and the runtime artifact (10.1).
 - **Finding for Rohan:** the closed-class rows for `i` and `you` state SOMEONE +1, against the founder-approved
   one-hot law on substantive primes (F088). Both sources are kept, with the conflict recorded.
 
+- **Wiktionary binding** committed (1cf07e0): 46,072 exact alignments; 12 obligation groups force; the Fear boundary
+  fires; interpolated +1 63,660. Single-target form_of/alt_of classes are known; anchor alignments are interpolated;
+  identity obligations are resolved between rounds by the runner. Sense-level synonyms carry +1/-1 only.
+- **Round runner** committed (571dd5b). Its first run used an in-flight gate that admitted 25 VerbNet-only rules;
+  that state was discarded. The corrected gate (acd83bc) admits 0 on main: only 9 of 2,041 readings with stated
+  facts carry two datasets, so F108's cross-dataset witnesses do not yet exist at reading level.
+- **A located obligation in the known layer** is its source family's own statement placed by strict structure. It
+  can confirm, expose and contradict; one located only in the interpolated layer counts for nothing.
+- **Next measurement:** coherence at the WORD level (F108: "relations between banks in single words ... words that
+  exist in multiple datasets"), with exact every-time sets and NSM entailment as the symbolic validation (F101).
+  Ratings are discovery-only families.
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
