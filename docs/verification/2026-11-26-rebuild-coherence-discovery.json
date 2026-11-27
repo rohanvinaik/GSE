@@ -1,0 +1,1136 @@
+{
+ "types_only": {
+  "format": "GSE.rebuild-coherence-discovery/1",
+  "inputs": {
+   "data/lexicon_builder/rebuild/cohort.jsonl": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424",
+   "GSE/curation/lexicon_builder/prime_profiles.json": "c398798433bc6e9b0a2ebbeeb88b7593064de5a56ed15c03957c9e6ac8fbeffb",
+   "GSE/curation/lexicon_builder/bank_laws.json": "1ff3bf0f05ced92eace8925d65b49b34a3a83fd421c0f45339a77b94b107772b",
+   "GSE/curation/lexicon_builder/laws.py": "bfd1cd34d883567e926890ee1d80665d0bb0222dfd0f8b96bd6289a867148f7b",
+   "GSE/curation/lexicon_builder/guards.py": "1105a3e15198fd79413f0e2acf858e8f4c20e6fbcf83f6179ef298961a38a3c7",
+   "GSE/curation/lexicon_builder/coherence.py": "4b0a4263684d391d347a3fd591b61d0a1a66142131477187080be2690040e15b",
+   "GSE/curation/lexicon_builder/admission.py": "764121a283709da661280575bb72d890c97ddd10fd310562e682840e6256d6d1"
+  },
+  "law_relations": 65,
+  "variant": "stated facts, WordNet as types only",
+  "readings": 401596,
+  "observations": 2528,
+  "observations_by_family": {
+   "approved_anchor": 2,
+   "gse_closed_class": 75,
+   "prime_profile": 2451
+  },
+  "uninformative_observations": 0,
+  "derivations_from_profiles": 405,
+  "profile_bindings": {
+   "ABOVE": "gse_closed_class:preposition:above",
+   "AFTER": "gse_closed_class:conjunction:after",
+   "BAD": "nsm_chart:v20:bad",
+   "BECAUSE": "gse_closed_class:conjunction:because",
+   "BEFORE": "gse_closed_class:conjunction:before",
+   "BELOW": "gse_closed_class:preposition:below",
+   "BIG": "nsm_chart:v20:big",
+   "BODY": "wordnet:body:body.n.01",
+   "CAN": "gse_closed_class:modal:can",
+   "DO": "wordnet:do:perform.v.01",
+   "EXIST": "nsm_chart:v20:there-is",
+   "FAR": "nsm_chart:v20:far",
+   "FEEL": "nsm_chart:v20:feel",
+   "GOOD": "nsm_chart:v20:good",
+   "HAPPEN": "wordnet:happen:happen.v.01",
+   "HEAR": "wordnet:hear:hear.v.01",
+   "HERE": "wordnet:here:here.r.01",
+   "I": "gse_closed_class:pronoun:i",
+   "IF": "gse_closed_class:conjunction:if",
+   "INSIDE": "gse_closed_class:preposition:inside",
+   "KIND": "wordnet:kind:kind.n.01",
+   "KNOW": "wordnet:know:know.v.01",
+   "LIKE": "gse_closed_class:preposition:like",
+   "LONG_TIME": "nsm_chart:v20:long-time",
+   "MAYBE": "gse_closed_class:modal:maybe",
+   "MOMENT": "nsm_chart:v20:moment",
+   "MOVE": "nsm_chart:v20:move",
+   "NEAR": "nsm_chart:v20:near",
+   "NOT": "gse_closed_class:negation:not",
+   "NOW": "nsm_chart:v20:now",
+   "ONE": "wordnet:one:one.s.01",
+   "OTHER": "wordnet:other:other.a.01",
+   "PART": "wordnet:part:part.n.01",
+   "PEOPLE": "wordnet:people:people.n.01",
+   "SAME": "wordnet:same:same.a.01",
+   "SAY": "nsm_chart:v20:say",
+   "SEE": "wordnet:see:see.v.01",
+   "SHORT_TIME": "nsm_chart:v20:short-time",
+   "SIDE": "nsm_chart:v20:side",
+   "SMALL": "nsm_chart:v20:small",
+   "SOMEONE": "gse_closed_class:pronoun:someone",
+   "SOMETHING": "gse_closed_class:pronoun:something",
+   "THINK": "nsm_chart:v20:think",
+   "TOUCH": "nsm_chart:v20:touch",
+   "TRUE": "wordnet:true:true.a.01",
+   "TWO": "wordnet:two:two.s.01",
+   "WANT": "wordnet:want:desire.v.01",
+   "WHEN": "nsm_chart:v20:time",
+   "WHERE": "nsm_chart:v20:place",
+   "WORDS": "wordnet:word:word.n.01",
+   "YOU": "gse_closed_class:pronoun:you"
+  },
+  "skipped": {
+   "anchor_already_bound_by_profile:want": 1,
+   "anchor_refused:dont-want:OBSERVATION_STATE_ILLEGAL WANT {-1}": 1,
+   "profile_coordinate_outside_registry:HIER_MINUS": 51,
+   "profile_coordinate_outside_registry:HIER_PLUS": 51,
+   "profile_unbound:ALIVE:0_aligned_boxes": 1,
+   "profile_unbound:AWAY:0_aligned_boxes": 1,
+   "profile_unbound:BE:2_aligned_boxes": 1,
+   "profile_unbound:CAUSE:0_aligned_boxes": 1,
+   "profile_unbound:CERTAINTY:0_aligned_boxes": 1,
+   "profile_unbound:DEAD:0_aligned_boxes": 1,
+   "profile_unbound:END:0_aligned_boxes": 1,
+   "profile_unbound:FALSE:0_aligned_boxes": 1,
+   "profile_unbound:HAVE:0_aligned_boxes": 1,
+   "profile_unbound:HIER_MINUS:0_aligned_boxes": 1,
+   "profile_unbound:HIER_PLUS:0_aligned_boxes": 1,
+   "profile_unbound:INFER:0_aligned_boxes": 1,
+   "profile_unbound:INTENSITY:0_aligned_boxes": 1,
+   "profile_unbound:MUST:0_aligned_boxes": 1,
+   "profile_unbound:OUTSIDE:0_aligned_boxes": 1,
+   "profile_unbound:QUANTITY:0_aligned_boxes": 1,
+   "profile_unbound:START:0_aligned_boxes": 1,
+   "profile_unbound:THEN:0_aligned_boxes": 1,
+   "profile_unbound:TOWARD:0_aligned_boxes": 1,
+   "profile_unbound:WITH:0_aligned_boxes": 1,
+   "profile_unbound:WITHOUT:0_aligned_boxes": 1
+  },
+  "stated": {
+   "cells": 2518,
+   "readings": 117,
+   "by_bank_state": {
+    "ABOVE{+1}": 1,
+    "ABOVE{-1}": 2,
+    "ABOVE{SILENT}": 49,
+    "ALIVE{SILENT}": 51,
+    "BE{SILENT}": 51,
+    "BECAUSE{+1}": 1,
+    "BECAUSE{SILENT}": 50,
+    "BEFORE{+1}": 1,
+    "BEFORE{-1}": 1,
+    "BEFORE{SILENT}": 49,
+    "BIG{+1}": 1,
+    "BIG{-1}": 1,
+    "BIG{SILENT}": 47,
+    "BODY{+1}": 1,
+    "BODY{SILENT}": 1,
+    "CAN{+1}": 3,
+    "CAN{SILENT}": 50,
+    "CAUSE{SILENT}": 51,
+    "CERTAINTY{SILENT}": 51,
+    "DO{+1}": 1,
+    "DO{SILENT}": 50,
+    "EXIST{+1}": 1,
+    "EXIST{SILENT}": 50,
+    "FAR{+1}": 1,
+    "FAR{-1}": 1,
+    "FAR{SILENT}": 49,
+    "FEEL{+1}": 1,
+    "FEEL{SILENT}": 50,
+    "GOOD{+1}": 1,
+    "GOOD{-1}": 1,
+    "GOOD{SILENT}": 47,
+    "HAPPEN{+1}": 1,
+    "HAPPEN{SILENT}": 50,
+    "HAVE{SILENT}": 51,
+    "HEAR{+1}": 1,
+    "HEAR{SILENT}": 50,
+    "HERE{+1}": 1,
+    "HERE{SILENT}": 50,
+    "I{+1}": 1,
+    "I{SILENT}": 1,
+    "IF{+1}": 1,
+    "IF{SILENT}": 50,
+    "INFER{SILENT}": 51,
+    "INTENSITY{+1}": 1,
+    "INTENSITY{SILENT}": 42,
+    "KIND{+1}": 1,
+    "KIND{SILENT}": 1,
+    "KNOW{+1}": 1,
+    "KNOW{SILENT}": 50,
+    "LIKE{+1}": 1,
+    "LIKE{SILENT}": 50,
+    "LONG_TIME{+1}": 1,
+    "LONG_TIME{-1}": 1,
+    "LONG_TIME{SILENT}": 49,
+    "MAYBE{+1}": 5,
+    "MAYBE{SILENT}": 50,
+    "MOMENT{+1}": 1,
+    "MOMENT{SILENT}": 50,
+    "MOVE{+1}": 1,
+    "MOVE{SILENT}": 50,
+    "MUST{+1}": 2,
+    "MUST{SILENT}": 51,
+    "NOT{+1}": 3,
+    "NOT{SILENT}": 50,
+    "ONE{+1}": 1,
+    "ONE{SILENT}": 50,
+    "OUTSIDE{-1}": 1,
+    "OUTSIDE{SILENT}": 50,
+    "PART{+1}": 1,
+    "PART{SILENT}": 1,
+    "PEOPLE{+1}": 1,
+    "PEOPLE{SILENT}": 1,
+    "QUANTITY{SILENT}": 51,
+    "SAME{+1}": 1,
+    "SAME{-1}": 1,
+    "SAME{SILENT}": 49,
+    "SAY{+1}": 1,
+    "SAY{SILENT}": 50,
+    "SEE{+1}": 1,
+    "SEE{SILENT}": 50,
+    "SIDE{+1}": 1,
+    "SIDE{SILENT}": 50,
+    "SOMEONE{+1}": 41,
+    "SOMEONE{SILENT}": 1,
+    "SOMETHING{+1}": 16,
+    "SOMETHING{SILENT}": 1,
+    "START{SILENT}": 51,
+    "THEN{-1}": 1,
+    "THEN{SILENT}": 50,
+    "THINK{+1}": 1,
+    "THINK{SILENT}": 50,
+    "TOUCH{+1}": 1,
+    "TOUCH{SILENT}": 50,
+    "TOWARD{SILENT}": 51,
+    "TRUE{+1}": 1,
+    "TRUE{SILENT}": 50,
+    "TWO{+1}": 1,
+    "TWO{SILENT}": 50,
+    "WANT{+1}": 1,
+    "WANT{SILENT}": 50,
+    "WHEN{+1}": 1,
+    "WHEN{SILENT}": 50,
+    "WHERE{+1}": 1,
+    "WHERE{SILENT}": 50,
+    "WITH{SILENT}": 51,
+    "WORDS{+1}": 1,
+    "WORDS{SILENT}": 50,
+    "YOU{+1}": 1,
+    "YOU{SILENT}": 1
+   },
+   "confirming_cells": 118
+  },
+  "conflicts": {
+   "among_stated_sources": [],
+   "stated_against_derived": [
+    {
+     "reading": "gse_closed_class:pronoun:i",
+     "bank": "SOMEONE",
+     "roots": [
+      "gse_closed_class:pronoun:i"
+     ],
+     "rules": [
+      "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "restrictions": [
+      [
+       "gse_closed_class:pronoun:i",
+       "{+1}"
+      ],
+      [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT",
+       "{0}"
+      ],
+      [
+       "current",
+       "{+1|0|SILENT}"
+      ]
+     ]
+    },
+    {
+     "reading": "gse_closed_class:pronoun:you",
+     "bank": "SOMEONE",
+     "roots": [
+      "gse_closed_class:pronoun:you"
+     ],
+     "rules": [
+      "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "restrictions": [
+      [
+       "gse_closed_class:pronoun:you",
+       "{+1}"
+      ],
+      [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT",
+       "{0}"
+      ],
+      [
+       "current",
+       "{+1|0|SILENT}"
+      ]
+     ]
+    }
+   ],
+   "left_empty_by_the_laws": []
+  },
+  "pair_census": {
+   "patterns": 7866,
+   "with_any_stated_agreement": 7866,
+   "with_an_independent_witness": 0,
+   "with_a_counterexample": 4449,
+   "largest_agreements": [
+    {
+     "pattern": "ALIVE{SILENT}=>BE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>CAUSE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>MUST{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>QUANTITY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>START{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>TOWARD{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>WITH{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>ALIVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>CAUSE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>MUST{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>QUANTITY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>START{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>TOWARD{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>WITH{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>ALIVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>BE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    }
+   ]
+  },
+  "types": {
+   "count": 15828,
+   "guard": [
+    "guard:lexical_unit_kind=PRIME&own_role=substantive",
+    "guard:own_role=lexical_predicate",
+    "guard:own_role=modifier_property_only"
+   ]
+  },
+  "bits": {
+   "opening": 37978301.21846376,
+   "after_premises": 37973374.79118717,
+   "after_laws": 35986703.54465824
+  },
+  "rounds": [
+   {
+    "round": 1,
+    "candidates": 2,
+    "verdicts": {
+     "ADMITTED": 0,
+     "NARROWED": 0,
+     "FINDING": 0,
+     "UNCONFIRMED": 2,
+     "UNEXPOSED": 0,
+     "NO_REACH": 0,
+     "DEGENERATE": 0
+    },
+    "admitted": [],
+    "closure": {
+     "relations": 65,
+     "applications": 65,
+     "removals": 0,
+     "bits_before": 35986703.54465824,
+     "bits_after": 35986703.54465824,
+     "seconds": 0.146
+    },
+    "census": {
+     "+1": 117,
+     "-1": 10,
+     "0": 1253844,
+     "SILENT": 2400,
+     "residual": 21233005,
+     "conflict": 0,
+     "cells": 22489376,
+     "bits": 35986703.54465824
+    },
+    "detail": [
+     {
+      "rule": "coherence:implication:[wordnet_isa:person.n.01]:SOMEONE{+1}=>ALIVE{+1}",
+      "origin": "supplied:demonstration",
+      "verdict": "UNCONFIRMED",
+      "witnesses": [],
+      "witness_roots": [],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no stated witness"
+     },
+     {
+      "rule": "coherence:censor:[wordnet_isa:artifact.n.01]:ALIVE{0}=>THINK{0|SILENT}",
+      "origin": "supplied:demonstration",
+      "verdict": "UNCONFIRMED",
+      "witnesses": [],
+      "witness_roots": [],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no stated witness"
+     }
+    ]
+   }
+  ],
+  "seconds": {
+   "inputs": 8.45,
+   "total": 9.86
+  }
+ },
+ "types_only_conflicts_kept": {
+  "format": "GSE.rebuild-coherence-discovery/1",
+  "inputs": {
+   "data/lexicon_builder/rebuild/cohort.jsonl": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424",
+   "GSE/curation/lexicon_builder/prime_profiles.json": "c398798433bc6e9b0a2ebbeeb88b7593064de5a56ed15c03957c9e6ac8fbeffb",
+   "GSE/curation/lexicon_builder/bank_laws.json": "1ff3bf0f05ced92eace8925d65b49b34a3a83fd421c0f45339a77b94b107772b",
+   "GSE/curation/lexicon_builder/laws.py": "bfd1cd34d883567e926890ee1d80665d0bb0222dfd0f8b96bd6289a867148f7b",
+   "GSE/curation/lexicon_builder/guards.py": "1105a3e15198fd79413f0e2acf858e8f4c20e6fbcf83f6179ef298961a38a3c7",
+   "GSE/curation/lexicon_builder/coherence.py": "4b0a4263684d391d347a3fd591b61d0a1a66142131477187080be2690040e15b",
+   "GSE/curation/lexicon_builder/admission.py": "764121a283709da661280575bb72d890c97ddd10fd310562e682840e6256d6d1"
+  },
+  "law_relations": 65,
+  "variant": "stated facts, WordNet as types only; COUNTERFACTUAL: stated cells in conflict with a law left in the postings",
+  "readings": 401596,
+  "observations": 2528,
+  "observations_by_family": {
+   "approved_anchor": 2,
+   "gse_closed_class": 75,
+   "prime_profile": 2451
+  },
+  "uninformative_observations": 0,
+  "derivations_from_profiles": 405,
+  "profile_bindings": {
+   "ABOVE": "gse_closed_class:preposition:above",
+   "AFTER": "gse_closed_class:conjunction:after",
+   "BAD": "nsm_chart:v20:bad",
+   "BECAUSE": "gse_closed_class:conjunction:because",
+   "BEFORE": "gse_closed_class:conjunction:before",
+   "BELOW": "gse_closed_class:preposition:below",
+   "BIG": "nsm_chart:v20:big",
+   "BODY": "wordnet:body:body.n.01",
+   "CAN": "gse_closed_class:modal:can",
+   "DO": "wordnet:do:perform.v.01",
+   "EXIST": "nsm_chart:v20:there-is",
+   "FAR": "nsm_chart:v20:far",
+   "FEEL": "nsm_chart:v20:feel",
+   "GOOD": "nsm_chart:v20:good",
+   "HAPPEN": "wordnet:happen:happen.v.01",
+   "HEAR": "wordnet:hear:hear.v.01",
+   "HERE": "wordnet:here:here.r.01",
+   "I": "gse_closed_class:pronoun:i",
+   "IF": "gse_closed_class:conjunction:if",
+   "INSIDE": "gse_closed_class:preposition:inside",
+   "KIND": "wordnet:kind:kind.n.01",
+   "KNOW": "wordnet:know:know.v.01",
+   "LIKE": "gse_closed_class:preposition:like",
+   "LONG_TIME": "nsm_chart:v20:long-time",
+   "MAYBE": "gse_closed_class:modal:maybe",
+   "MOMENT": "nsm_chart:v20:moment",
+   "MOVE": "nsm_chart:v20:move",
+   "NEAR": "nsm_chart:v20:near",
+   "NOT": "gse_closed_class:negation:not",
+   "NOW": "nsm_chart:v20:now",
+   "ONE": "wordnet:one:one.s.01",
+   "OTHER": "wordnet:other:other.a.01",
+   "PART": "wordnet:part:part.n.01",
+   "PEOPLE": "wordnet:people:people.n.01",
+   "SAME": "wordnet:same:same.a.01",
+   "SAY": "nsm_chart:v20:say",
+   "SEE": "wordnet:see:see.v.01",
+   "SHORT_TIME": "nsm_chart:v20:short-time",
+   "SIDE": "nsm_chart:v20:side",
+   "SMALL": "nsm_chart:v20:small",
+   "SOMEONE": "gse_closed_class:pronoun:someone",
+   "SOMETHING": "gse_closed_class:pronoun:something",
+   "THINK": "nsm_chart:v20:think",
+   "TOUCH": "nsm_chart:v20:touch",
+   "TRUE": "wordnet:true:true.a.01",
+   "TWO": "wordnet:two:two.s.01",
+   "WANT": "wordnet:want:desire.v.01",
+   "WHEN": "nsm_chart:v20:time",
+   "WHERE": "nsm_chart:v20:place",
+   "WORDS": "wordnet:word:word.n.01",
+   "YOU": "gse_closed_class:pronoun:you"
+  },
+  "skipped": {
+   "anchor_already_bound_by_profile:want": 1,
+   "anchor_refused:dont-want:OBSERVATION_STATE_ILLEGAL WANT {-1}": 1,
+   "profile_coordinate_outside_registry:HIER_MINUS": 51,
+   "profile_coordinate_outside_registry:HIER_PLUS": 51,
+   "profile_unbound:ALIVE:0_aligned_boxes": 1,
+   "profile_unbound:AWAY:0_aligned_boxes": 1,
+   "profile_unbound:BE:2_aligned_boxes": 1,
+   "profile_unbound:CAUSE:0_aligned_boxes": 1,
+   "profile_unbound:CERTAINTY:0_aligned_boxes": 1,
+   "profile_unbound:DEAD:0_aligned_boxes": 1,
+   "profile_unbound:END:0_aligned_boxes": 1,
+   "profile_unbound:FALSE:0_aligned_boxes": 1,
+   "profile_unbound:HAVE:0_aligned_boxes": 1,
+   "profile_unbound:HIER_MINUS:0_aligned_boxes": 1,
+   "profile_unbound:HIER_PLUS:0_aligned_boxes": 1,
+   "profile_unbound:INFER:0_aligned_boxes": 1,
+   "profile_unbound:INTENSITY:0_aligned_boxes": 1,
+   "profile_unbound:MUST:0_aligned_boxes": 1,
+   "profile_unbound:OUTSIDE:0_aligned_boxes": 1,
+   "profile_unbound:QUANTITY:0_aligned_boxes": 1,
+   "profile_unbound:START:0_aligned_boxes": 1,
+   "profile_unbound:THEN:0_aligned_boxes": 1,
+   "profile_unbound:TOWARD:0_aligned_boxes": 1,
+   "profile_unbound:WITH:0_aligned_boxes": 1,
+   "profile_unbound:WITHOUT:0_aligned_boxes": 1
+  },
+  "stated": {
+   "cells": 2520,
+   "readings": 117,
+   "by_bank_state": {
+    "ABOVE{+1}": 1,
+    "ABOVE{-1}": 2,
+    "ABOVE{SILENT}": 49,
+    "ALIVE{SILENT}": 51,
+    "BE{SILENT}": 51,
+    "BECAUSE{+1}": 1,
+    "BECAUSE{SILENT}": 50,
+    "BEFORE{+1}": 1,
+    "BEFORE{-1}": 1,
+    "BEFORE{SILENT}": 49,
+    "BIG{+1}": 1,
+    "BIG{-1}": 1,
+    "BIG{SILENT}": 47,
+    "BODY{+1}": 1,
+    "BODY{SILENT}": 1,
+    "CAN{+1}": 3,
+    "CAN{SILENT}": 50,
+    "CAUSE{SILENT}": 51,
+    "CERTAINTY{SILENT}": 51,
+    "DO{+1}": 1,
+    "DO{SILENT}": 50,
+    "EXIST{+1}": 1,
+    "EXIST{SILENT}": 50,
+    "FAR{+1}": 1,
+    "FAR{-1}": 1,
+    "FAR{SILENT}": 49,
+    "FEEL{+1}": 1,
+    "FEEL{SILENT}": 50,
+    "GOOD{+1}": 1,
+    "GOOD{-1}": 1,
+    "GOOD{SILENT}": 47,
+    "HAPPEN{+1}": 1,
+    "HAPPEN{SILENT}": 50,
+    "HAVE{SILENT}": 51,
+    "HEAR{+1}": 1,
+    "HEAR{SILENT}": 50,
+    "HERE{+1}": 1,
+    "HERE{SILENT}": 50,
+    "I{+1}": 1,
+    "I{SILENT}": 1,
+    "IF{+1}": 1,
+    "IF{SILENT}": 50,
+    "INFER{SILENT}": 51,
+    "INTENSITY{+1}": 1,
+    "INTENSITY{SILENT}": 42,
+    "KIND{+1}": 1,
+    "KIND{SILENT}": 1,
+    "KNOW{+1}": 1,
+    "KNOW{SILENT}": 50,
+    "LIKE{+1}": 1,
+    "LIKE{SILENT}": 50,
+    "LONG_TIME{+1}": 1,
+    "LONG_TIME{-1}": 1,
+    "LONG_TIME{SILENT}": 49,
+    "MAYBE{+1}": 5,
+    "MAYBE{SILENT}": 50,
+    "MOMENT{+1}": 1,
+    "MOMENT{SILENT}": 50,
+    "MOVE{+1}": 1,
+    "MOVE{SILENT}": 50,
+    "MUST{+1}": 2,
+    "MUST{SILENT}": 51,
+    "NOT{+1}": 3,
+    "NOT{SILENT}": 50,
+    "ONE{+1}": 1,
+    "ONE{SILENT}": 50,
+    "OUTSIDE{-1}": 1,
+    "OUTSIDE{SILENT}": 50,
+    "PART{+1}": 1,
+    "PART{SILENT}": 1,
+    "PEOPLE{+1}": 1,
+    "PEOPLE{SILENT}": 1,
+    "QUANTITY{SILENT}": 51,
+    "SAME{+1}": 1,
+    "SAME{-1}": 1,
+    "SAME{SILENT}": 49,
+    "SAY{+1}": 1,
+    "SAY{SILENT}": 50,
+    "SEE{+1}": 1,
+    "SEE{SILENT}": 50,
+    "SIDE{+1}": 1,
+    "SIDE{SILENT}": 50,
+    "SOMEONE{+1}": 43,
+    "SOMEONE{SILENT}": 1,
+    "SOMETHING{+1}": 16,
+    "SOMETHING{SILENT}": 1,
+    "START{SILENT}": 51,
+    "THEN{-1}": 1,
+    "THEN{SILENT}": 50,
+    "THINK{+1}": 1,
+    "THINK{SILENT}": 50,
+    "TOUCH{+1}": 1,
+    "TOUCH{SILENT}": 50,
+    "TOWARD{SILENT}": 51,
+    "TRUE{+1}": 1,
+    "TRUE{SILENT}": 50,
+    "TWO{+1}": 1,
+    "TWO{SILENT}": 50,
+    "WANT{+1}": 1,
+    "WANT{SILENT}": 50,
+    "WHEN{+1}": 1,
+    "WHEN{SILENT}": 50,
+    "WHERE{+1}": 1,
+    "WHERE{SILENT}": 50,
+    "WITH{SILENT}": 51,
+    "WORDS{+1}": 1,
+    "WORDS{SILENT}": 50,
+    "YOU{+1}": 1,
+    "YOU{SILENT}": 1
+   },
+   "confirming_cells": 120
+  },
+  "conflicts": {
+   "among_stated_sources": [],
+   "stated_against_derived": [
+    {
+     "reading": "gse_closed_class:pronoun:i",
+     "bank": "SOMEONE",
+     "roots": [
+      "gse_closed_class:pronoun:i"
+     ],
+     "rules": [
+      "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "restrictions": [
+      [
+       "gse_closed_class:pronoun:i",
+       "{+1}"
+      ],
+      [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT",
+       "{0}"
+      ],
+      [
+       "current",
+       "{+1|0|SILENT}"
+      ]
+     ]
+    },
+    {
+     "reading": "gse_closed_class:pronoun:you",
+     "bank": "SOMEONE",
+     "roots": [
+      "gse_closed_class:pronoun:you"
+     ],
+     "rules": [
+      "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+     ],
+     "restrictions": [
+      [
+       "gse_closed_class:pronoun:you",
+       "{+1}"
+      ],
+      [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT",
+       "{0}"
+      ],
+      [
+       "current",
+       "{+1|0|SILENT}"
+      ]
+     ]
+    }
+   ],
+   "left_empty_by_the_laws": []
+  },
+  "pair_census": {
+   "patterns": 7870,
+   "with_any_stated_agreement": 7870,
+   "with_an_independent_witness": 4,
+   "with_a_counterexample": 4449,
+   "largest_agreements": [
+    {
+     "pattern": "ALIVE{SILENT}=>BE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>CAUSE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>MUST{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>QUANTITY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>START{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>TOWARD{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "ALIVE{SILENT}=>WITH{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>ALIVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>CAUSE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>MUST{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>QUANTITY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>START{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>TOWARD{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "BE{SILENT}=>WITH{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>ALIVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>BE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>CERTAINTY{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>HAVE{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    },
+    {
+     "pattern": "CAUSE{SILENT}=>INFER{SILENT}",
+     "witnesses": 0,
+     "co_encoded": 51,
+     "counterexamples": 0,
+     "unknown": 0
+    }
+   ]
+  },
+  "types": {
+   "count": 15828,
+   "guard": [
+    "guard:lexical_unit_kind=PRIME&own_role=substantive",
+    "guard:own_role=lexical_predicate",
+    "guard:own_role=modifier_property_only"
+   ]
+  },
+  "bits": {
+   "opening": 37978301.21846376,
+   "after_premises": 37973374.79118717,
+   "after_laws": 35986703.54465824
+  },
+  "rounds": [
+   {
+    "round": 1,
+    "candidates": 6,
+    "verdicts": {
+     "ADMITTED": 0,
+     "NARROWED": 0,
+     "FINDING": 0,
+     "UNCONFIRMED": 2,
+     "UNEXPOSED": 4,
+     "NO_REACH": 0,
+     "DEGENERATE": 0
+    },
+    "admitted": [],
+    "closure": {
+     "relations": 65,
+     "applications": 65,
+     "removals": 0,
+     "bits_before": 35986703.54465824,
+     "bits_after": 35986703.54465824,
+     "seconds": 0.154
+    },
+    "census": {
+     "+1": 117,
+     "-1": 10,
+     "0": 1253844,
+     "SILENT": 2400,
+     "residual": 21233005,
+     "conflict": 0,
+     "cells": 22489376,
+     "bits": 35986703.54465824
+    },
+    "detail": [
+     {
+      "rule": "coherence:implication:[guard:lexical_unit_kind=PRIME&own_role=substantive]:I{+1}=>SOMEONE{+1}",
+      "origin": "pair",
+      "verdict": "UNEXPOSED",
+      "witnesses": [
+       "gse_closed_class:pronoun:i"
+      ],
+      "witness_roots": [
+       "gse_closed_class:pronoun:i",
+       "prime_profile:I"
+      ],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no reading in scope states the bank outside the consequent"
+     },
+     {
+      "rule": "coherence:implication:[guard:lexical_unit_kind=PRIME&own_role=substantive]:YOU{+1}=>SOMEONE{+1}",
+      "origin": "pair",
+      "verdict": "UNEXPOSED",
+      "witnesses": [
+       "gse_closed_class:pronoun:you"
+      ],
+      "witness_roots": [
+       "gse_closed_class:pronoun:you",
+       "prime_profile:YOU"
+      ],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no reading in scope states the bank outside the consequent"
+     },
+     {
+      "rule": "coherence:implication:[guard:lexical_unit_kind=PRIME&own_role=substantive]:SOMEONE{+1}=>I{+1}",
+      "origin": "pair",
+      "verdict": "UNEXPOSED",
+      "witnesses": [
+       "gse_closed_class:pronoun:i"
+      ],
+      "witness_roots": [
+       "gse_closed_class:pronoun:i",
+       "prime_profile:I"
+      ],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 2,
+      "exposed": false,
+      "note": "no reading in scope states the bank outside the consequent"
+     },
+     {
+      "rule": "coherence:implication:[guard:lexical_unit_kind=PRIME&own_role=substantive]:SOMEONE{+1}=>YOU{+1}",
+      "origin": "pair",
+      "verdict": "UNEXPOSED",
+      "witnesses": [
+       "gse_closed_class:pronoun:you"
+      ],
+      "witness_roots": [
+       "gse_closed_class:pronoun:you",
+       "prime_profile:YOU"
+      ],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 2,
+      "exposed": false,
+      "note": "no reading in scope states the bank outside the consequent"
+     },
+     {
+      "rule": "coherence:implication:[wordnet_isa:person.n.01]:SOMEONE{+1}=>ALIVE{+1}",
+      "origin": "supplied:demonstration",
+      "verdict": "UNCONFIRMED",
+      "witnesses": [],
+      "witness_roots": [],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no stated witness"
+     },
+     {
+      "rule": "coherence:censor:[wordnet_isa:artifact.n.01]:ALIVE{0}=>THINK{0|SILENT}",
+      "origin": "supplied:demonstration",
+      "verdict": "UNCONFIRMED",
+      "witnesses": [],
+      "witness_roots": [],
+      "co_encoded": 0,
+      "counterexamples": [],
+      "unknown": 0,
+      "exposed": false,
+      "note": "no stated witness"
+     }
+    ]
+   }
+  ],
+  "seconds": {
+   "inputs": 4.26,
+   "total": 5.68
+  }
+ }
+}
