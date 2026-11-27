@@ -211,8 +211,9 @@ def _classes(masks: np.ndarray) -> dict[str, np.ndarray]:
     return out
 
 
-def census(masks: np.ndarray, pos=None, source=None) -> dict:
-    """Every cell in one class, overall, by bank, by part of speech and by source family (one label per row)."""
+def census(masks: np.ndarray, pos=None, source=None, kind=None) -> dict:
+    """Every cell in one class, overall, by bank, by part of speech, by source family and by kind (one label per row;
+    for senses, kind is "sense" or "exception")."""
     classes = _classes(masks)
     out = {
         "rows": int(masks.shape[0]),
@@ -220,7 +221,7 @@ def census(masks: np.ndarray, pos=None, source=None) -> dict:
         "by_state": {k: int(v.sum()) for k, v in classes.items()},
         "by_bank": {bank: {k: int(v[:, c].sum()) for k, v in classes.items()} for c, bank in enumerate(BANKS)},
     }
-    for name, labels in (("by_pos", pos), ("by_source", source)):
+    for name, labels in (("by_pos", pos), ("by_source", source), ("by_kind", kind)):
         if labels is None:
             continue
         labels = np.asarray(labels)
@@ -363,10 +364,15 @@ def _reach_entry(rel, scope, narrowed, decided, marginal, kappa, states) -> dict
 # ------------------------------------------------------------------------------------------------------ receipt
 
 
-def receipt(settlement, readings, relations, premises: State | None = None, counts=None, senses=None) -> dict:
+def receipt(
+    settlement, readings, relations, premises: State | None = None, counts=None, senses=None, sense_scopes=None
+) -> dict:
     """Both layers of a settled round: joint and marginal H, the census by state, bank, part of speech and source
     family, and the frequency cohorts; with `premises`, each rule's leave-one-out reach on the known layer's scopes.
-    `senses`, when given, maps a layer name to (masks, pos, source, lemmas) of the senses read from that layer."""
+
+    `senses` is `senses.Senses.columns(readings)`: per-layer sense masks (`known`, `interpolated`) with each sense's
+    `lemma`, `pos`, `kind` and `source`. The senses get the same census (with their kind) and frequency cohorts, and,
+    with `sense_scopes` (layer name -> the guard scopes over the senses), their joint and marginal H."""
     relations = tuple(relations)
     pos = [r.pos for r in readings]
     source = [r.source for r in readings]
@@ -382,12 +388,16 @@ def receipt(settlement, readings, relations, premises: State | None = None, coun
             "census": census(state.masks, pos, source),
             "frequency": frequency_buckets(state.masks, lemmas, counts),
         }
-        if senses and name in senses:
-            s_masks, s_pos, s_source, s_lemmas = senses[name]
-            layers[name]["senses"] = {
-                "census": census(s_masks, s_pos, s_source),
-                "frequency": frequency_buckets(s_masks, s_lemmas, counts),
+        if senses is not None:
+            masks = np.asarray(senses[name], dtype=np.uint8)
+            entry = {
+                "census": census(masks, senses["pos"], senses["source"], senses.get("kind")),
+                "frequency": frequency_buckets(masks, senses["lemma"], counts),
             }
+            if sense_scopes is not None and name in sense_scopes:
+                sense_state = State(tuple(str(i) for i in range(masks.shape[0])), masks.copy())
+                entry["H"] = joint(sense_state, relations, sense_scopes[name])
+            layers[name]["senses"] = entry
     out = {"layers": layers}
     if premises is not None:
         out["rules"] = rule_reach(premises, relations, settlement.known_scopes)

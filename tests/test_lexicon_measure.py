@@ -158,3 +158,26 @@ def test_the_receipt_measures_both_layers_of_a_settlement():
     assert interpolated["H"]["marginal_bits"] < known["H"]["marginal_bits"]
     assert known["frequency"]["1-500"]["definitions"] == 1 and known["frequency"]["absent"]["definitions"] == 1
     assert out["rules"]["rules"] == []
+
+
+def test_the_receipt_measures_senses_given_as_columns():
+    readings = [Reading("wordnet:x:x.n.01", "x", "noun", ""), Reading("wiktionary:x:1", "x", "noun", "")]
+    s = State.opening([r.reading_id for r in readings])
+    settled = inh.settle(s, inh.build({}, []))
+    one = np.tile(cells.START, (1, 1))
+    one[0, B["GOOD"]] = POS
+    columns = {
+        "known": one,
+        "interpolated": one.copy(),
+        "lemma": np.array(["x"]),
+        "pos": np.array(["noun"]),
+        "kind": np.array(["sense"]),
+        "source": np.array(["wiktionary+wordnet"]),
+    }
+    scopes = {"known": {}, "interpolated": {}}
+    out = measure.receipt(settled, readings, [], counts={"x": 3}, senses=columns, sense_scopes=scopes)
+    sense = out["layers"]["known"]["senses"]
+    assert sense["census"]["by_source"]["wiktionary+wordnet"]["+1"] == 1
+    assert sense["census"]["by_kind"]["sense"]["rows"] == 1
+    assert sense["frequency"]["1-500"]["definitions"] == 1
+    assert sense["H"]["marginal_bits"] == State(("0",), one.copy()).bits()
