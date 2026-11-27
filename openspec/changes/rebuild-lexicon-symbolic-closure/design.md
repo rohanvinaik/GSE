@@ -181,6 +181,10 @@ information-theoretic principle, what it looks like running, its output in cells
   sourced near-miss as its witness, and it keeps the remaining lawful states. Zero is written when explicit absence
   is warranted. SILENT is marked when the definition is shown to be silent. A signed value always needs a positive
   root; a mask that elimination leaves at one sign without a root is reported as a missing content warrant.
+- **NSM silence.** An NSM explication is a complete reductive paraphrase of its sense. For the explicated sense, a
+  bank it can express but neither mentions nor reaches through its molecules is definitionally SILENT (F118, F140).
+  This applies only to a restricted or typed binding. Zero is never written this way. The 12 banks NSM cannot
+  express are left open, and silence never carries along kind-of.
 - **Principle.** DOF- in Negative Specification's three regions. Forbidding is real information, and a valuable
   censor is often a bridge.
 - **Running.** As E4 relations over their scopes.
