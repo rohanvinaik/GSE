@@ -1,12 +1,5 @@
 """The compatibility recognizer never infers authorship or consumes holdout in fit."""
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import hashlib
 import json
 import sqlite3
@@ -18,14 +11,14 @@ import pytest
 
 from GSE.api import GSEEncoder
 from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition, collect_evidence
-from GSE.curation.lexicon_builder.foundation import BANKS
-from GSE.curation.lexicon_builder.pipeline import build_dictionary
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-import rohan_voice  # noqa: E402
+rohan_voice = pytest.importorskip(
+    "rohan_voice",
+    reason="scripts/rohan_voice.py, the recognizer these tests exercise, was deleted with the old construction path "
+    "(task 0.2, 6c61ecc); the fixture is rebuilt on store.py (task 10.1)",
+)
 
 
 @pytest.fixture
@@ -38,9 +31,10 @@ def voice_dictionary(tmp_path, monkeypatch):
     path = tmp_path / "voice-definitions.db"
     grammar = GSEClosedClassParser()
     grammar.load()
-    build_dictionary(collect_evidence({"gse_closed_class": grammar}, ()), path)
-    conn = open_build(path)
-    try:
+    # The closed-class catalog as the build states it, plus controlled content definitions.
+    entries, records = store.closed_class_fixtures(grammar)
+    entries += [
+        store.FixtureEntry(f"fixture:voice:{lemma}", lemma, pos, definition, values)
         for lemma, pos, definition, values in (
             ("feel", "verb", "Experience a feeling.", {"FEEL": 1}),
             ("happy", "adj", "Feeling good.", {"FEEL": 1, "GOOD": 1}),
@@ -53,17 +47,9 @@ def voice_dictionary(tmp_path, monkeypatch):
                 "The animal definition in this controlled fixture.",
                 {"SOMETHING": 1, "ALIVE": 1, "GOOD": 0},
             ),
-        ):
-            entry_id = f"fixture:voice:{lemma}"
-            assertions = tuple(
-                Assertion(bank, value, "fixture", entry_id, "dictionary") for bank, value in values.items()
-            )
-            store_entry(
-                conn, Definition(entry_id, lemma, pos, definition), propagate(BANKS, assertions, ()), assertions
-            )
-        conn.commit()
-    finally:
-        conn.close()
+        )
+    ]
+    store.fixture(path, entries, records)
     monkeypatch.setenv("GSE_LEXICON", str(path))
     return path
 

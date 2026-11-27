@@ -11,19 +11,10 @@ Two faces of one operation, each tested at its own layer:
 * **encoder** — compute-and-override makes ``encode(un-X)`` == ``negate(X)``.
 """
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import pytest
 
 from GSE.api.encoder import GSEEncoder
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 from GSE.nlp.morphology import NEGATION, REVERSAL, resolve_negation
 from GSE.primitives_v2 import negate_decomposition
 
@@ -119,18 +110,13 @@ def test_known_lexical_surface_never_licenses_a_false_prefix(enc):
 def enc(tmp_path_factory):
     """Explicit mechanism fixtures; these partial definitions are not corpus gold."""
     path = tmp_path_factory.mktemp("negation") / "definitions.db"
-    connection = open_build(path)
-    for word, values in (("happy", {"FEEL": 1, "GOOD": 1}), ("kind", {"GOOD": 1, "SOMETHING": 0})):
-        entry_id = f"fixture:{word}"
-        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
-        store_entry(
-            connection,
-            Definition(entry_id, word, "adj", "Synthetic negation-mechanism fixture"),
-            propagate(("GOOD", "FEEL", "SOMETHING"), assertions, ()),
-            assertions,
-        )
-    connection.commit()
-    connection.close()
+    store.fixture(
+        path,
+        [
+            store.FixtureEntry(f"fixture:{word}", word, "adj", "Synthetic negation-mechanism fixture", values)
+            for word, values in (("happy", {"FEEL": 1, "GOOD": 1}), ("kind", {"GOOD": 1, "SOMETHING": 0}))
+        ],
+    )
     with GSEEncoder(str(path)) as encoder:
         yield encoder
 

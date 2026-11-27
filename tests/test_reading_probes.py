@@ -7,23 +7,13 @@ naming its issue, so the fix that lands it fails the xfail and the marker comes 
 are guards against over-correction: a name stays a name, a comparative keeps its stem.
 """
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import pytest
 
 from GSE.api import GSEEncoder
 from GSE.curation.external_sources.nrc_emotion import EmotionEntry, NRCEmotionParser
 from GSE.curation.external_sources.nrc_vad import NRCVADParser
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition, EvidenceBundle
-from GSE.curation.lexicon_builder.foundation import BANKS
-from GSE.curation.lexicon_builder.pipeline import build_dictionary
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
+from GSE.curation.lexicon_builder.cells import BANKS, START
 from GSE.symbolic import emit_contract, evaluate_tree, from_trace, resolve
 
 
@@ -62,29 +52,23 @@ def _row(encoder, entry_id):
     return {bank: value for bank, value in reading["selected"]["assignments"].items() if value}
 
 
-def _store_fixture(conn, entry_id, lemma, pos, values, banks=BANKS):
-    assertions = tuple(Assertion(bank, value, "fixture", entry_id, "dictionary") for bank, value in values.items())
-    store_entry(
-        conn,
-        Definition(entry_id, lemma, pos, "Explicit identity fixture"),
-        propagate(banks, assertions, ()),
-        assertions,
-    )
+def _fixture(entry_id, lemma, pos, values):
+    return store.FixtureEntry(entry_id, lemma, pos, "Explicit identity fixture", values)
 
 
 @pytest.fixture
 def word_encoder(tmp_path):
     """Declared signs exercise identity preservation; they are not dictionary gold."""
     path = tmp_path / "word-identities.db"
-    conn = open_build(path)
-    try:
-        _store_fixture(conn, "fixture:inside:spatial", "inside", "adj", {"OUTSIDE": -1})
-        _store_fixture(conn, "fixture:independent:adjective", "independent", "adj", {"CAN": 1})
-        _store_fixture(conn, "fixture:side", "side", "noun", {"SOMETHING": 1})
-        _store_fixture(conn, "fixture:dependent", "dependent", "adj", {"WANT": 1})
-        conn.commit()
-    finally:
-        conn.close()
+    store.fixture(
+        path,
+        [
+            _fixture("fixture:inside:spatial", "inside", "adj", {"OUTSIDE": -1}),
+            _fixture("fixture:independent:adjective", "independent", "adj", {"CAN": 1}),
+            _fixture("fixture:side", "side", "noun", {"SOMETHING": 1}),
+            _fixture("fixture:dependent", "dependent", "adj", {"WANT": 1}),
+        ],
+    )
     with GSEEncoder(path) as instance:
         yield instance
 
@@ -92,11 +76,15 @@ def word_encoder(tmp_path):
 @pytest.fixture
 def category_encoder(tmp_path):
     path = tmp_path / "noun-categories.db"
-    definitions = tuple(
-        Definition(f"fixture:noun:{word}", word, "noun", "Explicit noun-category fixture")
-        for word in ("rule", "elements", "case", "compassion")
+    # No evidence: each definition holds exactly what the authored laws give a noun.
+    store.fixture(
+        path,
+        [
+            store.FixtureEntry(f"fixture:noun:{word}", word, "noun", "Explicit noun-category fixture")
+            for word in ("rule", "elements", "case", "compassion")
+        ],
+        closed=True,
     )
-    build_dictionary(EvidenceBundle(definitions, (), (), ()), path)
     with GSEEncoder(path) as instance:
         yield instance
 
@@ -271,7 +259,7 @@ def test_a_word_keeps_its_own_row(word_encoder, sentence, surface, entry_id):
 
     # A noun homograph cannot be unioned into the adjective or selected first.
     other = f"fixture:{surface}:noun"
-    _store_fixture(word_encoder.conn, other, surface, "noun", {"SOMETHING": 1, "ALIVE": 1})
+    store.add_fixtures(word_encoder.conn, [_fixture(other, surface, "noun", {"SOMETHING": 1, "ALIVE": 1})])
     word_encoder.conn.commit()
     ambiguous = _token(word_encoder, sentence, surface)
     assert ambiguous.lemma == surface
@@ -284,17 +272,16 @@ def test_a_word_keeps_its_own_row(word_encoder, sentence, surface, entry_id):
 
 def test_an_unknown_word_and_a_designed_zero_are_told_apart(tmp_path):
     path = tmp_path / "explicit-zero.db"
-    conn = open_build(path)
-    banks = ("GOOD", "FEEL", "HAPPEN")
-    try:
-        # This small fixture basis has three explicitly supplied zeros. No
-        # missing coordinate or real grammatical word is declared zero.
-        _store_fixture(conn, "fixture:zero", "zerofixture", "noun", {"GOOD": 0, "FEEL": 0, "HAPPEN": 0}, banks)
-        _store_fixture(conn, "fixture:partial", "partialfixture", "noun", {}, banks)
-        _store_fixture(conn, "fixture:fall", "fall", "verb", {"HAPPEN": 1}, banks)
-        conn.commit()
-    finally:
-        conn.close()
+    # The designed zero supplies an explicit zero on every bank. No missing coordinate or real grammatical word is
+    # declared zero: the partial fixture keeps every bank at its starting domain.
+    store.fixture(
+        path,
+        [
+            _fixture("fixture:zero", "zerofixture", "noun", dict.fromkeys(BANKS, 0)),
+            _fixture("fixture:partial", "partialfixture", "noun", {}),
+            _fixture("fixture:fall", "fall", "verb", {"HAPPEN": 1}),
+        ],
+    )
     with GSEEncoder(path) as instance:
         tokens = {token.token: token for token in instance.encode("Zerofixture partialfixture xqzzt fell.").tokens}
     assert tokens["xqzzt"].lexicon_status == "unknown"
@@ -304,14 +291,20 @@ def test_an_unknown_word_and_a_designed_zero_are_told_apart(tmp_path):
     zero = tokens["Zerofixture"]
     assert zero.lexicon_status == "found"
     assert zero.lexical_evidence["state"] == "no_primes"
-    assert zero.lexical_evidence["domains"] == {bank: [0] for bank in banks}
+    assert zero.lexical_evidence["domains"] == {bank: [0] for bank in BANKS}
     partial = tokens["partialfixture"]
     assert partial.lexical_evidence["selection_status"] == "IDENTIFIED"
     assert partial.lexicon_status == "unread"
     assert partial.lexical_evidence["state"] == "unread"
-    assert partial.lexical_evidence["domains"] == {bank: [-1, 0, 1] for bank in banks}
+    assert partial.lexical_evidence["domains"] == {bank: store.signs(int(m)) for bank, m in zip(BANKS, START)}
 
 
+@pytest.mark.xfail(
+    strict=True,
+    reason="no noun GOOD-0 law (the lead's ruling C, 2026-11-27): F057 ('Can a noun have a sentiment weight to it? Of "
+    "course not.') against ruling (c) of 2026-11-25 05:30 (feeling nouns carry their valence) would need a negated "
+    "guard, and Rohan called an earlier mass-zero rule slop (2026-11-25 17:56); his decision",
+)
 @pytest.mark.parametrize("lemma", ["rule", "elements", "case"])
 def test_a_neutral_word_carries_no_valence(category_encoder, tmp_path, lemma):
     # #51: native v2 zero is the scale center, not negative v1 valence.
@@ -331,6 +324,12 @@ def test_a_neutral_word_carries_no_valence(category_encoder, tmp_path, lemma):
     assert "GOOD" not in _row(category_encoder, f"fixture:noun:{lemma}")
 
 
+@pytest.mark.xfail(
+    strict=True,
+    reason="no noun GOOD-0 law (the lead's ruling C, 2026-11-27): F057 ('Can a noun have a sentiment weight to it? Of "
+    "course not.') against ruling (c) of 2026-11-25 05:30 (feeling nouns carry their valence) would need a negated "
+    "guard, and Rohan called an earlier mass-zero rule slop (2026-11-25 17:56); his decision",
+)
 def test_compassion_is_not_negative(category_encoder):
     # #52: keep opposing affect associations, independent of insertion order.
     parser = NRCEmotionParser()

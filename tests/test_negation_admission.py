@@ -1,19 +1,10 @@
 """Recognition cannot silently replace incompatible selected lexical evidence."""
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import pytest
 
 from GSE.api import GSEEncoder
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition
-from GSE.curation.lexicon_builder.foundation import BANKS
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
+from GSE.curation.lexicon_builder.cells import BANKS
 from GSE.nlp.morphology import NEGATION, negation_admission
 from GSE.primitives_v2 import negate_decomposition
 
@@ -128,7 +119,6 @@ def test_real_encoder_keeps_canonical_and_productive_compositions(encoder):
 def encoder(tmp_path):
     """Partial synthetic mechanism fixtures, not a semantic evaluation lexicon."""
     path = tmp_path / "definitions.db"
-    connection = open_build(path)
     records = (
         ("like", "verb", {"FEEL": 1, "GOOD": 1}),
         ("dislike", "verb", {"FEEL": 1, "GOOD": -1}),
@@ -138,17 +128,13 @@ def encoder(tmp_path):
         ("kind", "adj", {"GOOD": 1, "SOMETHING": 0}),
         ("loyal", "adj", {"GOOD": 1}),
     )
-    for word, pos, values in records:
-        entry_id = f"fixture:{word}"
-        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
-        store_entry(
-            connection,
-            Definition(entry_id, word, pos, "Synthetic admission-mechanism fixture"),
-            propagate(BANKS, assertions, ()),
-            assertions,
-        )
-    connection.commit()
-    connection.close()
+    store.fixture(
+        path,
+        [
+            store.FixtureEntry(f"fixture:{word}", word, pos, "Synthetic admission-mechanism fixture", values)
+            for word, pos, values in records
+        ],
+    )
     with GSEEncoder(str(path)) as instance:
         yield instance
 
@@ -158,23 +144,16 @@ def encoder(tmp_path):
 def test_multiple_definitions_never_supply_first_row_negation(tmp_path, complete, equal_geometry):
     """Even fully specified identical synthetic vectors cannot identify a definition."""
     path = tmp_path / "ambiguous.db"
-    connection = open_build(path)
+    entries = []
     for index in range(2):
-        entry_id = f"fixture:kind:{index}"
         values = dict.fromkeys(BANKS, 0) if complete else {}
         # Explicit synthetic coordinates test identity, not word-meaning claims.
         values["GOOD"] = 1 if equal_geometry or index == 0 else -1
-        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
-        resolution = propagate(BANKS, assertions, ())
-        assert resolution.code == ("RESOLVED" if complete else "PARTIAL")
-        store_entry(
-            connection,
-            Definition(entry_id, "kind", "adj", f"Distinct fixture definition {index}"),
-            resolution,
-            assertions,
+        assert store.code(store.fixture_masks(values)) == ("RESOLVED" if complete else "PARTIAL")
+        entries.append(
+            store.FixtureEntry(f"fixture:kind:{index}", "kind", "adj", f"Distinct fixture definition {index}", values)
         )
-    connection.commit()
-    connection.close()
+    store.fixture(path, entries)
     with GSEEncoder(str(path)) as instance:
         evidence = instance.lexical_lookup("kind")
         assert evidence["selection_status"] == "AMBIGUOUS"

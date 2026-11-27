@@ -1,0 +1,724 @@
+{
+ "format": "GSE.rebuild-artifact/1",
+ "artifact": "data/lexicon_builder/rebuild/lexicon-2026-11-27-published.db",
+ "bytes": 1632223232,
+ "written": {
+  "lexemes": 401596,
+  "source_observations": 155353,
+  "word_senses": 100812,
+  "sense_residuals": 169,
+  "codes": {
+   "PARTIAL": 401466,
+   "RESOLVED": 130
+  },
+  "primitive_values": {
+   "interpolated": 209924,
+   "known": 1269787
+  },
+  "cell_warrants": {
+   "interpolated": 210745,
+   "known": 1275414
+  }
+ },
+ "native_records_accepted_by_the_runtime": {
+  "gse_closed_class": {
+   "ACCEPTED": 213
+  },
+  "nsm_chart": {
+   "ACCEPTED": 29
+  },
+  "wordnet_hierarchy": {
+   "ACCEPTED": 114316,
+   "LEMMA_IS_NOT_A_LEMMA_NAME_OF_THE_SYNSET": 40795
+  }
+ },
+ "seconds_to_write": 67.5,
+ "acceptance": {
+  "florbles": {
+   "text": "The florbles are bigger than the blobbles.",
+   "tokens": [
+    {
+     "token": "The",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "florbles",
+     "lemma": "florble",
+     "pos": "NOUN",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    },
+    {
+     "token": "are",
+     "lemma": "be",
+     "pos": "AUX",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "bigger",
+     "lemma": "big",
+     "pos": "ADJ",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 51,
+     "primitives": {
+      "BIG": 1,
+      "INTENSITY": 1
+     }
+    },
+    {
+     "token": "than",
+     "lemma": "than",
+     "pos": "ADP",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 7,
+     "primitives": {}
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "blobbles",
+     "lemma": "blobble",
+     "pos": "NOUN",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  },
+  "lock_noun": {
+   "text": "She turned the key in the lock.",
+   "tokens": [
+    {
+     "token": "She",
+     "lemma": "she",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "turned",
+     "lemma": "turn",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 96,
+     "primitives": {
+      "CAUSE": 1,
+      "DO": 1,
+      "EXIST": 1,
+      "HAPPEN": 1,
+      "HAVE": 1,
+      "MOVE": 1,
+      "START": -1,
+      "TOUCH": 1
+     }
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "key",
+     "lemma": "key",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 81,
+     "primitives": {}
+    },
+    {
+     "token": "in",
+     "lemma": "in",
+     "pos": "ADP",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "lock",
+     "lemma": "lock",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 44,
+     "primitives": {}
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  },
+  "lock_verb": {
+   "text": "They lock the door at night.",
+   "tokens": [
+    {
+     "token": "They",
+     "lemma": "they",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "lock",
+     "lemma": "lock",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 44,
+     "primitives": {
+      "CAUSE": 1,
+      "DO": 1,
+      "EXIST": 1,
+      "MOVE": 1,
+      "TOUCH": 1
+     }
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "door",
+     "lemma": "door",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 15,
+     "primitives": {}
+    },
+    {
+     "token": "at",
+     "lemma": "at",
+     "pos": "ADP",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "night",
+     "lemma": "night",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 21,
+     "primitives": {}
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  },
+  "he_pronoun": {
+   "text": "He went home after work.",
+   "tokens": [
+    {
+     "token": "He",
+     "lemma": "he",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "went",
+     "lemma": "go",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 126,
+     "primitives": {
+      "CAUSE": 1,
+      "DO": 1,
+      "EXIST": 1,
+      "HAPPEN": 1,
+      "HAVE": 1,
+      "MOVE": 1,
+      "SEE": 1,
+      "START": 1
+     }
+    },
+    {
+     "token": "home",
+     "lemma": "home",
+     "pos": "ADV",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 51,
+     "primitives": {}
+    },
+    {
+     "token": "after",
+     "lemma": "after",
+     "pos": "SCONJ",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "BEFORE": -1
+     }
+    },
+    {
+     "token": "work",
+     "lemma": "work",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 84,
+     "primitives": {}
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  },
+  "he_chemical": {
+   "text": "He is a noble gas with the atomic number two.",
+   "tokens": [
+    {
+     "token": "He",
+     "lemma": "he",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "is",
+     "lemma": "be",
+     "pos": "AUX",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "a",
+     "lemma": "a",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "noble",
+     "lemma": "noble",
+     "pos": "ADJ",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 23,
+     "primitives": {}
+    },
+    {
+     "token": "gas",
+     "lemma": "gas",
+     "pos": "NOUN",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 41,
+     "primitives": {
+      "PART": 1
+     }
+    },
+    {
+     "token": "with",
+     "lemma": "with",
+     "pos": "ADP",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "atomic",
+     "lemma": "atomic",
+     "pos": "ADJ",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 13,
+     "primitives": {}
+    },
+    {
+     "token": "number",
+     "lemma": "number",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 44,
+     "primitives": {}
+    },
+    {
+     "token": "two",
+     "lemma": "two",
+     "pos": "NOUN",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 12,
+     "primitives": {
+      "PART": 1
+     }
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  },
+  "prose": {
+   "text": "The old farmer walked to the market because he wanted to sell his apples before the rain began.",
+   "tokens": [
+    {
+     "token": "The",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "old",
+     "lemma": "old",
+     "pos": "ADJ",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 35,
+     "primitives": {}
+    },
+    {
+     "token": "farmer",
+     "lemma": "farmer",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 16,
+     "primitives": {}
+    },
+    {
+     "token": "walked",
+     "lemma": "walk",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 56,
+     "primitives": {
+      "MOVE": 1
+     }
+    },
+    {
+     "token": "to",
+     "lemma": "to",
+     "pos": "ADP",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "market",
+     "lemma": "market",
+     "pos": "NOUN",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 23,
+     "primitives": {
+      "PEOPLE": 1
+     }
+    },
+    {
+     "token": "because",
+     "lemma": "because",
+     "pos": "SCONJ",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "BECAUSE": 1
+     }
+    },
+    {
+     "token": "he",
+     "lemma": "he",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "wanted",
+     "lemma": "want",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 28,
+     "primitives": {
+      "INTENSITY": 1,
+      "WANT": 1
+     }
+    },
+    {
+     "token": "to",
+     "lemma": "to",
+     "pos": "PART",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "sell",
+     "lemma": "sell",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 25,
+     "primitives": {
+      "CAUSE": 1,
+      "DO": 1,
+      "HAVE": 1,
+      "MOVE": 1
+     }
+    },
+    {
+     "token": "his",
+     "lemma": "his",
+     "pos": "PRON",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "SOMEONE": 1
+     }
+    },
+    {
+     "token": "apples",
+     "lemma": "apple",
+     "pos": "NOUN",
+     "lexicon_status": "unread",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 30,
+     "primitives": {}
+    },
+    {
+     "token": "before",
+     "lemma": "before",
+     "pos": "SCONJ",
+     "lexicon_status": "found",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {
+      "BEFORE": 1
+     }
+    },
+    {
+     "token": "the",
+     "lemma": "the",
+     "pos": "DET",
+     "lexicon_status": "unread",
+     "selection": "IDENTIFIED",
+     "selected": null,
+     "candidates": 1,
+     "primitives": {}
+    },
+    {
+     "token": "rain",
+     "lemma": "rain",
+     "pos": "NOUN",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 12,
+     "primitives": {
+      "PART": 1
+     }
+    },
+    {
+     "token": "began",
+     "lemma": "begin",
+     "pos": "VERB",
+     "lexicon_status": "found",
+     "selection": "WORD_SENSES",
+     "selected": null,
+     "candidates": 14,
+     "primitives": {
+      "START": 1
+     }
+    },
+    {
+     "token": ".",
+     "lemma": ".",
+     "pos": "PUNCT",
+     "lexicon_status": "unknown",
+     "selection": "NOT_FOUND",
+     "selected": null,
+     "candidates": 0,
+     "primitives": {}
+    }
+   ]
+  }
+ },
+ "active_pointer_touched": false
+}

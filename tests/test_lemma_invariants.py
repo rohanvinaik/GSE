@@ -20,46 +20,31 @@ These tests assert that:
    floor defines lexical identity.
 """
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import numpy as np
 import pytest
 
 from GSE.api import GSEEncoder
 from GSE.curation.external_sources.gse_closed_class import grammatical_entry_ids
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 
 
 @pytest.fixture(scope="module")
 def encoder(tmp_path_factory):
     # Synthetic nonempty coordinates test the mechanism, not lexical gold.
     path = tmp_path_factory.mktemp("lemma-geometry") / "fixture.db"
-    conn = open_build(path)
     entries = [
         (f"fixture:{word}", word, bank)
         for word, bank in (("run", "DO"), ("be", "SOMETHING"), ("big", "BIG"), ("know", "KNOW"), ("see", "SEE"))
     ]
     for form in ("be", "am", "was", "is", "were", "are"):
         entries.extend((entry, form, "SOMETHING") for entry in grammatical_entry_ids(form, "AUX"))
-    try:
-        for entry, word, bank in entries:
-            assertions = (Assertion(bank, 1, "fixture", entry, "dictionary"),)
-            store_entry(
-                conn,
-                Definition(entry, word, "v", "synthetic geometry fixture"),
-                propagate((bank,), assertions, ()),
-                assertions,
-            )
-        conn.commit()
-    finally:
-        conn.close()
+    store.fixture(
+        path,
+        [
+            store.FixtureEntry(entry, word, "v", "synthetic geometry fixture", {bank: 1})
+            for entry, word, bank in entries
+        ],
+    )
     with GSEEncoder(path) as result:
         yield result
 

@@ -1,22 +1,16 @@
 """Grounding must keep candidate identity, competing evidence and open banks."""
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 from dataclasses import replace
 
 import pytest
 from nltk.corpus import wordnet as wn
 
 from GSE.api.encoder import GSEEncoder
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition, Observation
-from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
+from GSE.curation.lexicon_builder import store
+from GSE.curation.lexicon_builder.cells import START
 from GSE.symbolic.lexical_grounding import LexicalGrounding, _unique_native_witness
+
+OPEN = store.domains(START)  # every bank's starting domain, as the runtime reads it
 
 
 @pytest.fixture(scope="module")
@@ -37,23 +31,22 @@ def encoder(tmp_path_factory):
         "nonbeing",
         "nonexistence",
     )
-    conn = open_build(path)
-    try:
-        for word in lexemes:
-            for sense in wn.synsets(word, pos=wn.NOUN):
-                if word not in sense.lemma_names():
-                    continue
-                entry_id = f"wordnet:{word}:{sense.name()}"
-                gloss = sense.definition()
-                definition = Definition(entry_id, word, "noun", gloss)
-                assertions = (Assertion("GOOD", 0, "fixture", entry_id, "dictionary"),)
-                store_entry(conn, definition, propagate(("BE", "DO", "GOOD"), assertions, ()), assertions)
-                observation = Observation(
-                    entry_id,
-                    "wordnet_hierarchy",
-                    entry_id,
-                    "wordnet",
-                    {
+    entries, observations = [], []
+    for word in lexemes:
+        for sense in wn.synsets(word, pos=wn.NOUN):
+            if word not in sense.lemma_names():
+                continue
+            entry_id = f"wordnet:{word}:{sense.name()}"
+            gloss = sense.definition()
+            entries.append(store.FixtureEntry(entry_id, word, "noun", gloss, {"GOOD": 0}))
+            observations.append(
+                {
+                    "record_id": entry_id,
+                    "entry_id": entry_id,
+                    "source": "wordnet_hierarchy",
+                    "family": "wordnet",
+                    "scope": "lexical",
+                    "features": {
                         "lemma": word,
                         "pos": "noun",
                         "definition": gloss,
@@ -62,17 +55,13 @@ def encoder(tmp_path_factory):
                         "hypernym_paths": [[node.name() for node in thread] for thread in sense.hypernym_paths()],
                         "examples": sense.examples(),
                     },
-                    "lexical",
-                )
-                store_observations(conn, (observation,))
-        # Buying has a single exact WordNet noun and still needs contextual evidence
-        # to distinguish it from records elsewhere in the lexical snapshot.
-        for word in ("buying", "sleeping", "anger", "nonbeing", "nonexistence"):
-            alternative = Definition(f"fixture:{word}:other", word, "noun", "an alternative record")
-            store_entry(conn, alternative, propagate(("BE", "DO", "GOOD"), (), ()))
-        conn.commit()
-    finally:
-        conn.close()
+                }
+            )
+    # Buying has a single exact WordNet noun and still needs contextual evidence
+    # to distinguish it from records elsewhere in the lexical snapshot.
+    for word in ("buying", "sleeping", "anger", "nonbeing", "nonexistence"):
+        entries.append(store.FixtureEntry(f"fixture:{word}:other", word, "noun", "an alternative record"))
+    store.fixture(path, entries, observations)
     with GSEEncoder(path) as instance:
         instance.conn.execute("PRAGMA query_only=ON")
         yield instance
@@ -136,10 +125,10 @@ def test_contextual_grounding_through_encoder(encoder, sentence, token, entry):
     selected = actual.lexical_evidence.get("selected_record") or {}
     assert selected.get("entry_id") == entry
     if token == "buying":
-        assert selected["domains"]["DO"] == [-1, 0, 1]
+        assert selected["domains"]["DO"] == OPEN["DO"]  # still open: an unpaired bank starts at 0 or +1 (F040)
         assert "DO" not in actual.word_primitives
     if entry is not None:
-        assert selected["domains"]["BE"] == [-1, 0, 1]
+        assert selected["domains"]["BE"] == OPEN["BE"]
         assert "BE" not in actual.word_primitives
 
 

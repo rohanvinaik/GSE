@@ -1,12 +1,6 @@
 """Voice consumes stored grammatical readings without resolving content homographs."""
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -14,14 +8,14 @@ import pytest
 
 from GSE.api import GSEEncoder
 from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition, collect_evidence
-from GSE.curation.lexicon_builder.foundation import BANKS
-from GSE.curation.lexicon_builder.pipeline import build_dictionary
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-import rohan_voice  # noqa: E402
+rohan_voice = pytest.importorskip(
+    "rohan_voice",
+    reason="scripts/rohan_voice.py, the recognizer these tests exercise, was deleted with the old construction path "
+    "(task 0.2, 6c61ecc); the fixture is rebuilt on store.py (task 10.1)",
+)
 
 
 @pytest.fixture
@@ -29,9 +23,10 @@ def dictionary(tmp_path, monkeypatch):
     path = tmp_path / "definitions.db"
     parser = GSEClosedClassParser()
     parser.load()
-    build_dictionary(collect_evidence({"gse_closed_class": parser}, ()), path)
-    connection = open_build(path)
-    try:
+    # The closed-class catalog as the build states it, plus controlled content definitions.
+    entries, records = store.closed_class_fixtures(parser)
+    entries += [
+        store.FixtureEntry(entry_id, lemma, pos, entry_id, values)
         for entry_id, lemma, pos, values in (
             ("fixture:can:container", "can", "noun", {"SOMETHING": 1}),
             ("fixture:help", "help", "verb", {"DO": 1, "GOOD": 0}),
@@ -39,19 +34,9 @@ def dictionary(tmp_path, monkeypatch):
             ("fixture:happy:one", "happy", "adj", {"GOOD": 1}),
             ("fixture:happy:two", "happy", "adj", {"FEEL": 1}),
             ("fixture:unresolved", "unresolved", "adj", {}),
-        ):
-            assertions = tuple(
-                Assertion(bank, value, "fixture", entry_id, "dictionary") for bank, value in values.items()
-            )
-            store_entry(
-                connection,
-                Definition(entry_id, lemma, pos, entry_id),
-                propagate(BANKS, assertions, ()),
-                assertions,
-            )
-        connection.commit()
-    finally:
-        connection.close()
+        )
+    ]
+    store.fixture(path, entries, records)
     monkeypatch.setenv("GSE_LEXICON", str(path))
     return path
 
@@ -95,7 +80,7 @@ def test_ambiguous_unresolved_or_absent_content_stays_unread(dictionary, word):
 
 
 def test_missing_required_modal_returns_named_unread(dictionary):
-    connection = open_build(dictionary)
+    connection = sqlite3.connect(dictionary)
     try:
         connection.execute("DELETE FROM definition_states WHERE entry_id=?", ("gse_closed_class:modal:can",))
         connection.commit()
@@ -113,5 +98,5 @@ def test_feature_identity_versions_the_selection_change(dictionary):
     assert identity["features"] == "GSE.rohan-voice-features/3"
     assert "public encoder token lexical evidence" in identity["tokens"]
     paths = {Path(record["path"]).name for record in identity["code"]}
-    assert {"encoder.py", "gse_closed_class.py", "storage.py", "lexicon_resource.py"} <= paths
+    assert {"encoder.py", "gse_closed_class.py", "store.py", "lexicon_resource.py"} <= paths  # the artifact writer
     assert all(record["state"] == "read" for record in identity["code"])

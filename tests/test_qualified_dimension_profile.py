@@ -1,12 +1,5 @@
 """Conditional meaning consequences preserve, rather than guess, identities."""
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import json
 
 import pytest
@@ -14,76 +7,61 @@ from nltk.corpus import wordnet as wn
 
 from GSE.api import GSEEncoder
 from GSE.api.trace import OperationTrace
-from GSE.curation.lexicon_builder import catalog
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition, Observation
-from GSE.curation.lexicon_builder.storage import open_build, store_entry, store_observations
+from GSE.curation.external_sources import nsm_chart_data as catalog
+from GSE.curation.lexicon_builder import store
 from GSE.discourse.profile import text_profile
 
 
 @pytest.fixture(scope="module")
 def encoder(tmp_path_factory):
     path = tmp_path_factory.mktemp("qualified-profile") / "native.db"
-    conn = open_build(path)
     signed = {"good.a.03": 1, "good.s.05": 1, "bad.s.10": -1}
+    entries, observations = [], []
     for word, pos, native_pos in (("good", wn.ADJ, "adj"), ("bad", wn.ADJ, "adj"), ("morally", wn.ADV, "adv")):
         for sense in wn.synsets(word, pos=pos):
             if word not in sense.lemma_names():
                 continue
             entry_id = f"wordnet:{word}:{sense.name()}"
-            assertions = (
-                (Assertion("GOOD", signed[sense.name()], "fixture", entry_id, "dictionary"),)
-                if sense.name() in signed
-                else ()
-            )
-            definition = Definition(entry_id, word, native_pos, sense.definition())
-            store_entry(conn, definition, propagate(("GOOD", "BE", "DO"), assertions, ()), assertions)
-            store_observations(
-                conn,
-                (
-                    Observation(
-                        entry_id,
-                        "wordnet_hierarchy",
-                        entry_id,
-                        "wordnet",
-                        {
-                            "lemma": word,
-                            "pos": native_pos,
-                            "definition": sense.definition(),
-                            "synset_name": sense.name(),
-                            "lemma_names": sense.lemma_names(),
-                            "hypernym_paths": [[n.name() for n in thread] for thread in sense.hypernym_paths()],
-                            "examples": sense.examples(),
-                        },
-                        "lexical",
-                    ),
-                ),
+            values = {"GOOD": signed[sense.name()]} if sense.name() in signed else {}
+            entries.append(store.FixtureEntry(entry_id, word, native_pos, sense.definition(), values))
+            observations.append(
+                {
+                    "record_id": entry_id,
+                    "entry_id": entry_id,
+                    "source": "wordnet_hierarchy",
+                    "family": "wordnet",
+                    "scope": "lexical",
+                    "features": {
+                        "lemma": word,
+                        "pos": native_pos,
+                        "definition": sense.definition(),
+                        "synset_name": sense.name(),
+                        "lemma_names": sense.lemma_names(),
+                        "hypernym_paths": [[n.name() for n in thread] for thread in sense.hypernym_paths()],
+                        "examples": sense.examples(),
+                    },
+                }
             )
     for record in catalog.chart_definition_records():
         if record["entry_id"] not in {"nsm_chart:v20:good", "nsm_chart:v20:bad"}:
             continue
         sign = 1 if record["entry_id"].endswith(":good") else -1
-        assertion = Assertion("GOOD", sign, "fixture", record["entry_id"], "dictionary")
-        definition = Definition(record["entry_id"], record["lemma"], record["pos"], record["definition"])
-        store_entry(conn, definition, propagate(("GOOD", "BE", "DO"), (assertion,), ()), (assertion,))
-        store_observations(
-            conn,
-            (
-                Observation(
-                    record["entry_id"],
-                    "nsm_chart",
-                    record["entry_id"],
-                    "nsm_primary_chart",
-                    json.loads(json.dumps(record)),
-                    "source_structure",
-                ),
-            ),
+        entries.append(
+            store.FixtureEntry(record["entry_id"], record["lemma"], record["pos"], record["definition"], {"GOOD": sign})
+        )
+        observations.append(
+            {
+                "record_id": record["entry_id"],
+                "entry_id": record["entry_id"],
+                "source": "nsm_chart",
+                "family": "nsm_primary_chart",
+                "scope": "source_structure",
+                "features": json.loads(json.dumps(record)),
+            }
         )
     # Explicitly preserve a qualifier rival which is NOT the licensed domain.
-    definition = Definition("fixture:morally:practically", "morally", "adv", "practically")
-    store_entry(conn, definition, propagate(("GOOD", "BE", "DO"), (), ()))
-    conn.commit()
-    conn.close()
+    entries.append(store.FixtureEntry("fixture:morally:practically", "morally", "adv", "practically"))
+    store.fixture(path, entries, observations)
     with GSEEncoder(path) as enc:
         enc.conn.execute("PRAGMA query_only=ON")
         yield enc

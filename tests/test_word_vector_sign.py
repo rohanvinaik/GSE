@@ -6,21 +6,12 @@ The lexicon writes a negative two ways, as its own surface pole ({BAD: 1}) or as
 drops the sign.
 """
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import numpy as np
 import pytest
 
 from GSE.api import GSEEncoder
 from GSE.api.errors import PrimitiveError
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 from GSE.primitives_v2 import BIPOLAR_PRIMITIVES, SemanticBank, get_canonical_pole
 from GSE.vectors_v2 import bundle, encode_hierarchy
 
@@ -33,25 +24,19 @@ LEVELS = [{}, {"HIER_PLUS": 1}, {"HIER_PLUS": 2}, {"HIER_MINUS": 1}, {"HIER_MINU
 def encoder(tmp_path_factory):
     """Synthetic sign-mechanism fixtures, not semantic gold or corpus coverage."""
     path = tmp_path_factory.mktemp("word-sign") / "definitions.db"
-    connection = open_build(path)
     records = [(word, "adj", {"GOOD": sign}, {}) for pair in ANTONYMS for word, sign in zip(pair, (-1, 1))]
     records += [
         ("bad", "adj", {"GOOD": -1}, {}),
         ("very", "adv", {"INTENSITY": 1}, {"INTENSITY": 1}),
         ("extremely", "adv", {"INTENSITY": 1}, {"INTENSITY": 2}),
     ]
-    for word, pos, values, hierarchy in records:
-        entry_id = f"fixture:{word}"
-        assertions = tuple(Assertion(bank, value, "fixture", entry_id, "mechanism") for bank, value in values.items())
-        store_entry(
-            connection,
-            Definition(entry_id, word, pos, "Synthetic sign-mechanism fixture"),
-            propagate(("GOOD", "INTENSITY"), assertions, ()),
-            assertions,
-            hierarchy,
-        )
-    connection.commit()
-    connection.close()
+    store.fixture(
+        path,
+        [
+            store.FixtureEntry(f"fixture:{word}", word, pos, "Synthetic sign-mechanism fixture", values, hierarchy)
+            for word, pos, values, hierarchy in records
+        ],
+    )
     with GSEEncoder(str(path)) as enc:
         yield enc
 

@@ -6,49 +6,32 @@ per-proof so test output identifies the specific architectural claim
 that broke.
 """
 
-import pytest  # noqa: E402
-
-pytest.importorskip(
-    "GSE.curation.lexicon_builder.storage",
-    reason="fixture lexicons await the rebuilt artifact writer (rebuild-lexicon-symbolic-closure task 10.1)",
-)
-
 import pytest
 
 from GSE.api import GSEEncoder
-from GSE.curation.lexicon_builder.engine import Assertion, propagate
-from GSE.curation.lexicon_builder.evidence import Definition
-from GSE.curation.lexicon_builder.storage import open_build, store_entry
+from GSE.curation.lexicon_builder import store
 from GSE.verification import symbolic_proof_suite as proofs
 from GSE.verification.symbolic_proof_suite import PROOFS, run_all
 
 
 def geometry_dictionary(path, *, mode="selected"):
     """Synthetic coordinates isolate proof mechanics; these are not lexical gold."""
-    conn = open_build(path)
-    try:
-        for word, bank, value in (("big", "BIG", 1), ("small", "BIG", -1), ("love", "GOOD", 1), ("hate", "GOOD", 1)):
-            if mode == "absent" and word == "big":
-                continue
-            if mode == "zero" and word == "big":
-                value = 0
-            if mode == "non_evaluation" and word == "big":
-                bank = "FEEL"
-            if mode == "counterexample" and word == "small":
-                value = 1
-            values = {} if mode == "unknown" and word == "big" else {bank: value}
-            for suffix in ("one", "two") if mode == "ambiguous" and word == "big" else ("one",):
-                entry = f"fixture:{word}:{suffix}"
-                assertions = tuple(Assertion(key, val, "fixture", entry, "dictionary") for key, val in values.items())
-                store_entry(
-                    conn,
-                    Definition(entry, word, "a", "synthetic geometry fixture"),
-                    propagate((bank,), assertions, ()),
-                    assertions,
-                )
-        conn.commit()
-    finally:
-        conn.close()
+    entries = []
+    for word, bank, value in (("big", "BIG", 1), ("small", "BIG", -1), ("love", "GOOD", 1), ("hate", "GOOD", 1)):
+        if mode == "absent" and word == "big":
+            continue
+        if mode == "zero" and word == "big":
+            value = 0
+        if mode == "non_evaluation" and word == "big":
+            bank = "FEEL"
+        if mode == "counterexample" and word == "small":
+            value = 1
+        values = {} if mode == "unknown" and word == "big" else {bank: value}
+        for suffix in ("one", "two") if mode == "ambiguous" and word == "big" else ("one",):
+            entries.append(
+                store.FixtureEntry(f"fixture:{word}:{suffix}", word, "a", "synthetic geometry fixture", values)
+            )
+    store.fixture(path, entries)
     return path
 
 
