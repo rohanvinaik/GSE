@@ -246,20 +246,52 @@ class Settlement:
         """The same settlement with the cells of `conflicts` (stated against derived) removed from the postings."""
         return _build(self.readings, self.informative, self.excluded + tuple(conflicts), self.uninformative)
 
+    @staticmethod
+    def located(reading: str, bank: str, allowed: int, family: str, root: str, layer: str) -> Observation:
+        """A word-level obligation located on one reading in the KNOWN layer, as a stated observation of its source.
+
+        The lead's ruling (2026-11-27): an obligation located in the known layer is the source's own statement,
+        placed on a reading by strict structure (a word-level fact plus known exclusions of every other reading).
+        TrialLedger: "Known is ... a strict conclusion from known premises". So it is a stated observation of its
+        SOURCE FAMILY: it can confirm under the family rule, expose and contradict. Its root is the source record the
+        obligation rests on. An obligation located only in the interpolated layer, through an aligned class, counts
+        for nothing, so any other `layer` is refused.
+        """
+        if layer != "known":
+            raise ValueError(f"LOCATED_OUTSIDE_THE_KNOWN_LAYER {layer}")
+        return Observation(reading, bank, allowed, family, root)
+
+    @staticmethod
+    def located_groups(batch, located_rows, located_by, readings, source, layer: str) -> list[Observation]:
+        """Every obligation of every located group, on each reading the group is located on, as `located`.
+
+        `batch` is the `obligations.Batch` the known layer forced; `located_rows` and `located_by` are a known-layer
+        `obligations.Forcing`'s (one obligation of the group per located reading). `source(i)` gives obligation i's
+        `(family, root)`: the dataset that stated it and the record it rests on, which the batch does not carry.
+        """
+        out = []
+        for row, by in zip(np.asarray(located_rows).tolist(), np.asarray(located_by).tolist()):
+            for i in np.flatnonzero(batch.group == batch.group[by]).tolist():
+                family, root = source(i)
+                bank = BANKS[int(batch.cols[i])]
+                out.append(Settlement.located(readings[row], bank, int(batch.allowed[i]), family, root, layer))
+        return out
+
     def generalizing(self) -> Settlement:
         """The settlement of the observations that may generalize, to close into the state near-misses read."""
         kept = tuple(o for o in self.informative if o.generalizes)
         return _build(self.readings, kept, self.excluded, self.uninformative)
 
-    def knowing(self, state: State, general: State | None = None) -> Settlement:
+    def knowing(self, state: State, general: State) -> Settlement:
         """The same settlement with `known` set from `state`: the stated observations closed under the authored laws
         and nothing else (no inheritance, no obligation). `general` is the same closure of `generalizing()`, without
-        the reading-confined statements; near-misses read it (`state` when not given). Every cell narrower than its
-        starting mask is known, except a cell left empty and a cell in conflict, which stay unresolved."""
-        if state.readings != self.readings:
+        the reading-confined statements; near-misses read it. It is required: passing the full state would let a
+        confined statement expose. Every cell narrower than its starting mask is known, except a cell left empty and
+        a cell in conflict, which stay unresolved."""
+        if state.readings != self.readings or general.readings != self.readings:
             raise ValueError("SETTLEMENT_READINGS")
         known = self._known(state)
-        known_general = known if general is None else self._known(general)
+        known_general = self._known(general)
         return Settlement(
             self.readings,
             self.stated,

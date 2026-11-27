@@ -9,11 +9,13 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from GSE.curation.lexicon_builder import obligations as ob
 from GSE.curation.lexicon_builder.cells import BANK_INDEX, POS, SILENT, START, ZERO, State
 from GSE.curation.lexicon_builder.coherence import (
     Candidate,
     Derivation,
     Observation,
+    Settlement,
     Types,
     apply,
     evidence,
@@ -236,3 +238,37 @@ def test_identity_root_of_a_wordnet_reading_is_its_synset():
 def test_an_observation_outside_the_banks_legal_states_is_refused():
     with pytest.raises(ValueError, match="ILLEGAL"):
         Observation("t:0", "FEEL", 2, "test", "row")
+
+
+def test_an_obligation_located_in_the_known_layer_is_a_stated_observation_of_its_source():
+    # USAS states of the word (readings 0 and 1) "GOOD +1 and FEEL +1" together; reading 1 is known GOOD 0, so the
+    # group is located on reading 0 by strict structure.
+    readings = _readings(2)
+    state = State.opening(readings)
+    state.masks[1, BANK_INDEX["GOOD"]] = ZERO
+    rows = np.array([0, 1])
+    batch = ob.Batch.of(
+        [
+            ob.Obligation("usas:rule", "GOOD", POS, rows, witness=7, premises=("usas:happy:adj:E4.1+",)),
+            ob.Obligation("usas:rule", "FEEL", POS, rows, witness=7, premises=("usas:happy:adj:E4.1+",)),
+        ]
+    )
+    forcing = ob.force(state, batch)
+    located = Settlement.located_groups(
+        batch, forcing.located_rows, forcing.located_by, readings, lambda i: ("usas", "usas:happy:adj:E4.1+"), "known"
+    )
+    assert sorted((o.reading, o.bank, o.states, o.family, o.root) for o in located) == [
+        ("t:0", "FEEL", POS, "usas", "usas:happy:adj:E4.1+"),
+        ("t:0", "GOOD", POS, "usas", "usas:happy:adj:E4.1+"),
+    ]
+    types = Types.build(2, {"t:word": np.arange(2)})
+    cand = Candidate((("FEEL", POS),), "GOOD", POS, ("t:word",))
+    # One dataset stating both banks is its own composition; another dataset's FEEL makes the reading a witness.
+    assert not evidence(cand, settle(located, readings), types).witnesses.size
+    ev = evidence(cand, settle(located + [_obs(0, "FEEL", POS, "verbnet:class")], readings), types)
+    assert ev.witnesses.tolist() == [0] and ev.witness_families == ("usas", "verbnet")
+
+
+def test_an_obligation_located_only_in_the_interpolated_layer_counts_for_nothing():
+    with pytest.raises(ValueError, match="KNOWN_LAYER"):
+        Settlement.located("t:0", "GOOD", POS, "usas", "usas:happy:adj:E4.1+", "interpolated")
