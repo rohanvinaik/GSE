@@ -189,16 +189,22 @@ def test_synonyms_whose_known_states_disagree_are_not_equalized():
     assert out.reasons[0, B["GOOD"]] == inh.SYNONYMS
 
 
-def test_entailment_carries_content_not_zero_and_cause_carries_nothing():
+def test_entailment_carries_content_not_zero_and_cause_carries_content_but_never_cause():
+    # The lead's ruling of 2026-11-27 (native_predicate_policy.lexical_component): kill takes die's ALIVE -1; the
+    # link writes no CAUSE, and the effect's zeros stay with the effect.
     s = _state(4)
     _set(s, 0, "BODY", +1)
     _set(s, 0, "MOVE", 0)
     _set(s, 2, "ALIVE", -1)
+    _set(s, 2, "CAUSE", +1)
+    _set(s, 2, "HEAR", 0)
     groups = {"sleep": [0], "snore": [1], "die": [2], "kill": [3]}
     out = _settle(s, groups, [("entails", "sleep", "snore"), ("causes", "die", "kill")])
     assert _get(out.state, 1, "BODY") == POS
     assert _get(out.state, 1, "MOVE") == _start("MOVE")
-    assert (out.state.masks[3] == cells.START).all()
+    assert _get(out.state, 3, "ALIVE") == NEG
+    assert _get(out.state, 3, "CAUSE") == _start("CAUSE")
+    assert _get(out.state, 3, "HEAR") == _start("HEAR")
 
 
 def test_a_joint_conflict_under_a_law_suspends_both_defaults():
@@ -369,3 +375,131 @@ def test_a_quality_pole_forced_onto_one_reading_makes_it_an_evaluator_and_the_au
     assert _get(out.known, 1, "GOOD") == POS and _get(out.known, 1, "BIG") == ZERO
     assert _get(out.known, 0, "BIG") == _start("BIG")
     assert out.known_scopes[law.scope].tolist() == [False, True]
+
+
+def test_every_carried_value_records_its_origin_and_last_hop():
+    s = _state(6)
+    _set(s, 0, "MOVE", +1)
+    _set(s, 5, "MOVE", +1)
+    _set(s, 4, "FEEL", +1)
+    groups = {"hub": [0, 1], "kind": [2], "kk": [3, 4], "other": [5]}
+    links = [
+        ("hypernym", "hub", "transit"),
+        ("hypernym", "transit", "kind"),
+        ("hypernym", "kind", "kk"),
+        ("entails", "other", "kk"),
+    ]
+    out = _settle(s, groups, links)
+    keys, o = out.graph.keys, out.origins()
+    found = {
+        (out.state.readings[r], cells.BANKS[c], keys[g], keys[p], int(f), keys[first])
+        for r, c, g, p, f, first in zip(o["rows"], o["cols"], o["origin"], o["parent"], o["family"], o["first"])
+    }
+    hypernym, entails = 0, 3
+    assert ("r2", "MOVE", "hub", "transit", hypernym, "transit") in found
+    assert ("r3", "MOVE", "hub", "kind", hypernym, "transit") in found
+    assert ("r3", "MOVE", "other", "other", entails, "kk") in found  # a second origin, by entailment
+    assert ("r1", "MOVE", "hub", "hub", inh.SYNONYM_HOP, "hub") in found  # a synonym's statement
+    assert ("r3", "FEEL", "kk", "kk", inh.SYNONYM_HOP, "kk") in found
+    entry = next(
+        int(e) for r, c, g, e in zip(o["rows"], o["cols"], o["origin"], o["entry"]) if (r, keys[g]) == (3, "hub")
+    )
+    assert [keys[out.lineage.node[j]] for j in out.lineage.path(entry)] == ["transit", "kind", "kk"]
+
+
+def _audit_fixture():
+    s = _state(6)
+    _set(s, 0, "MOVE", +1)
+    _set(s, 0, "GOOD", -1)
+    _set(s, 0, "HEAR", 0)
+    groups = {"hub": [0], "mid": [1], "cut": [2], "slide": [3], "c1": [4], "c2": [5]}
+    links = [
+        ("hypernym", "hub", "mid"),
+        ("hypernym", "mid", "cut"),
+        ("hypernym", "hub", "slide"),
+        ("hypernym", "mid", "c1"),
+    ]
+    return _settle(s, groups, links)
+
+
+def test_the_audit_reports_a_disagreement_with_its_path_and_candidate_link():
+    out = _audit_fixture()
+    exps = [
+        inh.Explication("T1:10-14", "cut", "verb", np.array([2]), {"DO": POS, "GOOD": NEG}),  # no MOVE: disagrees
+        inh.Explication("T1:20-24", "slide", "verb", np.array([3]), {"MOVE": POS, "GOOD": POS}),  # GOOD opposite
+    ]
+    audit = inh.audit_against_nsm(out, exps)
+    assert audit["disagreements"] == 2 and audit["confirmations"] == 2  # cut GOOD -1 and slide MOVE +1 agree
+    [cut] = [d for d in audit["details"] if d["lemma"] == "cut"]
+    assert cut["bank"] == "MOVE" and cut["readings"][0]["kind"] == inh.DISAGREE_UNMENTIONED
+    [origin] = cut["readings"][0]["origins"]
+    assert origin["origin"] == "hub" and origin["origin_stated"]
+    assert origin["path"] == [("hypernym", "mid"), ("hypernym", "cut")]
+    assert origin["candidate"] == {"family": "hypernym", "from": "hub", "to": "mid"}
+    [slide] = [d for d in audit["details"] if d["lemma"] == "slide"]
+    assert slide["bank"] == "GOOD" and slide["readings"][0]["kind"] == inh.DISAGREE_OPPOSITE
+    first = audit["candidates"][0]
+    assert first["link"] == {"family": "hypernym", "from": "hub", "to": "mid"} and first["bank"] == "MOVE"
+    assert first["warrant"] == "NSM T1:10-14"
+    assert first["inherited_cells_resting_on_it"] == 3  # mid, cut and c1 carry MOVE through hub -> mid
+    assert audit["by_word_and_bank"] == {"cut (verb) MOVE": 1, "slide (verb) GOOD": 1}
+    # A carried 0 on a bank the explication does not mention says nothing.
+    assert all(d["bank"] != "HEAR" for d in audit["details"])
+
+
+def test_an_explication_over_several_candidates_disagrees_only_if_every_candidate_does():
+    out = _audit_fixture()
+    both = inh.Explication("T2:1-5", "x", "verb", np.array([2, 4]), {"DO": POS})  # cut and c1 both carry MOVE
+    one = inh.Explication("T2:6-9", "y", "verb", np.array([2, 5]), {"DO": POS})  # c2 carries nothing
+    audit = inh.audit_against_nsm(out, [both, one], expressible={"DO", "MOVE"})
+    assert [d["explication"] for d in audit["details"] if d["bank"] == "MOVE"] == ["T2:1-5"]
+    assert {"explication": "T2:6-9", "lemma": "y", "pos": "verb", "bank": "MOVE"} in audit["undetermined_cells"]
+    [cond] = [d for d in audit["conditional"]["details"] if d["explication"] == "T2:6-9" and d["bank"] == "MOVE"]
+    assert cond["reading"] == "r2" and cond["candidates"] == 2
+    assert audit["conditional"]["candidates"][0]["link"] == {"family": "hypernym", "from": "hub", "to": "mid"}
+
+
+def test_explications_are_read_from_the_nsm_compiler_output():
+    from types import SimpleNamespace
+
+    receipt = (
+        {
+            "kind": "explication",
+            "pos": "verb",
+            "rule_id": "nsm:G1:3-9",
+            "disposition": "RESTRICTION",
+            "reading": 4,
+            "lemma": "cut",
+            "source": "G1",
+            "start_line": 3,
+            "end_line": 9,
+            "banks": {"DO": "+1", "GOOD": "+1|-1"},
+        },
+        {
+            "kind": "explication",
+            "pos": "noun",
+            "rule_id": "nsm:G1:10-12",
+            "disposition": "OBLIGATION",
+            "lemma": "dog",
+            "source": "G1",
+            "start_line": 10,
+            "end_line": 12,
+            "banks": {"MOVE": "+1"},
+        },
+        {"kind": "template", "pos": "verb", "disposition": "TEMPLATE"},
+        {"kind": "explication", "pos": "adj", "rule_id": "nsm:G1:13-14", "disposition": "RESTRICTION", "reading": 1},
+    )
+    obligations = (SimpleNamespace(rule_id="nsm:G1:10-12", rows=np.array([7, 8])),)
+    exps = inh.explications_from_nsm(SimpleNamespace(receipt=receipt, obligations=obligations))
+    assert [(e.key, e.lemma, e.rows.tolist(), e.states) for e in exps] == [
+        ("G1:3-9", "cut", [4], {"DO": POS, "GOOD": POS | NEG}),
+        ("G1:10-12", "dog", [7, 8], {"MOVE": POS}),
+    ]
+
+
+def test_a_bank_no_nsm_record_can_write_is_not_judged():
+    out = _audit_fixture()
+    cut = inh.Explication("T1:10-14", "cut", "verb", np.array([2]), {"DO": POS, "GOOD": NEG})
+    audit = inh.audit_against_nsm(out, [cut], expressible={"DO", "GOOD"})
+    assert audit["disagreements"] == 0 and audit["confirmations"] == 1
+    assert audit["not_judged"]["carried_cells"] == {"MOVE": 1, "HEAR": 1}
