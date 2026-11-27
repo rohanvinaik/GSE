@@ -671,12 +671,18 @@ def run(inputs: Inputs, max_rounds: int = MAX_ROUNDS) -> tuple[list[dict], Settl
 
 
 def persist(path: Path, inputs: Inputs, settled: Settled) -> dict:
-    """The final state and its provenance: both layers' masks, the reading ids, and each cell's warrant class and
-    rule (codes into `rule_ids`, -1 for a cell never narrowed)."""
+    """The final state and its provenance: both layers' masks, the reading ids, each cell's warrant class and rule
+    (codes into `rule_ids`, -1 for a cell never narrowed), and the known layer's guard facts (`fact_names` x readings,
+    the scopes the laws select on, located facts included), which the senses read."""
     s, p = settled.settlement, settled.provenance
     path.parent.mkdir(parents=True, exist_ok=True)
+    wanted = sorted({r.scope for r in laws.compile_laws()} | {c.scope for c in inputs.checks})
+    wanted += sorted(name for name in s.known_scopes if name.startswith("wiktionary_topic=") and name not in wanted)
+    facts = np.stack([s.known_scopes[name] for name in wanted]) if wanted else np.zeros((0, len(inputs.ids)), bool)
     np.savez_compressed(
         path,
+        fact_names=np.array(wanted, dtype=object),
+        known_facts=np.packbits(facts, axis=1),
         readings=np.array(inputs.ids, dtype=object),
         banks=np.array(BANKS, dtype=object),
         known_masks=s.known.masks,
