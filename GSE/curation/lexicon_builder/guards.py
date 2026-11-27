@@ -43,11 +43,21 @@ def scopes(readings, wanted, facts=None) -> dict[str, np.ndarray]:
     """A boolean mask over readings for every scope name in `wanted`; unwarranted guards select nothing.
 
     `facts` maps a guard name to the readings a source lens established it for (`LensOutput.facts`). A reading is
-    in a scope when this module or a lens establishes the guard for it.
+    in a scope when this module or a lens establishes the guard for it. A conjoined guard (`a=b&c=d`, as
+    `laws.scope_name` writes one) holds where every one of its facts holds; if any of them has no warrant, it
+    selects nothing.
     """
     known = _role(readings)
     known["lexical_unit_kind=PRIME&own_role=substantive"] = _prime_substantives(readings)
     for name, mask in (facts or {}).items():
         known[name] = known[name] | mask if name in known else mask.copy()
     n = len(readings)
-    return {name: known.get(name, np.zeros(n, dtype=bool)) for name in wanted}
+    nothing = np.zeros(n, dtype=bool)
+    out = {}
+    for name in wanted:
+        if name in known:
+            out[name] = known[name]
+        else:
+            parts = name.split("&")
+            out[name] = np.logical_and.reduce([known.get(p, nothing) for p in parts]) if len(parts) > 1 else nothing
+    return out

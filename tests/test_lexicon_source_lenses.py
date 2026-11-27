@@ -12,7 +12,7 @@ from GSE.curation.external_sources.framenet import FrameNetEntry
 from GSE.curation.external_sources.usas import USASEntry
 from GSE.curation.external_sources.verbnet import VerbNetEntry
 from GSE.curation.lexicon_builder import laws
-from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, POS
+from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, POS, SILENT, ZERO
 from GSE.curation.lexicon_builder.inventory import Reading
 from GSE.curation.lexicon_builder.projection import Sources, closure_round, competence, label, project, reading_id
 
@@ -279,3 +279,21 @@ def test_every_restriction_is_inside_its_rules_published_competence_and_ratings_
     assert len(lens.restrictions) == 3 + 7
     for _, col, mask, rule in _cells(lens):
         assert set(label(mask).split("|")) <= set(published[rule]["writes"][BANKS[col]].split("|"))
+
+
+def test_a_bipolar_predicate_negated_in_every_frame_only_excludes_its_pole():
+    not_begin = ("begin", ("Event", "E"), ("ThemRole", "Theme"), "!")
+    not_moving = ("motion", ("Event", "during(E)"), ("ThemRole", "Theme"), "!")
+    readings = (_verb("halt", "halt.v.01"), _verb("idle", "idle.v.01"))
+    sources = Sources(
+        verbnet={
+            "halt": [_entry("halt", "x-55.9", [_frame(not_begin, not_moving), _frame(not_begin)], ["halt%2:38:00"])],
+            "idle": [_entry("idle", "y-55.9", [_frame(not_begin), _frame(LOCATION)], ["idle%2:38:00"])],
+        },
+        links=_links({"halt%2:38:00": "halt.v.01", "idle%2:38:00": "idle.v.01"}),
+    )
+    lens = project(readings, sources)
+    # source_polarity: "A negated bipolar pole only excludes that pole"; a negated unpaired MOVE writes nothing.
+    assert _cells(lens) == {(0, BANK_INDEX["START"], NEG | ZERO | SILENT, "VN_BEGIN:NEGATED_POLE")}
+    result = closure_round(readings, lens)
+    assert result["laws_and_lens"]["-1"] == result["laws_only"]["-1"]

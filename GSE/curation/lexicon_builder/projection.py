@@ -49,7 +49,7 @@ from GSE.curation.external_sources.verbnet import (
 )
 
 from . import guards, inventory, laws
-from .cells import BANK_INDEX, BANKS, BIPOLAR, BIT_NAMES, NEG, NEGATIVE_POLES, POS, SILENT, ZERO, State
+from .cells import ALL, BANK_INDEX, BANKS, BIPOLAR, BIT_NAMES, NEG, NEGATIVE_POLES, POS, SILENT, ZERO, State
 from .closure import Derivations, close
 from .obligations import Obligation
 from .relations import Relation
@@ -166,7 +166,7 @@ class LensOutput:
         }
 
     def _cells_by_source_bank(self) -> dict[str, int]:
-        """Distinct cells each source restricts, by bank. Every restriction is one state, so each is a decided cell."""
+        """Distinct cells each source restricts, by bank (a value, or an excluded pole)."""
         r = self.restrictions
         sources = np.array(r.rule_sources, dtype=object)[r.rules] if len(r) else np.zeros(0, dtype=object)
         cells = {(src, int(row), int(col)) for src, row, col in zip(sources, r.rows, r.cols)}
@@ -341,6 +341,11 @@ def _put(values: dict, coordinate: str, value: tuple[int, str]) -> None:
         values[coordinate] = value
 
 
+def negated_pole(rule: dict) -> str:
+    """The rule id under which a negated bipolar predicate excludes its pole."""
+    return f"{rule['rule_id']}:NEGATED_POLE"
+
+
 def _read_frame(class_id: str, frame: dict, roles: dict, rules: dict, affective: bool) -> _Reading:
     names = {p["predicate_value"] for p in frame["semantics"]}
     refused = {n: code for n in sorted(names & rules.keys()) if (code := _refusal(rules[n], class_id, affective))}
@@ -348,6 +353,13 @@ def _read_frame(class_id: str, frame: dict, roles: dict, rules: dict, affective:
     for name in sorted((names & rules.keys()) - {"cause"} - refused.keys()):
         rule = rules[name]
         status = _component_status(frame, name)
+        coordinate, pole = _pole(rule["prime"])
+        if status["code"] == "NO_POSITIVE_LEXICAL_COMPONENT":
+            # Every binding of the predicate is negated. source_polarity: "A negated bipolar pole only excludes that
+            # pole"; an unpaired component writes nothing (lexical_component, missing_policy NO_RESTRICTION).
+            if coordinate in BIPOLAR:
+                _put(values, coordinate, (ALL & ~pole, negated_pole(rule)))
+            continue
         if status["code"] != "WARRANTED_LEXICAL_COMPONENT":
             continue
         if rule.get("requires_existence_change") and not (
@@ -355,7 +367,6 @@ def _read_frame(class_id: str, frame: dict, roles: dict, rules: dict, affective:
         ):
             refused[name] = "PARTICIPANT_EXISTENCE_PRESUPPOSITION"
             continue
-        coordinate, pole = _pole(rule["prime"])
         if rule["projection_kind"] == "TRANSITION_POLE":
             pole = _transition(frame, name, pole)
             if pole is None:
@@ -404,8 +415,11 @@ def _emotion_verbs(usas: dict) -> frozenset[str]:
 def _verbnet_lens(index: dict, sources: Sources, book: dict, w: _Writer) -> dict[int, list[str]]:
     """Restrictions from exact sense-key bindings. Returns the perception-bound rows with their premises."""
     rules = {r["predicate"]: r for r in book["native_predicate_rules"]}
+    polarity = book["native_predicate_policy"]["source_polarity"]
     for rule in rules.values():
         w.declare(rule["rule_id"], _warrant(rule), VERBNET)
+        if _pole(rule["prime"])[0] in BIPOLAR:
+            w.declare(negated_pole(rule), f"{rule['review_state']}: source_polarity: {polarity}", VERBNET)
     motion = rules["motion"]["rule_id"]
     motion_fact = laws.scope_name([("own_predicate", "physical_change_of_place")])
     affective = _emotion_verbs(sources.usas)
@@ -426,8 +440,8 @@ def _verbnet_lens(index: dict, sources: Sources, book: dict, w: _Writer) -> dict
                     w.note("verbnet", "unbound", "READING_NOT_IN_COHORT")
                     continue
                 premise = f"verbnet:{entry.verb_class}:{link['sense_key']}"
-                for coordinate, (pole, rule_id) in sorted(reading.values.items()):
-                    w.restrict(row, coordinate, pole, rule_id, premise)
+                for coordinate, (allowed, rule_id) in sorted(reading.values.items()):
+                    w.restrict(row, coordinate, allowed, rule_id, premise)
                     if rule_id == motion:
                         w.fact(motion_fact, row)
                 if reading.perceive:
@@ -473,10 +487,7 @@ def _match(rule: dict, pos: str, tag: str) -> tuple[str, str | int]:
 
 
 def _reading_facts(rule: dict) -> list[str]:
-    facts = [tuple(f) for f in rule.get("reading_facts", [])]
-    if rule.get("own_role"):
-        facts.append(("own_role", rule["own_role"]))
-    return [laws.scope_name([f]) for f in facts]
+    return [laws.scope_name([fact]) for fact in laws.reading_facts(rule)]
 
 
 _RANK = {"used": 3, "unbound": 2, "refused": 1, "recorded_only": 0}
@@ -605,6 +616,15 @@ def competence(book_path: Path = laws.LAWS) -> dict[str, dict]:
             "conditions": conditions,
             "writes": writes,
         }
+        if coordinate in BIPOLAR:
+            out[negated_pole(rule)] = {
+                "source": VERBNET,
+                "binding": "EXACT_WORDNET_SENSE_KEY",
+                "field": f"semantics predicate {rule['predicate']} negated in every frame of the class",
+                "scope": rule["scope"],
+                "conditions": conditions,
+                "writes": {coordinate: label(ALL & ~(POS if rule["projection_kind"] == "TRANSITION_POLE" else pole))},
+            }
     for rule in book["source_rules"]:
         signs = rule.get("signs", "+-")
         writes = {rule["coordinate"]: label((POS if "+" in signs else 0) | (NEG if "-" in signs else 0))}
@@ -670,7 +690,8 @@ def closure_round(readings, lens: LensOutput, book_path: Path = laws.LAWS) -> di
     """One round of the authored laws with the lens: guards merged with the lens facts, plus its restrictions."""
     ids = [r.reading_id for r in readings]
     law_relations = laws.compile_laws(book_path)
-    wanted = {r.scope for r in law_relations}
+    checks = laws.required_checks(book_path)
+    wanted = {r.scope for r in law_relations} | {c.scope for c in checks}
     laws_only = State.opening(ids)
     opening = laws_only.census()
     laws_receipt = close(laws_only, law_relations, guards.scopes(readings, wanted))
@@ -693,6 +714,10 @@ def closure_round(readings, lens: LensOutput, book_path: Path = laws.LAWS) -> di
         "newly_decided_by_bank": {BANKS[c]: int(k) for c, k in enumerate(newly.sum(axis=0)) if k},
         "removals_by_rule": dict(sorted(removals.items())),
         "conflicts": [[ids[r], BANKS[c]] for r, c in zip(conflict_rows, conflict_cols)],
+        "relations_by_kind": dict(Counter(r.rule_id.split(":")[0] for r in law_relations + lens_relations)),
+        "readings_in_scope": {name: int(scopes[name].sum()) for name in sorted(wanted)},
+        "required_checks": laws.check(state.masks, scopes, checks),
+        "uncompiled_cells": list(laws.uncompiled_cells(book_path)),
     }
 
 

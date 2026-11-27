@@ -5,14 +5,14 @@
   "sha256": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424"
  },
  "seconds": {
-  "cohort": 0.67,
+  "cohort": 0.66,
   "load": {
-   "verbnet": 2.29,
+   "verbnet": 2.58,
    "usas": 0.07,
-   "framenet": 5.74,
-   "ratings": 6.13
+   "framenet": 5.62,
+   "ratings": 6.51
   },
-  "project": 1.31
+  "project": 1.51
  },
  "competence": {
   "VN_EVENT_MOTION": {
@@ -67,6 +67,16 @@
     "ALIVE": "+1|-1"
    }
   },
+  "VN_VITALITY:NEGATED_POLE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate alive negated in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "ALIVE": "-1|0|SILENT"
+   }
+  },
   "VN_EXISTENCE": {
    "source": "verbnet",
    "binding": "EXACT_WORDNET_SENSE_KEY",
@@ -99,6 +109,16 @@
     "START": "+1"
    }
   },
+  "VN_BEGIN:NEGATED_POLE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate begin negated in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "START": "-1|0|SILENT"
+   }
+  },
   "VN_END": {
    "source": "verbnet",
    "binding": "EXACT_WORDNET_SENSE_KEY",
@@ -109,6 +129,18 @@
    },
    "writes": {
     "START": "-1"
+   }
+  },
+  "VN_END:NEGATED_POLE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate end negated in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {
+    "class_number_prefix": "55."
+   },
+   "writes": {
+    "START": "+1|0|SILENT"
    }
   },
   "VN_CAUSATION": {
@@ -448,7 +480,7 @@
    "conflict": 0,
    "cells": 22489376,
    "bits": 35991474.946359746,
-   "seconds": 0.31
+   "seconds": 0.346
   },
   "laws_and_lens": {
    "+1": 3551,
@@ -459,10 +491,10 @@
    "conflict": 0,
    "cells": 22489376,
    "bits": 35985763.6888822,
-   "relations": 27,
-   "applications": 34,
+   "relations": 76,
+   "applications": 83,
    "removals": 1257157,
-   "seconds": 0.351
+   "seconds": 0.37
   },
   "bits_removed_by_lens": 5711.257477544248,
   "newly_decided_by_bank": {
@@ -493,6 +525,137 @@
    "lens:VN_POSSESSION": 259,
    "lens:VN_VITALITY": 16
   },
-  "conflicts": []
+  "conflicts": [],
+  "relations_by_kind": {
+   "law": 29,
+   "boundary": 36,
+   "lens": 11
+  },
+  "readings_in_scope": {
+   "lexical_unit_kind=PRIME&own_role=substantive": 4,
+   "own_degree_domain=graded_property": 0,
+   "own_degree_domain=graded_property&own_denotatum=affective_feeling": 0,
+   "own_degree_domain=graded_property&own_denotatum=affective_feeling&own_role=feeling_substantive&own_valence_domain=signed_felt_pole&source_frame_family=Fear": 0,
+   "own_degree_domain=graded_property&own_denotatum=affective_feeling&own_template_quantification=SOMETIMES&own_valence_domain=signed_felt_pole&source_frame_family=Fear": 0,
+   "own_denotatum=affective_feeling": 0,
+   "own_predicate=physical_change_of_place": 796,
+   "own_role=feeling_substantive": 0,
+   "own_role=lexical_predicate": 96023,
+   "own_role=modifier_property_only": 60669,
+   "own_role=modifier_property_only&source_frame_family=Fear": 0,
+   "own_role=non_substantive_operator": 0,
+   "own_role=time_or_place_relation": 0,
+   "own_semantic_kind=evaluator": 0,
+   "own_semantic_kind=size_descriptor": 0,
+   "own_template_quantification=SOMETIMES": 0,
+   "own_valence_domain=signed_felt_pole": 0,
+   "source_frame_family=Fear": 0
+  },
+  "required_checks": {
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:I": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:YOU": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMEONE": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMETHING": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PEOPLE": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BODY": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:KIND": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PART": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:QUANTITY": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:GOOD": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:THINK": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WANT": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:FEEL": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HAPPEN": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WHEN": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:NOT": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CAN": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BECAUSE": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:LIKE": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   },
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:INTENSITY": {
+    "derived": 0,
+    "open": 0,
+    "contradicted": 0
+   }
+  },
+  "uncompiled_cells": [
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_PLUS: not a bank of the registry",
+   "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_MINUS: not a bank of the registry"
+  ]
  }
 }
