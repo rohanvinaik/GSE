@@ -152,8 +152,12 @@ information-theoretic principle, what it looks like running, its output in cells
   imputed guard), FINDING (with the exact readings), UNCONFIRMED, UNEXPOSED or NO_REACH. UNEXPOSED means no reading
   in the scope states the consequent's bank outside the consequent's states, so the population could not have
   refuted the rule (SSL 4.3, the falsifiability pivot; Significance Weighting 14 (ii)). An unexposed rule carries no
-  information and is not admitted. A pair witness needs the two banks stated by distinct observations of the same
-  reading (F108: relations "stable across the tens of thousands of words that exist in multiple datasets"). Typed
+  information and is not admitted. Exposure is the set of stated or known near-misses: readings with the consequent
+  outside its states and the antecedent known outside its states. A statement its source confines to its own reading
+  (a prime profile's silence boundary) neither confirms nor exposes, though it can refute. A pair witness needs the two
+  banks stated by different source families (datasets) on the same reading (F108: relations "stable across the tens
+  of thousands of words that exist in multiple datasets"). Two records of one dataset, such as a VerbNet class and
+  its subclass, are that dataset's own composition, not a witness. Typed
   scopes are strict kind-of ancestors; values carried by inheritance are derived and never confirm. Each admitted relation is versioned,
   with its warrant and its positive and must-not witnesses.
 - **Principle.** The gate keeps N_ind well defined. A self-confirmed rule lowers H while carrying no information
