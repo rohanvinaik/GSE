@@ -5,14 +5,14 @@
   "sha256": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424"
  },
  "seconds": {
-  "cohort": 0.71,
+  "cohort": 0.63,
   "load": {
-   "verbnet": 2.3,
-   "usas": 0.07,
-   "framenet": 5.55,
-   "ratings": 7.21
+   "verbnet": 2.04,
+   "usas": 0.06,
+   "framenet": 4.5,
+   "ratings": 6.0
   },
-  "project": 1.27
+  "project": 1.29
  },
  "competence": {
   "VN_EVENT_MOTION": {
@@ -490,7 +490,7 @@
    "conflict": 0,
    "cells": 22489376,
    "bits": 35991474.946359746,
-   "seconds": 0.348
+   "seconds": 0.333
   },
   "laws_and_lens": {
    "+1": 3551,
@@ -504,7 +504,7 @@
    "relations": 76,
    "applications": 83,
    "removals": 1257157,
-   "seconds": 0.346
+   "seconds": 0.319
   },
   "bits_removed_by_lens": 5711.257477544248,
   "newly_decided_by_bank": {
@@ -667,5 +667,130 @@
    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_PLUS: not a bank of the registry",
    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HIER_MINUS: not a bank of the registry"
   ]
+ },
+ "settled": {
+  "graph": {
+   "nodes": 115987,
+   "edges": 108987
+  },
+  "receipt": {
+   "rounds": [
+    {
+     "passes": 2,
+     "landed": 9607,
+     "held_added": 0,
+     "held_equal_added": 0,
+     "culprit_nodes": 0,
+     "replay": false
+    }
+   ],
+   "known": {
+    "closures": 1,
+    "sweeps": 1,
+    "forced": 0,
+    "facts_woken": 0
+   },
+   "interpolated_cells": 43503,
+   "inherited_cells": 43503,
+   "consequence_cells": 0,
+   "suspended_cells": {
+    "defaults disagree": 0,
+    "contradicts known": 0,
+    "joint conflict": 0,
+    "synonyms disagree": 0
+   },
+   "facts_located": {
+    "known": 0,
+    "interpolated": 0
+   },
+   "held": 0,
+   "held_equal": 0,
+   "unattributed_conflict": false,
+   "bits": {
+    "known": 35985763.6888822,
+    "interpolated": 35916522.95400133
+   },
+   "seconds": 2.155
+  },
+  "known": {
+   "census": {
+    "+1": 3551,
+    "-1": 38,
+    "0": 1253536,
+    "SILENT": 0,
+    "residual": 21232251,
+    "conflict": 0,
+    "cells": 22489376,
+    "bits": 35985763.6888822
+   },
+   "obligation_groups_by_candidates": {
+    "2": 18,
+    "3": 14,
+    "4": 18,
+    "5": 4,
+    "6": 5,
+    "7": 10,
+    "8": 2,
+    "9": 5,
+    "10": 4,
+    "11": 1,
+    "12": 2,
+    "13": 5,
+    "14": 3,
+    "15": 2,
+    "17": 1,
+    "19": 2,
+    "20": 1,
+    "22": 2,
+    "24": 1,
+    "28": 1,
+    "41": 1,
+    "51": 1
+   },
+   "facts_located": {},
+   "laws_woken": {},
+   "obligation_conflicts": [],
+   "required_checks": {}
+  },
+  "interpolated": {
+   "census": {
+    "+1": 46497,
+    "-1": 595,
+    "0": 1253536,
+    "SILENT": 0,
+    "residual": 21188748,
+    "conflict": 0,
+    "cells": 22489376,
+    "bits": 35916522.95400133
+   },
+   "obligation_groups_by_candidates": {
+    "2": 18,
+    "3": 14,
+    "4": 18,
+    "5": 4,
+    "6": 5,
+    "7": 10,
+    "8": 2,
+    "9": 5,
+    "10": 4,
+    "11": 1,
+    "12": 2,
+    "13": 5,
+    "14": 3,
+    "15": 2,
+    "17": 1,
+    "19": 2,
+    "20": 1,
+    "22": 2,
+    "24": 1,
+    "28": 1,
+    "41": 1,
+    "51": 1
+   },
+   "facts_located": {},
+   "laws_woken": {},
+   "obligation_conflicts": [],
+   "required_checks": {}
+  }
  }
 }

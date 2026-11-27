@@ -732,6 +732,63 @@ def closure_round(readings, lens: LensOutput, book_path: Path = laws.LAWS) -> di
     }
 
 
+def candidates(masks: np.ndarray, obligations) -> dict[int, int]:
+    """Per witness group, how many of its readings can still hold every (bank, states) of the group together.
+    One is a located group, none is a conflict."""
+    groups: dict[int, list] = defaultdict(list)
+    for o in obligations:
+        groups[o.witness].append(o)
+    out = {}
+    for witness, members in groups.items():
+        fits = np.ones(members[0].rows.size, dtype=bool)
+        for o in members:
+            fits &= (masks[o.rows, BANK_INDEX[o.bank]] & o.allowed) != 0
+        out[witness] = int(fits.sum())
+    return out
+
+
+def settled_round(readings, lens: LensOutput, book_path: Path = laws.LAWS, links=None) -> dict:
+    """The joint round through `inheritance.settle`. The laws and the lens restrictions close, the lens obligations
+    are forced and the facts they locate wake the laws, and WordNet inheritance runs on top (`links`, by default
+    WordNet's own). Each layer reports its census, the obligation groups by remaining candidates, the facts located,
+    the laws they woke, and the REQUIRED checks."""
+    from . import inheritance
+    from . import obligations as ob
+
+    ids = [r.reading_id for r in readings]
+    law_relations = laws.compile_laws(book_path)
+    checks = laws.required_checks(book_path)
+    wanted = {r.scope for r in law_relations} | {c.scope for c in checks}
+    lens_relations, lens_scopes = restriction_relations(lens.restrictions, len(ids))
+    scopes = guards.scopes(readings, wanted, lens.facts) | lens_scopes
+    links = inheritance.wordnet_links() if links is None else links
+    graph = inheritance.build(inheritance.wordnet_groups(readings), links)
+    settled = inheritance.settle(
+        State.opening(ids), graph, lens_relations + law_relations, scopes, ob.Batch.of(lens.obligations)
+    )
+    out = {"graph": {"nodes": len(graph.keys), "edges": int(graph.src.size)}, "receipt": settled.receipt}
+    layers = (
+        ("known", settled.known, settled.known_scopes, settled.known_conflicts),
+        ("interpolated", settled.state, settled.scopes, settled.interpolated_conflicts),
+    )
+    for layer, state, layer_scopes, conflicts in layers:
+        grown = {name: int((layer_scopes[name] & ~scopes[name]).sum()) for name in sorted(layer_scopes)}
+        by_candidates = Counter(candidates(state.masks, lens.obligations).values())
+        out[layer] = {
+            "census": state.census(),
+            "obligation_groups_by_candidates": {str(k): v for k, v in sorted(by_candidates.items())},
+            "facts_located": {name: n for name, n in grown.items() if n},
+            "laws_woken": dict(
+                sorted(Counter({r.rule_id: grown[r.scope] for r in law_relations if grown[r.scope]}).items())
+            ),
+            "obligation_conflicts": conflicts,
+            "required_checks": {
+                k: v for k, v in laws.check(state.masks, layer_scopes, checks).items() if any(v.values())
+            },
+        }
+    return out
+
+
 # --- The real cohort ------------------------------------------------------------------------------------------
 
 
@@ -823,6 +880,7 @@ def main(argv=None) -> dict:
     )
     parser.add_argument("--cohort", type=Path, default=Path("data/lexicon_builder/rebuild/cohort.jsonl"))
     parser.add_argument("--receipt", type=Path, default=None)
+    parser.add_argument("--settle", action="store_true", help="also run the joint round through inheritance.settle")
     args = parser.parse_args(argv)
     started = time.perf_counter()
     readings = inventory.load(args.cohort)
@@ -840,6 +898,8 @@ def main(argv=None) -> dict:
         "lens": lens.census(),
         "closure": round_,
     }
+    if args.settle:
+        receipt["settled"] = settled_round(readings, lens)
     if args.receipt:
         args.receipt.write_text(json.dumps(receipt, indent=1) + "\n")
     print(json.dumps(receipt, indent=1))

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import json
 
+import numpy as np
+
 from GSE.curation.external_sources.framenet import FrameNetEntry
 from GSE.curation.external_sources.usas import USASEntry
 from GSE.curation.external_sources.verbnet import VerbNetEntry
@@ -15,7 +17,16 @@ from GSE.curation.lexicon_builder import guards, laws, obligations
 from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, POS, SILENT, START, ZERO, State
 from GSE.curation.lexicon_builder.closure import close
 from GSE.curation.lexicon_builder.inventory import Reading
-from GSE.curation.lexicon_builder.projection import Sources, closure_round, competence, label, project, reading_id
+from GSE.curation.lexicon_builder.projection import (
+    Restrictions,
+    Sources,
+    closure_round,
+    competence,
+    label,
+    project,
+    reading_id,
+    settled_round,
+)
 
 MOTION = ("motion", ("Event", "during(E)"), ("ThemRole", "Theme"))
 LOCATION = ("location", ("Event", "end(E)"), ("ThemRole", "Theme"), ("ThemRole", "Destination"))
@@ -322,3 +333,32 @@ def test_a_located_obligation_gives_its_reading_the_rules_guards_and_wakes_their
     assert state.masks[0, BANK_INDEX["BIG"]] == ZERO  # EVALUATOR_EXCLUDES_SIZE, on the located reading only
     assert state.masks[0, BANK_INDEX["INTENSITY"]] == POS  # OWN_DEGREE_BEARING_CONTENT
     assert state.masks[1, BANK_INDEX["BIG"]] == START[BANK_INDEX["BIG"]]
+
+
+def test_the_settled_round_locates_an_obligation_and_reports_the_facts_and_laws_it_wakes():
+    readings = (
+        Reading("wordnet:dreadful:awful.s.02", "dreadful", "adj", ""),
+        Reading("wiktionary:dreadful-adj-1:x", "dreadful", "adj", ""),
+    )
+    sources = Sources(
+        usas={"dreadful": [USASEntry("dreadful", "ADJ", ["A5.1-"])]},
+        framenet={"dreadful": [_unit("dreadful", "a", "Desirability")]},
+    )
+    lens = project(readings, sources)
+    assert settled_round(readings, lens, links=[])["known"]["obligation_groups_by_candidates"] == {"2": 1}
+    # A stand-in for another source stating that the second reading evaluates nothing.
+    lens.restrictions = Restrictions(
+        rows=np.array([1]),
+        cols=np.array([BANK_INDEX["GOOD"]]),
+        allowed=np.array([ZERO], dtype=np.uint8),
+        rules=np.array([0], dtype=np.int32),
+        premises=np.array([0], dtype=np.int32),
+        rule_ids=("t:no-evaluation",),
+        warrants=("test",),
+        premise_ids=("test",),
+        rule_sources=("test",),
+    )
+    known = settled_round(readings, lens, links=[])["known"]
+    assert known["obligation_groups_by_candidates"] == {"1": 1}
+    assert known["facts_located"] == {"own_degree_domain=graded_property": 1, "own_semantic_kind=evaluator": 1}
+    assert known["laws_woken"] == {"law:EVALUATOR_EXCLUDES_SIZE": 1, "law:OWN_DEGREE_BEARING_CONTENT": 1}
