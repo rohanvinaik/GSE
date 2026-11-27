@@ -1,0 +1,5213 @@
+{
+ "layers": {
+  "known": {
+   "H": {
+    "marginal_bits": 35956032.00914546,
+    "joint_bits": 35956032.00914547,
+    "marginal_bits_of_satisfiable": 35956032.00914546,
+    "exact": true,
+    "readings": 401596,
+    "readings_without_configuration": 0,
+    "readings_with_a_bound": 0,
+    "components": [
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "SOMETHING",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:VERB_HEADS_NO_SUBSTANTIVE"
+      ],
+      "readings": 96023,
+      "legal_joint_states": 1,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:MODIFIER_HEADS_NO_SUBSTANTIVE"
+      ],
+      "readings": 60669,
+      "legal_joint_states": 1,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "SOMETHING",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+      ],
+      "readings": 4,
+      "legal_joint_states": 8,
+      "bounded": false
+     }
+    ]
+   },
+   "census": {
+    "rows": 401596,
+    "cells": 22489376,
+    "by_state": {
+     "+1": 15602,
+     "-1": 229,
+     "0": 1253956,
+     "SILENT": 5567,
+     "residual": 21214022,
+     "conflict": 0
+    },
+    "by_bank": {
+     "I": {
+      "+1": 1,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "YOU": {
+      "+1": 1,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "SOMEONE": {
+      "+1": 42,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244806,
+      "conflict": 0
+     },
+     "SOMETHING": {
+      "+1": 24,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244824,
+      "conflict": 0
+     },
+     "PEOPLE": {
+      "+1": 2,
+      "-1": 0,
+      "0": 156745,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "BODY": {
+      "+1": 2,
+      "-1": 0,
+      "0": 156745,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "KIND": {
+      "+1": 16,
+      "-1": 0,
+      "0": 156739,
+      "SILENT": 2,
+      "residual": 244839,
+      "conflict": 0
+     },
+     "PART": {
+      "+1": 8,
+      "-1": 0,
+      "0": 156739,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "SAME": {
+      "+1": 1,
+      "-1": 5,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "ONE": {
+      "+1": 21,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "TWO": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "QUANTITY": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "GOOD": {
+      "+1": 1,
+      "-1": 4,
+      "0": 2,
+      "SILENT": 114,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "BIG": {
+      "+1": 1,
+      "-1": 1,
+      "0": 2,
+      "SILENT": 114,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "THINK": {
+      "+1": 17,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401462,
+      "conflict": 0
+     },
+     "KNOW": {
+      "+1": 20,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 111,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "WANT": {
+      "+1": 99,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 111,
+      "residual": 401386,
+      "conflict": 0
+     },
+     "FEEL": {
+      "+1": 387,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401092,
+      "conflict": 0
+     },
+     "SEE": {
+      "+1": 11,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 113,
+      "residual": 401472,
+      "conflict": 0
+     },
+     "HEAR": {
+      "+1": 8,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 114,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "INFER": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "SAY": {
+      "+1": 13,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401466,
+      "conflict": 0
+     },
+     "WORDS": {
+      "+1": 12,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401468,
+      "conflict": 0
+     },
+     "DO": {
+      "+1": 4384,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 104,
+      "residual": 397108,
+      "conflict": 0
+     },
+     "HAPPEN": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 105,
+      "residual": 401473,
+      "conflict": 0
+     },
+     "MOVE": {
+      "+1": 2959,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 398520,
+      "conflict": 0
+     },
+     "BE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "HAVE": {
+      "+1": 1227,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 400251,
+      "conflict": 0
+     },
+     "EXIST": {
+      "+1": 1034,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 400445,
+      "conflict": 0
+     },
+     "ALIVE": {
+      "+1": 15,
+      "-1": 62,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401401,
+      "conflict": 0
+     },
+     "MOMENT": {
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "WHEN": {
+      "+1": 19,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "LONG_TIME": {
+      "+1": 1,
+      "-1": 4,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "BEFORE": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "THEN": {
+      "+1": 0,
+      "-1": 3,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "START": {
+      "+1": 89,
+      "-1": 130,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401259,
+      "conflict": 0
+     },
+     "WHERE": {
+      "+1": 16,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "HERE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "SIDE": {
+      "+1": 8,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401471,
+      "conflict": 0
+     },
+     "TOUCH": {
+      "+1": 597,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 400882,
+      "conflict": 0
+     },
+     "ABOVE": {
+      "+1": 3,
+      "-1": 4,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401473,
+      "conflict": 0
+     },
+     "FAR": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "OUTSIDE": {
+      "+1": 0,
+      "-1": 14,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "TOWARD": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "WITH": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "NOT": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401461,
+      "conflict": 0
+     },
+     "MAYBE": {
+      "+1": 5,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "CAN": {
+      "+1": 21,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "MUST": {
+      "+1": 2,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "BECAUSE": {
+      "+1": 16,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "CAUSE": {
+      "+1": 4365,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 397113,
+      "conflict": 0
+     },
+     "IF": {
+      "+1": 14,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "LIKE": {
+      "+1": 19,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "TRUE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "INTENSITY": {
+      "+1": 37,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 103,
+      "residual": 401456,
+      "conflict": 0
+     },
+     "CERTAINTY": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     }
+    },
+    "by_pos": {
+     "adj": {
+      "rows": 60669,
+      "+1": 10,
+      "-1": 1,
+      "0": 485352,
+      "SILENT": 517,
+      "residual": 2911584,
+      "conflict": 0
+     },
+     "adv": {
+      "rows": 10179,
+      "+1": 7,
+      "-1": 0,
+      "0": 16,
+      "SILENT": 94,
+      "residual": 569907,
+      "conflict": 0
+     },
+     "article": {
+      "rows": 9,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 504,
+      "conflict": 0
+     },
+     "auxiliary": {
+      "rows": 31,
+      "+1": 9,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 47,
+      "residual": 1672,
+      "conflict": 0
+     },
+     "character": {
+      "rows": 56,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 3136,
+      "conflict": 0
+     },
+     "conj": {
+      "rows": 101,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 5656,
+      "conflict": 0
+     },
+     "conjunction": {
+      "rows": 24,
+      "+1": 3,
+      "-1": 1,
+      "0": 32,
+      "SILENT": 188,
+      "residual": 1120,
+      "conflict": 0
+     },
+     "contraction": {
+      "rows": 23,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1288,
+      "conflict": 0
+     },
+     "demonstrative": {
+      "rows": 1,
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 55,
+      "conflict": 0
+     },
+     "det": {
+      "rows": 164,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 9184,
+      "conflict": 0
+     },
+     "determiner": {
+      "rows": 25,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1400,
+      "conflict": 0
+     },
+     "infix": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "intj": {
+      "rows": 663,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 37128,
+      "conflict": 0
+     },
+     "name": {
+      "rows": 23876,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1337056,
+      "conflict": 0
+     },
+     "noun": {
+      "rows": 208553,
+      "+1": 404,
+      "-1": 27,
+      "0": 140,
+      "SILENT": 1070,
+      "residual": 11677327,
+      "conflict": 0
+     },
+     "nsm_construction": {
+      "rows": 8,
+      "+1": 5,
+      "-1": 1,
+      "0": 32,
+      "SILENT": 186,
+      "residual": 224,
+      "conflict": 0
+     },
+     "nsm_lexical_unit": {
+      "rows": 21,
+      "+1": 17,
+      "-1": 4,
+      "0": 124,
+      "SILENT": 695,
+      "residual": 336,
+      "conflict": 0
+     },
+     "num": {
+      "rows": 107,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 5992,
+      "conflict": 0
+     },
+     "particle": {
+      "rows": 43,
+      "+1": 2,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 47,
+      "residual": 2351,
+      "conflict": 0
+     },
+     "phrase": {
+      "rows": 122,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 6832,
+      "conflict": 0
+     },
+     "postp": {
+      "rows": 3,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 168,
+      "conflict": 0
+     },
+     "prep": {
+      "rows": 356,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 19936,
+      "conflict": 0
+     },
+     "prep_phrase": {
+      "rows": 10,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 560,
+      "conflict": 0
+     },
+     "preposition": {
+      "rows": 42,
+      "+1": 2,
+      "-1": 3,
+      "0": 32,
+      "SILENT": 188,
+      "residual": 2127,
+      "conflict": 0
+     },
+     "pron": {
+      "rows": 344,
+      "+1": 2,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 19262,
+      "conflict": 0
+     },
+     "pronoun": {
+      "rows": 58,
+      "+1": 58,
+      "-1": 0,
+      "0": 28,
+      "SILENT": 192,
+      "residual": 2970,
+      "conflict": 0
+     },
+     "punct": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "suffix": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "symbol": {
+      "rows": 82,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 4592,
+      "conflict": 0
+     },
+     "verb": {
+      "rows": 96023,
+      "+1": 15082,
+      "-1": 192,
+      "0": 768184,
+      "SILENT": 2343,
+      "residual": 4591487,
+      "conflict": 0
+     }
+    },
+    "by_source": {
+     "gse": {
+      "rows": 2,
+      "+1": 1,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 0,
+      "residual": 103,
+      "conflict": 0
+     },
+     "gse_closed_class": {
+      "rows": 213,
+      "+1": 76,
+      "-1": 4,
+      "0": 116,
+      "SILENT": 709,
+      "residual": 11023,
+      "conflict": 0
+     },
+     "nsm_chart": {
+      "rows": 29,
+      "+1": 22,
+      "-1": 5,
+      "0": 156,
+      "SILENT": 881,
+      "residual": 560,
+      "conflict": 0
+     },
+     "websters1913": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "wiktionary": {
+      "rows": 246240,
+      "+1": 2,
+      "-1": 0,
+      "0": 669920,
+      "SILENT": 0,
+      "residual": 13119518,
+      "conflict": 0
+     },
+     "wordnet": {
+      "rows": 155111,
+      "+1": 15501,
+      "-1": 220,
+      "0": 583756,
+      "SILENT": 3977,
+      "residual": 8082762,
+      "conflict": 0
+     }
+    }
+   },
+   "frequency": {
+    "1-500": {
+     "spellings": 500,
+     "definitions": 15028,
+     "mean_unresolved_banks": 51.85493745009316,
+     "mean_decided_banks": 4.14506254990684,
+     "mean_marginal_bits": 87.9783284609247
+    },
+    "501-1500": {
+     "spellings": 1000,
+     "definitions": 25440,
+     "mean_unresolved_banks": 52.1747248427673,
+     "mean_decided_banks": 3.8252751572327046,
+     "mean_marginal_bits": 88.50123440548467
+    },
+    "1501-5000": {
+     "spellings": 3500,
+     "definitions": 56654,
+     "mean_unresolved_banks": 52.58641931725915,
+     "mean_decided_banks": 3.413580682740848,
+     "mean_marginal_bits": 89.15659110237804
+    },
+    "5001+": {
+     "spellings": 20402,
+     "definitions": 132300,
+     "mean_unresolved_banks": 52.62538170823885,
+     "mean_decided_banks": 3.374618291761149,
+     "mean_marginal_bits": 89.21934693696357
+    },
+    "absent": {
+     "spellings": 41772,
+     "definitions": 172174,
+     "mean_unresolved_banks": 53.23598220404939,
+     "mean_decided_banks": 2.764017795950608,
+     "mean_marginal_bits": 90.18565621803961
+    }
+   }
+  },
+  "interpolated": {
+   "H": {
+    "marginal_bits": 35616264.895766005,
+    "joint_bits": 35616264.895766005,
+    "marginal_bits_of_satisfiable": 35616264.895766005,
+    "exact": true,
+    "readings": 401596,
+    "readings_without_configuration": 0,
+    "readings_with_a_bound": 0,
+    "components": [
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "SOMETHING",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:VERB_HEADS_NO_SUBSTANTIVE"
+      ],
+      "readings": 96023,
+      "legal_joint_states": 1,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:MODIFIER_HEADS_NO_SUBSTANTIVE"
+      ],
+      "readings": 60657,
+      "legal_joint_states": 1,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "GOOD",
+       "BIG"
+      ],
+      "relations": [
+       "law:SIZE_DESCRIPTOR_EXCLUDES_EVALUATION"
+      ],
+      "readings": 10,
+      "legal_joint_states": 10,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART",
+       "FEEL"
+      ],
+      "relations": [
+       "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY",
+       "law:MODIFIER_HEADS_NO_SUBSTANTIVE"
+      ],
+      "readings": 8,
+      "legal_joint_states": 3,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "GOOD",
+       "BIG"
+      ],
+      "relations": [
+       "law:EVALUATOR_EXCLUDES_SIZE"
+      ],
+      "readings": 5,
+      "legal_joint_states": 10,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "SOMETHING",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART"
+      ],
+      "relations": [
+       "law:SUBSTANTIVE_HEAD_IS_ONE_HOT"
+      ],
+      "readings": 4,
+      "legal_joint_states": 8,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "I",
+       "YOU",
+       "SOMEONE",
+       "PEOPLE",
+       "BODY",
+       "KIND",
+       "PART",
+       "THINK",
+       "WANT",
+       "FEEL",
+       "NOT"
+      ],
+      "relations": [
+       "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY",
+       "law:MODIFIER_HEADS_NO_SUBSTANTIVE",
+       "law:FEAR_AVERSION"
+      ],
+      "readings": 4,
+      "legal_joint_states": 73,
+      "bounded": false
+     },
+     {
+      "banks": [
+       "QUANTITY",
+       "WHEN"
+      ],
+      "relations": [
+       "law:QUANTIFIED_TIME_PORTMANTEAU"
+      ],
+      "readings": 4,
+      "legal_joint_states": 1,
+      "bounded": false
+     }
+    ]
+   },
+   "census": {
+    "rows": 401596,
+    "cells": 22489376,
+    "by_state": {
+     "+1": 177735,
+     "-1": 8396,
+     "0": 1293580,
+     "SILENT": 6372,
+     "residual": 21003293,
+     "conflict": 0
+    },
+    "by_bank": {
+     "I": {
+      "+1": 1,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "YOU": {
+      "+1": 1,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "SOMEONE": {
+      "+1": 43,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239150,
+      "conflict": 0
+     },
+     "SOMETHING": {
+      "+1": 1790,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 237403,
+      "conflict": 0
+     },
+     "PEOPLE": {
+      "+1": 220,
+      "-1": 0,
+      "0": 162185,
+      "SILENT": 2,
+      "residual": 239189,
+      "conflict": 0
+     },
+     "BODY": {
+      "+1": 30,
+      "-1": 0,
+      "0": 162372,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "KIND": {
+      "+1": 4398,
+      "-1": 0,
+      "0": 162326,
+      "SILENT": 2,
+      "residual": 234870,
+      "conflict": 0
+     },
+     "PART": {
+      "+1": 5391,
+      "-1": 0,
+      "0": 157050,
+      "SILENT": 2,
+      "residual": 239153,
+      "conflict": 0
+     },
+     "SAME": {
+      "+1": 12,
+      "-1": 1656,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 399793,
+      "conflict": 0
+     },
+     "ONE": {
+      "+1": 4326,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 397135,
+      "conflict": 0
+     },
+     "TWO": {
+      "+1": 4325,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "QUANTITY": {
+      "+1": 4330,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 130,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "GOOD": {
+      "+1": 26,
+      "-1": 1109,
+      "0": 27,
+      "SILENT": 126,
+      "residual": 400308,
+      "conflict": 0
+     },
+     "BIG": {
+      "+1": 55,
+      "-1": 18,
+      "0": 16,
+      "SILENT": 134,
+      "residual": 401373,
+      "conflict": 0
+     },
+     "THINK": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "KNOW": {
+      "+1": 4354,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 122,
+      "residual": 397120,
+      "conflict": 0
+     },
+     "WANT": {
+      "+1": 4566,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 121,
+      "residual": 396909,
+      "conflict": 0
+     },
+     "FEEL": {
+      "+1": 7497,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 393970,
+      "conflict": 0
+     },
+     "SEE": {
+      "+1": 775,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 133,
+      "residual": 400688,
+      "conflict": 0
+     },
+     "HEAR": {
+      "+1": 1155,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 134,
+      "residual": 400307,
+      "conflict": 0
+     },
+     "INFER": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "SAY": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "WORDS": {
+      "+1": 4538,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 396922,
+      "conflict": 0
+     },
+     "DO": {
+      "+1": 20108,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 381373,
+      "conflict": 0
+     },
+     "HAPPEN": {
+      "+1": 1176,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 114,
+      "residual": 400306,
+      "conflict": 0
+     },
+     "MOVE": {
+      "+1": 17556,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 383903,
+      "conflict": 0
+     },
+     "BE": {
+      "+1": 192,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401266,
+      "conflict": 0
+     },
+     "HAVE": {
+      "+1": 5132,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 396326,
+      "conflict": 0
+     },
+     "EXIST": {
+      "+1": 10600,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 390859,
+      "conflict": 0
+     },
+     "ALIVE": {
+      "+1": 4322,
+      "-1": 238,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 396898,
+      "conflict": 0
+     },
+     "MOMENT": {
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "WHEN": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "LONG_TIME": {
+      "+1": 1,
+      "-1": 193,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401266,
+      "conflict": 0
+     },
+     "BEFORE": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "THEN": {
+      "+1": 0,
+      "-1": 181,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 401286,
+      "conflict": 0
+     },
+     "START": {
+      "+1": 177,
+      "-1": 494,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 400787,
+      "conflict": 0
+     },
+     "WHERE": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "HERE": {
+      "+1": 181,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 401278,
+      "conflict": 0
+     },
+     "SIDE": {
+      "+1": 1774,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 399685,
+      "conflict": 0
+     },
+     "TOUCH": {
+      "+1": 7450,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 394009,
+      "conflict": 0
+     },
+     "ABOVE": {
+      "+1": 918,
+      "-1": 182,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 400360,
+      "conflict": 0
+     },
+     "FAR": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "OUTSIDE": {
+      "+1": 0,
+      "-1": 4323,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "TOWARD": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "WITH": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "NOT": {
+      "+1": 4333,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397134,
+      "conflict": 0
+     },
+     "MAYBE": {
+      "+1": 5,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 401462,
+      "conflict": 0
+     },
+     "CAN": {
+      "+1": 4333,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397134,
+      "conflict": 0
+     },
+     "MUST": {
+      "+1": 2,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 130,
+      "residual": 401464,
+      "conflict": 0
+     },
+     "BECAUSE": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "CAUSE": {
+      "+1": 15667,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 385791,
+      "conflict": 0
+     },
+     "IF": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397144,
+      "conflict": 0
+     },
+     "LIKE": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "TRUE": {
+      "+1": 17,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 134,
+      "residual": 401445,
+      "conflict": 0
+     },
+     "INTENSITY": {
+      "+1": 5662,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 113,
+      "residual": 395821,
+      "conflict": 0
+     },
+     "CERTAINTY": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     }
+    },
+    "by_pos": {
+     "adj": {
+      "rows": 60669,
+      "+1": 2362,
+      "-1": 1128,
+      "0": 485391,
+      "SILENT": 851,
+      "residual": 2907732,
+      "conflict": 0
+     },
+     "adv": {
+      "rows": 10179,
+      "+1": 10,
+      "-1": 0,
+      "0": 16,
+      "SILENT": 94,
+      "residual": 569904,
+      "conflict": 0
+     },
+     "article": {
+      "rows": 9,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 504,
+      "conflict": 0
+     },
+     "auxiliary": {
+      "rows": 31,
+      "+1": 9,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 47,
+      "residual": 1672,
+      "conflict": 0
+     },
+     "character": {
+      "rows": 56,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 3136,
+      "conflict": 0
+     },
+     "conj": {
+      "rows": 101,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 5656,
+      "conflict": 0
+     },
+     "conjunction": {
+      "rows": 24,
+      "+1": 3,
+      "-1": 1,
+      "0": 32,
+      "SILENT": 188,
+      "residual": 1120,
+      "conflict": 0
+     },
+     "contraction": {
+      "rows": 23,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1288,
+      "conflict": 0
+     },
+     "demonstrative": {
+      "rows": 1,
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 55,
+      "conflict": 0
+     },
+     "det": {
+      "rows": 164,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 9184,
+      "conflict": 0
+     },
+     "determiner": {
+      "rows": 25,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1400,
+      "conflict": 0
+     },
+     "infix": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "intj": {
+      "rows": 663,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 37128,
+      "conflict": 0
+     },
+     "name": {
+      "rows": 23876,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 1337056,
+      "conflict": 0
+     },
+     "noun": {
+      "rows": 208553,
+      "+1": 112391,
+      "-1": 6527,
+      "0": 39725,
+      "SILENT": 1214,
+      "residual": 11519111,
+      "conflict": 0
+     },
+     "nsm_construction": {
+      "rows": 8,
+      "+1": 5,
+      "-1": 1,
+      "0": 32,
+      "SILENT": 186,
+      "residual": 224,
+      "conflict": 0
+     },
+     "nsm_lexical_unit": {
+      "rows": 21,
+      "+1": 17,
+      "-1": 4,
+      "0": 124,
+      "SILENT": 695,
+      "residual": 336,
+      "conflict": 0
+     },
+     "num": {
+      "rows": 107,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 5992,
+      "conflict": 0
+     },
+     "particle": {
+      "rows": 43,
+      "+1": 2,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 47,
+      "residual": 2351,
+      "conflict": 0
+     },
+     "phrase": {
+      "rows": 122,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 6832,
+      "conflict": 0
+     },
+     "postp": {
+      "rows": 3,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 168,
+      "conflict": 0
+     },
+     "prep": {
+      "rows": 356,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 19936,
+      "conflict": 0
+     },
+     "prep_phrase": {
+      "rows": 10,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 560,
+      "conflict": 0
+     },
+     "preposition": {
+      "rows": 42,
+      "+1": 2,
+      "-1": 3,
+      "0": 32,
+      "SILENT": 188,
+      "residual": 2127,
+      "conflict": 0
+     },
+     "pron": {
+      "rows": 344,
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 19261,
+      "conflict": 0
+     },
+     "pronoun": {
+      "rows": 58,
+      "+1": 58,
+      "-1": 0,
+      "0": 28,
+      "SILENT": 192,
+      "residual": 2970,
+      "conflict": 0
+     },
+     "punct": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "suffix": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "symbol": {
+      "rows": 82,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 4592,
+      "conflict": 0
+     },
+     "verb": {
+      "rows": 96023,
+      "+1": 62872,
+      "-1": 732,
+      "0": 768184,
+      "SILENT": 2670,
+      "residual": 4542830,
+      "conflict": 0
+     }
+    },
+    "by_source": {
+     "gse": {
+      "rows": 2,
+      "+1": 1,
+      "-1": 0,
+      "0": 8,
+      "SILENT": 0,
+      "residual": 103,
+      "conflict": 0
+     },
+     "gse_closed_class": {
+      "rows": 213,
+      "+1": 76,
+      "-1": 4,
+      "0": 116,
+      "SILENT": 709,
+      "residual": 11023,
+      "conflict": 0
+     },
+     "nsm_chart": {
+      "rows": 29,
+      "+1": 22,
+      "-1": 5,
+      "0": 156,
+      "SILENT": 881,
+      "residual": 560,
+      "conflict": 0
+     },
+     "websters1913": {
+      "rows": 1,
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 0,
+      "residual": 56,
+      "conflict": 0
+     },
+     "wiktionary": {
+      "rows": 246240,
+      "+1": 60481,
+      "-1": 3440,
+      "0": 685098,
+      "SILENT": 625,
+      "residual": 13039796,
+      "conflict": 0
+     },
+     "wordnet": {
+      "rows": 155111,
+      "+1": 117155,
+      "-1": 4947,
+      "0": 608202,
+      "SILENT": 4157,
+      "residual": 7951755,
+      "conflict": 0
+     }
+    }
+   },
+   "frequency": {
+    "1-500": {
+     "spellings": 500,
+     "definitions": 15028,
+     "mean_unresolved_banks": 51.5944902848017,
+     "mean_decided_banks": 4.4055097151982965,
+     "mean_marginal_bits": 87.55870791992494
+    },
+    "501-1500": {
+     "spellings": 1000,
+     "definitions": 25440,
+     "mean_unresolved_banks": 51.89697327044025,
+     "mean_decided_banks": 4.1030267295597485,
+     "mean_marginal_bits": 88.05492627538126
+    },
+    "1501-5000": {
+     "spellings": 3500,
+     "definitions": 56654,
+     "mean_unresolved_banks": 52.24210117555689,
+     "mean_decided_banks": 3.7578988244431106,
+     "mean_marginal_bits": 88.6025079696645
+    },
+    "5001+": {
+     "spellings": 20402,
+     "definitions": 132300,
+     "mean_unresolved_banks": 52.21102796674225,
+     "mean_decided_banks": 3.7889720332577475,
+     "mean_marginal_bits": 88.55129815030875
+    },
+    "absent": {
+     "spellings": 41772,
+     "definitions": 172174,
+     "mean_unresolved_banks": 52.507515652769875,
+     "mean_decided_banks": 3.4924843472301275,
+     "mean_marginal_bits": 89.01048983528555
+    }
+   }
+  }
+ },
+ "rules": {
+  "rules": [
+   {
+    "rule": "lens:VN_EVENT_MOTION",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 796,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_EVENT_CONTACT",
+    "banks": [
+     "TOUCH"
+    ],
+    "scope_readings": 143,
+    "cells_narrowed": 143,
+    "cells_decided": 143,
+    "decided_states": {
+     "+1": 143
+    },
+    "marginal_bits": 226.64963760312457,
+    "kappa_joint_bits": 226.64963760312514,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_AFFECTIVE_STATE",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 88,
+    "cells_narrowed": 88,
+    "cells_decided": 88,
+    "decided_states": {
+     "+1": 88
+    },
+    "marginal_bits": 139.47670006346016,
+    "kappa_joint_bits": 139.4767000634622,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_DESIRE",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 23,
+    "cells_narrowed": 22,
+    "cells_decided": 22,
+    "decided_states": {
+     "+1": 22
+    },
+    "marginal_bits": 34.86917501586572,
+    "kappa_joint_bits": 34.86917501586555,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_VITALITY",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 16,
+    "cells_narrowed": 16,
+    "cells_decided": 16,
+    "decided_states": {
+     "-1": 16
+    },
+    "marginal_bits": 31.999999999999773,
+    "kappa_joint_bits": 32.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_EXISTENCE",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 177,
+    "cells_narrowed": 177,
+    "cells_decided": 177,
+    "decided_states": {
+     "+1": 177
+    },
+    "marginal_bits": 280.53836262764344,
+    "kappa_joint_bits": 280.53836262764395,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_POSSESSION",
+    "banks": [
+     "HAVE"
+    ],
+    "scope_readings": 259,
+    "cells_narrowed": 259,
+    "cells_decided": 259,
+    "decided_states": {
+     "+1": 259
+    },
+    "marginal_bits": 410.50528768678123,
+    "kappa_joint_bits": 410.5052876867807,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_BEGIN",
+    "banks": [
+     "START"
+    ],
+    "scope_readings": 17,
+    "cells_narrowed": 17,
+    "cells_decided": 17,
+    "decided_states": {
+     "+1": 17
+    },
+    "marginal_bits": 34.0,
+    "kappa_joint_bits": 34.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_END",
+    "banks": [
+     "START"
+    ],
+    "scope_readings": 22,
+    "cells_narrowed": 22,
+    "cells_decided": 22,
+    "decided_states": {
+     "-1": 22
+    },
+    "marginal_bits": 44.0,
+    "kappa_joint_bits": 44.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_CAUSATION",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1023,
+    "cells_narrowed": 1023,
+    "cells_decided": 1023,
+    "decided_states": {
+     "+1": 1023
+    },
+    "marginal_bits": 1621.4166382377443,
+    "kappa_joint_bits": 1621.4166382377457,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "lens:VN_CAUSATION",
+    "banks": [
+     "CAUSE"
+    ],
+    "scope_readings": 1025,
+    "cells_narrowed": 1025,
+    "cells_decided": 1025,
+    "decided_states": {
+     "+1": 1025
+    },
+    "marginal_bits": 1624.5865632391797,
+    "kappa_joint_bits": 1624.5865632391883,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "SOMETHING"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "KNOW"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "HEAR"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "SAY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "SIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "ABOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "OUTSIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "NOT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:224-273",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "SOMETHING"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "HAPPEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "SIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "OUTSIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "NOT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "IF"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:289-328",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "GOOD"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "SEE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "TOUCH"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:347-359",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "KIND"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "GOOD"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "KNOW"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "SAY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "WORDS"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "BEFORE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "TOUCH"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "FAR"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "OUTSIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "NOT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "IF"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:411-472",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "SOMETHING"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "GOOD"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "KNOW"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "SEE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "HEAR"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "SAY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "WORDS"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "HAPPEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "BE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "LONG_TIME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "BEFORE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "THEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "HERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "SIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "ABOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "FAR"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "NOT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "IF"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:537-625",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211614,
+    "kappa_joint_bits": 1.5849625007211614,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "SOMETHING"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "QUANTITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "GOOD"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "KNOW"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "WANT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "SEE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "HAPPEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "BE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "LONG_TIME"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "BEFORE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "SIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "TOUCH"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "ABOVE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "FAR"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 1.0,
+    "kappa_joint_bits": 1.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "OUTSIDE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "-1": 1
+    },
+    "marginal_bits": 2.0,
+    "kappa_joint_bits": 2.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "NOT"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "IF"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "nsm:G18:763-835",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 1,
+    "cells_narrowed": 1,
+    "cells_decided": 1,
+    "decided_states": {
+     "+1": 1
+    },
+    "marginal_bits": 1.5849625007211543,
+    "kappa_joint_bits": 1.5849625007211543,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:OWN_AFFECTIVE_FEELING",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:OWN_PHYSICAL_CHANGE_OF_PLACE",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 796,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:MODIFIER_LACKS_INDEPENDENT_OBJECTNESS",
+    "banks": [
+     "SOMETHING"
+    ],
+    "scope_readings": 60669,
+    "cells_narrowed": 60664,
+    "cells_decided": 60664,
+    "decided_states": {
+     "0": 60664
+    },
+    "marginal_bits": 96150.16514374875,
+    "kappa_joint_bits": 96150.16514374767,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY",
+    "banks": [
+     "FEEL",
+     "KIND"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:OWN_DEGREE_BEARING_CONTENT",
+    "banks": [
+     "INTENSITY"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:MODIFIER_HEADS_NO_SUBSTANTIVE",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 60669,
+    "cells_narrowed": 424648,
+    "cells_decided": 424648,
+    "decided_states": {
+     "0": 424648
+    },
+    "marginal_bits": 673051.1560062375,
+    "kappa_joint_bits": 673051.1560062363,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:VERB_HEADS_NO_SUBSTANTIVE",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "SOMETHING",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 96023,
+    "cells_narrowed": 768136,
+    "cells_decided": 768136,
+    "decided_states": {
+     "0": 768136
+    },
+    "marginal_bits": 1217466.755453946,
+    "kappa_joint_bits": 1217466.7554539447,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:OPERATOR_HEADS_NO_SUBSTANTIVE",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "SOMETHING",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:TIME_PLACE_HEADS_NO_SUBSTANTIVE",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "SOMETHING",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:SUBSTANTIVE_HEAD_IS_ONE_HOT",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "SOMETHING",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 4,
+    "cells_narrowed": 2,
+    "cells_decided": 2,
+    "decided_states": {
+     "0": 2
+    },
+    "marginal_bits": 3.169925001442312,
+    "kappa_joint_bits": 3.169925001442312,
+    "readings_it_leaves_without_configuration": 0
+   },
+   {
+    "rule": "law:EVALUATOR_EXCLUDES_SIZE",
+    "banks": [
+     "GOOD",
+     "BIG"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:SIZE_DESCRIPTOR_EXCLUDES_EVALUATION",
+    "banks": [
+     "BIG",
+     "GOOD"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:FEAR_AVERSION",
+    "banks": [
+     "FEEL",
+     "THINK",
+     "WANT",
+     "NOT"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:FEELING_NOUN_HEAD",
+    "banks": [
+     "I",
+     "YOU",
+     "SOMEONE",
+     "SOMETHING",
+     "PEOPLE",
+     "BODY",
+     "KIND",
+     "PART"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:SIGNED_FELT_VALENCE_DOMAIN",
+    "banks": [
+     "GOOD"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:QUANTIFIED_TIME_PORTMANTEAU",
+    "banks": [
+     "QUANTITY",
+     "WHEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SAME",
+    "banks": [
+     "SAME"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ONE",
+    "banks": [
+     "ONE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TWO",
+    "banks": [
+     "TWO"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BIG",
+    "banks": [
+     "BIG"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:KNOW",
+    "banks": [
+     "KNOW"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SEE",
+    "banks": [
+     "SEE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HEAR",
+    "banks": [
+     "HEAR"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:INFER",
+    "banks": [
+     "INFER"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SAY",
+    "banks": [
+     "SAY"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WORDS",
+    "banks": [
+     "WORDS"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:DO",
+    "banks": [
+     "DO"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MOVE",
+    "banks": [
+     "MOVE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BE",
+    "banks": [
+     "BE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HAVE",
+    "banks": [
+     "HAVE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:EXIST",
+    "banks": [
+     "EXIST"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ALIVE",
+    "banks": [
+     "ALIVE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MOMENT",
+    "banks": [
+     "MOMENT"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:LONG_TIME",
+    "banks": [
+     "LONG_TIME"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BEFORE",
+    "banks": [
+     "BEFORE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:THEN",
+    "banks": [
+     "THEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:START",
+    "banks": [
+     "START"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WHERE",
+    "banks": [
+     "WHERE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HERE",
+    "banks": [
+     "HERE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SIDE",
+    "banks": [
+     "SIDE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TOUCH",
+    "banks": [
+     "TOUCH"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ABOVE",
+    "banks": [
+     "ABOVE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:FAR",
+    "banks": [
+     "FAR"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:OUTSIDE",
+    "banks": [
+     "OUTSIDE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TOWARD",
+    "banks": [
+     "TOWARD"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WITH",
+    "banks": [
+     "WITH"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MAYBE",
+    "banks": [
+     "MAYBE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MUST",
+    "banks": [
+     "MUST"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CAUSE",
+    "banks": [
+     "CAUSE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:IF",
+    "banks": [
+     "IF"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TRUE",
+    "banks": [
+     "TRUE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CERTAINTY",
+    "banks": [
+     "CERTAINTY"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:USAS_OWN_HAPPY_SAD_STATE:companions",
+    "banks": [
+     "FEEL"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_ADJ:companions",
+    "banks": [
+     "HAPPEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "THINK"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "LIKE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "WHEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "BECAUSE"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "CAN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   },
+   {
+    "rule": "law:EMOTION_FEAR_NOUN:companions",
+    "banks": [
+     "HAPPEN"
+    ],
+    "scope_readings": 0,
+    "cells_narrowed": 0,
+    "cells_decided": 0,
+    "decided_states": {},
+    "marginal_bits": 0.0,
+    "kappa_joint_bits": 0.0
+   }
+  ],
+  "bits_removed_by_all": 1992627.8694315627,
+  "bits_credited_to_single_rules": 1991366.2392809961,
+  "bits_in_overlap": 1261.630150566576
+ }
+}
