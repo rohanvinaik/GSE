@@ -12,13 +12,10 @@ import pytest
 from GSE.api import GSEEncoder
 from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
 from GSE.curation.lexicon_builder import store
+from GSE.curation.lexicon_builder.cells import START
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-rohan_voice = pytest.importorskip(
-    "rohan_voice",
-    reason="scripts/rohan_voice.py, the recognizer these tests exercise, was deleted with the old construction path "
-    "(task 0.2, 6c61ecc); the fixture is rebuilt on store.py (task 10.1)",
-)
+import rohan_voice  # noqa: E402
 
 
 @pytest.fixture
@@ -242,7 +239,7 @@ def test_real_catalog_partial_grammar_remains_unread(voice_dictionary):
     assert evidence["state"] == "unread"
     assert evidence["reason"] == "UNRESOLVED_DEFINITION_VALUES"
     assert evidence["primitives"] == {}
-    assert all(domain == [-1, 0, 1] for domain in evidence["domains"].values())
+    assert evidence["domains"] == store.domains(START)  # every bank still open at its starting domain (F040)
     features = rohan_voice.featurize("You can help the dog.")
     assert features["state"] == "unread"
     assert features["reason"] == "incomplete_lexical_features"

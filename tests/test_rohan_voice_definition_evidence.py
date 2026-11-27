@@ -11,11 +11,7 @@ from GSE.curation.external_sources.gse_closed_class import GSEClosedClassParser
 from GSE.curation.lexicon_builder import store
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-rohan_voice = pytest.importorskip(
-    "rohan_voice",
-    reason="scripts/rohan_voice.py, the recognizer these tests exercise, was deleted with the old construction path "
-    "(task 0.2, 6c61ecc); the fixture is rebuilt on store.py (task 10.1)",
-)
+import rohan_voice  # noqa: E402
 
 
 @pytest.fixture
