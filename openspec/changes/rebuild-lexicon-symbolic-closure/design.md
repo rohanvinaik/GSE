@@ -149,7 +149,12 @@ information-theoretic principle, what it looks like running, its output in cells
   separates its confirmations from its contradictions; if no type does, the oscillation is the finding.
   2026-11-25 05:30: an input that breaks coherence is "an out-of-variance exception".
 - **Code.** `admission.py`, written fresh from those sections. A verdict is one of ADMITTED, NARROWED (with the
-  imputed guard), FINDING (with the exact readings), UNCONFIRMED or NO_REACH. Each admitted relation is versioned,
+  imputed guard), FINDING (with the exact readings), UNCONFIRMED, UNEXPOSED or NO_REACH. UNEXPOSED means no reading
+  in the scope states the consequent's bank outside the consequent's states, so the population could not have
+  refuted the rule (SSL 4.3, the falsifiability pivot; Significance Weighting 14 (ii)). An unexposed rule carries no
+  information and is not admitted. A pair witness needs the two banks stated by distinct observations of the same
+  reading (F108: relations "stable across the tens of thousands of words that exist in multiple datasets"). Typed
+  scopes are strict kind-of ancestors; values carried by inheritance are derived and never confirm. Each admitted relation is versioned,
   with its warrant and its positive and must-not witnesses.
 - **Principle.** The gate keeps N_ind well defined. A self-confirmed rule lowers H while carrying no information
   (Significance Weighting section 14).
