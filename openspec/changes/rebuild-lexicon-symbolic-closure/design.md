@@ -287,6 +287,10 @@ information-theoretic principle, what it looks like running, its output in cells
   isn't". 01:53: "Grammar is a constraint harness".
 - **Code.** The existing grammatical harness and clause selection consume the sense records through
   `GSE.lexicon_resource`. Only their input changes. `store.py` writes the artifact in the form the runtime reads.
+  The published values are the interpolated layer's decided cells, which include every known one. Each cell stores
+  its standing (known or interpolated) with its warrant class and rule, and the reader can return known-only values.
+  F148 asks for "every rule-warranted cell"; TrialLedger's interpolated standing is legitimate content once
+  labelled. SILENT is written as an empty domain (F118) and is never a value.
 - **Principle.** The same constraints narrow the readings in context.
 - **Running.** Per sentence, at runtime.
 - **Output.** Readings selected in context. The acceptance witnesses are the florbles sentence, "lock",
