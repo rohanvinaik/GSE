@@ -218,6 +218,14 @@ information-theoretic principle, what it looks like running, its output in cells
   anything in the build. An alignment is a proposed identity: content crosses it as an interpolated default,
   suspended on any conflict, and the senses of E10 confirm it or keep the readings apart. Topical categories and
   `topics` are domain facts for scoping and coherence, not kind-of edges.
+- **Unaligned Wiktionary definitions.** Of 246,240, 47,756 are connected and about 158,000 have WordNet readings of the
+  same lemma and part of speech but no unique alignment. Rohan, 2026-11-25 01:53: the 44 definitions of "lock" are
+  "splintered from a much smaller set of *actual* definitions". So such a definition is an obligation: it means one
+  of its lemma's senses (the matched subset when several candidates match), resolved by exclusion between rounds.
+  Stated content incompatible with every candidate is a recorded conflict, evidence of a distinct sense, never a
+  forced merge. The 41,975 with no WordNet candidate are 23,104 proper nouns (out of scope, 2026-11-25 03:28) and
+  about 18,900 common definitions only Wiktionary covers. Their evidence is word-level sources (direct when the word
+  has one reading), `form_of`/`alt_of` routes, and Wiktionary's own hypernyms and topics; the rest is the tail.
 
 ### E9. Closure and measurement over the population
 
