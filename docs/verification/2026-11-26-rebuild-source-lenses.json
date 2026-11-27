@@ -5,14 +5,14 @@
   "sha256": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424"
  },
  "seconds": {
-  "cohort": 0.66,
+  "cohort": 0.71,
   "load": {
-   "verbnet": 2.58,
+   "verbnet": 2.3,
    "usas": 0.07,
-   "framenet": 5.62,
-   "ratings": 6.51
+   "framenet": 5.55,
+   "ratings": 7.21
   },
-  "project": 1.51
+  "project": 1.27
  },
  "competence": {
   "VN_EVENT_MOTION": {
@@ -323,6 +323,16 @@
   },
   "obligations": 190,
   "obligation_witnesses": 103,
+  "obligation_facts_by_witness": {
+   "own_degree_domain=graded_property": 103,
+   "own_denotatum=affective_feeling": 42,
+   "own_role=feeling_substantive": 4,
+   "own_semantic_kind=evaluator": 35,
+   "own_semantic_kind=size_descriptor": 26,
+   "own_template_quantification=SOMETIMES": 5,
+   "own_valence_domain=signed_felt_pole": 9,
+   "source_frame_family=Fear": 9
+  },
   "obligations_by_rule_bank": {
    "EMOTION_FEAR_ADJ:BECAUSE:+1": 5,
    "EMOTION_FEAR_ADJ:CAN:+1": 5,
@@ -419,14 +429,14 @@
      "OBLIGATION_LEMMA_POS": 105
     },
     "withheld": {
-     "GUARD_NEEDS_ONE_READING:own_degree_domain=graded_property": 105,
-     "GUARD_NEEDS_ONE_READING:own_denotatum=affective_feeling": 43,
-     "GUARD_NEEDS_ONE_READING:own_role=feeling_substantive": 4,
-     "GUARD_NEEDS_ONE_READING:own_semantic_kind=evaluator": 36,
-     "GUARD_NEEDS_ONE_READING:own_semantic_kind=size_descriptor": 26,
-     "GUARD_NEEDS_ONE_READING:own_template_quantification=SOMETIMES": 6,
-     "GUARD_NEEDS_ONE_READING:own_valence_domain=signed_felt_pole": 10,
-     "GUARD_NEEDS_ONE_READING:source_frame_family=Fear": 10
+     "GUARD_ON_LOCATED_READING:own_degree_domain=graded_property": 105,
+     "GUARD_ON_LOCATED_READING:own_denotatum=affective_feeling": 43,
+     "GUARD_ON_LOCATED_READING:own_role=feeling_substantive": 4,
+     "GUARD_ON_LOCATED_READING:own_semantic_kind=evaluator": 36,
+     "GUARD_ON_LOCATED_READING:own_semantic_kind=size_descriptor": 26,
+     "GUARD_ON_LOCATED_READING:own_template_quantification=SOMETIMES": 6,
+     "GUARD_ON_LOCATED_READING:own_valence_domain=signed_felt_pole": 10,
+     "GUARD_ON_LOCATED_READING:source_frame_family=Fear": 10
     }
    },
    "verbnet": {
@@ -480,7 +490,7 @@
    "conflict": 0,
    "cells": 22489376,
    "bits": 35991474.946359746,
-   "seconds": 0.346
+   "seconds": 0.348
   },
   "laws_and_lens": {
    "+1": 3551,
@@ -494,7 +504,7 @@
    "relations": 76,
    "applications": 83,
    "removals": 1257157,
-   "seconds": 0.37
+   "seconds": 0.346
   },
   "bits_removed_by_lens": 5711.257477544248,
   "newly_decided_by_bank": {
