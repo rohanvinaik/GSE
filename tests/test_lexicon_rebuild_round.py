@@ -160,3 +160,119 @@ def test_the_final_state_and_its_provenance_persist(outcome, tmp_path):
     rule = data["known_rule"][HORSE, BANK_INDEX["ALIVE"]]
     assert str(data["rule_ids"][rule]).startswith("coherence:")
     assert data["classes"][data["known_class"][ZORB2, BANK_INDEX["ALIVE"]]] == "forced_obligation"
+
+
+# --- The Wiktionary binding through the extension hook ------------------------------------------------------------
+
+WIKT = (
+    Reading("wiktionary:dog:1", "dog", "noun", ""),  # aligned to dog.n.01: a proposed identity
+    Reading("wiktionary:doggo:1", "doggo", "noun", ""),  # form_of dog.n.01, one target: a stated identity
+    Reading("wiktionary:birdy:1", "birdy", "noun", ""),  # form_of one of dog.n.01 or bird.n.01: an obligation
+)
+W_ALIGNED, W_FORM, W_OBLIGED = range(len(READINGS), len(READINGS) + len(WIKT))
+
+
+def _links():
+    links = []
+    for family, sense, standing in (
+        ("aligned", "wiktionary:dog:1", "proposed"),
+        ("form_of", "wiktionary:doggo:1", "stated"),
+    ):
+        links += [(family, sense, "dog.n.01", standing), (family, "dog.n.01", sense, standing)]
+    return links
+
+
+def _classes(*joined):
+    classes = np.arange(len(READINGS) + len(WIKT))
+    classes[list(joined)] = DOG
+    return classes
+
+
+def _obligation():
+    from GSE.curation.lexicon_builder.identities import IdentityObligation
+
+    targets = np.array([DOG, BIRD], dtype=np.int64)
+    return IdentityObligation("form_of", W_OBLIGED, targets, ("wiktionary:birdy:1:form_of:x",))
+
+
+def _extension():
+    n = len(READINGS) + len(WIKT)
+    zoology = np.zeros(n, dtype=bool)
+    zoology[W_ALIGNED] = True
+    return R.extensions.Extension(
+        name="wiktionary",
+        groups={w.reading_id: [row] for w, row in zip(WIKT, (W_ALIGNED, W_FORM, W_OBLIGED))},
+        links=_links(),
+        facts={"wiktionary_topic=zoology": zoology},
+        classes=_classes(W_ALIGNED, W_FORM),
+        identity_obligations=[_obligation()],
+    )
+
+
+def _wiktionary_round(resolver):
+    readings = READINGS + WIKT
+    stated = STATED + (Observation("wiktionary:birdy:1", "ALIVE", ZERO, "test", "cc:birdy"),)
+    inputs = R.compose(readings, _lens(), _nsm(), stated, DERIVED, LINKS, (_extension(),), resolver=resolver)
+    rounds, final = R.run(inputs)
+    return inputs, rounds, final
+
+
+@pytest.fixture(scope="module")
+def wiktionary_outcome():
+    return _wiktionary_round(R.identity_resolver())
+
+
+def test_the_binding_becomes_an_extension_in_declared_families_at_their_standing():
+    import dataclasses
+
+    from GSE.curation.lexicon_builder import wiktionary_binding as wb
+
+    readings = READINGS + WIKT
+    plain = [link[:3] for link in _links()] + [("made_up_family", "wiktionary:dog:1", "cat.n.01")]
+    fields = {f.name for f in dataclasses.fields(wb.Binding)}
+    given = {
+        "groups": _extension().groups,
+        "links": plain,
+        "classes": _classes(W_ALIGNED, W_FORM),
+        "obligations": [_obligation()],
+        "facts": {"wiktionary_topic=zoology": np.array([W_ALIGNED])},
+        "dispositions": {},
+        "aligned": {W_ALIGNED: DOG},
+        "known_classes": _classes(W_FORM),
+    }
+    ext = R.extensions.from_binding(wb.Binding(**{k: v for k, v in given.items() if k in fields}), readings)
+    assert ext.receipt["links_left_out_undeclared_family"] == {"made_up_family": 1}
+    assert ext.receipt["links_by_standing"] == {"aligned:proposed": 2, "form_of:stated": 2}
+    assert ext.facts["wiktionary_topic=zoology"].tolist() == [i == W_ALIGNED for i in range(len(readings))]
+    assert len(ext.identity_obligations) == 1
+
+
+def test_the_binding_enters_as_edges_at_their_standing_classes_and_topic_facts(wiktionary_outcome):
+    inputs, _, final = wiktionary_outcome
+    assert inputs.scopes["wiktionary_topic=zoology"][W_ALIGNED]
+    known, every = final.known_classes, final.classes
+    assert known[W_FORM] == known[DOG] and known[W_ALIGNED] != known[DOG]  # only a stated identity is known
+    assert every[W_ALIGNED] == every[DOG] == every[W_FORM]
+    assert _cell(final, "known", W_FORM, "MOVE") == POS  # a stated identity carries known values as known
+    assert _class(inputs, final, "known", W_FORM, "MOVE") == "stated_identity"
+    assert _cell(final, "interpolated", W_ALIGNED, "MOVE") == POS  # dog's lens value crosses the alignment
+    assert _class(inputs, final, "interpolated", W_ALIGNED, "MOVE") == "inherited"
+    assert _cell(final, "known", W_ALIGNED, "MOVE") & ZERO  # and stays out of the known layer
+
+
+def test_an_identity_obligation_resolves_between_rounds_into_a_link_for_the_next(wiktionary_outcome):
+    inputs, rounds, final = wiktionary_outcome
+    first = rounds[0]["identities"]
+    assert (first["pending_before"], first["pending_after"], first["links_added"]) == (1, 0, 2)
+    assert first["links_added_by_standing"] == {"proposed": 2}  # resolved among several targets: proposed
+    assert rounds[0]["links_in_force"] == 0 and rounds[1]["links_in_force"] == 2
+    assert not rounds[-1]["identities"]["links_added"] and not rounds[-1]["discovery"]["admitted"]
+    assert final.classes[W_OBLIGED] == final.classes[BIRD]  # the resolved identity joins its class
+    assert _cell(final, "interpolated", W_OBLIGED, "MOVE") == ZERO  # bird's stated MOVE 0, across the new link
+    assert _class(inputs, final, "interpolated", W_OBLIGED, "MOVE") == "inherited"
+
+
+def test_without_a_resolver_identity_obligations_are_carried_and_counted():
+    _, rounds, final = _wiktionary_round(None)
+    assert all(r["identities"]["pending_after"] == 1 and not r["identities"]["links_added"] for r in rounds)
+    assert _cell(final, "interpolated", W_OBLIGED, "MOVE") & POS  # no link, nothing crosses
