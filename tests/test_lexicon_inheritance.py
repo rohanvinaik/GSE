@@ -446,3 +446,68 @@ def test_a_known_class_must_rest_on_stated_identities():
     with pytest.raises(ValueError, match="CLASSES_SPLIT_A_KNOWN_CLASS"):
         stated = inh.build({"a": [0], "w": [1]}, [("form_of", "a", "w", "stated")])
         inh.settle(s, stated, classes=np.array([0, 1]), known_classes=stated.stated_identities(2))
+
+
+def _stated_pair(extra_links=()):
+    # r0 is the single reading of a (the target), r1 the Wiktionary sense w, a stated form of it; r2 is a hub.
+    links = [("form_of", "a", "w", "stated"), ("form_of", "w", "a", "stated"), *extra_links]
+    graph = inh.build({"a": [0], "w": [1], "hub": [2]}, links)
+    return graph, graph.stated_identities(3)
+
+
+def test_a_known_value_crosses_a_stated_identity_as_known():
+    s = _state(3)
+    _set(s, 0, "FEEL", +1)
+    _set(s, 1, "SEE", "SILENT")
+    graph, known_classes = _stated_pair()
+    out = inh.settle(s, graph, known_classes=known_classes)
+    assert _get(out.known, 1, "FEEL") == POS and _get(out.known, 0, "SEE") == SILENT
+    assert not out.interpolated[1, B["FEEL"]] and not out.interpolated[0, B["SEE"]]
+
+
+def test_an_interpolated_value_crossing_a_stated_identity_stays_interpolated():
+    s = _state(3)
+    _set(s, 2, "MOVE", +1)
+    graph, known_classes = _stated_pair([("hypernym", "hub", "a")])
+    out = inh.settle(s, graph, known_classes=known_classes)
+    assert _get(out.known, 0, "MOVE") == _start("MOVE") and _get(out.known, 1, "MOVE") == _start("MOVE")
+    assert _get(out.state, 0, "MOVE") == POS and _get(out.state, 1, "MOVE") == POS
+    assert out.interpolated[1, B["MOVE"]]
+
+
+def test_a_proposed_identity_moves_nothing_in_the_known_layer():
+    s = _state(2)
+    _set(s, 0, "FEEL", +1)
+    graph = inh.build({"a": [0], "w": [1]}, [("aligned", "a", "w"), ("aligned", "w", "a")])
+    out = inh.settle(s, graph, classes=np.array([0, 0]))
+    assert _get(out.known, 1, "FEEL") == _start("FEEL")
+    assert _get(out.state, 1, "FEEL") == POS and out.interpolated[1, B["FEEL"]]
+
+
+def test_known_states_that_a_stated_identity_cannot_join_are_reported_not_written():
+    s = _state(3)
+    _set(s, 0, "FEEL", +1)
+    _set(s, 1, "FEEL", 0)
+    graph, known_classes = _stated_pair()
+    out = inh.settle(s, graph, known_classes=known_classes)
+    assert (_get(out.known, 0, "FEEL"), _get(out.known, 1, "FEEL")) == (POS, ZERO)
+    assert {"reading": "r0", "bank": "FEEL"} in out.identity_conflicts
+
+
+def test_the_known_layer_records_its_removals_and_steps_in_order():
+    from GSE.curation.lexicon_builder.closure import Derivations
+
+    law = implies("t:feel-alive", "FEEL", POS, "ALIVE", POS, "test")
+    s = _state(3)
+    _set(s, 0, "FEEL", +1)
+    graph, known_classes = _stated_pair()
+    record = Derivations()
+    out = inh.settle(s, graph, relations=[law], known_classes=known_classes, record=record)
+    kinds = [step[0] for step in out.known_steps]
+    assert kinds[:2] == ["close", "identity"] and kinds.count("close") >= 2
+    arrays = record.arrays()
+    assert set(arrays["rows"].tolist()) == {0}  # the law narrows r0; r1 takes the result across the identity
+    identity = next(step for step in out.known_steps if step[0] == "identity" and step[1].size)
+    assert set(identity[1].tolist()) == {1} and set(identity[2].tolist()) == {B["FEEL"], B["ALIVE"]}
+    assert out.known_steps[0][1:] == (0, int(arrays["rows"].size))
+    assert _get(out.known, 1, "ALIVE") == POS and not out.interpolated[1].any()

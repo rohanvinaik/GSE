@@ -523,6 +523,10 @@ class Settlement:
     held_equal: np.ndarray  # nodes x banks: synonym equality suspended
     proposals: np.ndarray  # nodes x banks: the states reaching each node in the final round
     known_conflicts: list[dict]  # obligation conflicts in the known layer
+    identity_conflicts: list[
+        dict
+    ]  # (reading, bank) where a stated identity class's known states have nothing in common
+    known_steps: list  # the known layer's steps in order (see `settle`)
     interpolated_conflicts: list[dict]  # obligation conflicts in the final interpolated layer
     known_scopes: dict  # guard scopes with the facts located in the known layer
     scopes: dict  # guard scopes with the facts located in the interpolated layer too
@@ -584,23 +588,62 @@ def _check_classes(graph: Graph, n: int, classes, known_classes):
     return classes, known_classes
 
 
-def _close_known(state: State, relations, scopes: dict, batch: ob.Batch, known_classes=None):
-    """Close the known layer in place: laws, then obligations, waking the laws on the facts they locate."""
-    closures = sweeps = forced = woken = 0
-    last = None
+def _equalize(state: State, known_classes: np.ndarray):
+    """Readings of one stated identity class have one meaning: intersect their masks in place. A bank where their
+    states have nothing in common is not written; it is returned as a conflict between known premises."""
+    size = np.bincount(known_classes)
+    rows = np.flatnonzero(size[known_classes] > 1)
+    empty = np.zeros(0, dtype=np.int64)
+    if not rows.size:
+        return empty, empty, empty, empty, (empty, empty)
+    rows = rows[np.argsort(known_classes[rows], kind="stable")]
+    cls = known_classes[rows]
+    _, starts, inverse = np.unique(cls, return_index=True, return_inverse=True)
+    common = np.bitwise_and.reduceat(state.masks[rows], starts, axis=0)
+    before = state.masks[rows]
+    after = np.where(common[inverse] != 0, before & common[inverse], before)
+    r, c = np.nonzero(after != before)
+    state.masks[rows[r], c] = after[r, c]
+    bad_class, bad_bank = np.nonzero(common == 0)
+    return rows[r], c, before[r, c], after[r, c], (rows[starts[bad_class]], bad_bank)
+
+
+def _close_known(state: State, relations, scopes: dict, batch: ob.Batch, known_classes=None, record=None):
+    """Close the known layer in place: laws, stated identities, then obligations, waking the laws on the facts they
+    locate, until nothing changes. Returns the receipt, the last forcing, the ordered steps, and the identity
+    conflicts."""
+    closures = sweeps = forced = woken = carried = 0
+    last, steps, conflicts = None, [], ([], [])
     while True:
-        close(state, relations, scopes)
+        first = record.count() if record is not None else 0
+        close(state, relations, scopes, record)
         closures += 1
-        if not len(batch):
+        steps.append(("close", first, record.count() if record is not None else 0))
+        changed = 0
+        if known_classes is not None:
+            rows, cols, old, new, bad = _equalize(state, known_classes)
+            steps.append(("identity", rows, cols, old, new))
+            carried += rows.size
+            changed += rows.size
+            conflicts = bad
+        if len(batch):
+            last = ob.force(state, batch, known_classes)
+            steps.append(("force", last.rows, last.cols, last.by, last.facts))
+            sweeps += 1
+            forced += last.changed
+            added = ob.wake(scopes, last.facts)
+            woken += added
+            changed += last.changed + added
+        if changed == 0:
             break
-        last = ob.force(state, batch, known_classes)
-        sweeps += 1
-        forced += last.changed
-        added = ob.wake(scopes, last.facts)
-        woken += added
-        if last.changed == 0 and added == 0:
-            break
-    return {"closures": closures, "sweeps": sweeps, "forced": forced, "facts_woken": woken}, last
+    receipt = {
+        "closures": closures,
+        "sweeps": sweeps,
+        "forced": forced,
+        "facts_woken": woken,
+        "identity_cells": carried,
+    }
+    return receipt, last, steps, conflicts
 
 
 def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_of_row):
@@ -641,6 +684,7 @@ def settle(
     obligations: ob.Batch | None = None,
     classes=None,
     known_classes=None,
+    record=None,
 ) -> Settlement:
     """The joint round, leaving `state` untouched.
 
@@ -658,6 +702,17 @@ def settle(
     `known_classes` are joined by stated identities only (checked against the graph's stated links) and act in both
     layers; `classes` are joined by every identity and act only in the interpolated layer, where a conflict that rests
     on one sends its group back to the known classes.
+
+    A stated identity also runs in the known layer (the lead's ruling of 2026-11-27): the readings of one known class
+    have one meaning, so their known masks are intersected, and a known value crosses as known (TrialLedger: "Known
+    is a source fact or a strict conclusion from known premises"). It carries only known values: what is
+    interpolated on one side stays interpolated on the other, since the interpolated layer carries it as any default.
+    A proposed link never acts in the known layer. Readings of one class whose known states have nothing in common on
+    a bank are not equalized there (`Settlement.identity_conflicts`).
+
+    `record`, a `closure.Derivations`, receives every removal the known layer's closure makes; the known layer's steps
+    come back in order (`Settlement.known_steps`): ("close", first, end) spans of `record`, ("identity", rows, cols,
+    old, new) and ("force", rows, cols, obligation, facts).
     """
     started = time.perf_counter()
     relations = tuple(relations)
@@ -666,7 +721,9 @@ def settle(
     known_scopes = {name: mask.copy() for name, mask in (scopes or {}).items()}
     classes, known_classes = _check_classes(graph, len(state.readings), classes, known_classes)
     interpolated_classes = classes if classes is not None else known_classes
-    known_receipt, known_forcing = _close_known(known, relations, known_scopes, batch, known_classes)
+    known_receipt, known_forcing, known_steps, identity_conflicts = _close_known(
+        known, relations, known_scopes, batch, known_classes, record
+    )
     known_conflicts = set(known_forcing.conflicts.tolist()) if known_forcing is not None else set()
     shape = (len(graph.keys), _WIDTH)
     held = np.zeros(shape, dtype=bool)
@@ -761,6 +818,11 @@ def settle(
         landed=landed,
         lineage=trace(graph, final_nodes, emissions(final_nodes, step.proposals), landed),
         known_conflicts=known_forcing.described(batch, known) if known_forcing is not None else [],
+        identity_conflicts=[
+            {"reading": state.readings[int(r)], "bank": BANKS[int(c)]}
+            for r, c in zip(*(np.asarray(x) for x in identity_conflicts))
+        ],
+        known_steps=known_steps,
         interpolated_conflicts=last.described(batch, current) if last is not None else [],
         known_scopes=known_scopes,
         scopes=round_scopes,
