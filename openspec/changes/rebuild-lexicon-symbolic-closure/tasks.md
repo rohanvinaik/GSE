@@ -134,6 +134,12 @@ receipt; senses and the runtime artifact (10.1).
   exist in multiple datasets"), with exact every-time sets and NSM entailment as the symbolic validation (F101).
   Ratings are discovery-only families.
 
+- **The Wiktionary-only tail, measured** (228a71a). 22,885 common definitions have no WordNet reading of their lemma
+  and part of speech; 16,941 of them carry no structured evidence (no single-reading source fact, form link,
+  Wiktionary hypernym or topic). Under E10 they join their word's core, but for these words the core itself has no
+  evidence beyond the part-of-speech laws. This is the tail; F080 allows the gloss only for "the top 0.001%".
+  Decision for Rohan when the bulk is measured.
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
