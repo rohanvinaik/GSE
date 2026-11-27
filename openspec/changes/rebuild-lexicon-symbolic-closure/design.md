@@ -196,6 +196,19 @@ information-theoretic principle, what it looks like running, its output in cells
   kind-of under an earlier gate.
 - **Contribution.** It reaches the readings no source describes directly, including the Wiktionary readings bound
   by the links Wiktionary states.
+- **Wiktionary readings (246,240).** F080: "I don't think we EVER need the raw gloss text". A Wiktionary sense is
+  bound only through structured fields:
+  - `form_of` and `alt_of` (an inflection or variant has the meaning of its target);
+  - `synonyms`;
+  - an alignment to a WordNet sense of the same lemma and part of speech. About 97% of senses carry `links`, the
+    words their editors linked, and sparse-wiki uses exactly such editor links as semantic anchors. The sense
+    aligns to a candidate only when exactly one candidate has the synset of a linked word among its kind-of
+    ancestors (or as itself). With no such candidate, or two or more, it abstains and stays residual.
+  This is exact set logic over editor links and the kind-of graph, with no score and no margin. GSE's runtime
+  resolver (`grounding._select_by_coherence`) uses a margin and a frequency prior, so it is not used to decide
+  anything in the build. An alignment is a proposed identity: content crosses it as an interpolated default,
+  suspended on any conflict, and the senses of E10 confirm it or keep the readings apart. Topical categories and
+  `topics` are domain facts for scoping and coherence, not kind-of edges.
 
 ### E9. Closure and measurement over the population
 

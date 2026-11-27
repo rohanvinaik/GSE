@@ -76,6 +76,19 @@
   Acceptance: `creatures` gives `animal.n.01` MOVE and FEEL and its kinds inherit them; a kind using a prime its hub
   never mentions does not inherit silence; retracting a misfiled link defeats only what depended on it.
 
+- [ ] 6.2 Wiktionary bindings: `form_of`/`alt_of` and `synonyms` as edges or obligations to the target lemma's
+  readings; the exact anchor alignment to WordNet senses (design E8); categories and topics as domain facts.
+  Acceptance: an alignment exists only where exactly one candidate has a linked word's synset among its ancestors;
+  zero or several candidates abstain; content crosses an alignment only as a suspendable default.
+
+## Execution (2026-11-26)
+
+Implementation is delegated: each task goes to an implementer with a written brief, owning disjoint files, and is
+reviewed against this design before it is committed. Wave 1, running: source lenses (`projection.py`, `guards.py`);
+inheritance and cross-reading obligations (`inheritance.py`, `obligations.py`); coherence and admission
+(`coherence.py`, `admission.py`); NSM content (`nsm.py`). Next: Wiktionary bindings (6.2); the round runner and its
+receipt; senses and the runtime artifact (10.1).
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
