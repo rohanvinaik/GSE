@@ -262,11 +262,13 @@ information-theoretic principle, what it looks like running, its output in cells
   salience, that are definitional across the load-bearing banks". 05:30: "If a single input completely destroys the
   coherence model, then that's an out-of-variance exception". 20:20: no frequency-defined "main sense".
 - **Code.** `senses.py` takes, for each lemma and part of speech, all of its definitions with their closed states:
-  - **Coherence is the default.** The definitions form one sense unless they destructively interfere. Interference
-    means a load-bearing bank where their states have nothing in common.
-  - **Homonyms are the partition the interference forces.** Definitions are grouped so that no group holds two
-    definitions incompatible on a load-bearing bank. A definition with no evidence of its own interferes with
-    nothing, so it joins its word's core and needs no evidence of its own.
+  - **Evidenced definitions are one sense only when their load-bearing encodings are EQUAL** (03:28: "the same bank
+    encodings"): every bank decided in either one, by a stated, law or admitted-rule warrant in the known layer,
+    has the same value in both. A bank decided in one and open in the other is not shown equal. Compatibility is
+    not enough: six differently evidenced senses of "go" would otherwise accumulate the union of their content.
+  - **A definition with no evidence of its own joins its word's core** when the word has exactly one evidenced
+    sense (Rohan, 2026-11-26: the collapse concept covers them). With several evidenced senses it stays a residual
+    listing them, and it never joins a prime reading's sense, whose silence is confined to that reading.
   - **One definition alone against the core** is an out-of-variance exception: it is kept apart, with its reason,
     and never averaged in.
   - **The sense's encoding** is the constructive combination of its members: on each bank, the states every
