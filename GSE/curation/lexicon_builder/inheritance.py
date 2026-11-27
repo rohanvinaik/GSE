@@ -56,6 +56,20 @@ edge here is.
   the two share their components, but what each excludes and what each leaves unsaid can differ, so zeros and
   silence stay with their own word. Degree is the open risk (a listed synonym can be stronger or weaker), to be
   audited against NSM.
+- `wiktionary_hypernym`: a Wiktionary sense-level `hypernyms` entry, from the hypernym word's single reading of the
+  same part of speech to the sense. Carries +1, -1 and 0, as kind-of does, never SILENT. Warrant: the lead's decision
+  of 2026-11-27, "Sense-level `hypernyms` are a kind-of source the Wiktionary editors state ... It carries what kind-of
+  carries." Not mirrored, and it joins no identity class. A hypernym word with several readings is a link
+  obligation, resolved between rounds (`identities.resolve`).
+
+Standing (the lead's ruling of 2026-11-27). A link may carry a standing, `stated` or `proposed`, as a fourth element.
+`form_of` or `alt_of` with a single target reading is stated: Wiktionary's own structured field names it, and
+TrialLedger's "Known is a source fact or a strict conclusion from known premises" holds of it. `aligned`, and a
+`form_of` or `alt_of` resolved among several targets (`identities.resolve`), is proposed; an `aligned` link is never
+stated. An identity link without a standing is proposed, so nothing is promoted by omission. Standing decides the
+identity classes `settle` counts obligations by: classes joined by stated identities (`known_classes`) act in both
+layers, and every other class only in the interpolated layer. Content crossing any link is still an interpolated
+default.
 
 Defaults. A node emits its own value where its mask is decided (the kind's own value is what its kinds inherit);
 elsewhere it passes on the proposals reaching it that are still legal for it. Proposals are ORed over every incoming
@@ -103,6 +117,7 @@ from .lineage import origins as lineage_origins
 
 KIND_OF = POS | NEG | ZERO
 CONTENT = POS | NEG
+STATED, PROPOSED = "stated", "proposed"
 _WIDTH = len(BANKS)
 
 
@@ -115,6 +130,8 @@ class Family:
     carries: int
     warrant: str
     never_writes: frozenset[str] = frozenset()
+    identity: bool = False  # a claim that the two nodes have one meaning; its links carry a standing
+    mirrored: bool = False  # its links are emitted in both directions (a symmetric relation)
 
     def carry_row(self) -> np.ndarray:
         """The states it carries on each bank."""
@@ -126,10 +143,26 @@ FAMILIES: tuple[Family, ...] = (
     Family("instance_hypernym", KIND_OF, "kind-of: an instance of X is an X (module docstring)"),
     Family("similar_to", KIND_OF, "WordNet adjective cluster: a satellite refines its head (module docstring)"),
     Family("entails", CONTENT, "WordNet entailment: same subject, the entailed event is part (module docstring)"),
-    Family("aligned", ALL, "Wiktionary sense aligned to one WordNet reading: a proposed identity (module docstring)"),
-    Family("form_of", ALL, "Wiktionary form_of: a form of a word has its meaning (module docstring)"),
-    Family("alt_of", ALL, "Wiktionary alt_of: a spelling of a word has its meaning (module docstring)"),
-    Family("sense_synonym", CONTENT, "Wiktionary sense synonym: near-synonymy shares content only (module docstring)"),
+    Family(
+        "aligned",
+        ALL,
+        "Wiktionary sense aligned to one WordNet reading: a proposed identity",
+        identity=True,
+        mirrored=True,
+    ),
+    Family("form_of", ALL, "Wiktionary form_of: a form of a word has its meaning", identity=True, mirrored=True),
+    Family("alt_of", ALL, "Wiktionary alt_of: a spelling of a word has its meaning", identity=True, mirrored=True),
+    Family(
+        "sense_synonym",
+        CONTENT,
+        "Wiktionary sense synonym: near-synonymy shares content only (module docstring)",
+        mirrored=True,
+    ),
+    Family(
+        "wiktionary_hypernym",
+        KIND_OF,
+        "Wiktionary sense-level hypernyms: a kind-of the editors state (the lead's decision, 2026-11-27)",
+    ),
     Family(
         "causes",
         CONTENT,
@@ -199,6 +232,7 @@ class Graph:
     edge_starts: np.ndarray  # the first edge of each target
     carries: np.ndarray  # (edges, banks) the states each edge carries on each bank
     families: tuple[Family, ...]
+    stated: np.ndarray = field(default_factory=lambda: np.zeros(0, dtype=bool))  # each edge's standing
     defeated: tuple[tuple[str, str, str, str], ...] = field(default=())  # (family, parent, child, reason)
 
     def node_masks(self, masks: np.ndarray) -> np.ndarray:
@@ -217,6 +251,26 @@ class Graph:
         out = np.zeros((len(self.keys), _WIDTH), dtype=bool)
         if self.rows.size:
             out[self.owned] = np.bitwise_or.reduceat(flags.astype(np.uint8), self.starts, axis=0) > 0
+        return out
+
+    def stated_identities(self, n_readings: int) -> np.ndarray:
+        """A component id per reading: readings whose nodes are joined by stated identity links share one; every
+        other reading is its own (its row)."""
+        identity = np.array([f.identity for f in self.families], dtype=bool)
+        sel = identity[self.family] & self.stated if self.family.size else np.zeros(0, dtype=bool)
+        label = np.arange(len(self.keys), dtype=np.int64)
+        a, b = self.src[sel], self.dst[sel]
+        while a.size:
+            low = np.minimum(label[a], label[b])
+            if (low == label[a]).all() and (low == label[b]).all():
+                break
+            np.minimum.at(label, a, low)
+            np.minimum.at(label, b, low)
+        out = np.arange(n_readings, dtype=np.int64)
+        joined = np.bincount(label, minlength=len(self.keys)) > 1
+        node_label = label[self.node_of]
+        on = joined[node_label]
+        out[self.rows[on]] = n_readings + node_label[on]
         return out
 
     def members(self, node: int) -> np.ndarray:
@@ -243,6 +297,7 @@ class Graph:
                 "reading_pairs": int((size[self.src[both]] * size[self.dst[both]]).sum()),
                 "carries": state_names(fam.carries),
                 "never_writes": sorted(fam.never_writes),
+                "stated": int((sel & self.stated).sum()) if self.stated.size else 0,
             }
         groups = size[size >= 2]
         out[SYNONYMY.name] = {
@@ -279,10 +334,19 @@ def build(groups: dict[str, list[int]], links, defeaters=DEFEATERS, families=FAM
     Nodes named only by links are transit nodes. A defeater that matches no link is refused.
     """
     index = {f.name: i for i, f in enumerate(families)}
-    links = list(dict.fromkeys(tuple(link) for link in links))
-    unknown = {family for family, _, _ in links} - set(index)
-    if unknown:
-        raise ValueError(f"UNKNOWN_FAMILIES {sorted(unknown)}")
+    standing: dict[tuple[str, str, str], bool] = {}
+    for link in links:
+        family, parent, child, *rest = tuple(link)
+        if family not in index:
+            raise ValueError(f"UNKNOWN_FAMILIES {[family]}")
+        given = rest[0] if rest else (PROPOSED if families[index[family]].identity else STATED)
+        if given not in (STATED, PROPOSED):
+            raise ValueError(f"UNKNOWN_STANDING {given}")
+        if family == "aligned" and given == STATED:
+            raise ValueError("ALIGNMENT_IS_PROPOSED")
+        key = (family, parent, child)
+        standing[key] = standing.get(key, False) or given == STATED
+    links = list(standing)
     kept, gone = _defeat(links, defeaters)
     keys = tuple(sorted(set(groups) | {p for _, p, _ in kept} | {c for _, _, c in kept}))
     node = {k: i for i, k in enumerate(keys)}
@@ -295,8 +359,9 @@ def build(groups: dict[str, list[int]], links, defeaters=DEFEATERS, families=FAM
     src = np.array([node[p] for _, p, _ in kept], dtype=np.int64)
     dst = np.array([node[c] for _, _, c in kept], dtype=np.int64)
     fam = np.array([index[f] for f, _, _ in kept], dtype=np.int8)
+    stated = np.array([standing[link] for link in kept], dtype=bool)
     order = np.argsort(dst, kind="stable")
-    src, dst, fam = src[order], dst[order], fam[order]
+    src, dst, fam, stated = src[order], dst[order], fam[order], stated[order]
     targets, edge_starts = np.unique(dst, return_index=True)
     rules = np.stack([f.carry_row() for f in families]) if families else np.zeros((0, _WIDTH), np.uint8)
     carries = rules[fam] if fam.size else np.zeros((0, _WIDTH), np.uint8)
@@ -313,6 +378,7 @@ def build(groups: dict[str, list[int]], links, defeaters=DEFEATERS, families=FAM
         edge_starts=edge_starts,
         carries=carries,
         families=tuple(families),
+        stated=stated,
         defeated=tuple(gone),
     )
 
@@ -504,7 +570,21 @@ class Settlement:
         return out
 
 
-def _close_known(state: State, relations, scopes: dict, batch: ob.Batch):
+def _check_classes(graph: Graph, n: int, classes, known_classes):
+    """Known classes must rest on stated identities, and every class joining readings must keep their known joins."""
+    if known_classes is not None:
+        known_classes = np.asarray(known_classes, dtype=np.int64)
+        pairs = np.unique(np.stack([known_classes, graph.stated_identities(n)]), axis=1)
+        if np.unique(pairs[0]).size != pairs.shape[1]:
+            raise ValueError("KNOWN_CLASS_WITHOUT_STATED_IDENTITY")
+    if classes is not None and known_classes is not None:
+        pairs = np.unique(np.stack([known_classes, np.asarray(classes, dtype=np.int64)]), axis=1)
+        if np.unique(pairs[0]).size != pairs.shape[1]:
+            raise ValueError("CLASSES_SPLIT_A_KNOWN_CLASS")
+    return classes, known_classes
+
+
+def _close_known(state: State, relations, scopes: dict, batch: ob.Batch, known_classes=None):
     """Close the known layer in place: laws, then obligations, waking the laws on the facts they locate."""
     closures = sweeps = forced = woken = 0
     last = None
@@ -513,7 +593,7 @@ def _close_known(state: State, relations, scopes: dict, batch: ob.Batch):
         closures += 1
         if not len(batch):
             break
-        last = ob.force(state, batch)
+        last = ob.force(state, batch, known_classes)
         sweeps += 1
         forced += last.changed
         added = ob.wake(scopes, last.facts)
@@ -554,7 +634,13 @@ def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_o
 
 
 def settle(
-    state: State, graph: Graph, relations=(), scopes=None, obligations: ob.Batch | None = None, classes=None
+    state: State,
+    graph: Graph,
+    relations=(),
+    scopes=None,
+    obligations: ob.Batch | None = None,
+    classes=None,
+    known_classes=None,
 ) -> Settlement:
     """The joint round, leaving `state` untouched.
 
@@ -567,13 +653,20 @@ def settle(
     the defaults it names and the interpolated layer is replayed from the known layer. Holds only grow, so the
     replay ends; the final replay has no new conflict, and its result is the fixed point of monotone operators,
     which no order of edges or relations changes.
+
+    Identity classes (an id per reading) make the readings of one meaning one candidate of an obligation.
+    `known_classes` are joined by stated identities only (checked against the graph's stated links) and act in both
+    layers; `classes` are joined by every identity and act only in the interpolated layer, where a conflict that rests
+    on one sends its group back to the known classes.
     """
     started = time.perf_counter()
     relations = tuple(relations)
     batch = obligations if obligations is not None else ob.Batch.of(())
     known = state.copy()
     known_scopes = {name: mask.copy() for name, mask in (scopes or {}).items()}
-    known_receipt, known_forcing = _close_known(known, relations, known_scopes, batch)
+    classes, known_classes = _check_classes(graph, len(state.readings), classes, known_classes)
+    interpolated_classes = classes if classes is not None else known_classes
+    known_receipt, known_forcing = _close_known(known, relations, known_scopes, batch, known_classes)
     known_conflicts = set(known_forcing.conflicts.tolist()) if known_forcing is not None else set()
     shape = (len(graph.keys), _WIDTH)
     held = np.zeros(shape, dtype=bool)
@@ -601,7 +694,13 @@ def settle(
             inherited[step.rows, step.cols] = True
             changed = step.changed + close(current, relations, round_scopes)["removals"]
             if len(batch):
-                last = ob.force(current, batch, classes, held_groups if classes is not None else None)
+                last = ob.force(
+                    current,
+                    batch,
+                    interpolated_classes,
+                    held_groups if classes is not None else None,
+                    held_classes=known_classes,
+                )
                 forced.append(
                     (np.concatenate([last.rows, last.located_rows]), np.concatenate([last.by, last.located_by]))
                 )

@@ -191,11 +191,17 @@ def _combine(rows, cols, allowed, owners):
     return unique // _WIDTH, unique % _WIDTH, combined, owners[order][starts], cell_of_entry
 
 
-def force(state: State, batch: Batch, classes: np.ndarray | None = None, held: np.ndarray | None = None) -> Forcing:
+def force(
+    state: State,
+    batch: Batch,
+    classes: np.ndarray | None = None,
+    held: np.ndarray | None = None,
+    held_classes: np.ndarray | None = None,
+) -> Forcing:
     """One sweep of every obligation in `batch` over `state`, narrowing it in place.
 
     `classes` (an id per reading) makes readings of one identity class one candidate; `held` (a flag per group)
-    keeps a group on single readings.
+    keeps a group on `held_classes` instead (single readings when that is omitted).
     """
     n_groups = batch.groups
     blocked, pair_group, pair_row, pair_open = _pairs(state, batch)
@@ -204,7 +210,8 @@ def force(state: State, batch: Batch, classes: np.ndarray | None = None, held: n
     else:
         pair_class = np.asarray(classes, dtype=np.int64)[pair_row]
         if held is not None:
-            pair_class = np.where(held[pair_group], int(classes.max()) + 1 + pair_row, pair_class)
+            fallback = pair_row if held_classes is None else np.asarray(held_classes, dtype=np.int64)[pair_row]
+            pair_class = np.where(held[pair_group], int(classes.max()) + 1 + fallback, pair_class)
     span = int(pair_class.max()) + 1 if pair_class.size else 1
     keys = pair_group * span + pair_class
     class_keys, class_of_pair = np.unique(keys, return_inverse=True)

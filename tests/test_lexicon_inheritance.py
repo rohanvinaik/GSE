@@ -401,3 +401,48 @@ def test_a_conflict_that_rests_on_an_identity_class_suspends_the_class_and_the_d
     assert _get(out.state, 0, "MOVE") == _start("MOVE") and _get(out.state, 1, "MOVE") == _start("MOVE")
     assert out.reasons[out.graph.keys.index("a"), B["MOVE"]] & inh.JOINT
     assert out.receipt["held_groups"] == 1 and out.interpolated_conflicts == []
+
+
+def test_identity_links_carry_a_standing_and_an_alignment_is_never_stated():
+    graph = inh.build(
+        {"a": [0], "w": [1], "v": [2]},
+        [
+            ("form_of", "a", "w", "stated"),
+            ("form_of", "w", "a", "stated"),
+            ("aligned", "a", "v"),
+            ("hypernym", "a", "v"),
+        ],
+    )
+    counts = graph.counts()
+    assert counts["form_of"]["stated"] == 2 and counts["aligned"]["stated"] == 0 and counts["hypernym"]["stated"] == 1
+    assert graph.stated_identities(3).tolist()[:2] == [graph.stated_identities(3)[1]] * 2
+    assert graph.stated_identities(3)[2] == 2  # an aligned link joins no stated identity
+    with pytest.raises(ValueError, match="ALIGNMENT_IS_PROPOSED"):
+        inh.build({}, [("aligned", "a", "v", "stated")])
+    with pytest.raises(ValueError, match="UNKNOWN_STANDING"):
+        inh.build({}, [("form_of", "a", "v", "known")])
+
+
+def test_a_stated_identity_class_forces_in_the_known_layer_and_its_facts_are_known():
+    # The Wiktionary sense w (row 1) is a form of the single reading a (row 0): one meaning, by a stated identity.
+    s = _state(3)
+    _set(s, 2, "GOOD", 0)
+    graph = inh.build(
+        {"a": [0], "w": [1], "z": [2]}, [("form_of", "a", "w", "stated"), ("form_of", "w", "a", "stated")]
+    )
+    batch = Batch.of([Obligation("t:good", "GOOD", POS, [0, 1, 2], witness=1, facts=("own_semantic_kind=evaluator",))])
+    scopes = {"own_semantic_kind=evaluator": np.zeros(3, dtype=bool)}
+    known_classes = graph.stated_identities(3)
+    out = inh.settle(s, graph, scopes=scopes, obligations=batch, known_classes=known_classes)
+    assert (_get(out.known, 0, "GOOD"), _get(out.known, 1, "GOOD")) == (POS, POS)
+    assert out.known_scopes["own_semantic_kind=evaluator"].tolist() == [True, True, False]
+
+
+def test_a_known_class_must_rest_on_stated_identities():
+    s = _state(2)
+    graph = inh.build({"a": [0], "w": [1]}, [("aligned", "a", "w"), ("aligned", "w", "a")])
+    with pytest.raises(ValueError, match="KNOWN_CLASS_WITHOUT_STATED_IDENTITY"):
+        inh.settle(s, graph, known_classes=np.array([0, 0]))
+    with pytest.raises(ValueError, match="CLASSES_SPLIT_A_KNOWN_CLASS"):
+        stated = inh.build({"a": [0], "w": [1]}, [("form_of", "a", "w", "stated")])
+        inh.settle(s, stated, classes=np.array([0, 1]), known_classes=stated.stated_identities(2))
