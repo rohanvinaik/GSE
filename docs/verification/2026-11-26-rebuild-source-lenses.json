@@ -1,0 +1,498 @@
+{
+ "format": "GSE.rebuild-source-lenses/1",
+ "cohort": {
+  "readings": 401596,
+  "sha256": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424"
+ },
+ "seconds": {
+  "cohort": 0.67,
+  "load": {
+   "verbnet": 2.29,
+   "usas": 0.07,
+   "framenet": 5.74,
+   "ratings": 6.13
+  },
+  "project": 1.31
+ },
+ "competence": {
+  "VN_EVENT_MOTION": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate motion in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "MOVE": "+1"
+   }
+  },
+  "VN_EVENT_CONTACT": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate contact in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "TOUCH": "+1"
+   }
+  },
+  "VN_AFFECTIVE_STATE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate emotional_state in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {
+    "requires_verb_emotion_tag": true
+   },
+   "writes": {
+    "FEEL": "+1"
+   }
+  },
+  "VN_DESIRE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate desire in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "WANT": "+1"
+   }
+  },
+  "VN_VITALITY": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate alive in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "ALIVE": "+1|-1"
+   }
+  },
+  "VN_EXISTENCE": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate exist in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {
+    "requires_existence_change": true
+   },
+   "writes": {
+    "EXIST": "+1"
+   }
+  },
+  "VN_POSSESSION": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate has_possession in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "HAVE": "+1"
+   }
+  },
+  "VN_BEGIN": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate begin in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {},
+   "writes": {
+    "START": "+1"
+   }
+  },
+  "VN_END": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate end in every frame of the class",
+   "scope": "ONE_NATIVE_CLASS_FRAME_AND_ARGUMENT_BINDING",
+   "conditions": {
+    "class_number_prefix": "55."
+   },
+   "writes": {
+    "START": "-1"
+   }
+  },
+  "VN_CAUSATION": {
+   "source": "verbnet",
+   "binding": "EXACT_WORDNET_SENSE_KEY",
+   "field": "semantics predicate cause in every frame of the class",
+   "scope": "ONE_NATIVE_EVENT_AND_CAUSER_BINDING",
+   "conditions": {
+    "requires_change_to_another_participant": true,
+    "requires_source_bound_affected_role": true
+   },
+   "writes": {
+    "CAUSE": "+1",
+    "DO": "+1",
+    "HAPPEN": "+1"
+   }
+  },
+  "USAS_OWN_QUALITY_POLE": {
+   "source": "usas+framenet",
+   "binding": "LEMMA_POS: an obligation; a restriction and the reading facts only on a single reading",
+   "field": "USAS A5.1 signed +- ADJ with FrameNet ['Desirability']",
+   "writes": {
+    "GOOD": "+1|-1"
+   },
+   "reading_facts": [
+    "own_degree_domain=graded_property",
+    "own_semantic_kind=evaluator"
+   ]
+  },
+  "USAS_OWN_SIZE_POLE": {
+   "source": "usas+framenet",
+   "binding": "LEMMA_POS: an obligation; a restriction and the reading facts only on a single reading",
+   "field": "USAS N3.2 signed +- ADJ with FrameNet ['Size']",
+   "writes": {
+    "BIG": "+1|-1"
+   },
+   "reading_facts": [
+    "own_degree_domain=graded_property",
+    "own_semantic_kind=size_descriptor"
+   ]
+  },
+  "USAS_OWN_HAPPY_SAD_STATE": {
+   "source": "usas+framenet",
+   "binding": "LEMMA_POS: an obligation; a restriction and the reading facts only on a single reading",
+   "field": "USAS E4.1 signed +- ADJ with FrameNet ['Emotion_directed']",
+   "writes": {
+    "GOOD": "+1|-1",
+    "FEEL": "+1"
+   },
+   "reading_facts": [
+    "own_denotatum=affective_feeling",
+    "own_degree_domain=graded_property"
+   ]
+  },
+  "EMOTION_FEAR_ADJ": {
+   "source": "usas+framenet",
+   "binding": "LEMMA_POS: an obligation; a restriction and the reading facts only on a single reading",
+   "field": "USAS E5/E6 signed - ADJ with FrameNet ['Fear']",
+   "writes": {
+    "GOOD": "-1",
+    "THINK": "+1",
+    "LIKE": "+1",
+    "WHEN": "+1",
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "HAPPEN": "+1"
+   },
+   "reading_facts": [
+    "own_denotatum=affective_feeling",
+    "own_degree_domain=graded_property",
+    "source_frame_family=Fear",
+    "own_valence_domain=signed_felt_pole",
+    "own_template_quantification=SOMETIMES"
+   ]
+  },
+  "EMOTION_FEAR_NOUN": {
+   "source": "usas+framenet",
+   "binding": "LEMMA_POS: an obligation; a restriction and the reading facts only on a single reading",
+   "field": "USAS E5/E6 signed - NOUN with FrameNet ['Fear']",
+   "writes": {
+    "GOOD": "-1",
+    "THINK": "+1",
+    "LIKE": "+1",
+    "WHEN": "+1",
+    "BECAUSE": "+1",
+    "CAN": "+1",
+    "HAPPEN": "+1"
+   },
+   "reading_facts": [
+    "own_denotatum=affective_feeling",
+    "own_degree_domain=graded_property",
+    "source_frame_family=Fear",
+    "own_valence_domain=signed_felt_pole",
+    "own_role=feeling_substantive"
+   ]
+  },
+  "VN_USAS_PERCEPTION_MODE": {
+   "source": "verbnet+usas",
+   "binding": "EXACT_WORDNET_SENSE_KEY and a LEMMA_POS of that one reading",
+   "field": "perceive in every frame with USAS VERB {'X3.2': 'HEARING', 'X3.4': 'VISION', 'X3.1': 'OTHER_OR_UNSPECIFIED', 'X3.3': 'OTHER_OR_UNSPECIFIED', 'X3.5': 'OTHER_OR_UNSPECIFIED'}",
+   "writes": {
+    "HEAR": "+1",
+    "SEE": "+1"
+   }
+  },
+  "nrc_emotion": {
+   "source": "nrc_emotion",
+   "writes": {},
+   "policy": "ASSOCIATION_ONLY; no lexical sign or silence implication"
+  },
+  "nrc_vad": {
+   "source": "nrc_vad",
+   "writes": {},
+   "policy": "RATING_ONLY; native score sign is not a lexical pole"
+  },
+  "lancaster": {
+   "source": "lancaster",
+   "writes": {},
+   "policy": "EXPERIENCE_RATING; no participant-property transfer"
+  },
+  "concreteness": {
+   "source": "concreteness",
+   "writes": {},
+   "policy": "REFERENTIAL_RATING; not a definitional component inventory"
+  },
+  "sentiwordnet": {
+   "source": "sentiwordnet",
+   "writes": {},
+   "policy": "RATING_OR_ASSOCIATION_SCORE; recorded, never written (design E2)"
+  },
+  "conceptnet": {
+   "source": "conceptnet",
+   "writes": {},
+   "policy": "RATING_OR_ASSOCIATION_SCORE; recorded, never written (design E2)"
+  }
+ },
+ "lens": {
+  "restrictions": 3803,
+  "restricted_cells": 3589,
+  "restricted_readings": 1919,
+  "restrictions_by_rule": {
+   "VN_EVENT_MOTION": 857,
+   "VN_EVENT_CONTACT": 144,
+   "VN_AFFECTIVE_STATE": 109,
+   "VN_DESIRE": 36,
+   "VN_VITALITY": 16,
+   "VN_EXISTENCE": 185,
+   "VN_POSSESSION": 267,
+   "VN_BEGIN": 17,
+   "VN_END": 22,
+   "VN_CAUSATION": 2150
+  },
+  "restrictions_by_rule_bank": {
+   "VN_AFFECTIVE_STATE:FEEL:+1": 109,
+   "VN_BEGIN:START:+1": 17,
+   "VN_CAUSATION:CAUSE:+1": 1076,
+   "VN_CAUSATION:DO:+1": 1074,
+   "VN_DESIRE:WANT:+1": 36,
+   "VN_END:START:-1": 22,
+   "VN_EVENT_CONTACT:TOUCH:+1": 144,
+   "VN_EVENT_MOTION:MOVE:+1": 857,
+   "VN_EXISTENCE:EXIST:+1": 185,
+   "VN_POSSESSION:HAVE:+1": 267,
+   "VN_VITALITY:ALIVE:-1": 16
+  },
+  "restricted_cells_by_source_bank": {
+   "verbnet:ALIVE": 16,
+   "verbnet:CAUSE": 1025,
+   "verbnet:DO": 1023,
+   "verbnet:EXIST": 177,
+   "verbnet:FEEL": 88,
+   "verbnet:HAVE": 259,
+   "verbnet:MOVE": 796,
+   "verbnet:START": 39,
+   "verbnet:TOUCH": 143,
+   "verbnet:WANT": 23
+  },
+  "facts": {
+   "own_predicate=physical_change_of_place": 796
+  },
+  "obligations": 190,
+  "obligation_witnesses": 103,
+  "obligations_by_rule_bank": {
+   "EMOTION_FEAR_ADJ:BECAUSE:+1": 5,
+   "EMOTION_FEAR_ADJ:CAN:+1": 5,
+   "EMOTION_FEAR_ADJ:GOOD:-1": 5,
+   "EMOTION_FEAR_ADJ:HAPPEN:+1": 5,
+   "EMOTION_FEAR_ADJ:LIKE:+1": 5,
+   "EMOTION_FEAR_ADJ:THINK:+1": 5,
+   "EMOTION_FEAR_ADJ:WHEN:+1": 5,
+   "EMOTION_FEAR_NOUN:BECAUSE:+1": 4,
+   "EMOTION_FEAR_NOUN:CAN:+1": 4,
+   "EMOTION_FEAR_NOUN:GOOD:-1": 4,
+   "EMOTION_FEAR_NOUN:HAPPEN:+1": 4,
+   "EMOTION_FEAR_NOUN:LIKE:+1": 4,
+   "EMOTION_FEAR_NOUN:THINK:+1": 4,
+   "EMOTION_FEAR_NOUN:WHEN:+1": 4,
+   "USAS_OWN_HAPPY_SAD_STATE:FEEL:+1": 33,
+   "USAS_OWN_HAPPY_SAD_STATE:GOOD:+1": 11,
+   "USAS_OWN_HAPPY_SAD_STATE:GOOD:-1": 22,
+   "USAS_OWN_QUALITY_POLE:GOOD:+1": 22,
+   "USAS_OWN_QUALITY_POLE:GOOD:-1": 13,
+   "USAS_OWN_SIZE_POLE:BIG:+1": 16,
+   "USAS_OWN_SIZE_POLE:BIG:-1": 10
+  },
+  "dispositions": {
+   "VN_USAS_PERCEPTION_MODE": {
+    "unbound": {
+     "USAS_BINDS_A_LEMMA_POS_OF_SEVERAL_READINGS": 107
+    }
+   },
+   "conceptnet": {
+    "recorded_only": {
+     "RATING_OR_ASSOCIATION_SCORE; recorded, never written (design E2)": 800712
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 2342767
+    }
+   },
+   "concreteness": {
+    "recorded_only": {
+     "REFERENTIAL_RATING; not a definitional component inventory": 29391
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 10562
+    }
+   },
+   "lancaster": {
+    "recorded_only": {
+     "EXPERIENCE_RATING; no participant-property transfer": 29229
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 10478
+    }
+   },
+   "nrc_emotion": {
+    "recorded_only": {
+     "ASSOCIATION_ONLY; no lexical sign or silence implication": 13542
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 612
+    }
+   },
+   "nrc_vad": {
+    "recorded_only": {
+     "RATING_ONLY; native score sign is not a lexical pole": 34327
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 20474
+    }
+   },
+   "sentiwordnet": {
+    "recorded_only": {
+     "RATING_OR_ASSOCIATION_SCORE; recorded, never written (design E2)": 114417
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA": 92561
+    }
+   },
+   "usas": {
+    "recorded_only": {
+     "NO_SOURCE_CONTRACT": 78578
+    },
+    "refused": {
+     "NO_ALIGNED_FRAME": 760,
+     "POS_OUTSIDE_RULE": 1771,
+     "SIGN_OUTSIDE_RULE": 41,
+     "SLASH_TAG_JOINT_MEMBERSHIP": 170,
+     "UNHANDLED_TAG_MARKER": 4,
+     "UNSIGNED_TAG_NO_POLE": 38
+    },
+    "unbound": {
+     "NO_READING_FOR_LEMMA_POS": 5
+    },
+    "used": {
+     "OBLIGATION_LEMMA_POS": 105
+    },
+    "withheld": {
+     "GUARD_NEEDS_ONE_READING:own_degree_domain=graded_property": 105,
+     "GUARD_NEEDS_ONE_READING:own_denotatum=affective_feeling": 43,
+     "GUARD_NEEDS_ONE_READING:own_role=feeling_substantive": 4,
+     "GUARD_NEEDS_ONE_READING:own_semantic_kind=evaluator": 36,
+     "GUARD_NEEDS_ONE_READING:own_semantic_kind=size_descriptor": 26,
+     "GUARD_NEEDS_ONE_READING:own_template_quantification=SOMETIMES": 6,
+     "GUARD_NEEDS_ONE_READING:own_valence_domain=signed_felt_pole": 10,
+     "GUARD_NEEDS_ONE_READING:source_frame_family=Fear": 10
+    }
+   },
+   "verbnet": {
+    "recorded_only": {
+     "NO_RULE_PREDICATE_IN_EVERY_FRAME": 3246
+    },
+    "refused": {
+     "OUTSIDE_RULE_CLASS_SCOPE": 6,
+     "PARTICIPANT_EXISTENCE_PRESUPPOSITION": 68,
+     "UNALIGNED_AFFECTIVE_READING": 203
+    },
+    "unbound": {
+     "MISSING_SENSE_KEY": 1151,
+     "READING_NOT_IN_COHORT": 54,
+     "UNCERTAIN_SENSE_KEY": 106
+    },
+    "used": {
+     "PROJECTED": 2102
+    },
+    "withheld": {
+     "NOT_IN_EVERY_FRAME:VN_AFFECTIVE_STATE": 126,
+     "NOT_IN_EVERY_FRAME:VN_CAUSATION": 2099,
+     "NOT_IN_EVERY_FRAME:VN_EVENT_CONTACT": 201,
+     "NOT_IN_EVERY_FRAME:VN_EVENT_MOTION": 225,
+     "NOT_IN_EVERY_FRAME:VN_EXISTENCE": 25,
+     "NOT_IN_EVERY_FRAME:VN_POSSESSION": 18,
+     "REFUSED_JOIN:OUTSIDE_RULE_CLASS_SCOPE": 6,
+     "REFUSED_JOIN:PARTICIPANT_EXISTENCE_PRESUPPOSITION": 184,
+     "REFUSED_JOIN:UNALIGNED_AFFECTIVE_READING": 203
+    }
+   }
+  }
+ },
+ "closure": {
+  "opening": {
+   "+1": 0,
+   "-1": 0,
+   "0": 0,
+   "SILENT": 0,
+   "residual": 22489376,
+   "conflict": 0,
+   "cells": 22489376,
+   "bits": 37978301.21846376
+  },
+  "laws_only": {
+   "+1": 0,
+   "-1": 0,
+   "0": 1253536,
+   "SILENT": 0,
+   "residual": 21235840,
+   "conflict": 0,
+   "cells": 22489376,
+   "bits": 35991474.946359746,
+   "seconds": 0.31
+  },
+  "laws_and_lens": {
+   "+1": 3551,
+   "-1": 38,
+   "0": 1253536,
+   "SILENT": 0,
+   "residual": 21232251,
+   "conflict": 0,
+   "cells": 22489376,
+   "bits": 35985763.6888822,
+   "relations": 27,
+   "applications": 34,
+   "removals": 1257157,
+   "seconds": 0.351
+  },
+  "bits_removed_by_lens": 5711.257477544248,
+  "newly_decided_by_bank": {
+   "WANT": 23,
+   "FEEL": 88,
+   "DO": 1023,
+   "MOVE": 796,
+   "HAVE": 259,
+   "EXIST": 177,
+   "ALIVE": 16,
+   "START": 39,
+   "TOUCH": 143,
+   "CAUSE": 1025
+  },
+  "removals_by_rule": {
+   "law:MODIFIER_HEADS_NO_SUBSTANTIVE": 424683,
+   "law:MODIFIER_LACKS_INDEPENDENT_OBJECTNESS": 60669,
+   "law:SUBSTANTIVE_HEAD_IS_ONE_HOT": 32,
+   "law:VERB_HEADS_NO_SUBSTANTIVE": 768184,
+   "lens:VN_AFFECTIVE_STATE": 88,
+   "lens:VN_BEGIN": 17,
+   "lens:VN_CAUSATION": 2048,
+   "lens:VN_DESIRE": 23,
+   "lens:VN_END": 22,
+   "lens:VN_EVENT_CONTACT": 143,
+   "lens:VN_EVENT_MOTION": 796,
+   "lens:VN_EXISTENCE": 177,
+   "lens:VN_POSSESSION": 259,
+   "lens:VN_VITALITY": 16
+  },
+  "conflicts": []
+ }
+}

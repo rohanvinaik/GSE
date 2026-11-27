@@ -44,10 +44,18 @@
 
 ## 3. Source lenses (E2)
 
-- [ ] 3.1 `projection.py`: every parser's observations into the ledger under its declared competence. Ratings,
+- [x] 3.1 `projection.py`: every parser's observations into the ledger under its declared competence. Ratings,
   associations and classifier outputs are recorded but write nothing.
   Acceptance: the field-to-bank map is published; a wrong-role observation and an incompetent source each get a
   named disposition; the directly decided cells are counted by source and bank.
+  Done (2026-11-27, by the lenses implementer; reviewed): `projection.py` implements the authored contracts in
+  `bank_laws.json`. VerbNet's native predicates are bound by exact WordNet 3.0 sense keys and hold only in every
+  frame of the class. USAS and FrameNet bind at lemma and part of speech, so they give obligations. They decide
+  3,589 cells (MOVE 796, CAUSE 1,025, DO 1,023, HAVE 259, EXIST 177, TOUCH 143, FEEL 88, START 39, WANT 23,
+  ALIVE -1 16) and 190 obligations in 103 groups, with 0 conflicts; H falls a further 5,711 bits after the laws.
+  Ratings wrote nothing. Receipt: `docs/verification/2026-11-26-rebuild-source-lenses.json`. Open items: the
+  authored `definition_boundary` silences of EMOTION_FEAR_ADJ need compiling as a law; negated predicates
+  (`source_polarity`) are not yet used; guard facts reach a reading only once its obligation is forced.
 
 ## 4. Prime foundation (E3)
 
