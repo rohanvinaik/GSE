@@ -264,7 +264,9 @@ def _align(readings, sense, groups, taxonomy: Taxonomy, notes=None) -> tuple[str
     matches = [r for r in candidates if taxonomy.ancestors(keys[r]) & linked]
     if "ADJ" in tags:
         by_kind = _outcome(matches)
-        matches = [r for r in candidates if (taxonomy.ancestors(keys[r]) | set(taxonomy.similar.get(keys[r], ()))) & linked]
+        matches = [
+            r for r in candidates if (taxonomy.ancestors(keys[r]) | set(taxonomy.similar.get(keys[r], ()))) & linked
+        ]
         if notes is not None and _outcome(matches) != by_kind:
             notes["aligned_similar_to"][f"{by_kind}->{_outcome(matches)}"] += 1
     return _outcome(matches), (matches[0] if len(matches) == 1 else None)
@@ -372,6 +374,48 @@ def located_groups(readings, lens: LensOutput, binding: Binding, masks: np.ndarr
     return out
 
 
+def evidence_census(readings, binding: Binding, lens: LensOutput) -> dict:
+    """The common (not proper-noun) Wiktionary readings whose lemma and part of speech have no WordNet reading, and
+    the evidence each has of its own: a lens restriction, a form_of/alt_of binding (and whether it reaches WordNet),
+    a Wiktionary hypernym, a sense synonym, a topic fact, or none. A measurement; it decides nothing."""
+    groups = lemma_pos_groups(readings)
+    with_wordnet = {k for k, rows in groups.items() if any(readings[r].source == "wordnet" for r in rows)}
+    rows = [
+        i
+        for i, r in enumerate(readings)
+        if r.source == "wiktionary"
+        and "PROPN" not in UPOS[r.pos]
+        and not any((r.lemma.lower(), tag) in with_wordnet for tag in UPOS[r.pos])
+    ]
+    key_rows = {_key(readings[i]): i for i in rows}
+    by_family: dict[str, set[int]] = defaultdict(set)
+    for family, a, b, *_ in binding.links:
+        for k in (a, b) if family in IDENTITY_FIELDS.values() else (b,):
+            if k in key_rows:
+                by_family[family].add(key_rows[k])
+    for o in binding.obligations:
+        by_family[o.kind].add(o.row)
+    reaches = binding.connected(readings, {"form_of", "alt_of"})
+    evidence = {
+        "lens_restriction": set(lens.restrictions.rows.tolist()),
+        "form_of_or_alt_of": by_family["form_of"] | by_family["alt_of"],
+        "form_of_or_alt_of_reaching_wordnet": {i for i in rows if reaches[i]},
+        "wiktionary_hypernym": by_family["wiktionary_hypernym"],
+        "sense_synonym": by_family["sense_synonym"],
+        "topic_fact": set(np.concatenate(list(binding.facts.values())).tolist()) if binding.facts else set(),
+    }
+    chosen = set(rows)
+    counted = {name: len(found & chosen) for name, found in evidence.items()}
+    asked = ("lens_restriction", "form_of_or_alt_of", "wiktionary_hypernym", "topic_fact")
+    none_asked = chosen - set().union(*(evidence[name] for name in asked))
+    return {
+        "readings": len(rows),
+        "with_evidence": counted,
+        "none_of_restriction_form_hypernym_topic": len(none_asked),
+        "none_even_counting_sense_synonyms": len(none_asked - evidence["sense_synonym"]),
+    }
+
+
 # --- The real cohort ------------------------------------------------------------------------------------------
 
 
@@ -457,6 +501,8 @@ def main(argv=None) -> dict:
             "by_candidate_classes": dict(sorted(Counter(str(v.size) for v in by_classes.values()).items())),
             "located_by_one_class": located_groups(readings, lens, binding, known.masks),
         },
+        "wiktionary_only_evidence": evidence_census(readings, binding, lens),
+        "proper_noun_boundary": PROPER_NOUN_BOUNDARY,
     }
     if args.settle:
         from .inheritance import wordnet_links

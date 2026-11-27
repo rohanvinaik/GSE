@@ -258,3 +258,69 @@ def test_settle_locates_a_stated_pair_in_the_known_layer():
     )
     assert result["known"]["obligation_groups_by_candidates"] == {"1": 1}
     assert result["known"]["facts_located"]["own_semantic_kind=size_descriptor"] == 2
+
+
+SIMILAR = Taxonomy(
+    synsets_of=lambda w: {
+        "dispirited": frozenset({"dispirited.s.01"}),
+        "sad": frozenset({"sad.a.01"}),
+        "slope": frozenset({"slope.n.01"}),
+    }.get(w, frozenset()),
+    parents={"glum.s.01": ("sad.a.01",)},
+    similar={
+        "dejected.a.01": ("dispirited.s.01",),
+        "dispirited.s.01": ("dejected.a.01",),
+        "sad.a.01": ("glum.s.01",),
+        "glum.s.01": ("sad.a.01",),
+        "bank.n.01": ("slope.n.01",),  # nouns never use similar_to, even if a stub offers it
+    },
+)
+
+
+def test_an_adjective_aligns_through_one_similar_to_hop_and_a_noun_does_not():
+    readings = (
+        _wn("dejected", "dejected.a.01"),
+        _wk("dejected", 1),
+        _wn("bank", "bank.n.01", "noun"),
+        _wk("bank", 1, "noun"),
+    )
+    senses = [Sense(1, "dejected", "adj", links=("dispirited",)), Sense(3, "bank", "noun", links=("slope",))]
+    b = bind(readings, senses, SIMILAR)
+    assert b.aligned == {1: 0}
+    assert b.dispositions["aligned"] == {"ALIGNED": 1, "NO_CANDIDATE_MATCHES": 1}
+    assert b.dispositions["aligned_similar_to"] == {"NO_CANDIDATE_MATCHES->ALIGNED": 1}
+
+
+def test_a_similar_to_hop_that_makes_a_second_candidate_match_is_an_honest_loss():
+    readings = (_wn("glum", "glum.s.01"), _wn("glum", "dejected.a.01"), _wk("glum", 1))
+    b = bind(readings, [Sense(2, "glum", "adj", links=("sad", "dispirited"))], SIMILAR)
+    assert not b.aligned
+    assert b.dispositions["aligned_similar_to"] == {"ALIGNED->SEVERAL_CANDIDATES_MATCH": 1}
+
+
+def test_a_proper_noun_never_takes_wordnet_candidates():
+    readings = (_wn("paris", "paris.n.01", "noun"), Reading("wiktionary:paris-name-1:x", "paris", "name", ""))
+    taxonomy = Taxonomy(synsets_of=lambda w: frozenset({"paris.n.01"}), parents={})
+    b = bind(readings, [Sense(1, "paris", "name", links=("paris",))], taxonomy)
+    assert not b.aligned
+    assert b.dispositions["aligned"] == {"PROPER_NOUN_BOUNDARY": 1}
+
+
+def test_the_evidence_census_counts_wiktionary_only_readings_by_what_they_have():
+    from GSE.curation.lexicon_builder.wiktionary_binding import evidence_census
+
+    readings = (
+        _wk("zorp", 1, "noun"),
+        _wk("zorp", 2, "noun"),
+        _wk("glorp", 1, "noun"),
+        Reading("wiktionary:paris-name-1:x", "paris", "name", ""),
+        _wn("bank", "bank.n.01", "noun"),
+        _wk("bank", 1, "noun"),
+    )
+    senses = [Sense(0, "zorp", "noun", topics=("physics",)), Sense(2, "glorp", "noun", form_of=("zorp",))]
+    b = bind(readings, senses, TAXONOMY)
+    census = evidence_census(readings, b, project(readings, Sources()))
+    assert census["readings"] == 3  # the zorps and glorp; not the proper noun, not bank
+    assert census["with_evidence"]["topic_fact"] == 1
+    assert census["with_evidence"]["form_of_or_alt_of"] == 1  # glorp's obligation over the two zorps
+    assert census["none_of_restriction_form_hypernym_topic"] == 1

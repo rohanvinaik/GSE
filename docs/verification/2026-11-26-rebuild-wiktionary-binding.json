@@ -6,12 +6,12 @@
  },
  "senses": 246240,
  "seconds": {
-  "load": 90.4,
-  "bind": 37.6
+  "load": 79.6,
+  "bind": 21.1
  },
  "binding": {
   "edges_by_family": {
-   "aligned": 46072,
+   "aligned": 46559,
    "alt_of": 311,
    "form_of": 536,
    "sense_synonym": 4222,
@@ -23,25 +23,31 @@
    "sense_synonym": 170884,
    "wiktionary_hypernym": 5147
   },
-  "aligned_wiktionary_readings": 46072,
-  "wiktionary_readings_connected_to_wordnet": 47744,
-  "wiktionary_readings_connected_to_wordnet_by_any_edge": 47756,
-  "classes_with_several_readings": 40349,
+  "aligned_wiktionary_readings": 46559,
+  "wiktionary_readings_connected_to_wordnet": 48196,
+  "wiktionary_readings_connected_to_wordnet_by_any_edge": 48208,
+  "classes_with_several_readings": 40699,
   "known_classes_with_several_readings": 779,
-  "wordnet_readings_in_a_shared_class": 39605,
+  "wordnet_readings_in_a_shared_class": 39955,
   "topic_facts": 3119,
   "readings_with_a_topic": 59415,
   "dispositions": {
    "aligned": {
-    "ALIGNED": 46072,
-    "NO_CANDIDATE_MATCHES": 110512,
+    "ALIGNED": 46559,
+    "NO_CANDIDATE_MATCHES": 109876,
     "NO_LINKED_SYNSET": 4938,
-    "NO_LINKS": 23908,
-    "NO_WORDNET_CANDIDATE": 41975,
-    "SEVERAL_CANDIDATES_MATCH": 18835
+    "NO_LINKS": 23136,
+    "NO_WORDNET_CANDIDATE": 18871,
+    "PROPER_NOUN_BOUNDARY": 23876,
+    "SEVERAL_CANDIDATES_MATCH": 18984
    },
    "aligned_detail": {
     "SEVERAL_WITH_OWN_LEMMA_LINKED": 928
+   },
+   "aligned_similar_to": {
+    "ALIGNED->SEVERAL_CANDIDATES_MATCH": 139,
+    "NO_CANDIDATE_MATCHES->ALIGNED": 626,
+    "NO_CANDIDATE_MATCHES->SEVERAL_CANDIDATES_MATCH": 10
    },
    "alt_of": {
     "IDENTITY_EDGE": 311,
@@ -75,28 +81,45 @@
  "lens_obligation_groups": {
   "groups": 103,
   "by_candidate_classes": {
-   "1": 12,
+   "1": 13,
    "10": 2,
-   "11": 2,
-   "12": 4,
-   "13": 3,
-   "16": 3,
-   "18": 1,
+   "11": 1,
+   "12": 6,
+   "13": 2,
+   "14": 1,
+   "16": 2,
+   "19": 1,
    "2": 13,
    "21": 1,
    "22": 2,
    "24": 1,
    "3": 16,
-   "34": 1,
+   "32": 1,
    "4": 13,
-   "45": 1,
-   "5": 6,
+   "44": 1,
+   "5": 5,
    "6": 4,
    "7": 8,
    "8": 5,
    "9": 5
   },
   "located_by_one_class": [
+   {
+    "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+    "lemma": "dejected",
+    "readings": [
+     "wiktionary:en-dejected-en-adj-hC60aBca:0c9d97482aa341d90cd7298f97a7c41eccc11b8a51688af142e17c649cfc3d50",
+     "wordnet:dejected:dejected.a.01"
+    ],
+    "claims": {
+     "FEEL": 1,
+     "GOOD": 2
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property"
+    ]
+   },
    {
     "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
     "lemma": "disheartened",
@@ -301,16 +324,30 @@
    }
   ]
  },
+ "wiktionary_only_evidence": {
+  "readings": 22885,
+  "with_evidence": {
+   "lens_restriction": 0,
+   "form_of_or_alt_of": 2356,
+   "form_of_or_alt_of_reaching_wordnet": 2,
+   "wiktionary_hypernym": 64,
+   "sense_synonym": 1614,
+   "topic_fact": 3746
+  },
+  "none_of_restriction_form_hypernym_topic": 16941,
+  "none_even_counting_sense_synonyms": 15564
+ },
+ "proper_noun_boundary": "Rohan, 2026-11-25 03:28: Proper nouns are an entirely different thing in GSE. We have an entirely different way of handling them ... That's more handled on the sparse-wiki side.",
  "settled": {
   "graph": {
-   "nodes": 166215,
-   "edges": 210846
+   "nodes": 166672,
+   "edges": 211820
   },
   "receipt": {
    "rounds": [
     {
      "passes": 4,
-     "landed": 23970,
+     "landed": 24216,
      "held_added": 0,
      "held_equal_added": 0,
      "held_groups_added": 0,
@@ -325,9 +362,9 @@
     "facts_woken": 0,
     "identity_cells": 11635
    },
-   "interpolated_cells": 50381,
-   "inherited_cells": 50142,
-   "consequence_cells": 239,
+   "interpolated_cells": 50834,
+   "inherited_cells": 50589,
+   "consequence_cells": 245,
    "suspended_cells": {
     "defaults disagree": 0,
     "contradicts known": 0,
@@ -336,7 +373,7 @@
    },
    "facts_located": {
     "known": 0,
-    "interpolated": 80
+    "interpolated": 86
    },
    "held": 0,
    "held_equal": 0,
@@ -344,9 +381,9 @@
    "unattributed_conflict": false,
    "bits": {
     "known": 35967228.85171147,
-    "interpolated": 35886670.3899639
+    "interpolated": 35885889.73128869
    },
-   "seconds": 7.87
+   "seconds": 6.894
   },
   "known": {
    "census": {
@@ -390,42 +427,43 @@
   },
   "interpolated": {
    "census": {
-    "+1": 63676,
-    "-1": 1634,
+    "+1": 63978,
+    "-1": 1785,
     "0": 1253575,
     "SILENT": 240,
-    "residual": 21170251,
+    "residual": 21169798,
     "conflict": 0,
     "cells": 22489376,
-    "bits": 35886670.3899639
+    "bits": 35885889.73128869
    },
    "obligation_groups_by_candidates": {
-    "1": 12,
+    "1": 13,
     "2": 13,
     "3": 16,
     "4": 13,
-    "5": 6,
+    "5": 5,
     "6": 4,
     "7": 8,
     "8": 5,
     "9": 5,
     "10": 2,
-    "11": 2,
-    "12": 4,
-    "13": 3,
-    "16": 3,
-    "18": 1,
+    "11": 1,
+    "12": 6,
+    "13": 2,
+    "14": 1,
+    "16": 2,
+    "19": 1,
     "21": 1,
     "22": 2,
     "24": 1,
-    "34": 1,
-    "45": 1
+    "32": 1,
+    "44": 1
    },
    "facts_located": {
-    "own_degree_domain=graded_property": 25,
-    "own_degree_domain=graded_property&own_denotatum=affective_feeling": 10,
+    "own_degree_domain=graded_property": 27,
+    "own_degree_domain=graded_property&own_denotatum=affective_feeling": 12,
     "own_degree_domain=graded_property&own_denotatum=affective_feeling&own_template_quantification=SOMETIMES&own_valence_domain=signed_felt_pole&source_frame_family=Fear": 4,
-    "own_denotatum=affective_feeling": 10,
+    "own_denotatum=affective_feeling": 12,
     "own_role=modifier_property_only&source_frame_family=Fear": 4,
     "own_semantic_kind=evaluator": 5,
     "own_semantic_kind=size_descriptor": 10,
@@ -473,13 +511,13 @@
     "law:EMOTION_FEAR_ADJ:companions": 4,
     "law:EVALUATOR_EXCLUDES_SIZE": 5,
     "law:FEAR_AVERSION": 4,
-    "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY": 10,
-    "law:OWN_AFFECTIVE_FEELING": 10,
-    "law:OWN_DEGREE_BEARING_CONTENT": 25,
+    "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY": 12,
+    "law:OWN_AFFECTIVE_FEELING": 12,
+    "law:OWN_DEGREE_BEARING_CONTENT": 27,
     "law:QUANTIFIED_TIME_PORTMANTEAU": 4,
     "law:SIGNED_FELT_VALENCE_DOMAIN": 4,
     "law:SIZE_DESCRIPTOR_EXCLUDES_EVALUATION": 10,
-    "law:USAS_OWN_HAPPY_SAD_STATE:companions": 10
+    "law:USAS_OWN_HAPPY_SAD_STATE:companions": 12
    },
    "obligation_conflicts": [],
    "required_checks": {
