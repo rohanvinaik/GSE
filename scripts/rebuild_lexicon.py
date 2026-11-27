@@ -169,15 +169,34 @@ class Inputs:
     identity_obligations: list
     resolver: extensions.Resolver | None
     stated: coherence.Settlement
+    observations: list  # every stated observation, before the round's located obligations join them
+    sources: list[tuple[str, str]]  # (family, root) of each obligation of `batch`
     types_facts: dict[str, np.ndarray]
     checks: tuple
     table: RuleTable
     counts: dict
 
 
-def _obligations(lens, compiled, extensions) -> list[ob.Obligation]:
-    """Lens, NSM and extension obligations, with witnesses renumbered so no two sources share one."""
-    out, base = [], 0
+def _nsm_records(compiled) -> dict[str, str]:
+    """Each NSM binding's record key, a republication (`same_as`) keeping the first record's, as
+    `lexicon_rebuild_discovery.nsm_observations` roots its restrictions."""
+    record_of, same_as = {}, {}
+    for e in compiled.receipt:
+        record = f"nsm:{e['source']}:{e['start_line']}-{e['end_line']}"
+        for b in [e, *[m for m in e.get("members", []) if isinstance(m, dict)]]:
+            if "rule_id" in b:
+                record_of[b["rule_id"]] = record
+                if "same_as" in b:
+                    same_as[b["rule_id"]] = b["same_as"]
+    return {rule: record_of[same_as.get(rule, rule)] for rule in record_of}
+
+
+def _obligations(lens, compiled, extensions) -> tuple[list[ob.Obligation], list[tuple[str, str]]]:
+    """Lens, NSM and extension obligations, with witnesses renumbered so no two sources share one, and each one's
+    source (family, root): the dataset that stated it and the record it rests on (`coherence.Settlement.located`)."""
+    out, sources, base = [], [], 0
+    lens_family = dict(zip(lens.restrictions.rule_ids, lens.restrictions.rule_sources))
+    nsm_record = _nsm_records(compiled)
 
     def take(items, source):
         nonlocal base
@@ -189,13 +208,19 @@ def _obligations(lens, compiled, extensions) -> list[ob.Obligation]:
             premises = tuple(getattr(o, "premises", ())) or (f"{source}:{o.rule_id}",)
             facts = tuple(getattr(o, "facts", ()))
             out.append(ob.Obligation(o.rule_id, o.bank, o.allowed, o.rows, witness, premises, facts))
+            if source == "lens":
+                sources.append((lens_family.get(o.rule_id, "lens"), ";".join(premises)))
+            elif source == "nsm":
+                sources.append(("nsm", nsm_record.get(o.rule_id, o.rule_id)))
+            else:
+                sources.append((source, ";".join(premises)))
         base = top
 
     take(lens.obligations, "lens")
     take([o for o in compiled.obligations if not o.joint], "nsm")
     for ext in extensions:
         take(ext.obligations, ext.name)
-    return out
+    return out, sources
 
 
 def _premise_rules(stated, derivations, ids, before, after, table) -> np.ndarray:
@@ -264,7 +289,8 @@ def compose(
     lens_relations, lens_scopes = projection.restriction_relations(lens.restrictions, n)
     nsm_relations, nsm_scopes = restrictions.restriction_relations(compiled, n)
     scopes |= lens_scopes | nsm_scopes
-    batch = ob.Batch.of(_obligations(lens, compiled, channels))
+    obligations, sources = _obligations(lens, compiled, channels)
+    batch = ob.Batch.of(obligations)
     groups = inheritance.wordnet_groups(readings)
     all_links = list(links)
     for ext in channels:
@@ -319,6 +345,8 @@ def compose(
         identity_obligations=identity_obligations,
         resolver=resolver,
         stated=coherence.settle(observations, ids),
+        observations=observations,
+        sources=sources,
         types_facts=types_facts,
         checks=checks,
         table=table,
@@ -539,7 +567,18 @@ def discover_round(inputs: Inputs, settled: Settled) -> tuple[list, dict, dict]:
         classes=settled.classes,
         known_classes=settled.known_classes,
     )
-    stated = inputs.stated.excluding(inputs.premise_conflicts + conflicts).knowing(s.known, general.known)
+    # An obligation located in the known layer is a stated observation of its source family (the lead's ruling,
+    # coherence.Settlement.located). One sweep over a copy of the fixed point reports the located groups and changes
+    # nothing; known classes only, since a proposed identity is not known.
+    located, located_groups = [], []
+    if len(inputs.batch):
+        sweep = ob.force(s.known.copy(), inputs.batch, settled.known_classes)
+        located = coherence.Settlement.located_groups(
+            inputs.batch, sweep.located_rows, sweep.located_by, inputs.ids, lambda i: inputs.sources[i], "known"
+        )
+        located_groups = [inputs.sources[int(i)] for i in np.asarray(sweep.located_by).tolist()]
+    observed = coherence.settle(inputs.observations + located, inputs.ids) if located else inputs.stated
+    stated = observed.excluding(inputs.premise_conflicts + conflicts).knowing(s.known, general.known)
     facts = {f"guard:{k}": v for k, v in s.known_scopes.items() if v.any()} | inputs.types_facts
     types = coherence.Types.build(len(inputs.ids), facts)
     rounds = admission.discover(s.known.copy(), settled.relations, s.known_scopes, stated, types, ())
@@ -556,33 +595,47 @@ def discover_round(inputs: Inputs, settled: Settled) -> tuple[list, dict, dict]:
                 "admitted": [rel.rule_id for rel in r.admitted],
             }
         )
-        evidence += [_admitted_evidence(v, stated) for v in r.verdicts if v.verdict == admission.ADMITTED]
+        evidence += [
+            _verdict_evidence(v, stated) for v in r.verdicts if v.verdict in (admission.ADMITTED, admission.NARROWED)
+        ]
     summary = {
+        "located_obligation_observations": len(located),
+        "located_observations_by_family": dict(sorted(Counter(o.family for o in located).items())),
+        "located_observations_by_family_state": dict(
+            sorted(Counter(f"{o.family}:{restrictions.label(o.states)}" for o in located).items())
+        ),
+        "located_groups_by_family": dict(sorted(Counter(family for family, _ in located_groups).items())),
         "stated_cells_excluded_as_conflicts": len(inputs.premise_conflicts) + len(conflicts),
         "types": len(types.names),
         "inner_rounds": inner,
         "admitted": [rel.rule_id for rel in admitted],
-        "admitted_evidence": evidence,
+        "admitted_and_narrowed_evidence": evidence,
         "seconds": round(time.perf_counter() - started, 2),
     }
     return admitted, scopes, summary
 
 
-def _admitted_evidence(verdict, stated) -> dict:
-    """What an admitted rule rests on: its witnesses and their roots by source family, its exposure and reach."""
+def _verdict_evidence(verdict, stated) -> dict:
+    """What an admitted or narrowed rule rests on: its witnesses and their roots by source family, its
+    counterexamples, its exposure, the guards that narrow it, and its reach when staged."""
     ev, reach = verdict.evidence, verdict.reach
-    return {
+    out = {
         "rule": verdict.candidate.rule_id,
+        "verdict": verdict.verdict,
         "witnesses": int(ev.witnesses.size),
         "witness_examples": [stated.readings[i] for i in ev.witnesses[:5].tolist()],
         "witness_roots": len(ev.witness_roots),
         "witness_root_families": dict(sorted(Counter(r.split(":", 1)[0] for r in ev.witness_roots).items())),
+        "counterexamples": int(ev.counterexamples.size),
+        "counterexample_examples": [stated.readings[i] for i in ev.counterexamples[:5].tolist()],
         "exposure": int(ev.exposure.size),
         "unknown": int(ev.unknown.size),
-        "reach_cells": reach.cells,
-        "reach_decided": reach.decided,
-        "reach_bits": round(reach.bits, 1),
     }
+    if verdict.guards:
+        out["guards"] = list(verdict.guards)
+    if reach is not None:
+        out |= {"reach_cells": reach.cells, "reach_decided": reach.decided, "reach_bits": round(reach.bits, 1)}
+    return out
 
 
 def _memory_mb() -> float:

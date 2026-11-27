@@ -276,3 +276,10 @@ def test_without_a_resolver_identity_obligations_are_carried_and_counted():
     _, rounds, final = _wiktionary_round(None)
     assert all(r["identities"]["pending_after"] == 1 and not r["identities"]["links_added"] for r in rounds)
     assert _cell(final, "interpolated", W_OBLIGED, "MOVE") & POS  # no link, nothing crosses
+
+
+def test_a_known_located_obligation_is_a_stated_observation_of_its_source(outcome):
+    _, rounds, _ = outcome
+    discovery = rounds[0]["discovery"]
+    assert discovery["located_obligation_observations"] == 1  # the zorb group, located on its second reading
+    assert discovery["located_observations_by_family"] == {"lens": 1}

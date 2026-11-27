@@ -1,0 +1,1516 @@
+{
+ "format": "GSE.rebuild-round/1",
+ "code": {
+  "head": "3b4b9adac8c3c6cabb658c78b0ca1f85231d2aa7",
+  "uncommitted": [],
+  "sha256": {
+   "data/lexicon_builder/rebuild/cohort.jsonl": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424",
+   "GSE/curation/lexicon_builder/bank_laws.json": "1ff3bf0f05ced92eace8925d65b49b34a3a83fd421c0f45339a77b94b107772b",
+   "scripts/lexicon_rebuild_discovery.py": "a51bffd988e55e35c31b226c066893cbf1a057190ee8585a3b62cd10c7f9a23c",
+   "GSE/curation/lexicon_builder/cells.py": "121a600ab4324b98e7f11135fd3fd7bc895d1ca242848b22dadf35ef23772c67",
+   "GSE/curation/lexicon_builder/relations.py": "7b6500d897454919c0e7dbddb5d8ed47cac027fbaee997851de568f80f0ae0f5",
+   "GSE/curation/lexicon_builder/closure.py": "3bf17b90bd690dfa177a4ccba6fe297124026e13c25634b924f97c2a6bcffa42",
+   "GSE/curation/lexicon_builder/laws.py": "bfd1cd34d883567e926890ee1d80665d0bb0222dfd0f8b96bd6289a867148f7b",
+   "GSE/curation/lexicon_builder/guards.py": "1105a3e15198fd79413f0e2acf858e8f4c20e6fbcf83f6179ef298961a38a3c7",
+   "GSE/curation/lexicon_builder/restrictions.py": "390036868b7c5312f80682f3773b65ee99fad08b0bcc3512fafe5c669cda7f39",
+   "GSE/curation/lexicon_builder/projection.py": "d1713c650161f236797a013ef4399e57d1e8c1f589ce34332ce3857c18df9cbd",
+   "GSE/curation/lexicon_builder/nsm.py": "66521f8fa6ded27302c5abc1b266ad33080e54d87e521dc221538bcbb7487521",
+   "GSE/curation/lexicon_builder/nsm_frames.py": "93de6c4424e91aa707154a02438cca4e5797ef8e29bf9f2fd38d646371d7b43e",
+   "GSE/curation/lexicon_builder/nsm_text.py": "2757d42636a41f2a180f5aa89f98ee63ec962ca1eb71da495f273dca4f04c0b9",
+   "GSE/curation/lexicon_builder/nsm_typing.py": "e58528ccb57ef1c7fd4240afaf66dd98c289f1daba9f5e4fc5b3c70fdee969c4",
+   "GSE/curation/lexicon_builder/obligations.py": "faf794b61a5898cce14237bcac70b1094840a3705c96d23504b99ad6a655651e",
+   "GSE/curation/lexicon_builder/inheritance.py": "6427f452585d95fdf4b05c4fef2ee2442a047118c9a6378f01db4145c4d0afc6",
+   "GSE/curation/lexicon_builder/coherence.py": "4bba689b6802f56367ffe0d194d4d1b342c67daaf2a9bf41781cf3a2e4e3f2ea",
+   "GSE/curation/lexicon_builder/admission.py": "8807ddd73e2b8d13766822f49b602a9ab62de064d45644b3c234394d9586f08e",
+   "GSE/curation/lexicon_builder/extensions.py": "18a43fe3d210b7c6581ace3b7025fd9679581bda264e0f6c6244e30d138c20a4",
+   "GSE/curation/lexicon_builder/identities.py": "49d75affa94256a1fa2312f2ce66f48263552eb7c51f2d4e8d073abcda61a544",
+   "GSE/curation/lexicon_builder/wiktionary_binding.py": "22e9392b01d0787d98f7af96b9ae923519d7c2779572f2d0287ecd1e108a2162"
+  }
+ },
+ "inputs": {
+  "readings": 401596,
+  "stated_premises": 2528,
+  "profile_derivations": 405,
+  "premise_conflicts": 2,
+  "stated_observations": 6489,
+  "observation_refusals": {},
+  "relations": {
+   "law": 65,
+   "lens": 11,
+   "nsm": 158
+  },
+  "lens_restrictions": 3803,
+  "nsm_restrictions": 158,
+  "obligations": {
+   "single": 2390,
+   "groups": 255
+  },
+  "graph": {
+   "nodes": 166672,
+   "edges": 211820
+  },
+  "extensions": {
+   "wiktionary": {
+    "edges_by_family": {
+     "aligned": 46559,
+     "alt_of": 311,
+     "form_of": 536,
+     "sense_synonym": 4222,
+     "wiktionary_hypernym": 42
+    },
+    "identity_obligations_by_kind": {
+     "alt_of": 6470,
+     "form_of": 11276,
+     "sense_synonym": 170884,
+     "wiktionary_hypernym": 5147
+    },
+    "aligned_wiktionary_readings": 46559,
+    "wiktionary_readings_connected_to_wordnet": 48196,
+    "wiktionary_readings_connected_to_wordnet_by_any_edge": 48208,
+    "classes_with_several_readings": 40699,
+    "known_classes_with_several_readings": 779,
+    "wordnet_readings_in_a_shared_class": 39955,
+    "topic_facts": 3119,
+    "readings_with_a_topic": 59415,
+    "dispositions": {
+     "aligned": {
+      "ALIGNED": 46559,
+      "NO_CANDIDATE_MATCHES": 109876,
+      "NO_LINKED_SYNSET": 4938,
+      "NO_LINKS": 23136,
+      "NO_WORDNET_CANDIDATE": 18871,
+      "PROPER_NOUN_BOUNDARY": 23876,
+      "SEVERAL_CANDIDATES_MATCH": 18984
+     },
+     "aligned_detail": {
+      "SEVERAL_WITH_OWN_LEMMA_LINKED": 928
+     },
+     "aligned_similar_to": {
+      "ALIGNED->SEVERAL_CANDIDATES_MATCH": 139,
+      "NO_CANDIDATE_MATCHES->ALIGNED": 626,
+      "NO_CANDIDATE_MATCHES->SEVERAL_CANDIDATES_MATCH": 10
+     },
+     "alt_of": {
+      "IDENTITY_EDGE": 311,
+      "IDENTITY_OBLIGATION": 6470,
+      "SELF_REFERENCE": 28,
+      "TARGET_HAS_ONLY_OTHER_POS": 103,
+      "TARGET_NOT_IN_COHORT": 9275
+     },
+     "form_of": {
+      "IDENTITY_EDGE": 536,
+      "IDENTITY_OBLIGATION": 11276,
+      "TARGET_HAS_ONLY_OTHER_POS": 16,
+      "TARGET_NOT_IN_COHORT": 895
+     },
+     "sense_synonym": {
+      "IDENTITY_EDGE": 4222,
+      "IDENTITY_OBLIGATION": 170884,
+      "SELF_REFERENCE": 133,
+      "TARGET_HAS_ONLY_OTHER_POS": 735,
+      "TARGET_NOT_IN_COHORT": 125889
+     },
+     "wiktionary_hypernym": {
+      "KIND_OF_EDGE": 42,
+      "KIND_OF_OBLIGATION": 5147,
+      "SELF_REFERENCE": 1,
+      "TARGET_HAS_ONLY_OTHER_POS": 33,
+      "TARGET_NOT_IN_COHORT": 2558
+     }
+    },
+    "links_in_declared_families": {
+     "aligned": 93118,
+     "alt_of": 622,
+     "form_of": 1072,
+     "sense_synonym": 8444,
+     "wiktionary_hypernym": 42
+    },
+    "links_by_standing": {
+     "aligned:proposed": 93118,
+     "alt_of:stated": 622,
+     "form_of:stated": 1072,
+     "sense_synonym:stated": 8444,
+     "wiktionary_hypernym:stated": 42
+    },
+    "links_left_out_undeclared_family": {},
+    "identity_obligations": 193777
+   }
+  },
+  "identity_classes_with_several_readings": 40699,
+  "known_classes_with_several_readings": 779,
+  "identity_obligations": 193777,
+  "resolver": "resolve_identities",
+  "premise_skips": {
+   "anchor_already_bound_by_profile:want": 1,
+   "anchor_refused:dont-want:OBSERVATION_STATE_ILLEGAL WANT {-1}": 1,
+   "profile_coordinate_outside_registry:HIER_MINUS": 51,
+   "profile_coordinate_outside_registry:HIER_PLUS": 51,
+   "profile_unbound:ALIVE:0_aligned_boxes": 1,
+   "profile_unbound:AWAY:0_aligned_boxes": 1,
+   "profile_unbound:BE:2_aligned_boxes": 1,
+   "profile_unbound:CAUSE:0_aligned_boxes": 1,
+   "profile_unbound:CERTAINTY:0_aligned_boxes": 1,
+   "profile_unbound:DEAD:0_aligned_boxes": 1,
+   "profile_unbound:END:0_aligned_boxes": 1,
+   "profile_unbound:FALSE:0_aligned_boxes": 1,
+   "profile_unbound:HAVE:0_aligned_boxes": 1,
+   "profile_unbound:HIER_MINUS:0_aligned_boxes": 1,
+   "profile_unbound:HIER_PLUS:0_aligned_boxes": 1,
+   "profile_unbound:INFER:0_aligned_boxes": 1,
+   "profile_unbound:INTENSITY:0_aligned_boxes": 1,
+   "profile_unbound:MUST:0_aligned_boxes": 1,
+   "profile_unbound:OUTSIDE:0_aligned_boxes": 1,
+   "profile_unbound:QUANTITY:0_aligned_boxes": 1,
+   "profile_unbound:START:0_aligned_boxes": 1,
+   "profile_unbound:THEN:0_aligned_boxes": 1,
+   "profile_unbound:TOWARD:0_aligned_boxes": 1,
+   "profile_unbound:WITH:0_aligned_boxes": 1,
+   "profile_unbound:WITHOUT:0_aligned_boxes": 1
+  },
+  "profile_bindings": 51
+ },
+ "graph": {
+  "hypernym": {
+   "links": 89089,
+   "links_between_readings": 48579,
+   "reading_pairs": 522275,
+   "carries": [
+    "+1",
+    "-1",
+    "0"
+   ],
+   "never_writes": [],
+   "stated": 89089
+  },
+  "instance_hypernym": {
+   "links": 8577,
+   "links_between_readings": 1982,
+   "reading_pairs": 5385,
+   "carries": [
+    "+1",
+    "-1",
+    "0"
+   ],
+   "never_writes": [],
+   "stated": 8577
+  },
+  "similar_to": {
+   "links": 10693,
+   "links_between_readings": 8320,
+   "reading_pairs": 21515,
+   "carries": [
+    "+1",
+    "-1",
+    "0"
+   ],
+   "never_writes": [],
+   "stated": 10693
+  },
+  "entails": {
+   "links": 408,
+   "links_between_readings": 367,
+   "reading_pairs": 11393,
+   "carries": [
+    "+1",
+    "-1"
+   ],
+   "never_writes": [],
+   "stated": 408
+  },
+  "aligned": {
+   "links": 93118,
+   "links_between_readings": 93118,
+   "reading_pairs": 319104,
+   "carries": [
+    "+1",
+    "-1",
+    "0",
+    "SILENT"
+   ],
+   "never_writes": [],
+   "stated": 0
+  },
+  "form_of": {
+   "links": 1072,
+   "links_between_readings": 1072,
+   "reading_pairs": 1112,
+   "carries": [
+    "+1",
+    "-1",
+    "0",
+    "SILENT"
+   ],
+   "never_writes": [],
+   "stated": 1072
+  },
+  "alt_of": {
+   "links": 618,
+   "links_between_readings": 618,
+   "reading_pairs": 642,
+   "carries": [
+    "+1",
+    "-1",
+    "0",
+    "SILENT"
+   ],
+   "never_writes": [],
+   "stated": 618
+  },
+  "sense_synonym": {
+   "links": 7986,
+   "links_between_readings": 7986,
+   "reading_pairs": 12754,
+   "carries": [
+    "+1",
+    "-1"
+   ],
+   "never_writes": [],
+   "stated": 7986
+  },
+  "wiktionary_hypernym": {
+   "links": 39,
+   "links_between_readings": 39,
+   "reading_pairs": 43,
+   "carries": [
+    "+1",
+    "-1",
+    "0"
+   ],
+   "never_writes": [],
+   "stated": 39
+  },
+  "causes": {
+   "links": 220,
+   "links_between_readings": 210,
+   "reading_pairs": 6638,
+   "carries": [
+    "+1",
+    "-1"
+   ],
+   "never_writes": [
+    "CAUSE"
+   ],
+   "stated": 220
+  },
+  "synonymy": {
+   "synsets_with_two_or_more_readings": 34242,
+   "reading_pairs": 219899,
+   "carries": [
+    "+1",
+    "-1",
+    "0",
+    "SILENT"
+   ]
+  },
+  "nodes": {
+   "all": 166672,
+   "owning_readings": 127153,
+   "transit": 39519
+  },
+  "defeated_links": 0
+ },
+ "opening_bits": 37978301.21846376,
+ "premise_bits": 37973374.79118717,
+ "rounds": [
+  {
+   "round": 1,
+   "settle_seconds": 10.53,
+   "links_in_force": 0,
+   "known": {
+    "bits": 35956032.00914546,
+    "census": {
+     "+1": 15602,
+     "-1": 229,
+     "0": 1253956,
+     "SILENT": 5567,
+     "residual": 21214022,
+     "conflict": 0,
+     "cells": 22489376,
+     "bits": 35956032.00914546
+    },
+    "decided_by_warrant": {
+     "stated": 2518,
+     "profile_derivation": 403,
+     "law": 1253450,
+     "lens": 3588,
+     "nsm": 140,
+     "stated_identity": 15255
+    },
+    "decided_by_warrant_state": {
+     "law:0": 1253450,
+     "lens:+1": 3550,
+     "lens:-1": 38,
+     "nsm:+1": 129,
+     "nsm:-1": 11,
+     "profile_derivation:+1": 9,
+     "profile_derivation:0": 394,
+     "stated:+1": 108,
+     "stated:-1": 10,
+     "stated:SILENT": 2400,
+     "stated_identity:+1": 11806,
+     "stated_identity:-1": 170,
+     "stated_identity:0": 112,
+     "stated_identity:SILENT": 3167
+    },
+    "cells_by_warrant": {
+     "untouched": 21213962,
+     "stated": 2518,
+     "profile_derivation": 403,
+     "law": 1253450,
+     "lens": 3588,
+     "nsm": 158,
+     "stated_identity": 15297
+    },
+    "cells_by_bank": {
+     "I": {
+      "+1": 1,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "YOU": {
+      "+1": 1,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "SOMEONE": {
+      "+1": 42,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244806,
+      "conflict": 0
+     },
+     "SOMETHING": {
+      "+1": 24,
+      "-1": 0,
+      "0": 156746,
+      "SILENT": 2,
+      "residual": 244824,
+      "conflict": 0
+     },
+     "PEOPLE": {
+      "+1": 2,
+      "-1": 0,
+      "0": 156745,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "BODY": {
+      "+1": 2,
+      "-1": 0,
+      "0": 156745,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "KIND": {
+      "+1": 16,
+      "-1": 0,
+      "0": 156739,
+      "SILENT": 2,
+      "residual": 244839,
+      "conflict": 0
+     },
+     "PART": {
+      "+1": 8,
+      "-1": 0,
+      "0": 156739,
+      "SILENT": 2,
+      "residual": 244847,
+      "conflict": 0
+     },
+     "SAME": {
+      "+1": 1,
+      "-1": 5,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "ONE": {
+      "+1": 21,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "TWO": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "QUANTITY": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "GOOD": {
+      "+1": 1,
+      "-1": 4,
+      "0": 2,
+      "SILENT": 114,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "BIG": {
+      "+1": 1,
+      "-1": 1,
+      "0": 2,
+      "SILENT": 114,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "THINK": {
+      "+1": 17,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401462,
+      "conflict": 0
+     },
+     "KNOW": {
+      "+1": 20,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 111,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "WANT": {
+      "+1": 99,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 111,
+      "residual": 401386,
+      "conflict": 0
+     },
+     "FEEL": {
+      "+1": 387,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401092,
+      "conflict": 0
+     },
+     "SEE": {
+      "+1": 11,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 113,
+      "residual": 401472,
+      "conflict": 0
+     },
+     "HEAR": {
+      "+1": 8,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 114,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "INFER": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "SAY": {
+      "+1": 13,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401466,
+      "conflict": 0
+     },
+     "WORDS": {
+      "+1": 12,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401468,
+      "conflict": 0
+     },
+     "DO": {
+      "+1": 4384,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 104,
+      "residual": 397108,
+      "conflict": 0
+     },
+     "HAPPEN": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 105,
+      "residual": 401473,
+      "conflict": 0
+     },
+     "MOVE": {
+      "+1": 2959,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 398520,
+      "conflict": 0
+     },
+     "BE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "HAVE": {
+      "+1": 1227,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 400251,
+      "conflict": 0
+     },
+     "EXIST": {
+      "+1": 1034,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 400445,
+      "conflict": 0
+     },
+     "ALIVE": {
+      "+1": 15,
+      "-1": 62,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401401,
+      "conflict": 0
+     },
+     "MOMENT": {
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "WHEN": {
+      "+1": 19,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "LONG_TIME": {
+      "+1": 1,
+      "-1": 4,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401475,
+      "conflict": 0
+     },
+     "BEFORE": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "THEN": {
+      "+1": 0,
+      "-1": 3,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "START": {
+      "+1": 89,
+      "-1": 130,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401259,
+      "conflict": 0
+     },
+     "WHERE": {
+      "+1": 16,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "HERE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "SIDE": {
+      "+1": 8,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401471,
+      "conflict": 0
+     },
+     "TOUCH": {
+      "+1": 597,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 400882,
+      "conflict": 0
+     },
+     "ABOVE": {
+      "+1": 3,
+      "-1": 4,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401473,
+      "conflict": 0
+     },
+     "FAR": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 116,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "OUTSIDE": {
+      "+1": 0,
+      "-1": 14,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "TOWARD": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "WITH": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "NOT": {
+      "+1": 18,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401461,
+      "conflict": 0
+     },
+     "MAYBE": {
+      "+1": 5,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401474,
+      "conflict": 0
+     },
+     "CAN": {
+      "+1": 21,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "MUST": {
+      "+1": 2,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401476,
+      "conflict": 0
+     },
+     "BECAUSE": {
+      "+1": 16,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401463,
+      "conflict": 0
+     },
+     "CAUSE": {
+      "+1": 4365,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 397113,
+      "conflict": 0
+     },
+     "IF": {
+      "+1": 14,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401465,
+      "conflict": 0
+     },
+     "LIKE": {
+      "+1": 19,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 117,
+      "residual": 401460,
+      "conflict": 0
+     },
+     "TRUE": {
+      "+1": 3,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 401478,
+      "conflict": 0
+     },
+     "INTENSITY": {
+      "+1": 37,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 103,
+      "residual": 401456,
+      "conflict": 0
+     },
+     "CERTAINTY": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 118,
+      "residual": 401478,
+      "conflict": 0
+     }
+    },
+    "obligations": {
+     "groups": 255,
+     "located": 0,
+     "open": 255,
+     "conflict": 0,
+     "blocked": 0,
+     "changed_by_a_further_sweep": 0
+    },
+    "required_checks": {},
+    "obligation_conflicts": 0
+   },
+   "interpolated": {
+    "bits": 35616264.895766005,
+    "census": {
+     "+1": 177735,
+     "-1": 8396,
+     "0": 1293580,
+     "SILENT": 6372,
+     "residual": 21003293,
+     "conflict": 0,
+     "cells": 22489376,
+     "bits": 35616264.895766005
+    },
+    "decided_by_warrant": {
+     "stated": 2518,
+     "profile_derivation": 403,
+     "law": 1253450,
+     "lens": 3588,
+     "nsm": 140,
+     "inherited": 210492,
+     "inherited_consequence": 237,
+     "stated_identity": 15255
+    },
+    "decided_by_warrant_state": {
+     "inherited:+1": 162048,
+     "inherited:-1": 8150,
+     "inherited:0": 39609,
+     "inherited:SILENT": 685,
+     "inherited_consequence:+1": 85,
+     "inherited_consequence:-1": 17,
+     "inherited_consequence:0": 15,
+     "inherited_consequence:SILENT": 120,
+     "law:0": 1253450,
+     "lens:+1": 3550,
+     "lens:-1": 38,
+     "nsm:+1": 129,
+     "nsm:-1": 11,
+     "profile_derivation:+1": 9,
+     "profile_derivation:0": 394,
+     "stated:+1": 108,
+     "stated:-1": 10,
+     "stated:SILENT": 2400,
+     "stated_identity:+1": 11806,
+     "stated_identity:-1": 170,
+     "stated_identity:0": 112,
+     "stated_identity:SILENT": 3167
+    },
+    "cells_by_warrant": {
+     "untouched": 21003217,
+     "stated": 2518,
+     "profile_derivation": 403,
+     "law": 1253450,
+     "lens": 3588,
+     "nsm": 158,
+     "inherited": 210500,
+     "inherited_consequence": 245,
+     "stated_identity": 15297
+    },
+    "cells_by_bank": {
+     "I": {
+      "+1": 1,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "YOU": {
+      "+1": 1,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "SOMEONE": {
+      "+1": 43,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 239150,
+      "conflict": 0
+     },
+     "SOMETHING": {
+      "+1": 1790,
+      "-1": 0,
+      "0": 162401,
+      "SILENT": 2,
+      "residual": 237403,
+      "conflict": 0
+     },
+     "PEOPLE": {
+      "+1": 220,
+      "-1": 0,
+      "0": 162185,
+      "SILENT": 2,
+      "residual": 239189,
+      "conflict": 0
+     },
+     "BODY": {
+      "+1": 30,
+      "-1": 0,
+      "0": 162372,
+      "SILENT": 2,
+      "residual": 239192,
+      "conflict": 0
+     },
+     "KIND": {
+      "+1": 4398,
+      "-1": 0,
+      "0": 162326,
+      "SILENT": 2,
+      "residual": 234870,
+      "conflict": 0
+     },
+     "PART": {
+      "+1": 5391,
+      "-1": 0,
+      "0": 157050,
+      "SILENT": 2,
+      "residual": 239153,
+      "conflict": 0
+     },
+     "SAME": {
+      "+1": 12,
+      "-1": 1656,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 399793,
+      "conflict": 0
+     },
+     "ONE": {
+      "+1": 4326,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 397135,
+      "conflict": 0
+     },
+     "TWO": {
+      "+1": 4325,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 135,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "QUANTITY": {
+      "+1": 4330,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 130,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "GOOD": {
+      "+1": 26,
+      "-1": 1109,
+      "0": 27,
+      "SILENT": 126,
+      "residual": 400308,
+      "conflict": 0
+     },
+     "BIG": {
+      "+1": 55,
+      "-1": 18,
+      "0": 16,
+      "SILENT": 134,
+      "residual": 401373,
+      "conflict": 0
+     },
+     "THINK": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "KNOW": {
+      "+1": 4354,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 122,
+      "residual": 397120,
+      "conflict": 0
+     },
+     "WANT": {
+      "+1": 4566,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 121,
+      "residual": 396909,
+      "conflict": 0
+     },
+     "FEEL": {
+      "+1": 7497,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 393970,
+      "conflict": 0
+     },
+     "SEE": {
+      "+1": 775,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 133,
+      "residual": 400688,
+      "conflict": 0
+     },
+     "HEAR": {
+      "+1": 1155,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 134,
+      "residual": 400307,
+      "conflict": 0
+     },
+     "INFER": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "SAY": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "WORDS": {
+      "+1": 4538,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 396922,
+      "conflict": 0
+     },
+     "DO": {
+      "+1": 20108,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 115,
+      "residual": 381373,
+      "conflict": 0
+     },
+     "HAPPEN": {
+      "+1": 1176,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 114,
+      "residual": 400306,
+      "conflict": 0
+     },
+     "MOVE": {
+      "+1": 17556,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 383903,
+      "conflict": 0
+     },
+     "BE": {
+      "+1": 192,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401266,
+      "conflict": 0
+     },
+     "HAVE": {
+      "+1": 5132,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 396326,
+      "conflict": 0
+     },
+     "EXIST": {
+      "+1": 10600,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 390859,
+      "conflict": 0
+     },
+     "ALIVE": {
+      "+1": 4322,
+      "-1": 238,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 396898,
+      "conflict": 0
+     },
+     "MOMENT": {
+      "+1": 1,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "WHEN": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "LONG_TIME": {
+      "+1": 1,
+      "-1": 193,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401266,
+      "conflict": 0
+     },
+     "BEFORE": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "THEN": {
+      "+1": 0,
+      "-1": 181,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 401286,
+      "conflict": 0
+     },
+     "START": {
+      "+1": 177,
+      "-1": 494,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 400787,
+      "conflict": 0
+     },
+     "WHERE": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "HERE": {
+      "+1": 181,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 401278,
+      "conflict": 0
+     },
+     "SIDE": {
+      "+1": 1774,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 399685,
+      "conflict": 0
+     },
+     "TOUCH": {
+      "+1": 7450,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 394009,
+      "conflict": 0
+     },
+     "ABOVE": {
+      "+1": 918,
+      "-1": 182,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 400360,
+      "conflict": 0
+     },
+     "FAR": {
+      "+1": 1,
+      "-1": 1,
+      "0": 0,
+      "SILENT": 136,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "OUTSIDE": {
+      "+1": 0,
+      "-1": 4323,
+      "0": 0,
+      "SILENT": 137,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "TOWARD": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "WITH": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     },
+     "NOT": {
+      "+1": 4333,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397134,
+      "conflict": 0
+     },
+     "MAYBE": {
+      "+1": 5,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 401462,
+      "conflict": 0
+     },
+     "CAN": {
+      "+1": 4333,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397134,
+      "conflict": 0
+     },
+     "MUST": {
+      "+1": 2,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 130,
+      "residual": 401464,
+      "conflict": 0
+     },
+     "BECAUSE": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "CAUSE": {
+      "+1": 15667,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 385791,
+      "conflict": 0
+     },
+     "IF": {
+      "+1": 4323,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397144,
+      "conflict": 0
+     },
+     "LIKE": {
+      "+1": 4331,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 129,
+      "residual": 397136,
+      "conflict": 0
+     },
+     "TRUE": {
+      "+1": 17,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 134,
+      "residual": 401445,
+      "conflict": 0
+     },
+     "INTENSITY": {
+      "+1": 5662,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 113,
+      "residual": 395821,
+      "conflict": 0
+     },
+     "CERTAINTY": {
+      "+1": 0,
+      "-1": 0,
+      "0": 0,
+      "SILENT": 138,
+      "residual": 401458,
+      "conflict": 0
+     }
+    },
+    "obligations": {
+     "groups": 255,
+     "located": 27,
+     "open": 228,
+     "conflict": 0,
+     "blocked": 0,
+     "changed_by_a_further_sweep": 0
+    },
+    "required_checks": {
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:I": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:YOU": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMEONE": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMETHING": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PEOPLE": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BODY": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:KIND": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PART": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:QUANTITY": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:GOOD": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:THINK": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WANT": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:FEEL": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HAPPEN": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WHEN": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:NOT": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CAN": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BECAUSE": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:LIKE": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     },
+     "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:INTENSITY": {
+      "derived": 4,
+      "open": 0,
+      "contradicted": 0
+     }
+    },
+    "obligation_conflicts": 0,
+    "suspensions": {
+     "cells_by_reason": {
+      "defaults disagree": 0,
+      "contradicts known": 8,
+      "joint conflict": 0,
+      "synonyms disagree": 0
+     },
+     "held_defaults": 0,
+     "held_synonym_equalities": 0,
+     "unattributed_conflict": false
+    },
+    "interpolated_cells": 210745
+   },
+   "discovery": {
+    "located_obligation_observations": 0,
+    "located_observations_by_family": {},
+    "stated_cells_excluded_as_conflicts": 2,
+    "types": 19117,
+    "inner_rounds": [
+     {
+      "candidates": 0,
+      "verdicts": {
+       "ADMITTED": 0,
+       "NARROWED": 0,
+       "FINDING": 0,
+       "UNCONFIRMED": 0,
+       "UNEXPOSED": 0,
+       "NO_REACH": 0,
+       "DEGENERATE": 0
+      },
+      "admitted": []
+     }
+    ],
+    "admitted": [],
+    "admitted_evidence": [],
+    "seconds": 30.53
+   },
+   "identities": {
+    "resolver": true,
+    "pending_before": 193777,
+    "pending_after": 193777,
+    "conflicts": 0,
+    "identity_joins": 0,
+    "links_added": 0,
+    "links_added_by_family": {},
+    "links_added_by_standing": {}
+   },
+   "admitted_relations_in_force": 0,
+   "seconds": 44.46,
+   "peak_memory_mb": 9385.1
+  }
+ ],
+ "final_state": {
+  "path": "/Users/rohanvinaik/Projects/GSE/data/lexicon_builder/rebuild/round-final.npz",
+  "sha256": "b1d146ad769059a81c7f9c79295f4149f492a6504ac15df4d817f777940496e1",
+  "bytes": 16511088,
+  "rules": 2067
+ },
+ "seconds": {
+  "load": {
+   "sources": {
+    "verbnet": 0.48,
+    "usas": 0.22,
+    "framenet": 3.16,
+    "ratings": 4.45
+   },
+   "load": 11.05,
+   "wordnet": 1.17,
+   "compose": 96.37
+  },
+  "total": 156.79
+ },
+ "peak_memory_mb": 9385.1
+}

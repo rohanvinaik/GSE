@@ -162,6 +162,20 @@ class Senses:
     interpolated: State
     receipt: dict
 
+    def columns(self, readings) -> dict[str, np.ndarray]:
+        """Per sense, as `measure.census` takes a population: both layers' masks, lemma, part of speech, kind, and
+        source (the member readings' source families, sorted and joined by "+")."""
+        return {
+            "known": self.known.masks,
+            "interpolated": self.interpolated.masks,
+            "lemma": np.array([s.lemma for s in self.senses], dtype=object),
+            "pos": np.array([s.pos for s in self.senses], dtype=object),
+            "kind": np.array([s.kind for s in self.senses], dtype=object),
+            "source": np.array(
+                ["+".join(sorted({readings[r].source for r in s.members})) for s in self.senses], dtype=object
+            ),
+        }
+
 
 # --- The collapse of one word -------------------------------------------------------------------------------------
 
