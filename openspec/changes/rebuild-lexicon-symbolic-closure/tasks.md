@@ -112,6 +112,16 @@ receipt; senses and the runtime artifact (10.1).
 - `causes` carries the caused reading's content to the causer as a default and writes no CAUSE
   (`native_predicate_policy.lexical_component`). Zeros carry along kind-of and similar_to.
 
+- **Coherence and admission** are committed (337c346). Confirmation comes only from stated observations of
+  distinct roots (F108). Exposure, counterexamples and contradiction may also come from known strict consequences of
+  the authored laws (TrialLedger: "Known is a source fact or a strict conclusion from known premises"); interpolated
+  values count for nothing. A censor needs an antecedent bank (e.g. THINK forbidden if ALIVE=0): one conditioned only
+  on its type is unexposed or contradicted by construction.
+- **NSM typing:** a category of PEOPLE reads through "person", its suppletive plural, which is grammar. SOMETHING or
+  THING gives no typing (`MOST_GENERAL_CATEGORY`).
+- **Finding for Rohan:** the closed-class rows for `i` and `you` state SOMEONE +1, against the founder-approved
+  one-hot law on substantive primes (F088). Both sources are kept, with the conflict recorded.
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
