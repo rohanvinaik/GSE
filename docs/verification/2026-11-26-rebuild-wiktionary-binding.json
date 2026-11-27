@@ -1,0 +1,577 @@
+{
+ "format": "GSE.rebuild-wiktionary-binding/1",
+ "cohort": {
+  "readings": 401596,
+  "sha256": "67f91348627decc531d4fc6e668b70950e6b6333482df0f8c37a0a446ebf9424"
+ },
+ "senses": 246240,
+ "seconds": {
+  "load": 79.0,
+  "bind": 21.2
+ },
+ "binding": {
+  "edges_by_family": {
+   "aligned": 46072,
+   "alt_of": 311,
+   "form_of": 536,
+   "sense_synonym": 4222
+  },
+  "identity_obligations_by_kind": {
+   "alt_of": 6470,
+   "form_of": 11276,
+   "sense_synonym": 170884
+  },
+  "aligned_wiktionary_readings": 46072,
+  "wiktionary_readings_connected_to_wordnet": 47744,
+  "classes_with_several_readings": 40349,
+  "wordnet_readings_in_a_shared_class": 39605,
+  "topic_facts": 3119,
+  "readings_with_a_topic": 59415,
+  "dispositions": {
+   "aligned": {
+    "ALIGNED": 46072,
+    "NO_CANDIDATE_MATCHES": 110512,
+    "NO_LINKED_SYNSET": 4938,
+    "NO_LINKS": 23908,
+    "NO_WORDNET_CANDIDATE": 41975,
+    "SEVERAL_CANDIDATES_MATCH": 18835
+   },
+   "aligned_detail": {
+    "SEVERAL_WITH_OWN_LEMMA_LINKED": 928
+   },
+   "alt_of": {
+    "IDENTITY_EDGE": 311,
+    "IDENTITY_OBLIGATION": 6470,
+    "SELF_REFERENCE": 28,
+    "TARGET_HAS_ONLY_OTHER_POS": 103,
+    "TARGET_NOT_IN_COHORT": 9275
+   },
+   "form_of": {
+    "IDENTITY_EDGE": 536,
+    "IDENTITY_OBLIGATION": 11276,
+    "TARGET_HAS_ONLY_OTHER_POS": 16,
+    "TARGET_NOT_IN_COHORT": 895
+   },
+   "sense_synonym": {
+    "IDENTITY_EDGE": 4222,
+    "IDENTITY_OBLIGATION": 170884,
+    "SELF_REFERENCE": 133,
+    "TARGET_HAS_ONLY_OTHER_POS": 735,
+    "TARGET_NOT_IN_COHORT": 125889
+   }
+  }
+ },
+ "lens_obligation_groups": {
+  "groups": 103,
+  "by_candidate_classes": {
+   "1": 12,
+   "10": 2,
+   "11": 2,
+   "12": 4,
+   "13": 3,
+   "16": 3,
+   "18": 1,
+   "2": 13,
+   "21": 1,
+   "22": 2,
+   "24": 1,
+   "3": 16,
+   "34": 1,
+   "4": 13,
+   "45": 1,
+   "5": 6,
+   "6": 4,
+   "7": 8,
+   "8": 5,
+   "9": 5
+  },
+  "located_by_one_class": [
+   {
+    "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+    "lemma": "disheartened",
+    "readings": [
+     "wiktionary:en-disheartened-en-adj-7LuVyat4:1c00f3669b8ea9560d5c6227424ee00d0b5c99b579675bcf3337e28f55dd67f7",
+     "wordnet:disheartened:demoralized.s.01"
+    ],
+    "claims": {
+     "FEEL": 1,
+     "GOOD": 2
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_SIZE_POLE",
+    "lemma": "giant",
+    "readings": [
+     "wiktionary:en-giant-en-adj-pHFOQKpj:0481bed74468d0f7eb4fae166b4794468c616264eaf68e74cbb6ec47a1da128b",
+     "wordnet:giant:elephantine.s.01"
+    ],
+    "claims": {
+     "BIG": 1
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=size_descriptor"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+    "lemma": "gleeful",
+    "readings": [
+     "wiktionary:en-gleeful-en-adj-usAOURk6:13a86ebf404a4620b023248df8d8a0c3d20c75f2c513a471f9d8936604a9d783",
+     "wordnet:gleeful:elated.s.01"
+    ],
+    "claims": {
+     "FEEL": 1,
+     "GOOD": 1
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_SIZE_POLE",
+    "lemma": "jumbo",
+    "readings": [
+     "wiktionary:en-jumbo-en-adj-1VomeB5b:610c44c4d3d6b9c678b2e88e3b87c4c2cc1d64c7ceeede2f00f20f5b77a6c238",
+     "wordnet:jumbo:elephantine.s.01"
+    ],
+    "claims": {
+     "BIG": 1
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=size_descriptor"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_SIZE_POLE",
+    "lemma": "miniature",
+    "readings": [
+     "wiktionary:en-miniature-en-adj-JQ5TXGXy:a65ba938c61dc5a56f9d3b4cf0f0d6ce600282b37241c09a02766d9ffc257ca4",
+     "wordnet:miniature:miniature.s.01"
+    ],
+    "claims": {
+     "BIG": 2
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=size_descriptor"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_SIZE_POLE",
+    "lemma": "miniscule",
+    "readings": [
+     "wiktionary:en-miniscule-en-adj-s2eS16IC:5d5587e02a0db5f6b21cc963a433fe549a0dced586b05665fa3f6ec67db41258",
+     "wordnet:miniscule:minuscule.s.02"
+    ],
+    "claims": {
+     "BIG": 2
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=size_descriptor"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_QUALITY_POLE",
+    "lemma": "okay",
+    "readings": [
+     "wiktionary:en-okay-en-adj-CdB1ihYU:d5e971a911d8f90a4a825adad76427481bf3fad0d597b91d60378204f54f8997",
+     "wordnet:okay:all_right.s.01"
+    ],
+    "claims": {
+     "GOOD": 1
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=evaluator"
+    ]
+   },
+   {
+    "rule_id": "EMOTION_FEAR_ADJ",
+    "lemma": "scared",
+    "readings": [
+     "wiktionary:en-scared-en-adj-iMLh4xRj:cbb67c0a8193bc8e6e2ca352bfcdd910d57ce41b3ffa88e6e2d68b896af5c580",
+     "wordnet:scared:frightened.s.01"
+    ],
+    "claims": {
+     "BECAUSE": 1,
+     "CAN": 1,
+     "GOOD": 2,
+     "HAPPEN": 1,
+     "LIKE": 1,
+     "THINK": 1,
+     "WHEN": 1
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property",
+     "source_frame_family=Fear",
+     "own_valence_domain=signed_felt_pole",
+     "own_template_quantification=SOMETIMES"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_QUALITY_POLE",
+    "lemma": "substandard",
+    "readings": [
+     "wiktionary:en-substandard-en-adj-NnUf5YQG:0af9785d29a30b1f6ca7c87c5efe97a37d0e923d9db065af2eb89e682b7f0273",
+     "wiktionary:en-substandard-en-adj-SJ5lVWGx:c69dc73b157bbfb6b8ecf5489e433f75d169ccea25a9d56b0d6c9ec6ffafaf3e",
+     "wordnet:substandard:deficient.s.02"
+    ],
+    "claims": {
+     "GOOD": 2
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=evaluator"
+    ]
+   },
+   {
+    "rule_id": "EMOTION_FEAR_ADJ",
+    "lemma": "terrified",
+    "readings": [
+     "wiktionary:en-terrified-en-adj-5FkH1CVj:50ba6cab98f587143ac49161b4881f44b322c56945004297f4f27b5953712d77",
+     "wordnet:terrified:panicky.s.01"
+    ],
+    "claims": {
+     "BECAUSE": 1,
+     "CAN": 1,
+     "GOOD": 2,
+     "HAPPEN": 1,
+     "LIKE": 1,
+     "THINK": 1,
+     "WHEN": 1
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property",
+     "source_frame_family=Fear",
+     "own_valence_domain=signed_felt_pole",
+     "own_template_quantification=SOMETIMES"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_HAPPY_SAD_STATE",
+    "lemma": "thrilled",
+    "readings": [
+     "wiktionary:en-thrilled-en-adj-G~u6jznu:c900cb20f57136e6da6bbc2919036c83375bd458c2e21aa580b5b4b0c8236106",
+     "wordnet:thrilled:thrilled.s.01"
+    ],
+    "claims": {
+     "FEEL": 1,
+     "GOOD": 1
+    },
+    "facts": [
+     "own_denotatum=affective_feeling",
+     "own_degree_domain=graded_property"
+    ]
+   },
+   {
+    "rule_id": "USAS_OWN_SIZE_POLE",
+    "lemma": "tiny",
+    "readings": [
+     "wiktionary:en-tiny-en-adj-bimYmetD:93162976930316403af9f0a747d4fc44a209e580c4c24955b995868f612b3ef4",
+     "wordnet:tiny:bantam.s.01"
+    ],
+    "claims": {
+     "BIG": 2
+    },
+    "facts": [
+     "own_degree_domain=graded_property",
+     "own_semantic_kind=size_descriptor"
+    ]
+   }
+  ]
+ },
+ "settled": {
+  "graph": {
+   "nodes": 166178,
+   "edges": 210807
+  },
+  "receipt": {
+   "rounds": [
+    {
+     "passes": 4,
+     "landed": 23950,
+     "held_added": 0,
+     "held_equal_added": 0,
+     "held_groups_added": 0,
+     "culprit_nodes": 0,
+     "replay": false
+    }
+   ],
+   "known": {
+    "closures": 1,
+    "sweeps": 1,
+    "forced": 0,
+    "facts_woken": 0
+   },
+   "interpolated_cells": 61996,
+   "inherited_cells": 61757,
+   "consequence_cells": 239,
+   "suspended_cells": {
+    "defaults disagree": 0,
+    "contradicts known": 0,
+    "joint conflict": 0,
+    "synonyms disagree": 0
+   },
+   "facts_located": {
+    "known": 0,
+    "interpolated": 80
+   },
+   "held": 0,
+   "held_equal": 0,
+   "held_groups": 0,
+   "unattributed_conflict": false,
+   "bits": {
+    "known": 35985763.6888822,
+    "interpolated": 35886703.749363914
+   },
+   "seconds": 6.239
+  },
+  "known": {
+   "census": {
+    "+1": 3551,
+    "-1": 38,
+    "0": 1253536,
+    "SILENT": 0,
+    "residual": 21232251,
+    "conflict": 0,
+    "cells": 22489376,
+    "bits": 35985763.6888822
+   },
+   "obligation_groups_by_candidates": {
+    "2": 18,
+    "3": 14,
+    "4": 18,
+    "5": 4,
+    "6": 5,
+    "7": 10,
+    "8": 2,
+    "9": 5,
+    "10": 4,
+    "11": 1,
+    "12": 2,
+    "13": 5,
+    "14": 3,
+    "15": 2,
+    "17": 1,
+    "19": 2,
+    "20": 1,
+    "22": 2,
+    "24": 1,
+    "28": 1,
+    "41": 1,
+    "51": 1
+   },
+   "facts_located": {},
+   "laws_woken": {},
+   "obligation_conflicts": [],
+   "required_checks": {}
+  },
+  "interpolated": {
+   "census": {
+    "+1": 63660,
+    "-1": 1630,
+    "0": 1253575,
+    "SILENT": 240,
+    "residual": 21170271,
+    "conflict": 0,
+    "cells": 22489376,
+    "bits": 35886703.749363914
+   },
+   "obligation_groups_by_candidates": {
+    "1": 12,
+    "2": 13,
+    "3": 16,
+    "4": 13,
+    "5": 6,
+    "6": 4,
+    "7": 8,
+    "8": 5,
+    "9": 5,
+    "10": 2,
+    "11": 2,
+    "12": 4,
+    "13": 3,
+    "16": 3,
+    "18": 1,
+    "21": 1,
+    "22": 2,
+    "24": 1,
+    "34": 1,
+    "45": 1
+   },
+   "facts_located": {
+    "own_degree_domain=graded_property": 25,
+    "own_degree_domain=graded_property&own_denotatum=affective_feeling": 10,
+    "own_degree_domain=graded_property&own_denotatum=affective_feeling&own_template_quantification=SOMETIMES&own_valence_domain=signed_felt_pole&source_frame_family=Fear": 4,
+    "own_denotatum=affective_feeling": 10,
+    "own_role=modifier_property_only&source_frame_family=Fear": 4,
+    "own_semantic_kind=evaluator": 5,
+    "own_semantic_kind=size_descriptor": 10,
+    "own_template_quantification=SOMETIMES": 4,
+    "own_valence_domain=signed_felt_pole": 4,
+    "source_frame_family=Fear": 4
+   },
+   "laws_woken": {
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ABOVE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ALIVE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BEFORE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BIG": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CAUSE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CERTAINTY": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:DO": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:EXIST": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:FAR": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HAVE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HEAR": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HERE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:IF": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:INFER": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:KNOW": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:LONG_TIME": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MAYBE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MOMENT": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MOVE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:MUST": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:ONE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:OUTSIDE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SAME": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SAY": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SEE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SIDE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:START": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:THEN": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TOUCH": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TOWARD": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TRUE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:TWO": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WHERE": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WITH": 4,
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WORDS": 4,
+    "law:EMOTION_FEAR_ADJ:companions": 4,
+    "law:EVALUATOR_EXCLUDES_SIZE": 5,
+    "law:FEAR_AVERSION": 4,
+    "law:FEELING_DENOTATUM_IS_NOT_A_CATEGORY": 10,
+    "law:OWN_AFFECTIVE_FEELING": 10,
+    "law:OWN_DEGREE_BEARING_CONTENT": 25,
+    "law:QUANTIFIED_TIME_PORTMANTEAU": 4,
+    "law:SIGNED_FELT_VALENCE_DOMAIN": 4,
+    "law:SIZE_DESCRIPTOR_EXCLUDES_EVALUATION": 10,
+    "law:USAS_OWN_HAPPY_SAD_STATE:companions": 10
+   },
+   "obligation_conflicts": [],
+   "required_checks": {
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:I": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:YOU": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMEONE": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:SOMETHING": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PEOPLE": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BODY": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:KIND": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:PART": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:QUANTITY": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:GOOD": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:THINK": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WANT": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:FEEL": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:HAPPEN": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:WHEN": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:NOT": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:CAN": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:BECAUSE": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:LIKE": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    },
+    "boundary:GSE_FEAR_ADJ_BOUNDARY_V1:INTENSITY": {
+     "derived": 4,
+     "open": 0,
+     "contradicted": 0
+    }
+   }
+  }
+ }
+}

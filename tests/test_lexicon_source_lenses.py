@@ -22,6 +22,7 @@ from GSE.curation.lexicon_builder.projection import (
     Sources,
     closure_round,
     competence,
+    domain_audit,
     label,
     project,
     reading_id,
@@ -362,3 +363,35 @@ def test_the_settled_round_locates_an_obligation_and_reports_the_facts_and_laws_
     assert known["obligation_groups_by_candidates"] == {"1": 1}
     assert known["facts_located"] == {"own_degree_domain=graded_property": 1, "own_semantic_kind=evaluator": 1}
     assert known["laws_woken"] == {"law:EVALUATOR_EXCLUDES_SIZE": 1, "law:OWN_DEGREE_BEARING_CONTENT": 1}
+
+
+def test_the_domain_audit_lists_a_key_whose_lexname_no_other_class_member_has_and_changes_nothing():
+    readings = (_verb("send", "send.v.01"), _verb("ship", "ship.v.01"), _verb("pass", "communicate.v.01"))
+    frames = [_frame(MOTION)]
+    sources = Sources(
+        verbnet={w: [_entry(w, "send-11.1-1", frames, [f"{w}%2:38:00"])] for w in ("send", "ship", "pass")}
+        | {"wink": [_entry("wink", "wink-40.3.1", frames, ["wink%2:29:00"])]},
+        links=_links(
+            {
+                "send%2:38:00": "send.v.01",
+                "ship%2:38:00": "ship.v.01",
+                "pass%2:38:00": "communicate.v.01",
+                "wink%2:29:00": "wink.v.01",
+            }
+        ),
+    )
+    lens = project(readings, sources)
+    files = {
+        "send.v.01": "verb.motion",
+        "ship.v.01": "verb.motion",
+        "communicate.v.01": "verb.communication",
+        "wink.v.01": "verb.body",
+    }
+    audit = domain_audit(readings, sources, lens, lexname=files.get)
+    assert [(a["member"], a["lexname"], a["sole_member"]) for a in audit] == [
+        ("pass", "verb.communication", False),
+        ("wink", "verb.body", True),
+    ]
+    assert audit[0]["other_members_lexnames"] == {"verb.motion": 2}
+    assert audit[0]["lens_writes"] == ["MOVE:+1"]
+    assert len(project(readings, sources).restrictions) == len(lens.restrictions) == 3

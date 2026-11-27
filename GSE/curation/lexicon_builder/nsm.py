@@ -70,7 +70,7 @@ from GSE.curation.external_sources.nsm_chart_data import _ADAPTED, _CHART_BOXES,
 from . import guards, inheritance, inventory, laws, nsm_frames, nsm_text, nsm_typing
 from .cells import BANK_INDEX, BANKS, BIPOLAR, NEG, POS, SILENT, ZERO, State
 from .closure import Derivations, close
-from .relations import Relation
+from .restrictions import restriction_relations
 
 RECORDS = Path("data/external/references/notes/explications")
 COHORT = Path("data/lexicon_builder/rebuild/cohort.jsonl")
@@ -603,22 +603,6 @@ def compile_records(records, readings) -> Compiled:
 
 
 # --- Closure --------------------------------------------------------------------------------------------------
-
-
-def restriction_relations(compiled: Compiled, n: int) -> tuple[tuple[Relation, ...], dict[str, np.ndarray]]:
-    """Each (rule, bank, mask) as a one-bank relation over the reading it restricts, so closure names the NSM
-    record as the cause and wakes the laws that read the bank."""
-    relations, scopes = [], {}
-    keys = np.stack([compiled.rules.astype(np.int64), compiled.cols, compiled.allowed.astype(np.int64)])
-    for rule, col, mask in np.unique(keys, axis=1).T if keys.size else ():
-        rule_id, bank = compiled.rule_ids[rule], BANKS[col]
-        scope = f"{rule_id}:{bank}:{label(int(mask))}"
-        chosen = (keys[0] == rule) & (keys[1] == col) & (keys[2] == mask)
-        scopes[scope] = np.zeros(n, dtype=bool)
-        scopes[scope][compiled.rows[chosen]] = True
-        allowed = tuple((s,) for s in _STATES if int(mask) & s)
-        relations.append(Relation(rule_id, (bank,), allowed, compiled.warrants[rule], scope))
-    return tuple(relations), scopes
 
 
 def _obligation_status(state: State, obligations) -> dict[str, int]:

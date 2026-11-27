@@ -50,6 +50,7 @@ from GSE.curation.external_sources.verbnet import (
 )
 
 from . import guards, inventory, laws
+from . import restrictions as shared_restrictions
 from .cells import ALL, BANK_INDEX, BANKS, BIPOLAR, BIT_NAMES, NEG, NEGATIVE_POLES, POS, SILENT, ZERO, State
 from .closure import Derivations, close
 from .obligations import Obligation
@@ -682,19 +683,8 @@ def project(readings, sources: Sources, book_path: Path = laws.LAWS) -> LensOutp
 
 
 def restriction_relations(restrictions: Restrictions, n: int) -> tuple[tuple[Relation, ...], dict[str, np.ndarray]]:
-    """Each (rule, bank, mask) as a one-bank relation over the readings it restricts, so closure records the lens
-    rule as the cause and wakes the laws that read the bank."""
-    relations, scopes = [], {}
-    keys = np.stack([restrictions.rules.astype(np.int64), restrictions.cols, restrictions.allowed.astype(np.int64)])
-    for rule, col, mask in np.unique(keys, axis=1).T:
-        rule_id, bank = restrictions.rule_ids[rule], BANKS[col]
-        scope = f"lens:{rule_id}:{bank}:{label(mask)}"
-        chosen = (keys[0] == rule) & (keys[1] == col) & (keys[2] == mask)
-        scopes[scope] = np.zeros(n, dtype=bool)
-        scopes[scope][restrictions.rows[chosen]] = True
-        allowed = tuple((s,) for s in _STATES if int(mask) & s)
-        relations.append(Relation(f"lens:{rule_id}", (bank,), allowed, restrictions.warrants[rule], scope))
-    return tuple(relations), scopes
+    """The lens's restrictions as one-bank relations named `lens:<rule>` (`restrictions.restriction_relations`)."""
+    return shared_restrictions.restriction_relations(restrictions, n, prefix="lens:")
 
 
 def closure_round(readings, lens: LensOutput, book_path: Path = laws.LAWS) -> dict:
@@ -732,26 +722,32 @@ def closure_round(readings, lens: LensOutput, book_path: Path = laws.LAWS) -> di
     }
 
 
-def candidates(masks: np.ndarray, obligations) -> dict[int, int]:
-    """Per witness group, how many of its readings can still hold every (bank, states) of the group together.
-    One is a located group, none is a conflict."""
+def candidates(masks: np.ndarray, obligations, classes: np.ndarray | None = None) -> dict[int, np.ndarray]:
+    """Per witness group, the candidates that can still hold every (bank, states) of the group together: its
+    readings, or with `classes` (an identity class per reading) the classes of them, each counted once. One
+    candidate is a located group, none is a conflict."""
     groups: dict[int, list] = defaultdict(list)
     for o in obligations:
         groups[o.witness].append(o)
     out = {}
     for witness, members in groups.items():
-        fits = np.ones(members[0].rows.size, dtype=bool)
+        rows = members[0].rows
+        fits = np.ones(rows.size, dtype=bool)
         for o in members:
             fits &= (masks[o.rows, BANK_INDEX[o.bank]] & o.allowed) != 0
-        out[witness] = int(fits.sum())
+        out[witness] = rows[fits] if classes is None else np.unique(classes[rows[fits]])
     return out
 
 
-def settled_round(readings, lens: LensOutput, book_path: Path = laws.LAWS, links=None) -> dict:
+def settled_round(
+    readings, lens: LensOutput, book_path: Path = laws.LAWS, links=None, groups=None, classes=None
+) -> dict:
     """The joint round through `inheritance.settle`. The laws and the lens restrictions close, the lens obligations
     are forced and the facts they locate wake the laws, and WordNet inheritance runs on top (`links`, by default
-    WordNet's own). Each layer reports its census, the obligation groups by remaining candidates, the facts located,
-    the laws they woke, and the REQUIRED checks."""
+    WordNet's own). `groups` adds nodes beyond WordNet's synsets and `classes` gives the identity classes, both
+    from the Wiktionary binding. Each layer reports its census, the obligation groups by remaining candidates
+    (classes in the interpolated layer, where settle applies them), the facts located, the laws they woke, and the
+    REQUIRED checks."""
     from . import inheritance
     from . import obligations as ob
 
@@ -762,9 +758,14 @@ def settled_round(readings, lens: LensOutput, book_path: Path = laws.LAWS, links
     lens_relations, lens_scopes = restriction_relations(lens.restrictions, len(ids))
     scopes = guards.scopes(readings, wanted, lens.facts) | lens_scopes
     links = inheritance.wordnet_links() if links is None else links
-    graph = inheritance.build(inheritance.wordnet_groups(readings), links)
+    graph = inheritance.build(inheritance.wordnet_groups(readings) | dict(groups or {}), links)
     settled = inheritance.settle(
-        State.opening(ids), graph, lens_relations + law_relations, scopes, ob.Batch.of(lens.obligations)
+        State.opening(ids),
+        graph,
+        lens_relations + law_relations,
+        scopes,
+        ob.Batch.of(lens.obligations),
+        classes=classes,
     )
     out = {"graph": {"nodes": len(graph.keys), "edges": int(graph.src.size)}, "receipt": settled.receipt}
     layers = (
@@ -773,7 +774,8 @@ def settled_round(readings, lens: LensOutput, book_path: Path = laws.LAWS, links
     )
     for layer, state, layer_scopes, conflicts in layers:
         grown = {name: int((layer_scopes[name] & ~scopes[name]).sum()) for name in sorted(layer_scopes)}
-        by_candidates = Counter(candidates(state.masks, lens.obligations).values())
+        layer_classes = classes if layer == "interpolated" else None
+        by_candidates = Counter(c.size for c in candidates(state.masks, lens.obligations, layer_classes).values())
         out[layer] = {
             "census": state.census(),
             "obligation_groups_by_candidates": {str(k): v for k, v in sorted(by_candidates.items())},
@@ -786,6 +788,55 @@ def settled_round(readings, lens: LensOutput, book_path: Path = laws.LAWS, links
                 k: v for k, v in laws.check(state.masks, layer_scopes, checks).items() if any(v.values())
             },
         }
+    return out
+
+
+def domain_audit(readings, sources: Sources, lens: LensOutput, lexname: Callable[[str], str] | None = None) -> list:
+    """Audit, not a refusal: every linked VerbNet sense key whose WordNet synset has a lexicographer file
+    (`synset.lexname()`, a native WordNet field) that no other member of its class has among its keys.
+
+    Each entry names the class, the member, the key, its synset and lexname, the other members' lexnames, the
+    cohort reading, and what the lens wrote from that key. A class with one member has no other members to compare
+    with, and is listed with `sole_member`. Nothing here changes what the lens writes.
+    """
+    if lexname is None:
+        from nltk.corpus import wordnet as wn
+
+        def lexname(synset: str) -> str:
+            return wn.synset(synset).lexname()
+
+    index = {r.reading_id: i for i, r in enumerate(readings)}
+    r = lens.restrictions
+    writes: dict[str, set[str]] = defaultdict(set)
+    for premise, rule, col, mask in zip(r.premises, r.rules, r.cols, r.allowed):
+        writes[r.premise_ids[premise]].add(f"{BANKS[col]}:{label(mask)}")
+    keys: dict[str, list[tuple[str, str, str, str]]] = defaultdict(list)
+    for word in sorted(sources.verbnet):
+        for entry in sources.verbnet[word]:
+            for link in sources.links(entry):
+                if link["code"] == "LINKED":
+                    synset = link["synset_name"]
+                    keys[entry.verb_class].append((entry.word, link["sense_key"], synset, lexname(synset)))
+    out = []
+    for class_id in sorted(keys):
+        for word, key, synset, own in keys[class_id]:
+            others = Counter(name for w, _, _, name in keys[class_id] if w != word)
+            if own in others:
+                continue
+            rid = reading_id(word, synset)
+            out.append(
+                {
+                    "class": class_id,
+                    "member": word,
+                    "sense_key": key,
+                    "synset": synset,
+                    "lexname": own,
+                    "other_members_lexnames": dict(sorted(others.items())),
+                    "sole_member": not others,
+                    "reading": rid if rid in index else None,
+                    "lens_writes": sorted(writes.get(f"verbnet:{class_id}:{key}", ())),
+                }
+            )
     return out
 
 
@@ -881,6 +932,7 @@ def main(argv=None) -> dict:
     parser.add_argument("--cohort", type=Path, default=Path("data/lexicon_builder/rebuild/cohort.jsonl"))
     parser.add_argument("--receipt", type=Path, default=None)
     parser.add_argument("--settle", action="store_true", help="also run the joint round through inheritance.settle")
+    parser.add_argument("--domain-audit", type=Path, default=None, help="write the VerbNet lexname audit here")
     args = parser.parse_args(argv)
     started = time.perf_counter()
     readings = inventory.load(args.cohort)
@@ -900,6 +952,11 @@ def main(argv=None) -> dict:
     }
     if args.settle:
         receipt["settled"] = settled_round(readings, lens)
+    if args.domain_audit:
+        audit = domain_audit(readings, sources, lens)
+        args.domain_audit.write_text(
+            json.dumps({"format": "GSE.rebuild-verbnet-domain-audit/1", "keys": audit}, indent=1) + "\n"
+        )
     if args.receipt:
         args.receipt.write_text(json.dumps(receipt, indent=1) + "\n")
     print(json.dumps(receipt, indent=1))
