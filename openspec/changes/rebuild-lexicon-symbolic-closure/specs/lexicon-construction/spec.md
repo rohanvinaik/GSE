@@ -82,12 +82,8 @@ SHALL NOT be inherited.
 - **THEN** both are suspended and reported, and neither is chosen by order
 
 ### Requirement: Senses form by the homonym and coherence collapse
-For each lemma and part of speech, the builder SHALL form one sense from all its definitions unless they destructively
-interfere: definitions incompatible on a load-bearing bank SHALL be separated into distinct homonyms. A single
-definition incompatible with the core SHALL be kept apart as an out-of-variance exception. A definition with no
-evidence of its own SHALL join its word's core. Every part of speech present SHALL keep at least one sense, and no
-sense SHALL be ranked as a main sense. A sense's encoding SHALL be the combination its evidenced members support, with
-disagreements recorded.
+For each lemma and part of speech, the builder SHALL form one sense from its definitions unless they destructively
+interfere on a load-bearing bank, and SHALL separate such definitions into distinct homonyms.
 
 #### Scenario: A word with many definitions keeps its real senses
 - **WHEN** the builder forms the senses of "lock"
@@ -101,6 +97,22 @@ disagreements recorded.
 #### Scenario: Destructive interference separates a homonym
 - **WHEN** two groups of a word's definitions are incompatible on a load-bearing bank
 - **THEN** they form two senses, and the interfering bank is recorded
+
+### Requirement: Out-of-variance definitions and evidence-free definitions are placed by coherence
+A single definition incompatible with its word's core SHALL be kept apart as an out-of-variance exception, and a
+definition with no evidence of its own SHALL join its word's core.
+
+#### Scenario: An out-of-variance definition is kept apart
+- **WHEN** one definition of a word is incompatible with the rest on a load-bearing bank
+- **THEN** it is kept as an exception with its interfering bank named, and the core is not averaged with it
+
+### Requirement: Every part of speech keeps a sense and no sense is ranked main
+Every part of speech present SHALL keep at least one sense; no sense SHALL be ranked as a main sense; and a sense's
+encoding SHALL be the combination its evidenced members support, with disagreements recorded.
+
+#### Scenario: A part of speech with only evidence-free definitions
+- **WHEN** a word's verb definitions carry no evidence of their own
+- **THEN** the word still has one verb sense, holding only what the rules establish
 
 ### Requirement: Every round is measured
 Each round SHALL record the specification bits H, the census of every cell by state, bank, part of speech and
