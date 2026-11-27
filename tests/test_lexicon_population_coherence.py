@@ -97,7 +97,7 @@ def test_duplicate_roots_count_once():
     s = settle([_obs(0, "FEEL", POS, "row"), _obs(0, "FEEL", POS, "row")], readings)
     assert s.roots_of(0, BANK_INDEX["FEEL"]) == ("row",)
     col = s.stated.column("FEEL")
-    assert col.lo.tolist() == col.hi.tolist()
+    assert col.fams.tolist() == [1 << s.stated.families.index("row")]
 
 
 def test_one_dataset_stating_both_banks_does_not_confirm_their_relation_and_a_second_dataset_does():
@@ -120,6 +120,24 @@ def test_one_dataset_stating_both_banks_does_not_confirm_their_relation_and_a_se
     ev = evidence(cand, two, types)
     assert ev.witnesses.tolist() == [0] and not ev.co_encoded.size
     assert ev.witness_families == ("catalog", "profile")
+
+
+def test_families_are_independent_only_when_their_datasets_are_disjoint():
+    readings = _readings(1)
+    types = Types.build(1, {"t:verb": np.arange(1)})
+    cand = Candidate((("HEAR", POS),), "CAUSE", POS, ("t:verb",))
+
+    def witnessed(a_family, b_family):
+        obs = [
+            Observation("t:0", "HEAR", POS, a_family, f"{a_family}:record"),
+            Observation("t:0", "CAUSE", POS, b_family, f"{b_family}:record"),
+        ]
+        return evidence(cand, settle(obs, readings), types).witnesses.tolist() == [0]
+
+    assert not witnessed("verbnet+usas", "verbnet")  # both through VerbNet
+    assert not witnessed("verbnet+usas", "usas+framenet")  # both through USAS
+    assert witnessed("usas+framenet", "verbnet")
+    assert witnessed("nsm", "verbnet+usas")
 
 
 def test_unknowns_are_neither_confirmations_nor_counterexamples():

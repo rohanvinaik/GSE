@@ -18,12 +18,27 @@ The rules, as decided (the lead's brief of 2026-11-26):
    operators are content.
 3. Head record. Substantive banks are written only from the head line, the first line of the explication, which
    says what the thing is. Substantives elsewhere are participants and give nothing.
-4. An explication writes no zero and no silence; banks it does not mention are untouched.
+4. An explication writes no zero. A bank it does not mention is untouched, except by rule 8.
 5. Molecules. A head line "X [m] of one kind" carries the molecule X's own content, compiled from X's explication,
    to the explicated word.
 6. Templates. A template's content goes to the member lemmas the record itself lists. Wider field membership is
    recorded, never applied.
 7. Records of kind "other" and cross-linguistic explications write nothing.
+8. Silence (the lead's ruling of 2026-11-27). An explication is a complete reductive paraphrase of its sense, so on
+   the explicated sense every EXPRESSIBLE bank it neither mentions nor reaches through its molecules is
+   definitionally SILENT: F118 ("empty is silence") and F140 (confirmed silence is decided), warranted by the
+   explication's completeness. It is not a fill:
+   - zero is never written this way;
+   - a bank no record's compiled content ever writes (`expressible_banks`) is not one NSM can express, and is never
+     silenced;
+   - a bank the explication mentions in any way (content, or a substantive it names as a participant) is not
+     silenced, nor any bank reached through a molecule it names anywhere, recursively; an explication naming a
+     molecule no record explicates is not known to be complete, and silences nothing;
+   - on a verb or an adjective, the banks its own head law decides (`bank_laws.json`: no substantive head, and an
+     adjective's SOMETHING 0) are the law's explicit absence, and are not silenced;
+   - it applies to a restriction (one reading, or the one the head category types) and joins the joint obligation
+     over typed candidates, never an UNTYPED obligation and never a template, which is not one sense's paraphrase.
+   Silence never carries along kind-of; the inheritance rule already forbids it.
 
 How the chart's forms are read in running text, where the rules needed a reading of the chart:
 
@@ -60,6 +75,7 @@ import json
 import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from functools import cache
 from pathlib import Path
 
 import numpy as np
@@ -430,9 +446,12 @@ class _Writer:
         self.observations: dict[tuple, tuple[int, str]] = {}
         self.aligner = nsm_typing.Aligner(readings, self.index, MOST_GENERAL)
 
-    def bind(self, rule_id: str, warrant: str, lemma: str, pos: str, masks: dict[str, int], category=None) -> dict:
+    def bind(
+        self, rule_id: str, warrant: str, lemma: str, pos: str, masks: dict[str, int], category=None, silent=frozenset()
+    ) -> dict:
         """Rule 1 with the typed alignment proof (`nsm_typing`): a restriction on the one reading (or the one the
-        head category types), an obligation over the typed readings, or over all of them, `UNTYPED`."""
+        head category types), an obligation over the typed readings, or over all of them, `UNTYPED`. `silent` (rule
+        8) joins the restriction and the typed obligation as SILENT, and is dropped from an UNTYPED obligation."""
         rows = self.index.get((lemma, pos), [])
         entry = {"rule_id": rule_id, "lemma": lemma, "pos": pos, "readings": len(rows)}
         if not rows:
@@ -446,23 +465,26 @@ class _Writer:
         witness, first = self.observations.setdefault(observation, (rule, rule_id))
         if first != rule_id:
             entry["same_as"] = first
+        whole = masks | {b: SILENT for b in sorted(silent)}
         if len(rows) == 1:
-            self.restrictions.extend((rows[0], BANK_INDEX[b], m, rule) for b, m in masks.items())
-            return entry | {"disposition": "RESTRICTION", "reading": rows[0]}
+            self.restrictions.extend((rows[0], BANK_INDEX[b], m, rule) for b, m in whole.items())
+            return entry | {"disposition": "RESTRICTION", "reading": rows[0], "silent": sorted(silent)}
         typed = self.aligner.type(category, rows)
         entry["typing"] = typed.receipt()
         if typed.rows:
             self.warrants[rule] = f"{warrant}, typed by the head category {typed.category}"
         if len(typed.rows) == 1:
-            self.restrictions.extend((typed.rows[0], BANK_INDEX[b], m, rule) for b, m in masks.items())
-            return entry | {"disposition": "RESTRICTION", "reading": typed.rows[0]}
+            self.restrictions.extend((typed.rows[0], BANK_INDEX[b], m, rule) for b, m in whole.items())
+            return entry | {"disposition": "RESTRICTION", "reading": typed.rows[0], "silent": sorted(silent)}
         members = np.array(typed.rows or rows, dtype=np.int64)
-        banks = tuple(masks)
+        claim = whole if typed.rows else masks  # an UNTYPED obligation is not a paraphrase of one known reading's sense
+        banks = tuple(claim)
         if len(banks) > 1:
-            self.obligations.append(Obligation(rule_id, banks, tuple(masks[b] for b in banks), members, True, witness))
-        self.obligations.extend(Obligation(rule_id, (b,), (masks[b],), members, False, witness) for b in banks)
+            self.obligations.append(Obligation(rule_id, banks, tuple(claim[b] for b in banks), members, True, witness))
+        self.obligations.extend(Obligation(rule_id, (b,), (claim[b],), members, False, witness) for b in banks)
         disposition = "OBLIGATION" if typed.rows else "UNTYPED"
-        return entry | {"disposition": disposition, "joint": len(banks) > 1, "rows": int(members.size)}
+        out = entry | {"disposition": disposition, "joint": len(banks) > 1, "rows": int(members.size)}
+        return out | {"silent": sorted(silent) if typed.rows else []}
 
     def output(self, receipt) -> Compiled:
         r = np.array(self.restrictions, dtype=np.int64).reshape(-1, 4)
@@ -549,6 +571,80 @@ def _template(record: Record, w: _Writer) -> dict:
     return entry | {"disposition": "TEMPLATE", "pos": pos, "members": bound}
 
 
+# --- Silence (rule 8) -----------------------------------------------------------------------------------------
+
+
+def expressible_banks(records) -> frozenset[str]:
+    """The banks some record's compiled content writes: those NSM's metalanguage can express (rule 8)."""
+    out: set[str] = set()
+    pos_index: dict[str, set[str]] = defaultdict(set)
+    for record in records:
+        if record.kind in {"explication", "molecule"}:
+            rd = _read(record, pos_index)
+            out |= set(rd.content.masks())
+        elif record.kind == "template":
+            out |= set(read_content(nsm_text.read(record.text, record.explicates), noun=False).masks())
+    return frozenset(out)
+
+
+def _mentioned(content: Content) -> set[str]:
+    """Every bank the content names: its poles, and the substantives it names as participants."""
+    named = {pole[0] for key in content.units if (pole := POLES.get(key))}
+    return named | set(content.masks())
+
+
+def _molecules(body: nsm_text.Body) -> set[str]:
+    """Every molecule the explication names, on any line, as written."""
+    return {t.word for line in body.lines for t in line if t.molecule}
+
+
+def _molecule_keys(word: str, explicated: dict) -> list[str]:
+    """The explications of a named molecule, whatever its part of speech (gadgets: gadget; long, eat, quickly)."""
+    names = {word} | {b for p in ("noun", "verb", "adj", "adv") if (b := nsm_frames.base(word, p))}
+    return sorted({k for name in names for k in explicated.get(name, [])})
+
+
+def _reach(key: str, reads: dict, explicated: dict, seen: frozenset) -> tuple[set[str] | None, str]:
+    """The banks the record mentions with those of every molecule it names, recursively; (None, molecule) when a
+    named molecule has no explication among the records, so the paraphrase is not known to be complete."""
+    rd = reads[key]
+    out = _mentioned(rd.content)
+    for name in sorted(_molecules(rd.body)):
+        keys = _molecule_keys(name, explicated)
+        if not keys:
+            return None, name
+        for k in keys:
+            if k in seen:
+                continue
+            inner, missing = _reach(k, reads, explicated, seen | {key, k})
+            if inner is None:
+                return None, missing
+            out |= inner
+    return out, ""
+
+
+_HEAD_ROLE = {**{p: "own_role=lexical_predicate" for p in guards.VERB}}
+_HEAD_ROLE |= {p: "own_role=modifier_property_only" for p in guards.ADJECTIVE}
+
+
+@cache
+def _head_law_banks(pos: str) -> frozenset[str]:
+    """The banks the authored head law of this part of speech decides (its explicit absence, not silence)."""
+    role = _HEAD_ROLE.get(pos)
+    if role is None:
+        return frozenset()
+    return frozenset(b for r in laws.compile_laws() if r.scope == role for b in r.banks)
+
+
+def silence(key: str, reads: dict, explicated: dict, expressible: frozenset[str]) -> tuple[frozenset[str], str]:
+    """Rule 8: the banks an explication leaves definitionally silent on its sense, or none with the reason.
+    `explicated` maps a lemma to the keys of its supported explications, of any part of speech."""
+    reached, missing = _reach(key, reads, explicated, frozenset())
+    if reached is None:
+        return frozenset(), f"MOLECULE_NOT_EXPLICATED:{missing}"
+    return frozenset(expressible - reached - _head_law_banks(reads[key].frame.pos)), ""
+
+
 def compile_records(records, readings) -> Compiled:
     """Every record's disposition, its restrictions and its obligations over `readings` (the cohort)."""
     w = _Writer(readings)
@@ -557,6 +653,11 @@ def compile_records(records, readings) -> Compiled:
     for k, rd in reads.items():
         if rd.frame.supported and rd.frame.pos == "noun":
             by_lemma[rd.frame.lemma].append(k)
+    expressible = expressible_banks(records)
+    explicated: dict[str, list[str]] = defaultdict(list)
+    for k, rd in reads.items():
+        if rd.frame.supported:
+            explicated[rd.frame.lemma].append(k)
     receipt = []
     for record in records:
         entry = {"source": record.source, "start_line": record.start, "end_line": record.end, "kind": record.kind}
@@ -598,7 +699,10 @@ def compile_records(records, readings) -> Compiled:
         }
         rule_id = f"nsm:{record.key}"
         warrant = _warrant(record, f.lemma, f.pos, f.frame)
-        receipt.append(entry | w.bind(rule_id, warrant, f.lemma, f.pos, masks, category))
+        silent, why = silence(record.key, reads, explicated, expressible) if masks else (frozenset(), "")
+        if why:
+            entry["silence_withheld"] = why
+        receipt.append(entry | w.bind(rule_id, warrant, f.lemma, f.pos, masks, category, silent))
     return w.output(receipt)
 
 

@@ -15,7 +15,8 @@ Not 'statistical similarity', but dynamic mechanism impute." Postings hold the e
 stated source, never a derivation, puts a bank in a state. A candidate "within S, A in a implies B in b" is judged
 on exact sets:
 
-- witnesses: A stated in a and B stated in b, by two different source families (datasets). Only stated
+- witnesses: A stated in a and B stated in b, by two source families that share no dataset (`verbnet+usas` and
+  `verbnet` share VerbNet; `usas+framenet` and `verbnet` share none). Only stated
   observations confirm (SW 14). F108 asks for "relations between banks in single words, stable across the tens of
   thousands of words that exist in multiple datasets": the relation is seen where one dataset states A and another
   dataset states B of the same word. One dataset stating both, whether in one record (the `cannot` portmanteau row
@@ -57,6 +58,7 @@ from .relations import Relation, from_predicate
 NON_EMPTY = POS | NEG  # "presence of any non-zero and non-empty input" (F088)
 _EMPTY = np.zeros(0, dtype=np.int64)
 _WIDTH = np.int64(len(BANKS))
+_FAMILY_BITS = np.iinfo(np.int64).bits - 1  # family codes are bits of an int64
 
 
 def render(states: int) -> str:
@@ -69,6 +71,16 @@ def identity_root(reading_id: str) -> str:
     if reading_id.startswith("wordnet:"):
         return "wordnet:" + unquote(reading_id.split(":")[2])
     return reading_id
+
+
+def datasets(family: str) -> frozenset[str]:
+    """The datasets a source family states through: `usas+framenet` is USAS with FrameNet."""
+    return frozenset(family.split("+"))
+
+
+def disjoint_masks(families) -> tuple[int, ...]:
+    """For each family code, the bitmask of the families sharing no dataset with it."""
+    return tuple(sum(1 << j for j, g in enumerate(families) if not datasets(f) & datasets(g)) for f in families)
 
 
 def identity_family(reading_id: str) -> str:
@@ -142,17 +154,17 @@ class Conflict:
 
 @dataclass
 class Column:
-    """One bank's stated cells: sorted rows, the intersected mask, and the lowest and highest source-family code."""
+    """One bank's stated cells: sorted rows, the intersected mask, and the families stating each (a bitmask over
+    the settlement's family codes)."""
 
     rows: np.ndarray
     masks: np.ndarray
-    lo: np.ndarray
-    hi: np.ndarray
+    fams: np.ndarray
 
     def at(self, rows: np.ndarray):
-        """The stated cells among `rows` (sorted, unique): (rows, masks, lo, hi)."""
+        """The stated cells among `rows` (sorted, unique): (rows, masks, family bitmasks)."""
         common, _, mine = np.intersect1d(rows, self.rows, assume_unique=True, return_indices=True)
-        return common, self.masks[mine], self.lo[mine], self.hi[mine]
+        return common, self.masks[mine], self.fams[mine]
 
 
 @dataclass
@@ -194,7 +206,7 @@ class Postings:
 
 
 def _columns(rows, cols, masks, codes) -> dict[int, Column]:
-    """Group observations by cell: intersect their masks, keep the lowest and highest family code."""
+    """Group observations by cell: intersect their masks, unite the bits of the families stating them."""
     out = {}
     if not rows.size:
         return out
@@ -203,12 +215,11 @@ def _columns(rows, cols, masks, codes) -> dict[int, Column]:
     key, rows, cols, masks, codes = key[order], rows[order], cols[order], masks[order], codes[order]
     starts = _starts(key)
     inter = np.bitwise_and.reduceat(masks, starts).astype(np.uint8)
-    lo = np.minimum.reduceat(codes, starts)
-    hi = np.maximum.reduceat(codes, starts)
+    fams = np.bitwise_or.reduceat(np.left_shift(np.int64(1), codes), starts)
     cell_rows, cell_cols = rows[starts], cols[starts]
     for c in np.unique(cell_cols).tolist():
         pick = cell_cols == c
-        out[c] = Column(cell_rows[pick], inter[pick], lo[pick], hi[pick])
+        out[c] = Column(cell_rows[pick], inter[pick], fams[pick])
     return out
 
 
@@ -318,8 +329,7 @@ class Settlement:
             rows = np.flatnonzero(m.astype(bool) & (m != START[c]))
             rows = rows[np.logical_not(np.isin(rows * _WIDTH + c, unresolved))]
             if rows.size:
-                zero = np.zeros(rows.size, dtype=np.int64)
-                columns[c] = Column(rows, m[rows].copy(), zero, zero)
+                columns[c] = Column(rows, m[rows].copy(), np.zeros(rows.size, dtype=np.int64))
         return Postings(len(self.readings), columns, self.stated.families)
 
 
@@ -344,6 +354,8 @@ def settle(observations, readings) -> Settlement:
 def _build(readings, obs, excluded, uninformative) -> Settlement:
     index = {r: i for i, r in enumerate(readings)}
     families = tuple(sorted({o.family for o in obs} | {identity_family(r) for r in readings}))
+    if families[_FAMILY_BITS:]:
+        raise ValueError("TOO_MANY_SOURCE_FAMILIES")
     code = {f: i for i, f in enumerate(families)}
     identity = np.array([code[identity_family(r)] for r in readings], dtype=np.int64)
     rows = np.array([index[o.reading] for o in obs], dtype=np.int64)
@@ -639,35 +651,42 @@ class Evidence:
         return bool(self.exposure.size)
 
 
-def _distinct(a_lo, a_hi, b_lo, b_hi) -> np.ndarray:
-    """Some source family stating A differs from some family stating B."""
-    return (a_lo != a_hi) | (b_lo != b_hi) | (a_lo != b_lo)
+def _independent(a_fams: np.ndarray, b_fams: np.ndarray, disjoint: tuple[int, ...]) -> np.ndarray:
+    """Some family stating A and some family stating B share no dataset (F108: the relation is seen where one
+    dataset states A and another states B). `verbnet+usas` and `verbnet` share VerbNet, so they are one."""
+    out = np.zeros(a_fams.shape, dtype=bool)
+    for f, others in enumerate(disjoint):
+        holds_f = np.bitwise_and(np.right_shift(a_fams, f), 1).astype(bool)
+        out |= holds_f & np.bitwise_and(b_fams, np.int64(others)).astype(bool)
+    return out
 
 
 def _confirming_witnesses(candidate: Candidate, settlement: Settlement, agree: np.ndarray) -> np.ndarray:
-    """The rows of `agree` whose terms the confirming postings state, with an antecedent family other than B's."""
+    """The rows of `agree` whose terms the confirming postings state, with an antecedent family sharing no dataset
+    with a family that states B."""
     confirming = settlement.confirming
     col_b = confirming.column(candidate.then_bank)
     if col_b is None or not agree.size:
         return _EMPTY
-    rows, b_masks, b_lo, b_hi = col_b.at(agree)
+    disjoint = disjoint_masks(confirming.families)
+    rows, b_masks, b_fams = col_b.at(agree)
     inside = np.logical_not(b_masks & (ALL & ~candidate.then_states))
-    rows, b_lo, b_hi = rows[inside], b_lo[inside], b_hi[inside]
+    rows, b_fams = rows[inside], b_fams[inside]
     if not candidate.if_terms:
-        ident = settlement.identity[rows]
-        return rows[_distinct(ident, ident, b_lo, b_hi)]
+        ident = np.left_shift(np.int64(1), settlement.identity[rows])
+        return rows[_independent(ident, b_fams, disjoint)]
     eligible = np.ones(rows.size, dtype=bool)
     distinct = np.zeros(rows.size, dtype=bool)
     for bank, states in candidate.if_terms:
         col_a = confirming.column(bank)
         if col_a is None:
             return _EMPTY
-        a_rows, a_masks, a_lo, a_hi = col_a.at(rows)
+        a_rows, a_masks, a_fams = col_a.at(rows)
         pos = np.searchsorted(rows, a_rows)
         here = np.zeros(rows.size, dtype=bool)
         here[pos] = np.logical_not(a_masks & (ALL & ~states))
         apart = np.zeros(rows.size, dtype=bool)
-        apart[pos] = _distinct(a_lo, a_hi, b_lo[pos], b_hi[pos])
+        apart[pos] = _independent(a_fams, b_fams[pos], disjoint)
         eligible &= here
         distinct |= here & apart
     return rows[eligible & distinct]
@@ -763,7 +782,7 @@ def pair_candidates(settlement: Settlement, types: Types) -> list[Candidate]:
                 if b_id == a_id:
                     continue
                 b_bank = BANKS[b_id]
-                _, observed, _, _ = b_col.at(rows_a)
+                _, observed, _ = b_col.at(rows_a)
                 if not observed.size:
                     continue
                 for b in _consequent_values(observed, b_bank):
@@ -796,8 +815,8 @@ def near_miss_conjunctions(candidate: Candidate, ev: Evidence, settlement: Settl
             continue
         if not np.isin(ev.witnesses, col.rows).all() or not np.isin(ev.counterexamples, col.rows).all():
             continue
-        _, w_masks, _, _ = col.at(ev.witnesses)
-        _, k_masks, _, _ = col.at(ev.counterexamples)
+        _, w_masks, _ = col.at(ev.witnesses)
+        _, k_masks, _ = col.at(ev.counterexamples)
         on_w = int(np.bitwise_or.reduce(w_masks))
         if on_w & int(np.bitwise_or.reduce(k_masks)):
             continue

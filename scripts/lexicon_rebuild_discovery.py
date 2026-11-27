@@ -36,6 +36,7 @@ from pathlib import Path
 import numpy as np
 
 from GSE.curation.lexicon_builder import guards, inventory, laws, nsm, projection
+from GSE.curation.lexicon_builder import obligations as ob
 from GSE.curation.lexicon_builder.admission import VERDICTS, discover
 from GSE.curation.lexicon_builder.cells import BANK_INDEX, BANKS, NEG, NEGATIVE_POLES, POS, SILENT, ZERO, State
 from GSE.curation.lexicon_builder.closure import Derivations, close
@@ -43,6 +44,7 @@ from GSE.curation.lexicon_builder.coherence import (
     Candidate,
     Derivation,
     Observation,
+    Settlement,
     Types,
     apply,
     censor,
@@ -176,9 +178,9 @@ def lens_observations(lens, ids, skipped):
     return out
 
 
-def nsm_observations(compiled, ids, skipped):
-    """Restrictions only. The root is the record (a template's members share their template's record), and a
-    republished observation (`same_as`) keeps the root of the record that first published it."""
+def nsm_roots(compiled):
+    """rule id -> the record it rests on: a template's members share their template's record, and a republished
+    observation (`same_as`) keeps the root of the record that first published it."""
     record_of, same_as = {}, {}
     for e in compiled.receipt:
         record = f"nsm:{e['source']}:{e['start_line']}-{e['end_line']}"
@@ -187,17 +189,60 @@ def nsm_observations(compiled, ids, skipped):
                 record_of[b["rule_id"]] = record
                 if "same_as" in b:
                     same_as[b["rule_id"]] = b["same_as"]
+    return lambda rule_id: record_of[same_as.get(rule_id, rule_id)]
+
+
+def nsm_observations(compiled, ids, skipped):
+    """Restrictions only; each rooted at its record (`nsm_roots`)."""
+    root = nsm_roots(compiled)
     out = []
     for row, col, allowed, rule in zip(
         compiled.rows.tolist(), compiled.cols.tolist(), compiled.allowed.tolist(), compiled.rules.tolist()
     ):
         rule_id = compiled.rule_ids[rule]
-        root = record_of[same_as.get(rule_id, rule_id)]
         try:
-            out.append(Observation(ids[row], BANKS[col], allowed, "nsm", root))
+            out.append(Observation(ids[row], BANKS[col], allowed, "nsm", root(rule_id)))
         except ValueError as e:
             skipped[f"nsm_refused:{rule_id}:{e}"] += 1
     return out
+
+
+def obligation_batch(lens, compiled):
+    """Lens and NSM obligations as one batch, witnesses renumbered so no two sources share one, with each
+    obligation's (family, root): the dataset that stated it and the record it rests on."""
+    source_of = dict(zip(lens.restrictions.rule_ids, lens.restrictions.rule_sources))
+    root = nsm_roots(compiled)
+    items, sources, base = [], [], 0
+
+    def take(objs, origin):
+        nonlocal base
+        top = base
+        for o in objs:
+            w = getattr(o, "witness", None)
+            witness = None if w is None else base + int(w)
+            top = max(top, (witness or 0) + 1)
+            premises = tuple(getattr(o, "premises", ()))
+            items.append(ob.Obligation(o.rule_id, o.bank, o.allowed, np.asarray(o.rows), witness, premises))
+            sources.append(origin(o))
+        base = top
+
+    take(lens.obligations, lambda o: (source_of[o.rule_id], ";".join(o.premises) or o.rule_id))
+    take([o for o in compiled.obligations if not o.joint], lambda o: ("nsm", root(o.rule_id)))
+    return ob.Batch.of(items), sources
+
+
+def close_known(state, relations, scopes, batch, derivations=None) -> dict:
+    """The known layer: the laws close, the obligations force and wake the facts they locate, until nothing changes
+    (no identity classes: each reading is its own candidate)."""
+    sweeps = forced = 0
+    while True:
+        close(state, relations, scopes, derivations)
+        f = ob.force(state, batch)
+        woken = ob.wake(scopes, f.facts)
+        sweeps += 1
+        forced += f.changed
+        if not (f.changed or woken):
+            return {"sweeps": sweeps, "forced_cells": forced, "obligation_conflicts": int(f.conflicts.size)}
 
 
 def _digests() -> dict:
@@ -291,7 +336,7 @@ def pair_census(settlement) -> dict:
             for b_id, b_col in sorted(stated.columns.items()):
                 if b_id == a_id:
                     continue
-                _, observed, _, _ = b_col.at(rows_a)
+                _, observed, _ = b_col.at(rows_a)
                 for b in sorted(set(np.unique(observed).tolist())):
                     c = Candidate(((a_bank, a),), BANKS[b_id], b, ("population",), "census")
                     ev = evidence_on(c, settlement, rows_a)
@@ -329,22 +374,31 @@ def run() -> dict:
     prof_stated, prof_derived = prime_profiles(index, skipped, bindings)
     observations += prof_stated + approved_anchors(index, bindings, skipped)
     t_sources = time.perf_counter() - t0
-    settlement = settle(observations, ids)
+    premises = settle(observations, ids)
     state = State.opening(ids)
     h_open = state.bits()
-    premise_conflicts = apply(state, settlement, prof_derived)
+    premise_conflicts = apply(state, premises, prof_derived)
     h_premises = state.bits()
     rels = laws.compile_laws()
-    scopes = guards.scopes(readings, {r.scope for r in rels}, lens.facts)
+    base_scopes = guards.scopes(readings, {r.scope for r in rels}, lens.facts)
+    scopes = {k: v.copy() for k, v in base_scopes.items()}
+    batch, obligation_sources = obligation_batch(lens, compiled)
     derivations = Derivations()
-    law_receipt = close(state, rels, scopes, derivations)
+    known_receipt = close_known(state, rels, scopes, batch, derivations)
+    # An obligation located in the known layer is a stated observation of its source (the lead's ruling, 2026-11-27).
+    at_fixed_point = ob.force(state.copy(), batch)
+    located = Settlement.located_groups(
+        batch, at_fixed_point.located_rows, at_fixed_point.located_by, ids, lambda i: obligation_sources[i], "known"
+    )
+    settlement = settle(observations + located, ids)
     after_laws = closure_conflicts(state, settlement, derivations)
-    # Near-misses read the same closure without the reading-confined statements (they neither confirm nor expose).
+    # Near-misses read the same known layer without the reading-confined statements.
     general = State.opening(ids)
-    apply(general, settlement.generalizing(), prof_derived)
-    close(general, rels, scopes)
-    # A conflicted cell is unresolved: it neither confirms nor refutes. Known = stated closed under the laws.
+    apply(general, premises.generalizing(), prof_derived)
+    close_known(general, rels, {k: v.copy() for k, v in base_scopes.items()}, batch)
+    # A conflicted cell is unresolved: it neither confirms nor refutes.
     settlement = settlement.excluding(premise_conflicts + after_laws).knowing(state, general)
+    law_receipt = {"bits_after": state.bits()} | known_receipt
     facts = {f"guard:{k}": v for k, v in scopes.items() if v.any()}
     facts |= wordnet_types(readings)
     types = Types.build(len(ids), facts)
@@ -405,6 +459,8 @@ def run() -> dict:
         "lens_restrictions_by_source": dict(
             sorted(Counter(lens.restrictions.rule_sources[i] for i in lens.restrictions.rules.tolist()).items())
         ),
+        "located_in_the_known_layer": dict(sorted(Counter(o.family for o in located).items())),
+        "known_layer": known_receipt,
         "not_observations": {
             "lens_obligations": len(lens.obligations),
             "nsm_obligations": len(compiled.obligations),
@@ -423,7 +479,7 @@ def run() -> dict:
         },
         "pair_census": pair_census(settlement),
         "types": {"count": len(types.names), "guard": sorted(k for k in facts if k.startswith("guard:"))},
-        "bits": {"opening": h_open, "after_premises": h_premises, "after_laws": law_receipt["bits_after"]},
+        "bits": {"opening": h_open, "after_premises": h_premises, "after_known_layer": law_receipt["bits_after"]},
         "rounds": out_rounds,
         "seconds": {
             "load": load_seconds,

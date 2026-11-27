@@ -6,12 +6,12 @@
   "GSE/curation/lexicon_builder/bank_laws.json": "1ff3bf0f05ced92eace8925d65b49b34a3a83fd421c0f45339a77b94b107772b",
   "GSE/curation/lexicon_builder/laws.py": "bfd1cd34d883567e926890ee1d80665d0bb0222dfd0f8b96bd6289a867148f7b",
   "GSE/curation/lexicon_builder/guards.py": "1105a3e15198fd79413f0e2acf858e8f4c20e6fbcf83f6179ef298961a38a3c7",
-  "GSE/curation/lexicon_builder/projection.py": "511c85519db8b41a347f6c571969bba7722116f0e9e4f76d958c473127fc1135",
-  "GSE/curation/lexicon_builder/nsm.py": "331e9cc4af7c418b0cbbd33d88f375cca583d2d9af72529418b2fba3990ddf6e",
+  "GSE/curation/lexicon_builder/projection.py": "d1713c650161f236797a013ef4399e57d1e8c1f589ce34332ce3857c18df9cbd",
+  "GSE/curation/lexicon_builder/nsm.py": "bb98ffb33cf1f25258e7693e8ce4607f92236c78bf03973355c3934dfd7fd032",
   "GSE/curation/lexicon_builder/nsm_frames.py": "93de6c4424e91aa707154a02438cca4e5797ef8e29bf9f2fd38d646371d7b43e",
   "GSE/curation/lexicon_builder/nsm_text.py": "2757d42636a41f2a180f5aa89f98ee63ec962ca1eb71da495f273dca4f04c0b9",
   "GSE/curation/lexicon_builder/nsm_typing.py": "e58528ccb57ef1c7fd4240afaf66dd98c289f1daba9f5e4fc5b3c70fdee969c4",
-  "GSE/curation/lexicon_builder/coherence.py": "7cffe0de7f2f01159ca1eac8d32ea55c5e1302cfb4e36c0ba57cfe745282c24d",
+  "GSE/curation/lexicon_builder/coherence.py": "78791ebdb76456ebba610f0127e2e5e7c0c6d65c901883a8b3fd76e603d67727",
   "GSE/curation/lexicon_builder/admission.py": "8807ddd73e2b8d13766822f49b602a9ab62de064d45644b3c234394d9586f08e",
   "nsm_records/G12.verified.jsonl": "9520ed30734990353f7ab46c50416f73d62e6771cbe73542a6494d88fe5ca557",
   "nsm_records/G18.verified.jsonl": "d34c6e821debef8c6aa54d68f3b1a917d6ff901dbddfdd92ed0b2698a5e25941",
@@ -231,9 +231,15 @@
  "lens_restrictions_by_source": {
   "verbnet": 3803
  },
+ "located_in_the_known_layer": {},
+ "known_layer": {
+  "sweeps": 1,
+  "forced_cells": 0,
+  "obligation_conflicts": 0
+ },
  "not_observations": {
   "lens_obligations": 190,
-  "nsm_obligations": 2368,
+  "nsm_obligations": 2628,
   "profile_derivations_applied_as_known": 405
  },
  "stated_cells": 6264,
@@ -571,7 +577,7 @@
  "bits": {
   "opening": 37978301.21846376,
   "after_premises": 37967418.168284535,
-  "after_laws": 35980746.921755604
+  "after_known_layer": 35980746.921755604
  },
  "rounds": [
   {
@@ -593,7 +599,7 @@
     "removals": 0,
     "bits_before": 35980746.921755604,
     "bits_after": 35980746.921755604,
-    "seconds": 0.139
+    "seconds": 0.134
    },
    "census": {
     "+1": 3796,
@@ -630,14 +636,14 @@
  ],
  "seconds": {
   "load": {
-   "verbnet": 0.57,
-   "usas": 0.06,
-   "framenet": 4.49,
-   "ratings": 5.65
+   "verbnet": 0.56,
+   "usas": 0.05,
+   "framenet": 4.38,
+   "ratings": 5.52
   },
-  "sources": 13.26,
-  "inputs": 16.01,
-  "discover": 18.12,
-  "total": 47.12
+  "sources": 13.09,
+  "inputs": 16.27,
+  "discover": 18.21,
+  "total": 47.89
  }
 }
