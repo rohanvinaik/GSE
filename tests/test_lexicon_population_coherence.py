@@ -28,8 +28,13 @@ def _readings(n):
     return tuple(f"t:{i}" for i in range(n))
 
 
+def _family(root):
+    """Each test root names its dataset before a colon, or by its letters: a0 is dataset a, row1 dataset row."""
+    return root.split(":")[0].rstrip("0123456789")
+
+
 def _obs(row, bank, states, root, generalizes=True):
-    return Observation(f"t:{row}", bank, states, "test", root, generalizes)
+    return Observation(f"t:{row}", bank, states, _family(root), root, generalizes)
 
 
 def test_agreeing_sources_settle_their_intersection_and_disagreement_is_a_conflict_that_changes_nothing():
@@ -62,8 +67,9 @@ def test_a_derivation_that_contradicts_a_stated_cell_is_a_conflict_and_the_cell_
     readings = _readings(1)
     s = settle([_obs(0, "SOMEONE", POS, "row")], readings)
     state = State.opening(readings)
-    (conflict,) = apply(state, s, [Derivation("t:0", "SOMEONE", ZERO, "law:no-substantive", ("row",))])
-    assert conflict.rules == ("law:no-substantive",) and conflict.roots == ("row",)
+    (conflict,) = apply(state, s, [Derivation("t:0", "SOMEONE", ZERO, "law:one-hot", ("profile:I",))])
+    assert conflict.rules == ("law:one-hot",)
+    assert conflict.roots == ("profile:I", "row")
     assert state.masks[0, BANK_INDEX["SOMEONE"]] == START[BANK_INDEX["SOMEONE"]]
 
 
@@ -92,13 +98,15 @@ def test_duplicate_roots_count_once():
     assert col.lo.tolist() == col.hi.tolist()
 
 
-def test_one_record_stating_both_banks_does_not_confirm_their_relation_and_an_independent_root_does():
+def test_one_dataset_stating_both_banks_does_not_confirm_their_relation_and_a_second_dataset_does():
     readings = _readings(2)
     types = Types.build(2, {"t:modal": np.array([0, 1])})
     cand = Candidate((("CAN", POS),), "NOT", POS, ("t:modal",))
     one_row = settle([_obs(0, "CAN", POS, "catalog:cannot"), _obs(0, "NOT", POS, "catalog:cannot")], readings)
     ev = evidence(cand, one_row, types)
     assert not ev.witnesses.size and ev.co_encoded.tolist() == [0]
+    two_records = settle([_obs(0, "CAN", POS, "verbnet:class-1"), _obs(0, "NOT", POS, "verbnet:class-1-1")], readings)
+    assert not evidence(cand, two_records, types).witnesses.size
     two = settle(
         [
             _obs(0, "CAN", POS, "catalog:cannot"),
@@ -109,6 +117,7 @@ def test_one_record_stating_both_banks_does_not_confirm_their_relation_and_an_in
     )
     ev = evidence(cand, two, types)
     assert ev.witnesses.tolist() == [0] and not ev.co_encoded.size
+    assert ev.witness_families == ("catalog", "profile")
 
 
 def test_unknowns_are_neither_confirmations_nor_counterexamples():
@@ -143,7 +152,8 @@ def test_a_single_record_refutes_even_though_it_cannot_confirm():
     )
     types = Types.build(2, {"t:entity": np.arange(2)})
     ev = evidence(Candidate((("MOVE", POS),), "ALIVE", POS, ("t:entity",)), s, types)
-    assert ev.counterexamples.tolist() == [1] and ev.exposed
+    assert ev.counterexamples.tolist() == [1]
+    assert not ev.exposed  # a counterexample is not a near-miss: its antecedent held
 
 
 def test_a_statement_confined_to_its_reading_refutes_but_never_confirms():

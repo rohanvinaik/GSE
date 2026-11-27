@@ -14,18 +14,21 @@ Written from Significance Weighting sections 14 and 16.
 
 The verdicts, checked in this order:
 
-- UNCONFIRMED: no stated witness from a root other than the antecedent's. Derived values never appear in the
-  postings, and one record's two encodings are agreement, not confirmation.
+- UNCONFIRMED: no stated witness from a source family other than the antecedent's. Derived values never appear
+  in the postings, and one dataset stating both banks is its own composition, not confirmation (F108).
 - NARROWED: witnesses and counterexamples both, and some type holds every witness and no counterexample. Each such
   type yields a child candidate, which is judged in full. None is preferred.
 - FINDING: witnesses and counterexamples, and no type separates them. The exact readings are the finding. Also
   FINDING: two or more candidates, each admissible alone, that together empty a cell. All of them are withheld,
   none preferred, with their partners and the cells.
-- UNEXPOSED: within the scope, no reading has the consequent's bank stated outside the consequent's states. The
-  population could not have broken the rule, so its confirmation carries no information: SSL 4.3's falsifiability
-  pivot (mutual information > 0 iff the answer channel is non-degenerate; `self_confirming_cannot_certify`) and
-  SW 14 (ii). Measured on the old artifact: GOOD=0 => SOMETHING=+1 had 78,002 "supports" and no counterexample
-  only because the opposite states were never stated. Exposure is the non-emptiness of an exact set.
+- UNEXPOSED: no near-miss in the scope, no reading with the consequent's bank and every antecedent bank known
+  outside their states (stated by a statement that may generalize, or a strict consequence of the authored laws on
+  such premises; `coherence.Settlement.knowing`). The population could not have broken the rule, so its
+  confirmation carries no information: SSL 4.3's falsifiability pivot (mutual information > 0 iff the answer
+  channel is non-degenerate; `self_confirming_cannot_certify`), SW 14 (ii), F101's "one value vs another value", and
+  Negative Specification section 9's censors "carved from observed near-misses". Measured on the old artifact:
+  GOOD=0 => SOMETHING=+1 had 78,002 "supports" and no counterexample only because the opposite states were never
+  stated. A candidate with no antecedent bank has no near-miss. Exposure is the non-emptiness of an exact set.
 - NO_REACH: kappa = 0. Against the current closure the rule removes no state anywhere, or a stronger admitted
   candidate in the same round removes everything it removes.
 - DEGENERATE: retained plurality fails. After the rule the scope admits one lawful configuration of the rule's
@@ -204,7 +207,7 @@ def judge(candidates, settlement: Settlement, types: Types, state: State, relati
             else:
                 verdicts[k] = Verdict(c, FINDING, ev, children=kids[k], note=_finding_note(ev, settlement))
         elif not ev.exposed:
-            verdicts[k] = Verdict(c, UNEXPOSED, ev, note="no reading in scope states the bank outside the consequent")
+            verdicts[k] = Verdict(c, UNEXPOSED, ev, note="no stated or known near-miss in scope")
         else:
             staged.append(k)
     reaches = {k: stage(seen[k][0], state, relations, scopes, types) for k in staged}

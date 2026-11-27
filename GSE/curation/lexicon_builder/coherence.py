@@ -15,15 +15,29 @@ Not 'statistical similarity', but dynamic mechanism impute." Postings hold the e
 stated source, never a derivation, puts a bank in a state. A candidate "within S, A in a implies B in b" is judged
 on exact sets:
 
-- witnesses: A stated in a and B stated in b, by two different roots. F108 asks for "relations between banks in
-  single words, stable across the tens of thousands of words that exist in multiple datasets": a relation is
-  evidenced when different observations (datasets or records) each state one of the banks of the same word. One
-  record stating both, as the `cannot` portmanteau row states CAN and NOT, is one observation of its own
-  composition, not a witness of a relation between banks;
-- counterexamples: A stated in a and B stated outside b. A single record refutes even though it cannot confirm;
-- unknowns: A stated in a and B unstated, or stated across b. They are neither confirmations nor counterexamples;
-- exposure: the readings of S where B is stated outside b. If there are none, the population could not have broken
-  the rule (SSL 4.3), and its "every time" carries no information.
+- witnesses: A stated in a and B stated in b, by two different source families (datasets). Only stated
+  observations confirm (SW 14). F108 asks for "relations between banks in single words, stable across the tens of
+  thousands of words that exist in multiple datasets": the relation is seen where one dataset states A and another
+  dataset states B of the same word. One dataset stating both, whether in one record (the `cannot` portmanteau row
+  states CAN and NOT) or in two of its records (two VerbNet classes, or a class and its subclass, on one sense key),
+  is that dataset's own composition, not a witness of a relation between banks. Roots still deduplicate within a
+  family: two restrictions from one record are one observation;
+- counterexamples: A known in a and B known outside b. A single record refutes even though it cannot confirm;
+- unknowns: A known in a and B neither known in b nor known outside b. They are neither confirmations nor
+  counterexamples. A reading where B is known in b only as a consequence is a known agreement: it neither
+  confirms nor refutes;
+- exposure: the near-misses, readings of S where B is known outside b and every antecedent bank is known outside
+  its states. F101 establishes a relation by "one value vs another value": variation in A that goes with variation
+  in B. Winston's near-miss and Negative Specification section 9 ("carved from observed near-misses") locate the
+  information in that contrast case. Without one the population could not have broken the rule (SSL 4.3), and its
+  "every time" carries no information. A candidate with no antecedent bank has no near-miss.
+
+A statement its source confines to its own reading (`Observation.generalizes` False) neither confirms nor exposes;
+it can still refute. Known is TrialLedger's: "Known is a source fact or a strict conclusion from known premises." It
+is the stated observations closed under the authored laws (`Settlement.knowing`), so a law's consequence on a stated
+premise, such as the substantive zeros of a verb head, can supply either side of a near-miss and can contradict,
+though it never confirms. Near-misses read the known state built without reading-confined statements. Inherited and
+other derived-only values are interpolated and count for nothing.
 
 "Every time" means the counterexample set is empty. Typed scopes are guard facts and strict WordNet ancestor types.
 No probability, rate, ratio, support count, threshold or similarity enters any of it.
@@ -55,6 +69,11 @@ def identity_root(reading_id: str) -> str:
     if reading_id.startswith("wordnet:"):
         return "wordnet:" + unquote(reading_id.split(":")[2])
     return reading_id
+
+
+def identity_family(reading_id: str) -> str:
+    """The dataset a reading's own type facts come from: its source (wordnet, wiktionary, gse_closed_class ...)."""
+    return reading_id.split(":", 1)[0]
 
 
 def _starts(key: np.ndarray) -> np.ndarray:
@@ -123,7 +142,7 @@ class Conflict:
 
 @dataclass
 class Column:
-    """One bank's stated cells: sorted rows, the intersected mask, and the lowest and highest root code."""
+    """One bank's stated cells: sorted rows, the intersected mask, and the lowest and highest source-family code."""
 
     rows: np.ndarray
     masks: np.ndarray
@@ -142,7 +161,7 @@ class Postings:
 
     n: int
     columns: dict[int, Column]
-    roots: tuple[str, ...]
+    families: tuple[str, ...]
 
     def column(self, bank: str) -> Column | None:
         return self.columns.get(BANK_INDEX[bank])
@@ -175,7 +194,7 @@ class Postings:
 
 
 def _columns(rows, cols, masks, codes) -> dict[int, Column]:
-    """Group observations by cell: intersect their masks, keep the lowest and highest root code."""
+    """Group observations by cell: intersect their masks, keep the lowest and highest family code."""
     out = {}
     if not rows.size:
         return out
@@ -206,12 +225,15 @@ class Settlement:
     readings: tuple[str, ...]
     stated: Postings
     confirming: Postings
-    identity: np.ndarray  # root code of each reading's own record, in `stated.roots`
+    identity: np.ndarray  # family code of each reading's own source, in `stated.families`
     informative: tuple[Observation, ...]  # every observation that restricts something, conflicted or not
     confirming_roots: dict[int, tuple[str, ...]]  # cell key -> the generalizing roots stating it
     conflicts: list[Conflict] = field(default_factory=list)
     uninformative: int = 0  # observations that restricted nothing: the bank's whole starting mask
     excluded: tuple[Conflict, ...] = ()
+    known: Postings | None = None  # stated cells closed under the authored laws; refutes, never confirms
+    known_general: Postings | None = None  # the same without reading-confined statements; supplies near-misses
+    root_family: dict[str, str] = field(default_factory=dict)
 
     def restrictions_of(self, row: int, col: int) -> tuple[Observation, ...]:
         reading, bank = self.readings[row], BANKS[col]
@@ -223,6 +245,50 @@ class Settlement:
     def excluding(self, conflicts) -> Settlement:
         """The same settlement with the cells of `conflicts` (stated against derived) removed from the postings."""
         return _build(self.readings, self.informative, self.excluded + tuple(conflicts), self.uninformative)
+
+    def generalizing(self) -> Settlement:
+        """The settlement of the observations that may generalize, to close into the state near-misses read."""
+        kept = tuple(o for o in self.informative if o.generalizes)
+        return _build(self.readings, kept, self.excluded, self.uninformative)
+
+    def knowing(self, state: State, general: State | None = None) -> Settlement:
+        """The same settlement with `known` set from `state`: the stated observations closed under the authored laws
+        and nothing else (no inheritance, no obligation). `general` is the same closure of `generalizing()`, without
+        the reading-confined statements; near-misses read it (`state` when not given). Every cell narrower than its
+        starting mask is known, except a cell left empty and a cell in conflict, which stay unresolved."""
+        if state.readings != self.readings:
+            raise ValueError("SETTLEMENT_READINGS")
+        known = self._known(state)
+        known_general = known if general is None else self._known(general)
+        return Settlement(
+            self.readings,
+            self.stated,
+            self.confirming,
+            self.identity,
+            self.informative,
+            self.confirming_roots,
+            self.conflicts,
+            self.uninformative,
+            self.excluded,
+            known,
+            known_general,
+            self.root_family,
+        )
+
+    def _known(self, state: State) -> Postings:
+        index = {r: i for i, r in enumerate(self.readings)}
+        unresolved = np.array(
+            sorted({index[c.reading] * int(_WIDTH) + BANK_INDEX[c.bank] for c in self.conflicts}), dtype=np.int64
+        )
+        columns = {}
+        for c in range(len(BANKS)):
+            m = state.masks[:, c]
+            rows = np.flatnonzero(m.astype(bool) & (m != START[c]))
+            rows = rows[np.logical_not(np.isin(rows * _WIDTH + c, unresolved))]
+            if rows.size:
+                zero = np.zeros(rows.size, dtype=np.int64)
+                columns[c] = Column(rows, m[rows].copy(), zero, zero)
+        return Postings(len(self.readings), columns, self.stated.families)
 
 
 def settle(observations, readings) -> Settlement:
@@ -245,13 +311,13 @@ def settle(observations, readings) -> Settlement:
 
 def _build(readings, obs, excluded, uninformative) -> Settlement:
     index = {r: i for i, r in enumerate(readings)}
-    roots = tuple(sorted({o.root for o in obs} | {identity_root(r) for r in readings}))
-    code = {r: i for i, r in enumerate(roots)}
-    identity = np.array([code[identity_root(r)] for r in readings], dtype=np.int64)
+    families = tuple(sorted({o.family for o in obs} | {identity_family(r) for r in readings}))
+    code = {f: i for i, f in enumerate(families)}
+    identity = np.array([code[identity_family(r)] for r in readings], dtype=np.int64)
     rows = np.array([index[o.reading] for o in obs], dtype=np.int64)
     cols = np.array([BANK_INDEX[o.bank] for o in obs], dtype=np.int64)
     masks = np.array([o.states for o in obs], dtype=np.uint8)
-    codes = np.array([code[o.root] for o in obs], dtype=np.int64)
+    codes = np.array([code[o.family] for o in obs], dtype=np.int64)
     general = np.array([o.generalizes for o in obs], dtype=bool)
     keys = rows * _WIDTH + cols
     bad_keys = []
@@ -276,16 +342,25 @@ def _build(readings, obs, excluded, uninformative) -> Settlement:
                     tuple(sorted((o.root, render(o.states)) for o in group)),
                 )
             )
-    stated = Postings(len(readings), _columns(rows[keep], cols[keep], masks[keep], codes[keep]), roots)
+    stated = Postings(len(readings), _columns(rows[keep], cols[keep], masks[keep], codes[keep]), families)
     sel = keep & general
-    confirming = Postings(len(readings), _columns(rows[sel], cols[sel], masks[sel], codes[sel]), roots)
+    confirming = Postings(len(readings), _columns(rows[sel], cols[sel], masks[sel], codes[sel]), families)
     confirming_roots: dict[int, set[str]] = {}
     for o, k, chosen in zip(obs, keys.tolist(), sel.tolist()):
         if chosen:
             confirming_roots.setdefault(k, set()).add(o.root)
     frozen = {k: tuple(sorted(v)) for k, v in confirming_roots.items()}
     return Settlement(
-        readings, stated, confirming, identity, obs, frozen, conflicts + list(excluded), uninformative, excluded
+        readings,
+        stated,
+        confirming,
+        identity,
+        obs,
+        frozen,
+        conflicts + list(excluded),
+        uninformative,
+        excluded,
+        root_family={o.root: o.family for o in obs},
     )
 
 
@@ -313,7 +388,8 @@ def apply(state: State, settlement: Settlement, derivations=()) -> list[Conflict
         if new:
             state.masks[r, c] = new
             continue
-        roots = settlement.roots_of(r, c)
+        derived = rules.get((r, c), ())
+        roots = tuple(sorted(set(settlement.roots_of(r, c)) | {p for d in derived for p in d.premises}))
         restrictions = tuple((o.root, render(o.states)) for o in settlement.restrictions_of(r, c))
         restrictions += tuple((d.rule, render(d.states)) for d in rules.get((r, c), ()))
         restrictions += (("current", render(int(state.masks[r, c]))),)
@@ -516,13 +592,15 @@ def censor(scope, bank: str, forbidden: int, if_terms=(), origin="supplied") -> 
 class Evidence:
     """The exact sets a candidate is judged on, within its scope."""
 
-    antecedent: np.ndarray  # A stated in a (the whole scope when there is no antecedent)
-    witnesses: np.ndarray  # B stated in b by a root other than an antecedent's own
-    co_encoded: np.ndarray  # B stated in b, but every term stated by one record: agreement, not confirmation
-    counterexamples: np.ndarray  # B stated outside b, by any root
-    unknown: np.ndarray  # B unstated, or stated across b
-    exposure: np.ndarray  # readings in scope with B stated outside b: where the population could break the rule
+    antecedent: np.ndarray  # A known in a (the whole scope when there is no antecedent)
+    witnesses: np.ndarray  # A and B stated in a and b, B by a source family other than an antecedent's
+    co_encoded: np.ndarray  # stated in a and b, but every term by one family: agreement, not confirmation
+    counterexamples: np.ndarray  # A known in a, B known outside b
+    unknown: np.ndarray  # A known in a, B neither known in b nor known outside b
+    exposure: np.ndarray  # the near-misses: B and every antecedent bank known outside their states
     witness_roots: tuple[str, ...]
+    known_agreement: np.ndarray = field(default_factory=lambda: _EMPTY)  # B known in b only as a consequence
+    witness_families: tuple[str, ...] = ()
 
     @property
     def exposed(self) -> bool:
@@ -530,12 +608,12 @@ class Evidence:
 
 
 def _distinct(a_lo, a_hi, b_lo, b_hi) -> np.ndarray:
-    """Some root stating A differs from some root stating B."""
+    """Some source family stating A differs from some family stating B."""
     return (a_lo != a_hi) | (b_lo != b_hi) | (a_lo != b_lo)
 
 
 def _confirming_witnesses(candidate: Candidate, settlement: Settlement, agree: np.ndarray) -> np.ndarray:
-    """The rows of `agree` whose terms the confirming postings state, with an antecedent root other than B's."""
+    """The rows of `agree` whose terms the confirming postings state, with an antecedent family other than B's."""
     confirming = settlement.confirming
     col_b = confirming.column(candidate.then_bank)
     if col_b is None or not agree.size:
@@ -564,25 +642,56 @@ def _confirming_witnesses(candidate: Candidate, settlement: Settlement, agree: n
 
 
 def evidence_on(candidate: Candidate, settlement: Settlement, scope_rows: np.ndarray) -> Evidence:
-    """Witnesses, co-encoded agreements, counterexamples and unknowns of `candidate` among `scope_rows`."""
+    """Witnesses, co-encoded agreements, counterexamples and unknowns of `candidate` among `scope_rows`.
+
+    Confirmation reads the stated postings; refutation, unknowns and exposure read the known postings when the
+    settlement has them (`Settlement.knowing`), the stated ones otherwise.
+    """
     stated = settlement.stated
-    ante = scope_rows
-    for bank, states in candidate.if_terms:
-        ante = np.intersect1d(ante, stated.within(bank, states), assume_unique=True)
+    known = stated if settlement.known is None else settlement.known
     b, bs = candidate.then_bank, candidate.then_states
-    agree = np.intersect1d(ante, stated.within(b, bs), assume_unique=True)
-    counter = np.intersect1d(ante, stated.outside(b, bs), assume_unique=True)
-    unknown = np.setdiff1d(ante, np.union1d(agree, counter), assume_unique=True)
-    exposure = np.intersect1d(scope_rows, stated.outside(b, bs), assume_unique=True)
+    ante, ante_stated = scope_rows, scope_rows
+    for bank, states in candidate.if_terms:
+        ante = np.intersect1d(ante, known.within(bank, states), assume_unique=True)
+        ante_stated = np.intersect1d(ante_stated, stated.within(bank, states), assume_unique=True)
+    agree_known = np.intersect1d(ante, known.within(b, bs), assume_unique=True)
+    agree = np.intersect1d(ante_stated, stated.within(b, bs), assume_unique=True)
+    counter = np.intersect1d(ante, known.outside(b, bs), assume_unique=True)
+    unknown = np.setdiff1d(ante, np.union1d(agree_known, counter), assume_unique=True)
+    exposure = _near_misses(candidate, settlement, scope_rows)
+    known_agreement = np.setdiff1d(agree_known, agree, assume_unique=True)
     witnesses = _confirming_witnesses(candidate, settlement, agree)
     co_encoded = np.setdiff1d(agree, witnesses, assume_unique=True)
     roots = set()
     for col in [BANK_INDEX[x] for x in candidate.banks]:
         for r in witnesses.tolist():
             roots.update(settlement.confirming_roots.get(r * int(_WIDTH) + col, ()))
+    families = {settlement.root_family[r] for r in roots}
     if not candidate.if_terms:
-        roots.update(identity_root(settlement.readings[r]) for r in witnesses.tolist())
-    return Evidence(ante, witnesses, co_encoded, counter, unknown, exposure, tuple(sorted(roots)))
+        families.update(identity_family(settlement.readings[r]) for r in witnesses.tolist())
+    return Evidence(
+        ante,
+        witnesses,
+        co_encoded,
+        counter,
+        unknown,
+        exposure,
+        tuple(sorted(roots)),
+        known_agreement,
+        tuple(sorted(families)),
+    )
+
+
+def _near_misses(candidate: Candidate, settlement: Settlement, scope_rows: np.ndarray) -> np.ndarray:
+    """Readings in scope with B and every antecedent bank known outside their states, read from the known state
+    without reading-confined statements (the confirming postings when the settlement has no known state)."""
+    if not candidate.if_terms:
+        return _EMPTY
+    general = settlement.confirming if settlement.known_general is None else settlement.known_general
+    out = np.intersect1d(scope_rows, general.outside(candidate.then_bank, candidate.then_states), assume_unique=True)
+    for bank, states in candidate.if_terms:
+        out = np.intersect1d(out, general.outside(bank, states), assume_unique=True)
+    return out
 
 
 def evidence(candidate: Candidate, settlement: Settlement, types: Types) -> Evidence:
@@ -639,16 +748,17 @@ def pair_candidates(settlement: Settlement, types: Types) -> list[Candidate]:
 def near_miss_conjunctions(candidate: Candidate, ev: Evidence, settlement: Settlement) -> list[Candidate]:
     """Candidate source (ii): add a second antecedent that every witness holds and every near-miss lacks.
 
-    A counterexample is a near-miss: the antecedent held and the consequent fell outside. A bank C stated on
-    every witness inside c and on every counterexample outside c is the condition the witnesses share and the
-    near-misses lack (F073: constraints are conjunctive). Its verdict is computed in full like any candidate's.
+    A counterexample is a near-miss: the antecedent held and the consequent fell outside. A bank C known on every
+    witness inside c and on every counterexample outside c is the condition the witnesses share and the
+    near-misses lack (F073: constraints are conjunctive). Its verdict is computed in full like any candidate's, so
+    it is confirmed only where C is also stated.
     """
-    stated = settlement.stated
+    known = settlement.stated if settlement.known is None else settlement.known
     if not ev.witnesses.size or not ev.counterexamples.size:
         return []
     used = set(candidate.banks)
     out = []
-    for c_id, col in sorted(stated.columns.items()):
+    for c_id, col in sorted(known.columns.items()):
         bank = BANKS[c_id]
         if bank in used:
             continue

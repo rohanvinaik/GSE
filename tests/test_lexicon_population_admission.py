@@ -29,17 +29,24 @@ from GSE.curation.lexicon_builder.coherence import Candidate, Derivation, Observ
 from GSE.curation.lexicon_builder.relations import Relation, implies
 
 
-def _obs(row, bank, states, root):
-    return Observation(f"t:{row}", bank, states, "test", root)
+def _obs(row, bank, states, root, generalizes=True):
+    """The root's letters name its dataset: a0 and a1 are dataset a, b0 is dataset b."""
+    return Observation(f"t:{row}", bank, states, root.split(":")[0].rstrip("0123456789"), root, generalizes)
 
 
-def _world(n, observations, facts, derivations=(), relations=(), scopes=None):
+def _world(n, observations, facts, derivations=(), relations=(), scopes=None, know=False):
+    """`know` closes the stated facts under `relations` and lets those known consequences refute and expose."""
     readings = tuple(f"t:{i}" for i in range(n))
     s = settle(observations, readings)
     state = State.opening(readings)
-    apply(state, s, derivations)
+    conflicts = apply(state, s, derivations)
     scopes = dict(scopes or {})
     close(state, relations, scopes)
+    if know:
+        general = State.opening(readings)
+        apply(general, s.generalizing(), derivations)
+        close(general, relations, scopes)
+        s = s.excluding(conflicts).knowing(state, general)
     return s, Types.build(n, facts), state, list(relations), scopes
 
 
@@ -108,6 +115,30 @@ def test_a_rule_the_population_could_not_have_broken_is_unexposed():
     assert v.evidence.witnesses.tolist() == [0, 1] and not v.evidence.counterexamples.size
 
 
+def _one_witness_many_unknowns(exposer):
+    # Row 0 is the only witness; rows 1-40 move with ALIVE unstated; row 45 is the candidate exposer.
+    obs = [_obs(0, "MOVE", POS, "a0"), _obs(0, "ALIVE", POS, "b0")]
+    obs += [_obs(r, "MOVE", POS, f"a{r}") for r in range(1, 41)]
+    return _world(50, obs + exposer, {"t:animal": np.arange(50)}, know=True)
+
+
+def test_a_single_witness_rule_whose_only_exposer_is_reading_confined_is_unexposed():
+    confined = [_obs(45, "MOVE", ZERO, "p45", generalizes=False), _obs(45, "ALIVE", ZERO, "p45", generalizes=False)]
+    v = _judge([MOVE_ALIVE], _one_witness_many_unknowns(confined))[MOVE_ALIVE.rule_id]
+    assert v.verdict == UNEXPOSED and v.evidence.unknown.size == 40 and not v.evidence.exposure.size
+
+
+def test_a_stated_near_miss_exposes_and_the_rule_is_admitted():
+    v = _judge([MOVE_ALIVE], _one_witness_many_unknowns(_near_miss(45)))[MOVE_ALIVE.rule_id]
+    assert v.verdict == ADMITTED and v.evidence.exposure.tolist() == [45]
+    assert v.evidence.witness_families == ("a", "b")
+
+
+def test_an_exposer_whose_antecedent_bank_is_unstated_does_not_count():
+    v = _judge([MOVE_ALIVE], _one_witness_many_unknowns([_obs(45, "ALIVE", ZERO, "n45")]))[MOVE_ALIVE.rule_id]
+    assert v.verdict == UNEXPOSED and not v.evidence.exposure.size
+
+
 def test_a_reading_outside_the_scope_does_not_expose_the_rule():
     world = _world(
         5,
@@ -120,6 +151,47 @@ def test_a_reading_outside_the_scope_does_not_expose_the_rule():
         {"t:animal": np.arange(4), "t:artifact": np.array([4])},
     )
     assert _judge([MOVE_ALIVE], world)[MOVE_ALIVE.rule_id].verdict == UNEXPOSED
+
+
+# A law written for the test: a reading that does not move is not alive.
+STILL_NOT_ALIVE = implies("law:still", "MOVE", ZERO, "ALIVE", ZERO, "a law written for the test")
+
+
+def test_a_known_consequence_of_a_law_exposes_the_rule():
+    # No source states ALIVE outside +1; the law derives ALIVE=0 on row 3 from its stated MOVE=0.
+    obs = [
+        _obs(0, "MOVE", POS, "a0"),
+        _obs(0, "ALIVE", POS, "b0"),
+        _obs(1, "MOVE", POS, "a1"),
+        _obs(1, "ALIVE", POS, "b1"),
+        _obs(2, "MOVE", POS, "a2"),
+        _obs(3, "MOVE", ZERO, "m3"),
+    ]
+    unknown_law = _world(6, obs, {"t:animal": np.arange(6)}, relations=[STILL_NOT_ALIVE])
+    assert _judge([MOVE_ALIVE], unknown_law)[MOVE_ALIVE.rule_id].verdict == UNEXPOSED
+    known = _world(6, obs, {"t:animal": np.arange(6)}, relations=[STILL_NOT_ALIVE], know=True)
+    v = _judge([MOVE_ALIVE], known)[MOVE_ALIVE.rule_id]
+    assert v.evidence.exposure.tolist() == [3] and v.verdict == ADMITTED
+
+
+def test_a_known_consequence_of_a_law_contradicts_but_never_confirms():
+    # Row 1 moves and touches (stated); the law derives ALIVE=0 there, a known counterexample.
+    law = implies("law:artifact", "TOUCH", POS, "ALIVE", ZERO, "a law written for the test")
+    obs = [
+        _obs(0, "MOVE", POS, "a0"),
+        _obs(0, "ALIVE", POS, "b0"),
+        _obs(1, "MOVE", POS, "a1"),
+        _obs(1, "TOUCH", POS, "c1"),
+        _obs(2, "MOVE", POS, "a2"),
+    ]
+    world = _world(4, obs, {"t:animal": np.arange(4)}, relations=[law], know=True)
+    v = _judge([MOVE_ALIVE], world)[MOVE_ALIVE.rule_id]
+    assert v.evidence.counterexamples.tolist() == [1] and v.verdict == FINDING
+    # The same law's consequence agrees with MOVE => ALIVE{0} on row 1, and that is not a confirmation.
+    moving_dead = Candidate((("MOVE", POS),), "ALIVE", ZERO, ("t:animal",))
+    v = _judge([moving_dead], world)[moving_dead.rule_id]
+    assert v.verdict == UNCONFIRMED and v.evidence.known_agreement.tolist() == [1]
+    assert 1 not in v.evidence.unknown.tolist()
 
 
 def test_unknowns_are_not_counterexamples_so_the_candidate_is_not_narrowed():
@@ -254,11 +326,11 @@ def _artifacts():
         5,
         [
             _obs(0, "ALIVE", ZERO, "a0"),
-            _obs(0, "THINK", ZERO, "t0"),
+            _obs(0, "THINK", ZERO, "k0"),
             _obs(1, "ALIVE", ZERO, "a1"),
-            _obs(1, "THINK", SILENT, "t1"),
+            _obs(1, "THINK", SILENT, "k1"),
             _obs(2, "ALIVE", POS, "a2"),
-            _obs(2, "THINK", POS, "t2"),
+            _obs(2, "THINK", POS, "k2"),
             _obs(3, "ALIVE", ZERO, "a3"),
         ],
         {"t:entity": np.arange(5), "t:artifact": np.array([0, 1, 3])},
@@ -303,6 +375,9 @@ def test_rules_admissible_alone_that_contradict_each_other_together_are_all_with
             _obs(1, "ALIVE", ZERO, "d1"),
             _obs(2, "MOVE", POS, "a2"),
             _obs(2, "FEEL", POS, "c2"),
+            *_near_miss(3),
+            _obs(4, "FEEL", ZERO, "c4"),
+            _obs(4, "ALIVE", POS, "d4"),
         ],
         {"t:animal": np.arange(6)},
     )
