@@ -97,6 +97,21 @@ inheritance and cross-reading obligations (`inheritance.py`, `obligations.py`); 
 (`coherence.py`, `admission.py`); NSM content (`nsm.py`). Next: Wiktionary bindings (6.2); the round runner and its
 receipt; senses and the runtime artifact (10.1).
 
+### Findings and rulings (2026-11-27)
+
+- **Obligations force nothing yet** (0 of 103 lens groups, 0 of 2,274 NSM obligations). The nearest groups are the
+  same sense in WordNet and in Wiktionary, so the Wiktionary binding (6.2) is the unlock. NSM obligations are being
+  narrowed to the readings typed by the explication's head-line category (a typed alignment proof, E2).
+- **Verb inheritance reaches spurious cells** (43,503 inherited cells; e.g. MOVE on illuminate.v.03 and
+  recess.v.02, CAUSE on acknowledge.v.04). There are three causes: a VerbNet sense key putting a physical class on an
+  informational sense (communicate.v.01, impart.v.01); drift down deep troponym chains; class semantics applied to
+  every member. Ruling: these cells stay interpolated, never known. They are audited against the NSM explications as
+  complete meanings (F148: the tail is the disagreement with NSM by word, bank and rule). A disagreement names the
+  link where the value entered, as a candidate defeater with its NSM warrant, decided by review (TrialLedger:
+  "Defaults have declared applicability and defeaters"). Landed cells record their origin.
+- `causes` carries the caused reading's content to the causer as a default and writes no CAUSE
+  (`native_predicate_policy.lexical_component`). Zeros carry along kind-of and similar_to.
+
 ## 7. Censors (E7)
 
 - [ ] 7.1 `censors.py`: scoped forbidding relations with sourced near-miss witnesses; zero only with a warrant of
