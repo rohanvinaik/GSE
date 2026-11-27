@@ -25,6 +25,13 @@ Applying a batch of obligations reads only the current masks:
 - a group over a reading whose cell is already a conflict (an empty mask) is left alone, as closure leaves a
   conflicted reading alone.
 
+Identity classes. When readings are joined by proposed identities of meaning (a Wiktionary sense aligned to a
+WordNet reading, a form or alternative spelling of its target), they are one candidate, not several: `classes` gives
+each reading its class, and a group counts classes. A class is open when every reading of it among the group's
+candidates can satisfy the group (the same meaning cannot satisfy it in one reading and not in another); when one
+class is left, every one of those readings is forced. A class rests on proposals, so the runner applies classes only
+in the interpolated layer, and `held` groups fall back to single readings when a conflict suspends their class.
+
 One application is one sweep. A forced cell can exclude a reading from another obligation, so the runner repeats
 the sweep, interleaved with closure, until nothing changes (`inheritance.settle` does).
 """
@@ -131,8 +138,9 @@ class Forcing:
     old: np.ndarray
     new: np.ndarray
     by: np.ndarray  # for each narrowed cell, one obligation that forced it
-    located_rows: np.ndarray  # the reading each located group is on
-    located_by: np.ndarray  # one obligation of each located group
+    located_rows: np.ndarray  # the readings each located group is on (several when located on a class)
+    located_by: np.ndarray  # one obligation of the group, parallel to `located_rows`
+    through_class: np.ndarray  # the groups located on a class of more than one reading
     facts: dict[str, np.ndarray]  # guard name -> the readings a located group makes it true for
     conflicts: np.ndarray  # obligation indices
     reasons: np.ndarray  # ALL_EXCLUDED or DISJOINT_FORCINGS, parallel to `conflicts`
@@ -155,8 +163,9 @@ class Forcing:
         ]
 
 
-def _open_readings(state: State, batch: Batch):
-    """Per group: whether a member cell is a conflict, and the readings that satisfy all of the group together."""
+def _pairs(state: State, batch: Batch):
+    """Every (group, reading) candidate pair, whether it satisfies all of the group together, and the groups that
+    touch a conflicted cell."""
     n_groups = batch.groups
     member_group = batch.group[batch.owner]
     cells = state.masks[batch.rows, batch.cols[batch.owner]]
@@ -168,8 +177,7 @@ def _open_readings(state: State, batch: Batch):
     pair_group = pairs // span
     size = np.bincount(batch.group, minlength=n_groups)
     fits_all = np.bincount(inverse, weights=misfits, minlength=pairs.size) == 0
-    open_pair = fits_all & (counts == size[pair_group])
-    return blocked, pair_group[open_pair], pairs[open_pair] % span
+    return blocked, pair_group, pairs % span, fits_all & (counts == size[pair_group])
 
 
 def _combine(rows, cols, allowed, owners):
@@ -183,51 +191,76 @@ def _combine(rows, cols, allowed, owners):
     return unique // _WIDTH, unique % _WIDTH, combined, owners[order][starts], cell_of_entry
 
 
-def force(state: State, batch: Batch) -> Forcing:
-    """One sweep of every obligation in `batch` over `state`, narrowing it in place."""
+def force(state: State, batch: Batch, classes: np.ndarray | None = None, held: np.ndarray | None = None) -> Forcing:
+    """One sweep of every obligation in `batch` over `state`, narrowing it in place.
+
+    `classes` (an id per reading) makes readings of one identity class one candidate; `held` (a flag per group)
+    keeps a group on single readings.
+    """
     n_groups = batch.groups
-    blocked, open_group, open_row = _open_readings(state, batch)
-    open_count = np.bincount(open_group, minlength=n_groups)
+    blocked, pair_group, pair_row, pair_open = _pairs(state, batch)
+    if classes is None:
+        pair_class = pair_row
+    else:
+        pair_class = np.asarray(classes, dtype=np.int64)[pair_row]
+        if held is not None:
+            pair_class = np.where(held[pair_group], int(classes.max()) + 1 + pair_row, pair_class)
+    span = int(pair_class.max()) + 1 if pair_class.size else 1
+    keys = pair_group * span + pair_class
+    class_keys, class_of_pair = np.unique(keys, return_inverse=True)
+    class_open = np.bincount(class_of_pair, weights=~pair_open, minlength=class_keys.size) == 0
+    class_group = class_keys // span
+    open_count = np.bincount(class_group[class_open], minlength=n_groups)
     excluded = (open_count == 0) & ~blocked
     located = (open_count == 1) & ~blocked
-    located_row = np.full(n_groups, -1, dtype=np.int64)
-    one = located[open_group]
-    located_row[open_group[one]] = open_row[one]
-    # Every obligation of a located group forces its bank on the group's reading. A group with any cell forced to
-    # disjoint states writes nothing.
-    owners = np.flatnonzero(located[batch.group])
-    rows, cols, combined, _, cell_of = _combine(
-        located_row[batch.group[owners]], batch.cols[owners], batch.allowed[owners], owners
-    )
+    chosen = np.full(n_groups, -1, dtype=np.int64)
+    sel = class_open & located[class_group]
+    chosen[class_group[sel]] = class_keys[sel]
+    on = located[pair_group] & (keys == chosen[pair_group])
+    located_pair_row, located_pair_group = pair_row[on], pair_group[on]
+    # Every obligation of a located group forces its bank on each reading the group is located on.
+    ob_order = np.argsort(batch.group, kind="stable")
+    ob_start = np.searchsorted(batch.group[ob_order], np.arange(n_groups + 1))
+    count = ob_start[located_pair_group + 1] - ob_start[located_pair_group]
+    rep = np.repeat(np.arange(located_pair_row.size), count)
+    offset = np.arange(rep.size) - np.repeat(np.cumsum(count) - count, count)
+    owners = ob_order[ob_start[located_pair_group][rep] + offset]
+    entry_rows = located_pair_row[rep]
+    # A group with any cell forced to disjoint states writes nothing.
+    rows, cols, combined, _, cell_of = _combine(entry_rows, batch.cols[owners], batch.allowed[owners], owners)
     masks = state.masks
     disjoint = (masks[rows, cols] & combined) == 0
     clash_groups = np.unique(batch.group[owners[disjoint[cell_of]]])
     located[clash_groups] = False
     keep = located[batch.group[owners]]
-    owners = owners[keep]
-    rows, cols, combined, by, _ = _combine(
-        located_row[batch.group[owners]], batch.cols[owners], batch.allowed[owners], owners
-    )
+    owners, entry_rows = owners[keep], entry_rows[keep]
+    rows, cols, combined, by, _ = _combine(entry_rows, batch.cols[owners], batch.allowed[owners], owners)
     old = masks[rows, cols]
     new = old & combined
     changed = new != old
     masks[rows[changed], cols[changed]] = new[changed]
-    groups = np.flatnonzero(located)
+    on_located = located[located_pair_group]
+    located_pair_row, located_pair_group = located_pair_row[on_located], located_pair_group[on_located]
     first = np.unique(batch.group, return_index=True)[1]  # groups are dense, so this is indexed by group
     facts: dict[str, set[int]] = {}
+    group_rows: dict[int, list[int]] = {}
+    for g, r in zip(located_pair_group.tolist(), located_pair_row.tolist()):
+        group_rows.setdefault(g, []).append(r)
     for i in np.flatnonzero(located[batch.group]).tolist():
         for name in batch.facts[i] if batch.facts else ():
-            facts.setdefault(name, set()).add(int(located_row[batch.group[i]]))
+            facts.setdefault(name, set()).update(group_rows[int(batch.group[i])])
     excluded_obligations = np.flatnonzero(excluded[batch.group])
     clash = np.flatnonzero(np.isin(batch.group, clash_groups))
+    per_group = np.bincount(located_pair_group, minlength=n_groups)
     return Forcing(
         rows=rows[changed],
         cols=cols[changed],
         old=old[changed],
         new=new[changed],
         by=by[changed],
-        located_rows=located_row[groups],
-        located_by=first[groups],
+        located_rows=located_pair_row,
+        located_by=first[located_pair_group] if located_pair_group.size else np.zeros(0, dtype=np.int64),
+        through_class=np.flatnonzero(per_group > 1),
         facts={name: np.array(sorted(r), dtype=np.int64) for name, r in sorted(facts.items())},
         conflicts=np.concatenate([excluded_obligations, clash]),
         reasons=np.concatenate(

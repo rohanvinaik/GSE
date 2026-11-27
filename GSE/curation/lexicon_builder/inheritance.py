@@ -40,6 +40,23 @@ belongs to a family that declares the states it carries.
 - synonymy: the same synset under different lemmas is one definition, equality of meaning, so it carries every
   state, SILENT included. It is the node itself: its members' masks are intersected.
 
+The Wiktionary binding (task 6.2, `wiktionary_binding.py`) adds proposed identities of meaning between a Wiktionary
+sense (a node of its own) and a WordNet or Wiktionary reading, emitted in both directions. Design E8: "An alignment is
+a proposed identity: content crosses it as an interpolated default, suspended on any conflict", which is what every
+edge here is.
+
+- `aligned`: the Wiktionary sense and the one WordNet reading of the same lemma and part of speech that has a
+  linked word's synset among its kind-of ancestors (the exact anchor alignment). Carries every state, SILENT
+  included: it claims one meaning, as synonymy does.
+- `form_of`, `alt_of`: Wiktionary's own statement that the sense is an inflected form or an alternative spelling
+  of its target, bound only when the target lemma and part of speech has one reading. Carries every state: a form
+  or a spelling of a word has that word's meaning.
+- `sense_synonym`: a Wiktionary sense-level synonym, bound to a single reading. Carries +1 and -1 only. A listed
+  synonym is a near-synonym, not an identity (the binding leaves it out of the identity classes for that reason):
+  the two share their components, but what each excludes and what each leaves unsaid can differ, so zeros and
+  silence stay with their own word. Degree is the open risk (a listed synonym can be stronger or weaker), to be
+  audited against NSM.
+
 Defaults. A node emits its own value where its mask is decided (the kind's own value is what its kinds inherit);
 elsewhere it passes on the proposals reaching it that are still legal for it. Proposals are ORed over every incoming
 edge to a fixed point. This is monotone, so it terminates on cycles (`breathe.v.01` entails `inhale.v.02`, which is a
@@ -65,35 +82,27 @@ Defeaters. A declared source misfiling carries nothing: a link (child, parent) i
 nothing carries (its own values and what would pass through it). The list starts empty; candidates come from the
 NSM audit and are decided by review.
 
-Lineage. Every carried value records its origin, the node where it was decided without a carried default (a
-stated value, a synonym's, or a consequence of the laws), with the parent and edge family of its last hop
-(`Settlement.lineage`), so a retraction or the audit can walk it back.
-
-The audit (`audit_against_nsm`). The verb hierarchy's cells stay interpolated and are audited against NSM (F148:
-the tail is the disagreement with NSM by word, bank and rule). An explication is the complete meaning of its sense,
-so a carried +1 or -1 on a bank the explication neither mentions nor reaches through its molecules disagrees with
-it. Each disagreement names the link through which the value entered the chain of kinds leading to the explicated
-sense, as a candidate defeater with the NSM record (source key and line range) as its warrant. Nothing is defeated
-automatically.
+Lineage (`lineage.py`): every carried value records its origin, so a retraction or the audit can walk it back. The
+audit against NSM (`nsm_audit.py`) judges carried values against the explications as complete meanings.
 """
 
 from __future__ import annotations
 
 import time
-from collections import Counter, defaultdict
+from collections import defaultdict
 from dataclasses import dataclass, field
-from functools import cached_property
 from urllib.parse import unquote
 
 import numpy as np
 
 from . import obligations as ob
-from .cells import ALL, BANKS, BIT_NAMES, NEG, POS, SILENT, ZERO, State
+from .cells import _POPCOUNT, ALL, BANKS, BIT_NAMES, NEG, POS, ZERO, State
 from .closure import close
+from .lineage import Lineage, trace
+from .lineage import origins as lineage_origins
 
 KIND_OF = POS | NEG | ZERO
 CONTENT = POS | NEG
-_POPCOUNT = np.array([bin(i).count("1") for i in range(16)], dtype=np.uint8)
 _WIDTH = len(BANKS)
 
 
@@ -117,6 +126,10 @@ FAMILIES: tuple[Family, ...] = (
     Family("instance_hypernym", KIND_OF, "kind-of: an instance of X is an X (module docstring)"),
     Family("similar_to", KIND_OF, "WordNet adjective cluster: a satellite refines its head (module docstring)"),
     Family("entails", CONTENT, "WordNet entailment: same subject, the entailed event is part (module docstring)"),
+    Family("aligned", ALL, "Wiktionary sense aligned to one WordNet reading: a proposed identity (module docstring)"),
+    Family("form_of", ALL, "Wiktionary form_of: a form of a word has its meaning (module docstring)"),
+    Family("alt_of", ALL, "Wiktionary alt_of: a spelling of a word has its meaning (module docstring)"),
+    Family("sense_synonym", CONTENT, "Wiktionary sense synonym: near-synonymy shares content only (module docstring)"),
     Family(
         "causes",
         CONTENT,
@@ -428,85 +441,6 @@ def carry(state: State, graph: Graph, known: State | None = None, held=None, hel
     )
 
 
-# ------------------------------------------------------------------------------------------------- lineage
-
-SYNONYM_HOP = -1  # the family code of a value a reading takes from its own synset
-
-
-@dataclass(frozen=True)
-class Lineage:
-    """Where each carried value came from: one entry per (node, bank, origin) on a carrying path, with the parent and
-    edge family of its last hop, and the first node and family after the origin, on a shortest path.
-
-    An origin is a node cell decided without a carried default landing on it: a stated value, a synonym's, or a
-    consequence of the laws. Entries also cover transit and suspended nodes a value passes through, so every path
-    can be walked back to its origin.
-    """
-
-    node: np.ndarray
-    bank: np.ndarray
-    origin: np.ndarray
-    parent: np.ndarray
-    family: np.ndarray
-    first: np.ndarray
-    first_family: np.ndarray
-    value: np.ndarray
-    width: int  # the number of nodes, for the entry keys
-
-    def keys(self, node, bank, origin) -> np.ndarray:
-        return (np.asarray(node, dtype=np.int64) * _WIDTH + bank) * self.width + origin
-
-    @cached_property
-    def _index(self) -> dict[int, int]:
-        return {int(k): j for j, k in enumerate(self.keys(self.node, self.bank, self.origin))}
-
-    def path(self, i: int) -> list[int]:
-        """The entries from the origin's first hop down to entry `i`."""
-        out = [i]
-        while self.parent[out[-1]] != self.origin[out[-1]]:
-            j = out[-1]
-            out.append(self._index[int(self.keys(self.parent[j], self.bank[j], self.origin[j]))])
-        return out[::-1]
-
-
-def _lineage(graph: Graph, node_masks: np.ndarray, proposals_: np.ndarray, landed: np.ndarray) -> Lineage:
-    """Walk every decided value forward along the edges that carry it, level by level from its origin."""
-    n = len(graph.keys)
-    given = emissions(node_masks, proposals_)
-    origin_cell = (_POPCOUNT[node_masks] == 1) & ~landed
-    order = np.argsort(graph.src, kind="stable")
-    start = np.searchsorted(graph.src[order], np.arange(n + 1))
-    u, b = np.nonzero(origin_cell)
-    o, value = u.copy(), node_masks[u, b]
-    first = np.full(u.size, -1, dtype=np.int64)
-    first_family = np.full(u.size, -1, dtype=np.int64)
-    parts, seen = [], np.zeros(0, dtype=np.int64)
-    while u.size:
-        degree = start[u + 1] - start[u]
-        rep = np.repeat(np.arange(u.size), degree)
-        offset = np.arange(rep.size) - np.repeat(np.cumsum(degree) - degree, degree)
-        e = order[start[u][rep] + offset]
-        w, bb, vv = graph.dst[e], b[rep], value[rep]
-        ok = ((graph.carries[e, bb] & vv) != 0) & ((given[w, bb] & vv) != 0) & ~origin_cell[w, bb]
-        keys = (w * _WIDTH + bb) * n + o[rep]
-        idx = np.flatnonzero(ok)
-        _, firsts = np.unique(keys[idx], return_index=True)
-        idx = idx[firsts]
-        idx = idx[~np.isin(keys[idx], seen)]
-        seen = np.concatenate([seen, keys[idx]])
-        fam = graph.family[e[idx]].astype(np.int64)
-        f0 = first[rep[idx]]
-        new_first = np.where(f0 < 0, w[idx], f0)
-        new_first_family = np.where(f0 < 0, fam, first_family[rep[idx]])
-        parts.append((w[idx], bb[idx], o[rep[idx]], u[rep[idx]], fam, new_first, new_first_family, vv[idx]))
-        u, b, o, value = w[idx], bb[idx], o[rep[idx]], vv[idx]
-        first, first_family = new_first, new_first_family
-    cols = [np.concatenate(c) if parts else np.zeros(0, dtype=np.int64) for c in zip(*parts)] if parts else []
-    if not cols:
-        cols = [np.zeros(0, dtype=np.int64)] * 8
-    return Lineage(*cols, width=n)
-
-
 # ------------------------------------------------------------------------------------------- the joint round
 
 
@@ -536,36 +470,10 @@ class Settlement:
         return self.state.masks != self.known.masks
 
     def origins(self) -> dict[str, np.ndarray]:
-        """Arrays parallel to the inherited reading cells, one entry per origin: the reading row and bank, the origin
-        node, the parent node and family of the last hop (`SYNONYM_HOP` and the reading's own node when the value
-        comes from its own synset), and the first node and family after the origin."""
-        g, lin = self.graph, self.lineage
-        node_of_row = np.full(len(self.state.readings), -1, dtype=np.int64)
-        node_of_row[g.rows] = g.node_of
-        rows, cols = np.nonzero(self.inherited & self.interpolated)
-        nodes = node_of_row[rows]
-        landed = self.landed
-        own = ~landed[nodes, cols]
-        cell_keys = nodes * _WIDTH + cols
-        entry_cells = lin.node * _WIDTH + lin.bank
-        order = np.argsort(entry_cells, kind="stable")
-        lo = np.searchsorted(entry_cells[order], cell_keys[~own])
-        hi = np.searchsorted(entry_cells[order], cell_keys[~own], side="right")
-        count = hi - lo
-        cell = np.repeat(np.flatnonzero(~own), count)
-        entry = order[np.repeat(lo, count) + (np.arange(count.sum()) - np.repeat(np.cumsum(count) - count, count))]
-        syn = np.flatnonzero(own)
-        idx = np.concatenate([cell, syn])
-        return {
-            "rows": rows[idx],
-            "cols": cols[idx],
-            "origin": np.concatenate([lin.origin[entry], nodes[syn]]),
-            "parent": np.concatenate([lin.parent[entry], nodes[syn]]),
-            "family": np.concatenate([lin.family[entry], np.full(syn.size, SYNONYM_HOP)]),
-            "first": np.concatenate([lin.first[entry], nodes[syn]]),
-            "first_family": np.concatenate([lin.first_family[entry], np.full(syn.size, SYNONYM_HOP)]),
-            "entry": np.concatenate([entry, np.full(syn.size, -1)]),
-        }
+        """Arrays parallel to the inherited reading cells, one entry per origin (`lineage.origins`)."""
+        return lineage_origins(
+            self.graph, self.lineage, self.inherited & self.interpolated, self.landed, len(self.state.readings)
+        )
 
     def suspensions(self) -> list[dict]:
         """Every suspended node cell: its reasons, the states reaching it, its known states, its readings, and the
@@ -615,22 +523,24 @@ def _close_known(state: State, relations, scopes: dict, batch: ob.Batch):
     return {"closures": closures, "sweeps": sweeps, "forced": forced, "facts_woken": woken}, last
 
 
-def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_of_row) -> np.ndarray:
-    """The nodes whose landed defaults a joint conflict rests on.
+def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_of_row):
+    """The nodes whose landed defaults a joint conflict rests on, and the obligation groups it passes through.
 
     A joint conflict is a carried state that fits the known layer but not what interpolation already made of the
     node, an empty cell the known layer does not have, or an obligation the known layer satisfies and the
     interpolated layer does not. Interpolation reaches a reading only by a default landing on its node, or by an
     obligation forcing it from interpolated exclusions, so the culprits are the nodes of those readings and,
-    through each forcing or located fact, the nodes of the readings of the forcing group.
+    through each forcing or located fact, the nodes of the readings of the forcing group. A group it passes
+    through that was counted by identity class is a culprit too: its class rests on proposed identities.
     """
     nodes = set(np.flatnonzero((found & JOINT).any(axis=1)).tolist())
     rows = set(np.flatnonzero(((current.masks == 0) & (known.masks != 0)).any(axis=1)).tolist())
+    seen_groups = set(batch.group[list(new_conflicts)].tolist()) if new_conflicts else set()
     for i in new_conflicts:
         rows.update(batch.members(i).tolist())
     f_rows = np.concatenate([r for r, _ in forced]) if forced else np.zeros(0, dtype=np.int64)
     f_by = np.concatenate([b for _, b in forced]) if forced else np.zeros(0, dtype=np.int64)
-    frontier, seen_groups = rows, set()
+    frontier = set(rows)
     while frontier and f_rows.size:
         groups = set(batch.group[np.unique(f_by[np.isin(f_rows, list(frontier))])].tolist()) - seen_groups
         seen_groups |= groups
@@ -640,10 +550,12 @@ def _culprits(graph, batch, current, known, found, forced, new_conflicts, node_o
         frontier = reached
     row_nodes = node_of_row[list(rows)] if rows else np.zeros(0, dtype=np.int64)
     nodes.update(row_nodes[row_nodes >= 0].tolist())
-    return np.array(sorted(nodes), dtype=np.int64)
+    return np.array(sorted(nodes), dtype=np.int64), np.array(sorted(seen_groups), dtype=np.int64)
 
 
-def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: ob.Batch | None = None) -> Settlement:
+def settle(
+    state: State, graph: Graph, relations=(), scopes=None, obligations: ob.Batch | None = None, classes=None
+) -> Settlement:
     """The joint round, leaving `state` untouched.
 
     The known layer is `state` closed under `relations` and forced by `obligations`, repeated until neither
@@ -666,6 +578,7 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
     shape = (len(graph.keys), _WIDTH)
     held = np.zeros(shape, dtype=bool)
     held_equal = np.zeros(shape, dtype=bool)
+    held_groups = np.zeros(batch.groups, dtype=bool)  # groups kept on single readings in the interpolated layer
     reasons = np.zeros(shape, dtype=np.uint8)
     node_of_row = np.full(len(state.readings), -1, dtype=np.int64)
     node_of_row[graph.rows] = graph.node_of
@@ -688,7 +601,7 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
             inherited[step.rows, step.cols] = True
             changed = step.changed + close(current, relations, round_scopes)["removals"]
             if len(batch):
-                last = ob.force(current, batch)
+                last = ob.force(current, batch, classes, held_groups if classes is not None else None)
                 forced.append(
                     (np.concatenate([last.rows, last.located_rows]), np.concatenate([last.by, last.located_by]))
                 )
@@ -703,7 +616,15 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
         found[removed & (_POPCOUNT[p] >= 2) & ~landed] |= JOINT
         new_conflicts = sorted(set(last.conflicts.tolist()) - known_conflicts) if last is not None else []
         culprit = np.zeros(shape[0], dtype=bool)
-        culprit[_culprits(graph, batch, current, known, found, forced, new_conflicts, node_of_row)] = True
+        culprit_nodes, culprit_groups = _culprits(
+            graph, batch, current, known, found, forced, new_conflicts, node_of_row
+        )
+        culprit[culprit_nodes] = True
+        grow_groups = np.zeros(batch.groups, dtype=bool)
+        if classes is not None:
+            grow_groups[culprit_groups] = True
+            grow_groups &= ~held_groups
+            held_groups |= grow_groups
         disagree = ((found & DISAGREE) != 0) & ~held
         grow = (disagree | ((found & JOINT) != 0) | (landed & culprit[:, None])) & ~held
         grow_equal = equalized & culprit[:, None] & ~held_equal
@@ -711,22 +632,24 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
         reasons[landed & culprit[:, None]] |= JOINT
         held |= grow
         held_equal |= grow_equal
-        replay = bool((disagree & landed).any() or culprit.any())
+        replay = bool((disagree & landed).any() or culprit.any() or grow_groups.any())
         rounds.append(
             {
                 "passes": passes,
                 "landed": int(landed.sum()),
                 "held_added": int(grow.sum()),
                 "held_equal_added": int(grow_equal.sum()),
+                "held_groups_added": int(grow_groups.sum()),
                 "culprit_nodes": int(culprit.sum()),
                 "replay": replay,
             }
         )
         if not replay:
             break
-        if not (grow.any() or grow_equal.any()):
+        if not (grow.any() or grow_equal.any() or grow_groups.any()):
             unattributed = True
             break
+    final_nodes = graph.node_masks(current.masks)
     settlement = Settlement(
         known=known,
         state=current,
@@ -737,7 +660,7 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
         held_equal=held_equal,
         proposals=step.proposals,
         landed=landed,
-        lineage=_lineage(graph, graph.node_masks(current.masks), step.proposals, landed),
+        lineage=trace(graph, final_nodes, emissions(final_nodes, step.proposals), landed),
         known_conflicts=known_forcing.described(batch, known) if known_forcing is not None else [],
         interpolated_conflicts=last.described(batch, current) if last is not None else [],
         known_scopes=known_scopes,
@@ -759,246 +682,10 @@ def settle(state: State, graph: Graph, relations=(), scopes=None, obligations: o
             },
             "held": int(held.sum()),
             "held_equal": int(held_equal.sum()),
+            "held_groups": int(held_groups.sum()),
             "unattributed_conflict": unattributed,
             "bits": {"known": known.bits(), "interpolated": current.bits()},
             "seconds": round(time.perf_counter() - started, 3),
         }
     )
     return settlement
-
-
-# ----------------------------------------------------------------------------------------- the audit against NSM
-
-DISAGREE_UNMENTIONED = "carried content on a bank the explication does not mention"
-DISAGREE_OPPOSITE = "carried state the explication's own states exclude"
-
-
-@dataclass(frozen=True)
-class Explication:
-    """One NSM explication as the audit reads it: its record key (source and line range), the lemma and part of
-    speech it explicates, the readings it binds to (one, or the typed candidates of which one is its sense), and the
-    states it gives each bank it mentions or reaches through its molecules."""
-
-    key: str
-    lemma: str
-    pos: str
-    rows: np.ndarray
-    states: dict[str, int]
-
-
-_LABEL_BITS = {"+1": POS, "-1": NEG, "0": ZERO, "SILENT": SILENT}
-
-
-def explications_from_nsm(compiled, kinds=("explication", "molecule"), pos=("verb", "noun")) -> list[Explication]:
-    """The audited explications from `nsm.compile_records` output: records of `kinds` for `pos`, bound to a reading
-    (a restriction) or to typed candidates (an obligation); templates and unbound records are not explications of
-    one sense. The banks are the record's content with its molecules'."""
-    by_rule = {}
-    for o in compiled.obligations:
-        by_rule.setdefault(o.rule_id, np.asarray(o.rows, dtype=np.int64))
-    out = []
-    for entry in compiled.receipt:
-        if entry.get("kind") not in kinds or entry.get("pos") not in pos or "rule_id" not in entry:
-            continue
-        disposition = entry.get("disposition")
-        if disposition == "RESTRICTION":
-            rows = np.array([entry["reading"]], dtype=np.int64)
-        elif disposition in {"OBLIGATION", "UNTYPED"} and entry["rule_id"] in by_rule:
-            rows = by_rule[entry["rule_id"]]
-        else:
-            continue
-        states = {bank: sum(_LABEL_BITS[x] for x in label.split("|")) for bank, label in entry.get("banks", {}).items()}
-        key = f"{entry['source']}:{entry['start_line']}-{entry['end_line']}"
-        out.append(Explication(key, entry["lemma"], entry["pos"], rows, states))
-    return out
-
-
-def audit_against_nsm(settlement: Settlement, explications, expressible=None) -> dict:
-    """Every carried value on an explicated sense, judged against the explication as its complete meaning.
-
-    For each explication and bank, each candidate reading's carried state (a single +1, -1 or 0 that inheritance
-    landed on it) agrees with the explication, disagrees with it, or says nothing. A carried +1 or -1 on a bank the
-    explication neither mentions nor reaches through its molecules disagrees; so does a carried state the
-    explication's own states on that bank exclude; a carried 0 on a bank it does not mention says nothing. When the
-    explication binds to several candidate readings, one of which is its sense, it disagrees (or agrees) only if
-    every candidate does; a mixed bank is undetermined.
-
-    Each disagreeing reading names its origins, their paths, and the candidate defeater: the link through which the
-    value entered the chain of kinds leading to the explicated sense, from its origin to the first node after it
-    (`synonymy` when the value is stated on the reading's own synset, which no link carries). Candidates are
-    aggregated with what else rests on them: the explications that agree through the same link, and every inherited
-    cell whose path starts with it. Nothing is defeated here.
-
-    An explication is complete only over what NSM content can say: a bank no NSM record ever writes (`expressible`,
-    by default every bank some given explication writes) is not judged, and its carried cells are counted apart.
-
-    While a binding still has several candidates, a candidate that disagrees does so only if it is the sense: such
-    readings are reported apart, as conditional disagreements with their own aggregated candidate links, never
-    mixed with the definite ones.
-    """
-    explications = tuple(explications)
-    if expressible is None:
-        expressible = {bank for ex in explications for bank in ex.states}
-    expressible = frozenset(expressible)
-    not_judged: Counter = Counter()
-    g, st, lin = settlement.graph, settlement.state, settlement.lineage
-    masks = st.masks
-    known_nodes = g.node_masks(settlement.known.masks)
-    inherited = settlement.inherited & settlement.interpolated
-    org = settlement.origins()
-    cell_key = org["rows"] * _WIDTH + org["cols"]
-    order = np.argsort(cell_key, kind="stable")
-    sorted_keys = cell_key[order]
-    names = [f.name for f in g.families]
-
-    def family_name(code: int) -> str:
-        return SYNONYMY.name if code == SYNONYM_HOP else names[code]
-
-    def link_of(i: int) -> tuple[str, str, str]:
-        origin = g.keys[int(org["origin"][i])]
-        if org["entry"][i] < 0:
-            return (SYNONYMY.name, origin, origin)
-        return (family_name(int(org["first_family"][i])), origin, g.keys[int(org["first"][i])])
-
-    def origins_of(row: int, col: int) -> list[tuple[int, dict]]:
-        key = row * _WIDTH + col
-        out = []
-        for i in order[np.searchsorted(sorted_keys, key) : np.searchsorted(sorted_keys, key, "right")].tolist():
-            e = int(org["entry"][i])
-            hops = [] if e < 0 else [(family_name(int(lin.family[j])), g.keys[int(lin.node[j])]) for j in lin.path(e)]
-            origin = int(org["origin"][i])
-            fam, frm, to = link_of(i)
-            out.append(
-                (
-                    i,
-                    {
-                        "origin": g.keys[origin],
-                        "origin_stated": bool(_POPCOUNT[known_nodes[origin, col]] == 1),
-                        "path": hops,
-                        "candidate": {"family": fam, "from": frm, "to": to},
-                        "last_hop": {
-                            "family": family_name(int(org["family"][i])),
-                            "from": g.keys[int(org["parent"][i])],
-                        },
-                    },
-                )
-            )
-        return out
-
-    def verdict(row: int, col: int, told) -> str | None:
-        v = int(masks[row, col])
-        if not inherited[row, col] or _POPCOUNT[v] != 1:
-            return None
-        if told is None:
-            return DISAGREE_UNMENTIONED if v & CONTENT else None
-        return "agrees" if v & told else DISAGREE_OPPOSITE
-
-    disagreements, undetermined, conditional = [], [], []
-    confirmations = 0
-    link_disagree: dict = defaultdict(set)
-    link_conditional: dict = defaultdict(set)
-    link_agree: Counter = Counter()
-    for ex in explications:
-        rows = np.unique(np.asarray(ex.rows, dtype=np.int64))
-        if not rows.size:
-            continue
-        for col in np.flatnonzero(inherited[rows].any(axis=0)).tolist():
-            bank = BANKS[col]
-            if bank not in expressible:
-                not_judged[bank] += int(inherited[rows, col].sum())
-                continue
-            told = ex.states.get(bank)
-            verdicts = [verdict(r, col, told) for r in rows.tolist()]
-            if all(x == "agrees" for x in verdicts):
-                confirmations += 1
-                for r in rows.tolist():
-                    for i, _ in origins_of(r, col):
-                        link_agree[(*link_of(i), bank)] += 1
-            elif all(x in (DISAGREE_UNMENTIONED, DISAGREE_OPPOSITE) for x in verdicts):
-                readings = []
-                for r, x in zip(rows.tolist(), verdicts):
-                    carried = BIT_NAMES[int(masks[r, col])]
-                    found = origins_of(r, col)
-                    readings.append(
-                        {"reading": st.readings[r], "carried": carried, "kind": x, "origins": [o for _, o in found]}
-                    )
-                    for i, _ in found:
-                        link_disagree[(*link_of(i), bank, carried)].add(ex.key)
-                disagreements.append(
-                    {
-                        "explication": ex.key,
-                        "lemma": ex.lemma,
-                        "pos": ex.pos,
-                        "bank": bank,
-                        "explication_states": state_names(told) if told is not None else [],
-                        "readings": readings,
-                    }
-                )
-            elif any(x in (DISAGREE_UNMENTIONED, DISAGREE_OPPOSITE) for x in verdicts):
-                undetermined.append({"explication": ex.key, "lemma": ex.lemma, "pos": ex.pos, "bank": bank})
-                for r, x in zip(rows.tolist(), verdicts):
-                    if x not in (DISAGREE_UNMENTIONED, DISAGREE_OPPOSITE):
-                        continue
-                    carried = BIT_NAMES[int(masks[r, col])]
-                    found = origins_of(r, col)
-                    conditional.append(
-                        {
-                            "explication": ex.key,
-                            "lemma": ex.lemma,
-                            "pos": ex.pos,
-                            "bank": bank,
-                            "candidates": int(rows.size),
-                            "reading": st.readings[r],
-                            "carried": carried,
-                            "kind": x,
-                            "origins": [o for _, o in found],
-                        }
-                    )
-                    for i, _ in found:
-                        link_conditional[(*link_of(i), bank, carried)].add((ex.key, st.readings[r]))
-    reach = Counter((*link_of(i), BANKS[int(org["cols"][i])]) for i in range(org["rows"].size))
-    candidates = [
-        {
-            "link": {"family": fam, "from": frm, "to": to},
-            "bank": bank,
-            "carried": carried,
-            "disagreeing_explications": sorted(keys),
-            "agreeing_through_it": link_agree[(fam, frm, to, bank)],
-            "inherited_cells_resting_on_it": reach[(fam, frm, to, bank)],
-            "warrant": "NSM " + ", ".join(sorted(keys)),
-        }
-        for (fam, frm, to, bank, carried), keys in sorted(link_disagree.items(), key=lambda kv: (-len(kv[1]), kv[0]))
-    ]
-    conditional_candidates = [
-        {
-            "link": {"family": fam, "from": frm, "to": to},
-            "bank": bank,
-            "carried": carried,
-            "explications": sorted({k for k, _ in pairs}),
-            "readings": len(pairs),
-            "inherited_cells_resting_on_it": reach[(fam, frm, to, bank)],
-        }
-        for (fam, frm, to, bank, carried), pairs in sorted(
-            link_conditional.items(), key=lambda kv: (-len(kv[1]), kv[0])
-        )
-    ]
-    by_word_bank = Counter((d["lemma"], d["pos"], d["bank"]) for d in disagreements)
-    conditional_by_word_bank = Counter((d["lemma"], d["pos"], d["bank"]) for d in conditional)
-    return {
-        "explications": len(explications),
-        "disagreements": len(disagreements),
-        "confirmations": confirmations,
-        "undetermined": len(undetermined),
-        "by_word_and_bank": {f"{w} ({p}) {b}": n for (w, p, b), n in sorted(by_word_bank.items())},
-        "by_bank": dict(Counter(d["bank"] for d in disagreements).most_common()),
-        "candidates": candidates,
-        "details": disagreements,
-        "undetermined_cells": undetermined,
-        "not_judged": {"banks": sorted(set(BANKS) - expressible), "carried_cells": dict(not_judged.most_common())},
-        "conditional": {
-            "readings": len(conditional),
-            "by_word_and_bank": {f"{w} ({p}) {b}": n for (w, p, b), n in sorted(conditional_by_word_bank.items())},
-            "candidates": conditional_candidates,
-            "details": conditional,
-        },
-    }

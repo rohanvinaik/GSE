@@ -197,3 +197,31 @@ def test_no_facts_are_acquired_while_two_readings_can_still_satisfy_the_group():
     out = force(s, Batch.of(group))
     assert (s.masks == before).all() and out.located_rows.size == 0 and out.facts == {}
     assert out.conflicts.size == 0
+
+
+def test_readings_of_one_identity_class_are_one_candidate_and_are_forced_together():
+    # r0 (WordNet) and r1 (a Wiktionary sense aligned to it) are one meaning; r2 is excluded.
+    s = _state(3)
+    _set(s, 2, "GOOD", 0)
+    batch = Batch.of([Obligation("t:good", "GOOD", POS, [0, 1, 2], witness=1, facts=("own_semantic_kind=evaluator",))])
+    classes = np.array([0, 0, 2])
+    out = force(s, batch, classes)
+    assert (_get(s, 0, "GOOD"), _get(s, 1, "GOOD")) == (POS, POS)
+    assert sorted(out.located_rows.tolist()) == [0, 1] and out.through_class.tolist() == [0]
+    assert out.facts["own_semantic_kind=evaluator"].tolist() == [0, 1]
+    # Without classes, two readings are still open and nothing is forced.
+    plain = _state(3)
+    _set(plain, 2, "GOOD", 0)
+    assert force(plain, batch).changed == 0
+
+
+def test_a_class_with_an_excluded_reading_is_excluded_and_a_held_group_counts_readings():
+    s = _state(3)
+    _set(s, 1, "GOOD", 0)  # the same meaning cannot satisfy the group in one reading and not in the other
+    batch = Batch.of([Obligation("t:good", "GOOD", POS, [0, 1, 2])])
+    out = force(s, batch, np.array([0, 0, 2]))
+    assert _get(s, 2, "GOOD") == POS and out.located_rows.tolist() == [2]
+    held = _state(3)
+    _set(held, 1, "GOOD", 0)
+    kept = force(held, batch, np.array([0, 0, 2]), held=np.array([True]))
+    assert kept.changed == 0  # on single readings, r0 and r2 are both still open
